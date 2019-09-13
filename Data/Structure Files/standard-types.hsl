@@ -1,0 +1,76 @@
+/*****************************************************************************
+ * standard-types.hsl - Default type definitions for Hex Workshop Structure 
+ * libraries.
+ *  
+ * Copyright (c) 2003-2009 BreakPoint Software, Inc.  All Rights Reserved
+ *
+ *****************************************************************************
+ * To avoid problems with future structure libraries and samples, please do 
+ * not modify this file.  Instead, please add or redefine any data types in 
+ * your local libraries or #include an additional .hsl file.
+ *
+ * You may also sprinkly #pragmas through out your own structure definitions
+ * to change the size of enumerations, max array lengths, etc.  The #pragma
+ * statements must be outside a definition.
+ *
+ ***************************************************************************** 
+ * Revision History:
+ *  03/09/03 - RJA - Original
+ *  11/16/03 - RJA - Added maxarray setting and some more documentation.
+ *  12/16/08 - RJA - Added enumsign pragma
+ *  01/17/09 - RJA - Added ptrsize pragma
+ */
+ 
+// Default enumeration size (4 bytes / 32 bits).  You may set this to 1, 2, 4,
+// or 8 bytes.
+#pragma enumsize(4)
+
+// Default pointer size (4 bytes / 32 bits).  This controls how many bytes are
+// dedicated to a pointer (e.g. struct myStructure* myName).
+#pragma ptrsize(4)
+
+// Default enumeration sign (either "signed" or "unsigned")
+#pragma enumsign("signed")
+
+// Default structure Packing (1 byte).
+#pragma pack(1)   // NOT YET IMPLEMENTED
+
+// Default to show all structures.  All structure defined after a 
+// "#pragma hide()" and before the next "#pragma show()" are hidden from 
+// the Add Structure window.  We use to this to hide intermediate definitions.
+#pragma show()
+
+// Default to editor's environment for byte order.  Options include:
+//   environment   - Use whatever the editor has set
+//   little_endian - Little Endian Byte Order (e.g. Intel)
+//   big_endian    - Big Endian Byte Order (e.g. Motorola)
+#pragma byteorder(environment)
+
+// Default max array length.  The maximum array size can range between 1 and 
+// 16384 entries, inclusively.  This limit helps guard against run-away arrays
+// when the data does not match expectations.
+#pragma maxarray(1024)
+
+// Standard Types
+typedef          char    CHAR ;
+typedef          wchar   WCHAR ;
+typedef signed   __int8  BYTE ;
+typedef          BYTE    byte ;
+typedef unsigned __int8  UBYTE ;
+typedef          UBYTE   ubyte ;
+typedef unsigned __int16 WORD ;
+typedef          WORD    word ;
+typedef unsigned __int16 USHORT ;
+typedef          USHORT  ushort ;
+typedef          short   SHORT ;
+typedef unsigned __int32 DWORD ;
+typedef          DWORD   dword ;
+typedef          long    LONG ;
+typedef unsigned __int32 ULONG ;
+typedef          ULONG   ulong ;
+typedef signed   __int64 QUAD ;
+typedef          QUAD    quad ;
+typedef unsigned __int64 UQUAD ;
+typedef          UQUAD   uquad ;
+typedef          float   FLOAT ;
+typedef          double  DOUBLE ;
