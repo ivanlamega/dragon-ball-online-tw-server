@@ -1,0 +1,459 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{D6A637A7-AD22-4181-8426-B486CD90DF72}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>NtlBaseLib</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)Output\</OutDir>
+    <IncludePath>$(SolutionDir)NtlBaseLib;$(SolutionDir)Shared\Source\Library\NetworkLibrary\Header\;$(SolutionDir)CharServer\Source\Header\;$(SolutionDir)Shared\Source\Header\;$(SolutionDir)packages\boost.1.63.0.0\lib\native\include\boost\;$(SolutionDir)Shared\Source\Library\SQLLibrary\;$(SolutionDir)Shared\Source\Library\SQLLibrary\mysql\;$(SolutionDir)Shared\Source\Library\SQLLibrary\mysql\cppconn;$(SolutionDir)packages\boost.1.63.0.0\lib\native\include\;$(SolutionDir)packages\libxml2.2.7.8.7\build\native\include;$(SolutionDir)Shared\Source\Header\TableData\;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)Build\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+    <IncludePath>$(SolutionDir)NtlBaseLib;$(SolutionDir)NetworkLib\Source\Header\;$(SolutionDir)CharServer\Source\Header\;$(SolutionDir)Shared\Source\Header\;$(SolutionDir)packages\boost.1.63.0.0\lib\native\include\boost\;$(SolutionDir)Shared\Source\Library\SQLLibrary\;$(SolutionDir)Shared\Source\Library\SQLLibrary\mysql\;$(SolutionDir)Shared\Source\Library\SQLLibrary\mysql\cppconn;$(SolutionDir)packages\boost.1.63.0.0\lib\native\include\;$(SolutionDir)packages\libxml2.2.7.8.7\build\native\include;$(SolutionDir)Shared\Source\Header\TableData\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)Output\</OutDir>
+    <IncludePath>$(SolutionDir)NtlBaseLib;$(SolutionDir)Shared\Source\Library\NetworkLibrary\Header\;$(SolutionDir)CharServer\Source\Header\;$(SolutionDir)Shared\Source\Header\;$(SolutionDir)packages\boost.1.63.0.0\lib\native\include\boost\;$(SolutionDir)Shared\Source\Library\SQLLibrary\;$(SolutionDir)Shared\Source\Library\SQLLibrary\mysql\;$(SolutionDir)Shared\Source\Library\SQLLibrary\mysql\cppconn;$(SolutionDir)packages\boost.1.63.0.0\lib\native\include\;$(SolutionDir)packages\libxml2.2.7.8.7\build\native\include;$(SolutionDir)Shared\Source\Header\TableData\;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;CPPCONN_PUBLIC_FUNC=;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)NtlBaseLib;$(SolutionDir)Shared\Source\Library\NetworkLibrary\Header\;$(SolutionDir)CharServer\Source\Header\;$(SolutionDir)Shared\Source\Header\;$(SolutionDir)packages\boost.1.63.0.0\lib\native\include\boost\;$(SolutionDir)Shared\Source\Library\SQLLibrary\;$(SolutionDir)Shared\Source\Library\SQLLibrary\mysql\;$(SolutionDir)Shared\Source\Library\SQLLibrary\mysql\cppconn;$(SolutionDir)packages\boost.1.63.0.0\lib\native\include\;$(SolutionDir)packages\libxml2.2.7.8.7\build\native\include;$(SolutionDir)Shared\Source\Header\TableData\;$(IncludePath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <OmitFramePointers>false</OmitFramePointers>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeaderFile />
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <MinimalRebuild>false</MinimalRebuild>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <AdditionalOptions>/ignore:4099 %(AdditionalOptions)</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)NtlBaseLib;$(SolutionDir)NetworkLib\Source\Header\;$(SolutionDir)CharServer\Source\Header\;$(SolutionDir)Shared\Source\Header\;$(SolutionDir)packages\boost.1.63.0.0\lib\native\include\boost\;$(SolutionDir)Shared\Source\Library\SQLLibrary\;$(SolutionDir)Shared\Source\Library\SQLLibrary\mysql\;$(SolutionDir)Shared\Source\Library\SQLLibrary\mysql\cppconn;$(SolutionDir)packages\boost.1.63.0.0\lib\native\include\;$(SolutionDir)packages\libxml2.2.7.8.7\build\native\include;$(SolutionDir)Shared\Source\Header\TableData\;$(IncludePath)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalIncludeDirectories>$(SolutionDir)NtlBaseLib;$(SolutionDir)Shared\Source\Library\NetworkLibrary\Header\;$(SolutionDir)CharServer\Source\Header\;$(SolutionDir)Shared\Source\Header\;$(SolutionDir)packages\boost.1.63.0.0\lib\native\include\boost\;$(SolutionDir)Shared\Source\Library\SQLLibrary\;$(SolutionDir)Shared\Source\Library\SQLLibrary\mysql\;$(SolutionDir)Shared\Source\Library\SQLLibrary\mysql\cppconn;$(SolutionDir)packages\boost.1.63.0.0\lib\native\include\;$(SolutionDir)packages\libxml2.2.7.8.7\build\native\include;$(SolutionDir)Shared\Source\Header\TableData\;$(IncludePath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <AdditionalOptions>/ignore:4099 /ignore:4006 /ignore:4251 /ignore:4098 /ignore:4311 %(AdditionalOptions)</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="ActionTable.h" />
+    <ClInclude Include="Base.h" />
+    <ClInclude Include="BasicDropTable.h" />
+    <ClInclude Include="BudokaiTable.h" />
+    <ClInclude Include="CashItemTable.h" />
+    <ClInclude Include="CharmTable.h" />
+    <ClInclude Include="CharTitleTable.h" />
+    <ClInclude Include="ChatCommandTable.h" />
+    <ClInclude Include="ChattingFilterTable.h" />
+    <ClInclude Include="Cipher.h" />
+    <ClInclude Include="CipherAES.h" />
+    <ClInclude Include="CipherBase.h" />
+    <ClInclude Include="CipherBlowfish.h" />
+    <ClInclude Include="CipherDes.h" />
+    <ClInclude Include="CipherMD5.h" />
+    <ClInclude Include="CipherRSA.h" />
+    <ClInclude Include="CipherTripleDES.h" />
+    <ClInclude Include="CipherTwofish.h" />
+    <ClInclude Include="CircularQueue.h" />
+    <ClInclude Include="Def.h" />
+    <ClInclude Include="DirectionLinkTable.h" />
+    <ClInclude Include="DojoTable.h" />
+    <ClInclude Include="DragonBallRewardTable.h" />
+    <ClInclude Include="DragonBallTable.h" />
+    <ClInclude Include="DungeonTable.h" />
+    <ClInclude Include="DynamicObjectTable.h" />
+    <ClInclude Include="EachDropTable.h" />
+    <ClInclude Include="Event.h" />
+    <ClInclude Include="ExcellentDropTable.h" />
+    <ClInclude Include="Exception.h" />
+    <ClInclude Include="ExpTable.h" />
+    <ClInclude Include="FileSerializer.h" />
+    <ClInclude Include="FormulaTable.h" />
+    <ClInclude Include="GameManiaTimeTable.h" />
+    <ClInclude Include="GameString.h" />
+    <ClInclude Include="GuideHintTable.h" />
+    <ClInclude Include="HelpTable.h" />
+    <ClInclude Include="HLSItemTable.h" />
+    <ClInclude Include="HLSMerchantTable.h" />
+    <ClInclude Include="HTBSetTable.h" />
+    <ClInclude Include="ItemMixMachineTable.h" />
+    <ClInclude Include="ItemOptionTable.h" />
+    <ClInclude Include="ItemRecipeTable.h" />
+    <ClInclude Include="ItemTable.h" />
+    <ClInclude Include="ItemUpgradeTable.h" />
+    <ClInclude Include="LandMarkTable.h" />
+    <ClInclude Include="LegendaryDropTable.h" />
+    <ClInclude Include="LinkArray.h" />
+    <ClInclude Include="LinkList.h" />
+    <ClInclude Include="Logic.h" />
+    <ClInclude Include="MerchantTable.h" />
+    <ClInclude Include="MerchantTable2.h" />
+    <ClInclude Include="MobMovePatternTable.h" />
+    <ClInclude Include="MobTable.h" />
+    <ClInclude Include="Mutex.h" />
+    <ClInclude Include="NetBuffer.h" />
+    <ClInclude Include="NewbieTable.h" />
+    <ClInclude Include="NormalDropTable.h" />
+    <ClInclude Include="NpcSpeechTable.h" />
+    <ClInclude Include="NPCTable.h" />
+    <ClInclude Include="NtlActionPattern.h" />
+    <ClInclude Include="NtlAdmin.h" />
+    <ClInclude Include="NtlAvatar.h" />
+    <ClInclude Include="NtlBattle.h" />
+    <ClInclude Include="NtlBBox.h" />
+    <ClInclude Include="NtlBitFlagManager.h" />
+    <ClInclude Include="NtlBudokai.h" />
+    <ClInclude Include="NtlCharacter.h" />
+    <ClInclude Include="NtlCharacterState.h" />
+    <ClInclude Include="NtlChat.h" />
+    <ClInclude Include="NtlDirection.h" />
+    <ClInclude Include="NtlDojo.h" />
+    <ClInclude Include="NtlDragonBall.h" />
+    <ClInclude Include="NtlFriend.h" />
+    <ClInclude Include="NtlGuild.h" />
+    <ClInclude Include="NtlHlsItem.h" />
+    <ClInclude Include="NtlItem.h" />
+    <ClInclude Include="NtlLine.h" />
+    <ClInclude Include="NtlMail.h" />
+    <ClInclude Include="NtlMatch.h" />
+    <ClInclude Include="NtlMovement.h" />
+    <ClInclude Include="NtlNetP.h" />
+    <ClInclude Include="NtlObject.h" />
+    <ClInclude Include="NtlParty.h" />
+    <ClInclude Include="NtlPartyDungeon.h" />
+    <ClInclude Include="NtlPet.h" />
+    <ClInclude Include="NtlPetition.h" />
+    <ClInclude Include="NtlQuest.h" />
+    <ClInclude Include="NtlRandom.h" />
+    <ClInclude Include="NtlRankBattle.h" />
+    <ClInclude Include="NtlReport.h" />
+    <ClInclude Include="NtlRide.h" />
+    <ClInclude Include="NtlServer.h" />
+    <ClInclude Include="NtlService.h" />
+    <ClInclude Include="NtlSharedBotSystemDef.h" />
+    <ClInclude Include="NtlSharedDef.h" />
+    <ClInclude Include="NtlSharedType.h" />
+    <ClInclude Include="NtlSkill.h" />
+    <ClInclude Include="NtlSphere.h" />
+    <ClInclude Include="NtlStringHandler.h" />
+    <ClInclude Include="NtlSvrMath.h" />
+    <ClInclude Include="NtlSystemEffect.h" />
+    <ClInclude Include="NtlTeleport.h" />
+    <ClInclude Include="NtlTimeQuest.h" />
+    <ClInclude Include="NtlTLQ.h" />
+    <ClInclude Include="NtlVector.h" />
+    <ClInclude Include="NtlWorld.h" />
+    <ClInclude Include="ObjectTable.h" />
+    <ClInclude Include="PCTable.h" />
+    <ClInclude Include="PortalTable.h" />
+    <ClInclude Include="QuestDropTable.h" />
+    <ClInclude Include="QuestItemTable.h" />
+    <ClInclude Include="QuestNarrationTable.h" />
+    <ClInclude Include="QuestProbabilityTable.h" />
+    <ClInclude Include="QuestProbabilityTable2.h" />
+    <ClInclude Include="QuestRewardTable.h" />
+    <ClInclude Include="QuestTextDataTable.h" />
+    <ClInclude Include="Queue.h" />
+    <ClInclude Include="RankBattleTable.h" />
+    <ClInclude Include="ScriptLinkTable.h" />
+    <ClInclude Include="Serializer.h" />
+    <ClInclude Include="SetItemTable.h" />
+    <ClInclude Include="SkillTable.h" />
+    <ClInclude Include="SpawnTable.h" />
+    <ClInclude Include="StatusTransformTable.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="SuperiorDropTable.h" />
+    <ClInclude Include="SystemEffectTable.h" />
+    <ClInclude Include="Table.h" />
+    <ClInclude Include="TableAll.h" />
+    <ClInclude Include="TableContainer.h" />
+    <ClInclude Include="TableFileNameList.h" />
+    <ClInclude Include="TextAllTable.h" />
+    <ClInclude Include="TextServerTable.h" />
+    <ClInclude Include="Thread.h" />
+    <ClInclude Include="ThreadException.h" />
+    <ClInclude Include="TimeQuestTable.h" />
+    <ClInclude Include="TypeDropTable.h" />
+    <ClInclude Include="UseItemTable.h" />
+    <ClInclude Include="UseItemTable2.h" />
+    <ClInclude Include="Vector.h" />
+    <ClInclude Include="VehicleTable.h" />
+    <ClInclude Include="WorldMapTable.h" />
+    <ClInclude Include="WorldPathTable.h" />
+    <ClInclude Include="WorldPlayTable.h" />
+    <ClInclude Include="WorldTable.h" />
+    <ClInclude Include="WorldZoneTable.h" />
+    <ClInclude Include="XMLDoc.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ActionTable.cpp" />
+    <ClCompile Include="BasicDropTable.cpp" />
+    <ClCompile Include="BudokaiTable.cpp" />
+    <ClCompile Include="CashItemTable.cpp" />
+    <ClCompile Include="CharmTable.cpp" />
+    <ClCompile Include="CharTitleTable.cpp" />
+    <ClCompile Include="ChatCommandTable.cpp" />
+    <ClCompile Include="ChattingFilterTable.cpp" />
+    <ClCompile Include="Cipher.cpp" />
+    <ClCompile Include="CipherAES.cpp" />
+    <ClCompile Include="CipherBase.cpp" />
+    <ClCompile Include="CipherBlowfish.cpp" />
+    <ClCompile Include="CipherDes.cpp" />
+    <ClCompile Include="CipherMD5.cpp" />
+    <ClCompile Include="CipherRSA.cpp" />
+    <ClCompile Include="CipherTripleDES.cpp" />
+    <ClCompile Include="CipherTwofish.cpp" />
+    <ClCompile Include="DirectionLinkTable.cpp" />
+    <ClCompile Include="DojoTable.cpp" />
+    <ClCompile Include="DragonBallRewardTable.cpp" />
+    <ClCompile Include="DragonBallTable.cpp" />
+    <ClCompile Include="DungeonTable.cpp" />
+    <ClCompile Include="DynamicObjectTable.cpp" />
+    <ClCompile Include="EachDropTable.cpp" />
+    <ClCompile Include="Event.cpp" />
+    <ClCompile Include="ExcellentDropTable.cpp" />
+    <ClCompile Include="ExpTable.cpp" />
+    <ClCompile Include="FileSerializer.cpp" />
+    <ClCompile Include="FormulaTable.cpp" />
+    <ClCompile Include="GameManiaTimeTable.cpp" />
+    <ClCompile Include="GameString.cpp" />
+    <ClCompile Include="GuideHintTable.cpp" />
+    <ClCompile Include="HelpTable.cpp" />
+    <ClCompile Include="HLSItemTable.cpp" />
+    <ClCompile Include="HLSMerchantTable.cpp" />
+    <ClCompile Include="HTBSetTable.cpp" />
+    <ClCompile Include="ItemMixMachineTable.cpp" />
+    <ClCompile Include="ItemOptionTable.cpp" />
+    <ClCompile Include="ItemRecipeTable.cpp" />
+    <ClCompile Include="ItemTable.cpp" />
+    <ClCompile Include="ItemUpgradeTable.cpp" />
+    <ClCompile Include="LandMarkTable.cpp" />
+    <ClCompile Include="LegendaryDropTable.cpp" />
+    <ClCompile Include="Logic.cpp" />
+    <ClCompile Include="MerchantTable.cpp" />
+    <ClCompile Include="MerchantTable2.cpp" />
+    <ClCompile Include="MobMovePatternTable.cpp" />
+    <ClCompile Include="MobTable.cpp" />
+    <ClCompile Include="NewbieTable.cpp" />
+    <ClCompile Include="NormalDropTable.cpp" />
+    <ClCompile Include="NpcSpeechTable.cpp" />
+    <ClCompile Include="NPCTable.cpp" />
+    <ClCompile Include="NtlAvatar.cpp" />
+    <ClCompile Include="NtlBattle.cpp" />
+    <ClCompile Include="NtlBBox.cpp" />
+    <ClCompile Include="NtlBitFlagManager.cpp" />
+    <ClCompile Include="NtlBudokai.cpp" />
+    <ClCompile Include="NtlCharacter.cpp" />
+    <ClCompile Include="NtlCharacterState.cpp" />
+    <ClCompile Include="NtlGuild.cpp" />
+    <ClCompile Include="NtlItem.cpp" />
+    <ClCompile Include="NtlLine.cpp" />
+    <ClCompile Include="NtlMovement.cpp" />
+    <ClCompile Include="NtlNetP.cpp" />
+    <ClCompile Include="NtlObject.cpp" />
+    <ClCompile Include="NtlPetition.cpp" />
+    <ClCompile Include="NtlRandom.cpp" />
+    <ClCompile Include="NtlReport.cpp" />
+    <ClCompile Include="NtlService.cpp" />
+    <ClCompile Include="NtlSkill.cpp" />
+    <ClCompile Include="NtlSphere.cpp" />
+    <ClCompile Include="NtlStringHandler.cpp" />
+    <ClCompile Include="NtlSvrMath.cpp" />
+    <ClCompile Include="NtlVector.cpp" />
+    <ClCompile Include="NtlWorld.cpp" />
+    <ClCompile Include="ObjectTable.cpp" />
+    <ClCompile Include="PCTable.cpp" />
+    <ClCompile Include="PortalTable.cpp" />
+    <ClCompile Include="QuestDropTable.cpp" />
+    <ClCompile Include="QuestItemTable.cpp" />
+    <ClCompile Include="QuestNarrationTable.cpp" />
+    <ClCompile Include="QuestProbabilityTable.cpp" />
+    <ClCompile Include="QuestProbabilityTable2.cpp" />
+    <ClCompile Include="QuestRewardTable.cpp" />
+    <ClCompile Include="QuestTextDataTable.cpp" />
+    <ClCompile Include="RankBattleTable.cpp" />
+    <ClCompile Include="ScriptLinkTable.cpp" />
+    <ClCompile Include="Serializer.cpp" />
+    <ClCompile Include="SetItemTable.cpp" />
+    <ClCompile Include="SkillTable.cpp" />
+    <ClCompile Include="SpawnTable.cpp" />
+    <ClCompile Include="StatusTransformTable.cpp" />
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="SuperiorDropTable.cpp" />
+    <ClCompile Include="SystemEffectTable.cpp" />
+    <ClCompile Include="Table.cpp" />
+    <ClCompile Include="TableContainer.cpp" />
+    <ClCompile Include="TableFileNameList.cpp" />
+    <ClCompile Include="TextAllTable.cpp" />
+    <ClCompile Include="TextServerTable.cpp" />
+    <ClCompile Include="Thread.cpp" />
+    <ClCompile Include="TimeQuestTable.cpp" />
+    <ClCompile Include="TypeDropTable.cpp" />
+    <ClCompile Include="UseItemTable.cpp" />
+    <ClCompile Include="UseItemTable2.cpp" />
+    <ClCompile Include="VehicleTable.cpp" />
+    <ClCompile Include="WorldMapTable.cpp" />
+    <ClCompile Include="WorldPathTable.cpp" />
+    <ClCompile Include="WorldPlayTable.cpp" />
+    <ClCompile Include="WorldTable.cpp" />
+    <ClCompile Include="WorldZoneTable.cpp" />
+    <ClCompile Include="XMLDoc.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Shared\Shared.vcxproj">
+      <Project>{805f75eb-6600-405a-9458-b7a1d546f42c}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\libxml2.redist.2.7.8.7\build\native\libxml2.redist.targets" Condition="Exists('..\packages\libxml2.redist.2.7.8.7\build\native\libxml2.redist.targets')" />
+    <Import Project="..\packages\libxml2.2.7.8.7\build\native\libxml2.targets" Condition="Exists('..\packages\libxml2.2.7.8.7\build\native\libxml2.targets')" />
+    <Import Project="..\packages\libxml2-vc140-static-64.2.9.4\build\native\libxml2-vc140-static-64.targets" Condition="Exists('..\packages\libxml2-vc140-static-64.2.9.4\build\native\libxml2-vc140-static-64.targets')" />
+  </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\libxml2.redist.2.7.8.7\build\native\libxml2.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\libxml2.redist.2.7.8.7\build\native\libxml2.redist.targets'))" />
+    <Error Condition="!Exists('..\packages\libxml2.2.7.8.7\build\native\libxml2.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\libxml2.2.7.8.7\build\native\libxml2.targets'))" />
+    <Error Condition="!Exists('..\packages\libxml2-vc140-static-64.2.9.4\build\native\libxml2-vc140-static-64.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\libxml2-vc140-static-64.2.9.4\build\native\libxml2-vc140-static-64.targets'))" />
+  </Target>
+</Project>

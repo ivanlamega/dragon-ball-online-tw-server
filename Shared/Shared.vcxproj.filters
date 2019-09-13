@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\XmlParser">
+      <UniqueIdentifier>{bac4c796-f6e2-47c8-b480-ddaed7b72a50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\XmlParser">
+      <UniqueIdentifier>{f478f613-f003-47fb-b6b7-852f36ab4c65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Network">
+      <UniqueIdentifier>{1a5e47a7-f7ee-4301-9cc9-b1c53ee3e148}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Network">
+      <UniqueIdentifier>{451e5f53-9b0a-40d6-b5e6-134b8438940b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Network\Packet">
+      <UniqueIdentifier>{d4232ce9-1d28-4d71-9c83-7b871bf013e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Network\Packet\Auth">
+      <UniqueIdentifier>{ff13459b-20fa-4007-b628-6bb93913ef12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Network\Packet\Char">
+      <UniqueIdentifier>{5c45e072-9bf3-4a3f-8aac-4fd037dfc6b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Network\Packet">
+      <UniqueIdentifier>{32696616-ecfc-40a6-a972-2060dc8abdc6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Network\Packet\Game">
+      <UniqueIdentifier>{92de6126-4652-4108-b1da-e395ab3bbcb9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SQL">
+      <UniqueIdentifier>{25aff1be-9fff-4e4b-9779-287114064ac5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Network\LinkedElement">
+      <UniqueIdentifier>{1b91e7d4-b0dc-434c-b5ea-9f8d328d5f12}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\Header\Logger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Header\Define.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Header\Opcodes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Header\Encryptation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Header\ConsoleColor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Header\ResultCode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Library\SQLLibrary\mysqlconn_wrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Header\XmlParser.h">
+      <Filter>Header Files\XmlParser</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Header\SharedDef.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Header\SharedType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Header\ObjectLifeTime.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Header\ThreadingModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Header\CreationPolicy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Header\Threading.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Header\Singleton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Library\NetworkLibrary\Header\Listener.h">
+      <Filter>Header Files\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Library\NetworkLibrary\Header\NetworkThread.h">
+      <Filter>Header Files\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Library\NetworkLibrary\Header\Packet.h">
+      <Filter>Header Files\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Library\NetworkLibrary\Header\PacketBuffer.h">
+      <Filter>Header Files\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Library\NetworkLibrary\Header\Socket.h">
+      <Filter>Header Files\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Library\NetworkLibrary\Header\Packet\Auth\PacketAU.h">
+      <Filter>Header Files\Network\Packet\Auth</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Library\NetworkLibrary\Header\Packet\Char\PacketCU.h">
+      <Filter>Header Files\Network\Packet\Char</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Library\NetworkLibrary\Header\Packet\Char\PacketUC.h">
+      <Filter>Header Files\Network\Packet\Char</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Library\NetworkLibrary\Header\Packet\Game\PacketUG.h">
+      <Filter>Header Files\Network\Packet\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Library\NetworkLibrary\Header\Packet\Game\PacketGU.h">
+      <Filter>Header Files\Network\Packet\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Library\NetworkLibrary\Header\LinkedElement\LinkedList.h">
+      <Filter>Header Files\Network\LinkedElement</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Library\NetworkLibrary\Header\LinkedElement\Reference.h">
+      <Filter>Header Files\Network\LinkedElement</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Library\NetworkLibrary\Header\LinkedElement\RefManager.h">
+      <Filter>Header Files\Network\LinkedElement</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\CPP\Logger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\Encryptation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Library\SQLLibrary\mysqlconn_wrapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\XmlParser.cpp">
+      <Filter>Source Files\XmlParser</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\ObjectLifeTime.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\Threading.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Library\NetworkLibrary\CPP\Listener.cpp">
+      <Filter>Source Files\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Library\NetworkLibrary\CPP\Packet.cpp">
+      <Filter>Source Files\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Library\NetworkLibrary\CPP\PacketBuffer.cpp">
+      <Filter>Source Files\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Library\NetworkLibrary\CPP\Socket.cpp">
+      <Filter>Source Files\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Library\SQLLibrary\Request\Request.cpp">
+      <Filter>Source Files\SQL</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\SQL\GameRequest.cpp">
+      <Filter>Source Files\SQL</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+</Project>

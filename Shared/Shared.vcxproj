@@ -1,0 +1,246 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{805F75EB-6600-405A-9458-B7A1D546F42C}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>Shared</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)Build\</OutDir>
+    <IncludePath>$(SolutionDir)Shared\Source\Header;$(SolutionDir)Shared\Source\Library\SQLLibrary\mysql;$(SolutionDir)Shared\Source\Library\SQLLibrary\;$(SolutionDir)Shared\Source\Library\SQLLibrary\mysql\cppconn;$(SolutionDir)Shared\Source\Header\TableData\;$(SolutionDir)Shared\Source\Header\TableData\Table\;$(SolutionDir)NtlBaseLib\;$(SolutionDir)Shared\Source\Library\CipherLibrary\;$(SolutionDir)Shared\Source\Library\NetworkLibrary\Header\;$(SolutionDir)packages\boost.1.63.0.0\lib\native\include\boost\;SolutionDir)GameServer\Source\Header\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Shared\Source\Library\SQLLibrary\lib;$(SolutionDir)packages\libxml2.2.7.8.7\build\native\include;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)Build\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+    <IncludePath>$(SolutionDir)Shared\Source\Header;$(SolutionDir)Shared\Source\Library\SQLLibrary\mysql;$(SolutionDir)Shared\Source\Library\SQLLibrary\;$(SolutionDir)Shared\Source\Library\SQLLibrary\mysql\cppconn;$(SolutionDir)Shared\Source\Header\TableData\;$(SolutionDir)Shared\Source\Header\TableData\Table\;$(SolutionDir)NtlBaseLib\;$(SolutionDir)Shared\Source\Library\CipherLibrary\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Shared\Source\Library\SQLLibrary\lib;$(SolutionDir)packages\libxml2.2.7.8.7\build\native\include;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)Output\</OutDir>
+    <IncludePath>$(SolutionDir)Shared\Source\Header;$(SolutionDir)Shared\Source\Library\SQLLibrary\mysql;$(SolutionDir)Shared\Source\Library\SQLLibrary\;$(SolutionDir)Shared\Source\Library\SQLLibrary\mysql\cppconn;$(SolutionDir)Shared\Source\Header\TableData\;$(SolutionDir)Shared\Source\Header\TableData\Table\;$(SolutionDir)NtlBaseLib\;$(SolutionDir)Shared\Source\Library\CipherLibrary\;$(SolutionDir)Shared\Source\Library\NetworkLibrary\Header\;$(SolutionDir)packages\boost.1.63.0.0\lib\native\include\boost\;SolutionDir)GameServer\Source\Header\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Shared\Source\Library\SQLLibrary\lib;$(SolutionDir)packages\libxml2.2.7.8.7\build\native\include;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;CPPCONN_PUBLIC_FUNC=;_WIN32_WINNT=0x0501;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalIncludeDirectories>$(SolutionDir)Shared\Source\Header;$(SolutionDir)Shared\Source\Library\SQLLibrary\mysql;$(SolutionDir)Shared\Source\Library\SQLLibrary\;$(SolutionDir)Shared\Source\Library\SQLLibrary\mysql\cppconn;$(SolutionDir)packages\libxml2.2.7.8.7\build\native\include;$(SolutionDir)Shared\Source\Header\TableData\;$(SolutionDir)Shared\Source\Library\NetworkLibrary\Header\;$(SolutionDir)packages\boost.1.63.0.0\lib\native\include\boost\</AdditionalIncludeDirectories>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <MinimalRebuild>false</MinimalRebuild>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <OmitFramePointers>true</OmitFramePointers>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <AdditionalDependencies>mysqlcppconn.lib;libmysql.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Shared\Source\Library\SQLLibrary\mysql\lib;$(SolutionDir)packages\boost.1.63.0.0\compiled;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <LinkTimeCodeGeneration>true</LinkTimeCodeGeneration>
+      <AdditionalOptions>/ignore:4099 %(AdditionalOptions)</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Shared\Source\Header;$(SolutionDir)Shared\Source\Library\SQLLibrary\mysql;$(SolutionDir)Shared\Source\Library\SQLLibrary\;$(SolutionDir)Shared\Source\Library\SQLLibrary\mysql\cppconn;$(SolutionDir)packages\libxml2.2.7.8.7\build\native\include;$(SolutionDir)Shared\Source\Header\TableData\</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <AdditionalDependencies>mysqlcppconn.lib;libmysql.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Shared\Source\Library\SQLLibrary\mysql\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Shared\Source\Header;$(SolutionDir)Shared\Source\Library\SQLLibrary\mysql;$(SolutionDir)Shared\Source\Library\SQLLibrary\;$(SolutionDir)Shared\Source\Library\SQLLibrary\mysql\cppconn;$(SolutionDir)packages\libxml2.2.7.8.7\build\native\include;$(SolutionDir)Shared\Source\Header\TableData\;$(SolutionDir)Shared\Source\Library\NetworkLibrary\Header\;$(SolutionDir)packages\boost.1.63.0.0\lib\native\include\boost\</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <SDLCheck>true</SDLCheck>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <AdditionalDependencies>mysqlcppconn.lib;libmysql.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Shared\Source\Library\SQLLibrary\mysql\lib;$(SolutionDir)packages\boost.1.63.0.0\compiled;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>/ignore:4099 /ignore:4006 /ignore:4251 /ignore:4098 /ignore:4311 /ignore:4309 %(AdditionalOptions)</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\Header\ConsoleColor.h" />
+    <ClInclude Include="Source\Header\CreationPolicy.h" />
+    <ClInclude Include="Source\Header\Define.h" />
+    <ClInclude Include="Source\Header\Encryptation.h" />
+    <ClInclude Include="Source\Header\Logger.h" />
+    <ClInclude Include="Source\Header\ObjectLifeTime.h" />
+    <ClInclude Include="Source\Header\Opcodes.h" />
+    <ClInclude Include="Source\Header\ResultCode.h" />
+    <ClInclude Include="Source\Header\SharedDef.h" />
+    <ClInclude Include="Source\Header\SharedType.h" />
+    <ClInclude Include="Source\Header\Singleton.h" />
+    <ClInclude Include="Source\Header\Threading.h" />
+    <ClInclude Include="Source\Header\ThreadingModel.h" />
+    <ClInclude Include="Source\Header\XmlParser.h" />
+    <ClInclude Include="Source\Library\NetworkLibrary\Header\LinkedElement\LinkedList.h" />
+    <ClInclude Include="Source\Library\NetworkLibrary\Header\LinkedElement\Reference.h" />
+    <ClInclude Include="Source\Library\NetworkLibrary\Header\LinkedElement\RefManager.h" />
+    <ClInclude Include="Source\Library\NetworkLibrary\Header\Listener.h" />
+    <ClInclude Include="Source\Library\NetworkLibrary\Header\NetworkThread.h" />
+    <ClInclude Include="Source\Library\NetworkLibrary\Header\Packet.h" />
+    <ClInclude Include="Source\Library\NetworkLibrary\Header\PacketBuffer.h" />
+    <ClInclude Include="Source\Library\NetworkLibrary\Header\Packet\Auth\PacketAU.h" />
+    <ClInclude Include="Source\Library\NetworkLibrary\Header\Packet\Char\PacketCU.h" />
+    <ClInclude Include="Source\Library\NetworkLibrary\Header\Packet\Char\PacketUC.h" />
+    <ClInclude Include="Source\Library\NetworkLibrary\Header\Packet\Game\PacketGU.h" />
+    <ClInclude Include="Source\Library\NetworkLibrary\Header\Packet\Game\PacketUG.h" />
+    <ClInclude Include="Source\Library\NetworkLibrary\Header\Socket.h" />
+    <ClInclude Include="Source\Library\SQLLibrary\mysqlconn_wrapper.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\CPP\Encryptation.cpp" />
+    <ClCompile Include="Source\CPP\Logger.cpp" />
+    <ClCompile Include="Source\CPP\ObjectLifeTime.cpp" />
+    <ClCompile Include="Source\CPP\SQL\GameRequest.cpp" />
+    <ClCompile Include="Source\CPP\Threading.cpp" />
+    <ClCompile Include="Source\CPP\XmlParser.cpp" />
+    <ClCompile Include="Source\Library\NetworkLibrary\CPP\Listener.cpp" />
+    <ClCompile Include="Source\Library\NetworkLibrary\CPP\Packet.cpp" />
+    <ClCompile Include="Source\Library\NetworkLibrary\CPP\PacketBuffer.cpp" />
+    <ClCompile Include="Source\Library\NetworkLibrary\CPP\Socket.cpp" />
+    <ClCompile Include="Source\Library\SQLLibrary\mysqlconn_wrapper.cpp" />
+    <ClCompile Include="Source\Library\SQLLibrary\Request\Request.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\boost.1.63.0.0\build\native\boost.targets" Condition="Exists('..\packages\boost.1.63.0.0\build\native\boost.targets')" />
+    <Import Project="..\packages\libxml2.redist.2.7.8.7\build\native\libxml2.redist.targets" Condition="Exists('..\packages\libxml2.redist.2.7.8.7\build\native\libxml2.redist.targets')" />
+    <Import Project="..\packages\libxml2.2.7.8.7\build\native\libxml2.targets" Condition="Exists('..\packages\libxml2.2.7.8.7\build\native\libxml2.targets')" />
+    <Import Project="..\packages\libxml2-vc140-static-64.2.9.4\build\native\libxml2-vc140-static-64.targets" Condition="Exists('..\packages\libxml2-vc140-static-64.2.9.4\build\native\libxml2-vc140-static-64.targets')" />
+  </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\boost.1.63.0.0\build\native\boost.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\boost.1.63.0.0\build\native\boost.targets'))" />
+    <Error Condition="!Exists('..\packages\libxml2.redist.2.7.8.7\build\native\libxml2.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\libxml2.redist.2.7.8.7\build\native\libxml2.redist.targets'))" />
+    <Error Condition="!Exists('..\packages\libxml2.2.7.8.7\build\native\libxml2.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\libxml2.2.7.8.7\build\native\libxml2.targets'))" />
+    <Error Condition="!Exists('..\packages\libxml2-vc140-static-64.2.9.4\build\native\libxml2-vc140-static-64.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\libxml2-vc140-static-64.2.9.4\build\native\libxml2-vc140-static-64.targets'))" />
+  </Target>
+</Project>
