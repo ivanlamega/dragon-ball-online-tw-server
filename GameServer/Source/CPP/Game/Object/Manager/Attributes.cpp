@@ -143,8 +143,8 @@ bool AttributesManager::LoadAttributes(CHARACTERID _id, Player* _plr)
 	PlayerProfile.sLocalize.netp = result->getInt("Token");// Token Point correct value	
 	PlayerProfile.sLocalize.IsVip = result->getInt("IsVip");;// S icon Vip_Member Maybe
 	cashpoit = result->getInt("CashPoint");
-	WagguCoin = result->getInt("WagguCoin");
-	EventCoin = result->getInt("EventCoin");
+	//WagguCoin = result->getInt("WagguCoin");
+	//EventCoin = result->getInt("EventCoin");
 	PlayerProfile.sMixData.bNormalStart = 1;
 	PlayerProfile.sMixData.bSpecialStart = 0;
 	PlayerProfile.sMixData.byMixLevel = result->getInt("MixLevel");
