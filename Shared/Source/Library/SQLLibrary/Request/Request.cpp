@@ -95,7 +95,7 @@ int MySQLConnWrapper::GetAccountID(char* username, char* password)
 		return AUTH_DB_FAIL;
 	int val = -1;
 
-	sql::ResultSet* result = executes("SELECT `AccountID` FROM `account` WHERE `userName` = '%s' AND `UserPassword` = '%s';", username, password);
+	sql::ResultSet* result = executes("SELECT `AccountID` FROM `account` WHERE `UserName` = '%s' AND `UserPassword` = '%s';", username, password);
 	if (result)
 	{
 		if (result->rowsCount() > 0)
