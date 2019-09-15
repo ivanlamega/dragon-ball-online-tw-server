@@ -281,6 +281,7 @@ END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(UG_BUFF_DROP_REQ)
 BYTE				bySourceType;		// eDBO_OBJECT_SOURCE
+BYTE				byUnknown1;
 TBLIDX				tblidx;
 END_PROTOCOL()
 //------------------------------------------------------------------
