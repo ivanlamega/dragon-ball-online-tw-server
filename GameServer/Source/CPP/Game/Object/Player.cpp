@@ -650,7 +650,7 @@ void Player::ExecuteLPFood()
 					dropbuff.wPacketSize = sizeof(sGU_BUFF_DROPPED) - 2;
 					dropbuff.hHandle = GetHandle();
 					dropbuff.bySourceType = eDBO_OBJECT_SOURCE::DBO_OBJECT_SOURCE_SKILL;
-					dropbuff.unk = 1;
+					//dropbuff.unk = 1;
 					dropbuff.tblidx = GetAttributesManager()->sFoodInfo[i].FoodItemID;
 					dropbuff.unk1 = 0;
 					SendPacket((char*)&dropbuff, sizeof(sGU_BUFF_DROPPED));
@@ -715,7 +715,7 @@ void Player::ExecuteEPFood()
 				dropbuff.wPacketSize = sizeof(sGU_BUFF_DROPPED) - 2;
 				dropbuff.hHandle = GetHandle();
 				dropbuff.bySourceType = eDBO_OBJECT_SOURCE::DBO_OBJECT_SOURCE_SKILL;
-				dropbuff.unk = 1;
+			//	dropbuff.unk = 1;
 				dropbuff.tblidx = GetAttributesManager()->sFoodInfo[i].FoodItemID;
 				dropbuff.unk1 = 0;
 				SendPacket((char*)&dropbuff, sizeof(sGU_BUFF_DROPPED));
@@ -748,7 +748,7 @@ void Player::ExecuteStun()
 					dropbuff.wPacketSize = sizeof(sGU_BUFF_DROPPED) - 2;
 					dropbuff.hHandle = GetAttributesManager()->sBuffTimeInfo[i].PlayerHandle;
 					dropbuff.bySourceType = eDBO_OBJECT_SOURCE::DBO_OBJECT_SOURCE_SKILL;
-					dropbuff.unk = 1;
+				//	dropbuff.unk = 1;
 					dropbuff.tblidx = GetAttributesManager()->sBuffTimeInfo[i].BuffID;
 					dropbuff.unk1 = 1;
 					SendPacket((char*)&dropbuff, sizeof(sGU_BUFF_DROPPED));
