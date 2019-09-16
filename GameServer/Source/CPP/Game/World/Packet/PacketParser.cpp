@@ -559,18 +559,29 @@ void			WorldSession::PacketParser(Packet& packet)
 				//if (ts == NULL)
 					//sLog.outDebug("nill");
 				//sLog.outDebug("Event type: %u, TS Type: %u, DWData %d, DWParam: %d, tid: %u, CurID: %u, NextID: %u", req->byEventType, req->byTsType, req->dwEventData, req->dwParam, req->tId, req->tcCurId, req->tcNextId);
+				
+				sDB.executes("SELECT * FROM questlist WHERE charID = %d;", _player->GetCharacterID());
+
+				res.wPacketSize = sizeof(sGU_TS_CONFIRM_STEP_RES) - 2;
+				res.wOpCode = GU_TS_CONFIRM_STEP_RES;
 				res.byTsType = req->byTsType;
-				res.dwParam = req->dwParam;
+				res.wResultCode = RESULT_SUCCESS;
+				res.tId = req->tId;
 				res.tcCurId = req->tcCurId;
 				res.tcNextId = req->tcNextId;
-				res.tId = req->tId;
-				res.wOpCode = GU_TS_CONFIRM_STEP_RES;
-				res.wPacketSize = sizeof(sGU_TS_CONFIRM_STEP_RES) - 2;
-				res.wResultCode = RESULT_SUCCESS;
-				
+				res.dwParam = req->dwParam;
+
+				sDB.executes("UPDATE questlist SET `type` = %d, `tId` = %d, `currentID` = %d, `nextID` = %d WHERE charID = %d;", res.byTsType, res.tId, res.tcCurId, res.tcNextId, _player->GetCharacterID());
 				
 				//Need Find Logic to Complete Quest for Correct ID
 				//Need Load Reward Tables etc....
+				if (sDB.executes("SELECT * FROM questlist WHERE charID = %d;", _player->GetCharacterID())->getInt("nextID") == 255 && sDB.executes("SELECT * FROM questlist WHERE charID = %d;", _player->GetCharacterID())->getInt("currentID") == 100) {
+					sDB.executes("UPDATE questlist SET `isCompleted` = %b WHERE charID = %d;", 1, _player->GetCharacterID());
+					if (sDB.executes("SELECT * FROM questlist WHERE charID = %d;", _player->GetCharacterID())->getBoolean("isCompleted") == 1) {
+
+					}
+				}
+
 
 				// Stop Quest At Correct Step
 				if (req->tcCurId == 2)
@@ -607,6 +618,20 @@ void			WorldSession::PacketParser(Packet& packet)
 			//sLog.outError("UG_CHAR_SKILL_REQ");
 			sLog.outPacketFile(&packet);
 			HandleUseSkill(packet);
+			break;
+		}
+		case Opcodes::UG_BUFF_DROP_REQ:
+		{
+			sLog.outPacketFile(&packet);
+			BuffDrop(packet);
+
+			sGU_BUFF_DROP_RES buffDropRes;
+			buffDropRes.wPacketSize = sizeof(sGU_BUFF_DROP_RES) - 2;
+			buffDropRes.wOpCode = GU_BUFF_DROP_RES;
+			buffDropRes.wResultCode = GAME_SUCCESS;
+			SendPacket((char*)&buffDropRes, sizeof(sGU_BUFF_DROP_RES));
+			_player->SendToPlayerList((char*)&buffDropRes, sizeof(sGU_BUFF_DROP_RES));
+
 			break;
 		}
 		case Opcodes::UG_CHAR_REVIVAL_REQ:
