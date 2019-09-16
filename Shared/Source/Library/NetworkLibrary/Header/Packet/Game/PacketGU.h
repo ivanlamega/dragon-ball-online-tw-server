@@ -451,8 +451,8 @@ END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(GU_BUFF_DROPPED)
 HOBJECT			hHandle;
-BYTE			bySourceType;		// eDBO_OBJECT_SOURCE
-BYTE            unk;
+WORD			bySourceType;		// eDBO_OBJECT_SOURCE
+//BYTE            unk;
 TBLIDX			tblidx;
 BYTE            unk1;
 END_PROTOCOL()
