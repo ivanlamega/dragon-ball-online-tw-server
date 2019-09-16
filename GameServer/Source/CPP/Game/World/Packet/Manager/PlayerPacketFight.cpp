@@ -768,11 +768,25 @@ void WorldSession::HandleUseSkill(Packet& packet)
 						skillRes.aSkillResult[0].vShift.y = 0;
 						skillRes.aSkillResult[0].vShift.z = 0;
 						skillRes.aSkillResult[0].vShift1 = _player->GetVectorPosition();
+
+						pBuffData.tblidx = skillRes.skillId;
+						pBuffData.isactive = 1;
+						pBuffData.Type = 0;
+						pBuffData.BuffInfo[Effect].SystemEffectValue = (float)skillDataOriginal->SkillValue[Effect];
+						pBuffData.BuffInfo[Effect].SystemEffectTime = skillDataOriginal->dwKeepTimeInMilliSecs;
+						pBuffData.BuffInfo[Effect].dwSystemEffectValue = skillDataOriginal->SkillValue[Effect];
+						pBuffData.BuffInfo[Effect].NeedDisplayMensage = true;
+
 						_player->GetState()->sCharStateBase.aspectState.sAspectStateBase.byAspectStateId = eASPECTSTATE::ASPECTSTATE_SUPER_SAIYAN;
 						_player->GetState()->sCharStateBase.aspectState.sAspectStateDetail.sVehicle.bIsEngineOn = false;
 						_player->GetState()->sCharStateBase.aspectState.sAspectStateDetail.sVehicle.hVehicleItem = INVALID_TBLIDX;
 						_player->GetState()->sCharStateBase.aspectState.sAspectStateDetail.sVehicle.idVehicleTblidx = INVALID_TBLIDX;
 						_player->UpdateAspectState(eASPECTSTATE::ASPECTSTATE_SUPER_SAIYAN);
+
+						//_player->GetAttributesManager()->SetLastRunSpeed(pBuffData.BuffInfo[Effect].SystemEffectValue);
+						_player->GetAttributesManager()->SetLastMaxEP(pBuffData.BuffInfo[Effect].SystemEffectValue);
+						_player->GetAttributesManager()->SetLastAttackSpeedRate(pBuffData.BuffInfo[Effect].SystemEffectValue);
+
 						break;
 					}
 					case ACTIVE_KAIOKEN:
@@ -1276,4 +1290,48 @@ void WorldSession::HandleUseSkill(Packet& packet)
 		}
 	
 	_player->SetIsSkillCasting(false);
+}
+//--------------------------------------------------
+//  Buff Dropping function
+//--------------------------------------------------
+void WorldSession::BuffDrop(Packet& packet)
+{
+
+	sUG_BUFF_DROP_REQ *pBuffDropReq = (sUG_BUFF_DROP_REQ*)packet.GetPacketBuffer();
+
+	TBLIDX skillID = _player->skillManager.getBuffInfos()->SourceTblidx;
+	SkillTable * skillTable = sTBM.GetSkillTable();
+	sSKILL_TBLDAT * skillDataOriginal = reinterpret_cast<sSKILL_TBLDAT*>(skillTable->FindData(skillID));
+
+	sGU_CHAR_ACTION_SKILL skillRes;
+
+	sGU_BUFF_DROPPED buffDropped;
+
+	BuffTypeSkill pBuffData;
+
+	/*	pBuffDropReq->wOpCode = UG_BUFF_DROP_REQ;
+	pBuffDropReq->bySourceType = 0;
+	pBuffDropReq->byUnknown1 = 0;
+	pBuffDropReq->tblidx = skillDataOriginal->tblidx;*/
+	for (int i = 0; i < 16; i++)
+	{
+		buffDropped.wPacketSize = (sizeof(sGU_BUFF_DROPPED)) - 2;
+		buffDropped.wOpCode = GU_BUFF_DROPPED;
+		buffDropped.hHandle = _player->GetAttributesManager()->sBuffTimeInfo[i].PlayerHandle;
+		buffDropped.bySourceType = DBO_OBJECT_SOURCE_SKILL;
+		//buffDropped.unk = 0;
+		buffDropped.tblidx = _player->GetAttributesManager()->sBuffTimeInfo[i].BuffID;
+		buffDropped.unk1 = 0;
+		SendPacket((char*)&buffDropped, sizeof(sGU_BUFF_DROPPED));
+		_player->SendToPlayerList((char*)&buffDropped, sizeof(sGU_BUFF_DROPPED));
+		_player->GetAttributesManager()->sBuffTimeInfo[i].BuffIsActive = false;
+		_player->GetAttributesManager()->sBuffTimeInfo[i].BuffEndTime = INVALID_TBLIDX;
+		_player->GetAttributesManager()->sBuffTimeInfo[i].BuffTime = INVALID_TBLIDX;
+		_player->GetAttributesManager()->sBuffTimeInfo[i].BuffID = INVALID_TBLIDX;
+
+	}
+
+	//SendPacket((char*)&pBuffDropReq, sizeof(sUG_BUFF_DROP_REQ));
+	//_player->SendToPlayerList((char*)&pBuffDropReq, sizeof(sUG_BUFF_DROP_REQ));
+
 }
