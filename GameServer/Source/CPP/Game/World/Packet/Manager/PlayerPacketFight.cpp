@@ -481,7 +481,7 @@ void WorldSession::HandleUseSkill(Packet& packet)
 						pBuffData.BuffInfo[Effect].dwSystemEffectValue = skillDataOriginal->SkillValue[Effect];
 						pBuffData.BuffInfo[Effect].NeedDisplayMensage = true;
 
-						_player->GetAttributesManager()->SetLastRunSpeed(pBuffData.BuffInfo[Effect].SystemEffectValue = skillDataOriginal->SkillValue[Effect]);
+						_player->GetAttributesManager()->SetLastRunSpeed(((pBuffData.BuffInfo[Effect].SystemEffectValue = (float)skillDataOriginal->SkillValue[Effect])/100) * _player->GetPcProfile()->avatarAttribute.fBaseRunSpeed);
 						printf("SystemEffectValue %f \n", pBuffData.BuffInfo[Effect].SystemEffectValue);
 
 						break;
@@ -758,16 +758,16 @@ void WorldSession::HandleUseSkill(Packet& packet)
 						skillRes.hAppointedTarget = _player->GetHandle();
 						skillRes.bIsSkillHarmful = 0;
 						skillRes.bySkillResultCount = 1;
-						skillRes.aSkillResult[0].hTarget = _player->GetHandle();
-						skillRes.aSkillResult[0].byAttackResult = 0;
-						skillRes.aSkillResult[0].effectResult[Effect].eResultType = 0xFF;
-						skillRes.aSkillResult[0].effectResult[Effect].Value1 = (float)skillDataOriginal->SkillValue[Effect];
-						skillRes.aSkillResult[0].byBlockedAction = 0;
-						skillRes.aSkillResult[0].unk1 = 0;
-						skillRes.aSkillResult[0].vShift.x = 0;
-						skillRes.aSkillResult[0].vShift.y = 0;
-						skillRes.aSkillResult[0].vShift.z = 0;
-						skillRes.aSkillResult[0].vShift1 = _player->GetVectorPosition();
+						skillRes.aSkillResult[Effect].hTarget = _player->GetHandle();
+						skillRes.aSkillResult[Effect].byAttackResult = 0;
+						skillRes.aSkillResult[Effect].effectResult[Effect].eResultType = 0xFF;
+						skillRes.aSkillResult[Effect].effectResult[Effect].Value1 = (float)skillDataOriginal->SkillValue[Effect];
+						skillRes.aSkillResult[Effect].byBlockedAction = 0;
+						skillRes.aSkillResult[Effect].unk1 = 0;
+						skillRes.aSkillResult[Effect].vShift.x = 0;
+						skillRes.aSkillResult[Effect].vShift.y = 0;
+						skillRes.aSkillResult[Effect].vShift.z = 0;
+						skillRes.aSkillResult[Effect].vShift1 = _player->GetVectorPosition();
 
 						pBuffData.tblidx = skillRes.skillId;
 						pBuffData.isactive = 1;
@@ -783,9 +783,10 @@ void WorldSession::HandleUseSkill(Packet& packet)
 						_player->GetState()->sCharStateBase.aspectState.sAspectStateDetail.sVehicle.idVehicleTblidx = INVALID_TBLIDX;
 						_player->UpdateAspectState(eASPECTSTATE::ASPECTSTATE_SUPER_SAIYAN);
 
-						//_player->GetAttributesManager()->SetLastRunSpeed(pBuffData.BuffInfo[Effect].SystemEffectValue);
 						_player->GetAttributesManager()->SetLastMaxEP(pBuffData.BuffInfo[Effect].SystemEffectValue);
 						_player->GetAttributesManager()->SetLastAttackSpeedRate(pBuffData.BuffInfo[Effect].SystemEffectValue);
+						_player->GetAttributesManager()->SetLastRunSpeed(((pBuffData.BuffInfo[Effect].SystemEffectValue = (float)skillDataOriginal->SkillValue[Effect]) / 1000) * _player->GetPcProfile()->avatarAttribute.fBaseRunSpeed);
+						printf("SystemEffectValue %f \n", pBuffData.BuffInfo[Effect].SystemEffectValue);
 
 						break;
 					}
