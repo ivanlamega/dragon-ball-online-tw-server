@@ -101,6 +101,8 @@ public:
 	void			LearnSkill(TBLIDX id);
 	void			UpgradeSkill(Packet& packet);
 	void			ResetSkill(Packet& packet);
+	//buffs
+	void			BuffDrop(Packet& packet);
 	//Budokay
 
 	//Events
