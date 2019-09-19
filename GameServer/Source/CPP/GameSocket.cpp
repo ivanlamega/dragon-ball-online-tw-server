@@ -41,7 +41,7 @@ bool GameSocket::HandleAuthSession(Packet& packet)
 	res.wOpCode = GU_GAME_ENTER_RES;
 	res.wPacketSize = sizeof(sGU_GAME_ENTER_RES) - 2;
 	res.wResultCode = GAME_SUCCESS;
-	strcpy_s(res.achCommunityServerIP, sizeof(res.achCommunityServerIP), "25.57.69.67");
+	strcpy_s(res.achCommunityServerIP, sizeof(res.achCommunityServerIP), "127.0.0.1");
 	res.wCommunityServerPort = 50500;
 	res.timeDBOEnter = time(NULL);
 
