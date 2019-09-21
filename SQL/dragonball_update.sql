@@ -497,6 +497,21 @@ INSERT INTO `portals` (`id`, `CharacterID`, `PortalID`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `questlist`
+--
+
+CREATE TABLE `questlist` (
+  `type` int(11) NOT NULL,
+  `tId` int(11) NOT NULL,
+  `currentID` int(11) NOT NULL,
+  `nextID` int(11) NOT NULL,
+  `charID` int(11) NOT NULL,
+  `isCompleted` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `quickslot`
 --
 
