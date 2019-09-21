@@ -5,11 +5,9 @@
   <LogLevel Value="3"/>
   <!-- Server Configuration -->
   <ServerWorker Value="1"/>
-  <Server IP="88.190.215.114" Port="50200" />
+  <Server ID="1" ChannelID="1" IP="127.0.0.1" Port="50350" />
   <MySQL Host="127.0.0.1" Database="dragonball" User="root" Password="" />
   
-  <!-- Char Server List Configuration -->
-  <CharServerList Count="1">
-    <CharServer1 IP="88.190.215.114" Port="50300" />
-  </CharServerList>
+  <!-- Game Data Tables Folder Location -->
+  <GameData Path="../Data/" />
 </CommunityServer>
