@@ -38,6 +38,7 @@ class SetItemTable;
 class EachDropTable;
 class TypeDropTable;
 class ExcellentDropTable;
+class TableMascot;
 
 // Misc
 class ActionTable;
@@ -134,6 +135,7 @@ public:
 		TABLE_DRAGONBALL_REWARD,
 
 		// Misc
+		TABLE_MASCOT,
 		TABLE_ACTION,
 		TABLE_CHAT_COMMAND,
 		TABLE_DIRECTION_LINK,
@@ -240,6 +242,7 @@ public:
 	void SetPath(char* pszPath);
 	void SetPath(WCHAR* pwszPath) { m_wstrPath = pwszPath; }
 
+
 	// Character
 	ExpTable* GetExpTable() { return m_pExpTable; }
 	GuideHintTable* GetGuideHintTable() { return m_pGuideHintTable; }
@@ -270,6 +273,7 @@ public:
 	ExcellentDropTable* GetExcellentDropTable() { return m_pExcellentDropTable; }
 
 	// Misc
+	TableMascot* GetTableMascot() { return m_pTableMascot; }
 	ActionTable* GetActionTable() { return m_pActionTable; }
 	ChatCommandTable* GetChatCommandTable() { return m_pChatCommandTable; }
 	DirectionLinkTable* GetDirectionLinkTable() { return m_pDirectionLinkTable; }
@@ -389,6 +393,7 @@ protected:
 	ExcellentDropTable* m_pExcellentDropTable;
 
 	// Misc
+	TableMascot* m_pTableMascot;
 	ActionTable* m_pActionTable;
 	ChatCommandTable* m_pChatCommandTable;
 	DirectionLinkTable* m_pDirectionLinkTable;

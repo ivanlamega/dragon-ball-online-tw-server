@@ -27,6 +27,11 @@ CNtlAvatar* CNtlAvatar::GetInstance()
 	return &avatar;
 }
 
+bool CNtlAvatar::UpdateAvatarAttribute(BYTE byAttributeTotalCount, void * pvRawData, sAVATAR_ATTRIBUTE * pAttributeData)
+{
+	return false;
+}
+
 bool CNtlAvatar::SaveAvatarAttribute(CNtlBitFlagManager* pChangedFlag, sAVATAR_ATTRIBUTE_LINK* pAttributeDataLink, void* pvBuffer, DWORD* pwdDataSize)
 {
 	BYTE* pbyBuffer = (BYTE*)pvBuffer;
