@@ -14,7 +14,7 @@ MySQLConnWrapper::MySQLConnWrapper()
 {
 	host = "tcp://127.0.0.1:3306";
 	user = "root";
-	password = "";
+	password = "ascent";
 	con = NULL;
 };
 void MySQLConnWrapper::manageException(sql::SQLException& e)

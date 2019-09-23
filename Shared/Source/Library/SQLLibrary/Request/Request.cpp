@@ -423,11 +423,16 @@ bool MySQLConnWrapper::CheckIfMailAway(CHARACTERID charID)
 
 bool MySQLConnWrapper::HowMuchMail(CHARACTERID charID)
 {
-		sql::ResultSet* result = executes("SELECT `*` FROM `mail` WHERE `CharacterID` = '%';", charID);
+	sql::ResultSet* result = executes("SELECT `*` FROM `mail` WHERE `CharacterID` = '%';", charID);
 	if (result && result->rowsCount() > 0)
 	{
 
 	}
+}
+
+bool MySQLConnWrapper::LoadAllMail(CHARACTERID charID)
+{
+	return false;
 }
 
 #pragma endregion END_SANGAWKU

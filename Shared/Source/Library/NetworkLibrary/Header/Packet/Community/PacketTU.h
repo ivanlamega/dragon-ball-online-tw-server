@@ -529,26 +529,26 @@ BEGIN_PROTOCOL( TU_DOJO_SCRAMBLE_RESULT_NFY )
 	GUILDID						winGuildId;	
 END_PROTOCOL()
 //------------------------------------------------------------------ 
-BEGIN_PROTOCOL(TU_HLS_SLOT_MACHINE_INFO_RES) // CORRECTO
+BEGIN_PROTOCOL(TU_HLS_SLOT_MACHINE_INFO_RES)
 WORD		ResultCode;
 BYTE		BiginCount; 
 BYTE		TotalCount;
-WORD        MachineID[4];					// ID única para WagguMachine si se repite la misma id. Crash del juego
-BYTE        Price[4];						// ¿Cuánta moneda necesita jugar?
-DWORD       unk[4];							// Set 1 para hacer visible la máquina
-DWORD       ItemRankMachine1[10];			// Artículos para la Máquina 1
-DWORD       ItemRankMachine2[10];			// Artículos para la Máquina 2
-DWORD       ItemRankMachine3[10];			// Artículos para la Máquina 3
-DWORD       ItemRankMachine4[10];			// Artículos para la Máquina 4
-WORD		CoinType[4];					// 0 Waggu 1 Evento
-WORD		BallsMachine1;					// Cuánta máquina de bolas tiene en el momento
-WORD		BallsMachine2;					// Cuánta máquina de bolas tiene en el momento
-WORD		BallsMachine3;					// Cuánta máquina de bolas tiene en el momento
-WORD		BallsMachine4;					// Cuánta máquina de bolas tiene en el momento
-WORD		MaxBallsMachine1;				// Max Balls en La Máquina
-WORD		MaxBallsMachine2;				// Max Balls en La Máquina
-WORD		MaxBallsMachine3;				// Max Balls en La Máquina
-WORD		MaxBallsMachine4;				// Max Balls en La Máquina
+WORD        MachineID[4];//Unique ID for WagguMachine if repeat same id Game Crash
+BYTE        Price[4];// How Much Coin Need To Play
+DWORD       unk[4];//Set 1 to make machine visible
+DWORD       ItemRankMachine1[10];//Items for Machine 1
+DWORD       ItemRankMachine2[10];//Items for Machine 2
+DWORD       ItemRankMachine3[10];//Items for Machine 3
+DWORD       ItemRankMachine4[10];//Items for Machine 4
+WORD		CoinType[4];// 0 Waggu 1 Event
+WORD		BallsMachine1;//How much Balls Machine have at Momet
+WORD		BallsMachine2;//How much Balls Machine have at Momet
+WORD		BallsMachine3;//How much Balls Machine have at Momet
+WORD		BallsMachine4;//How much Balls Machine have at Momet
+WORD		MaxBallsMachine1;// Max Balls in The Machine
+WORD		MaxBallsMachine2;// Max Balls in The Machine
+WORD		MaxBallsMachine3;// Max Balls in The Machine
+WORD		MaxBallsMachine4;// Max Balls in The Machine
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(TU_HLS_SLOT_MACHINE_EXTRACT_RES)
@@ -562,7 +562,7 @@ BYTE        ByItemCount;
 BYTE        unk3[9];
 BYTE        WagguCost;
 BYTE        unk4[9];
-BYTE        PlayNumber;//recibe la cantidad de monedas que la máquina ejecuta al mismo tiempo
+BYTE        PlayNumber;//recive how much coins machine run at sime time
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(TU_HLS_SLOT_MACHINE_WINNER_INFO_RES)
