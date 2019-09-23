@@ -1,0 +1,26 @@
+ #include "standard-types.hsl"
+
+typedef unsigned int TBLIDX;
+
+//3132 Bytes total structure
+struct sCHAR_TITLE_DATA
+{
+     TBLIDX     titleTblidx;
+     TBLIDX     unknownTblidx;
+     WORD      classBitFlags;
+     WCHAR      wszIconName[512+1];
+     WCHAR      wszRewardCond[512+1];
+     WCHAR      wszUnk3[512+1];
+     DWORD      dwUnk1;
+     DWORD      dwUnk2;
+     DWORD      dwUnk3;
+     BYTE       byUnk1;
+     WORD       wUnk1;
+     BYTE padding;
+     DWORD      dwUnk4;
+     WORD       wUnk2;
+     BYTE       byUnk2;
+     BYTE       byUnk3;
+     DWORD      dwUnkA[4];
+
+};
