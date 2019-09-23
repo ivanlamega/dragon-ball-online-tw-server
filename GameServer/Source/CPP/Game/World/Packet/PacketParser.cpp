@@ -52,7 +52,7 @@ void			WorldSession::PacketParser(Packet& packet)
 	case Opcodes::UG_GAME_EXIT_REQ:
 	{
 		//sLog.outError("UG_GAME_EXIT_REQ");
-		SendGameLeave(packet, false);
+		SendGameLeave(packet, true);
 		break;
 	}
 	case Opcodes::UG_CHAR_BIND_REQ:
@@ -282,10 +282,10 @@ void			WorldSession::PacketParser(Packet& packet)
 		sGU_GIFT_SHOP_TAB_INFO_NFY GiftTab;
 		
 		GiftTab.wOpCode = GU_GIFT_SHOP_TAB_INFO_NFY;
-		GiftTab.wPacketSize = sizeof(sGU_GIFT_SHOP_TAB_INFO_NFY) - 2;		//
+		GiftTab.wPacketSize = sizeof(sGU_GIFT_SHOP_TAB_INFO_NFY) - 2;		
 		GiftTab.TabID = 0;
 		GiftTab.TotalItemCount = 72;
-		wcscpy_s(GiftTab.TabName, DBO_MAX_GIFT_TAB_NAME + 1, (L"Dev"));
+		wcscpy_s(GiftTab.TabName, DBO_MAX_GIFT_TAB_NAME + 1, (L"Zindel"));
 		const int ItemList[12][6] = {
 			{ 7001426,7001427,7001428,7001429,7001430,7001431},
 			{ 7001432,7001433,7001434,7001435,7001436,7001437},
@@ -576,13 +576,11 @@ void			WorldSession::PacketParser(Packet& packet)
 				//Need Find Logic to Complete Quest for Correct ID
 				//Need Load Reward Tables etc....
 				if (sDB.executes("SELECT * FROM questlist WHERE charID = %d;", _player->GetCharacterID())->getInt("nextID") == 255 && sDB.executes("SELECT * FROM questlist WHERE charID = %d;", _player->GetCharacterID())->getInt("currentID") == 100) {
-					sDB.executes("UPDATE questlist SET `isCompleted` = %b WHERE charID = %d;", 1, _player->GetCharacterID());
-					if (sDB.executes("SELECT * FROM questlist WHERE charID = %d;", _player->GetCharacterID())->getBoolean("isCompleted") == 1) {
+				sDB.executes("UPDATE questlist SET `isCompleted` = %b WHERE charID = %d;", 1, _player->GetCharacterID());
+				if (sDB.executes("SELECT * FROM questlist WHERE charID = %d;", _player->GetCharacterID())->getBoolean("isCompleted") == 1) {
 
 					}
 				}
-
-
 				// Stop Quest At Correct Step
 				if (req->tcCurId == 2)
 				{
@@ -723,13 +721,13 @@ void			WorldSession::PacketParser(Packet& packet)
 		}
 		case Opcodes::UG_CASHITEM_HLSHOP_REFRESH_REQ:
 		{
-			sLog.outError("UG_CASHITEM_HLSHOP_REFRESH_REQ");
+			//sLog.outError("UG_CASHITEM_HLSHOP_REFRESH_REQ");
 			SendAvatarItemCashInfo();
 			break;
 		}
 		case Opcodes::UG_CASHITEM_HLSHOP_START_REQ:
 		{
-			sLog.outError("UG_CASHITEM_HLSHOP_START_REQ");
+			//sLog.outError("UG_CASHITEM_HLSHOP_START_REQ");
 			sGU_CASHITEM_HLSHOP_START_RES res;
 
 			res.dwRemainAmount = _player->GetAttributesManager()->cashpoit;
@@ -738,228 +736,11 @@ void			WorldSession::PacketParser(Packet& packet)
 			res.wResultCode = GAME_SUCCESS;		
 			_player->GetAttributesManager()->cashpoit = res.dwRemainAmount;
 			SendPacket((char*)&res, sizeof(sGU_CASHITEM_HLSHOP_START_RES));
-
-			//-----------------------------------------------------------------
-			// INFORMACIÓN DE LA MÁQUINA
-			//-----------------------------------------------------------------
-			sUT_HLS_SLOT_MACHINE_INFO_REQ* req = (sUT_HLS_SLOT_MACHINE_INFO_REQ *)packet.GetPacketBuffer();
-			if (req->unk ==	0)//Waggu Waggu Tab = 0
-			{
-				sLog.outDebug("MACINE INFO CORRECT");
-				sTU_HLS_SLOT_MACHINE_INFO_RES info;
-				memset(&info, 0, sizeof(sTU_HLS_SLOT_MACHINE_INFO_RES));
-				info.wOpCode = TU_HLS_SLOT_MACHINE_INFO_RES;
-				info.wPacketSize = sizeof(sTU_HLS_SLOT_MACHINE_INFO_RES) - 2;
-				info.ResultCode = GAME_SUCCESS;
-				info.BiginCount = 0;//4
-				info.TotalCount = 4;//4
-			
-				//MachineID
-				info.MachineID[0] = 1;//CORRECT
-				info.MachineID[1] = 2;//CORRECT
-				info.MachineID[2] = 3;//CORRECT
-				info.MachineID[3] = 4;//CORRECT
-			
-				//Costo de jugar
-				info.Price[0] = 1;//Precio
-				info.Price[1] = 1;
-				info.Price[2] = 1;
-				info.Price[3] = 1;
-			
-				// 1 para activar la máquina
-				info.unk[0] = 1;
-				info.unk[1] = 0;
-				info.unk[2] = 0;
-				info.unk[3] = 0;
-			
-				//Establecer artículos disponibles en la máquina 1 //CORRECT
-				info.ItemRankMachine1[0] = 2400029;			//11120253;					
-				info.ItemRankMachine1[1] = 2400026;			//11120253;	   		
-				info.ItemRankMachine1[2] = 2400024;			//11120253;	   		
-				info.ItemRankMachine1[3] = 2500003;			//11120253;			
-				info.ItemRankMachine1[4] = 2900561;			//11120253;			
-				info.ItemRankMachine1[5] = 2400011;			//11120253;			
-			
-				//Establecer artículos disponibles en la máquina 2	//CORRECT
-				info.ItemRankMachine2[0] = 	2900590;		//11120252;				
-				info.ItemRankMachine2[1] =	2800003;		//11120252;			
-				info.ItemRankMachine2[2] =	2900766;		//11120252;			
-				info.ItemRankMachine2[3] =	2900590;		//11120252;			
-				info.ItemRankMachine2[4] =	2900645;		//11120252;			
-				info.ItemRankMachine2[5] =	2900645;		//11120253;			
-			
-				//Establecer artículos disponibles en la máquina 3	//CORRECT
-				info.ItemRankMachine3[0] = 2900465;			//11120142;		
-				info.ItemRankMachine3[1] = 2400022;			//11120142;		
-				info.ItemRankMachine3[2] = 2900766;			//11120142;		
-				info.ItemRankMachine3[3] = 2900590;			//11120142;		
-				info.ItemRankMachine3[4] = 2900645;			//11120142;		
-				info.ItemRankMachine3[5] = 2900645;			//11120253;		
-			
-				//Establecer artículos disponibles en la máquina 4	//CORRECT
-				info.ItemRankMachine4[0] = 2900628;			//11160032;
-				info.ItemRankMachine4[1] = 2800003;			//11160032;
-				info.ItemRankMachine4[2] = 2900766;			//11160032;
-				info.ItemRankMachine4[3] = 2900590;			//11160032;
-				info.ItemRankMachine4[4] = 2900645;			//11160032;
-				info.ItemRankMachine4[5] = 2900645;			//11120253;
-			
-				//Defina si es Waggu o Evento "0 = Waggu 1 = Evento"
-				info.CoinType[0] = 0;	//CORRECT
-				info.CoinType[1] = 1;	//CORRECT
-				info.CoinType[2] = 0;	//CORRECT
-				info.CoinType[3] = 1;	//CORRECT
-			
-				//Muestra cuánto máquina de bolas tiene "más bolas de número bajo la posibilidad de obtener un elemento de rango 1"
-				info.BallsMachine1 = 100;
-				info.BallsMachine2 = 200;
-				info.BallsMachine3 = 300;
-				info.BallsMachine4 = 400;
-			
-				//Mostrar bolas máximas en maxine
-				info.MaxBallsMachine1 = 100;
-				info.MaxBallsMachine2 = 200;
-				info.MaxBallsMachine3 = 300;
-				info.MaxBallsMachine4 = 400;
-				SendPacket((char*)&info, sizeof(sTU_HLS_SLOT_MACHINE_INFO_RES));
-			
-			}
-			else if (req->unk == 1)// La pestaña Evento no sabe como cargar Corregir aún
-			{
-				sTU_HLS_SLOT_MACHINE_INFO_RES res1;
-				memset(&res1, INVALID_TBLIDX, sizeof(sTU_HLS_SLOT_MACHINE_INFO_RES)); // 0 =INVALID_TBLIDX
-				res1.wOpCode = TU_HLS_SLOT_MACHINE_INFO_RES;
-				res1.wPacketSize = sizeof(sTU_HLS_SLOT_MACHINE_INFO_RES) - 2;
-				sLog.outError("ALGO SALIO MAL");
-				res1.ResultCode = GAME_FAIL;
-				res1.BiginCount = 0; //0=4
-				res1.TotalCount = 4;//1=4
-				SendPacket((char*)&res1, sizeof(sTU_HLS_SLOT_MACHINE_INFO_RES));
-			}
-			//-----------------------------------------------------------------
-			// EXTRACTO DE MAQUINA
-			//-----------------------------------------------------------------
-			//sUT_HLS_SLOT_MACHINE_EXTRACT_REQ * req = (sUT_HLS_SLOT_MACHINE_EXTRACT_REQ *)packet.GetPacketBuffer();
-			if (_player->GetAttributesManager()->WagguCoin >= req->TabType)
-			{
-				sTU_HLS_SLOT_MACHINE_EXTRACT_RES extract;
-				memset(&extract, 0, sizeof(sTU_HLS_SLOT_MACHINE_EXTRACT_RES));
-				extract.wOpCode = TU_HLS_SLOT_MACHINE_EXTRACT_RES;
-				extract.wPacketSize = sizeof(sTU_HLS_SLOT_MACHINE_EXTRACT_RES) - 2;
-				sLog.outError("sTU_HLS_SLOT_MACHINE_EXTRACT_RES");
-				extract.ResultCode = GAME_SUCCESS;
-				extract.MachineID = req->unk;
-				extract.unk[0] = 1;//El set 0 nunca cambia |	req->unk
-				extract.unk[1] = 2;
-				extract.unk[2] = 32;
-				extract.RewardWPPoint = 10;//Waggu point	
-				extract.ByItemCount = 1;// Elemento de recompensa del artículo de cuenta
-				extract.WagguCost = 1;//Waggu consumable ???
-				extract.PlayNumber = req->TabType;// PlayCount
-												//4 machine with 5 ItemID
-				const int ItemList[4][6] = {
-				/*	{ 11120253,11120253,11120253,11120253,11120253,11120253 }, //Maquina 1
-					{ 11120252,11120252,11120252,11120252,11120252,11120252 }, //Maquina 2
-					{ 11120142,11120142,11120142,11120142,11120142,11120142 }, //Maquina 3
-					{ 11160032,11160032,11160032,11160032,11160032,11160032 },*/ //Maquina 4
-					{ 2400029,2400026,2400024,2500003,2900561,2400011 },
-					{ 2900590,2800003,2900766,2900590,2900645,2900645 },
-					{ 2900465,2400022,2900766,2900590,2900645,2900645 },
-					{ 2900628,2800003,2900766,2900590,2900645,2900645 },
-				};
-			
-				for (int j = 0; j < extract.PlayNumber; j++)
-				{
-					int peekUp = rand() % 6;//	Si juegas varias veces, obtienes el mismo objeto en todos.
-					extract.ItemID[j] = ItemList[req->TabType = 1][peekUp];//need Correct ItemID for Machine
-					
-					//-----------------------------------------------------------------
-					// Comprar?
-					//-----------------------------------------------------------------													   
-				    // Crear el elemento recibido 
-					// usar para porque puede jugar 1x 5x o 10x
-					sGU_CASHITEM_ADD_NFY item;
-					memset(&item, 0, sizeof(sGU_CASHITEM_ADD_NFY));
-					item.handle = sWorld.AcquireItemSerialId();//ItemHandle
-					item.sInfo.dwProductId = 0;
-					sLog.outError("sGU_CASHITEM_ADD_NFY");
-					item.sInfo.ItemHLSTableID = ItemList[req->TabType = 0][peekUp];//need Correct ItemID for Machine
-					item.sInfo.byStackCount = extract.ByItemCount;//Item count
-					for (int i = 0; i <= 9; i++) { item.unk1[i] = 1; }
-					for (int i = 0; i <= 17; i++) { item.awchName[i] = 1; }
-					//Time of Item Creation
-					item.Year = 2019;
-					item.Moch = 12;
-					item.Day = 25;
-					item.Hour = 10;
-					item.Minute = 30;
-					item.Secound = 25;
-					item.unk2 = 0;
-					item.wOpCode = GU_CASHITEM_ADD_NFY;
-					item.wPacketSize = sizeof(sGU_CASHITEM_ADD_NFY) - 2;
-					sDB.AddCashItem(item.sInfo.ItemHLSTableID, _player->charid, item.sInfo.byStackCount, item.handle);
-					SendPacket((char*)&item, sizeof(sGU_CASHITEM_ADD_NFY));
-			
-				}
-				SendPacket((char*)&extract, sizeof(sTU_HLS_SLOT_MACHINE_EXTRACT_RES));
-				// Update the coin
-				sTU_WAGUWAGUCOIN_UPDATE_INFO UpdateCoin;
-				UpdateCoin.wOpCode = TU_WAGUWAGUCOIN_UPDATE_INFO;
-				UpdateCoin.wPacketSize = sizeof(sTU_WAGUWAGUCOIN_UPDATE_INFO) - 2;
-				sLog.outError("sTU_WAGUWAGUCOIN_UPDATE_INFO");
-				UpdateCoin.WagguCoin = _player->GetAttributesManager()->EventCoin - req->TabType;
-				_player->GetAttributesManager()->EventCoin = UpdateCoin.WagguCoin;
-				sDB.SavePlayerWagguCoin(_player->GetAttributesManager()->EventCoin, _player->GetCharacterID());
-				SendPacket((char*)&UpdateCoin, sizeof(sTU_WAGUWAGUCOIN_UPDATE_INFO));
-			}
-			else
-			{
-				sTU_HLS_SLOT_MACHINE_EXTRACT_RES res2;
-				//memset(&res2, 0, sizeof(sTU_HLS_SLOT_MACHINE_EXTRACT_RES));
-				res2.wOpCode = TU_HLS_SLOT_MACHINE_EXTRACT_RES;
-				res2.wPacketSize = sizeof(sTU_HLS_SLOT_MACHINE_EXTRACT_RES) - 2;
-				res2.ResultCode = GAME_FAIL;// 15004; 
-				SendPacket((char*)&res2, sizeof(sTU_HLS_SLOT_MACHINE_EXTRACT_RES));
-			}
-			//-----------------------------------------------------------------
-			// GANADOR DE MAQUINAS
-			//-----------------------------------------------------------------
-			//sUT_HLS_SLOT_MACHINE_WINNER_INFO_REQ* req = (sUT_HLS_SLOT_MACHINE_WINNER_INFO_REQ *)packet.GetPacketBuffer();
-			sTU_HLS_SLOT_MACHINE_WINNER_INFO_RES res3;
-			//memset(&res3, 0, sizeof(sTU_HLS_SLOT_MACHINE_WINNER_INFO_RES));
-			printf(" MachineID %d \n unk %d \n", req->TabType, req->unk);
-			res3.wOpCode = TU_HLS_SLOT_MACHINE_WINNER_INFO_RES;
-			res3.wPacketSize = sizeof(sTU_HLS_SLOT_MACHINE_WINNER_INFO_RES) - 2;
-			res3.ResultCode = GAME_SUCCESS; //300
-			res3.MachineID = req->TabType;
-			res3.BiginCount = 0;
-			res3.TotalCount = 4;//3
-			wcscpy_s(res3.WinnerCharName1, MAX_SIZE_CHAR_NAME_UNICODE + 1, (L"MELIODAS1"));
-			wcscpy_s(res3.WinnerCharName2, MAX_SIZE_CHAR_NAME_UNICODE + 1, (L"MELIODAS2"));
-			wcscpy_s(res3.WinnerCharName3, MAX_SIZE_CHAR_NAME_UNICODE + 1, (L"MELIODAS3"));
-			res3.TryToGetRank1 = 1;//Try to get
-			res3.TryToGetRank2 = 2;//Try to get
-			res3.TryToGetRank3 = 3;//Try to get
-			res3.RewardTimeRank1 = 1;  //0
-			res3.RewardTimeRank2 = 2;  //0
-			res3.RewardTimeRank3 = 3;  //0
-			res3.WinnerCount1 = 1;
-			res3.WinnerCount2 = 2;
-			res3.WinnerCount3 = 3;
-
-			res3.UNK11 = 14;
-			
-			res3.UNK16 = 3;
-			res3.UNK17 = 1;
-			res3.UNK18 = 2;
-			SendPacket((char*)&res3, sizeof(sTU_HLS_SLOT_MACHINE_WINNER_INFO_RES));
-	
 			break;
 		}
-			///FIN del Waggu
 		case Opcodes::UG_CASHITEM_HLSHOP_END_REQ:
 		{
-			sLog.outError("UG_CASHITEM_HLSHOP_END_REQ");
+			//sLog.outError("UG_CASHITEM_HLSHOP_END_REQ");
 			sGU_CASHITEM_HLSHOP_END_RES res;
 
 			res.wOpCode = GU_CASHITEM_HLSHOP_END_RES;
@@ -971,7 +752,7 @@ void			WorldSession::PacketParser(Packet& packet)
 		}
 		case Opcodes::UG_CASHITEM_START_REQ:
 		{
-			sLog.outError("UG_CASHITEM_START_REQ");
+			//sLog.outError("UG_CASHITEM_START_REQ");
 			sGU_CASHITEM_START_RES res;
 
 			res.wOpCode = GU_CASHITEM_START_RES;
@@ -983,7 +764,7 @@ void			WorldSession::PacketParser(Packet& packet)
 		}
 		case Opcodes::UG_CASHITEM_BUY_REQ:
 		{
-			sLog.outError("UG_CASHITEM_BUY_REQ");
+			//sLog.outError("UG_CASHITEM_BUY_REQ");
 			sUG_CASHITEM_BUY_REQ* req = (sUG_CASHITEM_BUY_REQ *)packet.GetPacketBuffer();
 			//TAble here
 			if (sTBM.GetHLSItemTable() != NULL && sTBM.GetHLSItemTable()->FindData(req->HLSItemTblidx) != NULL)
@@ -1013,7 +794,7 @@ void			WorldSession::PacketParser(Packet& packet)
 						item.sInfo.ItemHLSTableID = req->HLSItemTblidx;//ItemHLSTableID "Not is Tblidx of item in Bag" Maybe they convert ID on Item Move;
 						item.sInfo.byStackCount = HLSData->ItemAmount;//Item count
 						//for (int i = 0; i <= 17; i++) { item.awchName[i] = 0; }
-						wcscpy_s(item.awchName, 16 + 1, (L" Marco "));
+						wcscpy_s(item.awchName, 16 + 1, (L" Zindel "));
 						//Time of Item Creation
 						item.Year = 2017;
 						item.Moch = 12;
@@ -1036,7 +817,7 @@ void			WorldSession::PacketParser(Packet& packet)
 			}
 			else
 			{
-				printf("HLSItemTblidx %d", req->HLSItemTblidx);
+				//printf("HLSItemTblidx %d", req->HLSItemTblidx);
 				sGU_CASHITEM_BUY_RES res;
 				res.wOpCode = GU_CASHITEM_BUY_RES;
 				res.wPacketSize = sizeof(sGU_CASHITEM_BUY_RES) - 2;
@@ -1049,7 +830,7 @@ void			WorldSession::PacketParser(Packet& packet)
 		}
 		case Opcodes::UG_CASHITEM_END_REQ:
 		{
-			sLog.outError("UG_CASHITEM_END_REQ");
+			//sLog.outError("UG_CASHITEM_END_REQ");
 			sGU_CASHITEM_END_RES res;
 
 			res.wOpCode = GU_CASHITEM_END_RES;
@@ -1061,7 +842,7 @@ void			WorldSession::PacketParser(Packet& packet)
 		}
 		case Opcodes::UG_CASHITEM_MOVE_REQ:
 		{
-			sLog.outDebug("UG_CASHITEM_MOVE_REQ");
+			//sLog.outDebug("UG_CASHITEM_MOVE_REQ");
 			sUG_CASHITEM_MOVE_REQ* req = (sUG_CASHITEM_MOVE_REQ *)packet.GetPacketBuffer();			
 			//Get ItemID by ItemHandle
 			sql::ResultSet* result = sDB.executes("SELECT * FROM cashitem WHERE owner_id = '%d' AND Handle = '%d';", _player->charid, req->Handle);
@@ -2413,7 +2194,7 @@ void			WorldSession::PacketParser(Packet& packet)
 			_player->SendToPlayerList((char*)&res1, sizeof(sGU_VEHICLE_ENGINE_STOP_NFY));
 
 			_player->GetState()->sCharStateBase.aspectState.sAspectStateBase.byAspectStateId = eASPECTSTATE::ASPECTSTATE_VEHICLE;
-			_player->GetState()->sCharStateBase.aspectState.sAspectStateDetail.sVehicle.bIsEngineOn = false;
+			_player->GetState()->sCharStateBase.aspectState.sAspectStateDetail.sVehicle.bIsEngineOn = true;
 			//_player->GetState()->sCharStateBase.aspectState.sAspectStateDetail.sVehicle.hVehicleItem = INVALID_TBLIDX;
 			//_player->GetState()->sCharStateBase.aspectState.sAspectStateDetail.sVehicle.idVehicleTblidx = INVALID_TBLIDX;
 			_player->UpdateAspectState(eASPECTSTATE::ASPECTSTATE_VEHICLE);
@@ -2770,14 +2551,14 @@ void			WorldSession::PacketParser(Packet& packet)
 				_player->GetAttributesManager()->SetLastEnergyOffence(grade * -1);
 			}		
 			_player->GetState()->sCharStateBase.aspectState.sAspectStateBase.byAspectStateId = eASPECTSTATE::ASPECTSTATE_INVALID;
-			_player->GetState()->sCharStateBase.aspectState.sAspectStateDetail.sVehicle.bIsEngineOn = false;
+			_player->GetState()->sCharStateBase.aspectState.sAspectStateDetail.sVehicle.bIsEngineOn = true;
 			_player->GetState()->sCharStateBase.aspectState.sAspectStateDetail.sVehicle.hVehicleItem = INVALID_TBLIDX;
 			_player->GetState()->sCharStateBase.aspectState.sAspectStateDetail.sVehicle.idVehicleTblidx = INVALID_TBLIDX;
 			_player->UpdateAspectState(eASPECTSTATE::ASPECTSTATE_INVALID);
 			break;
 		}
 		//To Work
-		case Opcodes::UG_GUILD_CREATE_REQ:
+		/*case Opcodes::UG_GUILD_CREATE_REQ:
 		{			
 			sLog.outError("UG_GUILD_CREATE_REQ");
 			sUG_GUILD_CREATE_REQ *req = (sUG_GUILD_CREATE_REQ*)packet.GetPacketBuffer();
@@ -2823,8 +2604,8 @@ void			WorldSession::PacketParser(Packet& packet)
 			CreateGuildInfo.sDogi.byType = -1;
 			CreateGuildInfo.sDogi.byGuildColor = -1;
 			CreateGuildInfo.sDogi.byDojoColor = -1;
-			SendPacket((char*)&CreateGuildInfo, sizeof(sTU_GUILD_INFO));
-			//_player->SendToPlayerList((char*)&CreateGuildInfo, sizeof(sTU_GUILD_INFO));
+			//SendPacket((char*)&CreateGuildInfo, sizeof(sTU_GUILD_INFO));
+			_player->SendToPlayerList((char*)&CreateGuildInfo, sizeof(sTU_GUILD_INFO));
 
 			sTU_GUILD_MEMBER_INFO GuildMemberInfo;
 
@@ -2840,6 +2621,296 @@ void			WorldSession::PacketParser(Packet& packet)
 			GuildMemberInfo.guildMemberInfo.MAPID = 200101000;
 			SendPacket((char*)&GuildMemberInfo, sizeof(sTU_GUILD_MEMBER_INFO));
 			_player->SendToPlayerList((char*)&GuildMemberInfo, sizeof(sTU_GUILD_MEMBER_INFO));
+			break;
+		}*/
+		//To Work
+		//---------------------------------------------------------------------------
+		//Miembro de la guild (DBOM)
+		//---------------------------------------------------------------------------
+		case Opcodes::UG_GUILD_CREATE_REQ:
+		{
+			sLog.outError("UG_GUILD_CREATE_REQ");
+			sUG_GUILD_CREATE_REQ *req = (sUG_GUILD_CREATE_REQ*)packet.GetPacketBuffer();
+			sGU_GUILD_CREATE_RES CreateGuild;
+
+			CreateGuild.wResultCode = GAME_SUCCESS;
+			CreateGuild.wOpCode = GU_GUILD_CREATE_RES;
+			CreateGuild.wPacketSize = sizeof(sGU_GUILD_CREATE_RES) - 2;
+
+			SendPacket((char*)&CreateGuild, sizeof(sGU_GUILD_CREATE_RES));
+			////////////////////////////////////
+
+			sTU_GUILD_CREATED_NFY CreateGuildNFY;
+
+			CreateGuildNFY.wOpCode = TU_GUILD_CREATED_NFY;
+			CreateGuildNFY.wPacketSize = sizeof(sTU_GUILD_CREATED_NFY) - 2;
+			memcpy(CreateGuildNFY.wszGuildName, req->wszGuildName, sizeof(wchar_t)* MAX_SIZE_GUILD_NAME_IN_UNICODE + 1);
+			SendPacket((char*)&CreateGuildNFY, sizeof(sTU_GUILD_CREATED_NFY));
+			//wcscpy_s(CreateGuildNFY.wszGuildName, 17 + 1, req->wszGuildName);
+			//SendPacket((char*)&CreateGuildNFY, sizeof(sTU_GUILD_CREATED_NFY));
+
+			sTU_GUILD_INFO CreateGuildInfo;
+
+			CreateGuildInfo.wOpCode = TU_GUILD_INFO;
+			CreateGuildInfo.wPacketSize = sizeof(sTU_GUILD_INFO) - 2;
+			memcpy(CreateGuildInfo.wszName, req->wszGuildName, sizeof(wchar_t)* MAX_SIZE_GUILD_NAME_IN_UNICODE + 1);
+			memcpy(CreateGuildInfo.awchName, _player->GetPcProfile()->awchName, sizeof(wchar_t)* MAX_SIZE_GUILD_NAME + 1);
+			wcscpy_s(CreateGuildInfo.awchNotice, MAX_LENGTH_OF_GUILD_NOTICE_UNICODE + 1, (L"GUILDNAME"));
+			CreateGuildInfo.dwGuildReputation = 0x1;
+			CreateGuildInfo.dwMaxGuildPointEver = 0x1;
+			CreateGuildInfo.guildId = 0;// CORRECT
+			CreateGuildInfo.guildMaster = _player->charid; //GetHandle();
+			printf("Ver error %d", _player->charid);
+			//CreateGuildInfo.guildSecondMaster[0] = INVALID_TBLIDX;
+			CreateGuildInfo.sMark.byMarkInColor = 1;//0; CORRECT rand() % 10
+			CreateGuildInfo.sMark.byMarkInLine = 1;//0; CORRECT
+			CreateGuildInfo.sMark.byMarkMain = 1; //0;  CORRECT
+			CreateGuildInfo.sMark.byMarkMainColor = 1;//0; CORRECT
+			CreateGuildInfo.sMark.byMarkOutColor = 1;// 0; CORRECT
+
+			CreateGuildInfo.qwGuildFunctionFlag = eDBO_GUILD_FUNCTION::DBO_GUILD_FUNCTION_CAN_CHANGE_EMBLEM;
+
+			SendPacket((char*)&CreateGuildInfo, sizeof(sTU_GUILD_INFO));
+
+
+
+
+			wcscpy_s(CreateGuildInfo.wszName, 17 + 1, req->wszGuildName);
+
+
+			CreateGuildInfo.guildSecondMaster[1] = INVALID_TBLIDX;
+			CreateGuildInfo.guildSecondMaster[2] = INVALID_TBLIDX;
+			CreateGuildInfo.guildSecondMaster[3] = INVALID_TBLIDX;
+
+
+			CreateGuildInfo.qwGuildFunctionFlag = 0x0;		// CORRECT	
+			wcscpy_s(CreateGuildInfo.awchName, 16 + 1, _player->GetPcProfile()->awchName);
+			wcscpy_s(CreateGuildInfo.awchNotice, 257 + 1, req->wszGuildName);
+			//
+			CreateGuildInfo.sDogi.guildId = 1;
+			CreateGuildInfo.sDogi.byType = -1;
+			CreateGuildInfo.sDogi.byGuildColor = -1;
+			CreateGuildInfo.sDogi.byDojoColor = -1;
+			SendPacket((char*)&CreateGuildInfo, sizeof(sTU_GUILD_INFO));
+			_player->SendToPlayerList((char*)&CreateGuildInfo, sizeof(sTU_GUILD_INFO));
+
+
+
+			//---------------------------------------------------------------------------
+			//Miembro de la guild 
+			//---------------------------------------------------------------------------
+			/*sTU_GUILD_MEMBER_INFO GuildMemberInfo;
+
+			GuildMemberInfo.wOpCode = TU_GUILD_MEMBER_INFO;
+			GuildMemberInfo.wPacketSize = sizeof(sTU_GUILD_MEMBER_INFO) - 2;
+			GuildMemberInfo.guildMemberInfo.charId = _player->GetHandle();
+			wcscpy_s(GuildMemberInfo.guildMemberInfo.wszMemberName, 16 + 1, _player->GetPcProfile()->awchName);
+			GuildMemberInfo.guildMemberInfo.byRace = _player->GetAttributesManager()->PlayerRaceID;
+			GuildMemberInfo.guildMemberInfo.byClass = _player->GetAttributesManager()->PlayerClassID;
+			GuildMemberInfo.guildMemberInfo.byLevel = _player->GetPcProfile()->byLevel;
+			GuildMemberInfo.guildMemberInfo.bIsOnline = 1;
+			GuildMemberInfo.guildMemberInfo.WORLDID = 1;
+			GuildMemberInfo.guildMemberInfo.MAPID = 200101000;
+			SendPacket((char*)&GuildMemberInfo, sizeof(sTU_GUILD_MEMBER_INFO));
+
+			_player->SendToPlayerList((char*)&GuildMemberInfo, sizeof(sTU_GUILD_MEMBER_INFO));*/
+			sTU_GUILD_MEMBER_INFO GuildMember;
+			GuildMember.wOpCode = TU_GUILD_MEMBER_INFO;
+			GuildMember.wPacketSize = sizeof(sTU_GUILD_MEMBER_INFO) - 2;
+			GuildMember.guildMemberInfo.charId = _player->charid;
+			GuildMember.guildMemberInfo.bIsOnline = true; // Si el player de la guild esta Online
+			GuildMember.guildMemberInfo.byClass = _player->GetAttributesManager()->PlayerClassID; // clase del player
+			GuildMember.guildMemberInfo.byLevel = _player->GetPcProfile()->byLevel; // lvl del player
+			GuildMember.guildMemberInfo.byRace = _player->GetAttributesManager()->PlayerRaceID;  // raza del player
+			GuildMember.guildMemberInfo.dwReputation = 0; // reputacion
+			GuildMember.guildMemberInfo.MAPID = 0; //mapa /200107100
+			memcpy(GuildMember.guildMemberInfo.wszMemberName, _player->GetPcProfile()->awchName, sizeof(wchar_t)* MAX_SIZE_CHAR_NAME_UNICODE + 1);
+
+			SendPacket((char*)&GuildMember, sizeof(sTU_GUILD_MEMBER_INFO));
+			//---------------------------------------------------------------------------
+			//Posicion de la Guild
+			//---------------------------------------------------------------------------
+			sTU_GUILD_MEMBER_POSITION_CHANGED_NFY position;
+			position.wOpCode = TU_GUILD_MEMBER_INFO;
+			position.wPacketSize = sizeof(sTU_GUILD_MEMBER_INFO) - 2;
+			position.memberCharId = _player->charid;
+			position.newMapNameTblidx = 0; //200107100
+
+			SendPacket((char*)&position, sizeof(sTU_GUILD_MEMBER_INFO));
+			break;
+		}
+		//---------------------------------------------------------------------------
+		// Zeni Donacion de la Guild 100% | DONA ZENNY PERO NO COMO PUNTO|
+		//---------------------------------------------------------------------------
+		case Opcodes::UG_GUILD_GIVE_ZENNY:
+		{
+			sUG_GUILD_GIVE_ZENNY *req = (sUG_GUILD_GIVE_ZENNY*)packet.GetPacketBuffer();
+			sGU_GUILD_GIVE_ZENNY_RES DonateGuild;
+
+			sLog.outError("UG_GUILD_GIVE_ZENNY");
+			DonateGuild.wOpCode = GU_GUILD_GIVE_ZENNY_RES;
+			DonateGuild.wPacketSize = sizeof(sGU_GUILD_GIVE_ZENNY_RES) - 2;
+			DonateGuild.wResultCode = GAME_SUCCESS;
+			SendPacket((char*)&DonateGuild, sizeof(sGU_GUILD_GIVE_ZENNY_RES));
+
+			sTU_GUILD_GIVE_ZENNY_NFY DonateNfy;
+			DonateNfy.wOpCode = TU_GUILD_GIVE_ZENNY_NFY;
+			DonateNfy.wPacketSize = sizeof(sTU_GUILD_GIVE_ZENNY_NFY) - 2;
+			DonateNfy.charId = _player->charid;
+			DonateNfy.dwZenny = req->dwZenny;
+			SendPacket((char*)&DonateNfy, sizeof(sTU_GUILD_GIVE_ZENNY_NFY));
+
+			break;
+		}
+
+
+		case Opcodes::UG_GUILD_FUNCTION_ADD_REQ: // TEST
+		{
+			sUG_GUILD_FUNCTION_ADD_REQ *req = (sUG_GUILD_FUNCTION_ADD_REQ*)packet.GetPacketBuffer();
+			sGU_GUILD_FUNCTION_ADD_RES Function;
+
+			sLog.outError("sGU_GUILD_FUNCTION_ADD_RES");
+			Function.wOpCode = GU_GUILD_FUNCTION_ADD_RES;
+			Function.wPacketSize = sizeof(sGU_GUILD_FUNCTION_ADD_RES) - 2;
+			Function.wResultCode = GAME_SUCCESS;
+			SendPacket((char*)&Function, sizeof(sGU_GUILD_FUNCTION_ADD_RES));
+
+			sTU_GUILD_FUNCTION_CHANGE_NFY function1;
+			function1.wOpCode = TU_GUILD_FUNCTION_CHANGE_NFY;
+			function1.wPacketSize = sizeof(sTU_GUILD_FUNCTION_CHANGE_NFY) - 2;
+			function1.byNewFunc = _player->charid;
+			function1.qwGuildFunctionFlag = req->hGuildManagerNpc;
+			SendPacket((char*)&function1, sizeof(sTU_GUILD_FUNCTION_CHANGE_NFY));
+			break;
+		}
+		//---------------------------------------------------------------------------
+		// testear para que cirbe
+		//---------------------------------------------------------------------------
+		case Opcodes::UG_GUILD_CREATE_MARK_REQ:
+		{
+			sUG_GUILD_CREATE_MARK_REQ *req = (sUG_GUILD_CREATE_MARK_REQ*)packet.GetPacketBuffer();
+			sGU_GUILD_CREATE_MARK_RES mark;
+
+			sLog.outError("sGU_GUILD_CREATE_MARK_RES");
+			mark.wOpCode = GU_GUILD_CREATE_MARK_RES;
+			mark.wPacketSize = sizeof(sGU_GUILD_CREATE_MARK_RES) - 2;
+			mark.wResultCode = GAME_SUCCESS;
+			SendPacket((char*)&mark, sizeof(sGU_GUILD_CREATE_MARK_RES));
+			break;
+		}
+		//_----------------
+		case Opcodes::UG_GUILD_CHANGE_MARK_REQ:
+		{
+			sUG_GUILD_CHANGE_MARK_REQ *req = (sUG_GUILD_CHANGE_MARK_REQ*)packet.GetPacketBuffer();
+			sGU_GUILD_CHANGE_MARK_RES ChangeMarck;
+
+			sLog.outError("sGU_GUILD_CHANGE_MARK_RES");
+			ChangeMarck.wOpCode = GU_GUILD_CHANGE_MARK_RES;
+			ChangeMarck.wPacketSize = sizeof(sGU_GUILD_CHANGE_MARK_RES) - 2;
+			ChangeMarck.wResultCode = GAME_SUCCESS;
+			SendPacket((char*)&ChangeMarck, sizeof(sGU_GUILD_CHANGE_MARK_RES));
+			break;
+		}
+		case Opcodes::UG_GUILD_CHANGE_NAME_REQ:
+		{
+			sUG_GUILD_CHANGE_NAME_REQ *req = (sUG_GUILD_CHANGE_NAME_REQ*)packet.GetPacketBuffer();
+			sGU_GUILD_CHANGE_NAME_RES ChangeName;
+
+			sLog.outError("sGU_GUILD_CHANGE_NAME_RES");
+
+			ChangeName.wOpCode = GU_GUILD_CHANGE_NAME_RES;
+			ChangeName.wPacketSize = sizeof(sGU_GUILD_CHANGE_NAME_RES) - 2;
+			ChangeName.wResultCode = GAME_SUCCESS;
+
+			SendPacket((char*)&ChangeName, sizeof(sGU_GUILD_CHANGE_NAME_RES));
+			break;
+
+		}
+		case Opcodes::UG_GUILD_DOGI_CREATE_REQ:
+		{
+			sUG_GUILD_DOGI_CREATE_REQ *req = (sUG_GUILD_DOGI_CREATE_REQ*)packet.GetPacketBuffer();
+			sGU_GUILD_DOGI_CREATE_RES CreateDogi;
+
+			sLog.outError("UG_GUILD_DOGI_CREATE_REQ");
+
+			SendPacket((char*)&CreateDogi, sizeof(sGU_GUILD_DOGI_CREATE_RES));
+			break;
+		}
+		case Opcodes::UG_GUILD_DOGI_CHANGE_REQ:
+		{
+			sUG_GUILD_DOGI_CHANGE_REQ *req = (sUG_GUILD_DOGI_CHANGE_REQ*)packet.GetPacketBuffer();
+			sGU_GUILD_DOGI_CHANGE_RES ChangeDogi;
+
+			sLog.outError("UG_GUILD_DOGI_CHANGE_REQ");
+
+			SendPacket((char*)&ChangeDogi, sizeof(sGU_GUILD_DOGI_CHANGE_RES));
+			break;
+		}
+		case Opcodes::UG_GUILD_BANK_START_REQ:
+		{
+			sUG_GUILD_BANK_START_REQ *req = (sUG_GUILD_BANK_START_REQ*)packet.GetPacketBuffer();
+			sGU_GUILD_BANK_START_RES BankStart;
+
+			BankStart.handle = _player->GetHandle();
+			BankStart.wOpCode = GU_GUILD_BANK_START_RES;
+			BankStart.wPacketSize = sizeof(sGU_GUILD_BANK_START_RES) - 2;
+			BankStart.wResultCode = GAME_SUCCESS;
+
+
+			sLog.outError("UG_GUILD_BANK_START_REQ");
+
+			SendPacket((char*)&BankStart, sizeof(sGU_GUILD_BANK_START_RES));
+			break;
+		}
+		case Opcodes::UG_GUILD_BANK_MOVE_REQ:
+		{
+			sUG_GUILD_BANK_MOVE_REQ *req = (sUG_GUILD_BANK_MOVE_REQ*)packet.GetPacketBuffer();
+			sGU_GUILD_BANK_MOVE_RES BankMove;
+
+			sLog.outError("UG_GUILD_BANK_MOVE_REQ");
+
+			SendPacket((char*)&BankMove, sizeof(sGU_GUILD_BANK_MOVE_RES));
+			break;
+		}
+		case Opcodes::UG_GUILD_BANK_MOVE_STACK_REQ:
+		{
+			sUG_GUILD_BANK_MOVE_STACK_REQ * req = (sUG_GUILD_BANK_MOVE_STACK_REQ*)packet.GetPacketBuffer();
+			sGU_GUILD_BANK_MOVE_STACK_RES BankMoveStack;
+
+			sLog.outError("UG_GUILD_BANK_MOVE_STACK_REQ");
+
+			SendPacket((char*)&BankMoveStack, sizeof(sGU_GUILD_BANK_MOVE_STACK_RES));
+			break;
+		}
+		case Opcodes::UG_GUILD_BANK_END_REQ:
+		{
+			sUG_GUILD_BANK_END_REQ *req = (sUG_GUILD_BANK_END_REQ*)packet.GetPacketBuffer();
+			sGU_GUILD_BANK_END_RES BankEnd;
+
+			BankEnd.wOpCode = GU_GUILD_BANK_END_RES;
+			BankEnd.wPacketSize = sizeof(sGU_BANK_END_RES) - 2;
+			BankEnd.wResultCode = GAME_SUCCESS;
+			sLog.outError("UG_GUILD_BANK_END_REQ");
+
+			SendPacket((char*)&BankEnd, sizeof(sGU_GUILD_BANK_END_RES));
+			break;
+		}
+		case Opcodes::UG_GUILD_BANK_ZENNY_REQ:
+		{
+			sUG_GUILD_BANK_ZENNY_REQ *req = (sUG_GUILD_BANK_ZENNY_REQ*)packet.GetPacketBuffer();
+			sGU_GUILD_BANK_ZENNY_RES BankZenny;
+
+			sLog.outError("UG_GUILD_BANK_ZENNY_REQ");
+
+			SendPacket((char*)&BankZenny, sizeof(sGU_GUILD_BANK_ZENNY_RES));
+
+			break;
+		}
+		case Opcodes::UG_GUILD_DOGI_DYE_REQ:
+		{
+
+			sLog.outError("UG_GUILD_BANK_ZENNY_REQ");
+
 			break;
 		}
 

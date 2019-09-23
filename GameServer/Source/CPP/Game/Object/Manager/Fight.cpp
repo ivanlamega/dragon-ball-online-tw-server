@@ -18,8 +18,8 @@ FightManager::~FightManager()
 
 }
 //----------------------------------------
-// ¿Podemos dañar nuestro objetivo?
-// Necesito verificar si la bandera está configurada como atacable, etc.
+//	Can we damage ou target ?
+//	Need to check if the flag is set to attackable etc
 //----------------------------------------
 bool FightManager::canTakeDamage(Object& Attacker, Object& Target)
 {
@@ -30,7 +30,7 @@ bool FightManager::canTakeDamage(Object& Attacker, Object& Target)
 	return false;
 }
 //----------------------------------------
-//	Consigue la cantidad de nivel entre nosotros y la mafia.
+//	Get the amount of level between us and mob
 //----------------------------------------
 int FightManager::GetLevelDiff()
 {
@@ -39,7 +39,7 @@ int FightManager::GetLevelDiff()
 	return levelDiff;
 }
 //----------------------------------------
-//	Consigue la cantidad de daño que hacer
+//	Get amount of damage to do
 //	@param id - boolean to say if we are caster or cac
 //----------------------------------------
 void FightManager::GetPlayerDamage(bool caster)
@@ -55,7 +55,7 @@ void FightManager::GetPlayerDamage(bool caster)
 	}
 }
 //----------------------------------------
-//	Obtener si nuestro ataque será crítico.
+//	Get if our attack will be critical
 //	@param id - boolean to say if we are caster or cac
 //----------------------------------------
 void FightManager::GetPlayerCriticAttack(bool caster)
@@ -80,7 +80,7 @@ void FightManager::GetPlayerCriticAttack(bool caster)
 	//std::cout << "CritChance = " << CritChance << std::endl;
 }
 //----------------------------------------
-//	Haz que el jugador golpee el cambio
+//	Get the player hit change
 //----------------------------------------
 void FightManager::GetPlayerHitChance()
 {
@@ -95,7 +95,7 @@ void FightManager::GetPlayerHitChance()
 		//attackResult = eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_BLOCK;
 }
 //----------------------------------------
-//	Realizar un ataque automático desde un objeto.
+//	Perform an auto attack from an object
 //	@param id - Attacker - Target as Object
 //----------------------------------------
 bool FightManager::HandleDamage(Object& Attacker, Object& Target)
@@ -118,7 +118,7 @@ bool FightManager::HandleDamage(Object& Attacker, Object& Target)
 		float distance = NtlGetDistance(plr->GetVectorPosition().x, plr->GetVectorPosition().z, plrTarget->GetVectorPosition().x, plrTarget->GetVectorPosition().z);
 		if (distance <= (plr->GetPcProfile()->avatarAttribute.fLastAttackRange) + 2)
 		{
-			/// Ahora puede continuar la verificación de ataque para el jugador.
+			/// can now continue attack verification for player
 			HandlePlrFight();
 			attackCount++;
 		}
@@ -130,7 +130,7 @@ bool FightManager::HandleDamage(Object& Attacker, Object& Target)
 		float distance = NtlGetDistance(plr->GetVectorPosition().x, plr->GetVectorPosition().z, mob->GetMobData().curPos.x, mob->GetMobData().curPos.z);
 		if (distance <= (plr->GetPcProfile()->avatarAttribute.fLastAttackRange) + 2)
 		{
-			/// Ahora puede continuar la verificación de ataque para el jugador.
+			/// can now continue attack verification for player
 			HandlePlrFight();
 			attackCount++;
 		}
@@ -139,7 +139,7 @@ bool FightManager::HandleDamage(Object& Attacker, Object& Target)
 	{
 		if (NtlGetDistance(plr->GetVectorPosition().x, plr->GetVectorPosition().z, mob->GetMobData().curPos.x, mob->GetMobData().curPos.z) <= mob->GetMobData().Attack_range)
 		{
-			/// Ahora puede continuar la verificación de ataque para el jugador.
+			/// can now continue attack verification for mob
 		}
 	}
 	mutexFight.unlock();

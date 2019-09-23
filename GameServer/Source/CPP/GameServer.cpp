@@ -346,7 +346,7 @@ bool GameServer::loadDataTable()
 		}
 		
 		//used to work in Rdf strutures
-	/*	MobTable * dat = sTBM.GetMobTable();
+		MobTable * dat = sTBM.GetMobTable();
 		sMOB_TBLDAT * tbldat = reinterpret_cast<sMOB_TBLDAT*>(dat->FindData(1211101));
 		if (tbldat)
 		{
@@ -359,10 +359,10 @@ bool GameServer::loadDataTable()
 			printf("fDrop_Zenny_Rate %d \n ", tbldat->fDrop_Zenny_Rate);						
 			printf("notknow %f \n ", tbldat->notknow);
 					
-//			printf("burnDefense %d \n ", tbldat->NextID);
+	//	printf("burnDefense %d \n ", tbldat->NextID);
 			
-		}*/
-		/*for (auto it = sTBM.GetWorldMapTable()->Begin(); it != sTBM.GetWorldMapTable()->End(); it++)
+		}
+		for (auto it = sTBM.GetWorldMapTable()->Begin(); it != sTBM.GetWorldMapTable()->End(); it++)
 		{
 			sWORLD_MAP_TBLDAT* tbldat = (sWORLD_MAP_TBLDAT*)it->second;
 			if (tbldat)
@@ -371,7 +371,7 @@ bool GameServer::loadDataTable()
 				//printf("Worldmap_Name %d \n ", tbldat->Worldmap_Name);
 				delete tbldat;
 			}
-		}*/
+		}
 	}
 	return bResult;
 }
@@ -411,7 +411,7 @@ int GameServer::Run()
 	std::cout << "\t    | |_| | | | (_| | (_| | (_) | | | | |_) | (_| | | |" << std::endl;
 	std::cout << "\t    |____/|_|  \\__,_|\\__, |\\___/|_| |_|____/ \\__,_|_|_|" << std::endl;
 	std::cout << "\t                     |___/                             " << std::endl;
-	std::cout << yellow << "\t   	           AKCore 2017					\n\n" << white << std::endl;
+	std::cout << yellow << "\t   	           Baticueva 2019					\n\n" << white << std::endl;
 	sLog.outString("Using configuration file 'GameServer.xml'.");
 	sLog.outString("Using Boost: %s", BOOST_LIB_VERSION);
 

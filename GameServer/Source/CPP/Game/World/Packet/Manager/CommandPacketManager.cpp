@@ -80,7 +80,7 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 			sWorld.SendToAll((char*)&CharAspect, sizeof(sGU_UPDATE_CHAR_ASPECT_STATE));
 			return;
 		}
-		else if (strToken == "@ChangeMap")
+		else if (strToken == "@changemap")
 		{
 			sLog.outDetail("GM Bot Check");
 			strToken = str.substr(pos + 1, std::string::npos);
@@ -260,7 +260,7 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 			printf("Executed\n");
 			return;
 		}
-		else if (strToken == "@DropItem")
+		else if (strToken == "@dropitem")
 		{
 			strToken = str.substr(pos + 1, std::string::npos);
 			unsigned int MobID = (unsigned int)atof(strToken.c_str());
@@ -471,7 +471,7 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 		sNotice.wPacketSize = sizeof(sGU_SYSTEM_DISPLAY_TEXT) - 2;
 
 		sNotice.byDisplayType = eSERVER_TEXT_TYPE::SERVER_TEXT_SYSNOTICE;
-		wcscpy_s(sNotice.awchMessage, BUDOKAI_MAX_NOTICE_LENGTH + 1, (L"You can't control that power, be carefoul with that..."));
+		wcscpy_s(sNotice.awchMessage, BUDOKAI_MAX_NOTICE_LENGTH + 1, (L"No eres Gm, no mames..."));
 		wcscpy_s(sNotice.awGMChar, MAX_SIZE_CHAR_NAME_UNICODE, (L"System"));
 		sNotice.wMessageLengthInUnicode = (WORD)wcslen(sNotice.awchMessage);
 

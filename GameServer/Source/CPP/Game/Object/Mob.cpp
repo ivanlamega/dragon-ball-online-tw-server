@@ -4,14 +4,14 @@
 #include <Game\Object\Player.h>
 #include <Logger.h>
 
-bool hasmoved = true;//false;
+bool hasmoved = false;
 //----------------------------------------
 //	Mob Constructor
 //----------------------------------------
 Mob::Mob() : Object()
 {
 	m_objectType = eOBJTYPE::OBJTYPE_MOB;
-	lastMoveTime = 10; //0;
+	lastMoveTime = 0;
 	randMove = rand() % 100 + 10;
 }
 //----------------------------------------
@@ -226,7 +226,7 @@ bool Mob::Create(sMOB_TBLDAT* mobTbl, SpawnMOB spawnInfo)
 }
 
 //----------------------------------------
-//	Crea la mafia y llena toda la información. Añade información de generación para que se pueda agregar mafia.
+//	Create the mob and fill all info Add spawn info so that mob can be added.
 //----------------------------------------
 bool Mob::Create(sSPAWN_TBLDAT* spawnTbl, sMOB_TBLDAT* mobTbl)
 {
@@ -350,7 +350,7 @@ bool Mob::Create(sSPAWN_TBLDAT* spawnTbl, sMOB_TBLDAT* mobTbl)
 	return true;
 }
 //----------------------------------------
-//	Quitar del mundo
+//	Remove from world
 //----------------------------------------
 void Mob::Update(uint32 update_diff, uint32 time)
 {
@@ -381,7 +381,7 @@ void Mob::MoveToPoint()
 				//printf("plr->isFlying %d \n ", plr->GetFlying());
 				float dist = NtlGetDistance(me.curPos.x, me.curPos.z, plr->GetVectorPosition().x, plr->GetVectorPosition().z);
 				///////////////////////////////////////
-				//Necesita moverse al jugador antes del ataque //
+				//Need Move to Player Before Attack //
 				/////////////////////////////////////
 				if (dist <= 10)
 				{
@@ -400,12 +400,12 @@ void Mob::MoveToPoint()
 					res.vCurLoc.y = me.Spawn_Loc.y;
 					res.vCurLoc.z = me.Spawn_Loc.z;
 
-					res.avDestLoc[5].x = plr->GetVectorPosition().x;//0
-					res.avDestLoc[5].y = plr->GetVectorPosition().y;
-					res.avDestLoc[5].z = plr->GetVectorPosition().z;
+					res.avDestLoc[0].x = plr->GetVectorPosition().x;
+					res.avDestLoc[0].y = plr->GetVectorPosition().y;
+					res.avDestLoc[0].z = plr->GetVectorPosition().z;
 					res.unknown = 0;
 
-					GetState()->sCharStateDetail.sCharStateDestMove.dwTimeStamp = rand() % 20 - 1; //1?
+					GetState()->sCharStateDetail.sCharStateDestMove.dwTimeStamp = 0x01;
 					GetState()->sCharStateDetail.sCharStateDestMove.byMoveFlag = res.byMoveFlag;
 					GetState()->sCharStateDetail.sCharStateDestMove.vSecondDestLoc = res.vSecondDestLoc;
 					GetState()->sCharStateDetail.sCharStateDestMove.unknown = INVALID_BYTE;
@@ -421,11 +421,11 @@ void Mob::MoveToPoint()
 	}
 }
 //----------------------------------------
-//Hago un texto aquí Necesito eliminar todo lo que más tarde mierda y rehacer
+//I do some test Here Need Delet all that Shit Later and Remake
 //----------------------------------------
 void Mob::CheckAgro()
 {
-	lastMoveTime += 10;	//1
+	lastMoveTime += 1;	
 	for (auto it = m_MobRef.getTarget()->GetPlayers().begin(); it != m_MobRef.getTarget()->GetPlayers().end(); ++it)
 	{
 		if (it->getSource())
@@ -444,7 +444,7 @@ void Mob::CheckAgro()
 				}
 				//if Distance difrence <= 10 start Mob attack...
 				//need Find What mob are Agressive or not "in the moment all are Agressive"
-				if (dist <= 6 && plr->GetIsDead() == false && plr->GetIsFlying() == false) //True=false
+				if (dist <= 6 && plr->GetIsDead() == false && plr->GetIsFlying() == false)
 				{
 					if (lastMoveTime > 3 || lastMoveTime <= 0)
 						lastMoveTime = BATTLE_CHAIN_ATTACK_START;
@@ -494,14 +494,11 @@ void Mob::CheckAgro()
 					//float attackValue = me.Basic_Offence * ((1 - plr->GetPcProfile()->avatarAttribute.wLastPhysicalDefence / (plr->GetPcProfile()->avatarAttribute.wLastPhysicalDefence + me.Level * 40)) + ((me.Level - plr->GetPcProfile()->byLevel) * 0.005));
 					//float attackValue = (me.Basic_Offence - plr->GetPcProfile()->avatarAttribute.wLastPhysicalDefence) / 2;
 					//float attackValue = (plr->GetPcProfile()->avatarAttribute.wLastPhysicalDefence / 100) * 
-					if (attackValue <= 1 || attackValue > 1000000000)
+					if (attackValue <= 0 || attackValue > 1000000000)
 					{
-						attackValue = rand() % 20 - 1;
+						attackValue = rand() % (plr->GetPcProfile()->avatarAttribute.byLastStr * 3) % (plr->GetPcProfile()->avatarAttribute.byLastStr * 6); //Fixed the formula for now. Player stat's have to be read correctly;
 					}
-					if (attackValue <= 2 || attackValue > 1000000000)
-					{
-						attackValue = rand() % 30 - 1;
-					}
+
 					//printf("Moster Atack  %d \n ", me.Basic_Offence);
 					//printf("Player Defense %d \n ", plr->GetPcProfile()->avatarAttribute.wLastPhysicalDefence);
 					//printf("Moster Finnal Attack Value  %d \n ", PhysicalOffence);
@@ -529,8 +526,8 @@ void Mob::CheckAgro()
 
 					if (attackResult != eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_DODGE)
 					{
-						if (attackers == 10)		//add
-							attackers = me.UniqueID;//add
+						//if (attackers == 0)
+							//attackers = me.UniqueID;
 						plr->TakeMobDemage(attackValue);
 					}
 				}
@@ -606,7 +603,7 @@ void Mob::TakeDamage(uint32 amount)
 	}
 }
 //----------------------------------------
-//	Enviar el nuevo estado de la mafia como muerte.
+//	Send the new mob state as Death
 //----------------------------------------
 void Mob::SendDeath()
 {

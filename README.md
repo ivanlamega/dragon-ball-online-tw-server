@@ -1,13 +1,32 @@
-Dragon Ball Online Server
-======
+####Desarrollo Emulador Taiwan####
 
-## Prerequisites
+Server Developpement:
 
-In order to compile the emulator you need to download and unzip these files in the project folder:
-https://mega.nz/#!Ux9zWKaR!PvX7xkzdFpGCSHITBwtxJyZyKEidvxC0dLkPEnIWB_g
+- Auth Server:
+  - 99% hecho.
+  - TODO:
+ -Falta multi server ##no primordial
 
-The project must be compiled in Release x64 mode
-
-Use Visual Studio 2015+
-
-Client: https://mega.nz/#F!ruIXkAoD!ovOlIJue...Qv2jw!bjQT0SBR & https://mega.nz/#!khsFwZjT!6ND6DqSOs...rZLS30NrvSb_5M
+- Char Server:
+  - 90% hecho.
+  - TODO:
+    - Paquetes no arraigados:
+      - UC_CONNECT_WAIT_CANCEL_REQ
+      - UC_CASHITEM_HLSHOP_REFRESH_REQ ??
+      - UC_CASHITEM_BUY_REQ ?
+    - Cola para loguear. #No primordial
+    
+- GameServer
+  - 5 % hecho
+  - Se puede loguear
+    - NPC / MOB spawm perfecto
+      - Error: Revisar mobs spawm de quest
+    - INVENTORY
+      - vender
+      - comprar
+    - TELEPORT
+      - error
+    - STATS
+      - Calculo por nivel
+      - Level up
+      - calcular por equipamento

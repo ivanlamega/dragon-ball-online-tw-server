@@ -64,6 +64,46 @@ void			CommunitySession::PacketParser(Packet& packet)
 		SendHlsSlotMachineWinnerInfo(packet);
 		break;
 	}
+	case UT_GUILD_DISBAND_REQ:
+	{
+		SendGuildDisband(packet);
+		break;
+	}
+	case UT_GUILD_RESPONSE_INVITATION:
+	{
+		SendGuildInvitationResponse(packet);
+		break;
+	}
+	case UT_GUILD_LEAVE_REQ:
+	{
+		SendGuildLeave(packet);
+		break;
+	}
+	case UT_GUILD_KICK_OUT_REQ:
+	{
+		SendGuildKickOut(packet);
+		break;
+	}
+	case UT_GUILD_APPOINT_SECOND_MASTER_REQ:
+	{
+		SendAppointSecondMaster(packet);
+		break;
+	}
+	case UT_GUILD_DISMISS_SECOND_MASTER_REQ:
+	{
+		SendDismissSecondMaster(packet);
+		break;
+	}
+	case UT_GUILD_CHANGE_GUILD_MASTER_REQ:
+	{
+		SendChangeGuildMaster(packet);
+		break;
+	}
+	case UT_GUILD_CHANGE_NOTICE_REQ:
+	{
+		SendChangeNotice(packet);
+		break;
+	}
 		default:
 		{
 			try

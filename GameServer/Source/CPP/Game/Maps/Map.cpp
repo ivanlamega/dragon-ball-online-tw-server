@@ -148,10 +148,10 @@ bool Map::Add(Player* player)
 	player->AddToWorld();
 
 	sGU_SYSTEM_DISPLAY_TEXT test;
-	memcpy(test.awchMessage, (L"Welcome to dragon ball reborn !"), 257);
+	memcpy(test.awchMessage, (L"Hakuna Matata !"), 257);
 	memcpy(test.awGMChar, (L"system"), 17);
 	test.byDisplayType = eSERVER_TEXT_TYPE::SERVER_TEXT_SYSTEM;
-	test.wMessageLengthInUnicode = strlen("Welcome to dragon ball reborn !");
+	test.wMessageLengthInUnicode = strlen("Hakuna Matata !");
 	test.wOpCode = GU_SYSTEM_DISPLAY_TEXT;
 	test.wPacketSize = sizeof(sGU_SYSTEM_DISPLAY_TEXT) - 2;
 	player->SendPacket((char*)&test, sizeof(sGU_SYSTEM_DISPLAY_TEXT));

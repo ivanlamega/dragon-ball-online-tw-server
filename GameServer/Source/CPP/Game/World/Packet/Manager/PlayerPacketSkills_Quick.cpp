@@ -120,9 +120,9 @@ void	WorldSession::SendUpdateSkillPassiveAtribute()
 				SystemEffectData = (sSYSTEM_EFFECT_TBLDAT*)sTBM.GetSystemEffectTable()->FindData(skillDataOriginal->skill_Effect[Effect]);
 				if (SystemEffectData != NULL)
 				{
-				//	printf("skill_Effect %d \n", skillDataOriginal->skill_Effect[Effect]);
-				//	printf("effectCode %d \n", SystemEffectData->effectCode);
-				//	printf("Effect %d \n", Effect);
+				printf("skill_Effect %d \n", skillDataOriginal->skill_Effect[Effect]);
+				printf("effectCode %d \n", SystemEffectData->effectCode);
+				printf("Effect %d \n", Effect);
 					switch (SystemEffectData->effectCode)
 					{
 					case PASSIVE_MAX_LP_UP:
@@ -182,7 +182,7 @@ void	WorldSession::SendUpdateSkillPassiveAtribute()
 					{					
 						_player->GetAttributesManager()->SetLastFoc(skillDataOriginal->SkillValue[Effect]);
 						WORD LevelFoc = skillDataOriginal->SkillValue[Effect];
-						float EnergyCriticalByPoint = 0.2; // 1Focus = 1 pont critical 
+						float EnergyCriticalByPoint = 2; // 1Focus = 1 pont critical 
 						float EnergyAttackByPoint = 2; // 1Focus = 1 pont critical 
 						WORD EnergyCriticalRate = static_cast<WORD>(LevelFoc * EnergyCriticalByPoint);
 						WORD EnergyAttack = static_cast<WORD>(LevelFoc * EnergyAttackByPoint);
@@ -195,7 +195,7 @@ void	WorldSession::SendUpdateSkillPassiveAtribute()
 						
 						_player->GetAttributesManager()->SetLastDex(skillDataOriginal->SkillValue[Effect]);
 						WORD LevelDex = skillDataOriginal->SkillValue[Effect];
-						float CriticalAttackByPoint = 0.2; // 1Dex = 1 critical old tw
+						float CriticalAttackByPoint = 2; // 1Dex = 1 critical old tw
 						float PhyAttackByPoint = 2; // 1Dex = 1 phyattack old tw
 						WORD PhysicalCriticalRate = static_cast<WORD>(LevelDex * CriticalAttackByPoint);
 						WORD PhysicalAttack = static_cast<WORD>(LevelDex * PhyAttackByPoint);
@@ -207,7 +207,7 @@ void	WorldSession::SendUpdateSkillPassiveAtribute()
 					{					
 						_player->GetAttributesManager()->SetLastSol(skillDataOriginal->SkillValue[Effect]);
 						WORD LevelSol = skillDataOriginal->SkillValue[Effect];
-						float SolByPoint = 1.66; // 1Soul = 1.66 Physical old tw
+						float SolByPoint = 5; // 1Soul = 1.66 Physical old tw
 						WORD EnergyOffence = static_cast<WORD>(LevelSol * SolByPoint);
 						_player->GetAttributesManager()->SetLastEnergyOffence(EnergyOffence);						
 						break;
@@ -326,7 +326,7 @@ void	WorldSession::SendUpdateSkillPassiveAtributeByID(TBLIDX SkillID, bool isRem
 						_player->GetAttributesManager()->SetLastStr(skillDataOriginal->SkillValue[Effect] * -1);
 
 						WORD LevelStr = skillDataOriginal->SkillValue[Effect];
-						float StrByPoint = 1.66; // 1Str = 1.66 Physical old tw
+						float StrByPoint = 5; // 1Str = 1.66 Physical old tw
 						WORD PhysicalOffence = static_cast<WORD>(LevelStr * StrByPoint);
 
 						_player->GetAttributesManager()->SetLastPhysicalOffence(PhysicalOffence * -1);
@@ -336,7 +336,7 @@ void	WorldSession::SendUpdateSkillPassiveAtributeByID(TBLIDX SkillID, bool isRem
 						_player->GetAttributesManager()->SetLastStr(skillDataOriginal->SkillValue[Effect]);
 
 						WORD LevelStr = skillDataOriginal->SkillValue[Effect];
-						float StrByPoint = 1.66; // 1Str = 1.66 Physical old tw
+						float StrByPoint = 5; // 1Str = 1.66 Physical old tw
 						WORD PhysicalOffence = static_cast<WORD>(LevelStr * StrByPoint);
 
 						_player->GetAttributesManager()->SetLastPhysicalOffence(PhysicalOffence);
@@ -350,7 +350,7 @@ void	WorldSession::SendUpdateSkillPassiveAtributeByID(TBLIDX SkillID, bool isRem
 						_player->GetAttributesManager()->SetLastCon(skillDataOriginal->SkillValue[Effect] * -1);
 
 						float LevelCon = skillDataOriginal->SkillValue[Effect];
-						float ConByPoint = 95; // 1con = 85 old tw
+						float ConByPoint = 200; // 1con = 85 old tw
 						float LP = static_cast<float>(LevelCon * ConByPoint);
 
 						_player->GetAttributesManager()->SetLastMaxLP(LP * -1);
@@ -360,7 +360,7 @@ void	WorldSession::SendUpdateSkillPassiveAtributeByID(TBLIDX SkillID, bool isRem
 						_player->GetAttributesManager()->SetLastCon(skillDataOriginal->SkillValue[Effect]);
 
 						float LevelCon = skillDataOriginal->SkillValue[Effect];
-						float ConByPoint = 95; // 1con = 85 old tw
+						float ConByPoint = 200; // 1con = 85 old tw
 						float LP = static_cast<float>(LevelCon * ConByPoint);
 
 						_player->GetAttributesManager()->SetLastMaxLP(LP);
@@ -374,8 +374,8 @@ void	WorldSession::SendUpdateSkillPassiveAtributeByID(TBLIDX SkillID, bool isRem
 						_player->GetAttributesManager()->SetLastFoc(skillDataOriginal->SkillValue[Effect] * -1);
 
 						WORD LevelFoc = skillDataOriginal->SkillValue[Effect];
-						float EnergyCriticalByPoint = 0.2; // 1Focus = 1 pont critical 
-						float EnergyAttackByPoint = 2; // 1Focus = 1 pont critical 
+						float EnergyCriticalByPoint = 5; // 1Focus = 1 pont critical 
+						float EnergyAttackByPoint = 5; // 1Focus = 1 pont critical 
 						WORD EnergyCriticalRate = static_cast<WORD>(LevelFoc * EnergyCriticalByPoint);
 						WORD EnergyAttack = static_cast<WORD>(LevelFoc * EnergyAttackByPoint);
 
@@ -387,8 +387,8 @@ void	WorldSession::SendUpdateSkillPassiveAtributeByID(TBLIDX SkillID, bool isRem
 						_player->GetAttributesManager()->SetLastFoc(skillDataOriginal->SkillValue[Effect]);
 
 						WORD LevelFoc = skillDataOriginal->SkillValue[Effect];
-						float EnergyCriticalByPoint = 0.2; // 1Focus = 1 pont critical 
-						float EnergyAttackByPoint = 2; // 1Focus = 1 pont critical 
+						float EnergyCriticalByPoint = 5; // 1Focus = 1 pont critical 
+						float EnergyAttackByPoint = 5; // 1Focus = 1 pont critical 
 						WORD EnergyCriticalRate = static_cast<WORD>(LevelFoc * EnergyCriticalByPoint);
 						WORD EnergyAttack = static_cast<WORD>(LevelFoc * EnergyAttackByPoint);
 
@@ -404,8 +404,8 @@ void	WorldSession::SendUpdateSkillPassiveAtributeByID(TBLIDX SkillID, bool isRem
 						_player->GetAttributesManager()->SetLastDex(skillDataOriginal->SkillValue[Effect] * -1);
 
 						WORD LevelDex = skillDataOriginal->SkillValue[Effect];
-						float CriticalAttackByPoint = 0.2; // 1Dex = 1 critical old tw
-						float PhyAttackByPoint = 2; // 1Dex = 1 phyattack old tw
+						float CriticalAttackByPoint = 5; // 1Dex = 1 critical old tw
+						float PhyAttackByPoint = 5; // 1Dex = 1 phyattack old tw
 						WORD PhysicalCriticalRate = static_cast<WORD>(LevelDex * CriticalAttackByPoint);
 						WORD PhysicalAttack = static_cast<WORD>(LevelDex * PhyAttackByPoint);
 
@@ -417,8 +417,8 @@ void	WorldSession::SendUpdateSkillPassiveAtributeByID(TBLIDX SkillID, bool isRem
 						_player->GetAttributesManager()->SetLastDex(skillDataOriginal->SkillValue[Effect]);
 
 						WORD LevelDex = skillDataOriginal->SkillValue[Effect];
-						float CriticalAttackByPoint = 0.2; // 1Dex = 1 critical old tw
-						float PhyAttackByPoint = 2; // 1Dex = 1 phyattack old tw
+						float CriticalAttackByPoint = 5; // 1Dex = 1 critical old tw
+						float PhyAttackByPoint = 5; // 1Dex = 1 phyattack old tw
 						WORD PhysicalCriticalRate = static_cast<WORD>(LevelDex * CriticalAttackByPoint);
 						WORD PhysicalAttack = static_cast<WORD>(LevelDex * PhyAttackByPoint);
 
@@ -434,7 +434,7 @@ void	WorldSession::SendUpdateSkillPassiveAtributeByID(TBLIDX SkillID, bool isRem
 						_player->GetAttributesManager()->SetLastSol(skillDataOriginal->SkillValue[Effect] * -1);
 
 						WORD LevelSol = skillDataOriginal->SkillValue[Effect];
-						float SolByPoint = 1.66; // 1Soul = 1.66 Physical old tw
+						float SolByPoint = 5; // 1Soul = 1.66 Physical old tw
 						WORD EnergyOffence = static_cast<WORD>(LevelSol * SolByPoint);
 
 						_player->GetAttributesManager()->SetLastEnergyOffence(EnergyOffence * -1);
@@ -444,7 +444,7 @@ void	WorldSession::SendUpdateSkillPassiveAtributeByID(TBLIDX SkillID, bool isRem
 						_player->GetAttributesManager()->SetLastSol(skillDataOriginal->SkillValue[Effect]);
 
 						WORD LevelSol = skillDataOriginal->SkillValue[Effect];
-						float SolByPoint = 1.66; // 1Soul = 1.66 Physical old tw
+						float SolByPoint = 5; // 1Soul = 1.66 Physical old tw
 						WORD EnergyOffence = static_cast<WORD>(LevelSol * SolByPoint);
 
 						_player->GetAttributesManager()->SetLastEnergyOffence(EnergyOffence);

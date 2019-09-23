@@ -42,7 +42,7 @@ bool GameSocket::HandleAuthSession(Packet& packet)
 	res.wPacketSize = sizeof(sGU_GAME_ENTER_RES) - 2;
 	res.wResultCode = GAME_SUCCESS;
 	strcpy_s(res.achCommunityServerIP, sizeof(res.achCommunityServerIP), "127.0.0.1");
-	res.wCommunityServerPort = 50350;
+	res.wCommunityServerPort = 50500;
 	res.timeDBOEnter = time(NULL);
 
 	if (!(m_session = new WorldSession(req->accountId, this, (AccountTypes)sDB.GetIsGameMaster(req->accountId))))
