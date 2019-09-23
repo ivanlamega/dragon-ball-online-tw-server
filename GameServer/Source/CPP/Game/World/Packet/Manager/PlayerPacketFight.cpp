@@ -334,18 +334,19 @@ void WorldSession::HandleUseSkill(Packet& packet)
 				if (CriticRate >= 0 && CriticRate <= 60)
 				{
 					AttackType[Demagecount] = eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_HIT;
+					DemageValue[Demagecount] *= 20;
 				}
 				if (CriticRate >= 61 && CriticRate <= 80)
 				{
 					AttackType[Demagecount] = eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_CRITICAL_HIT;
-					DemageValue[Demagecount] *= 2;
+					DemageValue[Demagecount] *= 40;
 				}
 				if (CriticRate >= 81 && CriticRate <= 100)
 				{
 					AttackType[Demagecount] = eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_DODGE;
 					DemageValue[Demagecount] = 0;
 				}
-				if (DemageValue[Demagecount] < 0 || DemageValue[Demagecount] > 1000000000)
+				if (DemageValue[Demagecount] < 500 || DemageValue[Demagecount] > 9000000000)
 				{
 					DemageValue[Demagecount] = skillDataOriginal->SkillValue[0];
 				}
