@@ -54,6 +54,7 @@ void WorldSession::HandleUseSkill(Packet& packet)
 	sSkil.wOpCode = GU_CHAR_SKILL_RES;
 	sSkil.wResultCode = GAME_SKILL_CANT_CAST_NOW;
 	int DemageValue[40];
+	int HealValue[40];
 	int AttackType[40];
 	int skillID = _player->skillManager.getIdAtPos(pCharSkillReq->bySlotIndex);
 	SkillTable * skillTable = sTBM.GetSkillTable();
@@ -62,9 +63,11 @@ void WorldSession::HandleUseSkill(Packet& packet)
 	{
 		_player->GetAttributesManager()->SetSkillSpeed(skillDataOriginal->fCasting_Time);
 		int Demagecount = 0;
+		int HealCount = 0;
 		for (int D = 0; D < skillDataOriginal->byApply_Target_Max; D++)
 		{
 			DemageValue[D] = 0;
+			HealValue[D] = 0;
 			AttackType[D] = 0;
 			Mob* MobInfo = static_cast<Mob*>(_player->GetFromList(pCharSkillReq->ahApplyTarget[D]));
 			if (MobInfo != NULL && MobInfo->GetIsDead() == false)
@@ -94,6 +97,46 @@ void WorldSession::HandleUseSkill(Packet& packet)
 						float FinalPercent = attack * 100 / TotalAttack;
 						DemageValue[Demagecount] = attack * FinalPercent / 100;
 					}
+					if (skillDataOriginal->bySkill_Active_Type == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_DD)
+					{
+						float damage = skillDataOriginal->SkillValue[0];
+						DemageValue[Demagecount] = damage;
+					}
+					if (skillDataOriginal->bySkill_Active_Type == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_DOT)
+					{
+						for (int i = 0; i < skillDataOriginal->wKeep_Time; i++) {
+							float damage = skillDataOriginal->SkillValue[0];
+							DemageValue[Demagecount] = damage;
+						}
+					}
+					/*	if (skillDataOriginal->bySkill_Active_Type == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_DH)
+					{
+					float heal = skillDataOriginal->SkillValue[0];
+					HealValue[HealCount] = heal;
+					}
+					if (skillDataOriginal->bySkill_Active_Type == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_HOT)
+					{
+					for (int i = 0; i < skillDataOriginal->wKeep_Time; i++) {
+					float heal = skillDataOriginal->SkillValue[0];
+					HealValue[HealCount] = heal;
+					}
+					}
+					if (skillDataOriginal->bySkill_Active_Type == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_DB)
+					{
+
+					}
+					if (skillDataOriginal->bySkill_Active_Type == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_BB)
+					{
+
+					}
+					if (skillDataOriginal->bySkill_Active_Type == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_DC)
+					{
+
+					}
+					if (skillDataOriginal->bySkill_Active_Type == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_CB)
+					{
+
+					}*/
 				}
 				if (skillDataOriginal->bySkill_Effect_Type[1] == 0)
 				{
@@ -118,6 +161,46 @@ void WorldSession::HandleUseSkill(Packet& packet)
 						float FinalPercent = attack * 100 / TotalAttack;
 						DemageValue[Demagecount] = attack * FinalPercent / 100;
 					}
+					if (skillDataOriginal->bySkill_Active_Type == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_DD)
+					{
+						float damage = skillDataOriginal->SkillValue[1];
+						DemageValue[Demagecount] = damage;
+					}
+					if (skillDataOriginal->bySkill_Active_Type == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_DOT)
+					{
+						for (int i = 0; i < skillDataOriginal->wKeep_Time; i++) {
+							float damage = skillDataOriginal->SkillValue[1];
+							DemageValue[Demagecount] = damage;
+						}
+					}
+					/*	if (skillDataOriginal->bySkill_Active_Type == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_DH)
+					{
+					float heal = skillDataOriginal->SkillValue[1];
+					HealValue[HealCount] = heal;
+					}
+					if (skillDataOriginal->bySkill_Active_Type == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_HOT)
+					{
+					for (int i = 0; i < skillDataOriginal->wKeep_Time; i++) {
+					float heal = skillDataOriginal->SkillValue[1];
+					HealValue[HealCount] = heal;
+					}
+					}
+					if (skillDataOriginal->bySkill_Active_Type == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_DB)
+					{
+
+					}
+					if (skillDataOriginal->bySkill_Active_Type == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_BB)
+					{
+
+					}
+					if (skillDataOriginal->bySkill_Active_Type == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_DC)
+					{
+
+					}
+					if (skillDataOriginal->bySkill_Active_Type == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_CB)
+					{
+
+					}*/
 				}
 				//Next Type
 				if (skillDataOriginal->bySkill_Effect_Type[0] == 1)
@@ -143,6 +226,46 @@ void WorldSession::HandleUseSkill(Packet& packet)
 						float FinalPercent = attack * 100 / TotalAttack;
 						DemageValue[Demagecount] = attack * FinalPercent / 100;
 					}
+					if (skillDataOriginal->bySkill_Active_Type == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_DD)
+					{
+						float damage = skillDataOriginal->SkillValue[0];
+						DemageValue[Demagecount] = damage;
+					}
+					if (skillDataOriginal->bySkill_Active_Type == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_DOT)
+					{
+						for (int i = 0; i < skillDataOriginal->wKeep_Time; i++) {
+							float damage = skillDataOriginal->SkillValue[0];
+							DemageValue[Demagecount] = damage;
+						}
+					}
+					/*	if (skillDataOriginal->bySkill_Active_Type == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_DH)
+					{
+					float heal = skillDataOriginal->SkillValue[0];
+					HealValue[HealCount] = heal;
+					}
+					if (skillDataOriginal->bySkill_Active_Type == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_HOT)
+					{
+					for (int i = 0; i < skillDataOriginal->wKeep_Time; i++) {
+					float heal = skillDataOriginal->SkillValue[0];
+					HealValue[HealCount] = heal;
+					}
+					}
+					if (skillDataOriginal->bySkill_Active_Type == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_DB)
+					{
+
+					}
+					if (skillDataOriginal->bySkill_Active_Type == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_BB)
+					{
+
+					}
+					if (skillDataOriginal->bySkill_Active_Type == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_DC)
+					{
+
+					}
+					if (skillDataOriginal->bySkill_Active_Type == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_CB)
+					{
+
+					}*/
 				}
 				if (skillDataOriginal->bySkill_Effect_Type[1] == 1)
 				{
@@ -167,22 +290,63 @@ void WorldSession::HandleUseSkill(Packet& packet)
 						float FinalPercent = attack * 100 / TotalAttack;
 						DemageValue[Demagecount] = attack * FinalPercent / 100;
 					}
+					if (skillDataOriginal->bySkill_Active_Type == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_DD)
+					{
+						float damage = skillDataOriginal->SkillValue[1];
+						DemageValue[Demagecount] = damage;
+					}
+					if (skillDataOriginal->bySkill_Active_Type == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_DOT)
+					{
+						for (int i = 0; i < skillDataOriginal->wKeep_Time; i++) {
+							float damage = skillDataOriginal->SkillValue[1];
+							DemageValue[Demagecount] = damage;
+						}
+					}
+					/*if (skillDataOriginal->bySkill_Active_Type == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_DH)
+					{
+					float heal = skillDataOriginal->SkillValue[1];
+					HealValue[HealCount] = heal;
+					}
+					if (skillDataOriginal->bySkill_Active_Type == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_HOT)
+					{
+					for (int i = 0; i < skillDataOriginal->wKeep_Time; i++) {
+					float heal = skillDataOriginal->SkillValue[1];
+					HealValue[HealCount] = heal;
+					}
+					}
+					if (skillDataOriginal->bySkill_Active_Type == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_DB)
+					{
+
+					}
+					if (skillDataOriginal->bySkill_Active_Type == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_BB)
+					{
+
+					}
+					if (skillDataOriginal->bySkill_Active_Type == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_DC)
+					{
+
+					}
+					if (skillDataOriginal->bySkill_Active_Type == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_CB)
+					{
+
+					}*/
 				}
 				if (CriticRate >= 0 && CriticRate <= 60)
 				{
 					AttackType[Demagecount] = eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_HIT;
+					DemageValue[Demagecount] *= 20;
 				}
 				if (CriticRate >= 61 && CriticRate <= 80)
 				{
 					AttackType[Demagecount] = eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_CRITICAL_HIT;
-					DemageValue[Demagecount] *= 2;
+					DemageValue[Demagecount] *= 40;
 				}
 				if (CriticRate >= 81 && CriticRate <= 100)
 				{
 					AttackType[Demagecount] = eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_DODGE;
 					DemageValue[Demagecount] = 0;
 				}
-				if (DemageValue[Demagecount] < 0 || DemageValue[Demagecount] > 1000000000)
+				if (DemageValue[Demagecount] < 500 || DemageValue[Demagecount] > 9000000000)
 				{
 					DemageValue[Demagecount] = skillDataOriginal->SkillValue[0];
 				}
@@ -416,7 +580,7 @@ void WorldSession::HandleUseSkill(Packet& packet)
 					skillRes.aSkillResult[0].hTarget = _player->GetHandle();
 					skillRes.aSkillResult[0].byAttackResult = 0;
 					skillRes.aSkillResult[0].effectResult[Effect].eResultType = 0xFF;
-					skillRes.aSkillResult[0].effectResult[Effect].Value1 = (float)skillDataOriginal->SkillValue[Effect];
+					skillRes.aSkillResult[0].effectResult[Effect].Value1 = skillDataOriginal->SkillValue[Effect];
 					skillRes.aSkillResult[0].byBlockedAction = 0;
 					skillRes.aSkillResult[0].unk1 = 0;
 					skillRes.aSkillResult[0].vShift.x = 0;
@@ -459,7 +623,7 @@ void WorldSession::HandleUseSkill(Packet& packet)
 					skillRes.aSkillResult[0].hTarget = _player->GetHandle();
 					skillRes.aSkillResult[0].byAttackResult = 0;
 					skillRes.aSkillResult[0].effectResult[Effect].eResultType = 0xFF;
-					skillRes.aSkillResult[0].effectResult[Effect].Value1 = (float)skillDataOriginal->SkillValue[Effect];
+					skillRes.aSkillResult[0].effectResult[Effect].Value1 = skillDataOriginal->SkillValue[Effect];
 					skillRes.aSkillResult[0].byBlockedAction = 0;
 					skillRes.aSkillResult[0].unk1 = 0;
 					skillRes.aSkillResult[0].vShift.x = 0;
@@ -502,7 +666,7 @@ void WorldSession::HandleUseSkill(Packet& packet)
 					skillRes.aSkillResult[0].hTarget = _player->GetHandle();
 					skillRes.aSkillResult[0].byAttackResult = 0;
 					skillRes.aSkillResult[0].effectResult[Effect].eResultType = 0xFF;
-					skillRes.aSkillResult[0].effectResult[Effect].Value1 = (float)skillDataOriginal->SkillValue[Effect];
+					skillRes.aSkillResult[0].effectResult[Effect].Value1 = skillDataOriginal->SkillValue[Effect];
 					skillRes.aSkillResult[0].byBlockedAction = 0;
 					skillRes.aSkillResult[0].unk1 = 0;
 					skillRes.aSkillResult[0].vShift.x = 0;
@@ -544,7 +708,7 @@ void WorldSession::HandleUseSkill(Packet& packet)
 					skillRes.aSkillResult[0].hTarget = _player->GetHandle();
 					skillRes.aSkillResult[0].byAttackResult = 0;
 					skillRes.aSkillResult[0].effectResult[Effect].eResultType = 0xFF;
-					skillRes.aSkillResult[0].effectResult[Effect].Value1 = (float)skillDataOriginal->SkillValue[Effect];
+					skillRes.aSkillResult[0].effectResult[Effect].Value1 = skillDataOriginal->SkillValue[Effect];
 					skillRes.aSkillResult[0].byBlockedAction = 0;
 					skillRes.aSkillResult[0].unk1 = 0;
 					skillRes.aSkillResult[0].vShift.x = 0;
@@ -587,7 +751,7 @@ void WorldSession::HandleUseSkill(Packet& packet)
 					skillRes.aSkillResult[0].hTarget = _player->GetHandle();
 					skillRes.aSkillResult[0].byAttackResult = 0;
 					skillRes.aSkillResult[0].effectResult[Effect].eResultType = 0xFF;
-					skillRes.aSkillResult[0].effectResult[Effect].Value1 = (float)skillDataOriginal->SkillValue[Effect];
+					skillRes.aSkillResult[0].effectResult[Effect].Value1 = skillDataOriginal->SkillValue[Effect];
 					skillRes.aSkillResult[0].byBlockedAction = 0;
 					skillRes.aSkillResult[0].unk1 = 0;
 					skillRes.aSkillResult[0].vShift.x = 0;
@@ -630,7 +794,7 @@ void WorldSession::HandleUseSkill(Packet& packet)
 					skillRes.aSkillResult[0].hTarget = _player->GetHandle();
 					skillRes.aSkillResult[0].byAttackResult = 0;
 					skillRes.aSkillResult[0].effectResult[Effect].eResultType = 0xFF;
-					skillRes.aSkillResult[0].effectResult[Effect].Value1 = (float)skillDataOriginal->SkillValue[Effect];
+					skillRes.aSkillResult[0].effectResult[Effect].Value1 = skillDataOriginal->SkillValue[Effect];
 					skillRes.aSkillResult[0].byBlockedAction = 0;
 					skillRes.aSkillResult[0].unk1 = 0;
 					skillRes.aSkillResult[0].vShift.x = 0;
@@ -673,7 +837,7 @@ void WorldSession::HandleUseSkill(Packet& packet)
 					skillRes.aSkillResult[0].hTarget = _player->GetHandle();
 					skillRes.aSkillResult[0].byAttackResult = 0;
 					skillRes.aSkillResult[0].effectResult[Effect].eResultType = 0xFF;
-					skillRes.aSkillResult[0].effectResult[Effect].Value1 = (float)skillDataOriginal->SkillValue[Effect];
+					skillRes.aSkillResult[0].effectResult[Effect].Value1 = skillDataOriginal->SkillValue[Effect];
 					skillRes.aSkillResult[0].byBlockedAction = 0;
 					skillRes.aSkillResult[0].unk1 = 0;
 					skillRes.aSkillResult[0].vShift.x = 0;
@@ -715,9 +879,7 @@ void WorldSession::HandleUseSkill(Packet& packet)
 					skillRes.aSkillResult[0].hTarget = _player->GetHandle();
 					skillRes.aSkillResult[0].byAttackResult = 0;
 					skillRes.aSkillResult[0].effectResult[Effect].eResultType = 0xFF;
-					skillRes.aSkillResult[0].effectResult[Effect].Value1 = (float)skillDataOriginal->SkillValue[Effect];
-					skillRes.aSkillResult[0].effectResult[Effect].eResultType = 0xFF;
-					skillRes.aSkillResult[0].effectResult[Effect].Value1 = (float)skillDataOriginal->SkillValue[Effect];
+					skillRes.aSkillResult[0].effectResult[Effect].Value1 = skillDataOriginal->SkillValue[Effect];
 					skillRes.aSkillResult[0].byBlockedAction = 0xFF;
 					skillRes.aSkillResult[0].unk1 = 0;
 					skillRes.aSkillResult[0].vShift.x = 0.0f;
@@ -748,6 +910,10 @@ void WorldSession::HandleUseSkill(Packet& packet)
 				}
 				case ACTIVE_SUPER_SAIYAN:
 				{
+					WORD OriginalMaxEP = _player->GetAttributesManager()->GetPlayerProfile()->avatarAttribute.wLastMaxEP;
+					WORD OriginalAttackSPDRate = _player->GetAttributesManager()->GetPlayerProfile()->avatarAttribute.wLastAttackSpeedRate;
+					float OriginalRunSpeed = _player->GetAttributesManager()->GetPlayerProfile()->avatarAttribute.fBaseRunSpeed;
+
 					sSkil.wResultCode = GAME_SUCCESS;
 
 					skillRes.skillId = skillDataOriginal->tblidx;
@@ -769,8 +935,9 @@ void WorldSession::HandleUseSkill(Packet& packet)
 					skillRes.aSkillResult[Effect].vShift.z = 0;
 					skillRes.aSkillResult[Effect].vShift1 = _player->GetVectorPosition();
 
-					pBuffData.tblidx = skillRes.skillId;
-					pBuffData.isactive = 1;
+					_player->GetAttributesManager()->sBuffTimeInfo[Effect].BuffID = pBuffData.tblidx = skillRes.skillId;
+					pBuffData.isactive = true;
+					_player->GetAttributesManager()->sBuffTimeInfo[Effect].BuffIsActive = pBuffData.isactive;
 					pBuffData.Type = 0;
 					pBuffData.BuffInfo[Effect].SystemEffectValue = (float)skillDataOriginal->SkillValue[Effect];
 					pBuffData.BuffInfo[Effect].SystemEffectTime = skillDataOriginal->dwKeepTimeInMilliSecs;
@@ -785,8 +952,9 @@ void WorldSession::HandleUseSkill(Packet& packet)
 
 					_player->GetAttributesManager()->SetLastMaxEP(pBuffData.BuffInfo[Effect].SystemEffectValue);
 					_player->GetAttributesManager()->SetLastAttackSpeedRate(pBuffData.BuffInfo[Effect].SystemEffectValue);
-					_player->GetAttributesManager()->SetLastRunSpeed(((pBuffData.BuffInfo[Effect].SystemEffectValue = (float)skillDataOriginal->SkillValue[Effect]) / 1000) * _player->GetPcProfile()->avatarAttribute.fBaseRunSpeed);
+					_player->GetAttributesManager()->SetLastRunSpeed(((pBuffData.BuffInfo[Effect].SystemEffectValue = (float)skillDataOriginal->SkillValue[Effect]) / 1600) * _player->GetPcProfile()->avatarAttribute.fBaseRunSpeed);
 					printf("SystemEffectValue %f \n", pBuffData.BuffInfo[Effect].SystemEffectValue);
+
 
 					break;
 				}
@@ -811,13 +979,34 @@ void WorldSession::HandleUseSkill(Packet& packet)
 						skillRes.wOpCode = GU_CHAR_ACTION_SKILL;
 						skillRes.handle = _player->GetHandle();//My Handle
 						skillRes.hAppointedTarget = _player->GetHandle();
+						skillRes.bIsSkillHarmful = 0;
+						skillRes.bySkillResultCount = 1;
+						skillRes.aSkillResult[Effect].hTarget = _player->GetHandle();
+						skillRes.aSkillResult[Effect].byAttackResult = 0;
+						skillRes.aSkillResult[Effect].effectResult[Effect].eResultType = 0xFF;
+						skillRes.aSkillResult[Effect].effectResult[Effect].Value1 = skillDataOriginal->SkillValue[Effect];
+						skillRes.aSkillResult[Effect].byBlockedAction = 0;
+						skillRes.aSkillResult[Effect].unk1 = 0;
+						skillRes.aSkillResult[Effect].vShift.x = 0;
+						skillRes.aSkillResult[Effect].vShift.y = 0;
+						skillRes.aSkillResult[Effect].vShift.z = 0;
+						skillRes.aSkillResult[Effect].vShift1 = _player->GetVectorPosition();
+
+						pBuffData.tblidx = skillRes.skillId;
+						pBuffData.isactive = 1;
+						pBuffData.Type = 0;
+						pBuffData.BuffInfo[Effect].SystemEffectValue = (float)skillDataOriginal->SkillValue[Effect];
+						pBuffData.BuffInfo[Effect].SystemEffectTime = skillDataOriginal->dwKeepTimeInMilliSecs;
+						pBuffData.BuffInfo[Effect].dwSystemEffectValue = skillDataOriginal->SkillValue[Effect];
+						pBuffData.BuffInfo[Effect].NeedDisplayMensage = true;
+
 						_player->GetState()->sCharStateBase.aspectState.sAspectStateBase.byAspectStateId = eASPECTSTATE::ASPECTSTATE_KAIOKEN;
 						_player->GetState()->sCharStateBase.aspectState.sAspectStateDetail.sKaioken.byRepeatingCount += 1;
 						_player->GetState()->sCharStateBase.aspectState.sAspectStateDetail.sKaioken.bySourceGrade = 0;
 
 						_player->UpdateAspectState(eASPECTSTATE::ASPECTSTATE_KAIOKEN);
-						_player->GetAttributesManager()->SetLastPhysicalOffence(100);
-						_player->GetAttributesManager()->SetLastEnergyOffence(100);
+						_player->GetAttributesManager()->SetLastPhysicalOffence(pBuffData.BuffInfo[Effect].SystemEffectValue / 15);
+						_player->GetAttributesManager()->SetLastEnergyOffence(pBuffData.BuffInfo[Effect].SystemEffectValue / 15);
 					}
 					break;
 				}
@@ -831,19 +1020,26 @@ void WorldSession::HandleUseSkill(Packet& packet)
 					skillRes.wOpCode = GU_CHAR_ACTION_SKILL;
 					skillRes.handle = _player->GetHandle();//My Handle
 					skillRes.hAppointedTarget = _player->GetHandle();
+					skillRes.bIsSkillHarmful = 0;
+					skillRes.bySkillResultCount = 1;
+					skillRes.aSkillResult[Effect].hTarget = _player->GetHandle();
+					skillRes.aSkillResult[Effect].byAttackResult = 0;
+					skillRes.aSkillResult[Effect].effectResult[Effect].eResultType = 0xFF;
+					skillRes.aSkillResult[Effect].effectResult[Effect].Value1 = skillDataOriginal->SkillValue[Effect];
+					skillRes.aSkillResult[Effect].byBlockedAction = 0;
+					skillRes.aSkillResult[Effect].unk1 = 0;
+					skillRes.aSkillResult[Effect].vShift.x = 0;
+					skillRes.aSkillResult[Effect].vShift.y = 0;
+					skillRes.aSkillResult[Effect].vShift.z = 0;
+					skillRes.aSkillResult[Effect].vShift1 = _player->GetVectorPosition();
 
-					pBuffData.hHandle = _player->GetHandle();
-					pBuffData.slot = 1;
-					pBuffData.tblidx = skillDataOriginal->tblidx;
-					pBuffData.bySourceType = 0;
-					pBuffData.dwInitialDuration = skillDataOriginal->dwKeepTimeInMilliSecs;
-					pBuffData.dwTimeRemaining = skillDataOriginal->dwKeepTimeInMilliSecs;;//Time
-
+					pBuffData.tblidx = skillRes.skillId;
 					pBuffData.isactive = 1;
 					pBuffData.Type = 0;
-					pBuffData.BuffInfo[Effect].SystemEffectValue = skillDataOriginal->SkillValue[Effect];
+					pBuffData.BuffInfo[Effect].SystemEffectValue = (float)skillDataOriginal->SkillValue[Effect];
 					pBuffData.BuffInfo[Effect].SystemEffectTime = skillDataOriginal->dwKeepTimeInMilliSecs;
 					pBuffData.BuffInfo[Effect].dwSystemEffectValue = skillDataOriginal->SkillValue[Effect];
+					pBuffData.BuffInfo[Effect].NeedDisplayMensage = true;
 
 
 					_player->GetAttributesManager()->SetLastEnergyOffence(pBuffData.BuffInfo[Effect].SystemEffectValue);
@@ -853,36 +1049,29 @@ void WorldSession::HandleUseSkill(Packet& packet)
 				{
 					sSkil.wResultCode = GAME_SUCCESS;
 
-					skillRes.wOpCode = GU_CHAR_ACTION_SKILL;
-					skillRes.handle = _player->GetHandle();
-					skillRes.wResultCode = GAME_SUCCESS;
-					skillRes.dwLpEpEventId = 0xFFFFFFFF;
 					skillRes.skillId = skillDataOriginal->tblidx;
-					skillRes.byRpBonusType = 0xFF;
+					skillRes.wResultCode = GAME_SUCCESS;
+					skillRes.byRpBonusType = 0;//Untested
+					skillRes.wOpCode = GU_CHAR_ACTION_SKILL;
+					skillRes.handle = _player->GetHandle();//My Handle
 					skillRes.hAppointedTarget = _player->GetHandle();
 					skillRes.bIsSkillHarmful = 0;
 					skillRes.bySkillResultCount = 1;
-					skillRes.aSkillResult[0].hTarget = _player->GetHandle();
-					skillRes.aSkillResult[0].byAttackResult = 0;
-					skillRes.aSkillResult[0].effectResult[0].eResultType = 0xFF;
-					skillRes.aSkillResult[0].effectResult[0].Value1 = 10.0f;
-					skillRes.aSkillResult[0].byBlockedAction = 0;
-					skillRes.aSkillResult[0].unk1 = 0;
-					skillRes.aSkillResult[0].vShift.x = 0;
-					skillRes.aSkillResult[0].vShift.y = 0;
-					skillRes.aSkillResult[0].vShift.z = 0;
-					skillRes.aSkillResult[0].vShift1 = _player->GetVectorPosition();
+					skillRes.aSkillResult[Effect].hTarget = _player->GetHandle();
+					skillRes.aSkillResult[Effect].byAttackResult = 0;
+					skillRes.aSkillResult[Effect].effectResult[Effect].eResultType = 0xFF;
+					skillRes.aSkillResult[Effect].effectResult[Effect].Value1 = skillDataOriginal->SkillValue[Effect];
+					skillRes.aSkillResult[Effect].byBlockedAction = 0;
+					skillRes.aSkillResult[Effect].unk1 = 0;
+					skillRes.aSkillResult[Effect].vShift.x = 0;
+					skillRes.aSkillResult[Effect].vShift.y = 0;
+					skillRes.aSkillResult[Effect].vShift.z = 0;
+					skillRes.aSkillResult[Effect].vShift1 = _player->GetVectorPosition();
 
-					pBuffData.OpCode = GU_BUFF_REGISTERED;
-					pBuffData.hHandle = _player->GetHandle();
-					pBuffData.slot = skillDataOriginal->bySlot_Index;
-					pBuffData.tblidx = skillDataOriginal->tblidx;
-					pBuffData.bySourceType = 0;
-					pBuffData.dwInitialDuration = skillDataOriginal->dwKeepTimeInMilliSecs;
-					pBuffData.dwTimeRemaining = skillDataOriginal->dwKeepTimeInMilliSecs - 1;
+					pBuffData.tblidx = skillRes.skillId;
 					pBuffData.isactive = 1;
 					pBuffData.Type = 0;
-					pBuffData.BuffInfo[Effect].SystemEffectValue = skillDataOriginal->SkillValue[Effect];
+					pBuffData.BuffInfo[Effect].SystemEffectValue = (float)skillDataOriginal->SkillValue[Effect];
 					pBuffData.BuffInfo[Effect].SystemEffectTime = skillDataOriginal->dwKeepTimeInMilliSecs;
 					pBuffData.BuffInfo[Effect].dwSystemEffectValue = skillDataOriginal->SkillValue[Effect];
 					pBuffData.BuffInfo[Effect].NeedDisplayMensage = true;
@@ -902,20 +1091,27 @@ void WorldSession::HandleUseSkill(Packet& packet)
 					skillRes.wOpCode = GU_CHAR_ACTION_SKILL;
 					skillRes.handle = _player->GetHandle();//My Handle
 					skillRes.hAppointedTarget = _player->GetHandle();
+					skillRes.bIsSkillHarmful = 0;
+					skillRes.bySkillResultCount = 1;
+					skillRes.aSkillResult[Effect].hTarget = _player->GetHandle();
+					skillRes.aSkillResult[Effect].byAttackResult = 0;
+					skillRes.aSkillResult[Effect].effectResult[Effect].eResultType = 0xFF;
+					skillRes.aSkillResult[Effect].effectResult[Effect].Value1 = skillDataOriginal->SkillValue[Effect];
+					skillRes.aSkillResult[Effect].byBlockedAction = 0;
+					skillRes.aSkillResult[Effect].unk1 = 0;
+					skillRes.aSkillResult[Effect].vShift.x = 0;
+					skillRes.aSkillResult[Effect].vShift.y = 0;
+					skillRes.aSkillResult[Effect].vShift.z = 0;
+					skillRes.aSkillResult[Effect].vShift1 = _player->GetVectorPosition();
 
-
-					pBuffData.hHandle = _player->GetHandle();
-					pBuffData.slot = 1;
-					pBuffData.tblidx = skillDataOriginal->tblidx;
-					pBuffData.bySourceType = 0;
-					pBuffData.dwInitialDuration = skillDataOriginal->dwKeepTimeInMilliSecs;
-					pBuffData.dwTimeRemaining = skillDataOriginal->dwKeepTimeInMilliSecs;;//Time
-
+					pBuffData.OpCode = GU_BUFF_REGISTERED;
+					pBuffData.tblidx = skillRes.skillId;
 					pBuffData.isactive = 1;
 					pBuffData.Type = 0;
-					pBuffData.BuffInfo[Effect].SystemEffectValue = skillDataOriginal->SkillValue[Effect];
+					pBuffData.BuffInfo[Effect].SystemEffectValue = (float)skillDataOriginal->SkillValue[Effect];
 					pBuffData.BuffInfo[Effect].SystemEffectTime = skillDataOriginal->dwKeepTimeInMilliSecs;
 					pBuffData.BuffInfo[Effect].dwSystemEffectValue = skillDataOriginal->SkillValue[Effect];
+					pBuffData.BuffInfo[Effect].NeedDisplayMensage = true;
 
 					_player->GetAttributesManager()->SetLastPhysicalDefence(pBuffData.BuffInfo[Effect].SystemEffectValue);
 					printf("SystemEffectValue %f \n", pBuffData.BuffInfo[Effect].SystemEffectValue);
@@ -931,21 +1127,26 @@ void WorldSession::HandleUseSkill(Packet& packet)
 					skillRes.wOpCode = GU_CHAR_ACTION_SKILL;
 					skillRes.handle = _player->GetHandle();//My Handle
 					skillRes.hAppointedTarget = _player->GetHandle();
+					skillRes.bIsSkillHarmful = 0;
+					skillRes.bySkillResultCount = 1;
+					skillRes.aSkillResult[Effect].hTarget = _player->GetHandle();
+					skillRes.aSkillResult[Effect].byAttackResult = 0;
+					skillRes.aSkillResult[Effect].effectResult[Effect].eResultType = 0xFF;
+					skillRes.aSkillResult[Effect].effectResult[Effect].Value1 = skillDataOriginal->SkillValue[Effect];
+					skillRes.aSkillResult[Effect].byBlockedAction = 0;
+					skillRes.aSkillResult[Effect].unk1 = 0;
+					skillRes.aSkillResult[Effect].vShift.x = 0;
+					skillRes.aSkillResult[Effect].vShift.y = 0;
+					skillRes.aSkillResult[Effect].vShift.z = 0;
+					skillRes.aSkillResult[Effect].vShift1 = _player->GetVectorPosition();
 
-
-
-					pBuffData.hHandle = _player->GetHandle();
-					pBuffData.slot = 1;
-					pBuffData.tblidx = skillDataOriginal->tblidx;
-					pBuffData.bySourceType = 0;
-					pBuffData.dwInitialDuration = skillDataOriginal->dwKeepTimeInMilliSecs;
-					pBuffData.dwTimeRemaining = skillDataOriginal->dwKeepTimeInMilliSecs;;//Time
-
+					pBuffData.tblidx = skillRes.skillId;
 					pBuffData.isactive = 1;
 					pBuffData.Type = 0;
-					pBuffData.BuffInfo[Effect].SystemEffectValue = skillDataOriginal->SkillValue[Effect];
+					pBuffData.BuffInfo[Effect].SystemEffectValue = (float)skillDataOriginal->SkillValue[Effect];
 					pBuffData.BuffInfo[Effect].SystemEffectTime = skillDataOriginal->dwKeepTimeInMilliSecs;
 					pBuffData.BuffInfo[Effect].dwSystemEffectValue = skillDataOriginal->SkillValue[Effect];
+					pBuffData.BuffInfo[Effect].NeedDisplayMensage = true;
 
 					_player->GetAttributesManager()->SetLastEnergyDefence(pBuffData.BuffInfo[Effect].SystemEffectValue);
 					break;
@@ -1275,6 +1476,311 @@ void WorldSession::HandleUseSkill(Packet& packet)
 					break;
 				}
 				//NEXT CASE
+				case ACTIVE_LP_REGENERATION:
+				{
+					sSkil.wResultCode = GAME_SUCCESS;
+
+					skillRes.skillId = skillDataOriginal->tblidx;
+					skillRes.wResultCode = GAME_SUCCESS;
+					skillRes.byRpBonusType = 0;//Untested
+					skillRes.wOpCode = GU_CHAR_ACTION_SKILL;
+					skillRes.handle = _player->GetHandle();//My Handle
+					skillRes.hAppointedTarget = _player->GetHandle();
+					skillRes.bIsSkillHarmful = 0;
+					skillRes.bySkillResultCount = 1;
+					skillRes.aSkillResult[Effect].hTarget = _player->GetHandle();
+					skillRes.aSkillResult[Effect].byAttackResult = 0;
+					skillRes.aSkillResult[Effect].effectResult[Effect].eResultType = 0xFF;
+					skillRes.aSkillResult[Effect].effectResult[Effect].Value1 = skillDataOriginal->SkillValue[Effect];
+					skillRes.aSkillResult[Effect].byBlockedAction = 0;
+					skillRes.aSkillResult[Effect].unk1 = 0;
+					skillRes.aSkillResult[Effect].vShift.x = 0;
+					skillRes.aSkillResult[Effect].vShift.y = 0;
+					skillRes.aSkillResult[Effect].vShift.z = 0;
+					skillRes.aSkillResult[Effect].vShift1 = _player->GetVectorPosition();
+
+					pBuffData.tblidx = skillRes.skillId;
+					pBuffData.isactive = 1;
+					pBuffData.Type = 0;
+					pBuffData.BuffInfo[Effect].SystemEffectValue = (float)skillDataOriginal->SkillValue[Effect];
+					pBuffData.BuffInfo[Effect].SystemEffectTime = skillDataOriginal->dwKeepTimeInMilliSecs;
+					pBuffData.BuffInfo[Effect].dwSystemEffectValue = skillDataOriginal->SkillValue[Effect];
+					pBuffData.BuffInfo[Effect].NeedDisplayMensage = true;
+
+					_player->GetAttributesManager()->SetLastLPRegen(pBuffData.BuffInfo[Effect].SystemEffectValue);
+					break;
+				}
+				case ACTIVE_KNOCKDOWN_ATTACK_BLOCK_UP:
+				{
+					sSkil.wResultCode = GAME_SUCCESS;
+
+					skillRes.skillId = skillDataOriginal->tblidx;
+					skillRes.wResultCode = GAME_SUCCESS;
+					skillRes.byRpBonusType = 0;//Untested
+					skillRes.wOpCode = GU_CHAR_ACTION_SKILL;
+					skillRes.handle = _player->GetHandle();//My Handle
+					skillRes.hAppointedTarget = _player->GetHandle();
+					skillRes.bIsSkillHarmful = 0;
+					skillRes.bySkillResultCount = 1;
+					skillRes.aSkillResult[Effect].hTarget = _player->GetHandle();
+					skillRes.aSkillResult[Effect].byAttackResult = 0;
+					skillRes.aSkillResult[Effect].effectResult[Effect].eResultType = 0xFF;
+					skillRes.aSkillResult[Effect].effectResult[Effect].Value1 = skillDataOriginal->SkillValue[Effect];
+					skillRes.aSkillResult[Effect].byBlockedAction = 0;
+					skillRes.aSkillResult[Effect].unk1 = 0;
+					skillRes.aSkillResult[Effect].vShift.x = 0;
+					skillRes.aSkillResult[Effect].vShift.y = 0;
+					skillRes.aSkillResult[Effect].vShift.z = 0;
+					skillRes.aSkillResult[Effect].vShift1 = _player->GetVectorPosition();
+
+					pBuffData.tblidx = skillRes.skillId;
+					pBuffData.isactive = 1;
+					pBuffData.Type = 0;
+					pBuffData.BuffInfo[Effect].SystemEffectValue = (float)skillDataOriginal->SkillValue[Effect];
+					pBuffData.BuffInfo[Effect].SystemEffectTime = skillDataOriginal->dwKeepTimeInMilliSecs;
+					pBuffData.BuffInfo[Effect].dwSystemEffectValue = skillDataOriginal->SkillValue[Effect];
+					pBuffData.BuffInfo[Effect].NeedDisplayMensage = true;
+
+					_player->GetAttributesManager()->SetKnockdownBlockModeSuccessRate(pBuffData.BuffInfo[Effect].SystemEffectValue);
+
+					break;
+				}
+				case ACTIVE_STOMACHACHE:
+				{
+					Mob* MobInfo = static_cast<Mob*>(_player->GetFromList(_player->GetTarget()));
+					sSkil.wResultCode = GAME_SUCCESS;
+
+					skillRes.wOpCode = GU_CHAR_ACTION_SKILL;
+					skillRes.handle = _player->GetHandle();
+					skillRes.dwLpEpEventId = 0xFFFFFFFF;
+					skillRes.skillId = skillDataOriginal->tblidx;
+					skillRes.byRpBonusType = 0xFF;
+					skillRes.hAppointedTarget = MobInfo->GetHandle();
+					skillRes.bIsSkillHarmful = 1;
+					skillRes.bySkillResultCount = 1;
+					skillRes.aSkillResult[Effect].hTarget = MobInfo->GetHandle();
+					skillRes.aSkillResult[Effect].byAttackResult = 0;
+					skillRes.aSkillResult[Effect].effectResult[Effect].eResultType = DBO_SYSTEM_EFFECT_RESULT_TYPE_DD_DOT;
+					skillRes.aSkillResult[Effect].effectResult[Effect].Value1 = skillDataOriginal->SkillValue[Effect];
+					skillRes.aSkillResult[Effect].effectResult[Effect].Value2 = skillDataOriginal->SkillValue[Effect];
+					skillRes.aSkillResult[Effect].effectResult[Effect].Value3 = skillDataOriginal->SkillValue[Effect];
+					skillRes.aSkillResult[Effect].effectResult[Effect].Value4 = skillDataOriginal->SkillValue[Effect];
+					skillRes.aSkillResult[Effect].effectResult[Effect].Value5 = skillDataOriginal->SkillValue[Effect];
+					skillRes.aSkillResult[Effect].effectResult[Effect].Value6 = skillDataOriginal->SkillValue[Effect];
+					skillRes.aSkillResult[Effect].byBlockedAction = 0xFF;
+					skillRes.aSkillResult[Effect].unk1 = 0;
+					skillRes.aSkillResult[Effect].vShift.x = 0.0f;
+					skillRes.aSkillResult[Effect].vShift.y = 0.0f;
+					skillRes.aSkillResult[Effect].vShift.z = 0.0f;
+					skillRes.aSkillResult[Effect].vShift1 = MobInfo->GetVectorPosition();
+
+					pBuffData.OpCode = GU_BUFF_REGISTERED;
+					pBuffData.hHandle = MobInfo->GetHandle();
+					pBuffData.slot = skillDataOriginal->bySlot_Index;
+					pBuffData.tblidx = skillDataOriginal->tblidx;
+					pBuffData.bySourceType = 0;
+					pBuffData.dwInitialDuration = skillDataOriginal->dwKeepTimeInMilliSecs;
+					pBuffData.dwTimeRemaining = skillDataOriginal->dwKeepTimeInMilliSecs - 1;
+					pBuffData.isactive = 1;
+					pBuffData.Type = 0;
+					pBuffData.BuffInfo[Effect].SystemEffectValue = (float)skillDataOriginal->SkillValue[Effect];
+					pBuffData.BuffInfo[Effect].SystemEffectTime = skillDataOriginal->dwKeepTimeInMilliSecs;
+					pBuffData.BuffInfo[Effect].dwSystemEffectValue = skillDataOriginal->SkillValue[Effect];
+					pBuffData.BuffInfo[Effect].NeedDisplayMensage = true;
+
+
+					break;
+				}
+				case ACTIVE_BLEED:
+				{
+					Mob* MobInfo = static_cast<Mob*>(_player->GetFromList(_player->GetTarget()));
+
+					sSkil.wResultCode = GAME_SUCCESS;
+
+					skillRes.wOpCode = GU_CHAR_ACTION_SKILL;
+					skillRes.handle = _player->GetHandle();
+					skillRes.dwLpEpEventId = 0xFFFFFFFF;
+					skillRes.skillId = skillDataOriginal->tblidx;
+					skillRes.byRpBonusType = 0xFF;
+					skillRes.hAppointedTarget = MobInfo->GetHandle();
+					skillRes.bIsSkillHarmful = 1;
+					skillRes.bySkillResultCount = 1;
+					skillRes.aSkillResult[Effect].hTarget = skillRes.hAppointedTarget;
+					skillRes.aSkillResult[Effect].byAttackResult = 0;
+					skillRes.aSkillResult[Effect].effectResult[Effect].eResultType = DBO_SYSTEM_EFFECT_RESULT_TYPE_DD_DOT;
+					skillRes.aSkillResult[Effect].effectResult[Effect].Value1 = skillDataOriginal->SkillValue[Effect];
+					skillRes.aSkillResult[Effect].effectResult[Effect].Value2 = skillDataOriginal->SkillValue[Effect];
+					skillRes.aSkillResult[Effect].effectResult[Effect].Value3 = skillDataOriginal->SkillValue[Effect];
+					skillRes.aSkillResult[Effect].effectResult[Effect].Value4 = skillDataOriginal->SkillValue[Effect];
+					skillRes.aSkillResult[Effect].effectResult[Effect].Value5 = skillDataOriginal->SkillValue[Effect];
+					skillRes.aSkillResult[Effect].effectResult[Effect].Value6 = skillDataOriginal->SkillValue[Effect];
+					skillRes.aSkillResult[Effect].byBlockedAction = 0xFF;
+					skillRes.aSkillResult[Effect].unk1 = 0;
+					skillRes.aSkillResult[Effect].vShift.x = 0.0f;
+					skillRes.aSkillResult[Effect].vShift.y = 0.0f;
+					skillRes.aSkillResult[Effect].vShift.z = 0.0f;
+					skillRes.aSkillResult[Effect].vShift1 = MobInfo->GetVectorPosition();
+
+					pBuffData.OpCode = GU_BUFF_REGISTERED;
+					pBuffData.hHandle = MobInfo->GetHandle();
+					pBuffData.slot = skillDataOriginal->bySlot_Index;
+					pBuffData.tblidx = skillDataOriginal->tblidx;
+					pBuffData.bySourceType = 0;
+					pBuffData.dwInitialDuration = skillDataOriginal->dwKeepTimeInMilliSecs;
+					pBuffData.dwTimeRemaining = skillDataOriginal->dwKeepTimeInMilliSecs - 1;
+					pBuffData.isactive = 1;
+					pBuffData.Type = 0;
+					pBuffData.BuffInfo[Effect].SystemEffectValue = (float)skillDataOriginal->SkillValue[Effect];
+					pBuffData.BuffInfo[Effect].SystemEffectTime = skillDataOriginal->dwKeepTimeInMilliSecs;
+					pBuffData.BuffInfo[Effect].dwSystemEffectValue = skillDataOriginal->SkillValue[Effect];
+					pBuffData.BuffInfo[Effect].NeedDisplayMensage = true;
+
+					MobInfo->TakeDamage(pBuffData.BuffInfo[Effect].SystemEffectValue);
+
+					break;
+				}
+				case ACTIVE_BURN:
+				{
+					Mob* MobInfo = static_cast<Mob*>(_player->GetFromList(_player->GetTarget()));
+
+					sSkil.wResultCode = GAME_SUCCESS;
+
+					skillRes.wOpCode = GU_CHAR_ACTION_SKILL;
+					skillRes.handle = _player->GetHandle();
+					skillRes.dwLpEpEventId = 0xFFFFFFFF;
+					skillRes.skillId = skillDataOriginal->tblidx;
+					skillRes.byRpBonusType = 0xFF;
+					skillRes.hAppointedTarget = MobInfo->GetHandle();
+					skillRes.bIsSkillHarmful = 1;
+					skillRes.bySkillResultCount = 1;
+					skillRes.aSkillResult[Effect].hTarget = skillRes.hAppointedTarget;
+					skillRes.aSkillResult[Effect].byAttackResult = 0;
+					skillRes.aSkillResult[Effect].effectResult[Effect].eResultType = DBO_SYSTEM_EFFECT_RESULT_TYPE_DD_DOT;
+					skillRes.aSkillResult[Effect].effectResult[Effect].Value1 = skillDataOriginal->SkillValue[Effect];
+					skillRes.aSkillResult[Effect].effectResult[Effect].Value2 = skillDataOriginal->SkillValue[Effect];
+					skillRes.aSkillResult[Effect].effectResult[Effect].Value3 = skillDataOriginal->SkillValue[Effect];
+					skillRes.aSkillResult[Effect].effectResult[Effect].Value4 = skillDataOriginal->SkillValue[Effect];
+					skillRes.aSkillResult[Effect].effectResult[Effect].Value5 = skillDataOriginal->SkillValue[Effect];
+					skillRes.aSkillResult[Effect].effectResult[Effect].Value6 = skillDataOriginal->SkillValue[Effect];
+					skillRes.aSkillResult[Effect].byBlockedAction = 0xFF;
+					skillRes.aSkillResult[Effect].unk1 = 0;
+					skillRes.aSkillResult[Effect].vShift.x = 0.0f;
+					skillRes.aSkillResult[Effect].vShift.y = 0.0f;
+					skillRes.aSkillResult[Effect].vShift.z = 0.0f;
+					skillRes.aSkillResult[Effect].vShift1 = MobInfo->GetVectorPosition();
+
+					pBuffData.OpCode = GU_BUFF_REGISTERED;
+					pBuffData.hHandle = MobInfo->GetHandle();
+					pBuffData.slot = skillDataOriginal->bySlot_Index;
+					pBuffData.tblidx = skillDataOriginal->tblidx;
+					pBuffData.bySourceType = 0;
+					pBuffData.dwInitialDuration = skillDataOriginal->dwKeepTimeInMilliSecs;
+					pBuffData.dwTimeRemaining = skillDataOriginal->dwKeepTimeInMilliSecs - 1;
+					pBuffData.isactive = 1;
+					pBuffData.Type = 0;
+					pBuffData.BuffInfo[Effect].SystemEffectValue = (float)skillDataOriginal->SkillValue[Effect];
+					pBuffData.BuffInfo[Effect].SystemEffectTime = skillDataOriginal->dwKeepTimeInMilliSecs;
+					pBuffData.BuffInfo[Effect].dwSystemEffectValue = skillDataOriginal->SkillValue[Effect];
+					pBuffData.BuffInfo[Effect].NeedDisplayMensage = true;
+
+					MobInfo->TakeDamage(pBuffData.BuffInfo[Effect].SystemEffectValue);
+
+					break;
+				}
+				case ACTIVE_POISON:
+				{
+					Mob* MobInfo = static_cast<Mob*>(_player->GetFromList(_player->GetTarget()));
+
+					sSkil.wResultCode = GAME_SUCCESS;
+
+					skillRes.wOpCode = GU_CHAR_ACTION_SKILL;
+					skillRes.handle = _player->GetHandle();
+					skillRes.dwLpEpEventId = 0xFFFFFFFF;
+					skillRes.skillId = skillDataOriginal->tblidx;
+					skillRes.byRpBonusType = 0xFF;
+					skillRes.hAppointedTarget = MobInfo->GetHandle();
+					skillRes.bIsSkillHarmful = 1;
+					skillRes.bySkillResultCount = 1;
+					skillRes.aSkillResult[Effect].hTarget = skillRes.hAppointedTarget;
+					skillRes.aSkillResult[Effect].byAttackResult = 0;
+					skillRes.aSkillResult[Effect].effectResult[Effect].eResultType = DBO_SYSTEM_EFFECT_RESULT_TYPE_DD_DOT;
+					skillRes.aSkillResult[Effect].effectResult[Effect].Value1 = skillDataOriginal->SkillValue[Effect];
+					skillRes.aSkillResult[Effect].effectResult[Effect].Value2 = skillDataOriginal->SkillValue[Effect];
+					skillRes.aSkillResult[Effect].effectResult[Effect].Value3 = skillDataOriginal->SkillValue[Effect];
+					skillRes.aSkillResult[Effect].effectResult[Effect].Value4 = skillDataOriginal->SkillValue[Effect];
+					skillRes.aSkillResult[Effect].effectResult[Effect].Value5 = skillDataOriginal->SkillValue[Effect];
+					skillRes.aSkillResult[Effect].effectResult[Effect].Value6 = skillDataOriginal->SkillValue[Effect];
+					skillRes.aSkillResult[Effect].byBlockedAction = 0xFF;
+					skillRes.aSkillResult[Effect].unk1 = 0;
+					skillRes.aSkillResult[Effect].vShift.x = 0.0f;
+					skillRes.aSkillResult[Effect].vShift.y = 0.0f;
+					skillRes.aSkillResult[Effect].vShift.z = 0.0f;
+					skillRes.aSkillResult[Effect].vShift1 = MobInfo->GetVectorPosition();
+
+					pBuffData.OpCode = GU_BUFF_REGISTERED;
+					pBuffData.hHandle = MobInfo->GetHandle();
+					pBuffData.slot = skillDataOriginal->bySlot_Index;
+					pBuffData.tblidx = skillDataOriginal->tblidx;
+					pBuffData.bySourceType = 0;
+					pBuffData.dwInitialDuration = skillDataOriginal->dwKeepTimeInMilliSecs;
+					pBuffData.dwTimeRemaining = skillDataOriginal->dwKeepTimeInMilliSecs - 1;
+					pBuffData.isactive = 1;
+					pBuffData.Type = 0;
+					pBuffData.BuffInfo[Effect].SystemEffectValue = (float)skillDataOriginal->SkillValue[Effect];
+					pBuffData.BuffInfo[Effect].SystemEffectTime = skillDataOriginal->dwKeepTimeInMilliSecs;
+					pBuffData.BuffInfo[Effect].dwSystemEffectValue = skillDataOriginal->SkillValue[Effect];
+					pBuffData.BuffInfo[Effect].NeedDisplayMensage = true;
+
+					MobInfo->TakeDamage(pBuffData.BuffInfo[Effect].SystemEffectValue);
+
+					break;
+				}
+				case ACTIVE_PHYSICAL_OFFENCE_DOWN:
+				{
+					Mob* MobInfo = static_cast<Mob*>(_player->GetFromList(_player->GetTarget()));
+
+					sSkil.wResultCode = GAME_SUCCESS;
+
+					skillRes.wOpCode = GU_CHAR_ACTION_SKILL;
+					skillRes.handle = _player->GetHandle();
+					skillRes.dwLpEpEventId = 0xFFFFFFFF;
+					skillRes.skillId = skillDataOriginal->tblidx;
+					skillRes.byRpBonusType = 0xFF;
+					skillRes.hAppointedTarget = MobInfo->GetHandle();
+					skillRes.bIsSkillHarmful = 1;
+					skillRes.bySkillResultCount = 1;
+					skillRes.aSkillResult[Effect].hTarget = skillRes.hAppointedTarget;
+					skillRes.aSkillResult[Effect].byAttackResult = 0;
+					skillRes.aSkillResult[Effect].effectResult[Effect].eResultType = DBO_SYSTEM_EFFECT_RESULT_TYPE_GENERAL;
+					skillRes.aSkillResult[Effect].effectResult[Effect].Value1 = skillDataOriginal->SkillValue[Effect];
+					skillRes.aSkillResult[Effect].effectResult[Effect].Value2 = skillDataOriginal->SkillValue[Effect];
+					skillRes.aSkillResult[Effect].effectResult[Effect].Value3 = skillDataOriginal->SkillValue[Effect];
+					skillRes.aSkillResult[Effect].effectResult[Effect].Value4 = skillDataOriginal->SkillValue[Effect];
+					skillRes.aSkillResult[Effect].effectResult[Effect].Value5 = skillDataOriginal->SkillValue[Effect];
+					skillRes.aSkillResult[Effect].effectResult[Effect].Value6 = skillDataOriginal->SkillValue[Effect];
+					skillRes.aSkillResult[Effect].byBlockedAction = 0xFF;
+					skillRes.aSkillResult[Effect].unk1 = 0;
+					skillRes.aSkillResult[Effect].vShift.x = 0.0f;
+					skillRes.aSkillResult[Effect].vShift.y = 0.0f;
+					skillRes.aSkillResult[Effect].vShift.z = 0.0f;
+					skillRes.aSkillResult[Effect].vShift1 = MobInfo->GetVectorPosition();
+
+					pBuffData.OpCode = GU_BUFF_REGISTERED;
+					pBuffData.hHandle = MobInfo->GetHandle();
+					pBuffData.slot = skillDataOriginal->bySlot_Index;
+					pBuffData.tblidx = skillDataOriginal->tblidx;
+					pBuffData.bySourceType = 0;
+					pBuffData.dwInitialDuration = skillDataOriginal->dwKeepTimeInMilliSecs;
+					pBuffData.dwTimeRemaining = skillDataOriginal->dwKeepTimeInMilliSecs - 1;
+					pBuffData.isactive = 1;
+					pBuffData.Type = 0;
+					pBuffData.BuffInfo[Effect].SystemEffectValue = (float)skillDataOriginal->SkillValue[Effect];
+					pBuffData.BuffInfo[Effect].SystemEffectTime = skillDataOriginal->dwKeepTimeInMilliSecs;
+					pBuffData.BuffInfo[Effect].dwSystemEffectValue = skillDataOriginal->SkillValue[Effect];
+					pBuffData.BuffInfo[Effect].NeedDisplayMensage = true;
+
+					break;
+				}
 				}
 			}
 		}
