@@ -6,6 +6,7 @@
 #include <set>
 #include <exception>
 #include <iostream>
+#include <memory>
 #include <Singleton.h>
 
 class XmlParser

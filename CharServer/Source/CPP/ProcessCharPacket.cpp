@@ -54,7 +54,7 @@ bool CharSocket::GetCharacterServerList(Packet &packet, bool one)
 
 	sinfo.wPacketSize = sizeof(sCU_SERVER_FARM_INFO) - 2;
 	sinfo.wOpCode = CU_SERVER_FARM_INFO;
-	sql::ResultSet* result = sDB.executes("SELECT * from `realmlist` WHERE `ServerID` = '%d';", sinfo.serverFarmInfo.serverFarmId);
+	sql::ResultSet* result = sDB.executes("SELECT * from `realmlist` WHERE `ServerID` = '%d';", sinfo.serverFarmInfo.serverFarmId + 1);
 	if (result == NULL)
 		return false;
 	for (int i = 0; i < sXmlParser.GetInt("ServerCount", "value"); i++)
@@ -602,8 +602,9 @@ int CharSocket::AddCharacters(sPC_SUMMARY data)
 	float ConByPoint = 81.6; // 1con = 85 old tw
 	DWORD LP = BasicLife + static_cast<DWORD>(LevelCon * ConByPoint);
 	// Quest List
-	sDB.executes("INSERT INTO questlist (`type`, `tId`, `currentID`, `nextID`, `charID`, `isCompleted`) VALUES ('%d', '%d', '%d', '%d', '%d', '%d');", 
+	sDB.executes("INSERT INTO questlist (`type`, `tId`, `currentID`, `nextID`, `charID`, `isCompleted`) VALUES ('%d', '%d', '%d', '%d', '%d', '%d');",
 		0, 0, 0, 0, charid, 0);
+
 	//EP Calculation
 	WORD BasicEnergy = newb->wBasic_EP + (newb->byLevel_Up_EP * 1);
 	WORD LevelEng = newb->byEng + static_cast<WORD>(newb->fLevel_Up_Eng * 1);

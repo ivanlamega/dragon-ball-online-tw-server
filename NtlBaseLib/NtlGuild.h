@@ -154,7 +154,7 @@ struct sDBO_GUILD_DATA
 
 	DWORD			dwGuildReputation;
 	DWORD			dwMaxGuildPointEver;
-	DWORD64			qwGuildFunctionFlag;
+	DWORD			qwGuildFunctionFlag;
 
 	time_t			timeToDisband;
 
@@ -174,9 +174,9 @@ struct sDBO_GUILD_INFO
 
 	DWORD			dwGuildReputation;		// 길드명성
 	DWORD			dwMaxGuildPointEver;	// Load 그동안 dwGuildReputation 가장 최고값
-	DWORD64			qwGuildFunctionFlag;	//
+	DWORD64		qwGuildFunctionFlag;	//DWORD64
 
-	time_t			timeToDisband;
+	__time64_t			timeToDisband;
 
 	sDBO_GUILD_MARK	sMark;			// 초기 0xff
 	WCHAR			awchName[MAX_SIZE_CHAR_NAME_UNICODE + 1];	// ''

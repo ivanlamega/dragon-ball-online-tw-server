@@ -12,8 +12,8 @@
 
 enum AccountTypes
 {
-	PLAYER = 100,
-	GAME_MASTER
+	PLAYER = 0,
+	GAME_MASTER = 1
 };
 class Packet;
 class CommunitySocket;
@@ -52,7 +52,16 @@ public:
 	void SendHlsSlotMachineInfo(Packet packet);
 	void SendHlsSlotMachineExtract(Packet packet);
 	void SendHlsSlotMachineWinnerInfo(Packet packet);
-
+	
+	/* Guild Manager */ /* DBO-MELIODAS 23-07-2019 */
+	void SendGuildDisband(Packet packet); // Salir de la Guild
+	void SendGuildInvitationResponse(Packet packet); // Invitar Guild 
+	void SendGuildLeave(Packet packet); // TEST 
+	void SendGuildKickOut(Packet packet); // Sacar a un miembro? ver 
+	void SendAppointSecondMaster(Packet packet); // pasar a Segundo master
+	void SendDismissSecondMaster(Packet packet); // Sacar al segundo master
+	void SendChangeGuildMaster(Packet packet); // Cambiar de Master en la Guild
+	void SendChangeNotice(Packet packet); // Cambiar la noticia de la guild
 private:
 	CommunitySocket * const m_Socket;                       // socket pointer is owned by the network thread which created 
 	AccountTypes	_security;

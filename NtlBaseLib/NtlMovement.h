@@ -5,7 +5,7 @@
 #define MAX_RADIUS_OF_VISIBLE_AREA		(100.0f)
 #define MAX_NUMBER_OF_PLAYERS_IN_VISIBLE_AREA		(100)
 #define REQUIRED_TIME_FOR_COMPLETE_CIRCULAR_MOVEMENT_IN_MILLISECS		(3000)
-#define DEFAULT_MOVEMENT_SPEED		(7.0f)
+#define DEFAULT_MOVEMENT_SPEED		(8.0f)
 #define BACKWARD_MOVEMENT_SPEED_RATE		(0.5f)		// 50% of forward movement speed
 #define DEFAULT_MOVEMENT_SPEED_B		(DEFAULT_MOVEMENT_SPEED * BACKWARD_MOVEMENT_SPEED_RATE)
 
@@ -18,7 +18,7 @@
 #define ACTIVE_DASH_SPEED				(40.0f)
 #define DBO_DASH_INVERVAL_WITHOUT_EP_LOSS_IN_MILLISECS						(4000)
 
-#define DBO_VEHICLE_TURNING_RATIO		(1.0f)		// no turning speed change when pc is on the vehicle
+#define DBO_VEHICLE_TURNING_RATIO		(20.0f)		// no turning speed change when pc is on the vehicle
 #define DBO_SWIMMING_SPEED_RATIO		(0.5f)		// 50% of movement speed on land.
 #define DBO_FALLING_SPEED_RATIO			(0.5f)		// 50% of movement speed on land.
 

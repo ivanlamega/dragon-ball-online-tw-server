@@ -66,7 +66,7 @@ void Player::HandleItemUse(Packet pPacket)
 						//eSYSTEM_EFFECT_CODE
 						case eSYSTEM_EFFECT_CODE::ACTIVE_HEAL_OVER_TIME://Food LP
 						{	
-							if (GetAttributesManager()->LpFoodIsActive == false)
+							if (GetAttributesManager()->LpFoodIsActive == true)
 							{
 								UseItem.wResultCode = GAME_SUCCESS;
 
@@ -137,7 +137,7 @@ void Player::HandleItemUse(Packet pPacket)
 						}
 						case eSYSTEM_EFFECT_CODE::ACTIVE_EP_OVER_TIME://Drink EP
 						{
-							if (GetAttributesManager()->EpFoodIsActive == false)
+							if (GetAttributesManager()->EpFoodIsActive == true)
 							{								
 
 								UseItem.wResultCode = GAME_SUCCESS;
@@ -292,7 +292,7 @@ void Player::HandleItemUse(Packet pPacket)
 						}
 						case eSYSTEM_EFFECT_CODE::ACTIVE_VEHICLE:
 						{
-						/*	UseItem.wResultCode = GAME_SUCCESS;
+							UseItem.wResultCode = GAME_SUCCESS;
 							Acionitem.handle = GetHandle();
 							Acionitem.wResultCode = GAME_SUCCESS;
 							Acionitem.dwLpEpEventId = INVALID_TBLIDX;
@@ -315,7 +315,7 @@ void Player::HandleItemUse(Packet pPacket)
 							GetState()->sCharStateBase.aspectState.sAspectStateDetail.sVehicle.bIsEngineOn = false;
 							GetState()->sCharStateBase.aspectState.sAspectStateDetail.sVehicle.hVehicleItem = Item->handle;
 							GetState()->sCharStateBase.aspectState.sAspectStateDetail.sVehicle.idVehicleTblidx = Item->tblidx;
-							UpdateAspectState(eASPECTSTATE::ASPECTSTATE_VEHICLE);*/
+							UpdateAspectState(eASPECTSTATE::ASPECTSTATE_VEHICLE);
 							break;
 						}
 						case eSYSTEM_EFFECT_CODE::ACTIVE_AIR_MOVE_DASH_ACCEL://Fly scroll
@@ -760,12 +760,88 @@ void Player::SendItemUpgrade(Packet & packet)
 				//Rate +6
 				if (Item->byGrade == 6)
 				{
-					if (Rate >= 0 && Rate <= 50)
+					if (Rate >= 0 && Rate <= 96)
 					{
 						Upgrade.Grade = Item->byGrade + 1;
 						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
 					}
-					if (Rate >= 51 && Rate <= 80)
+					if (Rate >= 97 && Rate <= 98)
+					{
+						Upgrade.Grade = Item->byGrade - 1;
+						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
+					}
+					if (Rate >= 99 && Rate <= 100)
+					{
+						Upgrade.Grade = 0;
+						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
+					}
+				}
+				//Rate +7
+				if (Item->byGrade == 7)
+				{
+					if (Rate >= 0 && Rate <= 90)
+					{
+						Upgrade.Grade = Item->byGrade + 1;
+						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
+					}
+					if (Rate >= 91 && Rate <= 95)
+					{
+						Upgrade.Grade = Item->byGrade - 1;
+						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
+					}
+					if (Rate >= 95 && Rate <= 100)
+					{
+						Upgrade.Grade = 0;
+						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
+					}
+				}
+				//Rate +8
+				if (Item->byGrade == 8)
+				{
+					if (Rate >= 0 && Rate <= 85)
+					{
+						Upgrade.Grade = Item->byGrade + 1;
+						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
+					}
+					if (Rate >= 86 && Rate <= 90)
+					{
+						Upgrade.Grade = Item->byGrade - 1;
+						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
+					}
+					if (Rate >= 91 && Rate <= 100)
+					{
+						Upgrade.Grade = 0;
+						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
+					}
+				}
+				//Rate +9
+				if (Item->byGrade == 9)
+				{
+					if (Rate >= 0 && Rate <= 70)
+					{
+						Upgrade.Grade = Item->byGrade + 1;
+						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
+					}
+					if (Rate >= 71 && Rate <= 85)
+					{
+						Upgrade.Grade = Item->byGrade - 1;
+						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
+					}
+					if (Rate >= 86 && Rate <= 100)
+					{
+						Upgrade.Grade = 0;
+						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
+					}
+				}
+				//Rate +10
+				if (Item->byGrade == 10)
+				{
+					if (Rate >= 0 && Rate <= 68)
+					{
+						Upgrade.Grade = Item->byGrade + 1;
+						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
+					}
+					if (Rate >= 69 && Rate <= 80)
 					{
 						Upgrade.Grade = Item->byGrade - 1;
 						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
@@ -776,34 +852,34 @@ void Player::SendItemUpgrade(Packet & packet)
 						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
 					}
 				}
-				//Rate +7
-				if (Item->byGrade == 7)
+				//Rate +11
+				if (Item->byGrade == 11)
 				{
-					if (Rate >= 0 && Rate <= 45)
+					if (Rate >= 0 && Rate <= 60)
 					{
 						Upgrade.Grade = Item->byGrade + 1;
 						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
 					}
-					if (Rate >= 46 && Rate <= 75)
+					if (Rate >= 61 && Rate <= 80)
 					{
 						Upgrade.Grade = Item->byGrade - 1;
 						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
 					}
-					if (Rate >= 76 && Rate <= 100)
+					if (Rate >= 80 && Rate <= 100)
 					{
 						Upgrade.Grade = 0;
 						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
 					}
 				}
-				//Rate +8
-				if (Item->byGrade == 8)
+				//Rate +12
+				if (Item->byGrade == 12)
 				{
-					if (Rate >= 0 && Rate <= 40)
+					if (Rate >= 0 && Rate <= 50)
 					{
 						Upgrade.Grade = Item->byGrade + 1;
 						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
 					}
-					if (Rate >= 41 && Rate <= 70)
+					if (Rate >= 51 && Rate <= 70)
 					{
 						Upgrade.Grade = Item->byGrade - 1;
 						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
@@ -814,34 +890,15 @@ void Player::SendItemUpgrade(Packet & packet)
 						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
 					}
 				}
-				//Rate +9
-				if (Item->byGrade == 9)
+				//Rate +13
+				if (Item->byGrade == 13)
 				{
-					if (Rate >= 0 && Rate <= 35)
+					if (Rate >= 0 && Rate <= 40)
 					{
 						Upgrade.Grade = Item->byGrade + 1;
 						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
 					}
-					if (Rate >= 36 && Rate <= 65)
-					{
-						Upgrade.Grade = Item->byGrade - 1;
-						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
-					}
-					if (Rate >= 66 && Rate <= 100)
-					{
-						Upgrade.Grade = 0;
-						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
-					}
-				}
-				//Rate +10
-				if (Item->byGrade == 10)
-				{
-					if (Rate >= 0 && Rate <= 30)
-					{
-						Upgrade.Grade = Item->byGrade + 1;
-						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
-					}
-					if (Rate >= 31 && Rate <= 60)
+					if (Rate >= 41 && Rate <= 60)
 					{
 						Upgrade.Grade = Item->byGrade - 1;
 						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
@@ -852,77 +909,20 @@ void Player::SendItemUpgrade(Packet & packet)
 						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
 					}
 				}
-				//Rate +11
-				if (Item->byGrade == 11)
+				//Rate +14
+				if (Item->byGrade == 14)
 				{
-					if (Rate >= 0 && Rate <= 25)
+					if (Rate >= 0 && Rate <= 30)
 					{
 						Upgrade.Grade = Item->byGrade + 1;
 						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
 					}
-					if (Rate >= 26 && Rate <= 55)
-					{
-						Upgrade.Grade = Item->byGrade - 1;
-						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
-					}
-					if (Rate >= 56 && Rate <= 100)
-					{
-						Upgrade.Grade = 0;
-						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
-					}
-				}
-				//Rate +12
-				if (Item->byGrade == 12)
-				{
-					if (Rate >= 0 && Rate <= 20)
-					{
-						Upgrade.Grade = Item->byGrade + 1;
-						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
-					}
-					if (Rate >= 21 && Rate <= 50)
+					if (Rate >= 31 && Rate <= 50)
 					{
 						Upgrade.Grade = Item->byGrade - 1;
 						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
 					}
 					if (Rate >= 51 && Rate <= 100)
-					{
-						Upgrade.Grade = 0;
-						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
-					}
-				}
-				//Rate +13
-				if (Item->byGrade == 13)
-				{
-					if (Rate >= 0 && Rate <= 15)
-					{
-						Upgrade.Grade = Item->byGrade + 1;
-						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
-					}
-					if (Rate >= 16 && Rate <= 45)
-					{
-						Upgrade.Grade = Item->byGrade - 1;
-						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
-					}
-					if (Rate >= 46 && Rate <= 100)
-					{
-						Upgrade.Grade = 0;
-						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
-					}
-				}
-				//Rate +14
-				if (Item->byGrade == 14)
-				{
-					if (Rate >= 0 && Rate <= 10)
-					{
-						Upgrade.Grade = Item->byGrade + 1;
-						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
-					}
-					if (Rate >= 11 && Rate <= 40)
-					{
-						Upgrade.Grade = Item->byGrade - 1;
-						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
-					}
-					if (Rate >= 41 && Rate <= 100)
 					{
 						Upgrade.Grade = 0;
 						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
@@ -942,12 +942,69 @@ void Player::SendItemUpgrade(Packet & packet)
 				//Rate +5
 				if (Item->byGrade == 5)
 				{
-					if (Rate >= 0 && Rate <= 60)
+					if (Rate >= 0 && Rate <= 95)
 					{
 						Upgrade.Grade = Item->byGrade + 1;
 						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
 					}
-					if (Rate >= 61 && Rate <= 90)
+					if (Rate >= 96 && Rate <= 98)
+					{
+						Upgrade.Grade = Item->byGrade - 1;
+						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
+					}
+					if (Rate >= 99 && Rate <= 100)
+					{
+						Upgrade.Grade = 0;
+						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
+					}
+				}
+				//Rate +6
+				if (Item->byGrade == 6)
+				{
+					if (Rate >= 0 && Rate <= 96)
+					{
+						Upgrade.Grade = Item->byGrade + 1;
+						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
+					}
+					if (Rate >= 97 && Rate <= 98)
+					{
+						Upgrade.Grade = Item->byGrade - 1;
+						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
+					}
+					if (Rate >= 99 && Rate <= 100)
+					{
+						Upgrade.Grade = 0;
+						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
+					}
+				}
+				//Rate +7
+				if (Item->byGrade == 7)
+				{
+					if (Rate >= 0 && Rate <= 90)
+					{
+						Upgrade.Grade = Item->byGrade + 1;
+						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
+					}
+					if (Rate >= 91 && Rate <= 95)
+					{
+						Upgrade.Grade = Item->byGrade - 1;
+						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
+					}
+					if (Rate >= 95 && Rate <= 100)
+					{
+						Upgrade.Grade = 0;
+						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
+					}
+				}
+				//Rate +8
+				if (Item->byGrade == 8)
+				{
+					if (Rate >= 0 && Rate <= 85)
+					{
+						Upgrade.Grade = Item->byGrade + 1;
+						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
+					}
+					if (Rate >= 86 && Rate <= 90)
 					{
 						Upgrade.Grade = Item->byGrade - 1;
 						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
@@ -958,15 +1015,34 @@ void Player::SendItemUpgrade(Packet & packet)
 						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
 					}
 				}
-				//Rate +6
-				if (Item->byGrade == 6)
+				//Rate +9
+				if (Item->byGrade == 9)
 				{
-					if (Rate >= 0 && Rate <= 50)
+					if (Rate >= 0 && Rate <= 70)
 					{
 						Upgrade.Grade = Item->byGrade + 1;
 						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
 					}
-					if (Rate >= 51 && Rate <= 80)
+					if (Rate >= 71 && Rate <= 85)
+					{
+						Upgrade.Grade = Item->byGrade - 1;
+						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
+					}
+					if (Rate >= 86 && Rate <= 100)
+					{
+						Upgrade.Grade = 0;
+						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
+					}
+				}
+				//Rate +10
+				if (Item->byGrade == 10)
+				{
+					if (Rate >= 0 && Rate <= 68)
+					{
+						Upgrade.Grade = Item->byGrade + 1;
+						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
+					}
+					if (Rate >= 69 && Rate <= 80)
 					{
 						Upgrade.Grade = Item->byGrade - 1;
 						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
@@ -977,34 +1053,34 @@ void Player::SendItemUpgrade(Packet & packet)
 						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
 					}
 				}
-				//Rate +7
-				if (Item->byGrade == 7)
+				//Rate +11
+				if (Item->byGrade == 11)
 				{
-					if (Rate >= 0 && Rate <= 45)
+					if (Rate >= 0 && Rate <= 60)
 					{
 						Upgrade.Grade = Item->byGrade + 1;
 						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
 					}
-					if (Rate >= 46 && Rate <= 75)
+					if (Rate >= 61 && Rate <= 80)
 					{
 						Upgrade.Grade = Item->byGrade - 1;
 						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
 					}
-					if (Rate >= 76 && Rate <= 100)
+					if (Rate >= 80 && Rate <= 100)
 					{
 						Upgrade.Grade = 0;
 						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
 					}
 				}
-				//Rate +8
-				if (Item->byGrade == 8)
+				//Rate +12
+				if (Item->byGrade == 12)
 				{
-					if (Rate >= 0 && Rate <= 40)
+					if (Rate >= 0 && Rate <= 50)
 					{
 						Upgrade.Grade = Item->byGrade + 1;
 						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
 					}
-					if (Rate >= 41 && Rate <= 70)
+					if (Rate >= 51 && Rate <= 70)
 					{
 						Upgrade.Grade = Item->byGrade - 1;
 						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
@@ -1015,34 +1091,15 @@ void Player::SendItemUpgrade(Packet & packet)
 						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
 					}
 				}
-				//Rate +9
-				if (Item->byGrade == 9)
+				//Rate +13
+				if (Item->byGrade == 13)
 				{
-					if (Rate >= 0 && Rate <= 35)
+					if (Rate >= 0 && Rate <= 40)
 					{
 						Upgrade.Grade = Item->byGrade + 1;
 						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
 					}
-					if (Rate >= 36 && Rate <= 65)
-					{
-						Upgrade.Grade = Item->byGrade - 1;
-						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
-					}
-					if (Rate >= 66 && Rate <= 100)
-					{
-						Upgrade.Grade = 0;
-						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
-					}
-				}
-				//Rate +10
-				if (Item->byGrade == 10)
-				{
-					if (Rate >= 0 && Rate <= 30)
-					{
-						Upgrade.Grade = Item->byGrade + 1;
-						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
-					}
-					if (Rate >= 31 && Rate <= 60)
+					if (Rate >= 41 && Rate <= 60)
 					{
 						Upgrade.Grade = Item->byGrade - 1;
 						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
@@ -1053,77 +1110,20 @@ void Player::SendItemUpgrade(Packet & packet)
 						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
 					}
 				}
-				//Rate +11
-				if (Item->byGrade == 11)
+				//Rate +14
+				if (Item->byGrade == 14)
 				{
-					if (Rate >= 0 && Rate <= 25)
+					if (Rate >= 0 && Rate <= 30)
 					{
 						Upgrade.Grade = Item->byGrade + 1;
 						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
 					}
-					if (Rate >= 26 && Rate <= 55)
-					{
-						Upgrade.Grade = Item->byGrade - 1;
-						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
-					}
-					if (Rate >= 56 && Rate <= 100)
-					{
-						Upgrade.Grade = 0;
-						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
-					}
-				}
-				//Rate +12
-				if (Item->byGrade == 12)
-				{
-					if (Rate >= 0 && Rate <= 20)
-					{
-						Upgrade.Grade = Item->byGrade + 1;
-						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
-					}
-					if (Rate >= 21 && Rate <= 50)
+					if (Rate >= 31 && Rate <= 50)
 					{
 						Upgrade.Grade = Item->byGrade - 1;
 						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
 					}
 					if (Rate >= 51 && Rate <= 100)
-					{
-						Upgrade.Grade = 0;
-						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
-					}
-				}
-				//Rate +13
-				if (Item->byGrade == 13)
-				{
-					if (Rate >= 0 && Rate <= 15)
-					{
-						Upgrade.Grade = Item->byGrade + 1;
-						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
-					}
-					if (Rate >= 16 && Rate <= 45)
-					{
-						Upgrade.Grade = Item->byGrade - 1;
-						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
-					}
-					if (Rate >= 46 && Rate <= 100)
-					{
-						Upgrade.Grade = 0;
-						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
-					}
-				}
-				//Rate +14
-				if (Item->byGrade == 14)
-				{
-					if (Rate >= 0 && Rate <= 10)
-					{
-						Upgrade.Grade = Item->byGrade + 1;
-						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
-					}
-					if (Rate >= 11 && Rate <= 40)
-					{
-						Upgrade.Grade = Item->byGrade - 1;
-						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
-					}
-					if (Rate >= 41 && Rate <= 100)
 					{
 						Upgrade.Grade = 0;
 						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card

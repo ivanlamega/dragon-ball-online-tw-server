@@ -101,10 +101,9 @@ public:
 	void			LearnSkill(TBLIDX id);
 	void			UpgradeSkill(Packet& packet);
 	void			ResetSkill(Packet& packet);
+	//Budokay
 	//buffs
 	void			BuffDrop(Packet& packet);
-	//Budokay
-
 	//Events
 	void			SendDragonBallsCheck(Packet& packet);
 	void			SendShenlongReward(Packet& packet);

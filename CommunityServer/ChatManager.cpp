@@ -46,11 +46,11 @@ void CommunitySession::SendLocalChat(Packet packet)
 	sTU_CHAT_MESSAGE_SAY res;
 	memset(&res, 0, sizeof(sTU_CHAT_MESSAGE_SAY));
 	req->awchMessage[req->wMessageLengthInUnicode] = 0;
-	//sLog.outPacketFile(&packet);
+	sLog.outPacketFile(&packet);
 	res.wPacketSize = sizeof(sTU_CHAT_MESSAGE_SAY) - 2;
 	res.wOpCode = TU_CHAT_MESSAGE_SAY;
 	res.hSubject = _player->handle;
-	//wcscpy_s(res.awchMessage, MAX_LENGTH_OF_CHAT_MESSAGE_UNICODE + 1, req->awchMessage);
+	wcscpy_s(res.awchMessage, MAX_LENGTH_OF_CHAT_MESSAGE_UNICODE + 1, req->awchMessage);
 
 	memcpy(res.awchMessage, req->awchMessage, sizeof(wchar_t)* MAX_LENGTH_OF_CHAT_MESSAGE_UNICODE + 1);
 

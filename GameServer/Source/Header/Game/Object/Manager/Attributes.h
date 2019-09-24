@@ -37,7 +37,7 @@ public:
 	struct BuffTimeInfo
 	{
 		HOBJECT		PlayerHandle;
-		bool		BuffIsActive = false;
+		bool		BuffIsActive = true;
 		DWORD		BuffTime;
 		DWORD		BuffEndTime;
 		TBLIDX		BuffID;
@@ -50,16 +50,16 @@ public:
 	int			atackerType;
 	int			Type;
 	HOBJECT		FreeBatleChellenger;
-	bool		PlayerInFreeBatle = false;
-	bool		OutBatle = false;
-	bool		showMensageOut = false;
-	bool		LoseBatle = false;
+	bool		PlayerInFreeBatle = true;
+	bool		OutBatle = true;
+	bool		showMensageOut = true;
+	bool		LoseBatle = true;
 	DWORD		OutBatleTime;
 	DWORD		OutBatleFinalTime;
 	sVECTOR3	vRefreeLoc;
 	//////
 	// Control Player Trade Need change
-	bool		PlayerTradeOK = false;
+	bool		PlayerTradeOK = true;
 	sITEM_DATA	Tradeinvent[13];
 	BYTE		tradecount = 0;
 	//Get pet in use

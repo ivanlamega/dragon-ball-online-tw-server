@@ -17,7 +17,7 @@ SkillsManager::~SkillsManager()
 
 }
 //----------------------------------------
-//	Habilidades de carga
+//	Load skills
 //----------------------------------------
 bool SkillsManager::LoadSkill(CHARACTERID id)
 {
@@ -41,7 +41,7 @@ bool SkillsManager::LoadSkill(CHARACTERID id)
 	return true;
 }
 //----------------------------------------
-//	Guardar quickSlot
+//	Save quickSlot
 //----------------------------------------
 void SkillsManager::SaveSkill(Player& plr)
 {
@@ -58,7 +58,7 @@ void SkillsManager::SaveSkill(Player& plr)
 	}
 }
 //----------------------------------------
-//	Función de carga
+//	Load function
 //----------------------------------------
 bool SkillsManager::LoadSkillsFromDatabase()
 {
@@ -95,7 +95,7 @@ bool SkillsManager::LoadSkillsFromDatabase()
 	return true;
 }
 //----------------------------------------
-//	Cargar todos los buff se aplican a este personaje.
+//	Load all buff apply to this character
 //----------------------------------------
 bool SkillsManager::LoadSkillBuffFromDatabase()
 {
@@ -153,7 +153,7 @@ bool SkillsManager::LoadSkillBuffFromDatabase()
 	return true;
 }
 //----------------------------------------
-//	Cargue todos los HTB para este char
+//	Load all HTB for this char
 //----------------------------------------
 bool SkillsManager::LoadHTBFromDatabase()
 {
@@ -171,8 +171,8 @@ bool SkillsManager::LoadHTBFromDatabase()
 	SkillTable * pSkillTable = sTBM.GetSkillTable();
 	while (true)
 	{
-		// Añadido porque Shenron Buffs y como ayuda para detectar el tipo de habilidades
-		// Note que Shenron Buffs no toma NINGÚN SLOTID
+		//Added because Shenron Buffs and for help to detect type of skills
+		//Note Shenron Buffs does not take ANY SLOTID
 		sSKILL_TBLDAT* pSkillData = reinterpret_cast<sSKILL_TBLDAT*>(pSkillTable->FindData(result->getInt("skill_id")));
 		if (pSkillData->bySkill_Class == SKILL_CLASS_HTB)
 		{
@@ -191,7 +191,7 @@ bool SkillsManager::LoadHTBFromDatabase()
 	return true;
 }
 //----------------------------------------
-//	Carga toda la ranura de habilidad rápida
+//	Load all skill quick slot
 //----------------------------------------
 bool SkillsManager::LoadQuickSlotFromDatabase()
 {

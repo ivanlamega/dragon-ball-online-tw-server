@@ -13,7 +13,7 @@ AttributesManager::AttributesManager()
 	RPCounter = 0;
 	RPFilledCounter = 0;
 	plr = nullptr;
-	//memset(&PlayerProfile.avatarAttribute, 0, sizeof(sAVATAR_ATTRIBUTE));
+	memset(&PlayerProfile.avatarAttribute, 0, sizeof(sAVATAR_ATTRIBUTE));
 }
 //----------------------------------------
 //	Destructor
@@ -143,8 +143,8 @@ bool AttributesManager::LoadAttributes(CHARACTERID _id, Player* _plr)
 	PlayerProfile.sLocalize.netp = result->getInt("Token");// Token Point correct value	
 	PlayerProfile.sLocalize.IsVip = result->getInt("IsVip");;// S icon Vip_Member Maybe
 	cashpoit = result->getInt("CashPoint");
-	//WagguCoin = result->getInt("WagguCoin");
-	//EventCoin = result->getInt("EventCoin");
+	WagguCoin = result->getInt("WagguCoin");
+	EventCoin = result->getInt("EventCoin");
 	PlayerProfile.sMixData.bNormalStart = 1;
 	PlayerProfile.sMixData.bSpecialStart = 0;
 	PlayerProfile.sMixData.byMixLevel = result->getInt("MixLevel");
@@ -290,66 +290,66 @@ bool AttributesManager::LoadAttributeFromDB()
 	PlayerProfile.avatarAttribute.unknown_int16_2 = 1;
 	PlayerProfile.avatarAttribute.unknown_int16_3 = 1;
 
-	PlayerProfile.avatarAttribute.unknown2 = 0;
-	PlayerProfile.avatarAttribute.unknown3_0 = 0;
-	PlayerProfile.avatarAttribute.unknown3_1 = 0;
-	PlayerProfile.avatarAttribute.unknown3_10 = 0;
-	PlayerProfile.avatarAttribute.unknown3_11 = 0;//
-	PlayerProfile.avatarAttribute.unknown3_12 = 0;
-	PlayerProfile.avatarAttribute.unknown3_13 = 0;//
-	PlayerProfile.avatarAttribute.unknown3_2 = 0;
-	PlayerProfile.avatarAttribute.unknown3_3 = 0;//
-	PlayerProfile.avatarAttribute.unknown3_5 = 0;
+	PlayerProfile.avatarAttribute.unknown2 = 25;
+	PlayerProfile.avatarAttribute.unknown3_0 = 30;
+	PlayerProfile.avatarAttribute.unknown3_1 = 35;
+	PlayerProfile.avatarAttribute.unknown3_10 = 40;
+	PlayerProfile.avatarAttribute.unknown3_11 = 45;//
+	PlayerProfile.avatarAttribute.unknown3_12 = 50;
+	PlayerProfile.avatarAttribute.unknown3_13 = 55;//
+	PlayerProfile.avatarAttribute.unknown3_2 = 60;
+	PlayerProfile.avatarAttribute.unknown3_3 = 65;//
+	PlayerProfile.avatarAttribute.unknown3_5 = 70;
 	PlayerProfile.avatarAttribute.MaxWeight = 2600;
 	PlayerProfile.avatarAttribute.unknown3_w6 = 0; // if != 0 weight get bugged
-	PlayerProfile.avatarAttribute.unknown3_7 = 0;
-	PlayerProfile.avatarAttribute.unknown3_8 = 0;//
-	PlayerProfile.avatarAttribute.unknown3_9 = 0;
-	PlayerProfile.avatarAttribute.unknown4_0 = 0;
-	PlayerProfile.avatarAttribute.unknown4_1 = 0;
-	PlayerProfile.avatarAttribute.unknown4_2 = 0;
-	PlayerProfile.avatarAttribute.unknown4_3 = 0;
-	PlayerProfile.avatarAttribute.unknown4_4 = 0;
-	PlayerProfile.avatarAttribute.unknown4_5 = 0;
-	PlayerProfile.avatarAttribute.unknown4_6 = 0;
-	PlayerProfile.avatarAttribute.unknown5_1 = 0;
-	PlayerProfile.avatarAttribute.unknown5_0 = 0;
-	PlayerProfile.avatarAttribute.unknown5_2 = 0;
-	PlayerProfile.avatarAttribute.unknown5_3 = 0;
-	PlayerProfile.avatarAttribute.unknown5_4 = 0;
-	PlayerProfile.avatarAttribute.unknown5_5 = 0;
-	PlayerProfile.avatarAttribute.unknown6 = 0;
-	PlayerProfile.avatarAttribute.unknown_float1_0 = 0;
-	PlayerProfile.avatarAttribute.unknown_float1_1 = 0;
-	PlayerProfile.avatarAttribute.unknown_float2_0 = 0;
-	PlayerProfile.avatarAttribute.unknown_float2_1 = 0;
-	PlayerProfile.avatarAttribute.unknown_rate1 = 0;
-	PlayerProfile.avatarAttribute.unknown_rate2 = 0;
+	PlayerProfile.avatarAttribute.unknown3_7 = 80;
+	PlayerProfile.avatarAttribute.unknown3_8 = 85;
+	PlayerProfile.avatarAttribute.unknown3_9 = 90;
+	PlayerProfile.avatarAttribute.unknown4_0 = 95;
+	PlayerProfile.avatarAttribute.unknown4_1 = 100;
+	PlayerProfile.avatarAttribute.unknown4_2 = 105;
+	PlayerProfile.avatarAttribute.unknown4_3 = 110;
+	PlayerProfile.avatarAttribute.unknown4_4 = 115;
+	PlayerProfile.avatarAttribute.unknown4_5 = 120;
+	PlayerProfile.avatarAttribute.unknown4_6 = 125;
+	PlayerProfile.avatarAttribute.unknown5_1 = 130;
+	PlayerProfile.avatarAttribute.unknown5_0 = 135;
+	PlayerProfile.avatarAttribute.unknown5_2 = 140;
+	PlayerProfile.avatarAttribute.unknown5_3 = 145;
+	PlayerProfile.avatarAttribute.unknown5_4 = 150;
+	PlayerProfile.avatarAttribute.unknown5_5 = 155;
+	PlayerProfile.avatarAttribute.unknown6 = 160;
+	PlayerProfile.avatarAttribute.unknown_float1_0 = 165;
+	PlayerProfile.avatarAttribute.unknown_float1_1 = 170;
+	PlayerProfile.avatarAttribute.unknown_float2_0 = 175;
+	PlayerProfile.avatarAttribute.unknown_float2_1 = 180;
+	PlayerProfile.avatarAttribute.unknown_rate1 = 185;
+	PlayerProfile.avatarAttribute.unknown_rate2 = 190;
 	// SKILL SPEED
-	PlayerProfile.avatarAttribute.SkillSpeed = 70.0f;
+	PlayerProfile.avatarAttribute.SkillSpeed = 85.0f;
 	//LP Get up Reg
-	PlayerProfile.avatarAttribute.wBaseLpRegen = 10;
-	PlayerProfile.avatarAttribute.wLastLpRegen = 10;
+	PlayerProfile.avatarAttribute.wBaseLpRegen = 15;
+	PlayerProfile.avatarAttribute.wLastLpRegen = 15;
 	//LP Sit Down Reg
-	PlayerProfile.avatarAttribute.wBaseLpSitdownRegen = 20;
-	PlayerProfile.avatarAttribute.wLastLpSitdownRegen = 20;
+	PlayerProfile.avatarAttribute.wBaseLpSitdownRegen = 1160;
+	PlayerProfile.avatarAttribute.wLastLpSitdownRegen = 1160;
 	//LP Reg in Batle
 	PlayerProfile.avatarAttribute.wBaseLpBattleRegen = 0;
 	PlayerProfile.avatarAttribute.wLastLpBattleRegen = 0;
 	//EP Get UP Reg
-	PlayerProfile.avatarAttribute.wBaseEpRegen = 10;
-	PlayerProfile.avatarAttribute.wLastEpRegen = 10;
+	PlayerProfile.avatarAttribute.wBaseEpRegen = 15;
+	PlayerProfile.avatarAttribute.wLastEpRegen = 15;
 	//EP Sit Down Reg
-	PlayerProfile.avatarAttribute.wBaseEpSitdownRegen = 20;
-	PlayerProfile.avatarAttribute.wLastEpSitdownRegen = 20;
+	PlayerProfile.avatarAttribute.wBaseEpSitdownRegen = 1160;
+	PlayerProfile.avatarAttribute.wLastEpSitdownRegen = 1160;
 	//EP Reg in Batle
 	PlayerProfile.avatarAttribute.wBaseEpBattleRegen = 0;
 	PlayerProfile.avatarAttribute.wLastEpBattleRegen = 0;
 	//Rp incress rate
-	PlayerProfile.avatarAttribute.wBaseRpRegen = 1;
-	PlayerProfile.avatarAttribute.wLastRpRegen = 1;
+	PlayerProfile.avatarAttribute.wBaseRpRegen = 100;
+	PlayerProfile.avatarAttribute.wLastRpRegen = 100;
 	//RP diminution
-	PlayerProfile.avatarAttribute.wLastRpDimimutionRate = 3;
+	PlayerProfile.avatarAttribute.wLastRpDimimutionRate = 1;
 	//Curse Sucess Rate
 	PlayerProfile.avatarAttribute.wBaseCurseSuccessRate = 0;
 	PlayerProfile.avatarAttribute.wLastCurseSuccessRate = 0;
@@ -397,9 +397,9 @@ bool AttributesManager::LoadAttributeFromDB()
 	PlayerProfile.avatarAttribute.fHtbBlockModeSuccessRate = 0; // Bleeding defense TW
 	PlayerProfile.avatarAttribute.fSitDownLpRegenBonusRate = 0; // posion defense tw
 	PlayerProfile.avatarAttribute.fSitDownEpRegenBonusRate = 0; // abdominal pain defense
-	PlayerProfile.avatarAttribute.fPhysicalCriticalDamageBonusRate = 0;//Burn Defense
+	PlayerProfile.avatarAttribute.fPhysicalCriticalDamageBonusRate = 15;//Burn Defense
 
-	PlayerProfile.avatarAttribute.fEnergyCriticalDamageBonusRate = 1;
+	PlayerProfile.avatarAttribute.fEnergyCriticalDamageBonusRate = 15;
 	PlayerProfile.avatarAttribute.fItemUpgradeBonusRate = 2;
 	PlayerProfile.avatarAttribute.fItemUpgradeBreakBonusRate = 3;
 	PlayerProfile.avatarAttribute.fBaseAirDash2Speed = 30.0f;//Dash Fly2 TW
@@ -474,13 +474,13 @@ bool AttributesManager::LoadCharacterAttrFromDB(sPC_TBLDAT* pTblData)
 	// LP Calculation
 	DWORD BasicLife = pTblData->wBasic_LP + (pTblData->byLevel_Up_LP * PlayerProfile.byLevel);
 	WORD LevelCon = pTblData->byCon + static_cast<WORD>(pTblData->fLevel_Up_Con * PlayerProfile.byLevel);
-	float ConByPoint = 95; // 1con = 85 old tw
+	float ConByPoint = 500; // 1con = 85 old tw
 	DWORD LP = BasicLife + static_cast<DWORD>(LevelCon * ConByPoint);
 
 	//EP Calculation
 	WORD BasicEnergy = pTblData->wBasic_EP + (pTblData->byLevel_Up_EP * PlayerProfile.byLevel);
 	WORD LevelEng = pTblData->byEng + static_cast<WORD>(pTblData->fLevel_Up_Eng * PlayerProfile.byLevel);
-	float EngByPoint = 55; // 1Eng = 45 ep old tw
+	float EngByPoint = 500; // 1Eng = 45 ep old tw
 	WORD EP = BasicEnergy + static_cast<WORD>(LevelEng * EngByPoint);
 
 	//Set Data Base LP/ EP/ RP
@@ -508,12 +508,12 @@ bool AttributesManager::LoadCharacterAttrFromDB(sPC_TBLDAT* pTblData)
 	//Calculation Physical Atack
 	WORD BasicPhysicalOffence = pTblData->wBasic_Physical_Offence + (pTblData->byLevel_Up_Physical_Offence * PlayerProfile.byLevel);
 	WORD LevelStr = pTblData->byStr + static_cast<WORD>(pTblData->fLevel_Up_Str * PlayerProfile.byLevel);
-	float StrByPoint = 1.66; // 1Str = 1.66 Physical old tw
+	float StrByPoint = 5.66; // 1Str = 1.66 Physical old tw
 	WORD PhysicalOffence = BasicPhysicalOffence + static_cast<WORD>(LevelStr * StrByPoint);
 	//Calculation Physical Critical Atack 
 	WORD BasicPhysicalCritical = 0;
 	WORD LevelDex = pTblData->byDex + static_cast<WORD>(pTblData->fLevel_Up_Dex * PlayerProfile.byLevel);
-	float DexByPoint = 0.2; // 1Dex = 1 critical old tw
+	float DexByPoint = 5.2; // 1Dex = 1 critical old tw
 	WORD PhysicalCriticalRate = BasicPhysicalCritical + static_cast<WORD>(LevelDex * DexByPoint);
 	// Atack Defese Physical
 	result = sDB.executes("UPDATE characters_attributes SET BasePhysicalOffence = '%d', LastPhysicalOffence = '%d', BasePhysicalDefence = '%d', LastPhysicalDefence = '%d', BasePhysicalCriticalRate = '%d', LastPhysicalCriticalRate = '%d' WHERE CharacterID = '%d';",
@@ -530,12 +530,12 @@ bool AttributesManager::LoadCharacterAttrFromDB(sPC_TBLDAT* pTblData)
 	//Calculation Energy Atack
 	WORD BasicEnergyOffence = pTblData->wBasic_Energy_Offence + (pTblData->byLevel_Up_Energy_Offence * PlayerProfile.byLevel);
 	WORD LevelSol = pTblData->bySol + static_cast<WORD>(pTblData->fLevel_Up_Sol * PlayerProfile.byLevel);
-	float SolByPoint = 1.66; // 1Soul = 1.66 Physical old tw
+	float SolByPoint = 5.66; // 1Soul = 1.66 Physical old tw
 	WORD EnergyOffence = BasicEnergyOffence + static_cast<WORD>(LevelSol * SolByPoint);
 	//Calculation Energy Critical Atack
 	WORD BasicEnergyCritical = 0;
 	WORD LevelFoc = pTblData->byFoc + static_cast<WORD>(pTblData->fLevel_Up_Foc * PlayerProfile.byLevel);
-	float FocByPoint = 0.2; // 1Focus = 1 pont critical 
+	float FocByPoint = 5.2; // 1Focus = 1 pont critical 
 	WORD EnergyCriticalRate = BasicEnergyCritical + static_cast<WORD>(LevelFoc * FocByPoint);
 	// Atack Defese Energy
 	result = sDB.executes("UPDATE characters_attributes SET BaseEnergyOffence = '%d', LastEnergyOffence = '%d', BaseEnergyDefence = '%d', LastEnergyDefence = '%d', BaseEnergyCriticalRate = '%d', LastEnergyCriticalRate = '%d' WHERE CharacterID = '%d';",
@@ -552,7 +552,7 @@ bool AttributesManager::LoadCharacterAttrFromDB(sPC_TBLDAT* pTblData)
 	//HitRate Calculation
 	WORD BasicHitRate = pTblData->wAttack_Rate  * PlayerProfile.byLevel;
 	WORD LevelingFocus = pTblData->byFoc + static_cast<WORD>(pTblData->fLevel_Up_Foc * PlayerProfile.byLevel);
-	float FocusByPoint = 10; // 1 point = 10 hit rate old tw
+	float FocusByPoint = 15; // 1 point = 10 hit rate old tw
 	WORD HitRate = BasicHitRate + static_cast<WORD>(LevelingFocus * FocusByPoint);
 	//DoggeRate Calculation
 	WORD BasicDoggeRate = pTblData->wDodge_Rate  * PlayerProfile.byLevel;

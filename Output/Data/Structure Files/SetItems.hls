@@ -1,0 +1,14 @@
+#include "standard-types.hsl"
+
+typedef unsigned int TBLIDX;
+
+
+struct sSET_ITEM_TBLDAT
+{
+        TBLIDX                  itemTblidx;
+	bool			bValidity_Able;
+        BYTE                    padding[3];
+	TBLIDX			semiSetOption;
+	TBLIDX			fullSetOption;
+	TBLIDX			aItemTblidx[3];
+};

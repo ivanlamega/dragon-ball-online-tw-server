@@ -1,0 +1,55 @@
+ #include "standard-types.hsl"
+
+typedef unsigned int TBLIDX;
+
+
+struct sSUB_ITEM
+{
+	TBLIDX	itemTblidx;
+	BYTE	   byStackCount;
+        BYTE    padding[3];
+};
+
+
+struct sDBO_TIME
+{
+	unsigned short   year;
+	unsigned char   month;
+	unsigned char   day;
+	unsigned char   hour;
+	unsigned char   minute;
+	unsigned char   second;
+};
+
+
+struct HLSItemTable
+{
+DWORD   Item;
+    WCHAR            wszName[20 + 1];
+    WCHAR            wszCJIProductID[128 + 1];
+	WCHAR            wszIcon[32 + 1];
+    //need Check all Struture 
+    WORD            wHLSItemType;
+    bool            bOnSale;
+    BYTE            padding[3];
+    BYTE            bySellType;
+    BYTE            byDiscount;    // ÇÒÀÎ·ü
+    BYTE            byStackCount;
+    bool            bCjVip;        //CJ VIP ÇÒÀÎ°¡´ÉÇÑ°¡
+    DWORD           itemTblidx;//Next Item ID "asSubItem"
+    DWORD           itemTblidx2;//Next Item ID "asSubItem"
+    DWORD           itemTblidx3;//Next Item ID "asSubItem"
+    WORD            wUnknown1;
+    BYTE            padding[2];
+    DWORD           costMaybe;
+    WORD            wUnk2;
+    WORD            wUnk3;           
+    struct sSUB_ITEM       asSubItem[5];
+    BYTE            bUnk1;
+    BYTE            padding[3];
+    DWORD           dwUnk1;
+    BYTE            bUnk2;
+    BYTE            bUnk3;
+    WORD            padding;
+
+};
