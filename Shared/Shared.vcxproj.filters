@@ -46,6 +46,12 @@
     <Filter Include="Header Files\Network\LinkedElement">
       <UniqueIdentifier>{1b91e7d4-b0dc-434c-b5ea-9f8d328d5f12}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\XmlParser2">
+      <UniqueIdentifier>{2ff8b469-7e7a-4ebb-8259-dd15abc06d7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\XmlParser2">
+      <UniqueIdentifier>{58102208-5e91-4da5-8780-35555303871d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Header\Logger.h">
@@ -132,6 +138,9 @@
     <ClInclude Include="Source\Library\NetworkLibrary\Header\LinkedElement\RefManager.h">
       <Filter>Header Files\Network\LinkedElement</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Header\XmlParser2\XmlParser.h">
+      <Filter>Header Files\XmlParser2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\CPP\Logger.cpp">
@@ -169,6 +178,9 @@
     </ClCompile>
     <ClCompile Include="Source\CPP\SQL\GameRequest.cpp">
       <Filter>Source Files\SQL</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\XmlParser2\XmlParser.cpp">
+      <Filter>Source Files\XmlParser2</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
