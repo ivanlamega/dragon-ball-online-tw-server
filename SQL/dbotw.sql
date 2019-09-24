@@ -35,7 +35,7 @@ CREATE TABLE `account`  (
   `rango` int(11) NULL DEFAULT 1,
   `estado` varchar(1) CHARACTER SET utf8 COLLATE utf8_spanish2_ci NULL DEFAULT NULL,
   `fecha_baja` datetime(0) NULL DEFAULT NULL,
-  `ip` varchar(50) CHARACTER SET utf8 COLLATE utf8_spanish2_ci NOT NULL,
+  `ip` varchar(50) CHARACTER SET utf8 COLLATE utf8_spanish2_ci NULL DEFAULT NULL,
   PRIMARY KEY (`AccountID`) USING BTREE,
   UNIQUE INDEX `AccountID_UNIQUE`(`AccountID`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 23 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
@@ -516,6 +516,11 @@ CREATE TABLE `realmlist`  (
   `Name` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = MyISAM AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'Realm System' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of realmlist
+-- ----------------------------
+INSERT INTO `realmlist` VALUES (1, 1, 1, 1, 0, 0, NULL);
 
 -- ----------------------------
 -- Table structure for skills
