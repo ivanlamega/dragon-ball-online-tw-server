@@ -138,7 +138,7 @@
     <ClInclude Include="Source\Library\NetworkLibrary\Header\LinkedElement\RefManager.h">
       <Filter>Header Files\Network\LinkedElement</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Header\XmlParser2\XmlParser.h">
+    <ClInclude Include="Source\Header\XmlParser2\XmlParser2.h">
       <Filter>Header Files\XmlParser2</Filter>
     </ClInclude>
   </ItemGroup>
@@ -179,7 +179,7 @@
     <ClCompile Include="Source\CPP\SQL\GameRequest.cpp">
       <Filter>Source Files\SQL</Filter>
     </ClCompile>
-    <ClCompile Include="Source\CPP\XmlParser2\XmlParser.cpp">
+    <ClCompile Include="Source\CPP\XmlParser2\XmlParser2.cpp">
       <Filter>Source Files\XmlParser2</Filter>
     </ClCompile>
   </ItemGroup>
