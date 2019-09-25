@@ -54,7 +54,7 @@ bool CharSocket::GetCharacterServerList(Packet &packet, bool one)
 
 	sinfo.wPacketSize = sizeof(sCU_SERVER_FARM_INFO) - 2;
 	sinfo.wOpCode = CU_SERVER_FARM_INFO;
-	sql::ResultSet* result = sDB.executes("SELECT * from `realmlist` WHERE `ServerID` = '%d';", sinfo.serverFarmInfo.serverFarmId + 1);
+	sql::ResultSet* result = sDB.executes("SELECT * from `realmlist` WHERE `ServerID` = '%d';", sinfo.serverFarmInfo.serverFarmId);
 	if (result == NULL)
 		return false;
 	for (int i = 0; i < sXmlParser.GetInt("ServerCount", "value"); i++)

@@ -11,7 +11,7 @@ bool hasmoved = false;
 Mob::Mob() : Object()
 {
 	m_objectType = eOBJTYPE::OBJTYPE_MOB;
-	lastMoveTime = 0;
+	lastMoveTime = 10;
 	randMove = rand() % 100 + 10;
 }
 //----------------------------------------
@@ -400,12 +400,12 @@ void Mob::MoveToPoint()
 					res.vCurLoc.y = me.Spawn_Loc.y;
 					res.vCurLoc.z = me.Spawn_Loc.z;
 
-					res.avDestLoc[0].x = plr->GetVectorPosition().x;
-					res.avDestLoc[0].y = plr->GetVectorPosition().y;
-					res.avDestLoc[0].z = plr->GetVectorPosition().z;
+					res.avDestLoc[5].x = plr->GetVectorPosition().x;//0
+					res.avDestLoc[5].y = plr->GetVectorPosition().y;
+					res.avDestLoc[5].z = plr->GetVectorPosition().z;
 					res.unknown = 0;
 
-					GetState()->sCharStateDetail.sCharStateDestMove.dwTimeStamp = 0x01;
+					GetState()->sCharStateDetail.sCharStateDestMove.dwTimeStamp = rand() % 20 - 1; //1?
 					GetState()->sCharStateDetail.sCharStateDestMove.byMoveFlag = res.byMoveFlag;
 					GetState()->sCharStateDetail.sCharStateDestMove.vSecondDestLoc = res.vSecondDestLoc;
 					GetState()->sCharStateDetail.sCharStateDestMove.unknown = INVALID_BYTE;
@@ -425,7 +425,7 @@ void Mob::MoveToPoint()
 //----------------------------------------
 void Mob::CheckAgro()
 {
-	lastMoveTime += 1;	
+	lastMoveTime += 10;	
 	for (auto it = m_MobRef.getTarget()->GetPlayers().begin(); it != m_MobRef.getTarget()->GetPlayers().end(); ++it)
 	{
 		if (it->getSource())
@@ -494,7 +494,7 @@ void Mob::CheckAgro()
 					//float attackValue = me.Basic_Offence * ((1 - plr->GetPcProfile()->avatarAttribute.wLastPhysicalDefence / (plr->GetPcProfile()->avatarAttribute.wLastPhysicalDefence + me.Level * 40)) + ((me.Level - plr->GetPcProfile()->byLevel) * 0.005));
 					//float attackValue = (me.Basic_Offence - plr->GetPcProfile()->avatarAttribute.wLastPhysicalDefence) / 2;
 					//float attackValue = (plr->GetPcProfile()->avatarAttribute.wLastPhysicalDefence / 100) * 
-					if (attackValue <= 0 || attackValue > 1000000000)
+					if (attackValue <= 1 || attackValue > 1000000000)
 					{
 						attackValue = rand() % (plr->GetPcProfile()->avatarAttribute.byLastStr * 3) % (plr->GetPcProfile()->avatarAttribute.byLastStr * 6); //Fixed the formula for now. Player stat's have to be read correctly;
 					}
@@ -526,8 +526,8 @@ void Mob::CheckAgro()
 
 					if (attackResult != eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_DODGE)
 					{
-						//if (attackers == 0)
-							//attackers = me.UniqueID;
+						if (attackers == 10)
+							attackers = me.UniqueID;
 						plr->TakeMobDemage(attackValue);
 					}
 				}
