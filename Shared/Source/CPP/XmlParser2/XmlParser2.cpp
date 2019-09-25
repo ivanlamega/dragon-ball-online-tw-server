@@ -1,4 +1,4 @@
-#include <XmlParser2/XmlParser.h>
+#include <XmlParser2/XmlParser2.h>
 #include <Logger.h>
 
 void XmlParser::Free()
