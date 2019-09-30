@@ -244,6 +244,8 @@ void Player::ReadMail(Packet pPacket)
 	res.endTime = 0;
 
 	SendPacket((char*)&res, sizeof(sGU_MAIL_READ_RES));
+	
+	
 }
 //----------------------------------------
 //	Delet mail
@@ -261,7 +263,7 @@ void Player::DeletMail(Packet pPacket)
 	res.hObject = req->hObject;
 
 	// Remove in Data Base
-
+	sDB.DelMail(res.mailID);
 	SendPacket((char*)&res, sizeof(sGU_MAIL_DEL_RES));
 }
 //----------------------------------------

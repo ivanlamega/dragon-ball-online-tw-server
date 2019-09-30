@@ -148,6 +148,12 @@ void MySQLConnWrapper::AddMail(CHARACTERID CharID, int byDay, int byMailType, in
 	if (result != NULL)
 		delete result;
 }
+void MySQLConnWrapper::DelMail(MAILID mailID)
+{
+	sql::ResultSet* result = sDB.executes("DELETE FROM `mail` WHERE `id` = '%d';", mailID);
+	if (result != NULL)
+		delete result;
+}
 void MySQLConnWrapper::AddTitle(CHARACTERID characterID, TBLIDX TitleID)
 {
 	sql::ResultSet* result = sDB.executes("INSERT INTO titlelist (`CharacterID`,  `TitleID`) VALUES('%d','%d');",
