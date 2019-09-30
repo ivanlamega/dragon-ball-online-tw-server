@@ -895,12 +895,15 @@ void Player::HandeFreePvpZone()
 			isInPvpZone = true;
 
 			// Send packet pvp zone entered
-			sGU_WORLD_FREE_PVP_ZONE_ENTERED_NFY res;
+			m_session->SendFreePVPZoneEntered();
+
+			/*sGU_WORLD_FREE_PVP_ZONE_ENTERED_NFY res;
 			res.wOpCode = GU_WORLD_FREE_PVP_ZONE_ENTERED_NFY;
 			res.handle = GetHandle();
 			res.wPacketSize = sizeof(sGU_WORLD_FREE_PVP_ZONE_ENTERED_NFY) - 2;
 					
-			sWorld.SendToAll((char*)&res, sizeof(sGU_WORLD_FREE_PVP_ZONE_ENTERED_NFY));
+			sWorld.SendToAll((char*)&res, sizeof(sGU_WORLD_FREE_PVP_ZONE_ENTERED_NFY));*/
+			
 		//	sLog.outError("Player: x: %f, y: %f, z: %f", m_position.x, m_position.y, m_position.z);
 			
 		}
@@ -912,13 +915,14 @@ void Player::HandeFreePvpZone()
 		{
 			isInPvpZone = false;
 			// Send packet pvp zone left
-			sGU_WORLD_FREE_PVP_ZONE_LEFT_NFY res;
+			m_session->SendFreePVPZoneLeft();
+			/*sGU_WORLD_FREE_PVP_ZONE_LEFT_NFY res;
 			res.wOpCode = GU_WORLD_FREE_PVP_ZONE_LEFT_NFY;
 			res.handle = GetHandle();
 			res.wPacketSize = sizeof(sGU_WORLD_FREE_PVP_ZONE_LEFT_NFY) - 2;
 
 			
-			sWorld.SendToAll((char*)&res, sizeof(sGU_WORLD_FREE_PVP_ZONE_LEFT_NFY));
+			sWorld.SendToAll((char*)&res, sizeof(sGU_WORLD_FREE_PVP_ZONE_LEFT_NFY));*/
 			//	sLog.outError("Player: x: %f, y: %f, z: %f", m_position.x, m_position.y, m_position.z);
 		}
 		

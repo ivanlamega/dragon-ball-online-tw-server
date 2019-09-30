@@ -96,6 +96,9 @@ public:
 	void			SendShopSell(Packet& packet);
 	// AutoAttck
 	void			SendToggleAutoAttack(bool val);
+	// Free pvp zone
+	void			SendFreePVPZoneEntered();
+	void			SendFreePVPZoneLeft();
 	//Skills
 	void			HandleUseSkill(Packet& packet);
 	void			LearnSkill(TBLIDX id);
