@@ -82,6 +82,7 @@ public:
 	void SaveTitleMarket(int TitleMarket, CHARACTERID charid);
 	void SavePlayerWagguCoin(int WagguPoint, CHARACTERID charid);
 	void SavePlayerCashPoit(int Cash, CHARACTERID charid);
+	void SavePlayerZenny(int zenny, CHARACTERID charid);
 private:
 	string host;
 	string user;
