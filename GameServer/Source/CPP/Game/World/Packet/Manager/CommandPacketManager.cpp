@@ -336,7 +336,7 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 		}
 		else if (strToken == "@pvpon")
 		{
-			strToken = str.substr(pos + 1, std::string::npos);
+			/*strToken = str.substr(pos + 1, std::string::npos);
 			unsigned int uiTblId = (unsigned int)atof(strToken.c_str());
 			sGU_WORLD_FREE_PVP_ZONE_ENTERED_NFY res;
 			res.wOpCode = GU_WORLD_FREE_PVP_ZONE_ENTERED_NFY;
@@ -345,20 +345,22 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 
 			SendPacket((char*)&res, sizeof(sGU_WORLD_FREE_PVP_ZONE_ENTERED_NFY));
 			sWorld.SendToAll((char*)&res, sizeof(sGU_WORLD_FREE_PVP_ZONE_ENTERED_NFY));
-			_player->SendToPlayerList((char*)&res, sizeof(sGU_WORLD_FREE_PVP_ZONE_ENTERED_NFY));
+			_player->SendToPlayerList((char*)&res, sizeof(sGU_WORLD_FREE_PVP_ZONE_ENTERED_NFY));*/
+			SendFreePVPZoneEntered();
 			//SendToAll((char*)&res, sizeof(sGU_WORLD_FREE_PVP_ZONE_ENTERED_NFY));
 			return;
 		}
 		else if (strToken == "@pvpoff")
 		{
-			strToken = str.substr(pos + 1, std::string::npos);
+			/*strToken = str.substr(pos + 1, std::string::npos);
 			unsigned int uiTblId = (unsigned int)atof(strToken.c_str());
 			sGU_WORLD_FREE_PVP_ZONE_LEFT_NFY res;
 			res.wOpCode = GU_WORLD_FREE_PVP_ZONE_LEFT_NFY;
 			res.handle = _player->GetHandle();
 			res.wPacketSize = sizeof(sGU_WORLD_FREE_PVP_ZONE_LEFT_NFY) - 2;
 
-			sWorld.SendToAll((char*)&res, sizeof(sGU_WORLD_FREE_PVP_ZONE_LEFT_NFY));
+			sWorld.SendToAll((char*)&res, sizeof(sGU_WORLD_FREE_PVP_ZONE_LEFT_NFY));*/
+			SendFreePVPZoneLeft();
 			return;
 		}
 		else if (strToken == "@dbhuntend")
