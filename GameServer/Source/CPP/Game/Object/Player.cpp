@@ -888,14 +888,23 @@ void Player::HandleFreeBattleWinners()
 
 void Player::HandeFreePvpZone()
 {
-	if (m_position.x >= 5752, 1 && m_position.x <= 5791, 6 &&
-		m_position.z >= 748, 1 && m_position.z <= 787, 7) {
+	if (m_position.x >= 5752.109863 && m_position.x <= 5791.600098 &&
+		m_position.z >= 748.119995 && m_position.z <= 787.700012) {
 		if (!isInPvpZone)
 		{
 			isInPvpZone = true;
 
 			// Send packet pvp zone entered
+			sGU_WORLD_FREE_PVP_ZONE_ENTERED_NFY res;
+			res.wOpCode = GU_WORLD_FREE_PVP_ZONE_ENTERED_NFY;
+			res.handle = GetHandle();
+			res.wPacketSize = sizeof(sGU_WORLD_FREE_PVP_ZONE_ENTERED_NFY) - 2;
+					
+			sWorld.SendToAll((char*)&res, sizeof(sGU_WORLD_FREE_PVP_ZONE_ENTERED_NFY));
+		//	sLog.outError("Player: x: %f, y: %f, z: %f", m_position.x, m_position.y, m_position.z);
+			
 		}
+					
 	}
 	else
 	{
@@ -903,7 +912,16 @@ void Player::HandeFreePvpZone()
 		{
 			isInPvpZone = false;
 			// Send packet pvp zone left
+			sGU_WORLD_FREE_PVP_ZONE_LEFT_NFY res;
+			res.wOpCode = GU_WORLD_FREE_PVP_ZONE_LEFT_NFY;
+			res.handle = GetHandle();
+			res.wPacketSize = sizeof(sGU_WORLD_FREE_PVP_ZONE_LEFT_NFY) - 2;
+
+			
+			sWorld.SendToAll((char*)&res, sizeof(sGU_WORLD_FREE_PVP_ZONE_LEFT_NFY));
+			//	sLog.outError("Player: x: %f, y: %f, z: %f", m_position.x, m_position.y, m_position.z);
 		}
+		
 	}
 }
 
