@@ -27,6 +27,7 @@ Player::Player(WorldSession* session) : Object()
 	m_objectType = eOBJTYPE::OBJTYPE_PC;
 	cur_obj_tagert = NULL;
 	isMovingToCharServer = false;
+	isInPvpZone = false;
 	rpBallTimer = 0;
 }
 
@@ -349,6 +350,9 @@ void Player::Update(uint32 _update_diff, uint32 _time)
 	UpdateDropListTimer();
 	// UPDATE ALL TIMER
 	rpBallTimer += _time;
+
+	// Check if player is in pvp zone
+	HandeFreePvpZone();
 }
 //----------------------------------------
 //	Trigger by Player Tick()
@@ -881,6 +885,28 @@ void Player::HandleFreeBattleWinners()
 {
 
 }
+
+void Player::HandeFreePvpZone()
+{
+	if (m_position.x >= 5752, 1 && m_position.x <= 5791, 6 &&
+		m_position.z >= 748, 1 && m_position.z <= 787, 7) {
+		if (!isInPvpZone)
+		{
+			isInPvpZone = true;
+
+			// Send packet pvp zone entered
+		}
+	}
+	else
+	{
+		if (isInPvpZone)
+		{
+			isInPvpZone = false;
+			// Send packet pvp zone left
+		}
+	}
+}
+
 void Player::UpdateAspectState(BYTE State)
 {
 	sGU_UPDATE_CHAR_ASPECT_STATE CharAspect;
