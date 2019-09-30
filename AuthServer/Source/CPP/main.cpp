@@ -23,7 +23,7 @@ int main()
 	std::cout << "\t    | |_| | | | (_| | (_| | (_) | | | | |_) | (_| | | |" << std::endl;
 	std::cout << "\t    |____/|_|  \\__,_|\\__, |\\___/|_| |_|____/ \\__,_|_|_|" << std::endl;
 	std::cout << "\t                     |___/                             " << std::endl;
-	std::cout << yellow << "\t   	           Baticueva 2019					\n\n" << white << std::endl;
+	std::cout << yellow << "\t   	           DboOpenSource 2019					\n\n" << white << std::endl;
 	sLog.outString("Using configuration file 'AuthServer.xml'.");
 	sLog.outString("Using Boost: %s", BOOST_LIB_VERSION);
 
