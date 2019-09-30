@@ -3480,6 +3480,15 @@ BYTE			byType;
 WORD			wResultCode;
 END_PROTOCOL()
 
+BEGIN_PROTOCOL(GU_WORLD_FREE_PVP_ZONE_ENTERED_NFY)
+unsigned int handle;
+END_PROTOCOL()
+
+BEGIN_PROTOCOL(GU_WORLD_FREE_PVP_ZONE_LEFT_NFY)
+unsigned int handle;
+END_PROTOCOL()
+
+
 //To check in future those packet are not in game anymore
 //------------------------------------------------------------------
 /*BEGIN_PROTOCOL(GU_CHAR_MARKING_NFY)
