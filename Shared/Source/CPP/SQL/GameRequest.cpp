@@ -162,3 +162,11 @@ void MySQLConnWrapper::SaveQuickTeleport(CHARACTERID characterID, BYTE TeleportI
 	if (result != NULL)
 		delete result;
 }
+
+void MySQLConnWrapper::SavePlayerZenny(int zenny, CHARACTERID charid)
+{
+	sql::ResultSet * result = sDB.executes("UPDATE characters SET ZennyInventory = %d WHERE CharacterID = %d", zenny, charid);
+
+	if (result != NULL)
+		delete result;
+}
