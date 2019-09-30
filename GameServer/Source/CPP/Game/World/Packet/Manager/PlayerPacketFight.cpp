@@ -39,6 +39,28 @@ void WorldSession::SendTargetSelection(HOBJECT hTarget)
 	res.hSubject = hTarget;
 	SendPacket((char*)&res, sizeof(sGU_CHAR_TARGET_CHANGED));
 }
+
+void WorldSession::SendFreePVPZoneEntered()
+{
+	sGU_WORLD_FREE_PVP_ZONE_ENTERED_NFY res;
+	res.wOpCode = GU_WORLD_FREE_PVP_ZONE_ENTERED_NFY;
+	res.handle = _player->GetHandle();
+	res.wPacketSize = sizeof(sGU_WORLD_FREE_PVP_ZONE_ENTERED_NFY) - 2;
+
+	sWorld.SendToAll((char*)&res, sizeof(sGU_WORLD_FREE_PVP_ZONE_ENTERED_NFY));
+	//	sLog.outError("Player: x: %f, y: %f, z: %f", m_position.x, m_position.y, m_position.z);
+}
+
+void WorldSession::SendFreePVPZoneLeft()
+{
+	sGU_WORLD_FREE_PVP_ZONE_LEFT_NFY res;
+	res.wOpCode = GU_WORLD_FREE_PVP_ZONE_LEFT_NFY;
+	res.handle = _player->GetHandle();
+	res.wPacketSize = sizeof(sGU_WORLD_FREE_PVP_ZONE_LEFT_NFY) - 2;
+
+	sWorld.SendToAll((char*)&res, sizeof(sGU_WORLD_FREE_PVP_ZONE_LEFT_NFY));
+}
+
 //----------------------------------------
 // Necesito eliminar toda esa mierda y remake
 // Interpreta la habilidad actual que nuestro jugador quiere lanzar.
