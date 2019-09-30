@@ -120,6 +120,7 @@ void Player::SavePlayer()
 		sDB.SavePlayerLife(GetPcProfile()->dwCurLP, GetPcProfile()->wCurEP, GetCharacterID());
 		sDB.SaveTitleMarket( GetPcProfile()->sMarking.dwCode, GetCharacterID());
 		sDB.SavePlayerZenny(GetPcProfile()->dwZenny, GetCharacterID());
+	        sDB.SavePlayerExp(GetPcProfile()->dwCurExp, GetCharacterID());
 		// do we need to save attributes as we load them at start ?
 	
 }
