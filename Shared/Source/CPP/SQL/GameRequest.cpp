@@ -176,3 +176,10 @@ void MySQLConnWrapper::SavePlayerZenny(int zenny, CHARACTERID charid)
 	if (result != NULL)
 		delete result;
 }
+void MySQLConnWrapper::SavePlayerExp(int exp, CHARACTERID charid)
+{
+	sql::ResultSet * result = sDB.executes("UPDATE characters SET CurrentExp = %d WHERE CharacterID = %d", exp, charid);
+
+	if (result != NULL)
+		delete result;
+}
