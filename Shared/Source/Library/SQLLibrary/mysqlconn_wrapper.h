@@ -75,6 +75,7 @@ public:
 	bool HowMuchMail(CHARACTERID charID);
 	bool LoadAllMail(CHARACTERID charID);
 	void AddMail(CHARACTERID CharID, int byDay, int byMailType, int byTextSize, char* wszText, char* wszTargetName, char* wszFromName, int bIsAccept, int bIsLock, int bIsRead);
+	void DelMail(MAILID mailID);
 	void AddNewBind(CHARACTERID charid, WORLDID worldid, TBLIDX bindID);
 	void AddNewWarFog(HOBJECT id, CHARACTERID charid);
 	void SavePlayerPositionAndWorldID(sVECTOR3 position, sVECTOR3 direction, WORLDID w_id, WORLDID w_tblidx_id, CHARACTERID charid);
