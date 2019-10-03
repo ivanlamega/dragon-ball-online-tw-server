@@ -244,6 +244,7 @@ END_PROTOCOL()
 BEGIN_PROTOCOL(TU_FRIEND_DEL_RES)
 	WORD						wResultCode;
 	CHARACTERID					targetID;
+	WCHAR						wchName[MAX_SIZE_CHAR_NAME_UNICODE + 1];
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(TU_FRIEND_MOVE_RES)

@@ -24,7 +24,22 @@ void CommunitySession::SendFriendAdd(Packet packet)
 	res.wOpCode = TU_FRIEND_ADD_RES;
 	wcscpy_s(res.wchName, MAX_SIZE_CHAR_NAME_UNICODE + 1, req->wchName);
 	res.wResultCode = CHAT_SUCCESS;
-	res.targetID = 10000;
+	res.targetID = (int)req->wchName[0] + (int)req->wchName[1];
 
 	SendPacket((char*)&res, sizeof sTU_FRIEND_ADD_RES);
+}
+
+void CommunitySession::SendFriendDelete(Packet packet)
+{
+	sUT_FRIEND_DEL_REQ * req = (sUT_FRIEND_DEL_REQ*)packet.GetPacketBuffer();
+
+	sTU_FRIEND_DEL_RES res;
+
+	res.wPacketSize = (sizeof sTU_FRIEND_DEL_RES) - 2;
+	res.wOpCode = TU_FRIEND_ADD_RES;
+	wcscpy_s(res.wchName, MAX_SIZE_CHAR_NAME_UNICODE + 1, req->wchName);
+	res.wResultCode = CHAT_SUCCESS;
+	res.targetID = (int)req->wchName[0] + (int)req->wchName[1];
+
+	SendPacket((char*)&res, sizeof sTU_FRIEND_DEL_RES);
 }
