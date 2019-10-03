@@ -134,6 +134,9 @@
     <ClCompile Include="Source\CPP\Game\Object\Manager\CashShopManager.cpp">
       <Filter>Source Files\Game\Object\Manager</Filter>
     </ClCompile>
+    <ClCompile Include="FriendsManager.cpp">
+      <Filter>Source Files\Game\Object\Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Header\CommunityServer.h">

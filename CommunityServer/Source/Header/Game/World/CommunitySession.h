@@ -62,6 +62,9 @@ public:
 	void SendDismissSecondMaster(Packet packet); // Sacar al segundo master
 	void SendChangeGuildMaster(Packet packet); // Cambiar de Master en la Guild
 	void SendChangeNotice(Packet packet); // Cambiar la noticia de la guild
+
+	// Friend Manager
+	void SendFriendAdd(Packet packet);
 private:
 	CommunitySocket * const m_Socket;                       // socket pointer is owned by the network thread which created 
 	AccountTypes	_security;
