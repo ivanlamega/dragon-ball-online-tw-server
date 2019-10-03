@@ -47,6 +47,7 @@ void			CommunitySession::PacketParser(Packet& packet)
 	}
 	case UT_FRIEND_ADD_REQ:
 	{
+		SendFriendAdd(packet);
 		break;
 	}
 	case UT_HLS_SLOT_MACHINE_INFO_REQ:
