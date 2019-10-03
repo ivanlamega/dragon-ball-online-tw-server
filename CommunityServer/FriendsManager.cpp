@@ -23,7 +23,7 @@ void CommunitySession::SendFriendAdd(Packet packet)
 	res.wPacketSize = (sizeof sTU_FRIEND_ADD_RES) - 2;
 	res.wOpCode = TU_FRIEND_ADD_RES;
 	wcscpy_s(res.wchName, MAX_SIZE_CHAR_NAME_UNICODE + 1, req->wchName);
-	res.wResultCode = GAME_SUCCESS;
+	res.wResultCode = CHAT_SUCCESS;
 	res.targetID = 10000;
 
 	SendPacket((char*)&res, sizeof sTU_FRIEND_ADD_RES);
