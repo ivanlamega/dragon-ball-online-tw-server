@@ -43,3 +43,48 @@ void CommunitySession::SendFriendDelete(Packet packet)
 
 	SendPacket((char*)&res, sizeof sTU_FRIEND_DEL_RES);
 }
+
+void CommunitySession::SendFriendMove(Packet packet)
+{
+	sUT_FRIEND_MOVE_REQ * req = (sUT_FRIEND_MOVE_REQ*)packet.GetPacketBuffer();
+
+	sTU_FRIEND_MOVE_RES res;
+	
+	res.wPacketSize = (sizeof sTU_FRIEND_MOVE_RES) - 2;
+	res.wOpCode = TU_FRIEND_MOVE_RES;
+	res.wResultCode = CHAT_SUCCESS;
+	wcscpy_s(res.wchName, MAX_SIZE_CHAR_NAME_UNICODE + 1, req->wchName);
+	res.targetID = (int)req->wchName[0] + (int)req->wchName[1];
+
+	SendPacket((char*)&res, sizeof sTU_FRIEND_MOVE_RES);
+}
+
+void CommunitySession::SendFriendBlackAdd(Packet packet)
+{
+	sUT_FRIEND_BLACK_ADD_REQ * req = (sUT_FRIEND_BLACK_ADD_REQ*)packet.GetPacketBuffer();
+
+	sTU_FRIEND_BLACK_ADD_RES res;
+
+	res.wPacketSize = (sizeof sTU_FRIEND_BLACK_ADD_RES) - 2;
+	res.wOpCode = TU_FRIEND_BLACK_ADD_RES;
+	res.wResultCode = CHAT_SUCCESS;
+	wcscpy_s(res.wchName, MAX_SIZE_CHAR_NAME_UNICODE + 1, req->awchName);
+	res.targetID = (int)req->awchName[0] + (int)req->awchName[1];
+
+	SendPacket((char*)&res, sizeof sTU_FRIEND_BLACK_ADD_RES);
+}
+
+void CommunitySession::SendFriendBlackDelete(Packet packet)
+{
+	sUT_FRIEND_BLACK_DEL_REQ * req = (sUT_FRIEND_BLACK_DEL_REQ*)packet.GetPacketBuffer();
+
+	sTU_FRIEND_BLACK_DEL_RES res;
+
+	res.wPacketSize = (sizeof sTU_FRIEND_BLACK_DEL_RES) - 2;
+	res.wOpCode = TU_FRIEND_BLACK_DEL_RES;
+	res.wResultCode = CHAT_SUCCESS;
+	wcscpy_s(res.wchName, MAX_SIZE_CHAR_NAME_UNICODE + 1, req->awchName);
+	res.targetID = (int)req->awchName[0] + (int)req->awchName[1];
+
+	SendPacket((char*)&res, sizeof sTU_FRIEND_BLACK_DEL_RES);
+}

@@ -111,6 +111,7 @@ END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(UT_FRIEND_MOVE_REQ)	// 친구 -> 블랙리스트로 이동
 	CHARACTERID			targetID;
+	WCHAR				wchName[MAX_SIZE_CHAR_NAME_UNICODE + 1];
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL( UT_FRIEND_BLACK_ADD_REQ )	// 친구 블랙 리스트 추가
@@ -119,6 +120,7 @@ END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL( UT_FRIEND_BLACK_DEL_REQ )	// 친구 블랙 리스트 삭제
 	CHARACTERID			targetID;
+	WCHAR				awchName[MAX_SIZE_CHAR_NAME_UNICODE + 1];
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(UT_RANKBATTLE_RANK_LIST_REQ)
