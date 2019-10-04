@@ -50,6 +50,26 @@ void			CommunitySession::PacketParser(Packet& packet)
 		SendFriendAdd(packet);
 		break;
 	}
+	case UT_FRIEND_DEL_REQ:
+	{
+		SendFriendDelete(packet);
+		break;
+	}
+	case UT_FRIEND_MOVE_REQ:
+	{
+		SendFriendMove(packet);
+		break;
+	}
+	case UT_FRIEND_BLACK_ADD_REQ:
+	{
+		SendFriendBlackAdd(packet);
+		break;
+	}
+	case UT_FRIEND_BLACK_DEL_REQ:
+	{
+		SendFriendBlackDelete(packet);
+		break;
+	}
 	case UT_HLS_SLOT_MACHINE_INFO_REQ:
 	{
 		SendHlsSlotMachineInfo(packet);

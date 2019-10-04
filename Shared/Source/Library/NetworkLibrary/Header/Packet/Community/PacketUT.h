@@ -106,10 +106,12 @@ END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(UT_FRIEND_DEL_REQ)	// 模备 昏力
 	CHARACTERID			targetID;
+	WCHAR				wchName[MAX_SIZE_CHAR_NAME_UNICODE + 1];
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(UT_FRIEND_MOVE_REQ)	// 模备 -> 喉发府胶飘肺 捞悼
 	CHARACTERID			targetID;
+	WCHAR				wchName[MAX_SIZE_CHAR_NAME_UNICODE + 1];
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL( UT_FRIEND_BLACK_ADD_REQ )	// 模备 喉发 府胶飘 眠啊
@@ -118,6 +120,7 @@ END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL( UT_FRIEND_BLACK_DEL_REQ )	// 模备 喉发 府胶飘 昏力
 	CHARACTERID			targetID;
+	WCHAR				awchName[MAX_SIZE_CHAR_NAME_UNICODE + 1];
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(UT_RANKBATTLE_RANK_LIST_REQ)
