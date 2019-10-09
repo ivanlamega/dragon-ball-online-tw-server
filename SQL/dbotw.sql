@@ -280,7 +280,7 @@ CREATE TABLE `charquestlist` (
 --
 
 CREATE TABLE `friendlist` (
-  `FriendID` bigint(20) UNSIGNED NOT NULL COMMENT 'Id of friend in the database',
+  `FriendID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Id of friend in the database',
   `OwnerID` bigint(20) UNSIGNED NOT NULL COMMENT 'CharID of the owner of the list friend',
   `CharID` int(10) UNSIGNED NOT NULL COMMENT 'Id of the friend',
   `IsBlack` tinyint(1) DEFAULT '0' COMMENT 'is in the black list?'
