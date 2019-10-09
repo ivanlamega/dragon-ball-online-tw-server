@@ -85,6 +85,20 @@ public:
 	void SavePlayerCashPoit(int Cash, CHARACTERID charid);
 	void SavePlayerZenny(int zenny, CHARACTERID charid);
 	void SavePlayerExp(int exp, CHARACTERID charid);
+
+	//Friend
+	/** Convert from wchar to char */
+	inline void wcharToChar(const wchar_t * src, char *dst, const unsigned int & srcSize) {
+
+
+		//wcstombs(dst, src, srcSize);
+
+		size_t   charsConverted;
+		wcstombs_s(&charsConverted, dst, (float)(srcSize / sizeof(wchar_t)), src, srcSize);
+	}
+
+	unsigned int GetFriendIdByName(std::string charName);
+	void AddFriendToList(CHARACTERID ownerId, CHARACTERID friendId);
 private:
 	string host;
 	string user;
