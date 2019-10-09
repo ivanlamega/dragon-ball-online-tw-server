@@ -24,7 +24,17 @@ void CommunitySession::SendFriendAdd(Packet packet)
 	res.wOpCode = TU_FRIEND_ADD_RES;
 	wcscpy_s(res.wchName, MAX_SIZE_CHAR_NAME_UNICODE + 1, req->wchName);
 	res.wResultCode = CHAT_SUCCESS;
-	res.targetID = (int)req->wchName[0] + (int)req->wchName[1];
+
+	char charName[17];
+	sDB.wcharToChar(req->wchName, charName, 34);
+
+	std::string charNameStr(charName);
+
+	unsigned int friendId = sDB.GetFriendIdByName(charNameStr);
+
+	res.targetID = friendId;
+
+	sDB.AddFriendToList(_player->GetCharacterID(), friendId);
 
 	SendPacket((char*)&res, sizeof sTU_FRIEND_ADD_RES);
 }

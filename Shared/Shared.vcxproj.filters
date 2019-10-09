@@ -182,6 +182,9 @@
     <ClCompile Include="Source\CPP\XmlParser2\XmlParser2.cpp">
       <Filter>Source Files\XmlParser2</Filter>
     </ClCompile>
+    <ClCompile Include="ChatRequest.cpp">
+      <Filter>Source Files\SQL</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
