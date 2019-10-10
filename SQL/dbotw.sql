@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 09, 2019 at 08:05 PM
+-- Generation Time: Oct 10, 2019 at 12:57 PM
 -- Server version: 5.7.12
 -- PHP Version: 5.6.21
 
@@ -280,9 +280,9 @@ CREATE TABLE `charquestlist` (
 --
 
 CREATE TABLE `friendlist` (
-  `FriendID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Id of friend in the database',
+  `FriendID` int(10) UNSIGNED NOT NULL COMMENT 'Id of friend in the database',
   `OwnerID` bigint(20) UNSIGNED NOT NULL COMMENT 'CharID of the owner of the list friend',
-  `CharID` int(10) UNSIGNED NOT NULL COMMENT 'Id of the friend',
+  `CharID` bigint(20) UNSIGNED NOT NULL COMMENT 'Id of the friend',
   `IsBlack` tinyint(1) DEFAULT '0' COMMENT 'is in the black list?'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -743,85 +743,10 @@ ALTER TABLE `cashitem`
 ALTER TABLE `characters`
   MODIFY `CharacterID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 --
--- AUTO_INCREMENT for table `characters_attributes`
---
-ALTER TABLE `characters_attributes`
-  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
---
--- AUTO_INCREMENT for table `charquestlist`
---
-ALTER TABLE `charquestlist`
-  MODIFY `pkQtTable` int(11) NOT NULL AUTO_INCREMENT;
---
 -- AUTO_INCREMENT for table `friendlist`
 --
 ALTER TABLE `friendlist`
-  MODIFY `FriendID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Id of friend in the database', AUTO_INCREMENT=28;
---
--- AUTO_INCREMENT for table `guilds`
---
-ALTER TABLE `guilds`
-  MODIFY `GuildID` int(5) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `guild_members`
---
-ALTER TABLE `guild_members`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `hoipoimix`
---
-ALTER TABLE `hoipoimix`
-  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `items`
---
-ALTER TABLE `items`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17301;
---
--- AUTO_INCREMENT for table `mail`
---
-ALTER TABLE `mail`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
---
--- AUTO_INCREMENT for table `mascotinfo`
---
-ALTER TABLE `mascotinfo`
-  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
---
--- AUTO_INCREMENT for table `portals`
---
-ALTER TABLE `portals`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=118;
---
--- AUTO_INCREMENT for table `quickslot`
---
-ALTER TABLE `quickslot`
-  MODIFY `pkQuick` int(15) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
---
--- AUTO_INCREMENT for table `quickteleporter`
---
-ALTER TABLE `quickteleporter`
-  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `realmlist`
---
-ALTER TABLE `realmlist`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT for table `skills`
---
-ALTER TABLE `skills`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=996;
---
--- AUTO_INCREMENT for table `titlelist`
---
-ALTER TABLE `titlelist`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
---
--- AUTO_INCREMENT for table `warfoginfo`
---
-ALTER TABLE `warfoginfo`
-  MODIFY `idFog` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `FriendID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Id of friend in the database', AUTO_INCREMENT=26;
 --
 -- Constraints for dumped tables
 --
