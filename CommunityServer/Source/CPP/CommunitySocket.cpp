@@ -72,6 +72,7 @@ bool CommunitySocket::HandleAuthSession(Packet& packet)
 	}
 	Write((char*)&res, sizeof(sTU_ENTER_CHAT_RES));
 
+	m_session->SendFriendListInfomation();
 	sCommunity.AddSession_(m_session);
 	return true;
 }

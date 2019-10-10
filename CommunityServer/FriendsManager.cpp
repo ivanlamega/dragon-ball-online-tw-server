@@ -98,3 +98,24 @@ void CommunitySession::SendFriendBlackDelete(Packet packet)
 
 	SendPacket((char*)&res, sizeof sTU_FRIEND_BLACK_DEL_RES);
 }
+
+void CommunitySession::SendFriendListInfomation()
+{
+	sTU_FRIEND_LIST_INFO res;
+
+	res.byCount = 20;
+	res.wPacketSize = 3 + ((sizeof sFRIEND_FULL_INFO) * res.byCount);
+	res.wOpCode = TU_FRIEND_LIST_INFO;
+
+	for (int i = 0; i < res.byCount; i++)
+	{
+		res.asInfo[i].bIsBlack = false;
+		res.asInfo[i].charID = i * 1000;
+
+		std::string charName = "DefaultFriend" + i;
+		mbstowcs(res.asInfo[i].wchName, charName.c_str(), 34);
+	}
+
+	SendPacket((char*)&res, 5 + ((sizeof sFRIEND_FULL_INFO) * res.byCount));
+
+}

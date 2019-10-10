@@ -69,6 +69,7 @@ public:
 	void SendFriendMove(Packet packet);
 	void SendFriendBlackAdd(Packet packet);
 	void SendFriendBlackDelete(Packet packet);
+	void SendFriendListInfomation();
 private:
 	CommunitySocket * const m_Socket;                       // socket pointer is owned by the network thread which created 
 	AccountTypes	_security;
