@@ -112,7 +112,7 @@ void CommunitySession::SendFriendListInfomation()
 		res.asInfo[i].bIsBlack = false;
 		res.asInfo[i].charID = i * 1000;
 
-		std::string charName = "DefaultFriend" + i;
+		std::string charName = "DefaultFriend";
 		mbstowcs(res.asInfo[i].wchName, charName.c_str(), 34);
 	}
 
