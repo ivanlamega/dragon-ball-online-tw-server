@@ -14,7 +14,7 @@ MySQLConnWrapper::MySQLConnWrapper()
 {
 	host = "tcp://127.0.0.1:3306";
 	user = "root";
-	password = "ascent";
+	password = "";
 	con = NULL;
 };
 void MySQLConnWrapper::manageException(sql::SQLException& e)
@@ -97,13 +97,13 @@ sql::ResultSet* MySQLConnWrapper::executes(const char* format, ...)
 	va_end(ap);
 	if (res == -1)
 	{
-		sLog.outError("SQL Query truncated (and not execute) for format: %s", format);
+		//sLog.outError("SQL Query truncated (and not execute) for format: %s", format);
 		m_mutex.unlock();
 		return NULL;
 	}
 	try
 	{
-		sLog.outDebug("Requested query:\n%s", szQuery);
+		//sLog.outDebug("Requested query:\n%s", szQuery);
 		sql::Statement *statement = con->createStatement();
 		sql::ResultSet* result = statement->executeQuery(szQuery);
 		delete statement;

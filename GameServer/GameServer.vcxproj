@@ -183,6 +183,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\AucionHouseManager.cpp" />
+    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\BossEvent.cpp" />
+    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\Budokay.cpp" />
+    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\CashShop.cpp" />
+    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\CraftManager.cpp" />
+    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\DojoScramble.cpp" />
+    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\DragonBallScramble.cpp" />
+    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\FreeBattle.cpp" />
+    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\GuildManager.cpp" />
+    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\PartySystem.cpp" />
     <ClCompile Include="Source\CPP\Game\World\Packet\Manager\PlayerPacketMail.cpp" />
     <ClCompile Include="Source\CPP\GameServer.cpp" />
     <ClCompile Include="Source\CPP\GameSocket.cpp" />
@@ -208,6 +218,10 @@
     <ClCompile Include="Source\CPP\Game\World\Packet\Manager\PlayerPacketItemUse.cpp" />
     <ClCompile Include="Source\CPP\Game\World\Packet\Manager\PlayerPacketMove.cpp" />
     <ClCompile Include="Source\CPP\Game\World\Packet\Manager\PlayerPacketSkills_Quick.cpp" />
+    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\PrivateShop.cpp" />
+    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\Quest.cpp" />
+    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\RankBattle.cpp" />
+    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\SystemEffect.cpp" />
     <ClCompile Include="Source\CPP\Game\World\Packet\PacketParser.cpp" />
     <ClCompile Include="Source\CPP\Game\World\Packet\PlayerPacket.cpp" />
     <ClCompile Include="Source\CPP\Game\World\World.cpp" />

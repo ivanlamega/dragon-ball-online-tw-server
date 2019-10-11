@@ -119,7 +119,7 @@ bool AttributesManager::LoadAttributes(CHARACTERID _id, Player* _plr)
 	PlayerProfile.bChangeClass = result->getBoolean("IsToChangeClass");
 	PlayerProfile.bIsAdult = result->getBoolean("IsAdult");
 	PlayerProfile.charId = result->getInt("CharacterID");
-	wcscpy_s(PlayerProfile.awchName, MAX_SIZE_CHAR_NAME_UNICODE, charToWChar((result->getString("Name")).c_str()));
+	wcscpy_s(PlayerProfile.awchName, MAX_SIZE_CHAR_NAME_UNICODE + 1, charToWChar((result->getString("Name")).c_str()));
 	plr->SetName((char*)result->getString("Name").c_str());
 	//PC Shape
 	PlayerProfile.sPcShape.byFace = static_cast<BYTE>(result->getInt("FaceID"));
@@ -141,7 +141,7 @@ bool AttributesManager::LoadAttributes(CHARACTERID _id, Player* _plr)
 	PlayerProfile.sMarking.dwCode = result->getInt("Title_Marking");
 	PlayerProfile.sLocalize.WP_Point = result->getInt("WP_Point");// WP Poit mensage
 	PlayerProfile.sLocalize.netp = result->getInt("Token");// Token Point correct value	
-	PlayerProfile.sLocalize.IsVip = result->getInt("IsVip");;// S icon Vip_Member Maybe
+	PlayerProfile.sLocalize.IsVip = result->getInt("IsVip");// S icon Vip_Member Maybe
 	cashpoit = result->getInt("CashPoint");
 	WagguCoin = result->getInt("WagguCoin");
 	EventCoin = result->getInt("EventCoin");
@@ -166,7 +166,7 @@ bool AttributesManager::LoadAttributes(CHARACTERID _id, Player* _plr)
 	
 	PlayerProfile.sLocalize.type = 0;
 	/*	FILL STATE	*/
-	plr->Relocate(static_cast<float>(result->getDouble("Position_X")), static_cast<float>(result->getDouble("Position_Y")), static_cast<float>(result->getDouble("Position_Z")),
+	/*plr->Relocate(static_cast<float>(result->getDouble("Position_X")), static_cast<float>(result->getDouble("Position_Y")), static_cast<float>(result->getDouble("Position_Z")),
 		static_cast<float>(result->getDouble("Direction_X")), static_cast<float>(result->getDouble("Direction_Y")), static_cast<float>(result->getDouble("Direction_Z")));
 	plr->GetPosition(plr->GetState()->sCharStateBase.vCurLoc.x, plr->GetState()->sCharStateBase.vCurLoc.y, plr->GetState()->sCharStateBase.vCurLoc.z);
 	plr->GetOriantation(plr->GetState()->sCharStateBase.vCurDir.x, plr->GetState()->sCharStateBase.vCurDir.y, plr->GetState()->sCharStateBase.vCurDir.z);
@@ -183,11 +183,11 @@ bool AttributesManager::LoadAttributes(CHARACTERID _id, Player* _plr)
 	plr->GetState()->sCharStateBase.aspectState.sAspectStateDetail.sVehicle.idVehicleTblidx = INVALID_TBLIDX;
 
 	plr->GetState()->sCharStateBase.isFighting = false;
-	plr->GetState()->sCharStateBase.isFlying = plr->GetFlying();
+	plr->GetState()->sCharStateBase.isFlying = plr->GetFlying();*/
 
 	delete result;
 
-	if (LoadCharacterAttrFromDB(pTblData) == false)
+	/*if (LoadCharacterAttrFromDB(pTblData) == false)
 	{
 		sLog.outError("LoadAttributes::LoadCharacterAttrFromDB Error while loading character: %d", charid);
 		return false;
@@ -199,7 +199,7 @@ bool AttributesManager::LoadAttributes(CHARACTERID _id, Player* _plr)
 	}
 	
 
-	SetRPBall();
+	SetRPBall();*/
 	
 	return true;
 }
@@ -242,7 +242,7 @@ bool AttributesManager::LoadAttributeFromDB()
 	PlayerProfile.avatarAttribute.wLastMaxEP = static_cast<WORD>(result->getInt("LastMaxEP"));
 	//Physical Atack
 	PlayerProfile.avatarAttribute.wBasePhysicalOffence = static_cast<WORD>(result->getInt("BasePhysicalOffence"));
-	PlayerProfile.avatarAttribute.wLastPhysicalOffence = static_cast<WORD>(result->getInt("LastPhysicalOffence"));;
+	PlayerProfile.avatarAttribute.wLastPhysicalOffence = static_cast<WORD>(result->getInt("LastPhysicalOffence"));
 	//Physical Defese
 	PlayerProfile.avatarAttribute.wBasePhysicalDefence = static_cast<WORD>(result->getInt("BasePhysicalDefence"));
 	PlayerProfile.avatarAttribute.wLastPhysicalDefence = static_cast<WORD>(result->getInt("LastPhysicalDefence"));
@@ -467,13 +467,13 @@ bool AttributesManager::LoadCharacterAttrFromDB(sPC_TBLDAT* pTblData)
 	// LP Calculation
 	DWORD BasicLife = pTblData->wBasic_LP + (pTblData->byLevel_Up_LP * PlayerProfile.byLevel);
 	WORD LevelCon = pTblData->byCon + static_cast<WORD>(pTblData->fLevel_Up_Con * PlayerProfile.byLevel);
-	float ConByPoint = 95.6; // 1con = 85 old tw
+	float ConByPoint = 81.6; // 1con = 85 old tw
 	DWORD LP = BasicLife + static_cast<DWORD>(LevelCon * ConByPoint);
 
 	//EP Calculation
 	WORD BasicEnergy = pTblData->wBasic_EP + (pTblData->byLevel_Up_EP * PlayerProfile.byLevel);
 	WORD LevelEng = pTblData->byEng + static_cast<WORD>(pTblData->fLevel_Up_Eng * PlayerProfile.byLevel);
-	float EngByPoint = 95; // 1Eng = 45 ep old tw
+	float EngByPoint = 56; // 1Eng = 45 ep old tw
 	WORD EP = BasicEnergy + static_cast<WORD>(LevelEng * EngByPoint);
 
 	//Set Data Base LP/ EP/ RP
@@ -501,10 +501,10 @@ bool AttributesManager::LoadCharacterAttrFromDB(sPC_TBLDAT* pTblData)
 	//Calculation Physical Atack
 	WORD BasicPhysicalOffence = pTblData->wBasic_Physical_Offence + (pTblData->byLevel_Up_Physical_Offence * PlayerProfile.byLevel);
 	WORD LevelStr = pTblData->byStr + static_cast<WORD>(pTblData->fLevel_Up_Str * PlayerProfile.byLevel);
-	float StrByPoint = 10; // 1Str = 1.66 Physical old tw
+	float StrByPoint = 1.66; // 1Str = 1.66 Physical old tw
 	WORD PhysicalOffence = BasicPhysicalOffence + static_cast<WORD>(LevelStr * StrByPoint);
 	//Calculation Physical Critical Atack
-	WORD BasicPhysicalCritical = 5;
+	WORD BasicPhysicalCritical = 0;
 	WORD LevelDex = pTblData->byDex + static_cast<WORD>(pTblData->fLevel_Up_Dex * PlayerProfile.byLevel);
 	float DexByPoint = 0.5; // 1Dex = 1 critical old tw
 	WORD PhysicalCriticalRate = BasicPhysicalCritical + static_cast<WORD>(LevelDex * DexByPoint);
@@ -523,12 +523,12 @@ bool AttributesManager::LoadCharacterAttrFromDB(sPC_TBLDAT* pTblData)
 	//Calculation Energy Atack
 	WORD BasicEnergyOffence = pTblData->wBasic_Energy_Offence + (pTblData->byLevel_Up_Energy_Offence * PlayerProfile.byLevel);
 	WORD LevelSol = pTblData->bySol + static_cast<WORD>(pTblData->fLevel_Up_Sol * PlayerProfile.byLevel);
-	float SolByPoint = 5; // 1Str = 1.66 Physical old tw
+	float SolByPoint = 2; // 1Str = 1.66 Physical old tw
 	WORD EnergyOffence = BasicEnergyOffence + static_cast<WORD>(LevelSol * SolByPoint);
 	//Calculation Energy Critical Atack
-	WORD BasicEnergyCritical = 5;
+	WORD BasicEnergyCritical = 0;
 	WORD LevelFoc = pTblData->byFoc + static_cast<WORD>(pTblData->fLevel_Up_Foc * PlayerProfile.byLevel);
-	float FocByPoint = 5; // 1Eng = 1 pont critical 
+	float FocByPoint = 0.6; // 1Eng = 1 pont critical 
 	WORD EnergyCriticalRate = BasicEnergyCritical + static_cast<WORD>(LevelFoc * FocByPoint);
 	// Atack Defese Energy
 	result = sDB.executes("UPDATE characters_attributes SET BaseEnergyOffence = '%d', LastEnergyOffence = '%d', BaseEnergyDefence = '%d', LastEnergyDefence = '%d', BaseEnergyCriticalRate = '%d', LastEnergyCriticalRate = '%d' WHERE CharacterID = '%d';",
@@ -545,12 +545,12 @@ bool AttributesManager::LoadCharacterAttrFromDB(sPC_TBLDAT* pTblData)
 	//HitRate Calculation
 	WORD BasicHitRate = pTblData->wAttack_Rate  * PlayerProfile.byLevel;
 	WORD LevelingFocus = pTblData->byFoc + static_cast<WORD>(pTblData->fLevel_Up_Foc * PlayerProfile.byLevel);
-	float FocusByPoint = 20; // 1 point = 10 hit rate old tw
+	float FocusByPoint = 10; // 1 point = 10 hit rate old tw
 	WORD HitRate = BasicHitRate + static_cast<WORD>(LevelingFocus * FocusByPoint);
 	//DoggeRate Calculation
 	WORD BasicDoggeRate = pTblData->wDodge_Rate  * PlayerProfile.byLevel;
 	WORD LevelingDex = pTblData->byDex + static_cast<WORD>(pTblData->fLevel_Up_Dex * PlayerProfile.byLevel);
-	float DoggeByPoint = 6;
+	float DoggeByPoint = 5;
 	WORD DoggeRate = BasicDoggeRate + static_cast<WORD>(LevelingDex * DoggeByPoint);
 	//Set DataBase HitRate,DoggeRate,BlockRate 
 	result = sDB.executes("UPDATE characters_attributes SET BaseAttackRate = '%d', LastAttackRate = '%d', BaseDodgeRate = '%d', LastDodgeRate = '%d', BaseBlockRate = '%d', LastBlockRate = '%d' WHERE CharacterID = '%d';",

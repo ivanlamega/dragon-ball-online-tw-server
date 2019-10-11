@@ -94,23 +94,23 @@ END_PROTOCOL()
 BEGIN_PROTOCOL(TU_GUILD_CREATED_NFY)
 	WCHAR						wszGuildName[MAX_SIZE_GUILD_NAME_IN_UNICODE + 1];
 END_PROTOCOL()
-//------------------------------------------------------------------
+//-----------------------------------------------------------------
 BEGIN_PROTOCOL(TU_GUILD_INFO)
-//	sDBO_GUILD_INFO				guildInfo;
-DWORD			guildId;
-WCHAR			wszName[17 + 1];
-DWORD		    guildMaster;
-DWORD		    guildSecondMaster[4];
-DWORD			dwGuildReputation;
-DWORD			dwMaxGuildPointEver;
-DWORD           unk;
-DWORD64			qwGuildFunctionFlag;
-DWORD64			timeToDisband;//Not Sure here
-sDBO_GUILD_MARK	sMark;
-WCHAR			awchName[16 + 1];
-WCHAR			awchNotice[257 + 1];
-sDBO_DOGI_DATA  sDogi; 
-BYTE unk1[5];
+//sDBO_GUILD_INFO				guildInfo;
+DWORD           guildId;
+WCHAR           wszName[16 + 1];
+WORD			wAligniament;
+DWORD           guildMaster;
+DWORD           guildSecondMaster[4];
+DWORD           dwGuildReputation;
+DWORD           dwMaxGuildPointEver;
+DWORD64         qwGuildFunctionFlag;
+DBOTIME         timeToDisband;
+sDBO_GUILD_MARK sMark;
+WORD            wAligniament2[2];
+WCHAR           awchName[MAX_SIZE_CHAR_NAME_UNICODE + 1];
+WCHAR           awchNotice[MAX_LENGTH_OF_GUILD_NOTICE_UNICODE + 1];
+sDBO_DOGI_DATA  sDogi;
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(TU_GUILD_MEMBER_INFO)

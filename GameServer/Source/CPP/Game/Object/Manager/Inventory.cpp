@@ -52,7 +52,10 @@ void InventoryManager::SaveInventory()
 		}
 		if (ItemProfile[i].tblidx != INVALID_TBLIDX && ItemProfile[i].tblidx > 0 && item != NULL)
 		{
-			sDB.AddItem(ItemProfile[i].tblidx, charid, ItemProfile[i].byPlace, ItemProfile[i].byPos, ItemProfile[i].byStackcount, ItemProfile[i].byRank, ItemProfile[i].byCurDur, ItemProfile[i].byGrade);
+			sDB.AddItem(ItemProfile[i].tblidx, charid, ItemProfile[i].byPlace, ItemProfile[i].byPos, ItemProfile[i].byStackcount, ItemProfile[i].byRank, ItemProfile[i].byCurDur, ItemProfile[i].byGrade, ItemProfile[i].aitemEffect[0].wType, ItemProfile[i].aitemEffect[0].dwValue,
+				ItemProfile[i].aitemEffect[1].wType, ItemProfile[i].aitemEffect[1].dwValue, ItemProfile[i].aitemEffect[2].wType, ItemProfile[i].aitemEffect[2].dwValue,
+				ItemProfile[i].aitemEffect[3].wType, ItemProfile[i].aitemEffect[3].dwValue, ItemProfile[i].aitemEffect[4].wType, ItemProfile[i].aitemEffect[4].dwValue,
+				ItemProfile[i].aitemEffect[5].wType, ItemProfile[i].aitemEffect[5].dwValue);
 		}
 	}
 }
@@ -67,11 +70,12 @@ bool InventoryManager::LoadCharInventoryFromDatabase()
 	for (int i = 0; i < 17; i++) memset(&ItemBrief[i], INVALID_TBLIDX, sizeof(sITEM_BRIEF));
 
 	sql::ResultSet* result = sDB.executes("SELECT * FROM items WHERE owner_id = '%d' ORDER BY place ASC, pos ASC;", charid);
+	//sql::ResultSet* result2 = sDB.executes("SELECT * FROM itematributes WHERE owner_id = '%d';", charid);
 	if (result == NULL)
 		return false;
 	if (result->rowsCount() <= 0)
 	{
-		delete result;
+		delete result;		
 		return false;
 	}	
 	while (true)
@@ -102,10 +106,65 @@ bool InventoryManager::LoadCharInventoryFromDatabase()
 			ItemProfile[i].aOptionTblidx = item->tbxItemOption;//result->getInt("tblidx");// item->Item_Option_Tblidx;
 			ItemProfile[i].aOptionTblidx1 = INVALID_TBLIDX;// item->Item_Option_Tblidx;
 			
-			for (int j = 0; j < 6; j++)
+			if (result->getInt("AtributeType1") == 0 || result->getInt("AtributeValue1") == INVALID_TBLIDX)
 			{
-				ItemProfile[i].aitemEffect[j].dwValue = INVALID_TBLIDX;// 8;
-				ItemProfile[i].aitemEffect[j].wType = INVALID_WORD;
+				ItemProfile[i].aitemEffect[0].dwValue = INVALID_TBLIDX;// 8;
+				ItemProfile[i].aitemEffect[0].wType = INVALID_TBLIDX;
+			}
+			else
+			{
+				ItemProfile[i].aitemEffect[0].dwValue = result->getInt("AtributeValue1");// 8;
+				ItemProfile[i].aitemEffect[0].wType = result->getInt("AtributeType1");
+			}
+			if (result->getInt("AtributeType2") == 0 || result->getInt("AtributeValue2") == INVALID_TBLIDX)
+			{
+				ItemProfile[i].aitemEffect[1].dwValue = INVALID_TBLIDX;// 8;
+				ItemProfile[i].aitemEffect[1].wType = INVALID_TBLIDX;
+			}
+			else
+			{
+				ItemProfile[i].aitemEffect[1].dwValue = result->getInt("AtributeValue2");// 8;
+				ItemProfile[i].aitemEffect[1].wType = result->getInt("AtributeType2");
+			}
+			if (result->getInt("AtributeType3") == 0 || result->getInt("AtributeValue3") == INVALID_TBLIDX)
+			{
+				ItemProfile[i].aitemEffect[2].dwValue = INVALID_TBLIDX;// 8;
+				ItemProfile[i].aitemEffect[2].wType = INVALID_TBLIDX;
+			}
+			else
+			{
+				ItemProfile[i].aitemEffect[2].dwValue = result->getInt("AtributeValue3");// 8;
+				ItemProfile[i].aitemEffect[2].wType = result->getInt("AtributeType3");
+			}
+			if (result->getInt("AtributeType4") == 0 || result->getInt("AtributeValue4") == INVALID_TBLIDX)
+			{
+				ItemProfile[i].aitemEffect[3].dwValue = INVALID_TBLIDX;// 8;
+				ItemProfile[i].aitemEffect[3].wType = INVALID_TBLIDX;
+			}
+			else
+			{
+				ItemProfile[i].aitemEffect[3].dwValue = result->getInt("AtributeValue4");// 8;
+				ItemProfile[i].aitemEffect[3].wType = result->getInt("AtributeType4");
+			}
+			if (result->getInt("AtributeType5") == 0 || result->getInt("AtributeValue5") == INVALID_TBLIDX)
+			{
+				ItemProfile[i].aitemEffect[4].dwValue = INVALID_TBLIDX;// 8;
+				ItemProfile[i].aitemEffect[4].wType = INVALID_TBLIDX;
+			}
+			else
+			{
+				ItemProfile[i].aitemEffect[4].dwValue = result->getInt("AtributeValue5");// 8;
+				ItemProfile[i].aitemEffect[4].wType = result->getInt("AtributeType5");
+			}
+			if (result->getInt("AtributeType6") == 0 || result->getInt("AtributeValue6") == INVALID_TBLIDX)
+			{
+				ItemProfile[i].aitemEffect[5].dwValue = INVALID_TBLIDX;// 8;
+				ItemProfile[i].aitemEffect[5].wType = INVALID_TBLIDX;
+			}
+			else
+			{
+				ItemProfile[i].aitemEffect[5].dwValue = result->getInt("AtributeValue6");// 8;
+				ItemProfile[i].aitemEffect[5].wType = result->getInt("AtributeType6");
 			}
 			for (int j = 0; j < 2; j++)
 			{
@@ -127,11 +186,12 @@ bool InventoryManager::LoadCharInventoryFromDatabase()
 			if (result->next())
 				continue;
 			else
-				break;
+				break;		
 		}
 	}
 	ItemsCount = i;
 	delete result;
+	//delete result2;
 	return true;
 }
 //----------------------------------------
@@ -203,7 +263,8 @@ bool InventoryManager::MoveItem(sUG_ITEM_MOVE_REQ& request, sGU_UPDATE_ITEM_EQUI
 				itemMoveRes.hDestItem = dest->handle;
 				plr->GetAttributesManager()->UpdateAttributesFromItem(*itemSrc,source->byGrade, true);
 				plr->GetAttributesManager()->UpdateAttributesFromItem(*itemDest, dest->byGrade);
-				
+				plr->GetAttributesManager()->UpdateExtraAttributesFromItem(source->aitemEffect, true);
+				plr->GetAttributesManager()->UpdateExtraAttributesFromItem(dest->aitemEffect);
 				tmp.byPos = source->byPos;
 				tmp.byPlace = source->byPlace;
 				source->byPlace = dest->byPlace;
@@ -244,6 +305,7 @@ bool InventoryManager::MoveItem(sUG_ITEM_MOVE_REQ& request, sGU_UPDATE_ITEM_EQUI
 				result.sItemBrief.tblidx = INVALID_TBLIDX;
 				result.byPos = request.bySrcPos;
 				plr->GetAttributesManager()->UpdateAttributesFromItem(*itemSrc, source->byGrade, true);
+				plr->GetAttributesManager()->UpdateExtraAttributesFromItem(source->aitemEffect, true);
 				ItemBrief[request.bySrcPos].tblidx = INVALID_TBLIDX;
 			}
 			else
@@ -262,6 +324,8 @@ bool InventoryManager::MoveItem(sUG_ITEM_MOVE_REQ& request, sGU_UPDATE_ITEM_EQUI
 			itemMoveRes.hDestItem = dest->handle;
 			plr->GetAttributesManager()->UpdateAttributesFromItem(*itemDest, dest->byGrade, true);
 			plr->GetAttributesManager()->UpdateAttributesFromItem(*itemSrc,source->byGrade);
+			plr->GetAttributesManager()->UpdateExtraAttributesFromItem(dest->aitemEffect, true);
+			plr->GetAttributesManager()->UpdateExtraAttributesFromItem(source->aitemEffect);
 
 			tmp.byPos = source->byPos;
 			tmp.byPlace = source->byPlace;
@@ -287,6 +351,7 @@ bool InventoryManager::MoveItem(sUG_ITEM_MOVE_REQ& request, sGU_UPDATE_ITEM_EQUI
 				source->byPlace = request.byDestPlace;
 				source->byPos = request.byDestPos;
 				plr->GetAttributesManager()->UpdateAttributesFromItem(*itemSrc, source->byGrade);
+				plr->GetAttributesManager()->UpdateExtraAttributesFromItem(source->aitemEffect);
 				ItemBrief[request.byDestPos].tblidx = itemSrc->tblidx;
 			}
 		}
@@ -459,6 +524,17 @@ sITEM_PROFILE *InventoryManager::GetItemByHandle(HOBJECT Handle)
 	for (int i = 0; i < MAX_COUNT_USER_HAVE_INVEN_ITEM; i++)
 	{
 		if (ItemProfile[i].handle == Handle)
+		{
+			return &ItemProfile[i];
+		}
+	}
+	return NULL;
+}
+sITEM_PROFILE *InventoryManager::GetItemByTblidx(TBLIDX Item)
+{
+	for (int i = 0; i < MAX_COUNT_USER_HAVE_INVEN_ITEM; i++)
+	{
+		if (ItemProfile[i].tblidx == Item)
 		{
 			return &ItemProfile[i];
 		}

@@ -208,11 +208,6 @@ bool ItemRecipeTable::SetTableData(void* pvTable, WCHAR* pwszSheetName, std::wst
 				return false;
 			}
 		}
-		else if (0 == wcscmp(pstrDataName->c_str(), L"Create_Junk_Tblidx"))
-		{
-			CheckNegativeInvalid(pstrDataName->c_str(), bstrData);
-			pItem->createJunkTblidx = READ_DWORD(bstrData);
-		}
 		else if (0 == wcsncmp(pstrDataName->c_str(), L"Material_Tblidx_", wcslen(L"Material_Tblidx_")))
 		{
 			bool bFound = false;

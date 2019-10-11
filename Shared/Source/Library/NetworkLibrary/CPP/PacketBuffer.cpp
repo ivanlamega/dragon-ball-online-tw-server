@@ -23,8 +23,13 @@ void PacketBuffer::Write(const char *buffer, int length)
 
 	if (m_buffer.size() < newLength)
 		m_buffer.resize(newLength);
+	try {
+		memcpy(&m_buffer[m_writePosition], buffer, length);
 
-	memcpy(&m_buffer[m_writePosition], buffer, length);
-
-	m_writePosition += length;
+		m_writePosition += length;
+	}
+	catch (std::exception)
+	{
+		printf("Error setting buffer size for PB.Write");
+	}
 }

@@ -759,6 +759,7 @@ union sASPECTSTATE_DETAIL
 	sASPECTSTATE_KAIOKEN			sKaioken;
 	sASPECTSTATE_SPINNING_ATTACK	sSpinningAttack;
 	sASPECTSTATE_VEHICLE			sVehicle;
+	sASPECTSTATE_SPINNING_BALL		sSpinningBall;
 	//BYTE							unknown[9];
 };
 

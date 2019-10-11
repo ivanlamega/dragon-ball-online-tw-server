@@ -4,7 +4,7 @@
 #include <mysqlconn_wrapper.h>
 //#include "ObjectAccessor.h"
 
-#define WORLD_SLEEP_CONST 50
+#define WORLD_SLEEP_CONST 100
 extern int m_ServiceStatus;
 
 /// Heartbeat for the World
@@ -48,7 +48,7 @@ void CommunityRunnable::run()
 			sDB.Ping();
 			pingDatabase = 0;
 		}
-		Sleep(1000);
+
 	}
 	//sWorld.CleanupsBeforeStop();
 }

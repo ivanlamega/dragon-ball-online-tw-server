@@ -451,11 +451,7 @@ static const  uint8 SEED_VALUE[8][4] = {
    sBox[2][i] = MDS[2][Q1[(a) ^ vec8[2]] ^ vec16[2]]; \
    sBox[3][i] = MDS[3][Q1[(b) ^ vec8[3]] ^ vec16[3]]
 
-/* Macro exactly like CALC_SB_2, but for 
-
-
-
--bit keys. */
+/* Macro exactly like CALC_SB_2, but for 192-bit keys. */
 #define CALC_SB192_2(sBox, i, a, b,vec8,vec16,vec24) \
    sBox[0][i] = MDS[0][Q0[Q0[(b) ^ vec8[0]] ^ vec16[0]] ^ vec24[0]]; \
    sBox[1][i] = MDS[1][Q0[Q1[(b) ^ vec8[1]] ^ vec16[1]] ^ vec24[1]]; \

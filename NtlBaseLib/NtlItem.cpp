@@ -17,6 +17,25 @@
 #include "NtlBattle.h"
 #include "NtlObject.h"
 
+FLOAT Dbo_GetItemsStatsPoints(BYTE byRank, BYTE byLevel)
+{
+	FLOAT fPoints = 0.f;
+
+	if (byLevel < 56) { fPoints = byLevel + 5.f; }
+	else { fPoints = byLevel + 10.f; }
+	
+	switch (static_cast<eITEM_RANK>(byRank))
+	{
+	case eITEM_RANK::ITEM_RANK_NOTHING: {return 0.f; break; }
+	case eITEM_RANK::ITEM_RANK_NORMAL: {return pow(pow(fPoints * 1.f * 100.f, 1.5f), 2.f / 3.f); break; }
+	case eITEM_RANK::ITEM_RANK_SUPERIOR: { return pow(pow(fPoints * 1.1f * 100.f, 1.5f), 2.f / 3.f); break; }
+	case eITEM_RANK::ITEM_RANK_EXCELLENT: {return pow(pow(fPoints * 2.3f * 100.f, 1.5f), 2.f / 3.f); break; }
+	case eITEM_RANK::ITEM_RANK_RARE: {return pow(pow(fPoints * 2.8f * 100.f, 1.5f), 2.f / 3.f); break; }
+	case eITEM_RANK::ITEM_RANK_LEGENDARY: { return pow(pow(fPoints * 3.4f * 100.f, 1.5f), 2.f / 3.f); break; }
+	}
+
+}
+
 WORD Dbo_GetFinalOffence(WORD wBaseOffence, BYTE byGrade, WORD GradePower)
 {
 	if (ITEM_GRADE_LEVEL_0 == byGrade)
@@ -42,8 +61,8 @@ WORD Dbo_GetFinalDefence(WORD wBaseDefence, BYTE byGrade, WORD GradePower)
 	}
 }
 
-//float Dbo_UpgradeSuccessRate(BYTE byGrade, BYTE byStoneType)
-//{
+float Dbo_UpgradeSuccessRate(BYTE byGrade, BYTE byStoneType)
+{
 	/*if (byGrade > ITEM_MAX_GRADE || byGrade < 0) // 기본체크
 		return 0.0f;
 	if (byStoneType != ITEM_TYPE_STONE && byStoneType != ITEM_TYPE_PURE_STONE && byStoneType != ITEM_TYPE_BLACK_STONE)
@@ -76,7 +95,7 @@ WORD Dbo_GetFinalDefence(WORD wBaseDefence, BYTE byGrade, WORD GradePower)
 		,0.0f }; // 15
 
 	return successRateTable[byGrade];*/
-//}
+}
 
 float Dbo_GetAttributeRate(BYTE byItemBattleAttribute, BYTE byPosNum)
 {
@@ -116,8 +135,8 @@ BYTE Dbo_GetUpgradeRate(BYTE byItemBattleAttribute, BYTE byPosNum)
 
 	return aByBattleAttributeBonusRate[byItemBattleAttribute][byPosNum];
 }
-//BYTE Dbo_GetHoipoiStoneCount(const BYTE byStoneType, const BYTE byItemType, BYTE byGrade)
-//{
+BYTE Dbo_GetHoipoiStoneCount(const BYTE byStoneType, const BYTE byItemType, BYTE byGrade)
+{
 /*	// 일반 호이포이 스톤
 	const static BYTE byNeedCountBasicWeapon[ITEM_MAX_GRADE] = { 2,2,2,4,4,4,6,6,6,8,8,8,10,10,10 };
 	const static BYTE byNeedCountBasicArmor[ITEM_MAX_GRADE] = { 1,1,1,2,2,2,3,3,3,4,4,4,5, 5, 5 };
@@ -153,7 +172,7 @@ BYTE Dbo_GetUpgradeRate(BYTE byItemBattleAttribute, BYTE byPosNum)
 
 	// 여기까지 왔다면 아이템 타입이 잘못되었기 때문임.
 	return INVALID_BYTE;*/
-//}
+}
 
 DWORD Dbo_GetRepairPay(DWORD dwCost, BYTE byDur, BYTE byCurDur)
 {

@@ -10,8 +10,7 @@ bool hasmoved = false;
 //----------------------------------------
 Mob::Mob() : Object()
 {
-	m_objectType = eOBJTYPE::OBJTYPE_MOB;
-	lastMoveTime = 10;
+	m_objectType = eOBJTYPE::OBJTYPE_MOB;	
 	randMove = rand() % 100 + 10;
 }
 //----------------------------------------
@@ -63,8 +62,7 @@ void Mob::BuildPacketForSpawn(SpawnMOB& spawnData)
 
 	spawnData.wOpCode = GU_OBJECT_CREATE;
 	spawnData.wPacketSize = sizeof(SpawnMOB) - 2;
-
-	spawnData.AspectID = 0;
+	
 	spawnData.curEP = me.CurEP;
 	spawnData.curLP = me.CurLP;
 	spawnData.Handle = GetHandle();
@@ -73,45 +71,33 @@ void Mob::BuildPacketForSpawn(SpawnMOB& spawnData)
 	spawnData.maxLP = me.MaxLP;
 	spawnData.Size = 10;
 	spawnData.Type = OBJTYPE_MOB;
-	spawnData.Position.x = me.curPos.x;
-	spawnData.Position.y = me.curPos.y;
-	spawnData.Position.z = me.curPos.z;
-	spawnData.Rotation.x = me.Spawn_Dir.x;
-	spawnData.Rotation.y = me.Spawn_Dir.y;
-	spawnData.Rotation.z = me.Spawn_Dir.z;
-	spawnData.StateID = eCHARSTATE::CHARSTATE_SPAWNING;
-	spawnData.Tblidx = me.MonsterID;
-
-	spawnData.Unknown2 = 0;
-
-	spawnData.test0 = 0;
-	spawnData.test1 = 0;
-	spawnData.test2 = 0;
-	spawnData.test3 = 0;
-	spawnData.BurnEffect = 0;
-	spawnData.PoisonEffect = 0;
-	spawnData.test6 = 0;
-	spawnData.test7 = 0;
-	spawnData.test8 = 0;
-	spawnData.test9 = 0;
-	spawnData.test10 = 0;
-	spawnData.test11 = 0;
-	spawnData.Run_Speed = 2;
-	spawnData.Run_Speed_origin = 2;
-	spawnData.Walk_Speed = 2;
-	spawnData.Walk_Speed_origin = 2;
-
-	for (int i = 0; i < 10; i++) spawnData.Unknown[i] = 0;
-	for (int i = 0; i < 9; i++) spawnData.Unknown4[i] = 0;
-	for (int i = 0; i < 20; i++) spawnData.unkasd[i] = 0;
 	
-	spawnData.Unknown[3] = 0;//move pattern tblidx
-	spawnData.Unknown[4] = 0;//move pattern tblidx
-	spawnData.Unknown[5] = 0;//move pattern tblidx
-	spawnData.Unknown[6] = 0;//move pattern tblidx
+	spawnData.Tblidx = me.MonsterID;
+	spawnData.fLastWalkingSpeed = 4;
+	spawnData.fLastRunningSpeed = 8;
+	spawnData.fLastAirgSpeed = 0;
+	spawnData.fLastAirgDashSpeed = 0;
+	spawnData.fLastAirgDashAccelSpeed = 0;
+	//spawnData.AttackSpeedRate = 5;
+	spawnData.byBallType = me.ByDagonBall;
+
+	GetState()->sCharStateBase.byStateID = eCHARSTATE::CHARSTATE_SPAWNING;
+	GetState()->sCharStateBase.vCurLoc.x = me.curPos.x;
+	GetState()->sCharStateBase.vCurLoc.y = me.curPos.y;
+	GetState()->sCharStateBase.vCurLoc.z = me.curPos.z;
+	GetState()->sCharStateBase.vCurDir.x = me.Spawn_Dir.x;
+	GetState()->sCharStateBase.vCurDir.y = me.Spawn_Dir.y;
+	GetState()->sCharStateBase.vCurDir.z = me.Spawn_Dir.z;
+	GetState()->sCharStateBase.aspectState.sAspectStateBase.byAspectStateId = 255;
+
+	GetState()->sCharStateDetail.sCharStateSpawning.byTeleportType = 1;
+	GetState()->sCharStateDetail.sCharStateSpawning.unk = 1;
+
+	memcpy(&spawnData.State.sCharStateBase, &GetState()->sCharStateBase, sizeof(sCHARSTATE_BASE));
+	memcpy(&spawnData.State.sCharStateDetail, &GetState()->sCharStateDetail, sizeof(sCHARSTATE_DETAIL));
 }
 //----------------------------------------
-//	Create the mob and fill all info, Will need to remove mob after its killed at the end. 
+//	Create the mob and fill all info
 //----------------------------------------
 bool Mob::Create(sMOB_TBLDAT* mobTbl, SpawnMOB spawnInfo)
 {
@@ -123,14 +109,14 @@ bool Mob::Create(sMOB_TBLDAT* mobTbl, SpawnMOB spawnInfo)
 	me.Grade = mobTbl->byGrade;
 	me.Property = mobTbl->byProperty;
 	//me.Drop_each_id = mobTbl->dropEachTblidx;
-//	me.Drop_quest_id = mobTbl->dropQuestTblidx;
-//	me.Drop_type_id = mobTbl->dropTypeTblidx;
-//	me.Drop_item_id = mobTbl->drop_Item_Tblidx;
-//	me.Mob_group = mobTbl->dwMobGroup;
+	//	me.Drop_quest_id = mobTbl->dropQuestTblidx;
+	//	me.Drop_type_id = mobTbl->dropTypeTblidx;
+	//	me.Drop_item_id = mobTbl->drop_Item_Tblidx;
+	//	me.Mob_group = mobTbl->dwMobGroup;
 	me.Exp = mobTbl->fDrop_Exp_Rate;
 	me.Mob_Kind = mobTbl->wMob_Kind;
 	me.Sight_angle = mobTbl->wSightAngle;
-//	me.TMQ_Point = mobTbl->wTMQPoint;
+	//	me.TMQ_Point = mobTbl->wTMQPoint;
 	me.DropEachRateControl = mobTbl->byDropEachRateControl;
 	me.DropEItemRateControl = mobTbl->byDropEItemRateControl;
 	me.DropLItemRateControl = mobTbl->byDropLItemRateControl;
@@ -196,38 +182,26 @@ bool Mob::Create(sMOB_TBLDAT* mobTbl, SpawnMOB spawnInfo)
 	me.Lp_Regeneration = mobTbl->wLP_Regeneration;
 	*me.Use_skill_Lp = *mobTbl->wUse_Skill_LP;
 	*me.Use_skill_time = *mobTbl->wUse_Skill_Time;
-	me.Spawn_Loc = spawnInfo.Position; //For spawning individual Mobs
-	me.Spawn_Dir = spawnInfo.Rotation; //For spawning individual Mobs
-
+	me.Spawn_Loc = spawnInfo.State.sCharStateBase.vCurLoc; //For spawning individual Mobs
+	me.Spawn_Dir = spawnInfo.State.sCharStateBase.vCurDir; //For spawning individual Mobs
 	me.Spawn_Cool_Time = 10000;
 	me.MapID = spawnInfo.Tblidx; // is valid ?
 	SetIsDead(false);
 	me.KilledTime = 0;
 	me.isAggro = false;
-	me.curPos = spawnInfo.Position; //For spawning individual Mobs
+	me.curPos = spawnInfo.State.sCharStateBase.vCurLoc; //For spawning individual Mobs
 	me.chainAttackCount = 0;
 	me.MaxchainAttackCount = 0;
 	handle = me.UniqueID = sWorld.AcquireSerialId();
-
-	Relocate(me.curPos.x, me.curPos.y, me.curPos.z, me.Spawn_Dir.x, me.Spawn_Dir.y, me.Spawn_Dir.z);
-
-/*	if (me.Grade != eMOB_GRADE::MOB_GRADE_HERO && me.Grade != eMOB_GRADE::MOB_GRADE_ULTRA)
-	{
-		
-	}*/
+	
+	Relocate(me.curPos.x, me.curPos.y, me.curPos.z, me.Spawn_Dir.x, me.Spawn_Dir.y, me.Spawn_Dir.z);	
+	
 	AddToWorld();
 	me.isSpawned = true;
-	respawnTime = me.Spawn_Cool_Time;
-	/*if (me.Grade >= eMOB_GRADE::MOB_GRADE_SUPER)
-	{
-		respawnTime = rand() % 1000 + 500;
-	}*/
+	respawnTime = 604800000;
 	return true;
+	
 }
-
-//----------------------------------------
-//	Create the mob and fill all info Add spawn info so that mob can be added.
-//----------------------------------------
 bool Mob::Create(sSPAWN_TBLDAT* spawnTbl, sMOB_TBLDAT* mobTbl)
 {
 	me.MonsterID = mobTbl->tblidx;
@@ -238,14 +212,14 @@ bool Mob::Create(sSPAWN_TBLDAT* spawnTbl, sMOB_TBLDAT* mobTbl)
 	me.Grade = mobTbl->byGrade;
 	me.Property = mobTbl->byProperty;
 	//me.Drop_each_id = mobTbl->dropEachTblidx;
-	//	me.Drop_quest_id = mobTbl->dropQuestTblidx;
-	//	me.Drop_type_id = mobTbl->dropTypeTblidx;
-	//	me.Drop_item_id = mobTbl->drop_Item_Tblidx;
-	//	me.Mob_group = mobTbl->dwMobGroup;
+//	me.Drop_quest_id = mobTbl->dropQuestTblidx;
+//	me.Drop_type_id = mobTbl->dropTypeTblidx;
+//	me.Drop_item_id = mobTbl->drop_Item_Tblidx;
+//	me.Mob_group = mobTbl->dwMobGroup;
 	me.Exp = mobTbl->fDrop_Exp_Rate;
 	me.Mob_Kind = mobTbl->wMob_Kind;
 	me.Sight_angle = mobTbl->wSightAngle;
-	//	me.TMQ_Point = mobTbl->wTMQPoint;
+//	me.TMQ_Point = mobTbl->wTMQPoint;
 	me.DropEachRateControl = mobTbl->byDropEachRateControl;
 	me.DropEItemRateControl = mobTbl->byDropEItemRateControl;
 	me.DropLItemRateControl = mobTbl->byDropLItemRateControl;
@@ -334,210 +308,626 @@ bool Mob::Create(sSPAWN_TBLDAT* spawnTbl, sMOB_TBLDAT* mobTbl)
 	me.MaxchainAttackCount = 0;
 	handle = me.UniqueID = sWorld.AcquireSerialId();
 
+	int BallRandom = rand() % 100;
+	if (BallRandom >= 0 && BallRandom <= 15)
+	{
+		me.ByDagonBall = 1;
+	}
+
 	Relocate(me.curPos.x, me.curPos.y, me.curPos.z, me.Spawn_Dir.x, me.Spawn_Dir.y, me.Spawn_Dir.z);
 
-	/*	if (me.Grade != eMOB_GRADE::MOB_GRADE_HERO && me.Grade != eMOB_GRADE::MOB_GRADE_ULTRA)
-	{
 
-	}*/
 	AddToWorld();
 	me.isSpawned = true;
 	respawnTime = me.Spawn_Cool_Time;
-	/*if (me.Grade >= eMOB_GRADE::MOB_GRADE_SUPER)
-	{
-	respawnTime = rand() % 1000 + 500;
-	}*/
+	
 	return true;
 }
 //----------------------------------------
-//	Remove from world
+//	Remove from world marco_rafael_@sapo.pt
 //----------------------------------------
 void Mob::Update(uint32 update_diff, uint32 time)
 {
-	if (GetIsDead() == false)
+	
+	DWORD RegAt = GetTickCount() - TimmerReg;
+	if (RegAt >= 1400)
 	{
 		if (GetIsDead() == false)
-		{
-			Regen();
-		
+		{ 					
+			Regen();				
 		}
-		//MoveToPoint();
-		CheckAgro();
-	}
-	else
+		else
+		{
+			Respawn();
+		}
+		BossEventRandom = rand() % 100;
+		TimmerReg = GetTickCount();
+	}	
+	DWORD MoveAt = GetTickCount() - TimmerMove;
+	if (MoveAt >= 8000)
 	{
-		Respawn();
+		if (GetState()->sCharStateBase.byStateID == eCHARSTATE::CHARSTATE_STUNNED ||
+			GetState()->sCharStateBase.byStateID == eCHARSTATE::CHARSTATE_PARALYZED ||
+			GetState()->sCharStateBase.byStateID == eCHARSTATE::CHARSTATE_SLEEPING)
+		{
+			//	printf("nothing here im stuned");
+		}
+		else
+		{
+			MoveToPoint();
+		}
+		
+		TimmerMove = GetTickCount();
+	}
+	DWORD AgroAt = GetTickCount() - TimmerAgro;
+	if (AgroAt >= 1400)
+	{
+		if (GetState()->sCharStateBase.byStateID == eCHARSTATE::CHARSTATE_STUNNED ||
+			GetState()->sCharStateBase.byStateID == eCHARSTATE::CHARSTATE_PARALYZED ||
+			GetState()->sCharStateBase.byStateID == eCHARSTATE::CHARSTATE_SLEEPING)
+		{
+		//	printf("nothing here im stuned");
+		}
+		else
+		{
+			CheckAgro();
+		}
+		TimmerAgro = GetTickCount();
 	}
 }
 void Mob::MoveToPoint()
 {		
+	float myX, myZ;
 	for (auto it = m_MobRef.getTarget()->GetPlayers().begin(); it != m_MobRef.getTarget()->GetPlayers().end(); ++it)
 	{
 		if (it->getSource())
 		{
 			Player* plr = it->getSource();
-			if (plr->IsInWorld() == true && plr->GetSession() != NULL)
+			if (plr->IsInWorld() == true && plr->GetSession() != NULL && GetIsDead() == false)
 			{
-				//printf("plr->isFlying %d \n ", plr->GetFlying());
 				float dist = NtlGetDistance(me.curPos.x, me.curPos.z, plr->GetVectorPosition().x, plr->GetVectorPosition().z);
-				///////////////////////////////////////
-				//Need Move to Player Before Attack //
-				/////////////////////////////////////
-				if (dist <= 10)
+				if (dist <= DEFAULT_VISIBILITY_DISTANCE && GetIsDead() == false && GetIsFighting() == false && me.GotAgro == false)
 				{
-					sGU_CHAR_DEST_MOVE res;
-					memset(&res, 0, sizeof(sGU_CHAR_DEST_MOVE));
-
-					res.wOpCode = GU_CHAR_DEST_MOVE;
-					res.byMoveFlag = NTL_MOVE_MOUSE_MOVEMENT;
-					res.wPacketSize = sizeof(sGU_CHAR_DEST_MOVE) - 2;
-
-					res.handle = GetHandle();
-					res.byDestLocCount = 1;
-					res.bHaveSecondDestLoc = false;
-
-					res.vCurLoc.x = me.Spawn_Loc.x;
-					res.vCurLoc.y = me.Spawn_Loc.y;
-					res.vCurLoc.z = me.Spawn_Loc.z;
-
-					res.avDestLoc[5].x = plr->GetVectorPosition().x;//0
-					res.avDestLoc[5].y = plr->GetVectorPosition().y;
-					res.avDestLoc[5].z = plr->GetVectorPosition().z;
-					res.unknown = 0;
-
-					GetState()->sCharStateDetail.sCharStateDestMove.dwTimeStamp = rand() % 20 - 1; //1?
-					GetState()->sCharStateDetail.sCharStateDestMove.byMoveFlag = res.byMoveFlag;
-					GetState()->sCharStateDetail.sCharStateDestMove.vSecondDestLoc = res.vSecondDestLoc;
-					GetState()->sCharStateDetail.sCharStateDestMove.unknown = INVALID_BYTE;
-					GetState()->sCharStateDetail.sCharStateDestMove.byDestLocCount = res.byDestLocCount;
-					GetState()->sCharStateDetail.sCharStateDestMove.avDestLoc[0] = res.avDestLoc[0];
-
-					SetState(eCHARSTATE::CHARSTATE_DESTMOVE);
-
-					SendToPlayerList((char*)&res, sizeof(sGU_CHAR_DEST_MOVE));
+					myX = plr->GetVectorPosition().x;
+					myZ = plr->GetVectorPosition().z;
 				}
 			}
 		}
+	}
+	float dist = NtlGetDistance(me.curPos.x, me.curPos.z, myX, myZ);
+	float DistSpawn = NtlGetDistance(me.curPos.x, me.curPos.z, me.Spawn_Loc.x, me.Spawn_Loc.z);
+
+	if (dist <= DEFAULT_VISIBILITY_DISTANCE && GetIsDead() == false && GetIsFighting() == false && me.GotAgro == false)
+	{
+		randMove = rand() % 10 + 1;
+		sGU_CHAR_DEST_MOVE res;
+		memset(&res, 0, sizeof(sGU_CHAR_DEST_MOVE));
+
+		res.wOpCode = GU_CHAR_DEST_MOVE;
+		res.byMoveFlag = NTL_MOVE_FLAG_WALK;
+		res.wPacketSize = sizeof(sGU_CHAR_DEST_MOVE) - 2;
+		res.handle = GetHandle();
+		res.byDestLocCount = 1;
+		res.bHaveSecondDestLoc = false;
+		dVECTOR3 curPos, newPos;
+
+		curPos.x = dbo_move_float_to_pos(me.curPos.x);
+		curPos.y = dbo_move_float_to_pos(me.curPos.y);
+		curPos.z = dbo_move_float_to_pos(me.curPos.z);
+		res.vCurLoc = curPos;
+		res.unknown = 0;
+
+		if (randMove >= 0 && randMove <= 4)
+		{
+			//	printf("Mob move to random Loc \n");
+			newPos.x = dbo_move_float_to_pos(me.curPos.x + rand() % 7);
+			newPos.y = dbo_move_float_to_pos(me.curPos.y);
+			newPos.z = dbo_move_float_to_pos(me.curPos.z + rand() % 7);
+			res.avDestLoc[0] = newPos;
+		}
+		if (randMove >= 5 && randMove <= 10)
+		{
+			//	printf("Mob move to random Loc \n");
+			newPos.x = dbo_move_float_to_pos(me.curPos.x - rand() % 7);
+			newPos.y = dbo_move_float_to_pos(me.curPos.y);
+			newPos.z = dbo_move_float_to_pos(me.curPos.z - rand() % 7);
+			res.avDestLoc[0] = newPos;
+		}
+		if (DistSpawn >= 20)
+		{
+			//	printf("Mob Back to Spawn Loc \n");
+			newPos.x = dbo_move_float_to_pos(me.Spawn_Loc.x);
+			newPos.y = dbo_move_float_to_pos(me.Spawn_Loc.y);
+			newPos.z = dbo_move_float_to_pos(me.Spawn_Loc.z);
+			res.avDestLoc[0] = newPos;
+		}
+		//Relocate(dbo_move_pos_to_float(newPos.x), dbo_move_pos_to_float(newPos.y), dbo_move_pos_to_float(newPos.z), me.Spawn_Dir.x, me.Spawn_Dir.y, me.Spawn_Dir.z);
+
+		SendToPlayerList((char*)&res, sizeof(sGU_CHAR_DEST_MOVE));
+
+		GetState()->sCharStateBase.vCurLoc.x = dbo_move_pos_to_float(newPos.x);
+		GetState()->sCharStateBase.vCurLoc.y = dbo_move_pos_to_float(newPos.y);
+		GetState()->sCharStateBase.vCurLoc.z = dbo_move_pos_to_float(newPos.z);
+		me.curPos = GetState()->sCharStateBase.vCurLoc;
+
 	}
 }
 //----------------------------------------
 //I do some test Here Need Delet all that Shit Later and Remake
 //----------------------------------------
 void Mob::CheckAgro()
-{
-	lastMoveTime += 10;	
+{		
+	if (GetIsDead() == true)
+	{
+		return;
+	}
 	for (auto it = m_MobRef.getTarget()->GetPlayers().begin(); it != m_MobRef.getTarget()->GetPlayers().end(); ++it)
 	{
 		if (it->getSource())
 		{
 			Player* plr = it->getSource();
-			if (plr->IsInWorld() == true && plr->GetSession() != NULL)
-			{
-				//printf("plr->isFlying %d \n ", plr->GetFlying());
+			if (plr->IsInWorld() == true && plr->GetSession() != NULL && GetIsDead() == false)
+			{				
 				float dist = NtlGetDistance(me.curPos.x, me.curPos.z, plr->GetVectorPosition().x, plr->GetVectorPosition().z);
-				///////////////////////////////////////
-				//Need Move to Player Before Attack //
-				/////////////////////////////////////
-				if (dist <= 20 && plr->GetIsSkillCasting() == true)
+				float DistSpawn = NtlGetDistance(me.curPos.x, me.curPos.z, me.Spawn_Loc.x, me.Spawn_Loc.z);
+				
+				//GetAggro
+				if (dist <= 10 && plr->GetIsDead() == false && plr->GetIsFlying() == false && me.GotAgro == false && me.target == INVALID_TBLIDX 
+					|| GetIsFighting() == true && plr->GetIsDead() == false && plr->GetIsFlying() == false && me.GotAgro == false && me.target == INVALID_TBLIDX)
 				{
-					
-				}
-				//if Distance difrence <= 10 start Mob attack...
-				//need Find What mob are Agressive or not "in the moment all are Agressive"
-				if (dist <= 6 && plr->GetIsDead() == false && plr->GetIsFlying() == false)
-				{
-					if (lastMoveTime > 3 || lastMoveTime <= 0)
-						lastMoveTime = BATTLE_CHAIN_ATTACK_START;
-					int attackResult = eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_DODGE;
-					int Random = rand() % 100 + 1;
-					float percent = (me.Attack_rate - plr->GetPcProfile()->avatarAttribute.wLastDodgeRate) / 2;
-					if (percent <= 0)
+					me.target = plr->GetHandle();
+					me.GotAgro = true;
+					SetIsFighting(true);
+					if (me.isAggro == false && me.target == plr->GetHandle())
 					{
-						if (Random >= 0 && Random <= 50)
-							attackResult = eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_HIT;
-						else
-							attackResult = eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_DODGE;
-					}
-					if (percent >= 0 && percent <= 50)
-					{
-						if(Random >= 0 && Random <= 25)
-							attackResult = eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_HIT;
-						else
-							attackResult = eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_DODGE;
-					}
-					//Hit 50%
-					if (percent >= 51 && percent <= 75)
-					{
-						if (Random >= 0 && Random <= 50)
-							attackResult = eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_HIT;
-						else
-							attackResult = eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_DODGE;
-					}
-					//Hit 75%
-					if (percent >= 76 && percent <= 100)
-					{
-						if (Random >= 0 && Random <= 75)
-							attackResult = eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_HIT;
-						else
-							attackResult = eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_DODGE;
-					}
-					//Hit 100%
-					if (percent >= 100)
-					{						
-							attackResult = eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_HIT;						
-					}
-					
-					sGU_CHAR_ACTION_ATTACK res;			
-					
-					int guardType = eDBO_GUARD_TYPE::DBO_GUARD_TYPE_INVALID;
-					int attackValue = me.Basic_physical_defence * me.Basic_physical_defence / (me.Basic_physical_defence + plr->GetPcProfile()->avatarAttribute.wLastPhysicalDefence) * 3;
-					//float attackValue = me.Basic_Offence * ((1 - plr->GetPcProfile()->avatarAttribute.wLastPhysicalDefence / (plr->GetPcProfile()->avatarAttribute.wLastPhysicalDefence + me.Level * 40)) + ((me.Level - plr->GetPcProfile()->byLevel) * 0.005));
-					//float attackValue = (me.Basic_Offence - plr->GetPcProfile()->avatarAttribute.wLastPhysicalDefence) / 2;
-					//float attackValue = (plr->GetPcProfile()->avatarAttribute.wLastPhysicalDefence / 100) * 
-					if (attackValue <= 1 || attackValue > 1000000000)
-					{
-						attackValue = rand() % (plr->GetPcProfile()->avatarAttribute.byLastStr * 3) % (plr->GetPcProfile()->avatarAttribute.byLastStr * 6); //Fixed the formula for now. Player stat's have to be read correctly;
-					}
-
-					//printf("Moster Atack  %d \n ", me.Basic_Offence);
-					//printf("Player Defense %d \n ", plr->GetPcProfile()->avatarAttribute.wLastPhysicalDefence);
-					//printf("Moster Finnal Attack Value  %d \n ", PhysicalOffence);
-					int reflectedDamage = 0;					
-
-					res.bChainAttack = true;
-					res.byAttackResult = attackResult;
-					res.byBlockedAction = guardType;
-					res.dwLpEpEventId = 0;
-					res.fReflectedDamage = reflectedDamage;
-					res.byAttackSequence = lastMoveTime;
-					res.hSubject = me.UniqueID;
-					res.hTarget = plr->GetHandle();
-					res.vShift = GetVectorPosition();
-					res.wAttackResultValue = attackValue;
-					res.bRecoveredLP = false;
-					res.wRecoveredLpValue = 0;
-					res.bRecoveredEP = false;
-					res.wRecoveredEpValue = 0;
-					res.wOpCode = GU_CHAR_ACTION_ATTACK;
-					res.wPacketSize = sizeof(sGU_CHAR_ACTION_ATTACK) - 2;
-
-					plr->SendPacket((char*)&res, sizeof(sGU_CHAR_ACTION_ATTACK));
-					plr->SendToPlayerList((char*)&res, sizeof(sGU_CHAR_ACTION_ATTACK));
-
-					if (attackResult != eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_DODGE)
-					{
-						if (attackers == 10)
-							attackers = me.UniqueID;
-						plr->TakeMobDemage(attackValue);
+						//printf("Hey Bitch Come Here \n");
+						sGU_BOT_BOTCAUTION_NFY Bot;
+						Bot.wOpCode = GU_BOT_BOTCAUTION_NFY;
+						Bot.wPacketSize = sizeof(sGU_BOT_BOTCAUTION_NFY) - 2;
+						Bot.hBot = me.UniqueID;
+						SendToPlayerList((char*)&Bot, sizeof(sGU_BOT_BOTCAUTION_NFY));
+						me.isAggro = true;
 					}
 				}
+				//Lost Agro by Distance
+				if (DistSpawn >= 70 && plr->GetIsDead() == false && me.GotAgro == true && me.target == plr->GetHandle())
+				{					
+					me.target = INVALID_TBLIDX;
+					me.GotAgro = false;	
+					me.isAggro = false;
+					SetIsFighting(false);
+					
+					sGU_CHAR_DEST_MOVE res;
+					memset(&res, 0, sizeof(sGU_CHAR_DEST_MOVE));
+
+					res.wOpCode = GU_CHAR_DEST_MOVE;
+					res.byMoveFlag = NTL_MOVE_FLAG_RUN;
+					res.wPacketSize = sizeof(sGU_CHAR_DEST_MOVE) - 2;
+					res.handle = GetHandle();
+					res.byDestLocCount = 1;
+					res.bHaveSecondDestLoc = true;
+					dVECTOR3 curPos, newPos;
+
+					curPos.x = dbo_move_float_to_pos(me.curPos.x);
+					curPos.y = dbo_move_float_to_pos(me.curPos.y);
+					curPos.z = dbo_move_float_to_pos(me.curPos.z);
+					res.vCurLoc = curPos;
+					res.unknown = 0;
+
+
+					//printf("You are Weak i not Going Follow You Anymore \n");
+					newPos.x = dbo_move_float_to_pos(me.Spawn_Loc.x);
+					newPos.y = dbo_move_float_to_pos(me.Spawn_Loc.y);
+					newPos.z = dbo_move_float_to_pos(me.Spawn_Loc.z);
+					res.avDestLoc[0] = newPos;
+					
+					//Relocate(dbo_move_pos_to_float(newPos.x), dbo_move_pos_to_float(newPos.y), dbo_move_pos_to_float(newPos.z), me.Spawn_Dir.x, me.Spawn_Dir.y, me.Spawn_Dir.z);
+
+					SendToPlayerList((char*)&res, sizeof(sGU_CHAR_DEST_MOVE));
+
+					GetState()->sCharStateBase.vCurLoc.x = dbo_move_pos_to_float(newPos.x);
+					GetState()->sCharStateBase.vCurLoc.y = dbo_move_pos_to_float(newPos.y);
+					GetState()->sCharStateBase.vCurLoc.z = dbo_move_pos_to_float(newPos.z);
+					me.curPos = GetState()->sCharStateBase.vCurLoc;
+				}	
+			//	Lost agro by Dead/Flying
+				if (plr->GetIsDead() == true && me.GotAgro == true && me.target == plr->GetHandle() 
+					|| plr->GetIsFlying() == true && me.GotAgro == true && me.target == plr->GetHandle())
+				{
+					me.target = INVALID_TBLIDX;
+					me.GotAgro = false;
+					me.isAggro = false;
+					SetIsFighting(false);
+
+					sGU_CHAR_DEST_MOVE res;
+					memset(&res, 0, sizeof(sGU_CHAR_DEST_MOVE));
+
+					res.wOpCode = GU_CHAR_DEST_MOVE;
+					res.byMoveFlag = NTL_MOVE_FLAG_RUN;
+					res.wPacketSize = sizeof(sGU_CHAR_DEST_MOVE) - 2;
+					res.handle = GetHandle();
+					res.byDestLocCount = 1;
+					res.bHaveSecondDestLoc = true;
+					dVECTOR3 curPos, newPos;
+
+					curPos.x = dbo_move_float_to_pos(me.curPos.x);
+					curPos.y = dbo_move_float_to_pos(me.curPos.y);
+					curPos.z = dbo_move_float_to_pos(me.curPos.z);
+					res.vCurLoc = curPos;
+					res.unknown = 0;
+
+					//printf("You are Weak i not Going Follow You Anymore \n");
+					newPos.x = dbo_move_float_to_pos(me.Spawn_Loc.x);
+					newPos.y = dbo_move_float_to_pos(me.Spawn_Loc.y);
+					newPos.z = dbo_move_float_to_pos(me.Spawn_Loc.z);
+					res.avDestLoc[0] = newPos;
+
+					//Relocate(dbo_move_pos_to_float(newPos.x), dbo_move_pos_to_float(newPos.y), dbo_move_pos_to_float(newPos.z), me.Spawn_Dir.x, me.Spawn_Dir.y, me.Spawn_Dir.z);
+
+					SendToPlayerList((char*)&res, sizeof(sGU_CHAR_DEST_MOVE));
+
+					GetState()->sCharStateBase.vCurLoc.x = dbo_move_pos_to_float(newPos.x);
+					GetState()->sCharStateBase.vCurLoc.y = dbo_move_pos_to_float(newPos.y);
+					GetState()->sCharStateBase.vCurLoc.z = dbo_move_pos_to_float(newPos.z);
+					me.curPos = GetState()->sCharStateBase.vCurLoc;
+				}
+				//Send Move to Target 
+				if (GetIsDead() == false  && me.GotAgro == true && me.target == plr->GetHandle())
+				{					
+					if (GetState()->sCharStateBase.vCurLoc.x != plr->GetState()->sCharStateBase.vCurLoc.x - RandValue && GetState()->sCharStateBase.vCurLoc.z != plr->GetState()->sCharStateBase.vCurLoc.z - RandValue)
+					{							
+						RandValue = rand() % 3;
+						sGU_CHAR_DEST_MOVE res;
+						memset(&res, 0, sizeof(sGU_CHAR_DEST_MOVE));
+
+						res.wOpCode = GU_CHAR_DEST_MOVE;
+						res.byMoveFlag = NTL_MOVE_FLAG_RUN;
+						res.wPacketSize = sizeof(sGU_CHAR_DEST_MOVE) - 2;
+						res.handle = GetHandle();
+						res.byDestLocCount = 1;
+						res.bHaveSecondDestLoc = true;
+						dVECTOR3 curPos, newPos;
+
+						curPos.x = dbo_move_float_to_pos(me.curPos.x);
+						curPos.y = dbo_move_float_to_pos(me.curPos.y);
+						curPos.z = dbo_move_float_to_pos(me.curPos.z);
+						res.vCurLoc = curPos;
+						res.unknown = 0;
+
+						
+					//	printf("Im Going Fuk You \n");
+						newPos.x = dbo_move_float_to_pos(plr->GetVectorPosition().x - RandValue);
+						newPos.y = dbo_move_float_to_pos(plr->GetVectorPosition().y);
+						newPos.z = dbo_move_float_to_pos(plr->GetVectorPosition().z - RandValue);
+						res.avDestLoc[0] = newPos;
+						
+						//Relocate(dbo_move_pos_to_float(newPos.x), dbo_move_pos_to_float(newPos.y), dbo_move_pos_to_float(newPos.z), me.Spawn_Dir.x, me.Spawn_Dir.y, me.Spawn_Dir.z);
+
+						SendToPlayerList((char*)&res, sizeof(sGU_CHAR_DEST_MOVE));
+						
+						GetState()->sCharStateBase.vCurLoc.x = dbo_move_pos_to_float(newPos.x);
+						GetState()->sCharStateBase.vCurLoc.y = dbo_move_pos_to_float(newPos.y);
+						GetState()->sCharStateBase.vCurLoc.z = dbo_move_pos_to_float(newPos.z);
+						me.curPos = GetState()->sCharStateBase.vCurLoc;									
+											
+					}
+					//Send Auto attack
+					if (dist <= (me.Attack_range + 3) && GetIsDead() == false && plr->GetIsDead() == false && plr->GetIsFlying() == false && me.target == plr->GetHandle())
+					{
+
+
+						DWORD SkillMob = GetTickCount() - MobSkill;
+						if (SkillMob >= 1500)
+						{
+							int rasdand = rand() % 6;
+							SkillTable * skillTable = sTBM.GetSkillTable();
+							sSKILL_TBLDAT * skillDataOriginal = reinterpret_cast<sSKILL_TBLDAT*>(skillTable->FindData(me.use_Skill_Tblidx[rasdand]));
+							if (skillDataOriginal != NULL)
+							{
+								switch (skillDataOriginal->bySkill_Active_Type)
+								{
+									case eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_DD:
+									{
+										sGU_CHAR_ACTION_SKILL skillRes;
+										memset(&skillRes, 0, sizeof(sGU_CHAR_ACTION_SKILL));
+										skillRes.wPacketSize = sizeof(sGU_CHAR_ACTION_SKILL) - 2;
+										skillRes.wOpCode = GU_CHAR_ACTION_SKILL;
+										skillRes.wResultCode = GAME_SUCCESS;
+										skillRes.handle = me.UniqueID;
+										skillRes.hAppointedTarget = plr->GetHandle();
+										skillRes.skillId = skillDataOriginal->tblidx;
+										skillRes.dwLpEpEventId = skillDataOriginal->tblidx;
+										skillRes.byRpBonusType = 255;
+										skillRes.bIsSkillHarmful = false;
+
+										skillRes.aSkillResult[0].hTarget = plr->GetHandle();
+										skillRes.aSkillResult[0].byAttackResult = BATTLE_ATTACK_RESULT_HIT;
+
+										skillRes.aSkillResult[0].effectResult[0].eResultType = DBO_SYSTEM_EFFECT_RESULT_TYPE_DD_DOT;
+										skillRes.aSkillResult[0].effectResult[0].Value1 = skillDataOriginal->SkillValue[0] + me.Basic_physical_Offence;
+										skillRes.aSkillResult[0].effectResult[0].Value2 = 0;
+										skillRes.aSkillResult[0].effectResult[0].Value3 = 0;
+										skillRes.aSkillResult[0].effectResult[0].Value4 = 0;
+										skillRes.aSkillResult[0].effectResult[0].Value5 = 0;
+										skillRes.aSkillResult[0].effectResult[0].Value6 = 0;
+										skillRes.aSkillResult[0].byBlockedAction = 255;
+										//skillRes.aSkillResult[count].vShift = PlayerInfo->GetVectorPosition();
+										//skillRes.aSkillResult[count].vShift1 = PlayerInfo->GetVectorPosition();
+										skillRes.bySkillResultCount = 1;
+										plr->TakeMobDemage(skillRes.aSkillResult[0].effectResult[0].Value1);
+										SendToPlayerList((char*)&skillRes, sizeof(sGU_CHAR_ACTION_SKILL));
+										break;
+									}
+									case eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_DOT:
+									{
+										BuffTypeSkill pBuffData;
+										memset(&pBuffData, 0, sizeof(BuffTypeSkill));
+										pBuffData.OpCode = GU_BUFF_REGISTERED;
+										pBuffData.size = sizeof(BuffTypeSkill) - 2;
+										pBuffData.tblidx = INVALID_TBLIDX;
+										
+										pBuffData.hHandle = plr->GetHandle();
+										//pBuffData.slot = 1;
+										pBuffData.tblidx = skillDataOriginal->tblidx;
+										pBuffData.bySourceType = 0;
+										pBuffData.dwInitialDuration = skillDataOriginal->dwKeepTimeInMilliSecs;
+										pBuffData.dwTimeRemaining = skillDataOriginal->dwKeepTimeInMilliSecs;//Time
+
+										//float BleedDemage = DemageValue[i] / 3.5;
+										pBuffData.isactive = 1;
+										pBuffData.Type = 0;
+										pBuffData.BuffInfo[0].SystemEffectValue = skillDataOriginal->SkillValue[0] * 3;
+										pBuffData.BuffInfo[0].SystemEffectTime = skillDataOriginal->dwKeepTimeInMilliSecs;
+										pBuffData.BuffInfo[0].dwSystemEffectValue = skillDataOriginal->SkillValue[0] * 3;
+
+										if (pBuffData.BuffInfo[0].dwSystemEffectValue <= 0 || pBuffData.BuffInfo[0].dwSystemEffectValue > 1000000)
+										{
+											pBuffData.BuffInfo[0].SystemEffectValue = skillDataOriginal->SkillValue[0];
+											pBuffData.BuffInfo[0].dwSystemEffectValue = skillDataOriginal->SkillValue[0];
+										}
+										if (pBuffData.hHandle != 0 || pBuffData.hHandle != INVALID_TBLIDX)
+										{
+											SendToPlayerList((char*)&pBuffData, sizeof(BuffTypeSkill));
+										}
+										//Handle Buff Time List
+										int FreePlace = 0;
+										for (int i = 0; i <= 32; i++)
+										{
+											if (plr->GetAttributesManager()->sBuffTimeInfo[i].BuffID == 0 || plr->GetAttributesManager()->sBuffTimeInfo[i].BuffID == INVALID_TBLIDX)
+											{
+												//printf("Regist new buff \n");
+												FreePlace = i;
+											}
+
+										}
+										plr->ExecuteEffectCalculation(pBuffData.tblidx, false);
+
+										plr->GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffID = pBuffData.tblidx;
+										plr->GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffTime = GetTickCount();
+										plr->GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffEndTime = pBuffData.dwInitialDuration;
+										plr->GetAttributesManager()->sBuffTimeInfo[FreePlace].PlayerHandle = pBuffData.hHandle;
+										plr->GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffIsActive = true;
+										plr->GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffSlot = 0;
+										plr->GetAttributesManager()->sBuffTimeInfo[FreePlace].isAffectPlayer = true;
+										plr->GetAttributesManager()->sBuffTimeInfo[FreePlace].EffectType = skillDataOriginal->skill_Effect[0];
+										plr->GetAttributesManager()->sBuffTimeInfo[FreePlace].EffectValue[0] = pBuffData.BuffInfo[0].SystemEffectValue;
+										plr->GetAttributesManager()->sBuffTimeInfo[FreePlace].isMob = false;
+
+										break;
+									}
+									case eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_DH:
+									{
+										break;
+									}
+									case eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_HOT:
+									{
+										BuffTypeSkill pBuffData;
+										memset(&pBuffData, 0, sizeof(BuffTypeSkill));
+										pBuffData.OpCode = GU_BUFF_REGISTERED;
+										pBuffData.size = sizeof(BuffTypeSkill) - 2;
+										pBuffData.tblidx = INVALID_TBLIDX;
+
+										pBuffData.hHandle = me.UniqueID;
+										//pBuffData.slot = 1;
+										pBuffData.tblidx = skillDataOriginal->tblidx;
+										pBuffData.bySourceType = 0;
+										pBuffData.dwInitialDuration = skillDataOriginal->dwKeepTimeInMilliSecs;
+										pBuffData.dwTimeRemaining = skillDataOriginal->dwKeepTimeInMilliSecs;//Time
+
+																											 //float BleedDemage = DemageValue[i] / 3.5;
+										pBuffData.isactive = 1;
+										pBuffData.Type = 0;
+										pBuffData.BuffInfo[0].SystemEffectValue = skillDataOriginal->SkillValue[0];
+										pBuffData.BuffInfo[0].SystemEffectTime = skillDataOriginal->dwKeepTimeInMilliSecs;
+										pBuffData.BuffInfo[0].dwSystemEffectValue = skillDataOriginal->SkillValue[0];
+
+										if (pBuffData.BuffInfo[0].dwSystemEffectValue <= 0 || pBuffData.BuffInfo[0].dwSystemEffectValue > 1000000)
+										{
+											pBuffData.BuffInfo[0].SystemEffectValue = skillDataOriginal->SkillValue[0];
+											pBuffData.BuffInfo[0].dwSystemEffectValue = skillDataOriginal->SkillValue[0];
+										}
+										if (pBuffData.hHandle != 0 || pBuffData.hHandle != INVALID_TBLIDX)
+										{
+											SendToPlayerList((char*)&pBuffData, sizeof(BuffTypeSkill));
+										}
+										break;
+									}
+									case eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_DB:
+									{
+										break;
+									}
+									case eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_BB:
+									{
+										BuffTypeSkill pBuffData;
+										memset(&pBuffData, 0, sizeof(BuffTypeSkill));
+										pBuffData.OpCode = GU_BUFF_REGISTERED;
+										pBuffData.size = sizeof(BuffTypeSkill) - 2;
+										pBuffData.tblidx = INVALID_TBLIDX;
+
+										pBuffData.hHandle = plr->GetHandle();
+										//pBuffData.slot = 1;
+										pBuffData.tblidx = skillDataOriginal->tblidx;
+										pBuffData.bySourceType = 0;
+										pBuffData.dwInitialDuration = skillDataOriginal->dwKeepTimeInMilliSecs;
+										pBuffData.dwTimeRemaining = skillDataOriginal->dwKeepTimeInMilliSecs;//Time
+
+										 //float BleedDemage = DemageValue[i] / 3.5;
+										pBuffData.isactive = 1;
+										pBuffData.Type = 0;
+										pBuffData.BuffInfo[0].SystemEffectValue = skillDataOriginal->SkillValue[0];
+										pBuffData.BuffInfo[0].SystemEffectTime = skillDataOriginal->dwKeepTimeInMilliSecs;
+										pBuffData.BuffInfo[0].dwSystemEffectValue = skillDataOriginal->SkillValue[0];
+
+										if (pBuffData.BuffInfo[0].dwSystemEffectValue <= 0 || pBuffData.BuffInfo[0].dwSystemEffectValue > 1000000)
+										{
+											pBuffData.BuffInfo[0].SystemEffectValue = skillDataOriginal->SkillValue[0];
+											pBuffData.BuffInfo[0].dwSystemEffectValue = skillDataOriginal->SkillValue[0];
+										}
+										if (pBuffData.hHandle != 0 || pBuffData.hHandle != INVALID_TBLIDX)
+										{
+											SendToPlayerList((char*)&pBuffData, sizeof(BuffTypeSkill));
+										}
+										break;
+									}
+									case eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_DC:
+									{
+										break;
+									}
+									case eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_CB:
+									{
+										BuffTypeSkill pBuffData;
+										memset(&pBuffData, 0, sizeof(BuffTypeSkill));
+										pBuffData.OpCode = GU_BUFF_REGISTERED;
+										pBuffData.size = sizeof(BuffTypeSkill) - 2;
+										pBuffData.tblidx = INVALID_TBLIDX;
+
+										pBuffData.hHandle = plr->GetHandle();
+										//pBuffData.slot = 1;
+										pBuffData.tblidx = skillDataOriginal->tblidx;
+										pBuffData.bySourceType = 0;
+										pBuffData.dwInitialDuration = skillDataOriginal->dwKeepTimeInMilliSecs;
+										pBuffData.dwTimeRemaining = skillDataOriginal->dwKeepTimeInMilliSecs;//Time
+
+																											 //float BleedDemage = DemageValue[i] / 3.5;
+										pBuffData.isactive = 1;
+										pBuffData.Type = 0;
+										pBuffData.BuffInfo[0].SystemEffectValue = skillDataOriginal->SkillValue[0];
+										pBuffData.BuffInfo[0].SystemEffectTime = skillDataOriginal->dwKeepTimeInMilliSecs;
+										pBuffData.BuffInfo[0].dwSystemEffectValue = skillDataOriginal->SkillValue[0];
+
+										if (pBuffData.BuffInfo[0].dwSystemEffectValue <= 0 || pBuffData.BuffInfo[0].dwSystemEffectValue > 1000000)
+										{
+											pBuffData.BuffInfo[0].SystemEffectValue = skillDataOriginal->SkillValue[0];
+											pBuffData.BuffInfo[0].dwSystemEffectValue = skillDataOriginal->SkillValue[0];
+										}
+										if (pBuffData.hHandle != 0 || pBuffData.hHandle != INVALID_TBLIDX)
+										{
+											SendToPlayerList((char*)&pBuffData, sizeof(BuffTypeSkill));
+										}
+										int FreePlace = 0;
+										for (int i = 0; i <= 32; i++)
+										{
+											if (plr->GetAttributesManager()->sBuffTimeInfo[i].BuffID == 0 || plr->GetAttributesManager()->sBuffTimeInfo[i].BuffID == INVALID_TBLIDX)
+											{
+												//printf("Regist new buff \n");
+												FreePlace = i;
+											}
+
+										}
+										plr->ExecuteEffectCalculation(pBuffData.tblidx, false);
+
+										plr->GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffID = pBuffData.tblidx;
+										plr->GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffTime = GetTickCount();
+										plr->GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffEndTime = pBuffData.dwInitialDuration;
+										plr->GetAttributesManager()->sBuffTimeInfo[FreePlace].PlayerHandle = pBuffData.hHandle;
+										plr->GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffIsActive = true;
+										plr->GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffSlot = 0;
+										break;
+									}
+
+								}							
+
+							}
+									MobSkill = GetTickCount();
+						}
+
+
+
+						AttackChain += 1;
+						//	SetState(eCHARSTATE::CHARSTATE_STANDING);						
+						if (AttackChain >= 4 || AttackChain <= 0)
+							AttackChain = BATTLE_CHAIN_ATTACK_START;
+						DWORD MonsterAttack = 0;
+						DWORD TargetDefese = 0;
+						DWORD MonsterHitRate = 0;
+						DWORD TargetDodgeRate = 0;
+						if (me.Attack_Type == eBATTLE_ATTACK_TYPE::BATTLE_ATTACK_TYPE_PHYSICAL)
+						{
+							 MonsterAttack = me.Basic_physical_Offence;							 
+							 TargetDefese = plr->GetPcProfile()->avatarAttribute.wLastPhysicalDefence;
+							 MonsterHitRate = me.Attack_rate;
+							 TargetDodgeRate = plr->GetPcProfile()->avatarAttribute.wLastDodgeRate;
+						}
+						if (me.Attack_Type == eBATTLE_ATTACK_TYPE::BATTLE_ATTACK_TYPE_ENERGY)
+						{
+							 MonsterAttack = me.Basic_energy_Offence;
+							 TargetDefese = plr->GetPcProfile()->avatarAttribute.wLastEnergyDefence;
+							 MonsterHitRate = me.Attack_rate;
+							 TargetDodgeRate = plr->GetPcProfile()->avatarAttribute.wLastDodgeRate;
+						}
+						int TotalAttack = MonsterAttack + TargetDefese;
+						float Attackpercent = MonsterAttack * 100 / TotalAttack;
+						float attackValue = MonsterAttack * Attackpercent / 100;					
+						attackValue *= 2;
+					
+						int HitRate = plr->GetPcProfile()->avatarAttribute.wLastAttackRate;
+						int DodgeRate = me.Attack_rate;
+						float TotalHitPercent = HitRate + DodgeRate;
+						float TotalHitRatePercent = HitRate * 100 / TotalHitPercent;
+						int RandomHit = rand() % 100;
+						int attackResult = eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_DODGE;
+						if (RandomHit >= TotalHitRatePercent && TotalHitRatePercent > 0)					
+						{							
+							attackResult = eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_HIT;							
+						}					
+						
+						sGU_CHAR_ACTION_ATTACK res;
+						res.wOpCode = GU_CHAR_ACTION_ATTACK;
+						res.wPacketSize = sizeof(sGU_CHAR_ACTION_ATTACK) - 2;
+
+						int guardType = eDBO_GUARD_TYPE::DBO_GUARD_TYPE_INVALID;
+						int reflectedDamage = 0;
+
+						res.bChainAttack = true;
+						res.byAttackResult = attackResult;
+						res.byBlockedAction = guardType;
+						res.dwLpEpEventId = 0;
+						res.fReflectedDamage = reflectedDamage;
+						res.byAttackSequence = AttackChain;
+						res.hSubject = me.UniqueID;
+						res.hTarget = plr->GetHandle();
+						res.vShift = GetVectorPosition();
+						res.wAttackResultValue = attackValue;
+						res.bRecoveredLP = false;
+						res.wRecoveredLpValue = 0;
+						res.bRecoveredEP = false;
+						res.wRecoveredEpValue = 0;
+
+					//	printf("Take thi MutherFuker \n");						
+						SendToPlayerList((char*)&res, sizeof(sGU_CHAR_ACTION_ATTACK));
+						
+						if (attackResult != eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_DODGE)
+						{
+							//if (attackers == 0)
+							//attackers = me.UniqueID;
+							plr->TakeMobDemage(res.wAttackResultValue);
+							
+						}
+					}
+				}	
 			}
 		}
-	}
-	
-	
-	randMove = rand() % 100 + 10;
-	hasmoved = true;
+	}	
 }
 //----------------------------------------
 //	Handle mob regen each second
@@ -551,12 +941,28 @@ void Mob::Regen()
 		me.CurEP += me.Ep_Regeneration;
 		if (me.CurEP > me.MaxEP)
 			me.CurEP = me.MaxEP;
+		sGU_UPDATE_CHAR_EP updEp;
+		updEp.handle = GetHandle();
+		updEp.wCurEP = me.CurEP;
+		updEp.wMaxEP = me.MaxEP;
+		updEp.wOpCode = GU_UPDATE_CHAR_EP;
+		updEp.wPacketSize = sizeof(sGU_UPDATE_CHAR_EP) - 2;
+
+		SendToPlayerList((char*)&updEp, sizeof(sGU_UPDATE_CHAR_EP));
 	}
 	if (me.CurLP < me.MaxLP)
 	{
 		me.CurLP += me.Lp_Regeneration;
 		if (me.CurLP > me.MaxLP)
 			me.CurLP = me.MaxLP;
+		sGU_UPDATE_CHAR_LP updLp;
+		updLp.handle = GetHandle();
+		updLp.wCurLP = me.CurLP;
+		updLp.wMaxLP = me.MaxLP;
+		updLp.wOpCode = GU_UPDATE_CHAR_LP;
+		updLp.wPacketSize = sizeof(sGU_UPDATE_CHAR_LP) - 2;
+
+		SendToPlayerList((char*)&updLp, sizeof(sGU_UPDATE_CHAR_LP));
 	}
 }
 //----------------------------------------
@@ -577,10 +983,13 @@ void Mob::TakeDamage(uint32 amount)
 	SetIsFighting(true);
 	me.isAggro = true;
 	newLife -= amount;
-	if (newLife <= 0)
+	if (newLife <= 0 || newLife > 1000000000)
 	{
 		SetIsDead(true);
 		SetIsFighting(false);
+		me.isAggro = false;
+		me.GotAgro = false;
+		me.target = INVALID_TBLIDX;
 		newLife = 0;
 	}
 	me.CurLP = newLife;
@@ -622,7 +1031,7 @@ void Mob::SendDeath()
 	//	res.sCharState.sCharStateBase.bFightMode = false;
 	state.sCharState.sCharStateBase.dwStateTime = 2;
 	state.wPacketSize = sizeof(sGU_UPDATE_CHAR_STATE) - 2;
-
+	
 	mutexMob.lock();
 	for (auto it = m_MobRef.getTarget()->GetPlayers().begin(); it != m_MobRef.getTarget()->GetPlayers().end(); ++it)
 	{
@@ -631,9 +1040,19 @@ void Mob::SendDeath()
 			Player* plr = it->getSource();
 			if (plr->IsInWorld() == true && plr->GetSession() != NULL)
 			{
+				
 				float dist = NtlGetDistance(me.curPos.x, me.curPos.z, plr->GetVectorPosition().x, plr->GetVectorPosition().z);
 				if (dist <= 100)
 				{
+					if (sWorld.BossEventMajinCurCount <= sWorld.BossEventMajinMaxCount && me.MonsterID == 11253101)
+					{
+						sWorld.BossEventMajinCurCount += 1;
+					}
+					if (BossEventRandom <= 10 && sWorld.BossEventMajinCurCount <= sWorld.BossEventMajinMaxCount && plr->GetPcProfile()->byLevel >= 40 && me.Level >= 40)
+					{
+						plr->SpawnMobByID(11253101);
+					}
+
 					plr->SendPacket((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
 					if (attackers == plr->GetHandle())
 					{
@@ -657,6 +1076,13 @@ void Mob::Respawn()
 		me.CurLP = me.MaxLP;
 		me.CurEP = me.MaxEP;
 		me.curPos = me.Spawn_Loc;
+		int BallRandom = rand() % 100;
+		if (BallRandom >= 0 && BallRandom <= 25)
+		{
+			me.ByDagonBall = 1;
+		}
+		else
+			me.ByDagonBall = 0;
 		SetIsDead(false);
 		SetIsSpawn(true);
 		me.KilledTime = 0;

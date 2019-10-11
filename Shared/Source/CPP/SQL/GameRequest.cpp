@@ -42,10 +42,10 @@ void MySQLConnWrapper::LearnSkill(TBLIDX skillID, CHARACTERID characterID, TBLID
 	if (result != NULL)
 		delete result;
 }
-void MySQLConnWrapper::AddItem(TBLIDX itemID, CHARACTERID characterID, int place, int pose, int count, int rank, int durability,int grade)
+void MySQLConnWrapper::AddItem(TBLIDX itemID, CHARACTERID characterID, int place, int pose, int count, int rank, int durability,int grade, int AtributeType1, int AtributeValue1, int AtributeType2, int AtributeValue2, int AtributeType3, int AtributeValue3, int AtributeType4, int AtributeValue4, int AtributeType5, int AtributeValue5, int AtributeType6, int AtributeValue6)
 {
-	sql::ResultSet* result = sDB.executes("INSERT INTO items (`owner_id`, `tblidx`, `place`, `pos`, `count`, `rank`, `durability`, `grade`) VALUES ('%d','%d','%d','%d','%d','%d','%d','%d');",
-		characterID, itemID, place, pose, count, rank, durability,grade);
+	sql::ResultSet* result = sDB.executes("INSERT INTO items (`owner_id`, `tblidx`, `place`, `pos`, `count`, `rank`, `durability`, `grade`, `AtributeType1`, `AtributeValue1`, `AtributeType2`, `AtributeValue2`, `AtributeType3`, `AtributeValue3`, `AtributeType4`, `AtributeValue4`, `AtributeType5`, `AtributeValue5`, `AtributeType6`, `AtributeValue6`) VALUES ('%d','%d','%d','%d','%d','%d','%d','%d','%d','%d','%d','%d','%d','%d','%d','%d','%d','%d','%d','%d');",
+		characterID, itemID, place, pose, count, rank, durability,grade, AtributeType1, AtributeValue1, AtributeType2, AtributeValue2, AtributeType3, AtributeValue3, AtributeType4, AtributeValue4, AtributeType5, AtributeValue5, AtributeType6, AtributeValue6);
 	if (result != NULL)
 		delete result; 
 }
@@ -141,16 +141,10 @@ void MySQLConnWrapper::SavePlayerCashPoit(int Cash, CHARACTERID charid)
 	if (result != NULL)
 		delete result;
 }
-void MySQLConnWrapper::AddMail(CHARACTERID CharID, int byDay, int byMailType, int byTextSize, char* wszText, char* wszTargetName, char* wszFromName, int bIsAccept, int bIsLock, int bIsRead)
+void MySQLConnWrapper::AddMail(CHARACTERID CharID, int byDay, int byMailType, int byTextSize, char* wszText, char* wszTargetName, char* wszFromName, int bIsAccept, int bIsLock, int bIsRead, int SenderType, int ItemID, int StackCount, int Grade, int Zenny)
 {
-	sql::ResultSet* result = sDB.executes("INSERT INTO mail (`CharacterID`, `byDay`, `byMailType`, `byTextSize`, `wszText`, `wszTargetName`, `wszFromName`, `bIsAccept`, `bIsLock`, `bIsRead`) VALUES('%d','%d','%d','%d','%s','%s','%s','%d','%d','%d');",
-		CharID, byDay,  byMailType, byTextSize, wszText, wszTargetName, wszFromName, bIsAccept, bIsLock, bIsRead);
-	if (result != NULL)
-		delete result;
-}
-void MySQLConnWrapper::DelMail(MAILID mailID)
-{
-	sql::ResultSet* result = sDB.executes("DELETE FROM `mail` WHERE `id` = '%d';", mailID);
+	sql::ResultSet* result = sDB.executes("INSERT INTO mail (`CharacterID`, `byDay`, `byMailType`, `byTextSize`, `wszText`, `wszTargetName`, `wszFromName`, `bIsAccept`, `bIsLock`, `bIsRead`, `SenderType`, `item_id`, `StackCount`, `grade`, `dwZenny`) VALUES('%d','%d','%d','%d','%s','%s','%s','%d','%d','%d','%d','%d','%d','%d','%d');",
+		CharID, byDay, byMailType, byTextSize, wszText, wszTargetName, wszFromName, bIsAccept, bIsLock, bIsRead, SenderType, ItemID, StackCount, Grade, Zenny);
 	if (result != NULL)
 		delete result;
 }
@@ -168,18 +162,10 @@ void MySQLConnWrapper::SaveQuickTeleport(CHARACTERID characterID, BYTE TeleportI
 	if (result != NULL)
 		delete result;
 }
-
-void MySQLConnWrapper::SavePlayerZenny(int zenny, CHARACTERID charid)
+void MySQLConnWrapper::AddAucionHouseSell(CHARACTERID characterID, int ItemHandle, char * SellerName, TBLIDX ItemID, DWORD SellAmount, BYTE StackCount, BYTE ItemLevel, BYTE ItemType, BYTE Grade, BYTE ItemRank, int AtributeType1, int AtributeValue1, int AtributeType2, int AtributeValue2, int AtributeType3, int AtributeValue3, int AtributeType4, int AtributeValue4, int AtributeType5, int AtributeValue5, int AtributeType6, int AtributeValue6)
 {
-	sql::ResultSet * result = sDB.executes("UPDATE characters SET ZennyInventory = %d WHERE CharacterID = %d", zenny, charid);
-
-	if (result != NULL)
-		delete result;
-}
-void MySQLConnWrapper::SavePlayerExp(int exp, CHARACTERID charid)
-{
-	sql::ResultSet * result = sDB.executes("UPDATE characters SET CurrentExp = %d WHERE CharacterID = %d", exp, charid);
-
+	sql::ResultSet* result = sDB.executes("INSERT INTO AucionHouse (`CharID`, `ItemHandle`, `SellerName`, `ItemTblidx`, `SellAmount`, `StackCount`, `ItemLevel`, `ItemType`, `ItemGrade`, `ItemRank`, `AtributeType1`, `AtributeValue1`, `AtributeType2`, `AtributeValue2`, `AtributeType3`, `AtributeValue3`, `AtributeType4`, `AtributeValue4`, `AtributeType5`, `AtributeValue5`, `AtributeType6`, `AtributeValue6` ) VALUES('%d','%d','%s','%d','%d','%d','%d','%d','%d','%d','%d','%d','%d','%d','%d','%d','%d','%d','%d','%d','%d','%d');",
+		characterID, ItemHandle, SellerName, ItemID, SellAmount, StackCount, ItemLevel, ItemType, Grade, ItemRank, AtributeType1, AtributeValue1, AtributeType2, AtributeValue2, AtributeType3, AtributeValue3, AtributeType4, AtributeValue4, AtributeType5, AtributeValue5, AtributeType6, AtributeValue6);
 	if (result != NULL)
 		delete result;
 }

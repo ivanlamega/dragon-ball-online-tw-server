@@ -95,7 +95,7 @@ int MySQLConnWrapper::GetAccountID(char* username, char* password)
 		return AUTH_DB_FAIL;
 	int val = -1;
 
-	sql::ResultSet* result = executes("SELECT `AccountID` FROM `account` WHERE `UserName` = '%s' AND `UserPassword` = '%s';", username, password);
+	sql::ResultSet* result = executes("SELECT `AccountID` FROM `account` WHERE `userName` = '%s' AND `UserPassword` = '%s';", username, password);
 	if (result)
 	{
 		if (result->rowsCount() > 0)
@@ -423,16 +423,60 @@ bool MySQLConnWrapper::CheckIfMailAway(CHARACTERID charID)
 
 bool MySQLConnWrapper::HowMuchMail(CHARACTERID charID)
 {
-	sql::ResultSet* result = executes("SELECT `*` FROM `mail` WHERE `CharacterID` = '%';", charID);
+		sql::ResultSet* result = executes("SELECT `*` FROM `mail` WHERE `CharacterID` = '%';", charID);
 	if (result && result->rowsCount() > 0)
 	{
 
 	}
 }
-
-bool MySQLConnWrapper::LoadAllMail(CHARACTERID charID)
+ResultCodes MySQLConnWrapper::CreateGuild(char *guildName, int charId)
 {
-	return false;
-}
+	ResultCodes retcode = GAME_FAIL;
+	/*SELECT * from Guilds WHERE GuildName = SuperNegros
+	# ERR: SQLException in Source\Library\SQLLibrary\mysqlconn_wrapper.cpp(MySQLConnWrapper::manageException) on line 24
+	# ERR: Unknown column 'SuperNegros' in 'where clause' (MySQL error code: 1054, SQLState: 42S22 )
+	[2018-09-18 20:09:28] [DEBUG]: Requested query:
+	INSERT INTO guilds(GuildName, GuildMasterName, GuildMaster) VALUES(SuperNegros, Blackarot, 317)
+	# ERR: SQLException in Source\Library\SQLLibrary\mysqlconn_wrapper.cpp(MySQLConnWrapper::manageException) on line 24
+	# ERR: Unknown column 'SuperNegros' in 'field list' (MySQL error code: 1054, SQLState: 42S22 )*/
+	string charName;
+	sql::ResultSet* result = executes("SELECT Name, GuildID from Characters WHERE CharacterID = '%d' ", charId);
 
+	//There was no Character found in database. Fail
+	if (result && result->rowsCount() == 0)
+	{
+		delete result;
+		return retcode;
+	}
+	//Check for that character being in a guild now. If not continue on
+	else if (result && result->getInt("GuildID") == 0)
+	{
+		charName = result->getString("name");
+		sql::ResultSet* checkGuildRes = executes("SELECT * from Guilds WHERE GuildName = '%s' ", guildName);
+		//Guild exists with this username. Throw the code. 
+		if (checkGuildRes && checkGuildRes->rowsCount() != 0)
+		{
+			retcode = GAME_GUILD_SAME_GUILD_NAME_EXIST;
+			delete checkGuildRes;
+			return retcode;
+		}
+		else
+		{
+			sLog.outDebug("Guilds with the same name dont exist Continue and insert");
+			sql::ResultSet* createGuildRes = executes("INSERT INTO guilds(GuildName, GuildMasterName, GuildMaster) VALUES('%s', '%s', '%d')", guildName, charName, charId);
+			sLog.outDebug("Guild Created. Get the guild info now");
+			sql::ResultSet* res = executes("Select * from guilds where GuildMasterName = '%s'", charName);
+			int guildId = res->getInt("GuildID");
+			sql::ResultSet* setGuildRes = executes("UPDATE characters SET GuildID = %d WHERE CharacterID = %d", guildId, charId);
+			sql::ResultSet* setMembersRes = executes("INSERT INTO guild_members(GuildID, MemberID, MemberName, is_guildmaster) VALUES ('%d', '%d', '%s', '1')", guildId, charId, charName);
+			retcode = GAME_SUCCESS;
+			return retcode;
+		}
+
+	}
+	else
+	{
+		return retcode;
+	}
+}
 #pragma endregion END_SANGAWKU

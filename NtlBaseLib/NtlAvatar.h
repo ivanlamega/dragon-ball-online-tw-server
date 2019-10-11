@@ -214,7 +214,7 @@ struct sAVATAR_ATTRIBUTE
 	WORD byLastSol;
 	WORD byBaseEng;
 	WORD byLastEng;
-
+	//
 	DWORD wBaseMaxLP;
 	DWORD wLastMaxLP;
 	WORD wBaseMaxEP;
@@ -230,54 +230,63 @@ struct sAVATAR_ATTRIBUTE
 	WORD wLastLpSitdownRegen;
 	WORD wBaseLpBattleRegen;
 	WORD wLastLpBattleRegen;
-
+	//
 	WORD wBaseEpRegen;
 	WORD wLastEpRegen;
 	WORD wBaseEpSitdownRegen;
 	WORD wLastEpSitdownRegen;
 	WORD wBaseEpBattleRegen;
 	WORD wLastEpBattleRegen;
-
+	//
 	WORD wBaseApRegen;
 	WORD wLastApRegen;
 	WORD wBaseApSitdownRegen;
 	WORD wLastApSitdownRegen;
 	WORD wBaseApBattleRegen;
 	WORD wLastApBattleRegen;
-
-	WORD unknown_int16_0;
-	WORD unknown_int16_1;
-	WORD unknown_int16_2;
-	WORD unknown_int16_3;
-
+	//
+	WORD unknown_int16_0;//wBaseApDegen
+	WORD unknown_int16_1;//wLastApDegen
+	WORD unknown_int16_2;//wBaseApBattleDegen
+	WORD unknown_int16_3;//wLastApBattleDegen
+	//
 	WORD wBaseRpRegen;
 	WORD wLastRpRegen;
 	WORD wLastRpDimimutionRate;
-
+	//
 	WORD wBasePhysicalOffence;
 	WORD wLastPhysicalOffence;
 	WORD wBasePhysicalDefence;
 	WORD wLastPhysicalDefence;
-
+	//
+	//unsigned __int16 wBasePhysicalPiercingOffence;
+	//unsigned __int16 wLastPhysicalPiercingOffence;
+	//
 	WORD wBaseEnergyOffence;
 	WORD wLastEnergyOffence;
 	WORD wBaseEnergyDefence;
 	WORD wLastEnergyDefence;
-
+	//
+	//unsigned __int16 wBaseEnergyPiercingOffence;
+	//unsigned __int16 wLastEnergyPiercingOffence;
+	//
 	WORD wBaseAttackRate;
 	WORD wLastAttackRate;
 	WORD wBaseDodgeRate;
 	WORD wLastDodgeRate;
 	WORD wBaseBlockRate;
 	WORD wLastBlockRate;
-
+	//
+	//unsigned __int16 wBaseBlockDamageRate;
+	//unsigned __int16 wLastBlockDamageRate;
+	//
 	WORD wBaseCurseSuccessRate;
 	WORD wLastCurseSuccessRate;
 	WORD wBaseCurseToleranceRate;
 	WORD wLastCurseToleranceRate;
 
-	WORD unknown_rate1;// ??
-	WORD unknown_rate2;// ??
+	WORD unknown_rate1;// wBaseBlockDamageRate
+	WORD unknown_rate2;// wLastBlockDamageRate
 
 	WORD wBasePhysicalCriticalRate;
 	WORD wLastPhysicalCriticalRate;

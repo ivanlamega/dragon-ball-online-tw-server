@@ -334,7 +334,7 @@ DWORD Dbo_CalculatePowerLevel(
 	float fPowerLevel = 0;
 	fPowerLevel += fA * 2.0f;
 	fPowerLevel += fB * 1.5f;
-	fPowerLevel += (fC + fD * 20.0f + (2800.0f - fAttackSpeedRate)) * 0.1f;
+	fPowerLevel += (fC + fD * 20.0f + (1300.0f - fAttackSpeedRate)) * 0.1f;
 	fPowerLevel += (fCurLp + fCurEp + fMaxLp + fMaxEp) * 0.2f;
 
 	fPowerLevel *= fLevel * 2.0f + static_cast<float>(pow(2.0f, byMobGrade));

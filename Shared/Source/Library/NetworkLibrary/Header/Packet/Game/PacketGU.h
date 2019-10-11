@@ -280,7 +280,7 @@ BYTE			bChainAttack : 1; // Ã¼ÀÎ¾îÅÃ¿©ºÎ
 BYTE			byAttackResult : 7; // ¾×¼Ç °á°ú ( eBATTLE_ATTACK_RESULT )
 DWORD			wAttackResultValue; // ¾×¼ÇÀÇ °á°ú °ª ( µ¥¹ÌÁö )
 BYTE			byAttackSequence; // ¾îÅÃ ½ÃÄö½º ¹øÈ£ (Ã¼ÀÎ¾îÅÃ)
-DWORD			fReflectedDamage; // Å¸°ÙÀ¸·ÎºÎÅÍ ¹Ý»çµÇ¾î ÀÔÀº ÇÇÇØ
+float			fReflectedDamage; // Å¸°ÙÀ¸·ÎºÎÅÍ ¹Ý»çµÇ¾î ÀÔÀº ÇÇÇØ
 BYTE			byBlockedAction;		// eDBO_GUARD_TYPE
 sVECTOR3		vShift; // ¾îÅÃÀ¸·Î ÀÎÇÑ ÀÌµ¿ º¤ÅÍ
 bool			bRecoveredLP;
@@ -399,6 +399,10 @@ BEGIN_PROTOCOL(GU_SKILL_TARGET_LIST_REQ)
 BYTE			byAvatarType;
 END_PROTOCOL()
 //------------------------------------------------------------------
+BEGIN_PROTOCOL(GU_SKILL_LEARN_BY_ITEM_RES)
+WORD			wResultCode;
+END_PROTOCOL()
+//------------------------------------------------------------------
 BEGIN_PROTOCOL(GU_SKILL_LEARN_RES)
 WORD			wResultCode;
 END_PROTOCOL()
@@ -451,8 +455,8 @@ END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(GU_BUFF_DROPPED)
 HOBJECT			hHandle;
-WORD			bySourceType;		// eDBO_OBJECT_SOURCE
-//BYTE            unk;
+BYTE            Slot;
+BYTE			bySourceType;		// eDBO_OBJECT_SOURCE
 TBLIDX			tblidx;
 BYTE            unk1;
 END_PROTOCOL()
@@ -1145,36 +1149,36 @@ WORD			wResultCode;
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(GU_TS_CONFIRM_STEP_RES)
-BYTE				byTsType; // Æ®¸®°Å Å¸ÀÔ
-WORD				wResultCode;
+BYTE			byTsType; // Æ®¸®°Å Å¸ÀÔ
+WORD			wResultCode;
 TS_T_ID			tId;
 TS_TC_ID		tcCurId;
 TS_TC_ID		tcNextId;
-DWORD				dwParam;
+DWORD			dwParam;
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(GU_TS_UPDATE_SYNC_NFY)
-BYTE				byTsType; // Æ®¸®°Å Å¸ÀÔ
+BYTE			byTsType; // Æ®¸®°Å Å¸ÀÔ
 TS_T_ID			tId;
 TS_TC_ID		tcId;
 TS_TA_ID		taId;
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(GU_TS_UPDATE_STATE)
-BYTE				byTsType; // Æ®¸®°Å Å¸ÀÔ
+BYTE			byTsType; // Æ®¸®°Å Å¸ÀÔ
 TS_T_ID			tId;
-BYTE				byType;
-WORD				wTSState;
-DWORD				dwParam;
+BYTE			byType;
+WORD			wTSState;
+DWORD			dwParam;
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(GU_TS_UPDATE_EVENT_NFY)
-BYTE				byTsType; // Æ®¸®°Å Å¸ÀÔ
+BYTE			byTsType; // Æ®¸®°Å Å¸ÀÔ
 TS_EVENT_ID		teid;
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(GU_TS_EXCUTE_TRIGGER)
-BYTE				byTsType; // Æ®¸®°Å Å¸ÀÔ
+BYTE			byTsType; // Æ®¸®°Å Å¸ÀÔ
 TS_T_ID			tId; // Æ®¸®°Å ¾ÆÀÌµð
 END_PROTOCOL()
 //------------------------------------------------------------------
@@ -2578,6 +2582,22 @@ END_PROTOCOL()
 BEGIN_PROTOCOL(GU_BUDOKAI_GM_MATCH_ARENA_LEAVE_RES)
 WORD								wResultCode;
 END_PROTOCOL()
+BEGIN_PROTOCOL(GU_DYNAMIC_FIELD_COUNT_NFY)
+DWORD ValueMax;
+DWORD ValueMin;
+DWORD ValueMax1;
+DWORD ValueMin1;
+BYTE	  unk;
+END_PROTOCOL()
+struct sBOSS_INFO
+{
+	HOBJECT Handle;
+	sVECTOR3 vBossPos;
+};
+BEGIN_PROTOCOL(GU_DYNAMIC_FIELD_SYSTEM_BOSS_POSITION_RES)
+int BossCount;
+sBOSS_INFO Boss_Info[100];
+END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(GU_SCOUTER_TURN_ON_NFY)
 HOBJECT			hSubject;
@@ -2921,7 +2941,8 @@ bool				bPlay;
 bool				bLoop;
 DWORD				dwDelay;
 BYTE				byLength;
-char				szName[1];		// null À» Æ÷ÇÔÇØ¼­ º¸³½´Ù.
+BYTE				unk;
+char				szName[32];
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(GU_DOJO_MARK_CHANGED_NFY)
@@ -3097,14 +3118,116 @@ END_PROTOCOL()
 
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(GU_SERVER_CONTENTS_ONOFF)
-BYTE		abyContentsBitFlag[7];
-BYTE		abyQuestOnOffBitFlag[3];
-BYTE		byNotSpawnNpcCount;
-TBLIDX		atblNotSpawnNpcIndex[15];
-BYTE		byNotLoadingHelpCount;
-TBLIDX		atblNotLoadingHelpIndex[12];
-DWORD		dwCCBDUse;
-BYTE		unk[144];
+//BYTE      abyContentsBitFlag[3]; // eCONTENTSONOFF_INDEX ? - Possible even [8] or more
+// Didnt tested flags 
+BYTE    WestCityPortal : 1;
+BYTE    Zone21_30 : 1;
+BYTE    Zone31_50 : 1;
+BYTE    Zone51_55 : 1;
+BYTE    Zone56_60 : 1;
+BYTE	Zone61_70 : 1;
+BYTE    UD1_Trigger : 1;
+BYTE    UD2_Trigger : 1;
+BYTE    UD3_Trigger : 1;
+BYTE    UD4_Trigger : 1;
+BYTE    UD5_Trigger : 1;
+BYTE    UD6_Trigger : 1;
+BYTE    TMQ1_1_NPC : 1;
+BYTE    TMQ1_2_NPC : 1;
+BYTE    TMQ1_3_NPC : 1;
+BYTE    TMQ1_4_NPC : 1;
+BYTE    TMQ2_1_NPC : 1;
+BYTE    TMQ2_2_NPC : 1;
+BYTE    TMQ2_3_NPC : 1;
+BYTE	Use_TMP : 1;
+BYTE	FreeBattle : 1;
+BYTE	RankBattle : 1;
+BYTE	Dojo : 1;
+BYTE	Use_Mascot : 1;
+
+
+BYTE	bDisableHoiPoiOld : 1; // 1 = old, 2 = new  //100% OK
+BYTE	bDisableHoiPoiNew : 1; // 1 = old, 2 = new  //100% OK
+BYTE	Dungeon001_World : 1;
+BYTE	bDisableUpgrade : 1;  //100% OK
+BYTE	bDisableWeirdDissassemble : 1; // Strange window  //100% OK
+
+									   // 0x02 = Old system, 0x01 New system, 0x00 - none
+									   // 00 - block both, 01 - block old, 02 - block new
+BYTE	bDisableOldScouter : 1;  //100% OK
+BYTE	bDisableNewScouter : 1;  //100% OK
+BYTE	Dungeon004_Trigger : 1; // Use_CostumeShop?
+
+
+BYTE	Dungeon006_Trigger : 1;
+BYTE	Dungeon007_Trigger : 1;
+BYTE	WZone001_NPC : 1;
+BYTE	BDungeon001_Trigger : 1;
+BYTE	MainWorld02_NPC : 1;
+BYTE	Block_QuestType_BitFlag : 1;
+BYTE	IDK2 : 1;
+BYTE	IDK3 : 1;
+
+BYTE      byteUnknown4_1 : 1;
+BYTE      bDisableDWC : 1; //100% OK
+BYTE      byteUnknown4_3 : 1;
+BYTE      byteUnknown4_4 : 1;
+BYTE      byteUnknown4_5 : 1;
+BYTE      byteUnknown4_6 : 1;
+BYTE      byteUnknown4_7 : 1;
+BYTE      byteUnknown4_8 : 1;
+BYTE      byteUnknown5;
+BYTE      byteUnknown6;
+BYTE      byteUnknown7;
+
+
+BYTE	QUESTONOFF_YAHHOI_WEST : 1;
+BYTE	QUESTONOFF_PORUNGA_ROCKS_NORTH : 1;
+BYTE	QUESTONOFF_FRAFRAN_DESERT_NORTH : 1;
+BYTE	QUESTONOFF_KARIN_FOREST : 1;
+BYTE	QUESTONOFF_WEST_LAND : 1;
+BYTE	QUESTONOFF_YAHHOI_EAST : 1;
+BYTE	QUESTONOFF_MUSHROOM_ROCKS_NORTH : 1;
+BYTE	QUESTONOFF_MUSHROOM_ROCKS_SOUTH : 1;
+BYTE	QUESTONOFF_OSORO_SHIMA : 1;
+BYTE	QUESTONOFF_UD01 : 1;
+BYTE	QUESTONOFF_UD02 : 1;
+BYTE	QUESTONOFF_UD03 : 1;
+BYTE	QUESTONOFF_UD04 : 1;
+BYTE	QUESTONOFF_UD05 : 1;
+BYTE	QUESTONOFF_MARKET : 1;
+BYTE	QUESTONOFF_FREEBATTLE : 1;
+BYTE	QUESTONOFF_RANKBATTLE : 1;
+BYTE	QUESTONOFF_MASCOT : 1;
+BYTE	QUESTONOFF_HOIPOI_MIX : 1;
+BYTE	QUESTONOFF_CONVERT_CLASS : 1;
+BYTE	QUESTONOFF_DWC : 1;
+BYTE	QUESTONOFF_CCBD_MAIL : 1;
+BYTE	QUESTONOFF_PORUNGA_ROCKS_SOUTH : 1;
+BYTE	QUESTONOFF_SKD01 : 1;
+BYTE	QUESTONOFF_PAPAYA01 : 1;
+BYTE	QUESTONOFF_BID3 : 1;
+BYTE	QUESTONOFF_BID2 : 1;
+BYTE	QUESTONOFF_BID4 : 1;
+
+BYTE bySkyUD_TriggersCount;
+TBLIDX tbxObjectSkyUD[6]; // SkyUD1 Ship, SkyUD1 Portal, SkyUD2 Ship ...... SkyUD3 Portal
+
+
+BYTE byUnknown2[6];
+
+
+BYTE byUnknown3[40]; // Zero
+BYTE      byNotSpawnNpcCount;
+unsigned int atblNotSpawnNpcIndex[15];
+char byNotLoadingHelpCount;
+unsigned int atblNotLoadingHelpIndex[12];
+
+BYTE byUnknown[66];
+
+DWORD dwCCBD_LastFloor; // 100 or 150, Probably good
+DWORD PetSystemOldNew; // 1 Old 2 New
+
 END_PROTOCOL()
 //------------------------------------------------------------------
 
@@ -3112,17 +3235,16 @@ END_PROTOCOL()
 BEGIN_PROTOCOL(GU_SCOUTER_ACTIVATION_RES)//100%
 HOBJECT			hTarget;
 WORD			wResultCode;
-DWORD			dwRetValue;
-WORD			HITRATE;
-WORD			DOGGERATE;
-DWORD			powerLevel;
-WORD			unk;
-WORD			unk1;
-WORD			unk2;
-WORD			unk3;
-DWORD			unk4;
-DWORD			unk5;
-DWORD			unk6;
+DWORD            Unk; //TODO Whats is that Value??? come 0 from Global
+WORD             Unk2[2];//TODO Whats is that Value??? Looks 2x WORD Maybe Skill UI???
+DWORD            PowerLevel;//Get power Level of Target
+WORD			 TargetAttackPhy;//Get attack of Target
+WORD			 TargetAttackEnergy;//Get attack of Target
+WORD			 TargetDefensePhy;//Get Defese of Target
+WORD			 TargetDefenseEnergy;//Get Defese of Target
+DWORD            Unk3;//TODO Whats is that Value??? come 0 from Global
+DWORD            DoggeRate;//Get Dogge Rate of Target
+DWORD            HitRate;//Get Hit rate of Target
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(GU_CHARTITLE_LIST_INFO)//Work 100%
@@ -3288,60 +3410,58 @@ WORD		ResultCode;
 END_PROTOCOL()
 BEGIN_PROTOCOL(GU_TENKAICHIDAISIJYOU_SELL_RES)
 WORD		ResultCode;
+TBLIDX		ItemID;
+BYTE		byPlace;
+BYTE		byPos;
+BYTE		test[21];
+DWORD64		TimeStart;//???
+DWORD64		TimeEnd;//???
 END_PROTOCOL()
 BEGIN_PROTOCOL(GU_TENKAICHIDAISIJYOU_SELL_CANCEL_RES)
 WORD		ResultCode;
 END_PROTOCOL()
 BEGIN_PROTOCOL(GU_TENKAICHIDAISIJYOU_LIST_RES)
 WORD		ResultCode;
-HOBJECT     handle;
-DWORD       unknown;
-WORD        wUnknown;
+DWORD	    PageNumber;//curPage
+DWORD       MaxPage;//set how much pages it got
+BYTE        ItemCount;
+BYTE        wUnknown2;
 END_PROTOCOL()
 BEGIN_PROTOCOL(GU_TENKAICHIDAISIJYOU_LIST_DATA)
-DWORD				SellerHandle;
-DWORD				ItemHandle;
-DWORD				Unkonow;//Evry Tymes 0
-BYTE				Unkonow1;//evry Times 3
+DWORD				CharID;
+DWORD64				ItemHandle;
+BYTE				TabType;
 BYTE				ItemType;
 BYTE				ByLevel;
-WCHAR				wszNameText[32 + 1];
-WCHAR				sellerName[16 + 1];
-DWORD				sellAmount;
-//Add a comment to this line
-BYTE				unkkkk[10];
-WORD                Timer;
-WORD                Timer1;
-WORD                Timer2;
-WORD                Timer3;
-BYTE				dwunk2[6];//Time somewhere here
-TBLIDX				itemTblidx;
+WCHAR				wszItemName[32 + 1];
+WCHAR				SellerName[16 + 1];
+DWORD				SellAmount;
+DWORD64				StartTime;
+DWORD64				EndTime;
+DWORD64				ItemNo;
+TBLIDX				ItemTblidx;
 BYTE				ByStackCount;
-BYTE				unk;
-BYTE				unk1;
-BYTE				unk2;
-BYTE				unk3;
+DWORD				NeedClassBitFlag;
 BYTE				Rank;
 BYTE				Grade;
 BYTE				Durablity;
-BYTE				test[35];//evry times 0
-TBLIDX				aOptionTblidx;
-TBLIDX				aOptionTblidx1;
+BYTE				BatleAtribute;
+WCHAR				ChMaker[16 + 1];
+TBLIDX				aOptionTblidx[2];
 sITEM_EFFECT		aitemEffect[6];
 sITEM_EXTRA_EFFECT	aitemExtraEffect[2];
-BYTE				unk8[9];
+DWORD64				UseEndTime;
+BYTE				RestrictType;
 END_PROTOCOL()
 // END AUCTION HOUSE
 
 BEGIN_PROTOCOL(GU_ITEM_DISASSEMBLE_RES)
-WORD ResultCode;
-DWORD HItem;
-DWORD HItem2;
-DWORD HItem3;
+WORD				ResultCode;
+DWORD				HItem[3];
 END_PROTOCOL()
 BEGIN_PROTOCOL(GU_BOT_BOTCAUTION_HELPME_NFY)//Mob Ask for Help
-HOBJECT			hBot;
-bool			bIsRequester; // true : SOS¸¦ ¿äÃ»ÇÑ ÀÚ
+HOBJECT				hBot;
+bool				bIsRequester; // true : SOS
 END_PROTOCOL()
 
 //------------------------------------------------------------------ 
@@ -3479,15 +3599,15 @@ BEGIN_PROTOCOL(UG_SCS_REMAKE_REQ)
 BYTE			byType;
 WORD			wResultCode;
 END_PROTOCOL()
-
 BEGIN_PROTOCOL(GU_WORLD_FREE_PVP_ZONE_ENTERED_NFY)
-	HOBJECT handle;
+DWORD			Handle;
 END_PROTOCOL()
-
 BEGIN_PROTOCOL(GU_WORLD_FREE_PVP_ZONE_LEFT_NFY)
-	HOBJECT handle;
+DWORD			Handle;
 END_PROTOCOL()
-
+BEGIN_PROTOCOL(GU_HOIPOIMIX_ITEM_MAKE_EX_RES)
+WORD     ResultCode;
+END_PROTOCOL()
 
 //To check in future those packet are not in game anymore
 //------------------------------------------------------------------

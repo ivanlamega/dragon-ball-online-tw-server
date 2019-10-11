@@ -78,6 +78,7 @@
 #include "VehicleTable.h"
 
 #include "ItemRecipeTable.h"
+#include "ItemRecipeTable2.h"
 
 #include "DynamicObjectTable.h"
 #include "MobMovePatternTable.h"

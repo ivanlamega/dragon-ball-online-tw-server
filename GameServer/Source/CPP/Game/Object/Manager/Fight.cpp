@@ -42,34 +42,74 @@ int FightManager::GetLevelDiff()
 //	Get amount of damage to do
 //	@param id - boolean to say if we are caster or cac
 //----------------------------------------
-void FightManager::GetPlayerDamage(bool caster)
+void FightManager::GetPlayerDamage(bool caster, eOBJTYPE ObjectTypeId)
 {
 	attackValue = 0;
 	if (caster == false)
-	{
-		attackValue = plr->GetPcProfile()->avatarAttribute.wLastPhysicalOffence;
+	{		
+		if (ObjectTypeId == OBJTYPE_MOB)
+		{
+			//attackValue = plr->GetPcProfile()->avatarAttribute.wLastPhysicalOffence;
+			float attack = plr->GetPcProfile()->avatarAttribute.wLastPhysicalOffence;
+			int TotalAttack = attack + mob->GetMobData().Basic_physical_defence;
+			float FinalPercent = attack * 100 / TotalAttack;
+			attackValue = attack * FinalPercent / 100;
+		}
+		if (ObjectTypeId == OBJTYPE_PC)
+		{
+			float attack = plr->GetPcProfile()->avatarAttribute.wLastPhysicalOffence;
+			int TotalAttack = attack + plrTarget->GetPcProfile()->avatarAttribute.wLastPhysicalDefence;
+			float FinalPercent = attack * 100 / TotalAttack;
+			attackValue = attack * FinalPercent / 100;
+		}
 	}
 	else
-	{		
-		attackValue = plr->GetPcProfile()->avatarAttribute.wLastEnergyOffence;
+	{			
+		if (ObjectTypeId == OBJTYPE_MOB)
+		{
+			float attack = plr->GetPcProfile()->avatarAttribute.wLastEnergyOffence;
+			int TotalAttack = attack + mob->GetMobData().Basic_energy_defence;
+			float FinalPercent = attack * 100 / TotalAttack;
+			attackValue = attack * FinalPercent / 100;
+		}
+		if (ObjectTypeId == OBJTYPE_PC)
+		{
+			float attack = plr->GetPcProfile()->avatarAttribute.wLastEnergyOffence;
+			int TotalAttack = attack + plrTarget->GetPcProfile()->avatarAttribute.wLastEnergyDefence;
+			float FinalPercent = attack * 100 / TotalAttack;
+			attackValue = attack * FinalPercent / 100;
+		}
 	}
 }
 //----------------------------------------
 //	Get if our attack will be critical
 //	@param id - boolean to say if we are caster or cac
 //----------------------------------------
-void FightManager::GetPlayerCriticAttack(bool caster)
+void FightManager::GetPlayerCriticAttack(bool caster, eOBJTYPE ObjectTypeId)
 {
 	int CritChance = 0; 
 	int num = rand() % 100 + 1;
-
 	if (caster == false)
-	{
-		CritChance = plr->GetPcProfile()->avatarAttribute.wLastPhysicalCriticalRate - (mob->GetMobData().Block_rate / 100);
+	{		
+		if (ObjectTypeId == OBJTYPE_MOB)
+		{
+			CritChance = plr->GetPcProfile()->avatarAttribute.wLastPhysicalCriticalRate - (mob->GetMobData().Block_rate / 100);
+		}
+		if (ObjectTypeId == OBJTYPE_PC)
+		{
+			CritChance = plr->GetPcProfile()->avatarAttribute.wLastPhysicalCriticalRate - (plrTarget->GetPcProfile()->avatarAttribute.wLastBlockRate / 100);
+		}
 	}
 	else
-	{
-		CritChance = plr->GetPcProfile()->avatarAttribute.wLastEnergyCriticalRate - (mob->GetMobData().Block_rate / 100);
+	{		
+		if (ObjectTypeId == OBJTYPE_MOB)
+		{
+			CritChance = plr->GetPcProfile()->avatarAttribute.wLastEnergyCriticalRate - (mob->GetMobData().Block_rate / 100);
+		}
+		if (ObjectTypeId == OBJTYPE_PC)
+		{
+			CritChance = plr->GetPcProfile()->avatarAttribute.wLastEnergyCriticalRate - (plrTarget->GetPcProfile()->avatarAttribute.wLastBlockRate / 100);
+		}
 	}
 	(CritChance > 0) ? CritChance *= 1 : CritChance *= -1;
 	if (num <= CritChance && CritChance > 0)
@@ -82,17 +122,28 @@ void FightManager::GetPlayerCriticAttack(bool caster)
 //----------------------------------------
 //	Get the player hit change
 //----------------------------------------
-void FightManager::GetPlayerHitChance()
+void FightManager::GetPlayerHitChance(eOBJTYPE ObjectTypeId)
 {
-	float percent = ((mob->GetMobData().Dodge_rate - plr->GetPcProfile()->avatarAttribute.wLastAttackRate) / ((0.3605f * mob->GetMobData().Level) + 18.64f) * ((0.335f * plr->GetPcProfile()->byLevel) + 50)) * -1;
-
-	int num = rand() % 100 + 1;
-	if (num <= percent && percent > 0)
-		attackResult = eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_HIT;
-	//std::cout << "Hitchance = " << percent << std::endl;
-	//std::cout << "Target dodge: " << mob->GetMobData().Dodge_rate << std::endl;
-	//if (num <= mob->GetMobData().Block_rate)
-		//attackResult = eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_BLOCK;
+	if (ObjectTypeId == OBJTYPE_MOB)
+	{
+		int HitRate = plr->GetPcProfile()->avatarAttribute.wLastAttackRate;
+		int DodgeRate = mob->GetMobData().Dodge_rate;
+		float TotalHitPercent = HitRate + DodgeRate;
+		float TotalHitRatePercent = HitRate * 100 / TotalHitPercent;
+		int RandomHit = rand() % 100;
+		if (RandomHit <= TotalHitRatePercent && TotalHitRatePercent > 0)
+			attackResult = eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_HIT;
+	}
+	if (ObjectTypeId == OBJTYPE_PC)
+	{
+		int HitRate = plr->GetPcProfile()->avatarAttribute.wLastAttackRate;
+		int DodgeRate = plrTarget->GetPcProfile()->avatarAttribute.wLastDodgeRate;
+		float TotalHitPercent = HitRate + DodgeRate;
+		float TotalHitRatePercent = HitRate * 100 / TotalHitPercent;
+		int RandomHit = rand() % 100;
+		if (RandomHit <= TotalHitRatePercent && TotalHitRatePercent > 0)
+			attackResult = eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_HIT;
+	}	
 }
 //----------------------------------------
 //	Perform an auto attack from an object
@@ -106,42 +157,37 @@ bool FightManager::HandleDamage(Object& Attacker, Object& Target)
 		mutexFight.unlock();
 		return false;
 	}
-	mob = reinterpret_cast<Mob*>(&Target);
-	plr = reinterpret_cast<Player*>(&Attacker);
-	plrTarget = reinterpret_cast<Player*>(&Target);
-	TargetInfo = reinterpret_cast<Player*>(&Target);
-	AttackerInfo = reinterpret_cast<Player*>(&Attacker);
-	if (Target.GetTypeId() == OBJTYPE_PC && plr->GetAttributesManager()->PlayerInFreeBatle == true)
+	mob = reinterpret_cast<Mob*>(&Target); //May Mob Target info
+	plr = reinterpret_cast<Player*>(&Attacker);  //MyPlayer Info
+	plrTarget = reinterpret_cast<Player*>(&Target); //My Target Infos
+	TargetInfo = reinterpret_cast<Object*>(&Target);	//Object Info
+	if (Target.GetTypeId() == OBJTYPE_PC)
 	{
 		plr = reinterpret_cast<Player*>(&Attacker);
 		plrTarget = reinterpret_cast<Player*>(&Target);
 		float distance = NtlGetDistance(plr->GetVectorPosition().x, plr->GetVectorPosition().z, plrTarget->GetVectorPosition().x, plrTarget->GetVectorPosition().z);
-		if (distance <= (plr->GetPcProfile()->avatarAttribute.fLastAttackRange) + 2)
+		if (distance < plr->GetPcProfile()->avatarAttribute.fLastAttackRange + 2 && plrTarget->GetAttributesManager()->IsinPVP == true ||
+			distance < plr->GetPcProfile()->avatarAttribute.fLastAttackRange + 2 && plrTarget->GetAttributesManager()->PlayerInFreeBatle == true && plr->GetAttributesManager()->PlayerInFreeBatle == true)
 		{
+			//printf("distncia do player %f \n", distance);
 			/// can now continue attack verification for player
 			HandlePlrFight();
 			attackCount++;
 		}
+	
 	}
 	if (Target.GetTypeId() == OBJTYPE_MOB)
 	{
 		plr = reinterpret_cast<Player*>(&Attacker);
 		mob = reinterpret_cast<Mob*>(&Target);
 		float distance = NtlGetDistance(plr->GetVectorPosition().x, plr->GetVectorPosition().z, mob->GetMobData().curPos.x, mob->GetMobData().curPos.z);
-		if (distance <= (plr->GetPcProfile()->avatarAttribute.fLastAttackRange) + 2)
+		if (distance < plr->GetPcProfile()->avatarAttribute.fLastAttackRange + 2)
 		{
 			/// can now continue attack verification for player
 			HandlePlrFight();
 			attackCount++;
 		}
-	}
-	else
-	{
-		if (NtlGetDistance(plr->GetVectorPosition().x, plr->GetVectorPosition().z, mob->GetMobData().curPos.x, mob->GetMobData().curPos.z) <= mob->GetMobData().Attack_range)
-		{
-			/// can now continue attack verification for mob
-		}
-	}
+	}	
 	mutexFight.unlock();
 	return true;
 }
@@ -174,15 +220,15 @@ void FightManager::HandlePlrFight()
 	attackValue = 0;
 	reflectedDamage = 0;
 	
-	GetPlayerDamage(isCaster);
-	GetPlayerHitChance();
+	GetPlayerDamage(isCaster, TargetInfo->GetTypeId());
+	GetPlayerHitChance(TargetInfo->GetTypeId());
 	if (attackValue <= 0 || attackValue > 1000000000)
 	{
 		attackValue = 1;
 	}
 	if (attackResult != eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_DODGE)
 	{
-		GetPlayerCriticAttack(isCaster);
+		GetPlayerCriticAttack(isCaster, TargetInfo->GetTypeId());
 		if (attackResult == eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_BLOCK)
 		{
 			attackValue /= 2;
@@ -193,8 +239,8 @@ void FightManager::HandlePlrFight()
 	
 	res.bChainAttack = true;
 	res.byAttackResult = attackResult;
-	res.byBlockedAction = guardType;
-	res.dwLpEpEventId = 0;
+	res.byBlockedAction = -1;
+	res.dwLpEpEventId = 700121;
 	res.fReflectedDamage = reflectedDamage;
 	res.byAttackSequence = attackCount;
 	res.hSubject = plr->GetHandle();
@@ -206,27 +252,28 @@ void FightManager::HandlePlrFight()
 	res.bRecoveredEP = false;
 	res.wRecoveredEpValue = 0;
 	res.wOpCode = GU_CHAR_ACTION_ATTACK;
-	res.wPacketSize = sizeof(sGU_CHAR_ACTION_ATTACK) - 2;
-	
-	plr->SendPacket((char*)&res, sizeof(sGU_CHAR_ACTION_ATTACK));
-	plr->SendToPlayerList((char*)&res, sizeof(sGU_CHAR_ACTION_ATTACK));
+	res.wPacketSize = sizeof(sGU_CHAR_ACTION_ATTACK) - 2;		
 
 	if (attackResult != eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_DODGE)
 	{
 		
-		if (TargetInfo->GetTypeId() == OBJTYPE_MOB)
+		if (plrTarget->GetTypeId() == OBJTYPE_MOB)
 		{
 			//printf("Player Attack MOB \n");
 			if (mob->attackers == 0)
-				mob->attackers = plr->GetHandle();
+			mob->attackers = plr->GetHandle();
 			mob->TakeDamage(attackValue);
+			mob->SetIsFighting(true);
 		}
-		if (TargetInfo->GetTypeId() == OBJTYPE_PC && plr->GetAttributesManager()->PlayerInFreeBatle == true)
+		if (TargetInfo->GetTypeId() == OBJTYPE_PC)
 		{			
 			//printf("Player Attack Player \n");
 			if (mob->attackers == 0)
-				mob->attackers = plrTarget->GetHandle();
+			mob->attackers = plrTarget->GetHandle();
 			plrTarget->TakeDamage(attackValue);
 		}		
 	}
+
+	plr->SendPacket((char*)&res, sizeof(sGU_CHAR_ACTION_ATTACK));
+	plr->SendToPlayerList((char*)&res, sizeof(sGU_CHAR_ACTION_ATTACK));
 }

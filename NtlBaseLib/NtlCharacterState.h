@@ -200,6 +200,7 @@ enum eASPECTSTATE
 	ASPECTSTATE_KAIOKEN,				// 계왕권
 	ASPECTSTATE_SPINNING_ATTACK,		// 회전 공격
 	ASPECTSTATE_VEHICLE,			// 탈 것
+	ASPECTSTATE_BALL,
 
 	ASPECTSTATE_COUNT,
 	ASPECTSTATE_INVALID = 0xFF
@@ -408,8 +409,10 @@ struct sCHARSTATE_FALLING
 //-----------------------------------------------------------------------------------
 struct sCHARSTATE_DASH_PASSIVE
 {
+	DWORD			dwTimeStamp;
 	BYTE			byMoveDirection;		// MOVE_DASH_F, MOVE_DASH_B and so on
-	sVECTOR3		vDestLoc;
+	BYTE			MoveFlag;
+	dVECTOR3		vDestLoc;
 };
 //-----------------------------------------------------------------------------------
 struct sCHARSTATE_TELEPORTING
@@ -477,6 +480,7 @@ struct sCHARSTATE_HTB
 	BYTE				byStepCount;	// HTB 스텝 개수
 	BYTE				byCurStep;		// 현재 스텝
 	BYTE				byResultCount;	// HTB 스킬 결과 개수
+	bool				bIsSuccess;
 	sHTBSKILL_RESULT	aHTBSkillResult[HTB_MAX_SKILL_COUNT_IN_SET]; // HTB 스킬 결과
 };
 //-----------------------------------------------------------------------------------
@@ -566,6 +570,9 @@ struct sASPECTSTATE_VEHICLE
 	TBLIDX		idVehicleTblidx;
 	HOBJECT		hVehicleItem;
 	bool		bIsEngineOn;
+};
+struct sASPECTSTATE_SPINNING_BALL
+{
 };
 //-----------------------------------------------------------------------------------
 #pragma pack()

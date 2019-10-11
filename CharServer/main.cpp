@@ -23,7 +23,7 @@ int main()
 	std::cout << "\t    | |_| | | | (_| | (_| | (_) | | | | |_) | (_| | | |" << std::endl;
 	std::cout << "\t    |____/|_|  \\__,_|\\__, |\\___/|_| |_|____/ \\__,_|_|_|" << std::endl;
 	std::cout << "\t                     |___/                             " << std::endl;
-	std::cout << yellow << "\t   	           DboOpenSource 2019					\n\n" << white << std::endl;
+	std::cout << yellow << "\t   	           AKCore 2017					\n\n" << white << std::endl;
 	sLog.outString("Using configuration file 'CharServer.xml'.");
 	sLog.outString("Using Boost: %s", BOOST_LIB_VERSION);
 
@@ -35,7 +35,7 @@ int main()
 	}
 	while (!stopEvent)
 	{
-		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+		std::this_thread::sleep_for(std::chrono::milliseconds(13000));
 		pingDatabase += 1000;
 
 		if (pingDatabase >= 30000)

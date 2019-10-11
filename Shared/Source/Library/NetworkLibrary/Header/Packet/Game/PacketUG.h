@@ -82,7 +82,6 @@ BYTE				byMoveDirection;
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(UG_CHAR_DASH_MOUSE)//to test
-DWORD				dwTimeStamp;
 dVECTOR3			vDestLoc;
 END_PROTOCOL()
 //------------------------------------------------------------------
@@ -281,7 +280,7 @@ END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(UG_BUFF_DROP_REQ)
 BYTE				bySourceType;		// eDBO_OBJECT_SOURCE
-BYTE				byUnknown1;
+BYTE				unk;
 TBLIDX				tblidx;
 END_PROTOCOL()
 //------------------------------------------------------------------
@@ -1403,13 +1402,18 @@ END_PROTOCOL()
 //------------------------------------------------------------------
 
 BEGIN_PROTOCOL(UG_TENKAICHIDAISIJYOU_SELL_REQ)//To Work
-DWORD               charID;
-
+DWORD               Price;
+BYTE				byPlace;
+BYTE				byPos;
+BYTE				StackCount;
+BYTE				unk;
+BYTE				unk1;
+BYTE				unk2;
 END_PROTOCOL()
 //------------------------------------------------------------------
 
 BEGIN_PROTOCOL(UG_TENKAICHIDAISIJYOU_SELL_CANCEL_REQ)//To Work
-DWORD               charID;
+DWORD               ItemHandle;
 
 END_PROTOCOL()
 
@@ -1423,7 +1427,15 @@ END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(UG_TENKAICHIDAISIJYOU_LIST_REQ)//To Work
 DWORD               charID;
-
+WCHAR				wszItemName[32 + 1];
+BYTE				NeedClassBitFlag;
+BYTE				ItemTypeTab;
+BYTE				ItemTypeSubTab;
+BYTE				MinLevel;
+BYTE				MaxLevel;
+BYTE				Rank;
+DWORD				PageNumber;
+DWORD				byOrder; // it got specific IDs for order Name,Rank,Level,Price,Time,Seller
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(UG_ITEM_DISASSEMBLE_REQ)
@@ -1431,7 +1443,6 @@ DWORD Handle;
 BYTE  Place;
 BYTE  Pos;
 END_PROTOCOL()
-
 //------------------------------------------------------------------
 //Quick Teleporter Item
 BEGIN_PROTOCOL(UG_QUICK_TELEPORT_LOAD_REQ)
@@ -1457,6 +1468,20 @@ BEGIN_PROTOCOL(UG_GIFT_SHOP_BUY_REQ)
 DWORD		    TabID;
 BYTE			byBuyCount;
 sSHOP_BUY_CART	sBuyData[MAX_BUY_SHOPPING_CART];
+END_PROTOCOL()
+BEGIN_PROTOCOL(UG_HOIPOIMIX_ITEM_CREATE_EX_REQ)
+DWORD		    Handle;
+DWORD		    RecipeID;
+BYTE		    MaterialPlace;
+BYTE		    MaterialSlot;
+BYTE		    MaterialPlace2;
+BYTE		    MaterialSlot2;
+BYTE		    MaterialPlace3;
+BYTE		    MaterialSlot3;
+BYTE		    MaterialPlace4;
+BYTE		    MaterialSlot4;
+BYTE		    MaterialPlace5;
+BYTE		    MaterialSlot5;
 END_PROTOCOL()
 /*
 ,

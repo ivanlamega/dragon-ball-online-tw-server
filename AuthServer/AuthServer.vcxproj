@@ -166,6 +166,7 @@
       <AdditionalLibraryDirectories>$(SolutionDir)packages\boost.1.63.0.0\compiled;$(SolutionDir)Shared\Source\SQLLibrary\mysql\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>mysqlcppconn.lib;libmysql.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/ignore:4099 /ignore:4006 /ignore:4251 /ignore:4098 /ignore:4311 %(AdditionalOptions)</AdditionalOptions>
+      <LinkStatus>true</LinkStatus>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -186,7 +187,6 @@
     <ClInclude Include="Source\Header\AuthSocket.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

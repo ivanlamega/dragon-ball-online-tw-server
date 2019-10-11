@@ -39,11 +39,13 @@ public:
 	void				CalculeLowLife();
 	void				CalculePosition(uint32 _update_diff);
 	void				LevelUp();
+	void				HandleEvent();
 	//Comands
 	void				LevelUpByComand(int Level);
 	void				SetSpeed(int sppeed);
-	void				ConvertClass(int ClassID);
+	void				ConvertClass(int ClassID , HOBJECT Target);
 	DWORD				GetClassFlag(int Class, int ItemType)const;
+	void				SetStatsByEquip(BYTE ItemType);
 	void				ConvertAdult(int Adult);
 	void				SendUpdateSize(int Size);
 	void				SendAddTitle(int TitleID);
@@ -120,10 +122,20 @@ public:
 	// UPDATE FUNCTION
 	//	------------------------------------------------------------------------
 	void				Regen();
+	void				TranformationRegen();
 	void				ExecuteLPFood();
 	void				ExecuteEPFood();
-	void				ExecuteStun();
+	void				CharAffect();
+	void				ExecuteBuffTimmer();
+	void				CheckPVPArea();
+	void				PowerUpUpdate();//incress RP
+	void				NetPYUpdate();//incress RP
+	void				BossEventUpdate();//incress RP
+	void				SpawnMobByID(TBLIDX MobID);//incress RP
 	void				UpdateAspectState(BYTE State);
+	//Effect
+	void				ExecuteEffectCalculation(TBLIDX SkillID, bool isRemove);
+	void				ExecuteEffectPlayerCalculation(TBLIDX SkillID, HOBJECT Handle, bool isRemove);
 	//	------------------------------------------------------------------------
 	// FIGHT FUNCTION
 	//	------------------------------------------------------------------------
@@ -160,16 +172,26 @@ public:
 	void                ItemOptionsChange(Packet pPacket);
 	void			    SendItemUpgrade(Packet& packet);
 	void			    SendItemUpgradeByCoupon(Packet& packet);
-	void			    SendLearnSkillByItem(Packet& packet);
+	void			    SendLearnSkillByItem(Packet& packet);	
 	//	------------------------------------------------------------------------
 	// FreeBatle FUNCTIONS
 	//	------------------------------------------------------------------------
 	void			    HandleFreeBattleRange();
 	void			    HandleFreeBattleWinners();
+	//
+	void				FindRankPlyer();
+	void				SkillAcion();
+	Packet packets;
+	//
+	void				TeleportByCommand(TBLIDX WorldID);
 	//	------------------------------------------------------------------------
-	// Free Pvp zone FUNCTIONS
+	// AucionHouse FUNCTIONS
 	//	------------------------------------------------------------------------
-	void HandeFreePvpZone();
+	void			AucionHouseList(Packet& packet);
+	void			AucionHouseSell(Packet& packet);
+	void			AucionHouseSellCancel(Packet& packet);
+
+	void			SendEmailAucionHouse(int ItemID, int StackCount, int Grade, int EmailType, int Zenny);
 private:
 	//	------------------------------------------------------------------------
 	// SERVER
@@ -199,7 +221,6 @@ private:
 	bool				isLowLifeSend;
 	ePC_CLASS			myClass;
 	bool				isMovingToCharServer;
-	bool				isInPvpZone;
 	//	------------------------------------------------------------------------
 	// ITEM
 	//	------------------------------------------------------------------------
@@ -210,11 +231,20 @@ private:
 	FightManager		fightManager;
 	SkillsManager		skillManager;
 	BYTE				attackCount;
+	DWORD				SkillCastinTime;
+	DWORD				SkillCastinTimeRemain;
+	bool				CatingSkill;
 	//	------------------------------------------------------------------------
 	// TIMER
 	//	------------------------------------------------------------------------
 	time_t				rpBallTimer;
-
+	DWORD				NetPyTimmer;
+	DWORD				NetPyAcumulate = 0;
+	int					countnetpy = 0;
+	DWORD				RegTmmer;
+	DWORD				AutoAttackTmmer;
+	DWORD				TranformationRegTmmer;
+	DWORD				AffectTime;
 	std::string			GuildName;
 
 	void                SetGSHandle();

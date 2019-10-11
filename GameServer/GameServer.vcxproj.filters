@@ -161,6 +161,48 @@
     <ClCompile Include="Source\CPP\Game\World\Packet\Manager\PlayerPacketEvents.cpp">
       <Filter>Source Files\Game\World\Packet\Manager</Filter>
     </ClCompile>
+    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\Quest.cpp">
+      <Filter>Source Files\Game\World\Packet\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\AucionHouseManager.cpp">
+      <Filter>Source Files\Game\World\Packet\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\CashShop.cpp">
+      <Filter>Source Files\Game\World\Packet\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\CraftManager.cpp">
+      <Filter>Source Files\Game\World\Packet\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\RankBattle.cpp">
+      <Filter>Source Files\Game\World\Packet\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\Budokay.cpp">
+      <Filter>Source Files\Game\World\Packet\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\SystemEffect.cpp">
+      <Filter>Source Files\Game\World\Packet\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\PrivateShop.cpp">
+      <Filter>Source Files\Game\World\Packet\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\PartySystem.cpp">
+      <Filter>Source Files\Game\World\Packet\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\GuildManager.cpp">
+      <Filter>Source Files\Game\World\Packet\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\FreeBattle.cpp">
+      <Filter>Source Files\Game\World\Packet\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\DojoScramble.cpp">
+      <Filter>Source Files\Game\World\Packet\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\DragonBallScramble.cpp">
+      <Filter>Source Files\Game\World\Packet\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\BossEvent.cpp">
+      <Filter>Source Files\Game\World\Packet\Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Header\GameServer.h">

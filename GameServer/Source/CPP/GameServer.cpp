@@ -89,7 +89,10 @@ bool GameServer::loadDataTable()
 	flagManager.Set(TableContainer::TABLE_MIX_MACHINE);
 	flagManager.Set(TableContainer::TABLE_GUIDE_HINT);
 	flagManager.Set(TableContainer::TABLE_ITEM_UPGRADE);
+
 	flagManager.Set(TableContainer::TABLE_ITEM_RECIPE);
+	flagManager.Set(TableContainer::TABLE_ITEM_RECIPE2);
+
 	flagManager.Set(TableContainer::TABLE_DYNAMIC_OBJECT);
 	flagManager.Set(TableContainer::TABLE_CHATTING_FILTER);
 	flagManager.Set(TableContainer::TABLE_HTB_SET);
@@ -121,12 +124,12 @@ bool GameServer::loadDataTable()
 	flagManager.Set(TableContainer::TABLE_OBJECT);
 	flagManager.Set(TableContainer::TABLE_HLS_ITEM);
 	flagManager.Set(TableContainer::TABLE_WORLD_MAP);			
-	//flagManager.Set(TableContainer::TABLE_LAND_MARK);									
+	flagManager.Set(TableContainer::TABLE_LAND_MARK);									
 	//flagManager.Set(TableContainer::TABLE_DRAGONBALL);					
 	//flagManager.Set(TableContainer::TABLE_BUDOKAI);		fail	
 	//flagManager.Set(TableContainer::TABLE_RANKBATTLE);			
 	//flagManager.Set(TableContainer::TABLE_SPEECH);												
-	//flagManager.Set(TableContainer::TABLE_FORMULA);	
+	flagManager.Set(TableContainer::TABLE_FORMULA);	
 	flagManager.Set(TableContainer::TABLE_QUEST_REWARD);
 	//flagManager.Set(TableContainer::TABLE_QUEST_NARRATION);
 
@@ -174,7 +177,8 @@ bool GameServer::loadDataTable()
 	fileNameList.SetFileName(TableContainer::TABLE_MIX_MACHINE,				"Table_Item_Mix_Machine_Data");
 	fileNameList.SetFileName(TableContainer::TABLE_GUIDE_HINT,				"Table_Guide_Hint_Data");
 	fileNameList.SetFileName(TableContainer::TABLE_ITEM_UPGRADE,			"Table_Item_Upgrade_Value");//
-	fileNameList.SetFileName(TableContainer::TABLE_ITEM_RECIPE,				"Table_Item_Recipe_Data");
+	fileNameList.SetFileName(TableContainer::TABLE_ITEM_RECIPE,				"table_item_recipe_new_data");
+	fileNameList.SetFileName(TableContainer::TABLE_ITEM_RECIPE2,			"o_table_item_recipe_new_data");
 	fileNameList.SetFileName(TableContainer::TABLE_DYNAMIC_OBJECT,			"Table_Dynamic_Object_Data");
 	fileNameList.SetFileName(TableContainer::TABLE_CHATTING_FILTER,			"Table_Chatting_Filter_Data");
 	fileNameList.SetFileName(TableContainer::TABLE_HTB_SET,					"Table_HTB_Set_Data");
@@ -201,13 +205,13 @@ bool GameServer::loadDataTable()
 	
 	/*Unloadable Tables*/
 	//
-	//fileNameList.SetFileName(TableContainer::TABLE_FORMULA,				"TD_Formula");//structure need
+	fileNameList.SetFileName(TableContainer::TABLE_FORMULA,					"table_item_enchant_data");//structure need
 	fileNameList.SetFileName(TableContainer::TABLE_WORLD_MAP,				"Table_Worldmap_Data");//structure need
 	//fileNameList.SetFileName(TableContainer::TABLE_SPEECH,				"Table_NPC_Speech_Data");//structure need
 	//fileNameList.SetFileName(TableContainer::TABLE_ITEM_OPTION,			"Table_Item_Option_Data");	//structure need
 	//fileNameList.SetFileName(TableContainer::TABLE_QUEST_TEXT_DATA,		"Table_Quest_Text_Data");//fail
 	fileNameList.SetFileName(TableContainer::TABLE_OBJECT,					"Table_Object");//structure need
-	//fileNameList.SetFileName(TableContainer::TABLE_LAND_MARK,				"Table_Landmark_Data");/structure need
+	fileNameList.SetFileName(TableContainer::TABLE_LAND_MARK,				"table_item_disassemble_data");//structure need
 	//fileNameList.SetFileName(TableContainer::TABLE_BUDOKAI,				"Table_Tenkaichibudokai_Data");//fail
 	//fileNameList.SetFileName(TableContainer::TABLE_RANKBATTLE,			"Table_RankBattle_Data");//structure need
 	//fileNameList.SetFileName(TableContainer::TABLE_SPEECH,				"Table_NPC_Speech_Data");//structure need
@@ -346,28 +350,56 @@ bool GameServer::loadDataTable()
 		}
 		
 		//used to work in Rdf strutures
-		MobTable * dat = sTBM.GetMobTable();
-		sMOB_TBLDAT * tbldat = reinterpret_cast<sMOB_TBLDAT*>(dat->FindData(1211101));
+	/*	HTBSetTable * dat = sTBM.GetHTBSetTable();
+		sHTB_SET_TBLDAT * tbldat = reinterpret_cast<sHTB_SET_TBLDAT*>(dat->FindData(500002));
 		if (tbldat)
-		{
-
-			printf("bValidity_Able %d \n ", tbldat->bValidity_Able);
-			printf("tblidx %d \n ", tbldat->tblidx);
-			printf("Name %d \n ", tbldat->Name);
-			printf("byLevel %d \n ", tbldat->byLevel);		
-			printf("fDrop_Exp_Rate %d \n ", tbldat->fDrop_Exp_Rate);
-			printf("fDrop_Zenny_Rate %d \n ", tbldat->fDrop_Zenny_Rate);						
-			printf("notknow %f \n ", tbldat->notknow);
-					
-	//	printf("burnDefense %d \n ", tbldat->NextID);
+		{		
+			printf("tblidx %d \n ", tbldat->tblidx);	
+			printf("RewardItemID %d \n ", tbldat->RewardItemID[0]);
+			printf("RewardItemID %d \n ", tbldat->RewardItemID[1]);
+			printf("RewardItemID %d \n ", tbldat->RewardItemID[2]);					
 			
-		}
-		for (auto it = sTBM.GetWorldMapTable()->Begin(); it != sTBM.GetWorldMapTable()->End(); it++)
+		}*/
+		for (auto it = sTBM.GetItemRecipeTable()->Begin(); it != sTBM.GetItemRecipeTable()->End(); it++)
 		{
-			sWORLD_MAP_TBLDAT* tbldat = (sWORLD_MAP_TBLDAT*)it->second;
+			sITEM_RECIPE_TBLDAT* tbldat = (sITEM_RECIPE_TBLDAT*)it->second;
 			if (tbldat)
-			{				
-				printf("tblidx %d \n ", tbldat->tblidx);			
+			{	
+				if (tbldat->tblidx == 1041003)
+				{					
+					printf("tblidx %d \n ", tbldat->tblidx);
+					printf("bValidityAble %d \n ", tbldat->bValidityAble);
+					printf("dwName %d \n ", tbldat->dwName);
+					printf("byRecipeType %d \n ", tbldat->byRecipeType);
+					printf("byNeedMixLevel %d \n ", tbldat->byNeedMixLevel);
+					printf("dwNeedMixZenny %d \n ", tbldat->dwNeedMixZenny);
+
+					printf("itemTblidx %d \n ", tbldat->asCreateItemTblidx[0].itemTblidx);
+					printf("itemRate %d \n ", tbldat->asCreateItemTblidx[0].itemRate);
+					printf("itemTblidxGreate %d \n ", tbldat->asCreateItemTblidx[0].itemTblidxGreate);
+					printf("itemTblidx %d \n ", tbldat->asCreateItemTblidx[1].itemTblidx);
+					printf("itemRate %d \n ", tbldat->asCreateItemTblidx[1].itemRate);
+					printf("itemTblidxGreate %d \n ", tbldat->asCreateItemTblidx[1].itemTblidxGreate);
+					printf("itemTblidx %d \n ", tbldat->asCreateItemTblidx[2].itemTblidx);
+					printf("itemRate %d \n ", tbldat->asCreateItemTblidx[2].itemRate);
+					printf("itemTblidxGreate %d \n ", tbldat->asCreateItemTblidx[2].itemTblidxGreate);
+
+					
+
+					printf("materialTblidx %d \n ", tbldat->asMaterial[0].materialTblidx);
+					printf("byMaterialCount %d \n ", tbldat->asMaterial[0].byMaterialCount);
+					printf("materialTblidx %d \n ", tbldat->asMaterial[1].materialTblidx);
+					printf("byMaterialCount %d \n ", tbldat->asMaterial[1].byMaterialCount);
+					printf("materialTblidx %d \n ", tbldat->asMaterial[2].materialTblidx);
+					printf("byMaterialCount %d \n ", tbldat->asMaterial[2].byMaterialCount);
+					printf("materialTblidx %d \n ", tbldat->asMaterial[3].materialTblidx);
+					printf("byMaterialCount %d \n ", tbldat->asMaterial[3].byMaterialCount);
+					printf("materialTblidx %d \n ", tbldat->asMaterial[4].materialTblidx);
+					printf("byMaterialCount %d \n ", tbldat->asMaterial[4].byMaterialCount);
+				}
+				//printf("asCreateItemTblidx %d \n ", tbldat->asCreateItemTblidx[0].itemTblidx);
+				//printf("asCreateItemTblidx1 %d \n ", tbldat->asCreateItemTblidx[1].itemTblidx);
+				//printf("asCreateItemTblidx2 %d \n ", tbldat->asCreateItemTblidx[2].itemTblidx);
 				//printf("Worldmap_Name %d \n ", tbldat->Worldmap_Name);
 				delete tbldat;
 			}
@@ -411,7 +443,7 @@ int GameServer::Run()
 	std::cout << "\t    | |_| | | | (_| | (_| | (_) | | | | |_) | (_| | | |" << std::endl;
 	std::cout << "\t    |____/|_|  \\__,_|\\__, |\\___/|_| |_|____/ \\__,_|_|_|" << std::endl;
 	std::cout << "\t                     |___/                             " << std::endl;
-	std::cout << yellow << "\t   	           DboOpenSource 2019					\n\n" << white << std::endl;
+	std::cout << yellow << "\t   	           AKCore 2017					\n\n" << white << std::endl;
 	sLog.outString("Using configuration file 'GameServer.xml'.");
 	sLog.outString("Using Boost: %s", BOOST_LIB_VERSION);
 

@@ -318,6 +318,8 @@ struct MonsterData
 	DWORD			UniqueID;
 	WORD			Job;
 	TBLIDX			amerchant_Tblidx[MAX_MERCHANT_TAB_COUNT];
+	int				ByDagonBall;
+	bool			GotAgro;
 };
 struct sOBJECT_INFO
 {
@@ -377,7 +379,7 @@ struct SpawnMOB
 {
 	WORD				wPacketSize;
 	WORD				wOpCode;
-
+	//sBOT_Brief
 	DWORD				Handle;
 	BYTE				Type;
 	TBLIDX				Tblidx;
@@ -385,43 +387,21 @@ struct SpawnMOB
 	WORD				curEP;
 	DWORD				maxLP;
 	WORD				maxEP;
-	float				Run_Speed;
-	float				Run_Speed_origin;
-	float				Walk_Speed;
-	float				Walk_Speed_origin;
-	float				unk;
-	float				unk1;
-	BYTE				Unknown[10];
-
+	float				fLastWalkingSpeed;
+	float				fLastRunningSpeed;
+	float				fLastAirgSpeed;
+	float				fLastAirgDashSpeed;
+	float				fLastAirgDashAccelSpeed;
+	WORD				AttackSpeedRate;
+	float				SkillAnnimationSpeedModifier;
+	TBLIDX				TBLIDXMovementAcionPattern;
+	TBLIDX				Name;
 	BYTE				Size;
+	//sMOB_BRIEF
 	BYTE				Level;
-
-	BYTE				Unknown2;
-
-	BYTE				StateID;
-
-
-	BYTE				test0;
-	BYTE				test1;
-	BYTE				test2;
-	BYTE				test3;
-	BYTE				BurnEffect;
-	BYTE				PoisonEffect;
-	BYTE				test6;
-	BYTE				test7;
-	BYTE				test8;
-	BYTE				test9;
-	BYTE				test10;
-	BYTE				test11;
-
-	BYTE				AspectID;
-
-	BYTE				Unknown4[9];
-
-	bool				IsFighting;
-	sVECTOR3			Position;
-	sVECTOR3			Rotation;
-	BYTE                unkasd[200];
+	BYTE				byBallType;
+	//sCHARSTATE
+	sCHARSTATE			State;
 };
 struct SpawnNPC
 {
@@ -436,27 +416,19 @@ struct SpawnNPC
 	uint32_t			MaxLP;
 	WORD				MaxEP;
 
-	float				Unknown0[8];
-	BYTE				Unknown[2];
+	float				fLastWalkingSpeed;
+	float				fLastRunningSpeed;
+	float				fLastAirSpeed;
+	float				fLastAirDashSpeed;
+	float				fLastAirDashAccelSpeed;
+	WORD				AttackSpeedRate;
+	float				SkillAnimationSpeedModifier;
+	TBLIDX				TblidxMovementActionPatern;
+	TBLIDX				Name;
+	BYTE				Size;
+	BYTE				Unk;
+	sCHARSTATE			State;
 
-	BYTE				ModelSize;
-	BYTE				Unknown2;
-
-	BYTE				StateID;
-	BYTE				Level;
-
-	BYTE				Unknown3[3];
-
-	BYTE				BurnEffect;
-	BYTE				PoisonEffect;
-
-	BYTE				Unknown4[6];
-	BYTE				AspectID;
-
-	BYTE				Unknown5[10];
-
-	sVECTOR3			Position;
-	sVECTOR3			Rotation;
 };
 struct SpawnPlayer
 {
@@ -517,7 +489,6 @@ struct SpawnPlayer
 	BYTE			confuse;
 
 	sCHARSTATE		State;
-	BYTE			unk[161];
 
 	// END
 };

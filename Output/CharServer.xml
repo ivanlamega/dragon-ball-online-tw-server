@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CharServer>
+  <!-- Log Configuration -->
+  <!-- 0 MINIMAL  1 BASIC  2 DETAIL  3 DEBUG -->
+  <LogLevel Value="3"/>
+  <!-- Server Configuration -->
+  <ServerWorker Value="10"/>
+  <Server IP="dbotwdev.ddns.net" Port="50300" />
+  <MySQL Host="127.0.0.1" Database="dragonball" User="root" Password="YourPassword" />
+
+  <!-- Game Data Tables Folder Location -->
+  <GameData Path="../Data/" />
+
+  <!-- Server List Configuration -->
+  <ServerCount value="2" />
+  <Server1 Name="DBO Alpha" Count="1" MaxLoad="100" Private="0">
+    <Channel1 IP="dbotwdev.ddns.net" Port="50400" MaxLoad="100" />
+  </Server1>
+  <Server2 Name="DBO Dev" Count="1" MaxLoad="100" Private="1">
+    <Channel1 IP="dbotwdev.ddns.net" Port="50401" MaxLoad="100" />
+  </Server2>
+</CharServer>

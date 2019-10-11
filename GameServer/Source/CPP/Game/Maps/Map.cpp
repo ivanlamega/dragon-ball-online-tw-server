@@ -31,11 +31,11 @@ Map::Map(uint32 id) :
 			Npc *created_npc = new Npc;
 			if (created_npc->Create(pNPCSpwnTblData, pNPCTblData) == true)
 			{
-				if (pNPCTblData->byJob == 3 || pNPCTblData->byJob == 38 || pNPCTblData->byJob == 44 || pNPCTblData->byJob == 47 || pNPCTblData->byJob == 50)
+			/*	if (pNPCTblData->byJob == 3 || pNPCTblData->byJob == 38 || pNPCTblData->byJob == 44 || pNPCTblData->byJob == 47 || pNPCTblData->byJob == 50)
 				{
 					delete created_npc;
 				}
-				else
+				else*/
 				created_npc->GetMapRef().link(this, created_npc);
 			}
 			else
@@ -80,7 +80,6 @@ Map::Map(uint32 id) :
 	sLog.outDebug("Map: %d loaded: %d Npc - %d Mob - %d Object", GetId(), pNpcSpawnTbl->GetNumberOfTables(), pMOBSpawnTbl->GetNumberOfTables(), pOBJSpwnTblData->GetNumberOfTables());
 	updateVisibilityThread = std::thread(&Map::UpdatePlayerVisibility, this);
 }
-
 //----------------------------------------
 //	Map destructor
 //----------------------------------------
@@ -148,14 +147,51 @@ bool Map::Add(Player* player)
 	player->AddToWorld();
 
 	sGU_SYSTEM_DISPLAY_TEXT test;
-	memcpy(test.awchMessage, (L"Hakuna Matata !"), 257);
-	memcpy(test.awGMChar, (L"system"), 17);
+	memcpy(test.awchMessage, (L"Welcome To Dragon Ball Online !"), 257);
+	memcpy(test.awGMChar, (L" GM "), 17);
 	test.byDisplayType = eSERVER_TEXT_TYPE::SERVER_TEXT_SYSTEM;
-	test.wMessageLengthInUnicode = strlen("Hakuna Matata !");
+	test.wMessageLengthInUnicode = strlen("Welcome To Dragon Ball Online  !");
 	test.wOpCode = GU_SYSTEM_DISPLAY_TEXT;
 	test.wPacketSize = sizeof(sGU_SYSTEM_DISPLAY_TEXT) - 2;
 	player->SendPacket((char*)&test, sizeof(sGU_SYSTEM_DISPLAY_TEXT));
 
+	if (sWorld.DragonBallEventa == true)
+	{
+		printf("Dragon Ball Hunt %d \n", sWorld.DragonBallEventa);
+		sGU_DRAGONBALL_SCHEDULE_INFO res;
+
+		res.bIsAlive = sWorld.DragonBallEventa;
+		res.byEventType = eSCHEDULE_EVENT_TYPE::SCHEDULE_EVENT_TYPE_BASIC_DRAGONBALL;
+		res.byTermType = 1;
+		res.dwMainTerm = 1;
+		res.dwSubTerm = 1;
+		res.nEndTime = 100;
+		res.nStartTime = 1;
+		res.wOpCode = GU_DRAGONBALL_SCHEDULE_INFO;
+		res.wPacketSize = sizeof(sGU_DRAGONBALL_SCHEDULE_INFO) - 2;
+
+		player->SendPacket((char*)&res, sizeof(sGU_DRAGONBALL_SCHEDULE_INFO));
+
+		sGU_SYSTEM_DISPLAY_TEXT sNotice;
+		sNotice.wOpCode = GU_SYSTEM_DISPLAY_TEXT;
+		sNotice.wPacketSize = sizeof(sGU_SYSTEM_DISPLAY_TEXT) - 2;
+		sNotice.byDisplayType = 3;
+		wcscpy_s(sNotice.awchMessage, BUDOKAI_MAX_NOTICE_LENGTH, L" Dragon Ball Hunt is Running");
+		wcscpy_s(sNotice.awGMChar, MAX_SIZE_CHAR_NAME_UNICODE, (L"System"));
+		sNotice.wMessageLengthInUnicode = 50;
+		player->SendPacket((char*)&sNotice, sizeof(sGU_SYSTEM_DISPLAY_TEXT));
+	}
+	if (sWorld.BonusActive == true)
+	{
+		sGU_SYSTEM_DISPLAY_TEXT sNotice;
+		sNotice.wOpCode = GU_SYSTEM_DISPLAY_TEXT;
+		sNotice.wPacketSize = sizeof(sGU_SYSTEM_DISPLAY_TEXT) - 2;
+		sNotice.byDisplayType = 3;
+		wcscpy_s(sNotice.awchMessage, BUDOKAI_MAX_NOTICE_LENGTH, L" Exp Event Is Running");
+		wcscpy_s(sNotice.awGMChar, MAX_SIZE_CHAR_NAME_UNICODE, (L"System"));
+		sNotice.wMessageLengthInUnicode = 50;
+		player->SendPacket((char*)&sNotice, sizeof(sGU_SYSTEM_DISPLAY_TEXT));		
+	 }
 	return true;
 }
 //----------------------------------------

@@ -64,7 +64,6 @@ void Mob::BuildPacketForSpawn(SpawnMOB& spawnData)
 	spawnData.wOpCode = GU_OBJECT_CREATE;
 	spawnData.wPacketSize = sizeof(SpawnMOB) - 2;
 
-	spawnData.AspectID = 0;
 	spawnData.curEP = me.CurEP;
 	spawnData.curLP = me.CurLP;
 	spawnData.Handle = GetHandle();
@@ -73,40 +72,27 @@ void Mob::BuildPacketForSpawn(SpawnMOB& spawnData)
 	spawnData.maxLP = me.MaxLP;
 	spawnData.Size = 10;
 	spawnData.Type = OBJTYPE_MOB;
-	spawnData.Position.x = me.curPos.x;
-	spawnData.Position.y = me.curPos.y;
-	spawnData.Position.z = me.curPos.z;
-	spawnData.Rotation.x = me.Spawn_Dir.x;
-	spawnData.Rotation.y = me.Spawn_Dir.y;
-	spawnData.Rotation.z = me.Spawn_Dir.z;
-	spawnData.StateID = eCHARSTATE::CHARSTATE_SPAWNING;
+
 	spawnData.Tblidx = me.MonsterID;
+	spawnData.fLastWalkingSpeed = 4;
+	spawnData.fLastRunningSpeed = 4;
+	spawnData.fLastAirgSpeed = 4;
+	spawnData.fLastAirgDashSpeed = 4;
+	spawnData.fLastAirgDashAccelSpeed = 4;
 
-	spawnData.Unknown2 = 0;
+	spawnData.byBallType = me.ByDagonBall;
 
-	spawnData.test0 = 0;
-	spawnData.test1 = 0;
-	spawnData.test2 = 0;
-	spawnData.test3 = 0;
-	spawnData.BurnEffect = 0;
-	spawnData.PoisonEffect = 0;
-	spawnData.test6 = 0;
-	spawnData.test7 = 0;
-	spawnData.test8 = 0;
-	spawnData.test9 = 0;
-	spawnData.test10 = 0;
-	spawnData.test11 = 0;
-	spawnData.Run_Speed = 2;
-	spawnData.Run_Speed_origin = 2;
-	spawnData.Walk_Speed = 2;
-	spawnData.Walk_Speed_origin = 2;
+	GetState()->sCharStateBase.byStateID = eCHARSTATE::CHARSTATE_SPAWNING;
+	GetState()->sCharStateBase.vCurLoc.x = me.curPos.x;
+	GetState()->sCharStateBase.vCurLoc.y = me.curPos.y;
+	GetState()->sCharStateBase.vCurLoc.z = me.curPos.z;
+	GetState()->sCharStateBase.vCurDir.x = me.Spawn_Dir.x;
+	GetState()->sCharStateBase.vCurDir.y = me.Spawn_Dir.y;
+	GetState()->sCharStateBase.vCurDir.z = me.Spawn_Dir.z;
+	GetState()->sCharStateBase.aspectState.sAspectStateBase.byAspectStateId = 255;
 
-	for (int i = 0; i < 10; i++) spawnData.Unknown[i] = 0;
-	for (int i = 0; i < 9; i++) spawnData.Unknown4[i] = 0;
-	spawnData.Unknown[3] = 0;//move pattern tblidx
-	spawnData.Unknown[4] = 0;//move pattern tblidx
-	spawnData.Unknown[5] = 0;//move pattern tblidx
-	spawnData.Unknown[6] = 0;//move pattern tblidx
+	memcpy(&spawnData.State.sCharStateBase, &GetState()->sCharStateBase, sizeof(sCHARSTATE_BASE));
+	memcpy(&spawnData.State.sCharStateDetail, &GetState()->sCharStateDetail, sizeof(sCHARSTATE_DETAIL));
 }
 //----------------------------------------
 //	Create the mob and fill all info

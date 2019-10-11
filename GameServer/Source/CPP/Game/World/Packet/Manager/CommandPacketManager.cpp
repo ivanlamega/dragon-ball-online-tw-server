@@ -1,8 +1,8 @@
 #include <Game\World\WorldSession.h>
 #include <Game\Object\Player.h>
-#include <Packet\Game\PacketGU.h>
 #include <Game\Object\Mob.h>
 #include <Game\Object\Object.h>
+#include <Packet\Game\PacketGU.h>
 #include <Packet\Game\PacketUG.h>
 #include <Logger.h>
 #include <World.h>
@@ -19,7 +19,7 @@ void World::SendAnnounce(std::string message)
 
 	sNotice.byDisplayType = eSERVER_TEXT_TYPE::SERVER_TEXT_NOTICE;
 	wcscpy_s(sNotice.awchMessage, BUDOKAI_MAX_NOTICE_LENGTH + 1, charToWChar(message.c_str()));
-	wcscpy_s(sNotice.awGMChar, MAX_SIZE_CHAR_NAME_UNICODE, (L"System"));
+	wcscpy_s(sNotice.awGMChar, MAX_SIZE_CHAR_NAME_UNICODE, (L" GM "));
 	sNotice.wMessageLengthInUnicode = (WORD)wcslen(sNotice.awchMessage);
 
 	SendToAll((char*)&sNotice, sizeof(sGU_SYSTEM_DISPLAY_TEXT));
@@ -29,25 +29,16 @@ void World::SendAnnounce(std::string message)
 //----------------------------------------
 void WorldSession::ExecuteServerCommand(Packet& packet)
 {
+
+	sUG_SERVER_COMMAND * pServerCmd = (sUG_SERVER_COMMAND*)packet.GetPacketBuffer();
+	std::string str = WC2MB(pServerCmd->awchCommand);
+	sLog.outDetail("GameMaster Command: %s", str.c_str());
+	size_t pos = str.find(" ");
+
+	std::string strToken = str.substr(0, pos);
 	if (_player->GetPcProfile()->bIsGameMaster == true)
 	{
-		sUG_SERVER_COMMAND * pServerCmd = (sUG_SERVER_COMMAND*)packet.GetPacketBuffer();
-		std::string str = WC2MB(pServerCmd->awchCommand);
-		sLog.outDetail("GameMaster Command: %s", str.c_str());
-		size_t pos = str.find(" ");
-
-		std::string strToken = str.substr(0, pos);
-
-		if (strToken == "@setspeed")
-		{
-			sLog.outDetail("GM Speed Modified");
-			printf("received char speed command");
-			strToken = str.substr(pos + 1, std::string::npos);
-			unsigned int fSpeed = (unsigned int)atof(strToken.c_str());
-			_player->SetSpeed(fSpeed);
-			return;
-		}
-		else if (strToken == "@setlevel")
+		if (strToken == "@level")
 		{
 			sLog.outDetail("GM Level Modified");
 			strToken = str.substr(pos + 1, std::string::npos);
@@ -63,72 +54,27 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 			_player->LevelUpByComand(Level);
 			return;
 		}
-		else if (strToken == "@aspect")
-		{
-			sLog.outDetail("GM Mudusa Modified");
-			strToken = str.substr(pos + 1, std::string::npos);
-			unsigned int Point = (unsigned int)atof(strToken.c_str());
-			//_player->UpdateModusaAmount(Point);
-			sGU_UPDATE_CHAR_ASPECT_STATE CharAspect;
-			CharAspect.wOpCode = GU_UPDATE_CHAR_ASPECT_STATE;
-			CharAspect.wPacketSize = sizeof(sGU_UPDATE_CHAR_ASPECT_STATE) - 2;
-			CharAspect.handle = _player->GetHandle();
-			CharAspect.aspectState.sAspectStateBase.byAspectStateId = Point;
-			CharAspect.aspectState.sAspectStateDetail.sVehicle.bIsEngineOn = false;
-			CharAspect.aspectState.sAspectStateDetail.sVehicle.hVehicleItem = 0;
-			CharAspect.aspectState.sAspectStateDetail.sVehicle.idVehicleTblidx = 0;
-			sWorld.SendToAll((char*)&CharAspect, sizeof(sGU_UPDATE_CHAR_ASPECT_STATE));
-			return;
-		}
-		else if (strToken == "@changemap")
+		else if (strToken == "@tp")
 		{
 			sLog.outDetail("GM Bot Check");
 			strToken = str.substr(pos + 1, std::string::npos);
 			unsigned int Point = (unsigned int)atof(strToken.c_str());
-			//_player->UpdateModusaAmount(Point);
-			
-			sGU_CHAR_TELEPORT_RES teleport;
-			
-			sWORLD_TBLDAT *world = (sWORLD_TBLDAT*)sTBM.GetWorldTable()->FindData(Point);
-			teleport.wResultCode = GAME_SUCCESS;
-			teleport.wOpCode = GU_CHAR_TELEPORT_RES;
-			teleport.wPacketSize = sizeof(sGU_CHAR_TELEPORT_RES) - 2;
-
-			if (world != NULL)
-			{	
-				if (Point != _player->GetWorldID())
-				{
-					teleport.bIsToMoveAnotherServer = true;
-					teleport.sWorldInfo.worldID = world->tblidx;
-					teleport.sWorldInfo.tblidx = world->tblidx;
-					teleport.sWorldInfo.sRuleInfo.byRuleType = world->byWorldRuleType;
-					_player->GetState()->sCharStateDetail.sCharStateTeleporting.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_WORLD_MOVE;					
-				}
-				else
-				{
-					teleport.bIsToMoveAnotherServer = false;
-					
-				}
-				teleport.vNewDir.x = world->vStart1Dir.x;
-				teleport.vNewDir.y = world->vStart1Dir.y;
-				teleport.vNewDir.z = world->vStart1Dir.z;
-				teleport.vNewLoc.x = world->vStart1Loc.x;
-				teleport.vNewLoc.y = world->vStart1Loc.y;
-				teleport.vNewLoc.z = world->vStart1Loc.z;				
-				
-
-				_player->SetState(eCHARSTATE::CHARSTATE_TELEPORTING);
-				
-				
-				_player->SetWorldID(world->tblidx);
-				_player->SetWorldTableID(world->tblidx);
-				_player->Relocate(teleport.vNewLoc.x, teleport.vNewLoc.y, teleport.vNewLoc.z, teleport.vNewDir.x, teleport.vNewDir.y, teleport.vNewDir.z);
-				
-				
-				SendPacket((char*)&teleport, sizeof(sGU_CHAR_TELEPORT_RES));
-			
-				
-			}
+			_player->TeleportByCommand(Point);
+			return;
+		}
+		else if (strToken == "@KamiSama")
+		{			
+			strToken = str.substr(pos + 1, std::string::npos);
+			unsigned int Point = (unsigned int)atof(strToken.c_str());
+			_player->TeleportByCommand(211000);
+			return;
+		}
+		else if (strToken == "@setspeed")
+		{
+			sLog.outDetail("GM LearnTitle Modified");
+			strToken = str.substr(pos + 1, std::string::npos);
+			unsigned int speed = (unsigned int)atof(strToken.c_str());
+			_player->SetSpeed(speed);
 			return;
 		}	
 		else if (strToken == "@addtitle")
@@ -136,7 +82,56 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 			sLog.outDetail("GM LearnTitle Modified");
 			strToken = str.substr(pos + 1, std::string::npos);
 			unsigned int TitleID = (unsigned int)atof(strToken.c_str());
-			_player->SendAddTitle(TitleID);
+			_player->SendAddTitle(TitleID);								
+			return;
+		}
+		else if (strToken == "@god")
+		{
+			sLog.outDetail("GM LearnTitle Modified");
+			strToken = str.substr(pos + 1, std::string::npos);
+			unsigned int TitleID = (unsigned int)atof(strToken.c_str());
+			_player->GetAttributesManager()->SetLastMaxLP(1000);
+			_player->GetAttributesManager()->SetLastMaxEP(1000);
+			_player->GetAttributesManager()->SetLastPhysicalOffence(1000);
+			_player->GetAttributesManager()->SetLastPhysicalCriticalRate(1000);
+			_player->GetAttributesManager()->SetLastPhysicalDefence(1000);
+			_player->GetAttributesManager()->SetLastEnergyOffence(1000);
+			_player->GetAttributesManager()->SetLastEnergyCriticalRate(1000);
+			_player->GetAttributesManager()->SetLastEnergyDefence(1000);
+			_player->GetAttributesManager()->SetLastAttackRate(1000);
+			_player->GetAttributesManager()->SetLastDodgeRate(1000);			
+			return;
+		}
+		else if (strToken == "@Exp_Bonus")
+		{
+			strToken = str.substr(pos + 1, std::string::npos);
+			unsigned int Bonus = (unsigned int)atof(strToken.c_str());			
+			if (Bonus == 0)
+			{
+				sGU_SYSTEM_DISPLAY_TEXT sNotice;
+				sNotice.wOpCode = GU_SYSTEM_DISPLAY_TEXT;
+				sNotice.wPacketSize = sizeof(sGU_SYSTEM_DISPLAY_TEXT) - 2;
+				sNotice.byDisplayType = 3;
+				wcscpy_s(sNotice.awchMessage, BUDOKAI_MAX_NOTICE_LENGTH, L" Exp Event End");
+				wcscpy_s(sNotice.awGMChar, MAX_SIZE_CHAR_NAME_UNICODE, (L" GM "));
+				sNotice.wMessageLengthInUnicode = 50;
+				sWorld.SendToAll((char*)&sNotice, sizeof(sGU_SYSTEM_DISPLAY_TEXT));
+				sWorld.BonusActive = false;
+				sWorld.BonuxEXP = 0;
+			}
+			if (Bonus >= 1)
+			{
+				sGU_SYSTEM_DISPLAY_TEXT sNotice;
+				sNotice.wOpCode = GU_SYSTEM_DISPLAY_TEXT;
+				sNotice.wPacketSize = sizeof(sGU_SYSTEM_DISPLAY_TEXT) - 2;
+				sNotice.byDisplayType = 3;
+				wcscpy_s(sNotice.awchMessage, BUDOKAI_MAX_NOTICE_LENGTH, L" Exp Event Is Running");
+				wcscpy_s(sNotice.awGMChar, MAX_SIZE_CHAR_NAME_UNICODE, (L"System"));
+				sNotice.wMessageLengthInUnicode = 50;
+				sWorld.SendToAll((char*)&sNotice, sizeof(sGU_SYSTEM_DISPLAY_TEXT));
+				sWorld.BonusActive = true;
+				sWorld.BonuxEXP = Bonus;
+			}
 			return;
 		}
 		else if (strToken == "@setclass")
@@ -144,15 +139,7 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 			sLog.outDetail("GM Class Modified");
 			strToken = str.substr(pos + 1, std::string::npos);
 			unsigned int clase = (unsigned int)atof(strToken.c_str());
-			_player->ConvertClass(clase);
-			return;
-		}
-		else if (strToken == "@setadult")
-		{
-			sLog.outDetail("GM Adult Modified");
-			strToken = str.substr(pos + 1, std::string::npos);
-			unsigned int adult = (unsigned int)atof(strToken.c_str());
-			_player->ConvertAdult(adult);
+			_player->ConvertClass(clase, _player->GetTarget());
 			return;
 		}
 		else if (strToken == "@setsize")
@@ -162,56 +149,28 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 			unsigned int Size = (unsigned int)atof(strToken.c_str());
 			_player->SendUpdateSize(Size);
 			return;
-		}		
-		else if (strToken == "@addnpc")//fixed
+		}
+		else if (strToken == "@setnight")
 		{
 			strToken = str.substr(pos + 1, std::string::npos);
-			unsigned int NpcID = (unsigned int)atof(strToken.c_str());
-			printf("Executing Mob Func\n");
-			NPCTable * NpcTable = sTBM.GetNpcTable();
-			sNPC_TBLDAT * Npc = reinterpret_cast<sNPC_TBLDAT*>(NpcTable->FindData(NpcID));
-			if (Npc != NULL)
-			{
-
-				SpawnNPC spawnData;
-				memset(&spawnData, 0, sizeof(SpawnNPC));
-
-				spawnData.wOpCode = GU_OBJECT_CREATE;
-				spawnData.wPacketSize = sizeof(SpawnNPC) - 2;
-
-				spawnData.AspectID = 0;
-				spawnData.CurEP = Npc->wBasic_EP;
-				spawnData.CurLP = Npc->wBasic_LP;
-				spawnData.Handle = sWorld.AcquireSerialId();
-				spawnData.Level = Npc->byLevel;
-				spawnData.MaxEP = Npc->wBasic_EP;
-				spawnData.MaxLP = Npc->wBasic_LP;
-				spawnData.ModelSize = 10;
-				spawnData.OBJType = OBJTYPE_NPC;
-				spawnData.Position.x = _player->m_position.x;
-				spawnData.Position.y = _player->m_position.y;
-				spawnData.Position.z = _player->m_position.z;
-				spawnData.Rotation.x = _player->m_rotation.x;
-				spawnData.Rotation.y = _player->m_rotation.y;
-				spawnData.Rotation.z = _player->m_rotation.z;
-				spawnData.StateID = eCHARSTATE::CHARSTATE_SPAWNING;
-				spawnData.Tblidx = NpcID;
-
-				sWorld.SendToAll((char*)&spawnData, sizeof(SpawnNPC));
-			}
-			//Need Insert In list
-			printf("Executed\n");
-			return;
-		}
+			unsigned int zoneId = (unsigned int)atof(strToken.c_str());
+			sGU_AVATAR_ZONE_INFO zoneinfo;
+			zoneinfo.wOpCode = GU_AVATAR_ZONE_INFO;
+			zoneinfo.wPacketSize = sizeof(sGU_AVATAR_ZONE_INFO) - 2;
+			zoneinfo.zoneInfo.bIsDark = zoneId;
+			zoneinfo.zoneInfo.zoneId = 0; // 0 namek start zone
+			//SendPacket((char*)&zoneinfo, sizeof(sGU_AVATAR_ZONE_INFO));
+			sWorld.SendToAll((char*)&zoneinfo, sizeof(sGU_AVATAR_ZONE_INFO));
+		}		
 		else if (strToken == "@addmob")
 		{
 			strToken = str.substr(pos + 1, std::string::npos);
 			unsigned int MobID = (unsigned int)atof(strToken.c_str());
 			printf("Executing Mob Func\n");
-			
+
 			MobTable * MobTable = sTBM.GetMobTable();
-			sMOB_TBLDAT * mob = reinterpret_cast<sMOB_TBLDAT*>(MobTable->FindData(MobID));
-			if (mob != NULL)
+			sMOB_TBLDAT * pMOBTblData = reinterpret_cast<sMOB_TBLDAT*>(MobTable->FindData(MobID));
+			if (pMOBTblData != NULL)
 			{
 
 				SpawnMOB spawnData;
@@ -220,31 +179,35 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 				spawnData.wOpCode = GU_OBJECT_CREATE;
 				spawnData.wPacketSize = sizeof(SpawnMOB) - 2;
 
-				spawnData.AspectID = 0;
-				spawnData.curEP = mob->wBasic_EP;
-				spawnData.curLP = mob->wBasic_LP;
+
+				spawnData.curEP = pMOBTblData->wBasic_EP;
+				spawnData.curLP = pMOBTblData->wBasic_LP;
 				spawnData.Handle = sWorld.AcquireSerialId();
-				spawnData.Level = mob->byLevel;
-				spawnData.maxEP = mob->wBasic_EP;
-				spawnData.maxLP = mob->wBasic_LP;
+				spawnData.Level = pMOBTblData->byLevel;
+				spawnData.maxEP = pMOBTblData->wBasic_EP;
+				spawnData.maxLP = pMOBTblData->wBasic_LP;
 				spawnData.Size = 10;
 				spawnData.Type = OBJTYPE_MOB;
-				spawnData.Position.x = _player->m_position.x + 5.0f;
-				spawnData.Position.y = _player->m_position.y;
-				spawnData.Position.z = _player->m_position.z;
-				spawnData.Rotation.x = _player->m_rotation.x - 180.0f;
-				spawnData.Rotation.y = _player->m_rotation.y;
-				spawnData.Rotation.z = _player->m_rotation.z;
-				spawnData.StateID = eCHARSTATE::CHARSTATE_SPAWNING;
 				spawnData.Tblidx = MobID;
 
-				spawnData.Run_Speed = 2;
-				spawnData.Run_Speed_origin = 2;
-				spawnData.Walk_Speed = 2;
-				spawnData.Walk_Speed_origin = 2;
+				spawnData.fLastWalkingSpeed = 2;
+				spawnData.fLastRunningSpeed = 2;
+				spawnData.fLastAirgSpeed = 2;
+				spawnData.fLastAirgDashSpeed = 2;
+				spawnData.fLastAirgDashAccelSpeed = 2;
 
+				spawnData.State.sCharStateBase.aspectState.sAspectStateBase.byAspectStateId = 255;
+				spawnData.State.sCharStateBase.vCurLoc.x = _player->m_position.x + rand() % 5;
+				spawnData.State.sCharStateBase.vCurLoc.y = _player->m_position.y;
+				spawnData.State.sCharStateBase.vCurLoc.z = _player->m_position.z + rand() % 5;
+				spawnData.State.sCharStateBase.vCurDir.x = _player->m_rotation.x + rand() % 5;
+				spawnData.State.sCharStateBase.vCurDir.y = _player->m_rotation.y;
+				spawnData.State.sCharStateBase.vCurDir.z = _player->m_rotation.z + rand() % 5;
+				spawnData.State.sCharStateBase.byStateID = eCHARSTATE::CHARSTATE_SPAWNING;
+
+				//	sWorld.SendToAll((char*)&spawnData, sizeof(SpawnMOB));
+				//Need Insert In list
 				Mob* created_mob = new Mob;
-				sMOB_TBLDAT* pMOBTblData = (sMOB_TBLDAT*)sTBM.GetMobTable()->FindData(MobID);
 				if (pMOBTblData)
 				{
 					if (created_mob->Create(pMOBTblData, spawnData) == true)
@@ -260,37 +223,112 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 			printf("Executed\n");
 			return;
 		}
-		else if (strToken == "@dropitem")
+		else if (strToken == "@addmobgrup")
 		{
 			strToken = str.substr(pos + 1, std::string::npos);
 			unsigned int MobID = (unsigned int)atof(strToken.c_str());
 			printf("Executing Mob Func\n");
-			
 
-				Drop spawnData;
-				memset(&spawnData, 0, sizeof(Drop));
+			MobTable * MobTable = sTBM.GetMobTable();
+			sMOB_TBLDAT * pMOBTblData = reinterpret_cast<sMOB_TBLDAT*>(MobTable->FindData(MobID));
+			if (pMOBTblData != NULL)
+			{
+				for (int i = 0; i <= 12; i++)
+				{
+					SpawnMOB spawnData;
+					memset(&spawnData, 0, sizeof(SpawnMOB));
 
-				spawnData.wOpCode = GU_OBJECT_CREATE;
-				spawnData.wPacketSize = sizeof(Drop) - 2;
+					spawnData.wOpCode = GU_OBJECT_CREATE;
+					spawnData.wPacketSize = sizeof(SpawnMOB) - 2;
 
-				
-				spawnData.Handle = sWorld.AcquireItemSerialId();				
-				spawnData.Type = OBJTYPE_DROPITEM;
-				spawnData.Tblidx = MobID;
-				spawnData.Grade = 0;
-				spawnData.Rank = 0;
-				spawnData.BattleAttribute = 0;
-				spawnData.Loc.x = _player->m_position.x;
-				spawnData.Loc.y = _player->m_position.y;
-				spawnData.Loc.z = _player->m_position.z;				
-				spawnData.IsNew = true;
-				spawnData.NeedToIdentify = false;
-				
 
-				sWorld.SendToAll((char*)&spawnData, sizeof(Drop));
-				//Need Insert In list
-			
+					spawnData.curEP = pMOBTblData->wBasic_EP;
+					spawnData.curLP = pMOBTblData->wBasic_LP;
+					spawnData.Handle = sWorld.AcquireSerialId();
+					spawnData.Level = pMOBTblData->byLevel;
+					spawnData.maxEP = pMOBTblData->wBasic_EP;
+					spawnData.maxLP = pMOBTblData->wBasic_LP;
+					spawnData.Size = 10;
+					spawnData.Type = OBJTYPE_MOB;
+					spawnData.Tblidx = MobID;
+
+					spawnData.fLastWalkingSpeed = 2;
+					spawnData.fLastRunningSpeed = 2;
+					spawnData.fLastAirgSpeed = 2;
+					spawnData.fLastAirgDashSpeed = 2;
+					spawnData.fLastAirgDashAccelSpeed = 2;
+
+					spawnData.State.sCharStateBase.aspectState.sAspectStateBase.byAspectStateId = 255;
+					spawnData.State.sCharStateBase.vCurLoc.x = _player->m_position.x + rand() % 20;
+					spawnData.State.sCharStateBase.vCurLoc.y = _player->m_position.y;
+					spawnData.State.sCharStateBase.vCurLoc.z = _player->m_position.z + rand() % 20;
+					spawnData.State.sCharStateBase.vCurDir.x = _player->m_rotation.x + rand() % 20;
+					spawnData.State.sCharStateBase.vCurDir.y = _player->m_rotation.y;
+					spawnData.State.sCharStateBase.vCurDir.z = _player->m_rotation.z + rand() % 20;
+					spawnData.State.sCharStateBase.byStateID = eCHARSTATE::CHARSTATE_SPAWNING;
+
+					//	sWorld.SendToAll((char*)&spawnData, sizeof(SpawnMOB));
+					//Need Insert In list
+					Mob* created_mob = new Mob;
+					if (pMOBTblData)
+					{
+						if (created_mob->Create(pMOBTblData, spawnData) == true)
+						{
+							created_mob->GetMapRef().link(this->_player->GetMap(), created_mob);
+							printf("Mob ID %d inserted into map", MobID);
+						}
+						else
+							delete created_mob;
+
+					}
+				}
+			}
 			printf("Executed\n");
+			return;
+		}
+		else if (strToken == "@GiveItem")
+		{
+			strToken = str.substr(pos + 1, std::string::npos);
+			unsigned int ItemID = (unsigned int)atof(strToken.c_str());
+			Player* PlayerInfo = static_cast<Player*>(_player->GetFromList(_player->GetTarget()));
+			if (PlayerInfo != NULL)
+			{
+				DroppedObject *dropped;
+				sITEM_TBLDAT *itemSrc = NULL;
+				memset(&dropped, 0, sizeof(Drop));
+				dropped = new DroppedObject;
+				dropped->droppedTime = GetTickCount();
+				dropped->objType = OBJTYPE_DROPITEM;
+				dropped->owner = PlayerInfo->GetTarget();
+
+				dropped->item.wPacketSize = sizeof(Drop) - 2;
+				dropped->item.wOpCode = GU_OBJECT_CREATE;
+
+				dropped->item.Handle = sWorld.AcquireItemSerialId();
+				dropped->item.Tblidx = ItemID;
+
+				if ((itemSrc = (sITEM_TBLDAT*)sTBM.GetItemTable()->FindData(dropped->item.Tblidx)) == NULL)
+				{
+					itemSrc = (sCASHITEM_TBLDAT*)sTBM.GetCashItemTable()->FindData(dropped->item.Tblidx);
+				}
+				if (itemSrc != NULL)
+				{
+					dropped->item.Type = OBJTYPE_DROPITEM;
+					dropped->item.Grade = 0;
+					dropped->item.Rank = itemSrc->eRank;
+					dropped->item.BattleAttribute = 0;
+					dropped->item.Loc.x = _player->m_position.x + rand() % 6;
+					dropped->item.Loc.y = _player->m_position.y;
+					dropped->item.Loc.z = _player->m_position.z + rand() % 6;
+					dropped->item.IsNew = true;
+					dropped->item.NeedToIdentify = false;
+
+					/* Add Drop to list	*/
+					PlayerInfo->SendPacket((char*)&dropped->item, sizeof(Drop));
+					PlayerInfo->AddDropToList(*dropped, dropped->item.Handle);
+				}
+			}
+			//Need Insert In list			
 			return;
 		}
 		else if (strToken == "@additem")
@@ -309,88 +347,49 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 		else if (strToken == "@addallskill")
 		{
 			strToken = str.substr(pos + 1, std::string::npos);
-			unsigned int tblidx = (unsigned int)atof(strToken.c_str());	
+			unsigned int tblidx = (unsigned int)atof(strToken.c_str());
 			_player->skillManager.LoadSkill(_player->charid);
 			for (auto it = sTBM.GetSkillTable()->Begin(); it != sTBM.GetSkillTable()->End(); it++)
 			{
 				sSKILL_TBLDAT* skillData = (sSKILL_TBLDAT*)it->second;
 				if (skillData != NULL)
 				{
-					if (_player->GetClassFlag(_player->GetAttributesManager()->PlayerClassID , ITEM_TYPE_UNKNOWN) == skillData->dwPC_Class_Bit_Flag)
+					if (_player->GetClassFlag(_player->GetMyClass(), ITEM_TYPE_UNKNOWN) == skillData->dwPC_Class_Bit_Flag)
 					{
 						if (skillData->bySkill_Grade == 1 && skillData->bySkill_Class != eSKILL_CLASS::SKILL_CLASS_HTB && _player->skillManager.isSkillLearned(skillData->tblidx) == false)
-						{			
+						{
 							//sLog.outDetail("Learn the skill \n");
 							LearnSkill(skillData->tblidx);
-						}						
+						}
 					}
 				}
 			}
 			return;
 		}
-		else if (strToken == "@learnhtb")
+		else if (strToken == "@addhtb")
 		{
 			strToken = str.substr(pos + 1, std::string::npos);
-			unsigned int uiTblId = (unsigned int)atof(strToken.c_str());
-			return;
-		}
-		else if (strToken == "@pvpon")
-		{
-			/*strToken = str.substr(pos + 1, std::string::npos);
-			unsigned int uiTblId = (unsigned int)atof(strToken.c_str());
-			sGU_WORLD_FREE_PVP_ZONE_ENTERED_NFY res;
-			res.wOpCode = GU_WORLD_FREE_PVP_ZONE_ENTERED_NFY;
-			res.handle = _player->GetHandle();
-			res.wPacketSize = sizeof(sGU_WORLD_FREE_PVP_ZONE_ENTERED_NFY) - 2;
+			unsigned int tblidx = (unsigned int)atof(strToken.c_str());
+			//_player->skillManager.LoadSkill(_player->charid);
+			int Slotid = NULL;
+			//if (_player->GetPcProfile()->dwSpPoint >= 1 || _player->GetPcProfile()->bIsGameMaster == true)
+			//{
+			//	SendUpdateSkillPassiveAtributeByID(tblidx, true);
+				sGU_HTB_LEARN_RES res;
+				res.wOpCode = GU_HTB_LEARN_RES;
+				res.wPacketSize = sizeof(sGU_HTB_LEARN_RES) - 2;
+				res.wResultCode = GAME_SUCCESS;
+				res.skillId = tblidx;
+				res.bySkillSlot = _player->skillManager.getSkillsCount() + 1;
+						
+				SendPacket((char*)&res, sizeof(sGU_HTB_LEARN_RES));
+				
+				//sDB.LearnSkill(skillID, _player->GetCharacterID(), nfy.bySlot);
+				//Load skill for can use after that
+				//_player->skillManager.LoadSkill(_player->charid);
+				//SendAvatarSkillInfo();
 
-			SendPacket((char*)&res, sizeof(sGU_WORLD_FREE_PVP_ZONE_ENTERED_NFY));
-			sWorld.SendToAll((char*)&res, sizeof(sGU_WORLD_FREE_PVP_ZONE_ENTERED_NFY));
-			_player->SendToPlayerList((char*)&res, sizeof(sGU_WORLD_FREE_PVP_ZONE_ENTERED_NFY));*/
-			SendFreePVPZoneEntered();
-			//SendToAll((char*)&res, sizeof(sGU_WORLD_FREE_PVP_ZONE_ENTERED_NFY));
-			return;
-		}
-		else if (strToken == "@pvpoff")
-		{
-			/*strToken = str.substr(pos + 1, std::string::npos);
-			unsigned int uiTblId = (unsigned int)atof(strToken.c_str());
-			sGU_WORLD_FREE_PVP_ZONE_LEFT_NFY res;
-			res.wOpCode = GU_WORLD_FREE_PVP_ZONE_LEFT_NFY;
-			res.handle = _player->GetHandle();
-			res.wPacketSize = sizeof(sGU_WORLD_FREE_PVP_ZONE_LEFT_NFY) - 2;
-
-			sWorld.SendToAll((char*)&res, sizeof(sGU_WORLD_FREE_PVP_ZONE_LEFT_NFY));*/
-			SendFreePVPZoneLeft();
-			return;
-		}
-		else if (strToken == "@dbhuntend")
-		{
-			strToken = str.substr(pos + 1, std::string::npos);
-			unsigned int sMarking = (unsigned int)atof(strToken.c_str());
-			sGU_DRAGONBALL_SCHEDULE_INFO res;
-
-			res.bIsAlive = static_cast<bool>(sMarking);
-			res.byEventType = sMarking;
-			res.byTermType = 1;
-			res.dwMainTerm = 1;
-			res.dwSubTerm = 1;
-			res.nEndTime = 100;
-			res.nStartTime = 1;
-			res.wOpCode = GU_DRAGONBALL_SCHEDULE_INFO;
-			res.wPacketSize = sizeof(sGU_DRAGONBALL_SCHEDULE_INFO) - 2;
-
-			sWorld.SendToAll((char*)&res, sizeof(sGU_DRAGONBALL_SCHEDULE_INFO));
-
-			sGU_SYSTEM_DISPLAY_TEXT sNotice;
-
-			sNotice.wOpCode = GU_SYSTEM_DISPLAY_TEXT;
-			sNotice.wPacketSize = sizeof(sGU_SYSTEM_DISPLAY_TEXT) - 2;
-			sNotice.byDisplayType = 3;
-			wcscpy_s(sNotice.awchMessage, BUDOKAI_MAX_NOTICE_LENGTH, L" Dragon Ball Hunt End");
-			wcscpy_s(sNotice.awGMChar, MAX_SIZE_CHAR_NAME_UNICODE, (L"System"));
-			sNotice.wMessageLengthInUnicode = 50;
-
-			sWorld.SendToAll((char*)&sNotice, sizeof(sGU_SYSTEM_DISPLAY_TEXT));
+				//SendUpdateSkillPassiveAtributeByID(skillID, false);
 			return;
 		}
 		else if (strToken == "@dbhuntstart")
@@ -411,41 +410,40 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 			res.wPacketSize = sizeof(sGU_DRAGONBALL_SCHEDULE_INFO) - 2;
 
 			sWorld.SendToAll((char*)&res, sizeof(sGU_DRAGONBALL_SCHEDULE_INFO));
+			if (sMarking >= 1)
+			{
+				sGU_SYSTEM_DISPLAY_TEXT sNotice;
+				sNotice.wOpCode = GU_SYSTEM_DISPLAY_TEXT;
+				sNotice.wPacketSize = sizeof(sGU_SYSTEM_DISPLAY_TEXT) - 2;
+				sNotice.byDisplayType = 3;
+				wcscpy_s(sNotice.awchMessage, BUDOKAI_MAX_NOTICE_LENGTH, L" Dragon Ball Hunt Start");
+				wcscpy_s(sNotice.awGMChar, MAX_SIZE_CHAR_NAME_UNICODE, (L" GM "));
+				sNotice.wMessageLengthInUnicode = 50;
+				sWorld.SendToAll((char*)&sNotice, sizeof(sGU_SYSTEM_DISPLAY_TEXT));
+				sWorld.DragonBallEventa = true;
+			}
+			else
+			{
+				sGU_SYSTEM_DISPLAY_TEXT sNotice;
 
-			sGU_SYSTEM_DISPLAY_TEXT sNotice;
+				sNotice.wOpCode = GU_SYSTEM_DISPLAY_TEXT;
+				sNotice.wPacketSize = sizeof(sGU_SYSTEM_DISPLAY_TEXT) - 2;
+				sNotice.byDisplayType = 3;
+				wcscpy_s(sNotice.awchMessage, BUDOKAI_MAX_NOTICE_LENGTH, L" Dragon Ball Hunt End");
+				wcscpy_s(sNotice.awGMChar, MAX_SIZE_CHAR_NAME_UNICODE, (L" GM "));
+				sNotice.wMessageLengthInUnicode = 50;
 
-			sNotice.wOpCode = GU_SYSTEM_DISPLAY_TEXT;
-			sNotice.wPacketSize = sizeof(sGU_SYSTEM_DISPLAY_TEXT) - 2;
-			sNotice.byDisplayType = 3;
-			wcscpy_s(sNotice.awchMessage, BUDOKAI_MAX_NOTICE_LENGTH, L" Dragon Ball Hunt Start");
-			wcscpy_s(sNotice.awGMChar, MAX_SIZE_CHAR_NAME_UNICODE, (L"System"));
-			sNotice.wMessageLengthInUnicode = 50;
-
-			sWorld.SendToAll((char*)&sNotice, sizeof(sGU_SYSTEM_DISPLAY_TEXT));
+				sWorld.SendToAll((char*)&sNotice, sizeof(sGU_SYSTEM_DISPLAY_TEXT));
+				sWorld.DragonBallEventa = false;
+			}
 			return;
 		}
-		else if (strToken == "@teleportto")
-		{
-			std::string charName = strToken;
-			// GET PLAYER TO TELEPORT TO
-
-			sGU_AVATAR_WORLD_INFO teleport;
-			teleport.worldInfo.sRuleInfo.byRuleType = GAMERULE_NORMAL;
-			teleport.worldInfo.hTriggerObjectOffset = 100000;
-			teleport.worldInfo.tblidx = 1;
-			teleport.worldInfo.worldID = 1;
-			teleport.vCurDir = sVECTOR3();
-			teleport.vCurLoc = sVECTOR3();
-			teleport.wOpCode = GU_AVATAR_WORLD_INFO;
-			SendPacket((char*)&teleport, sizeof(sGU_AVATAR_WORLD_INFO));
-			return;
-		}
-		else if (strToken == "@announce")
+		else if (strToken == "@Announce")
 		{
 			strToken = str.substr(pos + 1, std::string::npos);
 			sWorld.SendAnnounce(strToken);
 		}
-		else if (strToken == "@notice")
+		else if (strToken == "@Notice")
 		{
 			strToken = str.substr(pos + 1, std::string::npos);
 			sGU_SYSTEM_DISPLAY_TEXT sNotice;
@@ -460,21 +458,27 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 
 			sWorld.SendToAll((char*)&sNotice, sizeof(sGU_SYSTEM_DISPLAY_TEXT));
 		}
-		else if (strToken == "@kick")
+		else if (strToken == "@Set_Attack_Speed")
 		{
 			strToken = str.substr(pos + 1, std::string::npos);
-			/// get player from name or kick target
-		}
-		else if (strToken == "@chat")
-		{
-			sGU_AUTH_KEY_FOR_COMMUNITY_SERVER_RES res;
+			unsigned int SpeedRate = (unsigned int)atof(strToken.c_str());
+			sGU_UPDATE_CHAR_ATTACK_SPEEDRATE sAttackSpeed;
+			sAttackSpeed.wOpCode = GU_UPDATE_CHAR_ATTACK_SPEEDRATE;
+			sAttackSpeed.wPacketSize = sizeof(sGU_UPDATE_CHAR_ATTACK_SPEEDRATE) - 2;
+			sAttackSpeed.handle = _player->GetHandle();
+			int attackspeed = 1400 / 100 * SpeedRate;
+			sAttackSpeed.wAttackSpeedRate = _player->GetPcProfile()->avatarAttribute.wLastAttackSpeedRate;
+			_player->GetAttributesManager()->SetLastAttackSpeedRate(attackspeed * -1);
 
-			res.wOpCode = GU_AUTH_KEY_FOR_COMMUNITY_SERVER_RES;
-			res.wResultCode = GAME_SUCCESS;
-			res.wPacketSize = sizeof(sGU_AUTH_KEY_FOR_COMMUNITY_SERVER_RES) - 2;
-			memcpy(res.abyAuthKey, "SE@WASDE#$RFWD@F", MAX_SIZE_AUTH_KEY);
+			if (_player->GetPcProfile()->avatarAttribute.wLastAttackSpeedRate <= 0 || _player->GetPcProfile()->avatarAttribute.wLastAttackSpeedRate >= 1400)
+			{
+				_player->GetPcProfile()->avatarAttribute.wLastAttackSpeedRate = 1400;
+				_player->GetAttributesManager()->SetLastAttackSpeedRate(0);
+				sAttackSpeed.wAttackSpeedRate = _player->GetPcProfile()->avatarAttribute.wLastAttackSpeedRate;
+			}
 
-			SendPacket((char*)&res, sizeof(sGU_AUTH_KEY_FOR_COMMUNITY_SERVER_RES));
+			SendPacket((char*)&sAttackSpeed, sizeof(sGU_UPDATE_CHAR_ATTACK_SPEEDRATE));
+			_player->SendToPlayerList((char*)&sAttackSpeed, sizeof(sGU_UPDATE_CHAR_ATTACK_SPEEDRATE));
 
 		}
 		else
@@ -489,21 +493,37 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 			wcscpy_s(sNotice.awGMChar, MAX_SIZE_CHAR_NAME_UNICODE, (L"System"));
 			sNotice.wMessageLengthInUnicode = (WORD)wcslen(sNotice.awchMessage);
 
-			_player->SendPacket((char*)&sNotice, sizeof(sGU_SYSTEM_DISPLAY_TEXT));
+			SendPacket((char*)&sNotice, sizeof(sGU_SYSTEM_DISPLAY_TEXT));
 		}
 	}
 	else
 	{
-		sGU_SYSTEM_DISPLAY_TEXT sNotice;
+		if (strToken == "@additem")
+		{
+			strToken = str.substr(pos + 1, std::string::npos);
+			unsigned int uiTblId = (unsigned int)atof(strToken.c_str());
+			sITEM_PROFILE createdItem;
+			WORD result = _player->GetInventoryManager()->PerformShopBuy(uiTblId, 1, createdItem);
+			if (result == GAME_SUCCESS && createdItem.tblidx != INVALID_TBLIDX)
+			{
+				sLog.outDetail("Item Created\n");
+				SendItemCreate(&createdItem);
+			}
+			return;
+		}			
+		else
+		{
+			sGU_SYSTEM_DISPLAY_TEXT sNotice;
 
-		sNotice.wOpCode = GU_SYSTEM_DISPLAY_TEXT;
-		sNotice.wPacketSize = sizeof(sGU_SYSTEM_DISPLAY_TEXT) - 2;
+			sNotice.wOpCode = GU_SYSTEM_DISPLAY_TEXT;
+			sNotice.wPacketSize = sizeof(sGU_SYSTEM_DISPLAY_TEXT) - 2;
 
-		sNotice.byDisplayType = eSERVER_TEXT_TYPE::SERVER_TEXT_SYSNOTICE;
-		wcscpy_s(sNotice.awchMessage, BUDOKAI_MAX_NOTICE_LENGTH + 1, (L"No eres Gm, no mames..."));
-		wcscpy_s(sNotice.awGMChar, MAX_SIZE_CHAR_NAME_UNICODE, (L"System"));
-		sNotice.wMessageLengthInUnicode = (WORD)wcslen(sNotice.awchMessage);
+			sNotice.byDisplayType = eSERVER_TEXT_TYPE::SERVER_TEXT_SYSNOTICE;
+			wcscpy_s(sNotice.awchMessage, BUDOKAI_MAX_NOTICE_LENGTH + 1, (L"You can't control that power, be carefoul with that..."));
+			wcscpy_s(sNotice.awGMChar, MAX_SIZE_CHAR_NAME_UNICODE, (L" GM "));
+			sNotice.wMessageLengthInUnicode = (WORD)wcslen(sNotice.awchMessage);
 
-		_player->SendPacket((char*)&sNotice, sizeof(sGU_SYSTEM_DISPLAY_TEXT));
+			_player->SendPacket((char*)&sNotice, sizeof(sGU_SYSTEM_DISPLAY_TEXT));
+		}
 	}
 }

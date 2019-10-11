@@ -99,64 +99,7 @@ bool LandMarkTable::SetTableData(void* pvTable, WCHAR* pwszSheetName, std::wstri
 		{
 			CheckNegativeInvalid(pstrDataName->c_str(), bstrData);
 			pLand->tblidx = READ_DWORD(bstrData);
-		}
-		else if (0 == wcscmp(pstrDataName->c_str(), L"Landmark_Name"))
-		{
-			pLand->LandmarkName = READ_DWORD(bstrData);
-		}
-		else if (0 == wcscmp(pstrDataName->c_str(), L"Landmark_Type"))
-		{
-			CheckNegativeInvalid(pstrDataName->c_str(), bstrData);
-			pLand->byLandmarkType = READ_BYTE(bstrData, pstrDataName->c_str());
-		}
-		else if (0 == wcscmp(pstrDataName->c_str(), L"Name_Text"))
-		{
-			CheckNegativeInvalid(pstrDataName->c_str(), bstrData);
-			READ_STRINGW(bstrData, pLand->wszNameText, _countof(pLand->wszNameText));
-		}
-		else if (0 == wcscmp(pstrDataName->c_str(), L"Validity_Able"))
-		{
-			CheckNegativeInvalid(pstrDataName->c_str(), bstrData);
-			pLand->bValidityAble = READ_BOOL(bstrData, pstrDataName->c_str());
-		}
-		else if (0 == wcscmp(pstrDataName->c_str(), L"Landmark_BitFlag"))
-		{
-			pLand->byLandmarkBitflag = READ_BYTE(bstrData, pstrDataName->c_str());
-		}
-		else if (0 == wcscmp(pstrDataName->c_str(), L"Landmark_Display_BitFlag"))
-		{
-			pLand->byLandmarkDisplayBitFlag = READ_BYTE(bstrData, pstrDataName->c_str());
-		}
-		else if (0 == wcscmp(pstrDataName->c_str(), L"Landmark_Loc_X"))
-		{
-			CheckNegativeInvalid(pstrDataName->c_str(), bstrData);
-			pLand->LandmarkLoc.x = READ_FLOAT(bstrData, pstrDataName->c_str());
-		}
-		else if (0 == wcscmp(pstrDataName->c_str(), L"Landmark_Loc_Z"))
-		{
-			CheckNegativeInvalid(pstrDataName->c_str(), bstrData);
-			pLand->LandmarkLoc.z = READ_FLOAT(bstrData, pstrDataName->c_str());
-		}
-		else if (0 == wcscmp(pstrDataName->c_str(), L"Link_Map_Idx"))
-		{
-			pLand->LinkMapIdx = READ_DWORD(bstrData);
-		}
-		else if (0 == wcscmp(pstrDataName->c_str(), L"Link_Warfog_Idx"))
-		{
-			pLand->wLinkWarfogIdx = READ_WORD(bstrData, pstrDataName->c_str());
-		}
-		else if (0 == wcscmp(pstrDataName->c_str(), L"Icon_Name"))
-		{
-			READ_STRINGW(bstrData, pLand->wszIconName, _countof(pLand->wszIconName));
-		}
-		else if (0 == wcscmp(pstrDataName->c_str(), L"Icon_Size"))
-		{
-			pLand->byIconSize = READ_BYTE(bstrData, pstrDataName->c_str());
-		}
-		else if (0 == wcscmp(pstrDataName->c_str(), L"Note"))
-		{
-			pLand->Note = READ_DWORD(bstrData);
-		}
+		}		
 		else
 		{
 			Table::CallErrorCallbackFunction(L"[File] : %s\n[Error] : Unknown field name found!(Field Name = %s)", m_wszXmlFileName, pstrDataName->c_str());

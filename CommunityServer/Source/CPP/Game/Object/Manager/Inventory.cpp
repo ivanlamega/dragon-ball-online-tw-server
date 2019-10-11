@@ -52,7 +52,10 @@ void InventoryManager::SaveInventory()
 		}
 		if (ItemProfile[i].tblidx != INVALID_TBLIDX && ItemProfile[i].tblidx > 0 && item != NULL)
 		{
-			sDB.AddItem(ItemProfile[i].tblidx, charid, ItemProfile[i].byPlace, ItemProfile[i].byPos, ItemProfile[i].byStackcount, ItemProfile[i].byRank, ItemProfile[i].byCurDur, ItemProfile[i].byGrade);
+			sDB.AddItem(ItemProfile[i].tblidx, charid, ItemProfile[i].byPlace, ItemProfile[i].byPos, ItemProfile[i].byStackcount, ItemProfile[i].byRank, ItemProfile[i].byCurDur, ItemProfile[i].byGrade, ItemProfile[i].aitemEffect[0].wType, ItemProfile[i].aitemEffect[0].dwValue,
+				ItemProfile[i].aitemEffect[1].wType, ItemProfile[i].aitemEffect[1].dwValue, ItemProfile[i].aitemEffect[2].wType, ItemProfile[i].aitemEffect[2].dwValue,
+				ItemProfile[i].aitemEffect[3].wType, ItemProfile[i].aitemEffect[3].dwValue, ItemProfile[i].aitemEffect[4].wType, ItemProfile[i].aitemEffect[4].dwValue,
+				ItemProfile[i].aitemEffect[5].wType, ItemProfile[i].aitemEffect[5].dwValue);
 		}
 	}
 }

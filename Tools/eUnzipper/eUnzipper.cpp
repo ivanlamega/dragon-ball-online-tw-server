@@ -32,11 +32,11 @@ bool LoadTSCryptoData(std::string strFile, std::string outdir)
 
 	// 암호화를 푼다
 	std::string strKey = "dnfldbofmftkfkdgowntpdy";
-	CNtlCipher Cipher;
-	Cipher.SetKey(DES_CIPHER, strKey.c_str(), (int)strKey.size());
+	Cipher cipher;
+	cipher.SetKey(DES_CIPHER, strKey.c_str(), (int)strKey.size());
 	char* pDecryptBuf = new char[nReadSize + 256];
 	ZeroMemory(pDecryptBuf, nReadSize + 256);
-	Cipher.Decrypt(pReadBuf, nReadSize, pDecryptBuf, nReadSize + 256);
+	cipher.Decrypt(pReadBuf, nReadSize, pDecryptBuf, nReadSize + 256);
 
 	CNtlUnzip clZip;
 	clZip.OpenZip(strFile.c_str(), pDecryptBuf, nOriginSize);
@@ -121,11 +121,11 @@ bool LoadTSCryptoData_UnZip(std::string strFile, std::string outfile)
 
 	// 암호화를 푼다
 	std::string strKey = "dnfldbofmftkfkdgowntpdy";
-	CNtlCipher Cipher;
-	Cipher.SetKey(DES_CIPHER, strKey.c_str(), (int)strKey.size());
+	Cipher cipher;
+	cipher.SetKey(DES_CIPHER, strKey.c_str(), (int)strKey.size());
 	char* pDecryptBuf = new char[nReadSize + 256];
 	ZeroMemory(pDecryptBuf, nReadSize + 256);
-	Cipher.Decrypt(pReadBuf, nReadSize, pDecryptBuf, nReadSize + 256);
+	cipher.Decrypt(pReadBuf, nReadSize, pDecryptBuf, nReadSize + 256);
 
 	fopen_s(&pFileOut, outfile.c_str(), "wb");
 

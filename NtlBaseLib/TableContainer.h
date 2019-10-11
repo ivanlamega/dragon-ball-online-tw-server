@@ -38,7 +38,6 @@ class SetItemTable;
 class EachDropTable;
 class TypeDropTable;
 class ExcellentDropTable;
-class TableMascot;
 
 // Misc
 class ActionTable;
@@ -94,6 +93,7 @@ class ScriptLinkTable;
 class QuestNarrationTable;
 class VehicleTable;
 class ItemRecipeTable;
+class ItemRecipeTable2;
 class DynamicObjectTable;
 class MobMovePatternTable;
 class DojoTable;
@@ -135,7 +135,6 @@ public:
 		TABLE_DRAGONBALL_REWARD,
 
 		// Misc
-		TABLE_MASCOT,
 		TABLE_ACTION,
 		TABLE_CHAT_COMMAND,
 		TABLE_DIRECTION_LINK,
@@ -200,6 +199,7 @@ public:
 
 		TABLE_VEHICLE,
 		TABLE_ITEM_RECIPE,
+		TABLE_ITEM_RECIPE2,
 		TABLE_DYNAMIC_OBJECT,
 		TABLE_MOB_MOVE_PATTERN,
 		TABLE_DOJO,
@@ -242,7 +242,6 @@ public:
 	void SetPath(char* pszPath);
 	void SetPath(WCHAR* pwszPath) { m_wstrPath = pwszPath; }
 
-
 	// Character
 	ExpTable* GetExpTable() { return m_pExpTable; }
 	GuideHintTable* GetGuideHintTable() { return m_pGuideHintTable; }
@@ -273,7 +272,6 @@ public:
 	ExcellentDropTable* GetExcellentDropTable() { return m_pExcellentDropTable; }
 
 	// Misc
-	TableMascot* GetTableMascot() { return m_pTableMascot; }
 	ActionTable* GetActionTable() { return m_pActionTable; }
 	ChatCommandTable* GetChatCommandTable() { return m_pChatCommandTable; }
 	DirectionLinkTable* GetDirectionLinkTable() { return m_pDirectionLinkTable; }
@@ -328,6 +326,7 @@ public:
 	QuestNarrationTable* GetQuestNarrationTable() { return m_pQuestNarrationTable; }
 	VehicleTable* GetVehicleTable() { return m_pVehicleTable; }
 	ItemRecipeTable* GetItemRecipeTable() { return m_pItemRecipeTable; }
+	ItemRecipeTable2* GetItemRecipeTable2() { return m_pItemRecipeTable2; }
 	DynamicObjectTable* GetDynamicObjectTable() { return m_pDynamicObjectTable; }
 	MobMovePatternTable* GetMobMovePatternTable() { return m_pMobMovePatternTable; }
 	DojoTable* GetDojoTable() { return m_pDojoTable; }
@@ -393,7 +392,6 @@ protected:
 	ExcellentDropTable* m_pExcellentDropTable;
 
 	// Misc
-	TableMascot* m_pTableMascot;
 	ActionTable* m_pActionTable;
 	ChatCommandTable* m_pChatCommandTable;
 	DirectionLinkTable* m_pDirectionLinkTable;
@@ -450,6 +448,7 @@ protected:
 	QuestNarrationTable* m_pQuestNarrationTable;
 	VehicleTable* m_pVehicleTable;
 	ItemRecipeTable* m_pItemRecipeTable;
+	ItemRecipeTable2* m_pItemRecipeTable2;
 	DynamicObjectTable* m_pDynamicObjectTable;
 	MobMovePatternTable* m_pMobMovePatternTable;
 	DojoTable* m_pDojoTable;

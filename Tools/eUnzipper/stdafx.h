@@ -15,5 +15,6 @@
 #include <windows.h>
 #include "Cipher.h"
 #include "NtlUnzip.h"
+#include "NtlZip.h"
 
 // TODO: reference additional headers your program requires here

@@ -2,9 +2,10 @@
 #include <Timer.h>
 #include <WorldRunnable.h>
 #include <mysqlconn_wrapper.h>
+
 //#include "ObjectAccessor.h"
 
-#define WORLD_SLEEP_CONST 50
+#define WORLD_SLEEP_CONST 40
 extern int m_ServiceStatus;
 
 /// Heartbeat for the World
@@ -38,17 +39,17 @@ void WorldRunnable::run()
 		if (diff <= WORLD_SLEEP_CONST + prevSleepTime)
 		{
 			prevSleepTime = WORLD_SLEEP_CONST + prevSleepTime - diff;
+			sWorld.Update(diff);
 			AKCore::Thread::Sleep(prevSleepTime);
 		}
 		else
 			prevSleepTime = 0;
 		pingDatabase += 1;
-		if (pingDatabase >= 30)
+		if (pingDatabase >= 1000)
 		{
 			sDB.Ping();
 			pingDatabase = 0;
 		}
-		Sleep(1000);
-	}
+	}	
 	//sWorld.CleanupsBeforeStop();
 }

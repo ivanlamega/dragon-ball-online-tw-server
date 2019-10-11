@@ -83,8 +83,16 @@ void NetworkThread<SocketType>::SocketCleanupWork()
 template <typename SocketType>
 SocketType *NetworkThread<SocketType>::CreateSocket()
 {
-	std::lock_guard<std::mutex> guard(m_socketLock);
-	m_sockets.push_front(std::unique_ptr<SocketType>(new SocketType(m_service, [this](Socket *socket) { this->RemoveSocket(socket); })));
-	return m_sockets.begin()->get();
+	try {
+		std::lock_guard<std::mutex> guard(m_socketLock);
+		m_sockets.push_front(std::unique_ptr<SocketType>(new SocketType(m_service, [this](Socket *socket) { this->RemoveSocket(socket); })));
+		return m_sockets.begin()->get();
+	}
+	catch (std::exception&)
+	{
+		std::cout << "Error allocating Network thread" << std::endl;
+	}
+	return NULL;
+
 }
 #endif /* !__NETWORK_THREAD_H_ */

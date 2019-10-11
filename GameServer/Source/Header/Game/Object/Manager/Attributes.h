@@ -12,6 +12,21 @@ class AttributesManager
 public:
 	AttributesManager();
 	~AttributesManager();
+	int Stats[200];
+	int MinValue;
+	int MaxValue;
+	int countstats;
+	//Quest
+	int KillerCount;
+	struct QuestData
+	{
+		int QuestID;
+		int RewardID;
+		int MobID;
+		int count;
+		int Maxcount;
+	};
+	QuestData		QuestDat[30];
 	//CashShop Info
 	DWORD		cashpoit;
 	DWORD		WagguCoin;
@@ -19,7 +34,11 @@ public:
 	//Player Help get Class/Race
 	int			PlayerClassID;
 	int			PlayerRaceID;
-
+	int			PlayerGanderID;
+	//Free PVP
+	DWORD		ReviveDelay;
+	bool		ActiveDelay;
+	bool        IsinPVP;
 	//Control Food Time/Buff Need change	
 	struct FoodInfo
 	{
@@ -37,44 +56,56 @@ public:
 	struct BuffTimeInfo
 	{
 		HOBJECT		PlayerHandle;
-		bool		BuffIsActive = true;
+		bool		BuffIsActive;
 		DWORD		BuffTime;
 		DWORD		BuffEndTime;
 		TBLIDX		BuffID;
-		BYTE		BuffSlot;				
+		BYTE		BuffSlot;		
+		bool        isAffectPlayer;
+		DWORD		EffectType;
+		float		EffectValue[2];
+		bool		isMob;
+		int			StunedType;
 	};
+	
 	//Control Stun Time Need change
-	BuffTimeInfo sBuffTimeInfo[16];
+	BuffTimeInfo sBuffTimeInfo[34];
+	int StunedTypes[34];
 	//////////
 	//Caontrol FreeBatle Need change
 	int			atackerType;
 	int			Type;
 	HOBJECT		FreeBatleChellenger;
-	bool		PlayerInFreeBatle = true;
-	bool		OutBatle = true;
-	bool		showMensageOut = true;
-	bool		LoseBatle = true;
+	bool		PlayerInFreeBatle;
+	bool		OutBatle;
+	bool		showMensageOut;
+	bool		LoseBatle ;
 	DWORD		OutBatleTime;
 	DWORD		OutBatleFinalTime;
 	sVECTOR3	vRefreeLoc;
 	//////
 	// Control Player Trade Need change
-	bool		PlayerTradeOK = true;
+	bool		PlayerTradeOK;
 	sITEM_DATA	Tradeinvent[13];
 	BYTE		tradecount = 0;
 	//Get pet in use
 	BYTE		PetInUse;
 	//Get Party Info Need change
 	HOBJECT		PartyLeader;
+	//Transformations
 
+	//RP Passive
+	bool		IsPowerUp;
 	bool			LoadAttributes(CHARACTERID _id, Player* _plr);
 	bool			SaveAvatarAttribute(void* pvBuffer, DWORD* pwdDataSize);
+	void			UpdateLevelUpAtributes();
 	void			LoadAttributesFromItems(sITEM_BRIEF *brief);
 	void			FillAttributesLink();
 	void			SendRpBallInformation();
 	void			CreatePlayerBaseAttributesBitFlag();
 	void			UpdateAttributes();
 	void			UpdateAttributesFromItem(sITEM_TBLDAT& item, BYTE Grade, bool remove = false);
+	void			UpdateExtraAttributesFromItem(sITEM_EFFECT aitemEffect[6], bool isRemove = false);
 
 	//	------------------------------------------------------------------------
 	// GETTER

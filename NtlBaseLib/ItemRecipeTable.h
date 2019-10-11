@@ -11,7 +11,7 @@ struct sRECIPE_CREATE_DATA
 {
 	TBLIDX	itemTblidx;			// 재료테이블 인덱스 INVALID_
 	BYTE	itemRate;
-	TBLIDX	itemTblidxGreate;
+	BYTE	itemTblidxGreate;//not know
 };
 
 struct sRECIPE_MATERIAL_DATA
@@ -33,7 +33,6 @@ public:
 	BYTE						byNeedMixLevel;
 	DWORD						dwNeedMixZenny;
 	sRECIPE_CREATE_DATA 		asCreateItemTblidx[DBO_MAX_COUNT_RECIPE_CREATE_ITEM];
-	TBLIDX						createJunkTblidx;
 	sRECIPE_MATERIAL_DATA		asMaterial[DBO_MAX_COUNT_RECIPE_MATERIAL_ITEM];
 
 public:

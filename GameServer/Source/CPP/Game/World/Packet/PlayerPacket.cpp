@@ -171,7 +171,7 @@ void Player::BuildPacketForSpawn(SpawnPlayer& PC)
 	PC.fLastAirDashSpeed = GetPcProfile()->avatarAttribute.fLastAirDashSpeed;
 	PC.fBaseAirDash2Speed = GetPcProfile()->avatarAttribute.fBaseAirDash2Speed;
 	PC.fLastAirDash2Speed = GetPcProfile()->avatarAttribute.fLastAirDash2Speed;
-	PC.wBaseAttackSpeedRate = GetPcProfile()->avatarAttribute.wBaseAttackSpeedRate;
+	PC.wBaseAttackSpeedRate = GetPcProfile()->avatarAttribute.wLastAttackSpeedRate;
 	PC.bEmergency = GetIsEmergency();
 
 	PC.bleeding = 255;

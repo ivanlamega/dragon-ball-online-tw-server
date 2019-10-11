@@ -11,18 +11,9 @@ struct sLAND_MARK_TBLDAT : public sTBLDAT
 {
 public:
 
-	WCHAR			wszNameText[DBO_MAX_LENGTH_LAND_MARK_NAME + 1];
-	TBLIDX			LandmarkName;
-	BYTE			byLandmarkType;
-	bool			bValidityAble;
-	BYTE			byLandmarkBitflag;
-	BYTE			byLandmarkDisplayBitFlag;
-	CNtlVector		LandmarkLoc;
-	TBLIDX			LinkMapIdx;
-	WORD			wLinkWarfogIdx;
-	WCHAR			wszIconName[DBO_MAX_LENGTH_LAND_MARK_ICON_NAME + 1];
-	BYTE			byIconSize;
-	TBLIDX			Note;
+	DWORD           RewardItemID[3];//Item craft Reward after disamble
+	BYTE            number;//can reward x craft item 
+	BYTE            number2;//can reward x craft item 
 
 protected:
 

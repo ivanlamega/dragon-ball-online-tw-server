@@ -327,11 +327,11 @@ bool CommunityServer::loadDataTable()
 		}
 		//Fix Handle Error on Dangeon Not Load Nothing before or Handle Change.
 		// For Load by order Need Change 3 Handle on SendDangeonTeleport;
-		if (sMapMgr.CreateMap(15) == NULL) // create world map
+	/*	if (sMapMgr.CreateMap(15) == NULL) // create world map
 		{
 			sLog.outError("Failed to create world map: 1");
 			return false;
-		}
+		}*/
 
 		
 		//for (auto it = sTBM.GetSkillTable()->Begin(); it != sTBM.GetSkillTable()->End(); it++)
@@ -381,7 +381,7 @@ int CommunityServer::Run()
 	std::cout << "\t    | |_| | | | (_| | (_| | (_) | | | | |_) | (_| | | |" << std::endl;
 	std::cout << "\t    |____/|_|  \\__,_|\\__, |\\___/|_| |_|____/ \\__,_|_|_|" << std::endl;
 	std::cout << "\t                     |___/                             " << std::endl;
-	std::cout << yellow << "\t   	           DboOpenSource 2019					\n\n" << white << std::endl;
+	std::cout << yellow << "\t   	           AKCore 2017					\n\n" << white << std::endl;
 	sLog.outString("Using configuration file 'CommunityServer.xml'.");
 	sLog.outString("Using Boost: %s", BOOST_LIB_VERSION);
 

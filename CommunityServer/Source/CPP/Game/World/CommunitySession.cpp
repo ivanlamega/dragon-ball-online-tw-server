@@ -82,22 +82,28 @@ void CommunitySession::QueuePacket(std::unique_ptr<Packet> new_packet)
 //----------------------------------------
 bool CommunitySession::Update()
 {
-	std::lock_guard<std::mutex> guard(m_recvQueueLock);
-	///- Retrieve packets from the receive queue and call the appropriate handlers
-	/// not process packets if socket already closed
-	while (m_Socket && !m_Socket->IsClosed() && !m_recvQueue.empty())
-	{
-		auto const packet = std::move(m_recvQueue.front());
-		m_recvQueue.pop_front();
-		PacketParser(*packet);
-		packet->Destroy();
+	try {
+		std::lock_guard<std::mutex> guard(m_recvQueueLock);
+		///- Retrieve packets from the receive queue and call the appropriate handlers
+		/// not process packets if socket already closed
+		while (m_Socket && !m_Socket->IsClosed() && !m_recvQueue.empty())
+		{
+			auto const packet = std::move(m_recvQueue.front());
+			m_recvQueue.pop_front();
+			PacketParser(*packet);
+			packet->Destroy();
+		}
+		// check if we are safe to proceed with logout
+		// logout procedure should happen only in World::UpdateSessions() method!!!
+		if (requestToLogout == true || m_Socket->IsClosed() == true)
+		{
+			LogoutPlayer(true);
+			return false;
+		}
 	}
-	// check if we are safe to proceed with logout
-	// logout procedure should happen only in World::UpdateSessions() method!!!
-	if (requestToLogout == true || m_Socket->IsClosed() == true)
+	catch (std::logic_error&)
 	{
-		LogoutPlayer(true);
-		return false;
+		sLog.outError("[Exception Caught in Update Process]");
 	}
 	return true;
 }
@@ -126,10 +132,16 @@ void CommunitySession::LogoutPlayer(bool save)
 		else
 		{
 			_player->CleanupsBeforeDelete();
-			Map::DeleteFromWorld(_player);
+			Map::DeleteFromWorld(_player); 
 		}
-		//if (_player->isMovingToCharServer == false)
-			//sDB.UpdateAccountOnline(_player->accID, 0); // SET OUR USER OFFLINE IN DB
+		if (_player->isMovingToCharServer == false)
+			sDB.UpdateAccountOnline(_player->accID, 0); // SET OUR USER OFFLINE IN DB
+		sql::ResultSet* result1 = sDB.executes("UPDATE characters SET IsOnline = 0 WHERE CharacterID = '%d';", _player->charid);
+		if (result1 != NULL)
+			delete result1;		
+		sql::ResultSet* result2 = sDB.executes("UPDATE characters SET GSHandle = 0 WHERE CharacterID = '%d';", _player->charid);
+		if (result2 != NULL)
+			delete result2;
 		_player = nullptr;  // deleted in Remove/DeleteFromWorld call
 	}
 }

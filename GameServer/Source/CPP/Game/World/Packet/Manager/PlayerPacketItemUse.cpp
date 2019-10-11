@@ -50,48 +50,48 @@ void Player::HandleItemUse(Packet pPacket)
 		}
 		if (UseItemData != NULL)
 		{
-			for (int i = 0; i <= 2; i++)
+			for (int Effect = 0; Effect <= 2; Effect++)
 			{
 				sSYSTEM_EFFECT_TBLDAT * SystemEffectData = NULL;
-				SystemEffectData = (sSYSTEM_EFFECT_TBLDAT*)sTBM.GetSystemEffectTable()->FindData(UseItemData->adwSystemEffect[i]);
+				SystemEffectData = (sSYSTEM_EFFECT_TBLDAT*)sTBM.GetSystemEffectTable()->FindData(UseItemData->adwSystemEffect[Effect]);
 				if (SystemEffectData != NULL)
 				{	
 					UseItem.tblidxItem = UseItemData->tblidx;
 					UseItem.byPlace = Item->byPlace;
 					UseItem.byPos = Item->byPos;
 					UseItem.wResultCode = GAME_ITEM_CANT_USE_FOR_SOME_REASON;
-					printf("effectCode %d \n ", SystemEffectData->effectCode);
+				//	printf("effectCode %d \n ", SystemEffectData->effectCode);
 					switch (SystemEffectData->effectCode)
 					{
 						//eSYSTEM_EFFECT_CODE
 						case eSYSTEM_EFFECT_CODE::ACTIVE_HEAL_OVER_TIME://Food LP
 						{	
-							if (GetAttributesManager()->LpFoodIsActive == true)
+							if (GetAttributesManager()->LpFoodIsActive == false)
 							{
 								UseItem.wResultCode = GAME_SUCCESS;
 
 								Acionitem.handle = GetHandle();
 								Acionitem.wResultCode = GAME_SUCCESS;
 								Acionitem.dwLpEpEventId = INVALID_TBLIDX;
-								Acionitem.itemTblidx = Item->tblidx;
+								Acionitem.itemTblidx = UseItemData->tblidx;
 								Acionitem.bySkillResultCount = 1;
 								Acionitem.aSkillResult->hTarget = GetHandle();
-
+								SendPacket((char*)&Acionitem, sizeof(sGU_CHAR_ACTION_ITEM));//Error not fount come from it because is not handle
 
 								sGU_BUFF_REGISTERED pBuffData;
 								memset(&pBuffData, 0, sizeof(sGU_BUFF_REGISTERED));
 								//memset(&pBuffData, INVALID_TBLIDX, sizeof(sGU_BUFF_REGISTERED));
 								pBuffData.wOpCode = GU_BUFF_REGISTERED;
 								pBuffData.wPacketSize = sizeof(sGU_BUFF_REGISTERED) - 2;
-								pBuffData.tblidx = Item->tblidx;
+								pBuffData.tblidx = UseItemData->tblidx;
 								pBuffData.hHandle = GetHandle();
 								pBuffData.bySourceType = 1;
 								pBuffData.dwInitialDuration = UseItemData->dwCooldownMs;
 								pBuffData.dwTimeRemaining = UseItemData->dwKeepTimeMs;//Time
 								pBuffData.isactive = true;
 								pBuffData.BuffType.BuffEffectType = 5;
-								pBuffData.BuffType.sBuffTypeLP_EP_AutoRecover.TbxCommonConfig = UseItemData->adwSystemEffect[i];
-								pBuffData.BuffType.sBuffTypeLP_EP_AutoRecover.dwRemainValue = UseItemData->adSystemEffectValue[i];
+								pBuffData.BuffType.sBuffTypeLP_EP_AutoRecover.TbxCommonConfig = UseItemData->adwSystemEffect[Effect];
+								pBuffData.BuffType.sBuffTypeLP_EP_AutoRecover.dwRemainValue = UseItemData->adSystemEffectValue[Effect];
 								pBuffData.BuffType.sBuffTypeLP_EP_AutoRecover.dwRemainTime = UseItemData->dwKeepTimeMs;
 								pBuffData.NeedDisplayMensage = false;
 								SendPacket((char*)&pBuffData, sizeof(sGU_BUFF_REGISTERED));
@@ -104,7 +104,7 @@ void Player::HandleItemUse(Packet pPacket)
 									}
 
 								}																
-								GetAttributesManager()->sFoodInfo[FreePlace].FoodItemID = Item->tblidx;
+								GetAttributesManager()->sFoodInfo[FreePlace].FoodItemID = UseItemData->tblidx;
 								GetAttributesManager()->sFoodInfo[FreePlace].TypeEffect = pBuffData.BuffType.sBuffTypeLP_EP_AutoRecover.TbxCommonConfig;
 								GetAttributesManager()->sFoodInfo[FreePlace].FoodHealAumont[0] = pBuffData.BuffType.sBuffTypeLP_EP_AutoRecover.dwRemainValue;
 								GetAttributesManager()->sFoodInfo[FreePlace].BuffTime = GetTickCount();
@@ -137,7 +137,7 @@ void Player::HandleItemUse(Packet pPacket)
 						}
 						case eSYSTEM_EFFECT_CODE::ACTIVE_EP_OVER_TIME://Drink EP
 						{
-							if (GetAttributesManager()->EpFoodIsActive == true)
+							if (GetAttributesManager()->EpFoodIsActive == false)
 							{								
 
 								UseItem.wResultCode = GAME_SUCCESS;
@@ -145,25 +145,25 @@ void Player::HandleItemUse(Packet pPacket)
 								Acionitem.handle = GetHandle();
 								Acionitem.wResultCode = GAME_SUCCESS;
 								Acionitem.dwLpEpEventId = INVALID_TBLIDX;
-								Acionitem.itemTblidx = Item->tblidx;
+								Acionitem.itemTblidx = UseItemData->tblidx;
 								Acionitem.bySkillResultCount = 1;
 								Acionitem.aSkillResult->hTarget = GetHandle();
-								
+								SendPacket((char*)&Acionitem, sizeof(sGU_CHAR_ACTION_ITEM));
 
 								sGU_BUFF_REGISTERED pBuffData;
 								memset(&pBuffData, 0, sizeof(sGU_BUFF_REGISTERED));
 								//memset(&pBuffData, INVALID_TBLIDX, sizeof(sGU_BUFF_REGISTERED));
 								pBuffData.wOpCode = GU_BUFF_REGISTERED;
 								pBuffData.wPacketSize = sizeof(sGU_BUFF_REGISTERED) - 2;
-								pBuffData.tblidx = Item->tblidx;
+								pBuffData.tblidx = UseItemData->tblidx;
 								pBuffData.hHandle = GetHandle();
 								pBuffData.bySourceType = 1;
 								pBuffData.dwInitialDuration = UseItemData->dwCooldownMs;
 								pBuffData.dwTimeRemaining = UseItemData->dwKeepTimeMs;//Time
 								pBuffData.isactive = true;
 								pBuffData.BuffType.BuffEffectType = 5;
-								pBuffData.BuffType.sBuffTypeLP_EP_AutoRecover.TbxCommonConfig = UseItemData->adwSystemEffect[i];
-								pBuffData.BuffType.sBuffTypeLP_EP_AutoRecover.dwRemainValue = UseItemData->adSystemEffectValue[i];
+								pBuffData.BuffType.sBuffTypeLP_EP_AutoRecover.TbxCommonConfig = UseItemData->adwSystemEffect[Effect];
+								pBuffData.BuffType.sBuffTypeLP_EP_AutoRecover.dwRemainValue = UseItemData->adSystemEffectValue[Effect];
 								pBuffData.BuffType.sBuffTypeLP_EP_AutoRecover.dwRemainTime = UseItemData->dwKeepTimeMs;
 								pBuffData.NeedDisplayMensage = false;
 								SendPacket((char*)&pBuffData, sizeof(sGU_BUFF_REGISTERED));
@@ -177,7 +177,7 @@ void Player::HandleItemUse(Packet pPacket)
 
 								}
 																
-								GetAttributesManager()->sFoodInfo[FreePlace].FoodItemID = Item->tblidx;
+								GetAttributesManager()->sFoodInfo[FreePlace].FoodItemID = UseItemData->tblidx;
 								GetAttributesManager()->sFoodInfo[FreePlace].TypeEffect = pBuffData.BuffType.sBuffTypeLP_EP_AutoRecover.TbxCommonConfig;
 								GetAttributesManager()->sFoodInfo[FreePlace].FoodHealAumont[0] = pBuffData.BuffType.sBuffTypeLP_EP_AutoRecover.dwRemainValue;
 								GetAttributesManager()->sFoodInfo[FreePlace].BuffTime = GetTickCount();
@@ -290,7 +290,7 @@ void Player::HandleItemUse(Packet pPacket)
 								}
 								break;
 						}
-						case eSYSTEM_EFFECT_CODE::ACTIVE_VEHICLE:
+					/*	case eSYSTEM_EFFECT_CODE::ACTIVE_VEHICLE:
 						{
 							UseItem.wResultCode = GAME_SUCCESS;
 							Acionitem.handle = GetHandle();
@@ -315,7 +315,30 @@ void Player::HandleItemUse(Packet pPacket)
 							GetState()->sCharStateBase.aspectState.sAspectStateDetail.sVehicle.bIsEngineOn = false;
 							GetState()->sCharStateBase.aspectState.sAspectStateDetail.sVehicle.hVehicleItem = Item->handle;
 							GetState()->sCharStateBase.aspectState.sAspectStateDetail.sVehicle.idVehicleTblidx = Item->tblidx;
+							SetState(eCHARSTATE::CHARSTATE_STANDING);
 							UpdateAspectState(eASPECTSTATE::ASPECTSTATE_VEHICLE);
+							break;
+						}*/
+						case eSYSTEM_EFFECT_CODE::ACTIVE_RECIPE_UPDATE://Regista a Receita de Craft
+						{
+							UseItem.wResultCode = GAME_SUCCESS;
+							if (Item->byStackcount <= 1)
+							{
+								itmDelete.bySrcPlace = Item->byPlace;
+								itmDelete.bySrcPos = Item->byPos;
+								itmDelete.hSrcItem = Item->handle;
+								SendPacket((char*)&itmDelete, sizeof(sGU_ITEM_DELETE));
+								Item->byPlace = INVALID_TBLIDX;
+								Item->byPos = INVALID_TBLIDX;
+								Item->tblidx = INVALID_TBLIDX;
+							}
+							sGU_HOIPOIMIX_RECIPE_REG_NFY HoiPoiReg;
+							HoiPoiReg.wOpCode = GU_HOIPOIMIX_RECIPE_REG_NFY;
+							HoiPoiReg.wPacketSize = sizeof(sGU_HOIPOIMIX_RECIPE_REG_NFY) - 2;
+
+							HoiPoiReg.recipeTblidx = UseItemData->tblidx;
+
+							SendPacket((char*)&HoiPoiReg, sizeof(sGU_HOIPOIMIX_RECIPE_REG_NFY));
 							break;
 						}
 						case eSYSTEM_EFFECT_CODE::ACTIVE_AIR_MOVE_DASH_ACCEL://Fly scroll
@@ -324,7 +347,7 @@ void Player::HandleItemUse(Packet pPacket)
 						}
 						case eSYSTEM_EFFECT_CODE::ACTIVE_EXP_BOOSTER://ExP Booster
 						{	
-							UseItem.wResultCode = GAME_SUCCESS;
+							/*UseItem.wResultCode = GAME_SUCCESS;
 
 							Acionitem.handle = GetHandle();
 							Acionitem.wResultCode = GAME_SUCCESS;
@@ -371,7 +394,7 @@ void Player::HandleItemUse(Packet pPacket)
 								ItmStackUpdate.bIsNew = false;
 								Item->byStackcount = ItmStackUpdate.byStack;
 								SendPacket((char*)&ItmStackUpdate, sizeof(sGU_ITEM_STACK_UPDATE));
-							}						
+							}	*/					
 							break;
 						}
 						case eSYSTEM_EFFECT_CODE::ACTIVE_MASCOT_REGIST://Mascot Register
@@ -388,7 +411,7 @@ void Player::HandleItemUse(Packet pPacket)
 								UseItem.wResultCode = GAME_ITEM_NEED_MORE_LEVEL;
 							else
 							{
-								if (GetPcProfile()->byLevel >= UseItemData->adSystemEffectValue[i])
+								if (GetPcProfile()->byLevel >= UseItemData->adSystemEffectValue[Effect])
 									UseItem.wResultCode = GAME_ITEM_CANT_USE_NOW;
 								else
 								{									
@@ -411,7 +434,7 @@ void Player::HandleItemUse(Packet pPacket)
 										Item->byStackcount = ItmStackUpdate.byStack;
 										SendPacket((char*)&ItmStackUpdate, sizeof(sGU_ITEM_STACK_UPDATE));
 									}
-									LevelUpByComand(UseItemData->adSystemEffectValue[i]);
+									LevelUpByComand(UseItemData->adSystemEffectValue[Effect]);
 									UseItem.wResultCode = GAME_SUCCESS;
 									
 								}								
@@ -419,29 +442,30 @@ void Player::HandleItemUse(Packet pPacket)
 							break;
 						}
 						case eSYSTEM_EFFECT_CODE::ACTIVE_CHAR_TITLE:
-						{
-							// Need a verification to check if player alardy got that title
-							if (Item->byStackcount <= 1)
-							{
-								itmDelete.bySrcPlace = Item->byPlace;
-								itmDelete.bySrcPos = Item->byPos;
-								itmDelete.hSrcItem = Item->handle;
-								SendPacket((char*)&itmDelete, sizeof(sGU_ITEM_DELETE));
-								Item->byPlace = INVALID_TBLIDX;
-								Item->byPos = INVALID_TBLIDX;
-								Item->tblidx = INVALID_TBLIDX;
-							}
-							else
-							{
-								//UpdateStack
-								ItmStackUpdate.hItemHandle = Item->handle;
-								ItmStackUpdate.byStack = Item->byStackcount - 1;
-								ItmStackUpdate.bIsNew = false;
-								Item->byStackcount = ItmStackUpdate.byStack;
-								SendPacket((char*)&ItmStackUpdate, sizeof(sGU_ITEM_STACK_UPDATE));
-							}
-							SendAddTitle(UseItemData->adSystemEffectValue[i]);
-							UseItem.wResultCode = GAME_SUCCESS;
+						{							
+								// Need a verification to check if player alardy got that title
+								if (Item->byStackcount <= 1)
+								{
+									itmDelete.bySrcPlace = Item->byPlace;
+									itmDelete.bySrcPos = Item->byPos;
+									itmDelete.hSrcItem = Item->handle;
+									SendPacket((char*)&itmDelete, sizeof(sGU_ITEM_DELETE));
+									Item->byPlace = INVALID_TBLIDX;
+									Item->byPos = INVALID_TBLIDX;
+									Item->tblidx = INVALID_TBLIDX;
+								}
+								else
+								{
+									//UpdateStack
+									ItmStackUpdate.hItemHandle = Item->handle;
+									ItmStackUpdate.byStack = Item->byStackcount - 1;
+									ItmStackUpdate.bIsNew = false;
+									Item->byStackcount = ItmStackUpdate.byStack;
+									SendPacket((char*)&ItmStackUpdate, sizeof(sGU_ITEM_STACK_UPDATE));
+								}
+								SendAddTitle(UseItemData->adSystemEffectValue[Effect]);
+								UseItem.wResultCode = GAME_SUCCESS;
+														
 							break;
 						}
 						case eSYSTEM_EFFECT_CODE::ACTIVE_CHILD_ADULT_TRANSFORM://Kid Clock
@@ -482,7 +506,7 @@ void Player::HandleItemUse(Packet pPacket)
 			}
 			
 			SendPacket((char*)&UseItem, sizeof(sGU_ITEM_USE_RES));
-			SendPacket((char*)&Acionitem, sizeof(sGU_CHAR_ACTION_ITEM));//Error not fount come from it because is not handle
+			
 		}	
 	  }
 	}
@@ -597,7 +621,264 @@ void Player::ItemSoketDestroy(Packet pPacket)
 		}
 	}
 }
-
+void Player::SetStatsByEquip(BYTE ItemType)
+{	
+	if (ItemType == eITEM_TYPE::ITEM_TYPE_GLOVE)
+	{
+		GetAttributesManager()->Stats[0] = eSTATSATRIBUTES::Physical_Attack_Increase;
+		GetAttributesManager()->Stats[1] = eSTATSATRIBUTES::Energy_Attack_Increase;
+		GetAttributesManager()->Stats[2] = eSTATSATRIBUTES::STR_Incress;
+		GetAttributesManager()->Stats[3] = eSTATSATRIBUTES::Focus_Incress;
+		GetAttributesManager()->Stats[4] = eSTATSATRIBUTES::Soul_Incress;
+		GetAttributesManager()->Stats[5] = eSTATSATRIBUTES::Attack_Speed_Increase;
+		GetAttributesManager()->Stats[6] = eSTATSATRIBUTES::Hit_Rate_Increase;
+		GetAttributesManager()->Stats[7] = eSTATSATRIBUTES::Physical_Crit_Rate_Increase;
+		GetAttributesManager()->Stats[8] = eSTATSATRIBUTES::Energy_Crit_Rate_Increase;
+		GetAttributesManager()->Stats[9] = eSTATSATRIBUTES::Phy_Critical_Damage_Percent;
+		GetAttributesManager()->Stats[10] = eSTATSATRIBUTES::Energy_Critical_Damage_Percent;		
+		GetAttributesManager()->countstats = 11;
+	}
+	if (ItemType == eITEM_TYPE::ITEM_TYPE_STAFF)
+	{
+		GetAttributesManager()->Stats[0] = eSTATSATRIBUTES::Physical_Attack_Increase;
+		GetAttributesManager()->Stats[1] = eSTATSATRIBUTES::Energy_Attack_Increase;
+		GetAttributesManager()->Stats[2] = eSTATSATRIBUTES::STR_Incress;
+		GetAttributesManager()->Stats[3] = eSTATSATRIBUTES::Focus_Incress;
+		GetAttributesManager()->Stats[4] = eSTATSATRIBUTES::Soul_Incress;
+		GetAttributesManager()->Stats[5] = eSTATSATRIBUTES::Attack_Speed_Increase;
+		GetAttributesManager()->Stats[6] = eSTATSATRIBUTES::Hit_Rate_Increase;
+		GetAttributesManager()->Stats[7] = eSTATSATRIBUTES::Physical_Crit_Rate_Increase;
+		GetAttributesManager()->Stats[8] = eSTATSATRIBUTES::Energy_Crit_Rate_Increase;
+		GetAttributesManager()->Stats[9] = eSTATSATRIBUTES::Phy_Critical_Damage_Percent;
+		GetAttributesManager()->Stats[10] = eSTATSATRIBUTES::Energy_Critical_Damage_Percent;
+		GetAttributesManager()->countstats = 11;
+	}
+	if (ItemType == eITEM_TYPE::ITEM_TYPE_CLAW)
+	{
+		GetAttributesManager()->Stats[0] = eSTATSATRIBUTES::Physical_Attack_Increase;
+		GetAttributesManager()->Stats[1] = eSTATSATRIBUTES::Energy_Attack_Increase;
+		GetAttributesManager()->Stats[2] = eSTATSATRIBUTES::Attack_Speed_Increase;
+		GetAttributesManager()->Stats[3] = eSTATSATRIBUTES::Hit_Rate_Increase;
+		GetAttributesManager()->Stats[4] = eSTATSATRIBUTES::Physical_Crit_Rate_Increase;
+		GetAttributesManager()->Stats[5] = eSTATSATRIBUTES::Energy_Crit_Rate_Increase;
+		GetAttributesManager()->Stats[6] = eSTATSATRIBUTES::Phy_Critical_Damage_Percent;
+		GetAttributesManager()->Stats[7] = eSTATSATRIBUTES::Energy_Critical_Damage_Percent;
+		GetAttributesManager()->countstats = 8;
+	}
+	if (ItemType == eITEM_TYPE::ITEM_TYPE_AXE)
+	{
+		GetAttributesManager()->Stats[0] = eSTATSATRIBUTES::Physical_Attack_Increase;
+		GetAttributesManager()->Stats[1] = eSTATSATRIBUTES::Energy_Attack_Increase;
+		GetAttributesManager()->Stats[2] = eSTATSATRIBUTES::Attack_Speed_Increase;
+		GetAttributesManager()->Stats[3] = eSTATSATRIBUTES::Hit_Rate_Increase;
+		GetAttributesManager()->Stats[4] = eSTATSATRIBUTES::Physical_Crit_Rate_Increase;
+		GetAttributesManager()->Stats[5] = eSTATSATRIBUTES::Energy_Crit_Rate_Increase;
+		GetAttributesManager()->Stats[6] = eSTATSATRIBUTES::Phy_Critical_Damage_Percent;
+		GetAttributesManager()->Stats[7] = eSTATSATRIBUTES::Energy_Critical_Damage_Percent;
+		GetAttributesManager()->countstats = 8;
+	}
+	if (ItemType == eITEM_TYPE::ITEM_TYPE_SCROLL)
+	{
+		GetAttributesManager()->Stats[0] = eSTATSATRIBUTES::Physical_Attack_Increase;
+		GetAttributesManager()->Stats[1] = eSTATSATRIBUTES::Energy_Attack_Increase;
+		GetAttributesManager()->Stats[2] = eSTATSATRIBUTES::Attack_Speed_Increase;
+		GetAttributesManager()->Stats[3] = eSTATSATRIBUTES::Hit_Rate_Increase;
+		GetAttributesManager()->Stats[4] = eSTATSATRIBUTES::Physical_Crit_Rate_Increase;
+		GetAttributesManager()->Stats[5] = eSTATSATRIBUTES::Energy_Crit_Rate_Increase;
+		GetAttributesManager()->Stats[6] = eSTATSATRIBUTES::Phy_Critical_Damage_Percent;
+		GetAttributesManager()->Stats[7] = eSTATSATRIBUTES::Energy_Critical_Damage_Percent;
+		GetAttributesManager()->countstats = 8;
+	}	
+	if (ItemType == eITEM_TYPE::ITEM_TYPE_GEM)
+	{
+		GetAttributesManager()->Stats[0] = eSTATSATRIBUTES::Physical_Attack_Increase;
+		GetAttributesManager()->Stats[1] = eSTATSATRIBUTES::Energy_Attack_Increase;
+		GetAttributesManager()->Stats[2] = eSTATSATRIBUTES::Attack_Speed_Increase;
+		GetAttributesManager()->Stats[3] = eSTATSATRIBUTES::Hit_Rate_Increase;
+		GetAttributesManager()->Stats[4] = eSTATSATRIBUTES::Physical_Crit_Rate_Increase;
+		GetAttributesManager()->Stats[5] = eSTATSATRIBUTES::Energy_Crit_Rate_Increase;
+		GetAttributesManager()->Stats[6] = eSTATSATRIBUTES::Phy_Critical_Damage_Percent;
+		GetAttributesManager()->Stats[7] = eSTATSATRIBUTES::Energy_Critical_Damage_Percent;
+		GetAttributesManager()->countstats = 8;
+	}
+	if (ItemType == eITEM_TYPE::ITEM_TYPE_STICK)
+	{
+		GetAttributesManager()->Stats[0] = eSTATSATRIBUTES::Physical_Attack_Increase;
+		GetAttributesManager()->Stats[1] = eSTATSATRIBUTES::Energy_Attack_Increase;
+		GetAttributesManager()->Stats[2] = eSTATSATRIBUTES::Attack_Speed_Increase;
+		GetAttributesManager()->Stats[3] = eSTATSATRIBUTES::Hit_Rate_Increase;
+		GetAttributesManager()->Stats[4] = eSTATSATRIBUTES::Physical_Crit_Rate_Increase;
+		GetAttributesManager()->Stats[5] = eSTATSATRIBUTES::Energy_Crit_Rate_Increase;
+		GetAttributesManager()->Stats[6] = eSTATSATRIBUTES::Phy_Critical_Damage_Percent;
+		GetAttributesManager()->Stats[7] = eSTATSATRIBUTES::Energy_Critical_Damage_Percent;
+		GetAttributesManager()->countstats = 8;
+	}
+	if (ItemType == eITEM_TYPE::ITEM_TYPE_SWORD)
+	{
+		GetAttributesManager()->Stats[0] = eSTATSATRIBUTES::Physical_Attack_Increase;
+		GetAttributesManager()->Stats[1] = eSTATSATRIBUTES::Energy_Attack_Increase;
+		GetAttributesManager()->Stats[2] = eSTATSATRIBUTES::Attack_Speed_Increase;
+		GetAttributesManager()->Stats[3] = eSTATSATRIBUTES::Hit_Rate_Increase;
+		GetAttributesManager()->Stats[4] = eSTATSATRIBUTES::Physical_Crit_Rate_Increase;
+		GetAttributesManager()->Stats[5] = eSTATSATRIBUTES::Energy_Crit_Rate_Increase;
+		GetAttributesManager()->Stats[6] = eSTATSATRIBUTES::Phy_Critical_Damage_Percent;
+		GetAttributesManager()->Stats[7] = eSTATSATRIBUTES::Energy_Critical_Damage_Percent;
+		GetAttributesManager()->countstats = 8;
+	}
+	if (ItemType == eITEM_TYPE::ITEM_TYPE_FAN)
+	{
+		GetAttributesManager()->Stats[0] = eSTATSATRIBUTES::Physical_Attack_Increase;
+		GetAttributesManager()->Stats[1] = eSTATSATRIBUTES::Energy_Attack_Increase;
+		GetAttributesManager()->Stats[2] = eSTATSATRIBUTES::Attack_Speed_Increase;
+		GetAttributesManager()->Stats[3] = eSTATSATRIBUTES::Hit_Rate_Increase;
+		GetAttributesManager()->Stats[4] = eSTATSATRIBUTES::Physical_Crit_Rate_Increase;
+		GetAttributesManager()->Stats[5] = eSTATSATRIBUTES::Energy_Crit_Rate_Increase;
+		GetAttributesManager()->Stats[6] = eSTATSATRIBUTES::Phy_Critical_Damage_Percent;
+		GetAttributesManager()->Stats[7] = eSTATSATRIBUTES::Energy_Critical_Damage_Percent;
+		GetAttributesManager()->countstats = 8;
+	}
+	if (ItemType == eITEM_TYPE::ITEM_TYPE_WAND)
+	{
+		GetAttributesManager()->Stats[0] = eSTATSATRIBUTES::Physical_Attack_Increase;
+		GetAttributesManager()->Stats[1] = eSTATSATRIBUTES::Energy_Attack_Increase;
+		GetAttributesManager()->Stats[2] = eSTATSATRIBUTES::Attack_Speed_Increase;
+		GetAttributesManager()->Stats[3] = eSTATSATRIBUTES::Hit_Rate_Increase;
+		GetAttributesManager()->Stats[4] = eSTATSATRIBUTES::Physical_Crit_Rate_Increase;
+		GetAttributesManager()->Stats[5] = eSTATSATRIBUTES::Energy_Crit_Rate_Increase;
+		GetAttributesManager()->Stats[6] = eSTATSATRIBUTES::Phy_Critical_Damage_Percent;
+		GetAttributesManager()->Stats[7] = eSTATSATRIBUTES::Energy_Critical_Damage_Percent;
+		GetAttributesManager()->countstats = 8;
+	}
+	if (ItemType == eITEM_TYPE::ITEM_TYPE_INSTRUMENT)
+	{
+		GetAttributesManager()->Stats[0] = eSTATSATRIBUTES::Physical_Attack_Increase;
+		GetAttributesManager()->Stats[1] = eSTATSATRIBUTES::Energy_Attack_Increase;
+		GetAttributesManager()->Stats[2] = eSTATSATRIBUTES::Attack_Speed_Increase;
+		GetAttributesManager()->Stats[3] = eSTATSATRIBUTES::Hit_Rate_Increase;
+		GetAttributesManager()->Stats[4] = eSTATSATRIBUTES::Physical_Crit_Rate_Increase;
+		GetAttributesManager()->Stats[5] = eSTATSATRIBUTES::Energy_Crit_Rate_Increase;
+		GetAttributesManager()->Stats[6] = eSTATSATRIBUTES::Phy_Critical_Damage_Percent;
+		GetAttributesManager()->Stats[7] = eSTATSATRIBUTES::Energy_Critical_Damage_Percent;
+		GetAttributesManager()->countstats = 8;
+	}
+	if (ItemType == eITEM_TYPE::ITEM_TYPE_CLUB)
+	{
+		GetAttributesManager()->Stats[0] = eSTATSATRIBUTES::Physical_Attack_Increase;
+		GetAttributesManager()->Stats[1] = eSTATSATRIBUTES::Energy_Attack_Increase;
+		GetAttributesManager()->Stats[2] = eSTATSATRIBUTES::Attack_Speed_Increase;
+		GetAttributesManager()->Stats[3] = eSTATSATRIBUTES::Hit_Rate_Increase;
+		GetAttributesManager()->Stats[4] = eSTATSATRIBUTES::Physical_Crit_Rate_Increase;
+		GetAttributesManager()->Stats[5] = eSTATSATRIBUTES::Energy_Crit_Rate_Increase;
+		GetAttributesManager()->Stats[6] = eSTATSATRIBUTES::Phy_Critical_Damage_Percent;
+		GetAttributesManager()->Stats[7] = eSTATSATRIBUTES::Energy_Critical_Damage_Percent;
+		GetAttributesManager()->countstats = 8;
+	}
+	if (ItemType == eITEM_TYPE::ITEM_TYPE_DRUM)
+	{
+		GetAttributesManager()->Stats[0] = eSTATSATRIBUTES::Physical_Attack_Increase;
+		GetAttributesManager()->Stats[1] = eSTATSATRIBUTES::Energy_Attack_Increase;
+		GetAttributesManager()->Stats[2] = eSTATSATRIBUTES::Attack_Speed_Increase;
+		GetAttributesManager()->Stats[3] = eSTATSATRIBUTES::Hit_Rate_Increase;
+		GetAttributesManager()->Stats[4] = eSTATSATRIBUTES::Physical_Crit_Rate_Increase;
+		GetAttributesManager()->Stats[5] = eSTATSATRIBUTES::Energy_Crit_Rate_Increase;
+		GetAttributesManager()->Stats[6] = eSTATSATRIBUTES::Phy_Critical_Damage_Percent;
+		GetAttributesManager()->Stats[7] = eSTATSATRIBUTES::Energy_Critical_Damage_Percent;
+		GetAttributesManager()->countstats = 8;
+	}
+	if (ItemType == eITEM_TYPE::ITEM_TYPE_MASK)
+	{
+		GetAttributesManager()->Stats[0] = eSTATSATRIBUTES::Physical_Attack_Increase;
+		GetAttributesManager()->Stats[1] = eSTATSATRIBUTES::Energy_Attack_Increase;
+		GetAttributesManager()->Stats[2] = eSTATSATRIBUTES::Attack_Speed_Increase;
+		GetAttributesManager()->Stats[3] = eSTATSATRIBUTES::Hit_Rate_Increase;
+		GetAttributesManager()->Stats[4] = eSTATSATRIBUTES::Physical_Crit_Rate_Increase;
+		GetAttributesManager()->Stats[5] = eSTATSATRIBUTES::Energy_Crit_Rate_Increase;
+		GetAttributesManager()->Stats[6] = eSTATSATRIBUTES::Phy_Critical_Damage_Percent;
+		GetAttributesManager()->Stats[7] = eSTATSATRIBUTES::Energy_Critical_Damage_Percent;
+		GetAttributesManager()->countstats = 8;
+	}
+	if (ItemType == eITEM_TYPE::ITEM_TYPE_NECKLACE)//not complete
+	{
+		GetAttributesManager()->Stats[0] = eSTATSATRIBUTES::STR_Incress;
+		GetAttributesManager()->Stats[1] = eSTATSATRIBUTES::Dex_Incress;
+		GetAttributesManager()->Stats[2] = eSTATSATRIBUTES::Eng_Incress;
+		GetAttributesManager()->Stats[5] = eSTATSATRIBUTES::Focus_Incress;
+		GetAttributesManager()->Stats[6] = eSTATSATRIBUTES::S_Defense_Prop;
+		GetAttributesManager()->Stats[7] = eSTATSATRIBUTES::W_Defense_Prop;
+		GetAttributesManager()->Stats[8] = eSTATSATRIBUTES::E_Defense_Prop;
+		GetAttributesManager()->Stats[9] = eSTATSATRIBUTES::F_Defense_Prop;
+		GetAttributesManager()->Stats[10] = eSTATSATRIBUTES::LP_Absorption_Increase;
+		GetAttributesManager()->Stats[11] = eSTATSATRIBUTES::EP_Absorption_Increase;
+		GetAttributesManager()->Stats[12] = eSTATSATRIBUTES::Skill_Cooldown_Time_Decrease;
+		GetAttributesManager()->Stats[13] = eSTATSATRIBUTES::Prop_attack_Defense;
+		GetAttributesManager()->Stats[14] = eSTATSATRIBUTES::H_attack_prop;
+		GetAttributesManager()->Stats[15] = eSTATSATRIBUTES::S_attack_prop;
+		GetAttributesManager()->Stats[16] = eSTATSATRIBUTES::W_attack_prop;
+		GetAttributesManager()->Stats[17] = eSTATSATRIBUTES::E_attack_prop;
+		GetAttributesManager()->Stats[18] = eSTATSATRIBUTES::F_attack_prop;
+		GetAttributesManager()->countstats = 19;		
+	}
+	if (ItemType == eITEM_TYPE::ITEM_TYPE_EARRING)
+	{
+		GetAttributesManager()->Stats[0] = eSTATSATRIBUTES::STR_Incress;
+		GetAttributesManager()->Stats[1] = eSTATSATRIBUTES::Dex_Incress;
+		GetAttributesManager()->Stats[2] = eSTATSATRIBUTES::Eng_Incress;
+		GetAttributesManager()->Stats[5] = eSTATSATRIBUTES::Focus_Incress;//H prop
+		GetAttributesManager()->Stats[6] = eSTATSATRIBUTES::S_Defense_Prop;
+		GetAttributesManager()->Stats[7] = eSTATSATRIBUTES::W_Defense_Prop;
+		GetAttributesManager()->Stats[8] = eSTATSATRIBUTES::E_Defense_Prop;
+		GetAttributesManager()->Stats[9] = eSTATSATRIBUTES::F_Defense_Prop;
+		GetAttributesManager()->Stats[10] = eSTATSATRIBUTES::LP_Absorption_Increase;
+		GetAttributesManager()->Stats[11] = eSTATSATRIBUTES::EP_Absorption_Increase;
+		GetAttributesManager()->Stats[12] = eSTATSATRIBUTES::Skill_Cooldown_Time_Decrease;
+		GetAttributesManager()->Stats[13] = eSTATSATRIBUTES::Prop_attack_Defense;
+		GetAttributesManager()->Stats[14] = eSTATSATRIBUTES::H_attack_prop;
+		GetAttributesManager()->Stats[15] = eSTATSATRIBUTES::S_attack_prop;
+		GetAttributesManager()->Stats[16] = eSTATSATRIBUTES::W_attack_prop;
+		GetAttributesManager()->Stats[17] = eSTATSATRIBUTES::E_attack_prop;
+		GetAttributesManager()->Stats[18] = eSTATSATRIBUTES::F_attack_prop;	
+		GetAttributesManager()->countstats = 19;
+	}
+	if (ItemType == eITEM_TYPE::ITEM_TYPE_JACKET)
+	{
+		GetAttributesManager()->Stats[0] = eSTATSATRIBUTES::Maximum_LP_Increase;
+		GetAttributesManager()->Stats[1] = eSTATSATRIBUTES::Maximum_EP_Increase;
+		GetAttributesManager()->Stats[2] = eSTATSATRIBUTES::CON_Incress;
+		GetAttributesManager()->Stats[3] = eSTATSATRIBUTES::Focus_Incress;
+		GetAttributesManager()->Stats[4] = eSTATSATRIBUTES::Dex_Incress;		
+		GetAttributesManager()->Stats[6] = eSTATSATRIBUTES::Eng_Incress;
+		GetAttributesManager()->Stats[7] = eSTATSATRIBUTES::Recover_LP_From_dmg_taken;
+		GetAttributesManager()->Stats[8] = eSTATSATRIBUTES::Recover_EP_From_dmg_taken;
+		GetAttributesManager()->Stats[9] = eSTATSATRIBUTES::Recover_LP_percent_when_receiving_damage;
+		GetAttributesManager()->Stats[10] = eSTATSATRIBUTES::Recover_EP_percent_when_receiving_damage;
+		GetAttributesManager()->Stats[11] = eSTATSATRIBUTES::Anti_Critic;
+		GetAttributesManager()->countstats = 12;
+	}
+	if (ItemType == eITEM_TYPE::ITEM_TYPE_PANTS)
+	{
+		GetAttributesManager()->Stats[0] = eSTATSATRIBUTES::Maximum_LP_Increase;
+		GetAttributesManager()->Stats[1] = eSTATSATRIBUTES::Maximum_EP_Increase;
+		GetAttributesManager()->Stats[2] = eSTATSATRIBUTES::CON_Incress;
+		GetAttributesManager()->Stats[3] = eSTATSATRIBUTES::Focus_Incress;
+		GetAttributesManager()->Stats[4] = eSTATSATRIBUTES::STR_Incress;
+		GetAttributesManager()->Stats[5] = eSTATSATRIBUTES::Recover_LP_From_dmg_taken;
+		GetAttributesManager()->Stats[6] = eSTATSATRIBUTES::Recover_EP_From_dmg_taken;
+		GetAttributesManager()->Stats[7] = eSTATSATRIBUTES::Recover_LP_percent_when_receiving_damage;
+		GetAttributesManager()->Stats[8] = eSTATSATRIBUTES::Recover_EP_percent_when_receiving_damage;
+		GetAttributesManager()->countstats = 9;
+	}
+	if (ItemType == eITEM_TYPE::ITEM_TYPE_BOOTS)
+	{
+		GetAttributesManager()->Stats[0] = eSTATSATRIBUTES::CON_Incress;
+		GetAttributesManager()->Stats[1] = eSTATSATRIBUTES::Focus_Incress;
+		GetAttributesManager()->Stats[2] = eSTATSATRIBUTES::Dex_Incress;
+		GetAttributesManager()->Stats[3] = eSTATSATRIBUTES::Soul_Incress;
+		GetAttributesManager()->Stats[4] = eSTATSATRIBUTES::Bleed_def_rate;
+		GetAttributesManager()->Stats[5] = eSTATSATRIBUTES::Poison_def_rate;
+		GetAttributesManager()->Stats[6] = eSTATSATRIBUTES::Burn_Def_Rate;
+		GetAttributesManager()->countstats = 7;
+	}
+}
 void Player::ItemOptionsChange(Packet pPacket)
 {
 	sUG_ITEM_CHANGE_OPTION_REQ *req = (sUG_ITEM_CHANGE_OPTION_REQ*)pPacket.GetPacketBuffer();
@@ -606,7 +887,7 @@ void Player::ItemOptionsChange(Packet pPacket)
 	sITEM_PROFILE *Box = NULL;
 	sITEM_TBLDAT *ItemTbl = NULL;
 	sITEM_TBLDAT *BoxTbl = NULL;
-
+	sFORMULA_TBLDAT *EnchantTable = NULL;
 	Item = this->inventoryManager.GetItemAtPlaceAndPost(req->itemPlace, req->itemPos);
 	Box = this->inventoryManager.GetItemAtPlaceAndPost(req->Boxplace, req->BoxPos);
 	if (Item != NULL && Box != NULL)
@@ -623,8 +904,9 @@ void Player::ItemOptionsChange(Packet pPacket)
 		}
 		if (ItemTbl != NULL && BoxTbl != NULL)
 		{
+			SetStatsByEquip(ItemTbl->eItemType);
 			sGU_ITEM_CHANGE_OPTION_RES ItemEffect;
-			//memset(&ItemEffect, 0, sizeof(sGU_ITEM_CHANGE_OPTION_RES));
+			memset(&ItemEffect, INVALID_TBLIDX, sizeof(sGU_ITEM_CHANGE_OPTION_RES));
 			ItemEffect.wOpCode = GU_ITEM_CHANGE_OPTION_RES;
 			ItemEffect.wPacketSize = sizeof(sGU_ITEM_CHANGE_OPTION_RES) - 2;
 			ItemEffect.wResultCode = GAME_SUCCESS;
@@ -636,11 +918,25 @@ void Player::ItemOptionsChange(Packet pPacket)
 			ItemEffect.BoxPlace = req->Boxplace;
 			ItemEffect.BoxPos = req->BoxPos;			
 			ItemEffect.ByCount = Box->byStackcount - 1;//Stack Count Box
-			
-			for (int i = 0; i <= 6; i++)
+			//printf("Item Option %d \n", ItemTbl->tbxItemOption);
+			int StatsCounts = 1 + rand() % 5;
+			int count = 0;
+			for (int i = 0; i <= StatsCounts; i++)
 			{
-				ItemEffect.aitemEffect[i].wType = 2001 + rand() % 50;
-				ItemEffect.aitemEffect[i].dwValue = 1 + rand() % 34;
+				int randommstats = rand()% GetAttributesManager()->countstats;
+				if (GetAttributesManager()->Stats[randommstats] != 0 && GetAttributesManager()->Stats[randommstats] != INVALID_TBLIDX)
+				{	
+					EnchantTable = (sFORMULA_TBLDAT*)sTBM.GetFormulaTable()->FindData(GetAttributesManager()->Stats[randommstats]);
+					if(EnchantTable != NULL)
+					{
+						float randStats = 1 + rand() % static_cast<int>(Dbo_GetItemsStatsPoints(ItemTbl->eRank, ItemTbl->byNeedLevel) / EnchantTable->wEnchantValue) + 1;
+						ItemEffect.aitemEffect[count].wType = GetAttributesManager()->Stats[randommstats];
+						ItemEffect.aitemEffect[count].dwValue = randStats;//
+						GetAttributesManager()->Stats[randommstats] = INVALID_TBLIDX;
+						//printf("Item Effect %d number %d \n", ItemEffect.aitemEffect[count].wType, count);
+						count += 1;
+					}
+				}				
 			}
 
 			for (int i = 0; i <= 2; i++)
@@ -664,7 +960,7 @@ void Player::ItemOptionsChange(Packet pPacket)
 
 			
 			//Need Update Item Equip Box Stackcount here
-			if (Box->byStackcount <= 0)
+			if (Box->byStackcount <= 1)
 			{
 				sGU_ITEM_DELETE itmDelete;
 				itmDelete.wOpCode = GU_ITEM_DELETE;
@@ -675,6 +971,8 @@ void Player::ItemOptionsChange(Packet pPacket)
 				Box->byPlace = INVALID_TBLIDX;
 				Box->byPos = INVALID_TBLIDX;
 				Box->tblidx = INVALID_TBLIDX;
+				Box->byStackcount = 0;
+				ItemEffect.ByCount = 0;
 				SendPacket((char*)&itmDelete, sizeof(sGU_ITEM_DELETE));
 			}
 			else
@@ -694,6 +992,7 @@ void Player::ItemOptionsChange(Packet pPacket)
 		}
 	}
 }
+
 void Player::SendItemUpgrade(Packet & packet)
 {
 	sUG_ITEM_UPGRADE_WORK_REQ *req = (sUG_ITEM_UPGRADE_WORK_REQ*)packet.GetPacketBuffer();
@@ -703,7 +1002,7 @@ void Player::SendItemUpgrade(Packet & packet)
 	sITEM_TBLDAT *ItemTbl = NULL;
 	sITEM_TBLDAT *StoneTbl = NULL;
 	sITEM_TBLDAT *WhiteStoneTbl = NULL;
-	printf(" White Place %d \n White pos %d \n", req->WhiteStonePlace, req->WhiteStonePos);
+//	printf(" White Place %d \n White pos %d \n", req->WhiteStonePlace, req->WhiteStonePos);
 	Item = this->inventoryManager.GetItemAtPlaceAndPost(req->byItemPlace, req->byItemPos);
 	Stone = this->inventoryManager.GetItemAtPlaceAndPost(req->byStonPlace, req->byStonPos);
 	WhiteStone = this->inventoryManager.GetItemAtPlaceAndPost(req->WhiteStonePlace, req->WhiteStonePos);
@@ -760,88 +1059,12 @@ void Player::SendItemUpgrade(Packet & packet)
 				//Rate +6
 				if (Item->byGrade == 6)
 				{
-					if (Rate >= 0 && Rate <= 96)
+					if (Rate >= 0 && Rate <= 50)
 					{
 						Upgrade.Grade = Item->byGrade + 1;
 						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
 					}
-					if (Rate >= 97 && Rate <= 98)
-					{
-						Upgrade.Grade = Item->byGrade - 1;
-						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
-					}
-					if (Rate >= 99 && Rate <= 100)
-					{
-						Upgrade.Grade = 0;
-						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
-					}
-				}
-				//Rate +7
-				if (Item->byGrade == 7)
-				{
-					if (Rate >= 0 && Rate <= 90)
-					{
-						Upgrade.Grade = Item->byGrade + 1;
-						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
-					}
-					if (Rate >= 91 && Rate <= 95)
-					{
-						Upgrade.Grade = Item->byGrade - 1;
-						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
-					}
-					if (Rate >= 95 && Rate <= 100)
-					{
-						Upgrade.Grade = 0;
-						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
-					}
-				}
-				//Rate +8
-				if (Item->byGrade == 8)
-				{
-					if (Rate >= 0 && Rate <= 85)
-					{
-						Upgrade.Grade = Item->byGrade + 1;
-						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
-					}
-					if (Rate >= 86 && Rate <= 90)
-					{
-						Upgrade.Grade = Item->byGrade - 1;
-						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
-					}
-					if (Rate >= 91 && Rate <= 100)
-					{
-						Upgrade.Grade = 0;
-						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
-					}
-				}
-				//Rate +9
-				if (Item->byGrade == 9)
-				{
-					if (Rate >= 0 && Rate <= 70)
-					{
-						Upgrade.Grade = Item->byGrade + 1;
-						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
-					}
-					if (Rate >= 71 && Rate <= 85)
-					{
-						Upgrade.Grade = Item->byGrade - 1;
-						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
-					}
-					if (Rate >= 86 && Rate <= 100)
-					{
-						Upgrade.Grade = 0;
-						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
-					}
-				}
-				//Rate +10
-				if (Item->byGrade == 10)
-				{
-					if (Rate >= 0 && Rate <= 68)
-					{
-						Upgrade.Grade = Item->byGrade + 1;
-						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
-					}
-					if (Rate >= 69 && Rate <= 80)
+					if (Rate >= 51 && Rate <= 80)
 					{
 						Upgrade.Grade = Item->byGrade - 1;
 						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
@@ -852,34 +1075,34 @@ void Player::SendItemUpgrade(Packet & packet)
 						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
 					}
 				}
-				//Rate +11
-				if (Item->byGrade == 11)
+				//Rate +7
+				if (Item->byGrade == 7)
 				{
-					if (Rate >= 0 && Rate <= 60)
+					if (Rate >= 0 && Rate <= 45)
 					{
 						Upgrade.Grade = Item->byGrade + 1;
 						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
 					}
-					if (Rate >= 61 && Rate <= 80)
+					if (Rate >= 46 && Rate <= 75)
 					{
 						Upgrade.Grade = Item->byGrade - 1;
 						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
 					}
-					if (Rate >= 80 && Rate <= 100)
+					if (Rate >= 76 && Rate <= 100)
 					{
 						Upgrade.Grade = 0;
 						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
 					}
 				}
-				//Rate +12
-				if (Item->byGrade == 12)
+				//Rate +8
+				if (Item->byGrade == 8)
 				{
-					if (Rate >= 0 && Rate <= 50)
+					if (Rate >= 0 && Rate <= 40)
 					{
 						Upgrade.Grade = Item->byGrade + 1;
 						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
 					}
-					if (Rate >= 51 && Rate <= 70)
+					if (Rate >= 41 && Rate <= 70)
 					{
 						Upgrade.Grade = Item->byGrade - 1;
 						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
@@ -890,15 +1113,34 @@ void Player::SendItemUpgrade(Packet & packet)
 						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
 					}
 				}
-				//Rate +13
-				if (Item->byGrade == 13)
+				//Rate +9
+				if (Item->byGrade == 9)
 				{
-					if (Rate >= 0 && Rate <= 40)
+					if (Rate >= 0 && Rate <= 35)
 					{
 						Upgrade.Grade = Item->byGrade + 1;
 						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
 					}
-					if (Rate >= 41 && Rate <= 60)
+					if (Rate >= 36 && Rate <= 65)
+					{
+						Upgrade.Grade = Item->byGrade - 1;
+						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
+					}
+					if (Rate >= 66 && Rate <= 100)
+					{
+						Upgrade.Grade = 0;
+						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
+					}
+				}
+				//Rate +10
+				if (Item->byGrade == 10)
+				{
+					if (Rate >= 0 && Rate <= 30)
+					{
+						Upgrade.Grade = Item->byGrade + 1;
+						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
+					}
+					if (Rate >= 31 && Rate <= 60)
 					{
 						Upgrade.Grade = Item->byGrade - 1;
 						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
@@ -909,20 +1151,77 @@ void Player::SendItemUpgrade(Packet & packet)
 						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
 					}
 				}
-				//Rate +14
-				if (Item->byGrade == 14)
+				//Rate +11
+				if (Item->byGrade == 11)
 				{
-					if (Rate >= 0 && Rate <= 30)
+					if (Rate >= 0 && Rate <= 25)
 					{
 						Upgrade.Grade = Item->byGrade + 1;
 						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
 					}
-					if (Rate >= 31 && Rate <= 50)
+					if (Rate >= 26 && Rate <= 55)
+					{
+						Upgrade.Grade = Item->byGrade - 1;
+						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
+					}
+					if (Rate >= 56 && Rate <= 100)
+					{
+						Upgrade.Grade = 0;
+						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
+					}
+				}
+				//Rate +12
+				if (Item->byGrade == 12)
+				{
+					if (Rate >= 0 && Rate <= 20)
+					{
+						Upgrade.Grade = Item->byGrade + 1;
+						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
+					}
+					if (Rate >= 21 && Rate <= 50)
 					{
 						Upgrade.Grade = Item->byGrade - 1;
 						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
 					}
 					if (Rate >= 51 && Rate <= 100)
+					{
+						Upgrade.Grade = 0;
+						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
+					}
+				}
+				//Rate +13
+				if (Item->byGrade == 13)
+				{
+					if (Rate >= 0 && Rate <= 15)
+					{
+						Upgrade.Grade = Item->byGrade + 1;
+						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
+					}
+					if (Rate >= 16 && Rate <= 45)
+					{
+						Upgrade.Grade = Item->byGrade - 1;
+						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
+					}
+					if (Rate >= 46 && Rate <= 100)
+					{
+						Upgrade.Grade = 0;
+						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
+					}
+				}
+				//Rate +14
+				if (Item->byGrade == 14)
+				{
+					if (Rate >= 0 && Rate <= 10)
+					{
+						Upgrade.Grade = Item->byGrade + 1;
+						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
+					}
+					if (Rate >= 11 && Rate <= 40)
+					{
+						Upgrade.Grade = Item->byGrade - 1;
+						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
+					}
+					if (Rate >= 41 && Rate <= 100)
 					{
 						Upgrade.Grade = 0;
 						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
@@ -942,69 +1241,12 @@ void Player::SendItemUpgrade(Packet & packet)
 				//Rate +5
 				if (Item->byGrade == 5)
 				{
-					if (Rate >= 0 && Rate <= 95)
+					if (Rate >= 0 && Rate <= 60)
 					{
 						Upgrade.Grade = Item->byGrade + 1;
 						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
 					}
-					if (Rate >= 96 && Rate <= 98)
-					{
-						Upgrade.Grade = Item->byGrade - 1;
-						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
-					}
-					if (Rate >= 99 && Rate <= 100)
-					{
-						Upgrade.Grade = 0;
-						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
-					}
-				}
-				//Rate +6
-				if (Item->byGrade == 6)
-				{
-					if (Rate >= 0 && Rate <= 96)
-					{
-						Upgrade.Grade = Item->byGrade + 1;
-						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
-					}
-					if (Rate >= 97 && Rate <= 98)
-					{
-						Upgrade.Grade = Item->byGrade - 1;
-						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
-					}
-					if (Rate >= 99 && Rate <= 100)
-					{
-						Upgrade.Grade = 0;
-						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
-					}
-				}
-				//Rate +7
-				if (Item->byGrade == 7)
-				{
-					if (Rate >= 0 && Rate <= 90)
-					{
-						Upgrade.Grade = Item->byGrade + 1;
-						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
-					}
-					if (Rate >= 91 && Rate <= 95)
-					{
-						Upgrade.Grade = Item->byGrade - 1;
-						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
-					}
-					if (Rate >= 95 && Rate <= 100)
-					{
-						Upgrade.Grade = 0;
-						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
-					}
-				}
-				//Rate +8
-				if (Item->byGrade == 8)
-				{
-					if (Rate >= 0 && Rate <= 85)
-					{
-						Upgrade.Grade = Item->byGrade + 1;
-						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
-					}
-					if (Rate >= 86 && Rate <= 90)
+					if (Rate >= 61 && Rate <= 90)
 					{
 						Upgrade.Grade = Item->byGrade - 1;
 						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
@@ -1015,34 +1257,15 @@ void Player::SendItemUpgrade(Packet & packet)
 						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
 					}
 				}
-				//Rate +9
-				if (Item->byGrade == 9)
+				//Rate +6
+				if (Item->byGrade == 6)
 				{
-					if (Rate >= 0 && Rate <= 70)
+					if (Rate >= 0 && Rate <= 50)
 					{
 						Upgrade.Grade = Item->byGrade + 1;
 						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
 					}
-					if (Rate >= 71 && Rate <= 85)
-					{
-						Upgrade.Grade = Item->byGrade - 1;
-						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
-					}
-					if (Rate >= 86 && Rate <= 100)
-					{
-						Upgrade.Grade = 0;
-						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
-					}
-				}
-				//Rate +10
-				if (Item->byGrade == 10)
-				{
-					if (Rate >= 0 && Rate <= 68)
-					{
-						Upgrade.Grade = Item->byGrade + 1;
-						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
-					}
-					if (Rate >= 69 && Rate <= 80)
+					if (Rate >= 51 && Rate <= 80)
 					{
 						Upgrade.Grade = Item->byGrade - 1;
 						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
@@ -1053,34 +1276,34 @@ void Player::SendItemUpgrade(Packet & packet)
 						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
 					}
 				}
-				//Rate +11
-				if (Item->byGrade == 11)
+				//Rate +7
+				if (Item->byGrade == 7)
 				{
-					if (Rate >= 0 && Rate <= 60)
+					if (Rate >= 0 && Rate <= 45)
 					{
 						Upgrade.Grade = Item->byGrade + 1;
 						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
 					}
-					if (Rate >= 61 && Rate <= 80)
+					if (Rate >= 46 && Rate <= 75)
 					{
 						Upgrade.Grade = Item->byGrade - 1;
 						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
 					}
-					if (Rate >= 80 && Rate <= 100)
+					if (Rate >= 76 && Rate <= 100)
 					{
 						Upgrade.Grade = 0;
 						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
 					}
 				}
-				//Rate +12
-				if (Item->byGrade == 12)
+				//Rate +8
+				if (Item->byGrade == 8)
 				{
-					if (Rate >= 0 && Rate <= 50)
+					if (Rate >= 0 && Rate <= 40)
 					{
 						Upgrade.Grade = Item->byGrade + 1;
 						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
 					}
-					if (Rate >= 51 && Rate <= 70)
+					if (Rate >= 41 && Rate <= 70)
 					{
 						Upgrade.Grade = Item->byGrade - 1;
 						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
@@ -1091,15 +1314,34 @@ void Player::SendItemUpgrade(Packet & packet)
 						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
 					}
 				}
-				//Rate +13
-				if (Item->byGrade == 13)
+				//Rate +9
+				if (Item->byGrade == 9)
 				{
-					if (Rate >= 0 && Rate <= 40)
+					if (Rate >= 0 && Rate <= 35)
 					{
 						Upgrade.Grade = Item->byGrade + 1;
 						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
 					}
-					if (Rate >= 41 && Rate <= 60)
+					if (Rate >= 36 && Rate <= 65)
+					{
+						Upgrade.Grade = Item->byGrade - 1;
+						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
+					}
+					if (Rate >= 66 && Rate <= 100)
+					{
+						Upgrade.Grade = 0;
+						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
+					}
+				}
+				//Rate +10
+				if (Item->byGrade == 10)
+				{
+					if (Rate >= 0 && Rate <= 30)
+					{
+						Upgrade.Grade = Item->byGrade + 1;
+						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
+					}
+					if (Rate >= 31 && Rate <= 60)
 					{
 						Upgrade.Grade = Item->byGrade - 1;
 						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
@@ -1110,20 +1352,77 @@ void Player::SendItemUpgrade(Packet & packet)
 						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
 					}
 				}
-				//Rate +14
-				if (Item->byGrade == 14)
+				//Rate +11
+				if (Item->byGrade == 11)
 				{
-					if (Rate >= 0 && Rate <= 30)
+					if (Rate >= 0 && Rate <= 25)
 					{
 						Upgrade.Grade = Item->byGrade + 1;
 						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
 					}
-					if (Rate >= 31 && Rate <= 50)
+					if (Rate >= 26 && Rate <= 55)
+					{
+						Upgrade.Grade = Item->byGrade - 1;
+						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
+					}
+					if (Rate >= 56 && Rate <= 100)
+					{
+						Upgrade.Grade = 0;
+						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
+					}
+				}
+				//Rate +12
+				if (Item->byGrade == 12)
+				{
+					if (Rate >= 0 && Rate <= 20)
+					{
+						Upgrade.Grade = Item->byGrade + 1;
+						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
+					}
+					if (Rate >= 21 && Rate <= 50)
 					{
 						Upgrade.Grade = Item->byGrade - 1;
 						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
 					}
 					if (Rate >= 51 && Rate <= 100)
+					{
+						Upgrade.Grade = 0;
+						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
+					}
+				}
+				//Rate +13
+				if (Item->byGrade == 13)
+				{
+					if (Rate >= 0 && Rate <= 15)
+					{
+						Upgrade.Grade = Item->byGrade + 1;
+						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
+					}
+					if (Rate >= 16 && Rate <= 45)
+					{
+						Upgrade.Grade = Item->byGrade - 1;
+						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
+					}
+					if (Rate >= 46 && Rate <= 100)
+					{
+						Upgrade.Grade = 0;
+						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
+					}
+				}
+				//Rate +14
+				if (Item->byGrade == 14)
+				{
+					if (Rate >= 0 && Rate <= 10)
+					{
+						Upgrade.Grade = Item->byGrade + 1;
+						Upgrade.UpgradeResult = GAME_SUCCESS;//Success Card
+					}
+					if (Rate >= 11 && Rate <= 40)
+					{
+						Upgrade.Grade = Item->byGrade - 1;
+						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_ALREADY_MAX_GRADE;//Fail
+					}
+					if (Rate >= 41 && Rate <= 100)
 					{
 						Upgrade.Grade = 0;
 						Upgrade.UpgradeResult = GAME_ITEM_UPGRADE_FAIL;//Broken Card
@@ -1642,9 +1941,20 @@ void Player::SendItemUpgradeByCoupon(Packet & packet)
 void Player::SendLearnSkillByItem(Packet & packet)
 {
 	sUG_SKILL_LEARN_BY_ITEM_REQ *req = (sUG_SKILL_LEARN_BY_ITEM_REQ*)packet.GetPacketBuffer();
-	printf("pos %d \n place %d \n", req->itemPos, req->itemPlace);
+	sGU_SKILL_LEARN_BY_ITEM_RES res;
+	res.wOpCode = GU_SKILL_LEARN_BY_ITEM_RES;
+	res.wPacketSize = sizeof(sGU_SKILL_LEARN_BY_ITEM_RES) - 2;
+	res.wResultCode = GAME_FAIL;
+	sGU_ITEM_STACK_UPDATE ItmStackUpdate;
+	ItmStackUpdate.wOpCode = GU_ITEM_STACK_UPDATE;
+	ItmStackUpdate.wPacketSize = sizeof(sGU_ITEM_STACK_UPDATE) - 2;
+	sGU_ITEM_DELETE itmDelete;
+	itmDelete.wOpCode = GU_ITEM_DELETE;
+	itmDelete.wPacketSize = sizeof(sGU_ITEM_DELETE) - 2;
+	//printf("pos %d \n place %d \n", req->itemPos, req->itemPlace);
 	sITEM_PROFILE *Item = NULL;
 	sITEM_TBLDAT *ItemData = NULL;
+	sUSE_ITEM_TBLDAT * UseItemData = NULL;
 	Item = this->inventoryManager.GetItemAtPlaceAndPost(req->itemPlace, req->itemPos);
 	if (Item != NULL)
 	{
@@ -1655,26 +1965,84 @@ void Player::SendLearnSkillByItem(Packet & packet)
 		}
 		if (ItemData != NULL)
 		{				
-			UseItemTable * UseItemTable = sTBM.GetUseItemTable();
-			sUSE_ITEM_TBLDAT * UseItemTBLIDX = reinterpret_cast<sUSE_ITEM_TBLDAT*>(UseItemTable->FindData(ItemData->tbxUseItem));
-			
-			if (UseItemTBLIDX != NULL)
+			if ((UseItemData = (sUSE_ITEM_TBLDAT*)sTBM.GetUseItemTable()->FindData(ItemData->tbxUseItem)) == NULL)
 			{
+				UseItemData = (sUSE_ITEM_TBLDAT2*)sTBM.GetUseItemTable2()->FindData(ItemData->tbxUseItem);
+			}			
+			if (UseItemData != NULL)
+			{								
 				SkillTable * skillTable = sTBM.GetSkillTable();
-				sSKILL_TBLDAT * skillDataOriginal = reinterpret_cast<sSKILL_TBLDAT*>(skillTable->FindData(UseItemTBLIDX->adSystemEffectValue[0]));
+				sSKILL_TBLDAT * skillDataOriginal = reinterpret_cast<sSKILL_TBLDAT*>(skillTable->FindData(UseItemData->adSystemEffectValue[0]));
 				if (skillDataOriginal != NULL)
 				{
 					if (GetClassFlag(GetAttributesManager()->PlayerClassID, ITEM_TYPE_UNKNOWN) == skillDataOriginal->dwPC_Class_Bit_Flag)
-					{
-						if (skillDataOriginal->bySkill_Grade == 1 && skillDataOriginal->bySkill_Class != eSKILL_CLASS::SKILL_CLASS_HTB && skillManager.isSkillLearned(skillDataOriginal->tblidx) == false)
+					{						
+						//	printf("adSystemEffectValue %f \n ", UseItemData->adSystemEffectValue[0]);
+						if (GetPcProfile()->byLevel >= ItemData->byNeedLevel)
 						{
-							printf("tbxUseItem %d \n ", UseItemTBLIDX->adSystemEffectValue[0]);
-							m_session->LearnSkill(skillDataOriginal->tblidx);
+							if (skillDataOriginal->bySkill_Grade == 1 && skillDataOriginal->bySkill_Class != eSKILL_CLASS::SKILL_CLASS_HTB && skillManager.isSkillLearned(skillDataOriginal->tblidx) == false)
+							{
+
+								if (Item->byStackcount <= 1)
+								{
+									itmDelete.bySrcPlace = Item->byPlace;
+									itmDelete.bySrcPos = Item->byPos;
+									itmDelete.hSrcItem = Item->handle;
+									SendPacket((char*)&itmDelete, sizeof(sGU_ITEM_DELETE));
+									Item->byPlace = INVALID_TBLIDX;
+									Item->byPos = INVALID_TBLIDX;
+									Item->tblidx = INVALID_TBLIDX;
+								}
+								else
+								{
+									//UpdateStack
+									ItmStackUpdate.hItemHandle = Item->handle;
+									ItmStackUpdate.byStack = Item->byStackcount - 1;
+									ItmStackUpdate.bIsNew = false;
+									Item->byStackcount = ItmStackUpdate.byStack;
+									SendPacket((char*)&ItmStackUpdate, sizeof(sGU_ITEM_STACK_UPDATE));
+								}
+								res.wResultCode = GAME_SUCCESS;
+								skillManager.LoadSkill(charid);
+								int Slotid = NULL;
+								sGU_SKILL_LEARNED_NFY nfy;
+								nfy.bySlot = skillManager.getSkillsCount() + 1;//Need set frist skill to 0 when Reset skills;
+								nfy.skillId = skillDataOriginal->tblidx;
+								nfy.wOpCode = GU_SKILL_LEARNED_NFY;
+								nfy.wPacketSize = sizeof(sGU_SKILL_LEARNED_NFY) - 2;
+								nfy.wResultCode = GAME_SUCCESS;
+								SendPacket((char*)&nfy, sizeof(sGU_SKILL_LEARNED_NFY));
+								sDB.LearnSkill(nfy.skillId, GetCharacterID(), nfy.bySlot);
+								//Load skill for can use after that
+								skillManager.LoadSkill(charid);
+								m_session->SendAvatarSkillInfo();
+								m_session->SendUpdateSkillPassiveAtributeByID(nfy.skillId, false);
+							}
+							else
+							{
+								//Alardy got Skill
+								res.wResultCode = GAME_SKILL_ALREADY_MASTERED_SKILL;
+							}
+						}
+						else
+						{							
+							//Need More Level 
+							res.wResultCode = GAME_ITEM_NEED_MORE_LEVEL;
 						}
 					}
+					else
+					{
+						//Class Worong
+						res.wResultCode = GAME_ITEM_CLASS_FAIL;
+					}
+					
 				}
-							
+					//Skill Table mull		
 			}
+			//UseItem Table mull	
 		}
+		//ItemData Table mull	
 	}
+	//ItemBag mull	
+	SendPacket((char*)&res, sizeof(sGU_SKILL_LEARN_BY_ITEM_RES));
 }

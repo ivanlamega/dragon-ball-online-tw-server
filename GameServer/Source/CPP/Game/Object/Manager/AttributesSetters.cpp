@@ -128,7 +128,7 @@ void AttributesManager::SetLastEnergyCriticalRate(WORD val)
 void AttributesManager::SetLastRunSpeed(float val)
 {
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_RUN_SPEED_LAST);
-	PlayerProfile.avatarAttribute.fLastRunSpeed += val;
+	PlayerProfile.avatarAttribute.fLastRunSpeed = val;
 }
 void AttributesManager::SetLastAirSpeed(float val)
 {
@@ -148,7 +148,7 @@ void AttributesManager::SetLastAirDash2Speed(float val)
 void AttributesManager::SetLastAttackSpeedRate(WORD val)
 {
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_ATTACK_SPEED_RATE_LAST);
-	PlayerProfile.avatarAttribute.wBaseAttackSpeedRate += val;
+	PlayerProfile.avatarAttribute.wLastAttackSpeedRate += val;
 }
 void AttributesManager::SetLastAttackRange(float val)
 {
@@ -163,7 +163,7 @@ void AttributesManager::SetCastingTimeChangePercent(float val)
 void AttributesManager::SetCoolTimeChangePercent(float val)
 {
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_COOL_TIME_CHANGE_PERCENT);
-	PlayerProfile.avatarAttribute.fCoolTimeChangePercent = val;
+	PlayerProfile.avatarAttribute.fCoolTimeChangePercent += val;
 }
 void AttributesManager::SetKeepTimeChangePercent(float val)
 {

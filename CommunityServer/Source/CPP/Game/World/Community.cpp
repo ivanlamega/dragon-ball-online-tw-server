@@ -167,6 +167,7 @@ void Community::AddSession_(CommunitySession* s)
 	bool decrease_session = true;
 	// if session already exist, prepare to it deleting at next world update
 	// NOTE - KickPlayer() should be called on "old" in RemoveSession()
+	try
 	{
 		SessionMap::const_iterator old = m_sessions.find(s->GetAccountId());
 
@@ -175,6 +176,12 @@ void Community::AddSession_(CommunitySession* s)
 			decrease_session = false;
 		}
 	}
+	catch (std::logic_error&)
+	{
+		sLog.outError("Error removing player");
+		return;
+	}
+
 	m_sessions[s->GetAccountId()] = s;
 
 	uint32 Sessions = GetActiveSessionCount();

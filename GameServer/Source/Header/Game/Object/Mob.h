@@ -19,7 +19,6 @@ public:
 	void				Update(uint32 update_diff, uint32 time);
 	bool				Create(sSPAWN_TBLDAT* spawnTbl, sMOB_TBLDAT* mobTbl);
 	bool                Create(sMOB_TBLDAT * mobTbl, SpawnMOB spawnInfo);
-
 	MonsterData			GetMobData()const;
 	MobReference		&GetMapRef();
 
@@ -51,12 +50,20 @@ private:
 	MonsterData			me;
 	MobReference		m_MobRef;
 	time_t				respawnTime;
+	DWORD				MobSkill;
+	DWORD				TimmerReg;
+	DWORD				TimmerMove;
+	DWORD				TimmerAgro;
 	bool                spawnOnce;
 	//	------------------------------------------------------------------------
 	// MOVEMENT
 	//	------------------------------------------------------------------------
-	int					lastMoveTime;
+	//int					lastMoveTime;	
 	int					randMove;
+	int					AttackChain;
+	int					UpdateFollowtime;
+	int					RandValue;
+	int					BossEventRandom;
 	//	------------------------------------------------------------------------
 	// SYSTEM
 	//	------------------------------------------------------------------------

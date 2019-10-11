@@ -120,9 +120,9 @@ void	WorldSession::SendUpdateSkillPassiveAtribute()
 				SystemEffectData = (sSYSTEM_EFFECT_TBLDAT*)sTBM.GetSystemEffectTable()->FindData(skillDataOriginal->skill_Effect[Effect]);
 				if (SystemEffectData != NULL)
 				{
-				printf("skill_Effect %d \n", skillDataOriginal->skill_Effect[Effect]);
-				printf("effectCode %d \n", SystemEffectData->effectCode);
-				printf("Effect %d \n", Effect);
+				//	printf("skill_Effect %d \n", skillDataOriginal->skill_Effect[Effect]);
+				//	printf("effectCode %d \n", SystemEffectData->effectCode);
+				//	printf("Effect %d \n", Effect);
 					switch (SystemEffectData->effectCode)
 					{
 					case PASSIVE_MAX_LP_UP:
@@ -173,7 +173,7 @@ void	WorldSession::SendUpdateSkillPassiveAtribute()
 					{						
 						_player->GetAttributesManager()->SetLastCon(skillDataOriginal->SkillValue[Effect]);
 						float LevelCon = skillDataOriginal->SkillValue[Effect];
-						float ConByPoint = 95; // 1con = 85 old tw
+						float ConByPoint = 85; // 1con = 85 old tw
 						float LP = static_cast<float>(LevelCon * ConByPoint);
 						_player->GetAttributesManager()->SetLastMaxLP(LP);						
 						break;
@@ -182,12 +182,15 @@ void	WorldSession::SendUpdateSkillPassiveAtribute()
 					{					
 						_player->GetAttributesManager()->SetLastFoc(skillDataOriginal->SkillValue[Effect]);
 						WORD LevelFoc = skillDataOriginal->SkillValue[Effect];
-						float EnergyCriticalByPoint = 2; // 1Focus = 1 pont critical 
+						float EnergyCriticalByPoint = 0.2; // 1Focus = 1 pont critical 
 						float EnergyAttackByPoint = 2; // 1Focus = 1 pont critical 
+						float HitRateByPoint = 10; // 1 point = 10 hit rate old tw
 						WORD EnergyCriticalRate = static_cast<WORD>(LevelFoc * EnergyCriticalByPoint);
 						WORD EnergyAttack = static_cast<WORD>(LevelFoc * EnergyAttackByPoint);
+						WORD HitRate = static_cast<WORD>(LevelFoc * HitRateByPoint);
 						_player->GetAttributesManager()->SetLastEnergyCriticalRate(EnergyCriticalRate);
-						_player->GetAttributesManager()->SetLastEnergyOffence(EnergyAttack);						
+						_player->GetAttributesManager()->SetLastEnergyOffence(EnergyAttack);	
+						_player->GetAttributesManager()->SetLastAttackRate(HitRate);
 						break;
 					}
 					case PASSIVE_DEX_UP:
@@ -195,19 +198,22 @@ void	WorldSession::SendUpdateSkillPassiveAtribute()
 						
 						_player->GetAttributesManager()->SetLastDex(skillDataOriginal->SkillValue[Effect]);
 						WORD LevelDex = skillDataOriginal->SkillValue[Effect];
-						float CriticalAttackByPoint = 2; // 1Dex = 1 critical old tw
+						float CriticalAttackByPoint = 0.2; // 1Dex = 1 critical old tw
 						float PhyAttackByPoint = 2; // 1Dex = 1 phyattack old tw
+						float DoggeByPoint = 5;
 						WORD PhysicalCriticalRate = static_cast<WORD>(LevelDex * CriticalAttackByPoint);
 						WORD PhysicalAttack = static_cast<WORD>(LevelDex * PhyAttackByPoint);
+						WORD DodgeRate = static_cast<WORD>(LevelDex * DoggeByPoint);
 						_player->GetAttributesManager()->SetLastPhysicalCriticalRate(PhysicalCriticalRate);
-						_player->GetAttributesManager()->SetLastPhysicalOffence(PhysicalAttack);						
+						_player->GetAttributesManager()->SetLastPhysicalOffence(PhysicalAttack);
+						_player->GetAttributesManager()->SetLastDodgeRate(DodgeRate);
 						break;
 					}
 					case PASSIVE_SOL_UP:
 					{					
 						_player->GetAttributesManager()->SetLastSol(skillDataOriginal->SkillValue[Effect]);
 						WORD LevelSol = skillDataOriginal->SkillValue[Effect];
-						float SolByPoint = 5; // 1Soul = 1.66 Physical old tw
+						float SolByPoint = 1.66; // 1Soul = 1.66 Physical old tw
 						WORD EnergyOffence = static_cast<WORD>(LevelSol * SolByPoint);
 						_player->GetAttributesManager()->SetLastEnergyOffence(EnergyOffence);						
 						break;
@@ -216,9 +222,134 @@ void	WorldSession::SendUpdateSkillPassiveAtribute()
 					{						
 						_player->GetAttributesManager()->SetLastEng(skillDataOriginal->SkillValue[Effect]);
 						WORD LevelEng = skillDataOriginal->SkillValue[Effect];
-						float EngByPoint = 55; // 1Eng = 45 ep old tw
+						float EngByPoint = 45; // 1Eng = 45 ep old tw
 						WORD EP = static_cast<WORD>(LevelEng * EngByPoint);
 						_player->GetAttributesManager()->SetLastMaxEP(EP);						
+						break;
+					}
+					case PASSIVE_DASH:
+					{
+						break;
+					}
+					case PASSIVE_HOVERING:
+					{
+						break;
+					}
+					case PASSIVE_LP_REGENERATION:
+					{
+						_player->GetAttributesManager()->SetLastLPRegen(skillDataOriginal->SkillValue[Effect]);
+						break;
+					}
+					case PASSIVE_EP_REGENERATION:
+					{
+						_player->GetAttributesManager()->SetLastEPRegen(skillDataOriginal->SkillValue[Effect]);
+						break;
+					}
+					case PASSIVE_ATTACK_RATE_UP:
+					{
+						_player->GetAttributesManager()->SetLastAttackRate(skillDataOriginal->SkillValue[Effect]);
+						break;
+					}
+					case PASSIVE_DODGE_RATE_UP:
+					{
+						_player->GetAttributesManager()->SetLastDodgeRate(skillDataOriginal->SkillValue[Effect]);
+						break;
+					}
+					case PASSIVE_BLOCK_RATE_UP:
+					{
+						_player->GetAttributesManager()->SetLastBlockRate(skillDataOriginal->SkillValue[Effect]);
+						break;
+					}
+					case PASSIVE_CURSE_SUCCESS_UP:
+					{
+						_player->GetAttributesManager()->SetLastCurseSuccessRate(skillDataOriginal->SkillValue[Effect]);
+						break;
+					}
+					case PASSIVE_CURSE_TOLERANCE_UP:
+					{
+						break;
+					}
+					case PASSIVE_PHYSICAL_CRITICAL_UP:
+					{
+						_player->GetAttributesManager()->SetLastPhysicalCriticalRate(skillDataOriginal->SkillValue[Effect]);
+						break;
+					}
+					case PASSIVE_ENERGY_CRITICAL_UP:
+					{
+						_player->GetAttributesManager()->SetLastEnergyCriticalRate(skillDataOriginal->SkillValue[Effect]);
+						break;
+					}
+					case PASSIVE_RP_CHARGE_SPEED:
+					{
+						break;
+					}
+					case PASSIVE_MOVE_SPEED:
+					{
+						break;
+					}
+					case PASSIVE_ATTACK_SPEED_UP:
+					{
+						break;
+					}
+					case PASSIVE_SKILL_CASTING_TIME_DOWN:
+					{
+						break;
+					}
+					case PASSIVE_SKILL_COOL_TIME_DOWN:
+					{						
+						_player->GetAttributesManager()->SetCoolTimeChangePercent(skillDataOriginal->SkillValue[Effect] * -1);
+						break;
+					}
+					case PASSIVE_CHARGE:
+					{
+						break;
+					}
+					case PASSIVE_BLOCK_MODE:
+					{
+						break;
+					}
+					case PASSIVE_GUARD_COUNTERATTACK:
+					{
+						break;
+					}
+					case PASSIVE_DOT_VALUE_UP_ALL:
+					{
+						break;
+					}
+					case PASSIVE_DOT_TIME_UP_ALL:
+					{
+						break;
+					}
+					case PASSIVE_SKILL_EFFECT_VALUE_UP:
+					{
+						break;
+					}
+					case PASSIVE_SKILL_KEEP_TIME_UP:
+					{
+						break;
+					}
+					case PASSIVE_REQUIRE_EP_DOWN:
+					{
+						break;
+					}
+					case PASSIVE_CHANGE_APPLY_RANGE:
+					{
+						break;
+					}
+					case PASSIVE_APPLY_AREA_SIZE_UP:
+					{
+						break;
+					}
+					case PASSIVE_USE_RANGE_UP:
+					{
+						break;
+					}
+					case PASSIVE_MASTERY:
+					{
+						break;
+					}
+					case PASSIVE_AIR_MASTERY:
+					{
 						break;
 					}
 					//Next Case
@@ -326,7 +457,7 @@ void	WorldSession::SendUpdateSkillPassiveAtributeByID(TBLIDX SkillID, bool isRem
 						_player->GetAttributesManager()->SetLastStr(skillDataOriginal->SkillValue[Effect] * -1);
 
 						WORD LevelStr = skillDataOriginal->SkillValue[Effect];
-						float StrByPoint = 5; // 1Str = 1.66 Physical old tw
+						float StrByPoint = 1.66; // 1Str = 1.66 Physical old tw
 						WORD PhysicalOffence = static_cast<WORD>(LevelStr * StrByPoint);
 
 						_player->GetAttributesManager()->SetLastPhysicalOffence(PhysicalOffence * -1);
@@ -336,7 +467,7 @@ void	WorldSession::SendUpdateSkillPassiveAtributeByID(TBLIDX SkillID, bool isRem
 						_player->GetAttributesManager()->SetLastStr(skillDataOriginal->SkillValue[Effect]);
 
 						WORD LevelStr = skillDataOriginal->SkillValue[Effect];
-						float StrByPoint = 5; // 1Str = 1.66 Physical old tw
+						float StrByPoint = 1.66; // 1Str = 1.66 Physical old tw
 						WORD PhysicalOffence = static_cast<WORD>(LevelStr * StrByPoint);
 
 						_player->GetAttributesManager()->SetLastPhysicalOffence(PhysicalOffence);
@@ -350,7 +481,7 @@ void	WorldSession::SendUpdateSkillPassiveAtributeByID(TBLIDX SkillID, bool isRem
 						_player->GetAttributesManager()->SetLastCon(skillDataOriginal->SkillValue[Effect] * -1);
 
 						float LevelCon = skillDataOriginal->SkillValue[Effect];
-						float ConByPoint = 200; // 1con = 85 old tw
+						float ConByPoint = 85; // 1con = 85 old tw
 						float LP = static_cast<float>(LevelCon * ConByPoint);
 
 						_player->GetAttributesManager()->SetLastMaxLP(LP * -1);
@@ -360,7 +491,7 @@ void	WorldSession::SendUpdateSkillPassiveAtributeByID(TBLIDX SkillID, bool isRem
 						_player->GetAttributesManager()->SetLastCon(skillDataOriginal->SkillValue[Effect]);
 
 						float LevelCon = skillDataOriginal->SkillValue[Effect];
-						float ConByPoint = 200; // 1con = 85 old tw
+						float ConByPoint = 85; // 1con = 85 old tw
 						float LP = static_cast<float>(LevelCon * ConByPoint);
 
 						_player->GetAttributesManager()->SetLastMaxLP(LP);
@@ -372,28 +503,30 @@ void	WorldSession::SendUpdateSkillPassiveAtributeByID(TBLIDX SkillID, bool isRem
 					if (isRemove == true)
 					{
 						_player->GetAttributesManager()->SetLastFoc(skillDataOriginal->SkillValue[Effect] * -1);
-
 						WORD LevelFoc = skillDataOriginal->SkillValue[Effect];
-						float EnergyCriticalByPoint = 5; // 1Focus = 1 pont critical 
-						float EnergyAttackByPoint = 5; // 1Focus = 1 pont critical 
+						float EnergyCriticalByPoint = 0.2; // 1Focus = 1 pont critical 
+						float EnergyAttackByPoint = 2; // 1Focus = 1 pont critical 
+						float HitRateByPoint = 10; // 1 point = 10 hit rate old tw
 						WORD EnergyCriticalRate = static_cast<WORD>(LevelFoc * EnergyCriticalByPoint);
 						WORD EnergyAttack = static_cast<WORD>(LevelFoc * EnergyAttackByPoint);
-
+						WORD HitRate = static_cast<WORD>(LevelFoc * HitRateByPoint);
 						_player->GetAttributesManager()->SetLastEnergyCriticalRate(EnergyCriticalRate * -1);
 						_player->GetAttributesManager()->SetLastEnergyOffence(EnergyAttack * -1);
+						_player->GetAttributesManager()->SetLastAttackRate(HitRate * -1);
 					}
 					else
 					{
 						_player->GetAttributesManager()->SetLastFoc(skillDataOriginal->SkillValue[Effect]);
-
 						WORD LevelFoc = skillDataOriginal->SkillValue[Effect];
-						float EnergyCriticalByPoint = 5; // 1Focus = 1 pont critical 
-						float EnergyAttackByPoint = 5; // 1Focus = 1 pont critical 
+						float EnergyCriticalByPoint = 0.2; // 1Focus = 1 pont critical 
+						float EnergyAttackByPoint = 2; // 1Focus = 1 pont critical 
+						float HitRateByPoint = 10; // 1 point = 10 hit rate old tw
 						WORD EnergyCriticalRate = static_cast<WORD>(LevelFoc * EnergyCriticalByPoint);
 						WORD EnergyAttack = static_cast<WORD>(LevelFoc * EnergyAttackByPoint);
-
+						WORD HitRate = static_cast<WORD>(LevelFoc * HitRateByPoint);
 						_player->GetAttributesManager()->SetLastEnergyCriticalRate(EnergyCriticalRate);
 						_player->GetAttributesManager()->SetLastEnergyOffence(EnergyAttack);
+						_player->GetAttributesManager()->SetLastAttackRate(HitRate);
 					}
 					break;
 				}
@@ -402,28 +535,30 @@ void	WorldSession::SendUpdateSkillPassiveAtributeByID(TBLIDX SkillID, bool isRem
 					if (isRemove == true)
 					{
 						_player->GetAttributesManager()->SetLastDex(skillDataOriginal->SkillValue[Effect] * -1);
-
 						WORD LevelDex = skillDataOriginal->SkillValue[Effect];
-						float CriticalAttackByPoint = 5; // 1Dex = 1 critical old tw
-						float PhyAttackByPoint = 5; // 1Dex = 1 phyattack old tw
+						float CriticalAttackByPoint = 0.2; // 1Dex = 1 critical old tw
+						float PhyAttackByPoint = 2; // 1Dex = 1 phyattack old tw
+						float DoggeByPoint = 5;
 						WORD PhysicalCriticalRate = static_cast<WORD>(LevelDex * CriticalAttackByPoint);
 						WORD PhysicalAttack = static_cast<WORD>(LevelDex * PhyAttackByPoint);
-
+						WORD DodgeRate = static_cast<WORD>(LevelDex * DoggeByPoint);
 						_player->GetAttributesManager()->SetLastPhysicalCriticalRate(PhysicalCriticalRate * -1);
 						_player->GetAttributesManager()->SetLastPhysicalOffence(PhysicalAttack * -1);
+						_player->GetAttributesManager()->SetLastDodgeRate(DodgeRate * -1);
 					}
 					else
 					{
 						_player->GetAttributesManager()->SetLastDex(skillDataOriginal->SkillValue[Effect]);
-
 						WORD LevelDex = skillDataOriginal->SkillValue[Effect];
-						float CriticalAttackByPoint = 5; // 1Dex = 1 critical old tw
-						float PhyAttackByPoint = 5; // 1Dex = 1 phyattack old tw
+						float CriticalAttackByPoint = 0.2; // 1Dex = 1 critical old tw
+						float PhyAttackByPoint = 2; // 1Dex = 1 phyattack old tw
+						float DoggeByPoint = 5;
 						WORD PhysicalCriticalRate = static_cast<WORD>(LevelDex * CriticalAttackByPoint);
 						WORD PhysicalAttack = static_cast<WORD>(LevelDex * PhyAttackByPoint);
-
+						WORD DodgeRate = static_cast<WORD>(LevelDex * DoggeByPoint);
 						_player->GetAttributesManager()->SetLastPhysicalCriticalRate(PhysicalCriticalRate);
 						_player->GetAttributesManager()->SetLastPhysicalOffence(PhysicalAttack);
+						_player->GetAttributesManager()->SetLastDodgeRate(DodgeRate);
 					}
 					break;
 				}
@@ -434,7 +569,7 @@ void	WorldSession::SendUpdateSkillPassiveAtributeByID(TBLIDX SkillID, bool isRem
 						_player->GetAttributesManager()->SetLastSol(skillDataOriginal->SkillValue[Effect] * -1);
 
 						WORD LevelSol = skillDataOriginal->SkillValue[Effect];
-						float SolByPoint = 5; // 1Soul = 1.66 Physical old tw
+						float SolByPoint = 1.66; // 1Soul = 1.66 Physical old tw
 						WORD EnergyOffence = static_cast<WORD>(LevelSol * SolByPoint);
 
 						_player->GetAttributesManager()->SetLastEnergyOffence(EnergyOffence * -1);
@@ -444,7 +579,7 @@ void	WorldSession::SendUpdateSkillPassiveAtributeByID(TBLIDX SkillID, bool isRem
 						_player->GetAttributesManager()->SetLastSol(skillDataOriginal->SkillValue[Effect]);
 
 						WORD LevelSol = skillDataOriginal->SkillValue[Effect];
-						float SolByPoint = 5; // 1Soul = 1.66 Physical old tw
+						float SolByPoint = 1.66; // 1Soul = 1.66 Physical old tw
 						WORD EnergyOffence = static_cast<WORD>(LevelSol * SolByPoint);
 
 						_player->GetAttributesManager()->SetLastEnergyOffence(EnergyOffence);
@@ -458,7 +593,7 @@ void	WorldSession::SendUpdateSkillPassiveAtributeByID(TBLIDX SkillID, bool isRem
 						_player->GetAttributesManager()->SetLastEng(skillDataOriginal->SkillValue[Effect] * -1);
 
 						WORD LevelEng = skillDataOriginal->SkillValue[Effect];
-						float EngByPoint = 55; // 1Eng = 45 ep old tw
+						float EngByPoint = 45; // 1Eng = 45 ep old tw
 						WORD EP = static_cast<WORD>(LevelEng * EngByPoint);
 
 						_player->GetAttributesManager()->SetLastMaxEP(EP * -1);
@@ -468,11 +603,192 @@ void	WorldSession::SendUpdateSkillPassiveAtributeByID(TBLIDX SkillID, bool isRem
 						_player->GetAttributesManager()->SetLastEng(skillDataOriginal->SkillValue[Effect]);
 
 						WORD LevelEng = skillDataOriginal->SkillValue[Effect];
-						float EngByPoint = 55; // 1Eng = 45 ep old tw
+						float EngByPoint = 45; // 1Eng = 45 ep old tw
 						WORD EP = static_cast<WORD>(LevelEng * EngByPoint);
 
 						_player->GetAttributesManager()->SetLastMaxEP(EP);
 					}
+					break;
+				}
+				case PASSIVE_DASH:
+				{
+					break;
+				}
+				case PASSIVE_HOVERING:
+				{
+					break;
+				}
+				case PASSIVE_LP_REGENERATION:
+				{
+					if (isRemove == true)
+					{
+						_player->GetAttributesManager()->SetLastLPRegen(skillDataOriginal->SkillValue[Effect] * -1);						
+					}
+					else
+					{
+						_player->GetAttributesManager()->SetLastLPRegen(skillDataOriginal->SkillValue[Effect]);
+					}
+					break;
+				}
+				case PASSIVE_EP_REGENERATION:
+				{
+					if (isRemove == true)
+					{
+						_player->GetAttributesManager()->SetLastEPRegen(skillDataOriginal->SkillValue[Effect] * -1);
+					}
+					else
+					{
+						_player->GetAttributesManager()->SetLastEPRegen(skillDataOriginal->SkillValue[Effect]);
+					}
+					break;
+				}
+				case PASSIVE_ATTACK_RATE_UP:
+				{
+					if (isRemove == true)
+					{
+						_player->GetAttributesManager()->SetLastAttackRate(skillDataOriginal->SkillValue[Effect] * -1);
+					}
+					else
+					{
+						_player->GetAttributesManager()->SetLastAttackRate(skillDataOriginal->SkillValue[Effect]);
+					}
+					break;
+				}
+				case PASSIVE_DODGE_RATE_UP:
+				{
+					if (isRemove == true)
+					{
+						_player->GetAttributesManager()->SetLastDodgeRate(skillDataOriginal->SkillValue[Effect] * -1);
+					}
+					else
+					{
+						_player->GetAttributesManager()->SetLastDodgeRate(skillDataOriginal->SkillValue[Effect]);
+					}
+					break;
+				}
+				case PASSIVE_BLOCK_RATE_UP:
+				{
+					if (isRemove == true)
+					{
+						_player->GetAttributesManager()->SetLastBlockRate(skillDataOriginal->SkillValue[Effect] * -1);
+					}
+					else
+					{
+						_player->GetAttributesManager()->SetLastBlockRate(skillDataOriginal->SkillValue[Effect]);
+					}
+					break;
+				}
+				case PASSIVE_CURSE_SUCCESS_UP:
+				{
+					if (isRemove == true)
+					{
+						_player->GetAttributesManager()->SetLastCurseSuccessRate(skillDataOriginal->SkillValue[Effect] * -1);
+					}
+					else
+					{
+						_player->GetAttributesManager()->SetLastCurseSuccessRate(skillDataOriginal->SkillValue[Effect]);
+					}
+					break;
+				}
+				case PASSIVE_CURSE_TOLERANCE_UP:
+				{
+					break;
+				}
+				case PASSIVE_PHYSICAL_CRITICAL_UP:
+				{
+					if (isRemove == true)
+					{
+						_player->GetAttributesManager()->SetLastPhysicalCriticalRate(skillDataOriginal->SkillValue[Effect] * -1);
+					}
+					else
+					{
+						_player->GetAttributesManager()->SetLastPhysicalCriticalRate(skillDataOriginal->SkillValue[Effect]);
+					}
+					break;
+				}
+				case PASSIVE_ENERGY_CRITICAL_UP:
+				{
+					if (isRemove == true)
+					{
+						_player->GetAttributesManager()->SetCoolTimeChangePercent(skillDataOriginal->SkillValue[Effect]);
+					}
+					else
+					{
+						_player->GetAttributesManager()->SetCoolTimeChangePercent(skillDataOriginal->SkillValue[Effect] * -1);
+					}
+					break;
+				}
+				case PASSIVE_RP_CHARGE_SPEED:
+				{
+					break;
+				}
+				case PASSIVE_MOVE_SPEED:
+				{
+					break;
+				}
+				case PASSIVE_ATTACK_SPEED_UP:
+				{
+					break;
+				}
+				case PASSIVE_SKILL_CASTING_TIME_DOWN:
+				{
+					break;
+				}
+				case PASSIVE_SKILL_COOL_TIME_DOWN:
+				{
+
+					break;
+				}
+				case PASSIVE_CHARGE:
+				{
+					break;
+				}
+				case PASSIVE_BLOCK_MODE:
+				{
+					break;
+				}
+				case PASSIVE_GUARD_COUNTERATTACK:
+				{
+					break;
+				}
+				case PASSIVE_DOT_VALUE_UP_ALL:
+				{
+					break;
+				}
+				case PASSIVE_DOT_TIME_UP_ALL:
+				{
+					break;
+				}
+				case PASSIVE_SKILL_EFFECT_VALUE_UP:
+				{
+					break;
+				}
+				case PASSIVE_SKILL_KEEP_TIME_UP:
+				{
+					break;
+				}
+				case PASSIVE_REQUIRE_EP_DOWN:
+				{
+					break;
+				}
+				case PASSIVE_CHANGE_APPLY_RANGE:
+				{
+					break;
+				}
+				case PASSIVE_APPLY_AREA_SIZE_UP:
+				{
+					break;
+				}
+				case PASSIVE_USE_RANGE_UP:
+				{
+					break;
+				}
+				case PASSIVE_MASTERY:
+				{
+					break;
+				}
+				case PASSIVE_AIR_MASTERY:
+				{
 					break;
 				}
 				//Next Case
@@ -539,6 +855,145 @@ void WorldSession::SendSocialSkill(Packet& packet)
 //----------------------------------------
 //	Learn a new skill
 //----------------------------------------
+void WorldSession::LearnMestrySkill(TBLIDX skillID)
+{
+	int bySkillCount = _player->skillManager.getSkillsCount();
+	for (int i = 0; i < bySkillCount; i++)
+	{
+		int skillID = _player->skillManager.getSkillsInfos()[i].tblidx;
+		SendUpdateSkillPassiveAtributeByID(skillID, true);
+	}
+	sql::ResultSet* result = sDB.executes("DELETE FROM `skills` WHERE `owner_id` = '%d';", _player->charid);
+	if (result != NULL)
+		delete result;
+
+	//Delet All Skills
+	sGU_SKILL_INIT_RES SkillReset;
+	SkillReset.wOpCode = GU_SKILL_INIT_RES;
+	SkillReset.wPacketSize = sizeof(sGU_SKILL_INIT_RES) - 2;
+	SkillReset.wResultCode = GAME_SUCCESS;
+	SendPacket((char*)&SkillReset, sizeof(sGU_SKILL_INIT_RES));
+
+	sGU_SKILL_INIT_NFY skill;
+	skill.wOpCode = GU_SKILL_INIT_NFY;
+	skill.wPacketSize = sizeof(sGU_SKILL_INIT_NFY) - 2;
+	skill.wResultCode = GAME_SUCCESS;
+	SendPacket((char*)&skill, sizeof(sGU_SKILL_INIT_NFY));
+
+	//Update Char SP
+	sGU_UPDATE_CHAR_SP sp;
+	sp.wOpCode = GU_UPDATE_CHAR_SP;
+	sp.wPacketSize = sizeof(sGU_UPDATE_CHAR_SP) - 2;
+	sp.dwSpPoint = _player->GetPcProfile()->byLevel;
+	_player->GetPcProfile()->dwSpPoint = sp.dwSpPoint;
+	SendPacket((char*)&sp, sizeof(sGU_UPDATE_CHAR_SP));
+
+	sDB.UpdateSPPoint(_player->GetPcProfile()->dwSpPoint, _player->charid);
+	// Learn BASE SKILL
+	NewbieTable* pNewBieTable = sTBM.GetNewbieTable();
+	sNEWBIE_TBLDAT* pNewbieTbldat = reinterpret_cast<sNEWBIE_TBLDAT*>(pNewBieTable->GetNewbieTbldat(_player->GetAttributesManager()->PlayerRaceID, _player->GetAttributesManager()->PlayerClassID));
+	for (int i = 0; i < 7; i++)
+	{
+		if (pNewbieTbldat->aSkillTblidx[i] != -1)
+		{
+			//LearnSkill(pNewbieTbldat->aSkillTblidx[i]);
+			sGU_SKILL_LEARN_RES res;
+			res.wOpCode = GU_SKILL_LEARN_RES;
+			res.wPacketSize = sizeof(sGU_SKILL_LEARN_RES) - 2;
+			res.wResultCode = GAME_SUCCESS;
+
+			sGU_SKILL_LEARNED_NFY nfy;
+			nfy.bySlot = i + 1;//Need set frist skill to 0 when Reset skills;
+			nfy.skillId = pNewbieTbldat->aSkillTblidx[i];
+			nfy.wOpCode = GU_SKILL_LEARNED_NFY;
+			nfy.wPacketSize = sizeof(sGU_SKILL_LEARNED_NFY) - 2;
+			nfy.wResultCode = GAME_SUCCESS;
+
+			SendPacket((char*)&res, sizeof(sGU_SKILL_LEARN_RES));
+			SendPacket((char*)&nfy, sizeof(sGU_SKILL_LEARNED_NFY));
+			sDB.LearnSkill(pNewbieTbldat->aSkillTblidx[i], _player->GetCharacterID(), nfy.bySlot);
+			//Load skill for can use after that
+			_player->skillManager.LoadSkill(_player->charid);
+			SendAvatarSkillInfo();
+			SendUpdateSkillPassiveAtributeByID(pNewbieTbldat->aSkillTblidx[i], false);
+		}
+	}
+
+	//load skill for get correct rowcount 
+	_player->skillManager.LoadSkill(_player->charid);
+	int Slotid = NULL;
+	if (_player->GetPcProfile()->dwSpPoint >= 1 || _player->GetPcProfile()->bIsGameMaster == true)
+	{
+		sGU_SKILL_LEARN_RES res;
+		res.wOpCode = GU_SKILL_LEARN_RES;
+		res.wPacketSize = sizeof(sGU_SKILL_LEARN_RES) - 2;
+		res.wResultCode = GAME_SUCCESS;
+
+		sGU_SKILL_LEARNED_NFY nfy;
+		nfy.bySlot = _player->skillManager.getSkillsCount() + 1;//Need set frist skill to 0 when Reset skills;
+		nfy.skillId = skillID;
+		nfy.wOpCode = GU_SKILL_LEARNED_NFY;
+		nfy.wPacketSize = sizeof(sGU_SKILL_LEARNED_NFY) - 2;
+		nfy.wResultCode = GAME_SUCCESS;
+
+		if (_player->GetPcProfile()->dwSpPoint >= 1)
+		{
+			sGU_UPDATE_CHAR_SP spPoint;
+
+			spPoint.wOpCode = GU_UPDATE_CHAR_SP;
+			spPoint.wPacketSize = sizeof(sGU_UPDATE_CHAR_SP) - 2;
+			spPoint.dwSpPoint = _player->GetPcProfile()->dwSpPoint - 1;
+			_player->GetPcProfile()->dwSpPoint = spPoint.dwSpPoint;
+			sDB.UpdateSPPoint(_player->GetPcProfile()->dwSpPoint, _player->charid);
+			SendPacket((char*)&spPoint, sizeof(sGU_UPDATE_CHAR_SP));
+		}
+
+		SendPacket((char*)&res, sizeof(sGU_SKILL_LEARN_RES));
+		SendPacket((char*)&nfy, sizeof(sGU_SKILL_LEARNED_NFY));
+		sDB.LearnSkill(skillID, _player->GetCharacterID(), nfy.bySlot);
+		//Load skill for can use after that
+		_player->skillManager.LoadSkill(_player->charid);
+		SendAvatarSkillInfo();
+
+		SendUpdateSkillPassiveAtributeByID(skillID, false);
+	}
+	else
+	{
+		sGU_SKILL_LEARN_RES res;
+		res.wOpCode = GU_SKILL_LEARN_RES;
+		res.wPacketSize = sizeof(sGU_SKILL_LEARN_RES) - 2;
+		res.wResultCode = GAME_SKILL_NOT_ENOUGH_SP_POINT;
+		SendPacket((char*)&res, sizeof(sGU_SKILL_LEARN_RES));
+	}
+}
+void WorldSession::RewardSkill(TBLIDX skillID)
+{
+	//load skill for get correct rowcount 
+	_player->skillManager.LoadSkill(_player->charid);
+	int Slotid = NULL;
+	
+		SendUpdateSkillPassiveAtributeByID(skillID, true);
+		sGU_SKILL_LEARN_RES res;
+		res.wOpCode = GU_SKILL_LEARN_RES;
+		res.wPacketSize = sizeof(sGU_SKILL_LEARN_RES) - 2;
+		res.wResultCode = GAME_SUCCESS;
+
+		sGU_SKILL_LEARNED_NFY nfy;
+		nfy.bySlot = _player->skillManager.getSkillsCount() + 1;//Need set frist skill to 0 when Reset skills;
+		nfy.skillId = skillID;
+		nfy.wOpCode = GU_SKILL_LEARNED_NFY;
+		nfy.wPacketSize = sizeof(sGU_SKILL_LEARNED_NFY) - 2;
+		nfy.wResultCode = GAME_SUCCESS;		
+
+		SendPacket((char*)&res, sizeof(sGU_SKILL_LEARN_RES));
+		SendPacket((char*)&nfy, sizeof(sGU_SKILL_LEARNED_NFY));
+		sDB.LearnSkill(skillID, _player->GetCharacterID(), nfy.bySlot);
+		//Load skill for can use after that
+		_player->skillManager.LoadSkill(_player->charid);
+		SendAvatarSkillInfo();
+
+		SendUpdateSkillPassiveAtributeByID(skillID, false);	
+}
 void WorldSession::LearnSkill(TBLIDX skillID)
 {
 	//load skill for get correct rowcount 
@@ -546,6 +1001,7 @@ void WorldSession::LearnSkill(TBLIDX skillID)
 	int Slotid = NULL;	
 	if (_player->GetPcProfile()->dwSpPoint >= 1 || _player->GetPcProfile()->bIsGameMaster == true)
 	{
+		SendUpdateSkillPassiveAtributeByID(skillID, true);
 		sGU_SKILL_LEARN_RES res;
 		res.wOpCode = GU_SKILL_LEARN_RES;
 		res.wPacketSize = sizeof(sGU_SKILL_LEARN_RES) - 2;
@@ -576,6 +1032,7 @@ void WorldSession::LearnSkill(TBLIDX skillID)
 		//Load skill for can use after that
 		_player->skillManager.LoadSkill(_player->charid);
 		SendAvatarSkillInfo();
+	
 		SendUpdateSkillPassiveAtributeByID(skillID, false);
 	}
 	else
@@ -633,7 +1090,7 @@ void WorldSession::UpgradeSkill(Packet & packet)
 
 void WorldSession::ResetSkill(Packet & packet)
 {
-	int bySkillCount = _player->skillManager.getSkillsCount();
+	/*int bySkillCount = _player->skillManager.getSkillsCount();
 	for (int i = 0; i < bySkillCount; i++)
 	{
 		int skillID = _player->skillManager.getSkillsInfos()[i].tblidx;
@@ -694,5 +1151,5 @@ void WorldSession::ResetSkill(Packet & packet)
 			SendAvatarSkillInfo();
 			SendUpdateSkillPassiveAtributeByID(pNewbieTbldat->aSkillTblidx[i], false);
 		}
-	}
+	}*/
 }

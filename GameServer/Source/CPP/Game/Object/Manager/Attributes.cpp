@@ -13,7 +13,7 @@ AttributesManager::AttributesManager()
 	RPCounter = 0;
 	RPFilledCounter = 0;
 	plr = nullptr;
-	memset(&PlayerProfile.avatarAttribute, 0, sizeof(sAVATAR_ATTRIBUTE));
+	//memset(&PlayerProfile.avatarAttribute, 0, sizeof(sAVATAR_ATTRIBUTE));
 }
 //----------------------------------------
 //	Destructor
@@ -77,6 +77,64 @@ void AttributesManager::SendRpBallInformation()
 	plr->SendPacket((char*)&maxBall, sizeof(sGU_UPDATE_CHAR_RP_BALL_MAX));
 	plr->SendPacket((char*)&ball, sizeof(sGU_UPDATE_CHAR_RP_BALL));
 }
+void AttributesManager::UpdateLevelUpAtributes()
+{
+	sPC_TBLDAT *pTblData = (sPC_TBLDAT*)sTBM.GetPcTable()->GetPcTbldat(plr->GetAttributesManager()->PlayerRaceID, plr->GetAttributesManager()->PlayerRaceID, plr->GetAttributesManager()->PlayerGanderID);
+	if (pTblData != NULL)
+	{	
+
+		plr->GetAttributesManager()->SetLastStr(static_cast<int>(pTblData->byStr + (pTblData->fLevel_Up_Str * 1)));
+		plr->GetAttributesManager()->SetLastCon(static_cast<int>(pTblData->byCon + (pTblData->fLevel_Up_Con * 1)));
+		plr->GetAttributesManager()->SetLastFoc(static_cast<int>(pTblData->byFoc + (pTblData->fLevel_Up_Foc * 1)));
+		plr->GetAttributesManager()->SetLastDex(static_cast<int>(pTblData->byDex + (pTblData->fLevel_Up_Dex * 1)));
+		plr->GetAttributesManager()->SetLastSol(static_cast<int>(pTblData->bySol + (pTblData->fLevel_Up_Sol * 1)));
+		plr->GetAttributesManager()->SetLastEng(static_cast<int>(pTblData->byEng + (pTblData->fLevel_Up_Eng * 1)));
+	
+		// LP Calculation
+		DWORD BasicLife = pTblData->wBasic_LP + (pTblData->byLevel_Up_LP * 1);
+		WORD LevelCon = pTblData->byCon + static_cast<WORD>(pTblData->fLevel_Up_Con * 1);
+		float ConByPoint = 85; // 1con = 85 old tw
+		DWORD LP = BasicLife + static_cast<DWORD>(LevelCon * ConByPoint);
+
+		//EP Calculation
+		WORD BasicEnergy = pTblData->wBasic_EP + (pTblData->byLevel_Up_EP * 1);
+		WORD LevelEng = pTblData->byEng + static_cast<WORD>(pTblData->fLevel_Up_Eng * 1);
+		float EngByPoint = 45; // 1Eng = 45 ep old tw
+		WORD EP = BasicEnergy + static_cast<WORD>(LevelEng * EngByPoint);
+	
+		plr->GetAttributesManager()->SetLastMaxLP(LP);
+		plr->GetAttributesManager()->SetLastMaxEP(EP);
+
+		//Calculation Physical Atack
+		WORD BasicPhysicalOffence = pTblData->wBasic_Physical_Offence + (pTblData->byLevel_Up_Physical_Offence * 1);
+		WORD LevelStr = pTblData->byStr + static_cast<WORD>(pTblData->fLevel_Up_Str * 1);
+		float StrByPoint = 1.66; // 1Str = 1.66 Physical old tw
+		WORD PhysicalOffence = BasicPhysicalOffence + static_cast<WORD>(LevelStr * StrByPoint);
+		//Calculation Physical Critical Atack 
+		WORD BasicPhysicalCritical = 0;
+		WORD LevelDex = pTblData->byDex + static_cast<WORD>(pTblData->fLevel_Up_Dex * 1);
+		float DexByPoint = 0.2; // 1Dex = 1 critical old tw
+		WORD PhysicalCriticalRate = BasicPhysicalCritical + static_cast<WORD>(LevelDex * DexByPoint);
+
+		plr->GetAttributesManager()->SetLastPhysicalOffence(PhysicalOffence);
+		plr->GetAttributesManager()->SetLastPhysicalCriticalRate(PhysicalCriticalRate);
+
+		WORD BasicEnergyOffence = pTblData->wBasic_Energy_Offence + (pTblData->byLevel_Up_Energy_Offence * 1);
+		WORD LevelSol = pTblData->bySol + static_cast<WORD>(pTblData->fLevel_Up_Sol * 1);
+		float SolByPoint = 1.66; // 1Soul = 1.66 Physical old tw
+		WORD EnergyOffence = BasicEnergyOffence + static_cast<WORD>(LevelSol * SolByPoint);
+		//Calculation Energy Critical Atack
+		WORD BasicEnergyCritical = 0;
+		WORD LevelFoc = pTblData->byFoc + static_cast<WORD>(pTblData->fLevel_Up_Foc * 1);
+		float FocByPoint = 0.2; // 1Focus = 1 pont critical 
+		WORD EnergyCriticalRate = BasicEnergyCritical + static_cast<WORD>(LevelFoc * FocByPoint);
+
+		plr->GetAttributesManager()->SetLastEnergyOffence(EnergyOffence);
+		plr->GetAttributesManager()->SetLastEnergyCriticalRate(EnergyCriticalRate);
+	}
+	
+
+}
 //----------------------------------------
 //	Load all attributes and calculate stats from last database save
 //----------------------------------------
@@ -95,6 +153,7 @@ bool AttributesManager::LoadAttributes(CHARACTERID _id, Player* _plr)
 	}
 	PlayerClassID = result->getInt("ClassID");
 	PlayerRaceID = result->getInt("RaceID");
+	PlayerGanderID = result->getInt("GenderID");
 	sPC_TBLDAT *pTblData = (sPC_TBLDAT*)sTBM.GetPcTable()->GetPcTbldat(result->getInt("RaceID"), result->getInt("ClassID"), result->getInt("GenderID"));
 	if (pTblData == NULL)
 	{
@@ -119,7 +178,7 @@ bool AttributesManager::LoadAttributes(CHARACTERID _id, Player* _plr)
 	PlayerProfile.bChangeClass = result->getBoolean("IsToChangeClass");
 	PlayerProfile.bIsAdult = result->getBoolean("IsAdult");
 	PlayerProfile.charId = result->getInt("CharacterID");
-	wcscpy_s(PlayerProfile.awchName, MAX_SIZE_CHAR_NAME_UNICODE, charToWChar((result->getString("Name")).c_str()));
+	wcscpy_s(PlayerProfile.awchName, MAX_SIZE_CHAR_NAME_UNICODE + 1, charToWChar((result->getString("Name")).c_str()));
 	plr->SetName((char*)result->getString("Name").c_str());
 	//PC Shape
 	PlayerProfile.sPcShape.byFace = static_cast<BYTE>(result->getInt("FaceID"));
@@ -141,7 +200,7 @@ bool AttributesManager::LoadAttributes(CHARACTERID _id, Player* _plr)
 	PlayerProfile.sMarking.dwCode = result->getInt("Title_Marking");
 	PlayerProfile.sLocalize.WP_Point = result->getInt("WP_Point");// WP Poit mensage
 	PlayerProfile.sLocalize.netp = result->getInt("Token");// Token Point correct value	
-	PlayerProfile.sLocalize.IsVip = result->getInt("IsVip");;// S icon Vip_Member Maybe
+	PlayerProfile.sLocalize.IsVip = result->getInt("IsVip");// S icon Vip_Member Maybe
 	cashpoit = result->getInt("CashPoint");
 	WagguCoin = result->getInt("WagguCoin");
 	EventCoin = result->getInt("EventCoin");
@@ -248,7 +307,7 @@ bool AttributesManager::LoadAttributeFromDB()
 	PlayerProfile.avatarAttribute.wLastMaxEP = static_cast<WORD>(result->getInt("LastMaxEP"));
 	//Physical Atack
 	PlayerProfile.avatarAttribute.wBasePhysicalOffence = static_cast<WORD>(result->getInt("BasePhysicalOffence"));
-	PlayerProfile.avatarAttribute.wLastPhysicalOffence = static_cast<WORD>(result->getInt("LastPhysicalOffence"));;
+	PlayerProfile.avatarAttribute.wLastPhysicalOffence = static_cast<WORD>(result->getInt("LastPhysicalOffence"));
 	//Physical Defese
 	PlayerProfile.avatarAttribute.wBasePhysicalDefence = static_cast<WORD>(result->getInt("BasePhysicalDefence"));
 	PlayerProfile.avatarAttribute.wLastPhysicalDefence = static_cast<WORD>(result->getInt("LastPhysicalDefence"));
@@ -290,66 +349,66 @@ bool AttributesManager::LoadAttributeFromDB()
 	PlayerProfile.avatarAttribute.unknown_int16_2 = 1;
 	PlayerProfile.avatarAttribute.unknown_int16_3 = 1;
 
-	PlayerProfile.avatarAttribute.unknown2 = 25;
-	PlayerProfile.avatarAttribute.unknown3_0 = 30;
-	PlayerProfile.avatarAttribute.unknown3_1 = 35;
-	PlayerProfile.avatarAttribute.unknown3_10 = 40;
-	PlayerProfile.avatarAttribute.unknown3_11 = 45;//
-	PlayerProfile.avatarAttribute.unknown3_12 = 50;
-	PlayerProfile.avatarAttribute.unknown3_13 = 55;//
-	PlayerProfile.avatarAttribute.unknown3_2 = 60;
-	PlayerProfile.avatarAttribute.unknown3_3 = 65;//
-	PlayerProfile.avatarAttribute.unknown3_5 = 70;
+	PlayerProfile.avatarAttribute.unknown2 = 0;
+	PlayerProfile.avatarAttribute.unknown3_0 = 0;
+	PlayerProfile.avatarAttribute.unknown3_1 = 0;
+	PlayerProfile.avatarAttribute.unknown3_10 = 0;
+	PlayerProfile.avatarAttribute.unknown3_11 = 0;//
+	PlayerProfile.avatarAttribute.unknown3_12 = 0;
+	PlayerProfile.avatarAttribute.unknown3_13 = 0;//
+	PlayerProfile.avatarAttribute.unknown3_2 = 0;
+	PlayerProfile.avatarAttribute.unknown3_3 = 0;//
+	PlayerProfile.avatarAttribute.unknown3_5 = 0;
 	PlayerProfile.avatarAttribute.MaxWeight = 2600;
 	PlayerProfile.avatarAttribute.unknown3_w6 = 0; // if != 0 weight get bugged
-	PlayerProfile.avatarAttribute.unknown3_7 = 80;
-	PlayerProfile.avatarAttribute.unknown3_8 = 85;
-	PlayerProfile.avatarAttribute.unknown3_9 = 90;
-	PlayerProfile.avatarAttribute.unknown4_0 = 95;
-	PlayerProfile.avatarAttribute.unknown4_1 = 100;
-	PlayerProfile.avatarAttribute.unknown4_2 = 105;
-	PlayerProfile.avatarAttribute.unknown4_3 = 110;
-	PlayerProfile.avatarAttribute.unknown4_4 = 115;
-	PlayerProfile.avatarAttribute.unknown4_5 = 120;
-	PlayerProfile.avatarAttribute.unknown4_6 = 125;
-	PlayerProfile.avatarAttribute.unknown5_1 = 130;
-	PlayerProfile.avatarAttribute.unknown5_0 = 135;
-	PlayerProfile.avatarAttribute.unknown5_2 = 140;
-	PlayerProfile.avatarAttribute.unknown5_3 = 145;
-	PlayerProfile.avatarAttribute.unknown5_4 = 150;
-	PlayerProfile.avatarAttribute.unknown5_5 = 155;
-	PlayerProfile.avatarAttribute.unknown6 = 160;
-	PlayerProfile.avatarAttribute.unknown_float1_0 = 165;
-	PlayerProfile.avatarAttribute.unknown_float1_1 = 170;
-	PlayerProfile.avatarAttribute.unknown_float2_0 = 175;
-	PlayerProfile.avatarAttribute.unknown_float2_1 = 180;
-	PlayerProfile.avatarAttribute.unknown_rate1 = 185;
-	PlayerProfile.avatarAttribute.unknown_rate2 = 190;
+	PlayerProfile.avatarAttribute.unknown3_7 = 0;
+	PlayerProfile.avatarAttribute.unknown3_8 = 0;//
+	PlayerProfile.avatarAttribute.unknown3_9 = 0;
+	PlayerProfile.avatarAttribute.unknown4_0 = 0;
+	PlayerProfile.avatarAttribute.unknown4_1 = 0;
+	PlayerProfile.avatarAttribute.unknown4_2 = 0;
+	PlayerProfile.avatarAttribute.unknown4_3 = 0;
+	PlayerProfile.avatarAttribute.unknown4_4 = 0;
+	PlayerProfile.avatarAttribute.unknown4_5 = 0;
+	PlayerProfile.avatarAttribute.unknown4_6 = 0;
+	PlayerProfile.avatarAttribute.unknown5_1 = 0;
+	PlayerProfile.avatarAttribute.unknown5_0 = 0;
+	PlayerProfile.avatarAttribute.unknown5_2 = 0;
+	PlayerProfile.avatarAttribute.unknown5_3 = 0;
+	PlayerProfile.avatarAttribute.unknown5_4 = 0;
+	PlayerProfile.avatarAttribute.unknown5_5 = 0;
+	PlayerProfile.avatarAttribute.unknown6 = 0;
+	PlayerProfile.avatarAttribute.unknown_float1_0 = 0;
+	PlayerProfile.avatarAttribute.unknown_float1_1 = 0;
+	PlayerProfile.avatarAttribute.unknown_float2_0 = 0;
+	PlayerProfile.avatarAttribute.unknown_float2_1 = 0;
+	PlayerProfile.avatarAttribute.unknown_rate1 = 0;
+	PlayerProfile.avatarAttribute.unknown_rate2 = 0;
 	// SKILL SPEED
-	PlayerProfile.avatarAttribute.SkillSpeed = 85.0f;
+	PlayerProfile.avatarAttribute.SkillSpeed = 70.0f;
 	//LP Get up Reg
-	PlayerProfile.avatarAttribute.wBaseLpRegen = 15;
-	PlayerProfile.avatarAttribute.wLastLpRegen = 15;
+	PlayerProfile.avatarAttribute.wBaseLpRegen = 70;
+	PlayerProfile.avatarAttribute.wLastLpRegen = 70;
 	//LP Sit Down Reg
-	PlayerProfile.avatarAttribute.wBaseLpSitdownRegen = 1160;
-	PlayerProfile.avatarAttribute.wLastLpSitdownRegen = 1160;
+	PlayerProfile.avatarAttribute.wBaseLpSitdownRegen = PlayerProfile.avatarAttribute.wLastMaxLP / 100 * 3;
+	PlayerProfile.avatarAttribute.wLastLpSitdownRegen = PlayerProfile.avatarAttribute.wLastMaxLP / 100 * 3;
 	//LP Reg in Batle
 	PlayerProfile.avatarAttribute.wBaseLpBattleRegen = 0;
 	PlayerProfile.avatarAttribute.wLastLpBattleRegen = 0;
 	//EP Get UP Reg
-	PlayerProfile.avatarAttribute.wBaseEpRegen = 15;
-	PlayerProfile.avatarAttribute.wLastEpRegen = 15;
+	PlayerProfile.avatarAttribute.wBaseEpRegen = 70;
+	PlayerProfile.avatarAttribute.wLastEpRegen = 70;
 	//EP Sit Down Reg
-	PlayerProfile.avatarAttribute.wBaseEpSitdownRegen = 1160;
-	PlayerProfile.avatarAttribute.wLastEpSitdownRegen = 1160;
+	PlayerProfile.avatarAttribute.wBaseEpSitdownRegen = PlayerProfile.avatarAttribute.wLastMaxEP / 100 * 3;
+	PlayerProfile.avatarAttribute.wLastEpSitdownRegen = PlayerProfile.avatarAttribute.wLastMaxEP / 100 * 3;
 	//EP Reg in Batle
 	PlayerProfile.avatarAttribute.wBaseEpBattleRegen = 0;
 	PlayerProfile.avatarAttribute.wLastEpBattleRegen = 0;
 	//Rp incress rate
-	PlayerProfile.avatarAttribute.wBaseRpRegen = 100;
-	PlayerProfile.avatarAttribute.wLastRpRegen = 100;
+	PlayerProfile.avatarAttribute.wBaseRpRegen = 1;
+	PlayerProfile.avatarAttribute.wLastRpRegen = 1;
 	//RP diminution
-	PlayerProfile.avatarAttribute.wLastRpDimimutionRate = 1;
+	PlayerProfile.avatarAttribute.wLastRpDimimutionRate = 3;
 	//Curse Sucess Rate
 	PlayerProfile.avatarAttribute.wBaseCurseSuccessRate = 0;
 	PlayerProfile.avatarAttribute.wLastCurseSuccessRate = 0;
@@ -358,15 +417,15 @@ bool AttributesManager::LoadAttributeFromDB()
 	PlayerProfile.avatarAttribute.wLastCurseToleranceRate = 0;
 	//Nao sei
 	PlayerProfile.avatarAttribute.fCastingTimeChangePercent = 0;
-	PlayerProfile.avatarAttribute.fCoolTimeChangePercent = 0;
+	PlayerProfile.avatarAttribute.fCoolTimeChangePercent = 0;//
 	PlayerProfile.avatarAttribute.fKeepTimeChangePercent = 0;
 	PlayerProfile.avatarAttribute.fDotValueChangePercent = 0;
-	PlayerProfile.avatarAttribute.fDotTimeChangeAbsolute = 0;
+	PlayerProfile.avatarAttribute.fDotTimeChangeAbsolute = 0;//Ep Skill Required
 	PlayerProfile.avatarAttribute.fRequiredEpChangePercent = 0;
 	//Atribute Ofense/Defese
 	PlayerProfile.avatarAttribute.fHonestOffence = 0;//nao
 	PlayerProfile.avatarAttribute.fHonestDefence = 0;//nao
-	PlayerProfile.avatarAttribute.fStrangeOffence = 0;//nao
+	PlayerProfile.avatarAttribute.fStrangeOffence =0;//nao
 	PlayerProfile.avatarAttribute.fStrangeDefence = 0;//nao
 	PlayerProfile.avatarAttribute.fWildOffence = 0;//nao
 	PlayerProfile.avatarAttribute.fWildDefence = 0;//nao
@@ -388,7 +447,7 @@ bool AttributesManager::LoadAttributeFromDB()
 	PlayerProfile.avatarAttribute.fBleedingKeepTimeDown = 0;//nao
 	PlayerProfile.avatarAttribute.fPoisonKeepTimeDown = 0;
 	PlayerProfile.avatarAttribute.fStomachacheKeepTimeDown = 0;
-	PlayerProfile.avatarAttribute.fCriticalBlockSuccessRate = 0;
+	PlayerProfile.avatarAttribute.fCriticalBlockSuccessRate = 50;
 	PlayerProfile.avatarAttribute.wGuardRate = 0;
 	PlayerProfile.avatarAttribute.fSkillDamageBlockModeSuccessRate = 0;
 	PlayerProfile.avatarAttribute.fCurseBlockModeSuccessRate = 0;
@@ -397,18 +456,18 @@ bool AttributesManager::LoadAttributeFromDB()
 	PlayerProfile.avatarAttribute.fHtbBlockModeSuccessRate = 0; // Bleeding defense TW
 	PlayerProfile.avatarAttribute.fSitDownLpRegenBonusRate = 0; // posion defense tw
 	PlayerProfile.avatarAttribute.fSitDownEpRegenBonusRate = 0; // abdominal pain defense
-	PlayerProfile.avatarAttribute.fPhysicalCriticalDamageBonusRate = 15;//Burn Defense
+	PlayerProfile.avatarAttribute.fPhysicalCriticalDamageBonusRate = 0;//Burn Defense
 
-	PlayerProfile.avatarAttribute.fEnergyCriticalDamageBonusRate = 15;
-	PlayerProfile.avatarAttribute.fItemUpgradeBonusRate = 2;
-	PlayerProfile.avatarAttribute.fItemUpgradeBreakBonusRate = 3;
-	PlayerProfile.avatarAttribute.fBaseAirDash2Speed = 30.0f;//Dash Fly2 TW
-	PlayerProfile.avatarAttribute.fLastAirDash2Speed = 30.0f;//Dash Fly2 TW
+	PlayerProfile.avatarAttribute.fEnergyCriticalDamageBonusRate = 0;
+	PlayerProfile.avatarAttribute.fItemUpgradeBonusRate = 0;
+	PlayerProfile.avatarAttribute.fItemUpgradeBreakBonusRate = 0;
+	PlayerProfile.avatarAttribute.fBaseAirDash2Speed = 25.0f;//Dash Fly2 TW
+	PlayerProfile.avatarAttribute.fLastAirDash2Speed = 25.0f;//Dash Fly2 TW
 	PlayerProfile.avatarAttribute.fBaseAirDashSpeed = 20.0f;//Dash Fly TW
 	PlayerProfile.avatarAttribute.fLastAirDashSpeed = 20.0f;//Dash Fly TW
 	PlayerProfile.avatarAttribute.fBaseRunSpeed = static_cast<WORD>(result->getDouble("LastRunSpeed")); //Base Run TW
-	PlayerProfile.avatarAttribute.fBaseAirSpeed = 15;//Base Air Speed TW
-	PlayerProfile.avatarAttribute.fLastAirSpeed = 15;//LastAir Speed TW
+	PlayerProfile.avatarAttribute.fBaseAirSpeed = 15.0f;//Base Air Speed TW
+	PlayerProfile.avatarAttribute.fLastAirSpeed = 15.0f;//LastAir Speed TW
 	PlayerProfile.avatarAttribute.wLastMaxAp = result->getInt("LastMaxAp");//Max AP
 	PlayerProfile.avatarAttribute.wBaseMaxAp = result->getInt("BaseMaxAp");//Base Max Ap
 	PlayerProfile.avatarAttribute.wBaseApBattleRegen = 5000;//Regen In Battle AP TW
@@ -474,13 +533,13 @@ bool AttributesManager::LoadCharacterAttrFromDB(sPC_TBLDAT* pTblData)
 	// LP Calculation
 	DWORD BasicLife = pTblData->wBasic_LP + (pTblData->byLevel_Up_LP * PlayerProfile.byLevel);
 	WORD LevelCon = pTblData->byCon + static_cast<WORD>(pTblData->fLevel_Up_Con * PlayerProfile.byLevel);
-	float ConByPoint = 500; // 1con = 85 old tw
+	float ConByPoint = 85; // 1con = 85 old tw
 	DWORD LP = BasicLife + static_cast<DWORD>(LevelCon * ConByPoint);
 
 	//EP Calculation
 	WORD BasicEnergy = pTblData->wBasic_EP + (pTblData->byLevel_Up_EP * PlayerProfile.byLevel);
 	WORD LevelEng = pTblData->byEng + static_cast<WORD>(pTblData->fLevel_Up_Eng * PlayerProfile.byLevel);
-	float EngByPoint = 500; // 1Eng = 45 ep old tw
+	float EngByPoint = 45; // 1Eng = 45 ep old tw
 	WORD EP = BasicEnergy + static_cast<WORD>(LevelEng * EngByPoint);
 
 	//Set Data Base LP/ EP/ RP
@@ -508,13 +567,13 @@ bool AttributesManager::LoadCharacterAttrFromDB(sPC_TBLDAT* pTblData)
 	//Calculation Physical Atack
 	WORD BasicPhysicalOffence = pTblData->wBasic_Physical_Offence + (pTblData->byLevel_Up_Physical_Offence * PlayerProfile.byLevel);
 	WORD LevelStr = pTblData->byStr + static_cast<WORD>(pTblData->fLevel_Up_Str * PlayerProfile.byLevel);
-	float StrByPoint = 5.66; // 1Str = 1.66 Physical old tw
+	float StrByPoint = 1.66; // 1Str = 1.66 Physical old tw
 	WORD PhysicalOffence = BasicPhysicalOffence + static_cast<WORD>(LevelStr * StrByPoint);
 	//Calculation Physical Critical Atack 
 	WORD BasicPhysicalCritical = 0;
 	WORD LevelDex = pTblData->byDex + static_cast<WORD>(pTblData->fLevel_Up_Dex * PlayerProfile.byLevel);
-	float DexByPoint = 5.2; // 1Dex = 1 critical old tw
-	WORD PhysicalCriticalRate = BasicPhysicalCritical + static_cast<WORD>(LevelDex * DexByPoint);
+	float DexByPoint = 0.2; // 1Dex = 1 critical old tw
+	WORD PhysicalCriticalRate = BasicPhysicalCritical + static_cast<WORD>(LevelDex * DexByPoint); 
 	// Atack Defese Physical
 	result = sDB.executes("UPDATE characters_attributes SET BasePhysicalOffence = '%d', LastPhysicalOffence = '%d', BasePhysicalDefence = '%d', LastPhysicalDefence = '%d', BasePhysicalCriticalRate = '%d', LastPhysicalCriticalRate = '%d' WHERE CharacterID = '%d';",
 		static_cast<int>(PhysicalOffence),
@@ -530,12 +589,12 @@ bool AttributesManager::LoadCharacterAttrFromDB(sPC_TBLDAT* pTblData)
 	//Calculation Energy Atack
 	WORD BasicEnergyOffence = pTblData->wBasic_Energy_Offence + (pTblData->byLevel_Up_Energy_Offence * PlayerProfile.byLevel);
 	WORD LevelSol = pTblData->bySol + static_cast<WORD>(pTblData->fLevel_Up_Sol * PlayerProfile.byLevel);
-	float SolByPoint = 5.66; // 1Soul = 1.66 Physical old tw
+	float SolByPoint = 1.66; // 1Soul = 1.66 Physical old tw
 	WORD EnergyOffence = BasicEnergyOffence + static_cast<WORD>(LevelSol * SolByPoint);
 	//Calculation Energy Critical Atack
 	WORD BasicEnergyCritical = 0;
 	WORD LevelFoc = pTblData->byFoc + static_cast<WORD>(pTblData->fLevel_Up_Foc * PlayerProfile.byLevel);
-	float FocByPoint = 5.2; // 1Focus = 1 pont critical 
+	float FocByPoint = 0.2; // 1Focus = 1 pont critical 
 	WORD EnergyCriticalRate = BasicEnergyCritical + static_cast<WORD>(LevelFoc * FocByPoint);
 	// Atack Defese Energy
 	result = sDB.executes("UPDATE characters_attributes SET BaseEnergyOffence = '%d', LastEnergyOffence = '%d', BaseEnergyDefence = '%d', LastEnergyDefence = '%d', BaseEnergyCriticalRate = '%d', LastEnergyCriticalRate = '%d' WHERE CharacterID = '%d';",
@@ -552,7 +611,7 @@ bool AttributesManager::LoadCharacterAttrFromDB(sPC_TBLDAT* pTblData)
 	//HitRate Calculation
 	WORD BasicHitRate = pTblData->wAttack_Rate  * PlayerProfile.byLevel;
 	WORD LevelingFocus = pTblData->byFoc + static_cast<WORD>(pTblData->fLevel_Up_Foc * PlayerProfile.byLevel);
-	float FocusByPoint = 15; // 1 point = 10 hit rate old tw
+	float FocusByPoint = 10; // 1 point = 10 hit rate old tw
 	WORD HitRate = BasicHitRate + static_cast<WORD>(LevelingFocus * FocusByPoint);
 	//DoggeRate Calculation
 	WORD BasicDoggeRate = pTblData->wDodge_Rate  * PlayerProfile.byLevel;
@@ -678,9 +737,569 @@ void AttributesManager::UpdateAttributesFromItem(sITEM_TBLDAT& item, BYTE Grade,
 				else
 					SetLastEnergyDefence(Dbo_GetFinalDefence(item.wEnergyDefence, Grade, UpGrade->EnergyValue[Grade]));
 			}
-			if (item.wAttackSpeedRate < 65535 && item.wAttackSpeedRate > 0)
+		/*	if (item.wAttackSpeedRate < 65535 && item.wAttackSpeedRate > 0)
 			{
 				SetLastAttackSpeedRate(item.wAttackSpeedRate);
+			}*/
+		}
+	}
+}
+void AttributesManager::UpdateExtraAttributesFromItem(sITEM_EFFECT aitemEffect[6], bool isRemove)
+{	
+	sFORMULA_TBLDAT *EnchantTable = NULL;
+	for (int i = 0; i <= 6; i++)
+	{
+		EnchantTable = (sFORMULA_TBLDAT*)sTBM.GetFormulaTable()->FindData(aitemEffect[i].wType);
+		if (EnchantTable != NULL)
+		{
+			int count = 0;
+			sSYSTEM_EFFECT_TBLDAT * SystemEffectData = NULL;
+			SystemEffectData = (sSYSTEM_EFFECT_TBLDAT*)sTBM.GetSystemEffectTable()->FindData(EnchantTable->tbxSystemEffect);
+			if (SystemEffectData != NULL)
+			{
+				//printf("skill_Effect %d \n", skillDataOriginal->skill_Effect[Effect]);
+				//printf("effectCode %d \n", SystemEffectData->effectCode);
+				//	printf("Effect %d \n", Effect);
+				switch (SystemEffectData->effectCode)
+				{
+				case ACTIVE_MAX_LP_UP:
+				{
+					if (isRemove == true)
+						plr->GetAttributesManager()->SetLastMaxLP(aitemEffect[i].dwValue * -1);
+					else
+						plr->GetAttributesManager()->SetLastMaxLP(aitemEffect[i].dwValue);
+					break;
+				}
+				case ACTIVE_MAX_EP_UP:
+				{
+					if (isRemove == true)
+						plr->GetAttributesManager()->SetLastMaxEP(aitemEffect[i].dwValue * -1);
+					else
+						plr->GetAttributesManager()->SetLastMaxEP(aitemEffect[i].dwValue);
+					break;
+				}
+				case ACTIVE_MAX_RP_UP:
+				{
+
+					if (isRemove == true)
+						plr->GetAttributesManager()->SetLastMaxRP(aitemEffect[i].dwValue * -1);
+					else
+						plr->GetAttributesManager()->SetLastMaxRP(aitemEffect[i].dwValue);
+					if (plr->GetPcProfile()->avatarAttribute.wLastMaxRP <= 0 || plr->GetPcProfile()->avatarAttribute.wLastMaxRP >= 60000)
+						plr->GetAttributesManager()->SetLastMaxRP(0);
+					break;
+				}
+				case ACTIVE_PHYSICAL_OFFENCE_UP:
+				{
+					if (isRemove == true)
+						plr->GetAttributesManager()->SetLastPhysicalOffence(aitemEffect[i].dwValue * -1);
+					else
+						plr->GetAttributesManager()->SetLastPhysicalOffence(aitemEffect[i].dwValue);
+					if (plr->GetPcProfile()->avatarAttribute.wLastPhysicalOffence <= 0 || plr->GetPcProfile()->avatarAttribute.wLastPhysicalOffence >= 60000)
+					{
+						plr->GetPcProfile()->avatarAttribute.wLastPhysicalOffence = 0;
+						plr->GetAttributesManager()->SetLastPhysicalOffence(0);
+					}
+
+					break;
+				}
+				case ACTIVE_ENERGY_OFFENCE_UP:
+				{
+					if (isRemove == true)
+						plr->GetAttributesManager()->SetLastEnergyOffence(aitemEffect[i].dwValue * -1);
+					else
+						plr->GetAttributesManager()->SetLastEnergyOffence(aitemEffect[i].dwValue);
+					if (plr->GetPcProfile()->avatarAttribute.wLastEnergyOffence <= 0 || plr->GetPcProfile()->avatarAttribute.wLastEnergyOffence >= 60000)
+					{
+						plr->GetPcProfile()->avatarAttribute.wLastEnergyOffence = 0;
+						plr->GetAttributesManager()->SetLastPhysicalOffence(0);
+					}
+					break;
+				}
+				case ACTIVE_PHYSICAL_DEFENCE_UP:
+				{
+
+					if (isRemove == true)
+						plr->GetAttributesManager()->SetLastPhysicalDefence(aitemEffect[i].dwValue * -1);
+					else
+						plr->GetAttributesManager()->SetLastPhysicalDefence(aitemEffect[i].dwValue);
+					if (plr->GetPcProfile()->avatarAttribute.wLastPhysicalDefence <= 0 || plr->GetPcProfile()->avatarAttribute.wLastPhysicalDefence >= 60000)
+					{
+						plr->GetPcProfile()->avatarAttribute.wLastPhysicalDefence = 0;
+						plr->GetAttributesManager()->SetLastPhysicalDefence(0);
+					}
+					break;
+				}
+				case ACTIVE_ENERGY_DEFENCE_UP:
+				{
+
+					if (isRemove == true)
+						plr->GetAttributesManager()->SetLastEnergyDefence(aitemEffect[i].dwValue * -1);
+					else
+						plr->GetAttributesManager()->SetLastEnergyDefence(aitemEffect[i].dwValue);
+					if (plr->GetPcProfile()->avatarAttribute.wLastEnergyDefence <= 0 || plr->GetPcProfile()->avatarAttribute.wLastEnergyDefence >= 60000)
+					{
+						plr->GetPcProfile()->avatarAttribute.wLastEnergyDefence = 0;
+						plr->GetAttributesManager()->SetLastEnergyDefence(0);
+					}
+					break;
+				}
+				case ACTIVE_STR_UP:
+				{
+					if (isRemove == true)
+					{
+						plr->GetAttributesManager()->SetLastStr(aitemEffect[i].dwValue * -1);
+
+						WORD LevelStr = aitemEffect[i].dwValue;
+						float StrByPoint = 1.66; // 1Str = 1.66 Physical old tw
+						WORD PhysicalOffence = static_cast<WORD>(LevelStr * StrByPoint);
+
+						plr->GetAttributesManager()->SetLastPhysicalOffence(PhysicalOffence * -1);
+						if (plr->GetPcProfile()->avatarAttribute.wLastPhysicalOffence <= 0 || plr->GetPcProfile()->avatarAttribute.wLastPhysicalOffence >= 60000)
+						{
+							plr->GetPcProfile()->avatarAttribute.wLastPhysicalOffence = 0;
+							plr->GetAttributesManager()->SetLastPhysicalOffence(0);
+						}
+					}
+					else
+					{
+						plr->GetAttributesManager()->SetLastStr(aitemEffect[i].dwValue);
+
+						WORD LevelStr = aitemEffect[i].dwValue;
+						float StrByPoint = 1.66; // 1Str = 1.66 Physical old tw
+						WORD PhysicalOffence = static_cast<WORD>(LevelStr * StrByPoint);
+
+						plr->GetAttributesManager()->SetLastPhysicalOffence(PhysicalOffence);
+					}
+					break;
+				}
+				case ACTIVE_CON_UP:
+				{
+					if (isRemove == true)
+					{
+						plr->GetAttributesManager()->SetLastCon(aitemEffect[i].dwValue * -1);
+
+						float LevelCon = aitemEffect[i].dwValue;
+						float ConByPoint = 85; // 1con = 85 old tw
+						float LP = static_cast<float>(LevelCon * ConByPoint);
+
+						plr->GetAttributesManager()->SetLastMaxLP(LP * -1);
+					}
+					else
+					{
+						plr->GetAttributesManager()->SetLastCon(aitemEffect[i].dwValue);
+
+						float LevelCon = aitemEffect[i].dwValue;
+						float ConByPoint = 85; // 1con = 85 old tw
+						float LP = static_cast<float>(LevelCon * ConByPoint);
+
+						plr->GetAttributesManager()->SetLastMaxLP(LP);
+					}
+					break;
+				}
+				case ACTIVE_FOC_UP:
+				{
+					if (isRemove == true)
+					{
+						plr->GetAttributesManager()->SetLastFoc(aitemEffect[i].dwValue * -1);
+						WORD LevelFoc = aitemEffect[i].dwValue;
+						float EnergyCriticalByPoint = 0.2; // 1Focus = 1 pont critical 
+						float EnergyAttackByPoint = 2; // 1Focus = 1 pont critical 
+						float HitRateByPoint = 10; // 1 point = 10 hit rate old tw
+						WORD EnergyCriticalRate = static_cast<WORD>(LevelFoc * EnergyCriticalByPoint);
+						WORD EnergyAttack = static_cast<WORD>(LevelFoc * EnergyAttackByPoint);
+						WORD HitRate = static_cast<WORD>(LevelFoc * HitRateByPoint);
+						plr->GetAttributesManager()->SetLastEnergyCriticalRate(EnergyCriticalRate * -1);
+						plr->GetAttributesManager()->SetLastEnergyOffence(EnergyAttack * -1);
+						plr->GetAttributesManager()->SetLastAttackRate(HitRate * -1);
+						if (plr->GetPcProfile()->avatarAttribute.wLastEnergyOffence <= 0 || plr->GetPcProfile()->avatarAttribute.wLastEnergyOffence >= 60000)
+						{
+							plr->GetPcProfile()->avatarAttribute.wLastEnergyOffence = 0;
+							plr->GetAttributesManager()->SetLastPhysicalOffence(0);
+						}
+					}
+					else
+					{
+						plr->GetAttributesManager()->SetLastFoc(aitemEffect[i].dwValue);
+						WORD LevelFoc = aitemEffect[i].dwValue;
+						float EnergyCriticalByPoint = 0.2; // 1Focus = 1 pont critical 
+						float EnergyAttackByPoint = 2; // 1Focus = 1 pont critical 
+						float HitRateByPoint = 10; // 1 point = 10 hit rate old tw
+						WORD EnergyCriticalRate = static_cast<WORD>(LevelFoc * EnergyCriticalByPoint);
+						WORD EnergyAttack = static_cast<WORD>(LevelFoc * EnergyAttackByPoint);
+						WORD HitRate = static_cast<WORD>(LevelFoc * HitRateByPoint);
+						plr->GetAttributesManager()->SetLastEnergyCriticalRate(EnergyCriticalRate);
+						plr->GetAttributesManager()->SetLastEnergyOffence(EnergyAttack);
+						plr->GetAttributesManager()->SetLastAttackRate(HitRate);
+					}
+					break;
+				}
+				case ACTIVE_DEX_UP:
+				{
+					if (isRemove == true)
+					{
+						plr->GetAttributesManager()->SetLastDex(aitemEffect[i].dwValue * -1);
+						WORD LevelDex = aitemEffect[i].dwValue;
+						float CriticalAttackByPoint = 0.2; // 1Dex = 1 critical old tw
+						float PhyAttackByPoint = 2; // 1Dex = 1 phyattack old tw
+						float DoggeByPoint = 5;
+						WORD PhysicalCriticalRate = static_cast<WORD>(LevelDex * CriticalAttackByPoint);
+						WORD PhysicalAttack = static_cast<WORD>(LevelDex * PhyAttackByPoint);
+						WORD DodgeRate = static_cast<WORD>(LevelDex * DoggeByPoint);
+						plr->GetAttributesManager()->SetLastPhysicalCriticalRate(PhysicalCriticalRate * -1);
+						plr->GetAttributesManager()->SetLastPhysicalOffence(PhysicalAttack * -1);
+						plr->GetAttributesManager()->SetLastDodgeRate(DodgeRate * -1);
+						if (plr->GetPcProfile()->avatarAttribute.wLastPhysicalOffence <= 0 || plr->GetPcProfile()->avatarAttribute.wLastPhysicalOffence >= 60000)
+						{
+							plr->GetPcProfile()->avatarAttribute.wLastPhysicalOffence = 0;
+							plr->GetAttributesManager()->SetLastPhysicalOffence(0);
+						}
+						if (plr->GetPcProfile()->avatarAttribute.byLastDex <= 0 || plr->GetPcProfile()->avatarAttribute.byLastDex >= 60000)
+						{
+							plr->GetPcProfile()->avatarAttribute.byLastDex = 0;
+							plr->GetAttributesManager()->SetLastDex(0);
+						}
+					}
+					else
+					{
+						plr->GetAttributesManager()->SetLastDex(aitemEffect[i].dwValue);
+						WORD LevelDex = aitemEffect[i].dwValue;
+						float CriticalAttackByPoint = 0.2; // 1Dex = 1 critical old tw
+						float PhyAttackByPoint = 2; // 1Dex = 1 phyattack old tw
+						float DoggeByPoint = 5;
+						WORD PhysicalCriticalRate = static_cast<WORD>(LevelDex * CriticalAttackByPoint);
+						WORD PhysicalAttack = static_cast<WORD>(LevelDex * PhyAttackByPoint);
+						WORD DodgeRate = static_cast<WORD>(LevelDex * DoggeByPoint);
+						plr->GetAttributesManager()->SetLastPhysicalCriticalRate(PhysicalCriticalRate);
+						plr->GetAttributesManager()->SetLastPhysicalOffence(PhysicalAttack);
+						plr->GetAttributesManager()->SetLastDodgeRate(DodgeRate);
+					}
+					break;
+				}
+				case ACTIVE_SOL_UP:
+				{
+					if (isRemove == true)
+					{
+						plr->GetAttributesManager()->SetLastSol(aitemEffect[i].dwValue * -1);
+
+						WORD LevelSol = aitemEffect[i].dwValue;
+						float SolByPoint = 1.66; // 1Soul = 1.66 Physical old tw
+						WORD EnergyOffence = static_cast<WORD>(LevelSol * SolByPoint);
+
+						plr->GetAttributesManager()->SetLastEnergyOffence(EnergyOffence * -1);
+						if (plr->GetPcProfile()->avatarAttribute.wLastEnergyOffence <= 0 || plr->GetPcProfile()->avatarAttribute.wLastEnergyOffence >= 60000)
+						{
+							plr->GetPcProfile()->avatarAttribute.wLastEnergyOffence = 0;
+							plr->GetAttributesManager()->SetLastPhysicalOffence(0);
+						}
+					}
+					else
+					{
+						plr->GetAttributesManager()->SetLastSol(aitemEffect[i].dwValue);
+
+						WORD LevelSol = aitemEffect[i].dwValue;
+						float SolByPoint = 1.66; // 1Soul = 1.66 Physical old tw
+						WORD EnergyOffence = static_cast<WORD>(LevelSol * SolByPoint);
+
+						plr->GetAttributesManager()->SetLastEnergyOffence(EnergyOffence);
+					}
+					break;
+				}
+				case ACTIVE_ENG_UP:
+				{
+					if (isRemove == true)
+					{
+						plr->GetAttributesManager()->SetLastEng(aitemEffect[i].dwValue * -1);
+
+						WORD LevelEng = aitemEffect[i].dwValue;
+						float EngByPoint = 45; // 1Eng = 45 ep old tw
+						WORD EP = static_cast<WORD>(LevelEng * EngByPoint);
+
+						plr->GetAttributesManager()->SetLastMaxEP(EP * -1);
+					}
+					else
+					{
+						plr->GetAttributesManager()->SetLastEng(aitemEffect[i].dwValue);
+
+						WORD LevelEng = aitemEffect[i].dwValue;
+						float EngByPoint = 45; // 1Eng = 45 ep old tw
+						WORD EP = static_cast<WORD>(LevelEng * EngByPoint);
+
+						plr->GetAttributesManager()->SetLastMaxEP(EP);
+					}
+					break;
+				}
+				case ACTIVE_ATTACK_RATE_UP:
+				{
+					if (isRemove == true)
+					{
+						plr->GetAttributesManager()->SetLastAttackRate(aitemEffect[i].dwValue * -1);
+					}
+					else
+					{
+						plr->GetAttributesManager()->SetLastAttackRate(aitemEffect[i].dwValue);
+					}
+					break;
+				}
+				case ACTIVE_DODGE_RATE_UP:
+				{
+					if (isRemove == true)
+					{
+						plr->GetAttributesManager()->SetLastDodgeRate(aitemEffect[i].dwValue * -1);
+					}
+					else
+					{
+						plr->GetAttributesManager()->SetLastDodgeRate(aitemEffect[i].dwValue);
+					}
+					break;
+				}
+				case ACTIVE_BLOCK_RATE_UP:
+				{
+					if (isRemove == true)
+					{
+						plr->GetAttributesManager()->SetLastBlockRate(aitemEffect[i].dwValue * -1);
+					}
+					else
+					{
+						plr->GetAttributesManager()->SetLastBlockRate(aitemEffect[i].dwValue);
+					}
+					break;
+				}
+				//Atributes//
+				case ACTIVE_HONEST_DEFENCE_UP:
+				{
+					if (isRemove == true)
+					{
+					}
+					else
+					{
+					}
+					break;
+				}
+				case ACTIVE_STRANGE_DEFENCE_UP:
+				{
+					if (isRemove == true)
+					{
+					}
+					else
+					{
+					}
+					break;
+				}
+				case ACTIVE_WILD_DEFENCE_UP:
+				{
+					if (isRemove == true)
+					{
+					}
+					else
+					{
+					}
+					break;
+				}
+				case ACTIVE_ELEGANCE_DEFENCE_UP:
+				{
+					if (isRemove == true)
+					{
+					}
+					else
+					{
+					}
+					break;
+				}
+				case ACTIVE_FUNNY_DEFENCE_UP:
+				{
+					if (isRemove == true)
+					{
+					}
+					else
+					{
+					}
+					break;
+				}
+				case ACTIVE_ENERGY_REFLECTION:
+				{
+					if (isRemove == true)
+					{
+					}
+					else
+					{
+					}
+					break;
+				}
+				case ACTIVE_LP_REGENERATION:
+				{
+					if (isRemove == true)
+					{
+					}
+					else
+					{
+					}
+					break;
+				}
+				case ACTIVE_EP_REGENERATION:
+				{
+					if (isRemove == true)
+					{
+					}
+					else
+					{
+					}
+					break;
+				}
+				case ACTIVE_RP_CHARGE_SPEED:
+				{
+					if (isRemove == true)
+					{
+					}
+					else
+					{
+					}
+					break;
+				}
+				case ACTIVE_CURSE_SUCCESS:
+				{
+					if (isRemove == true)
+					{
+					}
+					else
+					{
+					}
+					break;
+				}
+				case ACTIVE_CURSE_TOLERANCE:
+				{
+					if (isRemove == true)
+					{
+					}
+					else
+					{
+					}
+					break;
+				}
+				case ACTIVE_PHYSICAL_CRITICAL:
+				{
+					if (isRemove == true)
+					{
+						plr->GetAttributesManager()->SetLastPhysicalCriticalRate(aitemEffect[i].dwValue * -1);
+					}
+					else
+					{
+						plr->GetAttributesManager()->SetLastPhysicalCriticalRate(aitemEffect[i].dwValue);
+					}
+					break;
+				}
+				case ACTIVE_ENERGY_CRITICAL:
+				{
+					if (isRemove == true)
+					{
+						plr->GetAttributesManager()->SetLastEnergyCriticalRate(aitemEffect[i].dwValue * -1);
+					}
+					else
+					{
+						plr->GetAttributesManager()->SetLastEnergyCriticalRate(aitemEffect[i].dwValue);
+					}
+					break;
+				}
+				case ACTIVE_SKILL_CASTING_TIME_DOWN:
+				{
+					if (isRemove == true)
+					{
+					}
+					else
+					{
+					}
+					break;
+				}
+				case ACTIVE_PHYSICAL_CRITICAL_DAMAGE_UP:
+				{					
+					if (isRemove == true)
+						plr->GetAttributesManager()->SetPhysicalCriticalDamageBonusRate(aitemEffect[i].dwValue * -1);
+					else
+						plr->GetAttributesManager()->SetPhysicalCriticalDamageBonusRate(aitemEffect[i].dwValue);
+					if (plr->GetPcProfile()->avatarAttribute.fPhysicalCriticalDamageBonusRate <= 0 || plr->GetPcProfile()->avatarAttribute.fPhysicalCriticalDamageBonusRate >= 60000)
+					{
+						plr->GetPcProfile()->avatarAttribute.fPhysicalCriticalDamageBonusRate = 0;
+						plr->GetAttributesManager()->SetPhysicalCriticalDamageBonusRate(0);
+					}
+					break;
+				}
+				case ACTIVE_ENERGY_CRITICAL_DAMAGE_UP:
+				{					
+					if (isRemove == true)
+						plr->GetAttributesManager()->SetEnergyCriticalDamageBonusRate(aitemEffect[i].dwValue * -1);
+					else
+						plr->GetAttributesManager()->SetEnergyCriticalDamageBonusRate(aitemEffect[i].dwValue);
+					if (plr->GetPcProfile()->avatarAttribute.fEnergyCriticalDamageBonusRate <= 0 || plr->GetPcProfile()->avatarAttribute.fEnergyCriticalDamageBonusRate >= 60000)
+					{
+						plr->GetPcProfile()->avatarAttribute.fEnergyCriticalDamageBonusRate = 0;
+						plr->GetAttributesManager()->SetEnergyCriticalDamageBonusRate(0);
+					}
+					break;
+				}
+				/*case ACTIVE_SKILL_COOL_TIME_DOWN:
+				{
+					float CoolDown = aitemEffect[i].dwValue;
+					if (isRemove == true)
+					{
+						plr->GetAttributesManager()->SetCoolTimeChangePercent(CoolDown);
+						printf("Remove Cool Down \n");
+					}
+					else
+					{
+						printf("Adiciona Cool Down \n");
+						plr->GetAttributesManager()->SetCoolTimeChangePercent(CoolDown * -1);
+						
+					}
+					break;
+				}*/
+				/*case ACTIVE_ATTACK_SPEED_UP:
+				{
+					if (isRemove == true)
+					{
+						sGU_UPDATE_CHAR_ATTACK_SPEEDRATE sAttackSpeed;
+						sAttackSpeed.wOpCode = GU_UPDATE_CHAR_ATTACK_SPEEDRATE;
+						sAttackSpeed.wPacketSize = sizeof(sGU_UPDATE_CHAR_ATTACK_SPEEDRATE) - 2;
+						sAttackSpeed.handle = plr->GetHandle();
+						int attackspeed = 1400 / 100 * aitemEffect[i].dwValue;
+						plr->GetAttributesManager()->SetLastAttackSpeedRate(attackspeed);
+						sAttackSpeed.wAttackSpeedRate = plr->GetPcProfile()->avatarAttribute.wLastAttackSpeedRate;						
+
+						if (plr->GetPcProfile()->avatarAttribute.wLastAttackSpeedRate <= 0 || plr->GetPcProfile()->avatarAttribute.wLastAttackSpeedRate >= 1400)
+						{
+							plr->GetPcProfile()->avatarAttribute.wLastAttackSpeedRate = 1400;
+							plr->GetAttributesManager()->SetLastAttackSpeedRate(0);
+							sAttackSpeed.wAttackSpeedRate = plr->GetPcProfile()->avatarAttribute.wLastAttackSpeedRate;
+						}
+
+						plr->SendPacket((char*)&sAttackSpeed, sizeof(sGU_UPDATE_CHAR_ATTACK_SPEEDRATE));
+						plr->SendToPlayerList((char*)&sAttackSpeed, sizeof(sGU_UPDATE_CHAR_ATTACK_SPEEDRATE));
+					}
+					else
+					{
+						sGU_UPDATE_CHAR_ATTACK_SPEEDRATE sAttackSpeed;
+						sAttackSpeed.wOpCode = GU_UPDATE_CHAR_ATTACK_SPEEDRATE;
+						sAttackSpeed.wPacketSize = sizeof(sGU_UPDATE_CHAR_ATTACK_SPEEDRATE) - 2;
+						sAttackSpeed.handle = plr->GetHandle();
+						int attackspeed = 1400 / 100 * aitemEffect[i].dwValue;
+						plr->GetAttributesManager()->SetLastAttackSpeedRate(attackspeed * -1);
+						sAttackSpeed.wAttackSpeedRate = plr->GetPcProfile()->avatarAttribute.wLastAttackSpeedRate;
+						
+
+						if (plr->GetPcProfile()->avatarAttribute.wLastAttackSpeedRate <= 0 || plr->GetPcProfile()->avatarAttribute.wLastAttackSpeedRate >= 1400)
+						{
+							plr->GetPcProfile()->avatarAttribute.wLastAttackSpeedRate = 1400;
+							plr->GetAttributesManager()->SetLastAttackSpeedRate(0);
+							sAttackSpeed.wAttackSpeedRate = plr->GetPcProfile()->avatarAttribute.wLastAttackSpeedRate;
+						}
+
+						plr->SendPacket((char*)&sAttackSpeed, sizeof(sGU_UPDATE_CHAR_ATTACK_SPEEDRATE));
+						plr->SendToPlayerList((char*)&sAttackSpeed, sizeof(sGU_UPDATE_CHAR_ATTACK_SPEEDRATE));
+					}
+					break;
+				}*/
+				//Next Case
+
+				}
 			}
 		}
 	}

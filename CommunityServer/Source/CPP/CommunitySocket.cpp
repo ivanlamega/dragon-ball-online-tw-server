@@ -40,7 +40,13 @@ bool CommunitySocket::HandleAuthSession(Packet& packet)
 	res.wResultCode = CHAT_SUCCESS;
 	sLog.outDebug("UT_ENTER_CHAT By AccID: %d", req->accountId);
 	CHARACTERID charId = INVALID_CHARACTERID;
-
+	//sql::ResultSet* result = sDB.executes("SELECT CharacterId from characters where isOnline = 1 and AccountID = %d", req->accountId);
+	sql::ResultSet* result = sDB.executes("SELECT * FROM characters WHERE isOnline = 1 AND AccountID = '%d';", req->accountId);
+	if (result != NULL)
+	{
+		charId = result->getInt("CharacterId");
+		delete result;
+	}
 	if (!(m_session = new CommunitySession(req->accountId, this, (AccountTypes)sDB.GetIsGameMaster(req->accountId))))
 	{
 		res.wResultCode = COMMUNITY_FAIL;
@@ -54,24 +60,16 @@ bool CommunitySocket::HandleAuthSession(Packet& packet)
 		Write((char*)&res, sizeof(sTU_ENTER_CHAT_RES));
 		sLog.outError("Session Is NULL!.");
 		return false;
-	}
-	sql::ResultSet* result = sDB.executes("SELECT CharacterId from characters where isOnline = 1 and AccountID = %d", req->accountId);
-	if (result)
-	{
-		charId = result->getUInt("CharacterId");
-	}
-	if(charId != INVALID_CHARACTERID)
-	{
-		if (!m_session->CreatePlayer(charId))
-		{
-			res.wResultCode = COMMUNITY_FAIL;
-			Write((char*)&res, sizeof(sTU_ENTER_CHAT_RES));
-			sLog.outError("Player create failed !.");
-			return false;
-		}
-	}
+	}	
 	Write((char*)&res, sizeof(sTU_ENTER_CHAT_RES));
-
+	
+	if (!m_session->CreatePlayer(charId))
+	{
+		res.wResultCode = COMMUNITY_FAIL;
+		Write((char*)&res, sizeof(sTU_ENTER_CHAT_RES));
+		sLog.outError("Player create failed !.");
+		return false;
+	}	
 	sCommunity.AddSession_(m_session);
 	return true;
 }

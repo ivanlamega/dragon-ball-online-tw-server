@@ -8,16 +8,21 @@ const int QUEST_REWARD_SEL_MAX_CNT = 4;			/* DboTSCoreDefine.h => MAX_SELECTION_
 #pragma pack(push, 4)
 struct sQUEST_REWARD_DATASET
 {
-	
+	DWORD  Item;
+	DWORD  Amount;
+	BYTE   unk;
+	BYTE   Padding[3];
 };
 
 struct sQUEST_REWARD_TBLDAT : public sTBLDAT
 {
-public:
-	DWORD						byRewardType;
-	DWORD						dwRewardIdx;
-	DWORD						dwRewardVal;
-	DWORD						unk2[23];
+public:	
+	DWORD  EXP;
+	DWORD  Zenny;
+	BYTE   Count;
+	BYTE   Padding[3];
+	sQUEST_REWARD_DATASET  unk2[7];//Item Need look When quest Working
+	DWORD   shit[2];
 protected:
 
 	virtual int GetDataSize()

@@ -92,7 +92,7 @@ bool AuthSocket::_HandleOnLogin(Packet& packet)
 		res = {};
 		return true;
 	}
-	sDB.UpdateAccountOnline(AccountID, 1); // SET OUR USER ONLINE IN DB
+	//sDB.UpdateAccountOnline(AccountID, 1); // SET OUR USER ONLINE IN DB
 	int isGameMaster = sDB.GetIsGameMaster(AccountID);
 	memcpy(res.awchUserId, req->awchUserId, MAX_SIZE_USERID_UNICODE + 1);
 	memcpy(res.abyAuthKey, "SE@WASDE#$RFWD@D", MAX_SIZE_AUTH_KEY);
@@ -166,11 +166,11 @@ bool AuthSocket::ProcessIncomingData()
 		else if (header->wOpCode == Opcodes::SYS_ALIVE)
 		{
 			process = true;
-		}
-		
+		}		
 		else if (header->wOpCode >= Opcodes::UA_OPCODE_BEGIN && pk->GetPacketHeader()->bySequence <= Opcodes::UA_LOGIN_DISCONNECT_REQ)
 		{
 			process = _ProcessLoginPacket(*pk);
+		
 		}
 		else
 		{

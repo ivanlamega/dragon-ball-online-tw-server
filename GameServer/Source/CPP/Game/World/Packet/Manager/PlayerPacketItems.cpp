@@ -58,10 +58,14 @@ void WorldSession::SendAvatarItemInfo()
 			}
 			for (int k = 0; k <= 16; k++)
 				res.aItemProfile[i].awchMaker[k] = _player->inventoryManager.GetInventory()[sendCount].awchMaker[k];
-			res.byItemCount = i + 1;
+
+			if (res.aItemProfile[i].byPlace == 7)
+				_player->GetAttributesManager()->UpdateExtraAttributesFromItem(res.aItemProfile[i].aitemEffect);
+			res.byItemCount = i + 1;			
 		}
 		res.byBeginCount = (sendCount - res.byItemCount);
 		res.wPacketSize = (6 + (res.byItemCount * sizeof(sITEM_PROFILE)));
+		
 		SendPacket((char*)&res, sizeof(sGU_AVATAR_ITEM_INFO));
 		if (_player->inventoryManager.GetInventory()[sendCount].tblidx == INVALID_TBLIDX)
 			break;
@@ -180,7 +184,7 @@ void WorldSession::SendItemMoveStack(Packet& packet)
 //	Remove an item
 //----------------------------------------
 void WorldSession::SendRemoveItem(Packet& packet)
-{
+{ 
 	sUG_ITEM_DELETE_REQ * req = (sUG_ITEM_DELETE_REQ*)packet.GetPacketBuffer();
 	sGU_ITEM_DELETE deletes;
 	sGU_ITEM_DELETE_RES deleted_item;
@@ -195,8 +199,7 @@ void WorldSession::SendRemoveItem(Packet& packet)
 	deletes.bySrcPlace = req->bySrcPlace;
 	deletes.bySrcPos = req->bySrcPos;
 	deleted_item.byPlace = req->bySrcPlace;
-	deleted_item.byPos = req->bySrcPos;
-	deleted_item.wResultCode = GAME_SUCCESS;
+	deleted_item.byPos = req->bySrcPos;	
 
 	_player->GetInventoryManager()->DeleteItem(req->bySrcPlace, req->bySrcPos, deletes.hSrcItem);
 

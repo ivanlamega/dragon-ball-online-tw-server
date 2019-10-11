@@ -196,9 +196,9 @@ void CommunitySession::SendHlsSlotMachineWinnerInfo(Packet packet)
 	res.MachineID = req->MachineID;
 	res.BiginCount = 0;
 	res.TotalCount = 3;
-	wcscpy_s(res.WinnerCharName1, MAX_SIZE_CHAR_NAME_UNICODE + 1, (L"zindel"));
-	wcscpy_s(res.WinnerCharName2, MAX_SIZE_CHAR_NAME_UNICODE + 1, (L"zindel"));
-	wcscpy_s(res.WinnerCharName3, MAX_SIZE_CHAR_NAME_UNICODE + 1, (L"pamaor"));
+	wcscpy_s(res.WinnerCharName1, MAX_SIZE_CHAR_NAME_UNICODE + 1, (L"Marco Rafael"));
+	wcscpy_s(res.WinnerCharName2, MAX_SIZE_CHAR_NAME_UNICODE + 1, (L"SanGawku"));
+	wcscpy_s(res.WinnerCharName3, MAX_SIZE_CHAR_NAME_UNICODE + 1, (L"ANTIDOT3"));
 	res.TryToGetRank1 = 1;//Try to get
 	res.TryToGetRank2 = 2;//Try to get
 	res.TryToGetRank3 = 3;//Try to get
@@ -215,135 +215,4 @@ void CommunitySession::SendHlsSlotMachineWinnerInfo(Packet packet)
 	res.UNK17 = 1;
 	res.UNK18 = 2;
 	SendPacket((char*)&res, sizeof(sTU_HLS_SLOT_MACHINE_WINNER_INFO_RES));
-}
-
-void CommunitySession::SendGuildDisband(Packet packet)
-{
-	sUT_GUILD_DISBAND_REQ* req = (sUT_GUILD_DISBAND_REQ*)packet.GetPacketBuffer();
-	sTU_GUILD_DISBAND_RES GuildDisband;
-
-	sLog.outError("sUT_GUILD_DISBAND_REQ");
-	GuildDisband.timeToDisband = 0;
-	GuildDisband.wOpCode = TU_GUILD_DISBAND_RES;
-	GuildDisband.wPacketSize = sizeof(sTU_GUILD_DISBAND_RES) - 2;
-	GuildDisband.wResultCode = GAME_SUCCESS;
-
-	SendPacket((char*)&GuildDisband, sizeof(sTU_GUILD_DISBAND_RES));
-
-	sTU_GUILD_DISBANDED_NFY GuildDisbanded;
-	sLog.outError("sTU_GUILD_DISBANDED_NFY");
-	GuildDisband.timeToDisband = 0;
-	GuildDisband.wOpCode = TU_GUILD_BEING_DISBANDED_NFY;
-	GuildDisband.wPacketSize = sizeof(TU_GUILD_BEING_DISBANDED_NFY) - 2;
-	GuildDisband.wResultCode = GAME_SUCCESS;
-
-	SendPacket((char*)&GuildDisband, sizeof(sTU_GUILD_DISBANDED_NFY));
- }
-
-void CommunitySession::SendGuildInvitationResponse(Packet packet)
-{
-	sUT_GUILD_RESPONSE_INVITATION *req = (sUT_GUILD_RESPONSE_INVITATION*)packet.GetPacketBuffer();
-	sTU_GUILD_RESPONSE_INVITATION_RES GuildInvitationResponse;
-
-	sLog.outError("sTU_GUILD_RESPONSE_INVITATION_RES");
-	GuildInvitationResponse.wOpCode = TU_GUILD_RESPONSE_INVITATION_RES;
-	GuildInvitationResponse.wPacketSize = sizeof(sTU_GUILD_RESPONSE_INVITATION_RES) - 2;
-	GuildInvitationResponse.wResultCode = GAME_SUCCESS;
-
-	SendPacket((char*)&GuildInvitationResponse, sizeof(sTU_GUILD_RESPONSE_INVITATION_RES));
-}
-
-void CommunitySession::SendGuildLeave(Packet packet)
-{
-	sUT_GUILD_LEAVE_REQ *req = (sUT_GUILD_LEAVE_REQ*)packet.GetPacketBuffer();
-	sTU_GUILD_LEAVE_RES GuildLeave;
-
-	sLog.outError("sTU_GUILD_LEAVE_RES");
-	GuildLeave.wOpCode = TU_GUILD_LEAVE_RES;
-	GuildLeave.wPacketSize = sizeof(sTU_GUILD_LEAVE_RES) - 2;
-	GuildLeave.wResultCode = GAME_SUCCESS;
-
-	SendPacket((char*)&GuildLeave, sizeof(sTU_GUILD_LEAVE_RES));
-}
-
-void CommunitySession::SendGuildKickOut(Packet packet)
-{
-	sUT_GUILD_KICK_OUT_REQ *req = (sUT_GUILD_KICK_OUT_REQ*)packet.GetPacketBuffer();
-	sTU_GUILD_KICK_OUT_RES GuildKickOut;
-
-	sLog.outError("sTU_GUILD_KICK_OUT_RES");
-	GuildKickOut.kickedOutMemberCharId = _player->GetCharacterID();
-	GuildKickOut.wOpCode = TU_GUILD_KICK_OUT_RES;
-	GuildKickOut.wPacketSize = sizeof(sTU_GUILD_KICK_OUT_RES) - 2;
-	GuildKickOut.wResultCode = GAME_SUCCESS;
-
-	SendPacket((char*)&GuildKickOut, sizeof(sTU_GUILD_KICK_OUT_RES));
-}
-
-void CommunitySession::SendAppointSecondMaster(Packet packet)
-{
-	sUT_GUILD_APPOINT_SECOND_MASTER_REQ *req = (sUT_GUILD_APPOINT_SECOND_MASTER_REQ*)packet.GetPacketBuffer();
-	sTU_GUILD_APPOINT_SECOND_MASTER_RES SendAppointSecondMaster;
-
-	sLog.outError("sTU_GUILD_APPOINT_SECOND_MASTER_RES");
-	SendAppointSecondMaster.secondMasterCharId = _player->GetCharacterID();
-	SendAppointSecondMaster.wOpCode = TU_GUILD_APPOINT_SECOND_MASTER_RES;
-	SendAppointSecondMaster.wPacketSize = sizeof(sTU_GUILD_APPOINT_SECOND_MASTER_RES) - 2;
-	SendAppointSecondMaster.wResultCode = GAME_SUCCESS;
-
-	SendPacket((char*)&SendAppointSecondMaster, sizeof(sTU_GUILD_APPOINT_SECOND_MASTER_RES));
-
-}
-
-void CommunitySession::SendDismissSecondMaster(Packet packet) // SendDismissSecondMaster
-{
-	sUT_GUILD_DISMISS_SECOND_MASTER_REQ *req = (sUT_GUILD_DISMISS_SECOND_MASTER_REQ*)packet.GetPacketBuffer();
-	sTU_GUILD_DISMISS_SECOND_MASTER_RES SendDismissSecondMaster;
-	
-	sLog.outError("sTU_GUILD_DISMISS_SECOND_MASTER_RES");
-	SendDismissSecondMaster.secondMasterCharId = _player->GetCharacterID();
-	SendDismissSecondMaster.wOpCode = TU_GUILD_DISMISS_SECOND_MASTER_RES;
-	SendDismissSecondMaster.wPacketSize = sizeof(sTU_GUILD_DISMISS_SECOND_MASTER_RES) - 2;
-	SendDismissSecondMaster.wResultCode = GAME_SUCCESS;
-
-	SendPacket((char*)&SendDismissSecondMaster, sizeof(sTU_GUILD_DISMISS_SECOND_MASTER_RES));
-}
-
-void CommunitySession::SendChangeGuildMaster(Packet packet)
-{
-	sUT_GUILD_CHANGE_GUILD_MASTER_REQ *req = (sUT_GUILD_CHANGE_GUILD_MASTER_REQ*)packet.GetPacketBuffer();
-	sTU_GUILD_CHANGE_GUILD_MASTER_RES SendChangeGuildMaster;
-
-	sLog.outError("sTU_GUILD_CHANGE_GUILD_MASTER_RES");
-	SendChangeGuildMaster.newMasterCharId = _player->GetCharacterID();
-	SendChangeGuildMaster.wOpCode = TU_GUILD_CHANGE_GUILD_MASTER_RES;
-	SendChangeGuildMaster.wPacketSize = sizeof(sTU_GUILD_CHANGE_GUILD_MASTER_RES) - 2;
-	SendChangeGuildMaster.wResultCode = GAME_SUCCESS;
-
-	SendPacket((char*)&SendChangeGuildMaster, sizeof(sTU_GUILD_CHANGE_GUILD_MASTER_RES));
-}
-
-void CommunitySession::SendChangeNotice(Packet packet)
-{
-	sUT_GUILD_CHANGE_NOTICE_REQ *req = (sUT_GUILD_CHANGE_NOTICE_REQ*)packet.GetPacketBuffer();
-	sTU_GUILD_CHANGE_NOTICE_RES ChangeNotice;
-
-	sLog.outError("sTU_GUILD_CHANGE_NOTICE_RES");
-	ChangeNotice.wOpCode = TU_GUILD_CHANGE_NOTICE_RES;
-	ChangeNotice.wPacketSize = sizeof(sTU_GUILD_CHANGE_NOTICE_RES) - 2;
-	ChangeNotice.wResultCode = GAME_SUCCESS;
-
-	SendPacket((char*)&ChangeNotice, sizeof(sTU_GUILD_CHANGE_NOTICE_RES));
-
-	
-	sTU_GUILD_CHANGE_NOTICE_NFY ChangeNoticeFly;
-	sLog.outError("sTU_GUILD_CHANGE_NOTICE_NFY");
-	//memcpy(CreateGuildInfo.wszName, req->wszGuildName, sizeof(wchar_t)* MAX_SIZE_GUILD_NAME_IN_UNICODE + 1);
-	memcpy(ChangeNoticeFly.awchCharName, req->awchNotice, sizeof(wchar_t)* MAX_SIZE_CHAR_NAME_UNICODE + 1);
-	ChangeNoticeFly.wNoticeLengthInUnicode = 0;
-	ChangeNoticeFly.wOpCode = TU_GUILD_CHANGE_NOTICE_NFY;
-	ChangeNoticeFly.wPacketSize = sizeof(sTU_GUILD_CHANGE_NOTICE_NFY) - 2;
-
-	SendPacket((char*)&ChangeNoticeFly, sizeof(sTU_GUILD_CHANGE_NOTICE_NFY));
-
 }

@@ -35,13 +35,14 @@ bool GameSocket::HandleAuthSession(Packet& packet)
 	sGU_GAME_ENTER_RES res;
 
 	sql::ResultSet* result = sDB.executes("UPDATE characters SET isOnline = 1 AND IsTutorialDone = 1 WHERE CharacterID = '%d';" , req->charId);
+	
 	if (result != NULL)
 		delete result;
 	//res.bEncrypt = 0;
 	res.wOpCode = GU_GAME_ENTER_RES;
 	res.wPacketSize = sizeof(sGU_GAME_ENTER_RES) - 2;
 	res.wResultCode = GAME_SUCCESS;
-	strcpy_s(res.achCommunityServerIP, sizeof(res.achCommunityServerIP), "127.0.0.1");
+	strcpy_s(res.achCommunityServerIP, sizeof(res.achCommunityServerIP), "dbotwdev.ddns.net");
 	res.wCommunityServerPort = 50500;
 	res.timeDBOEnter = time(NULL);
 
@@ -79,12 +80,13 @@ bool GameSocket::HandleAuthSession(Packet& packet)
 	m_session->SendSlotInfo();
 	/*m_session->SendBusLocation();*/
 	m_session->SendAvatarWarFogInfo();
-	m_session->SendPortalInfo();
-	m_session->SendAvatarTitleInfo();
+	m_session->SendPortalInfo();	
 	m_session->SendMascotInfo();
 	m_session->SendHoiPoiMixInfo();
+	m_session->SendAvatarWagguInfo();
+	m_session->SendAvatarTitleInfo();
 	m_session->SendAvatarInfoEnd();
-	m_session->SendAvatarWagguInfo();	
+	
 	m_session->SendUpdateSkillPassiveAtribute();
 	/* ADD OUR PLAYER TO THE ACCESSOR */
 	//sObjectAccessor.AddObject(pCurrChar);

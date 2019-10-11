@@ -1,24 +1,25 @@
-- Mapa de trabajo #1  18/07/2019 - 01/08/2019
-Amakusakun
-  - Se centrara en las quest basicas o quest v1.0 que comprenden quest de entregar, quest de matar y recoger. No quest especiales
+- ATIDOT3
+  - Teleporter fixed :check:
+  - Need to test the teleport function with multiple player around (stress test for remove() )
+  - Move 'update state fonction to parent'	
+	-Need Fix	
+	Char_Server:	
+  - Channel Status not tick need Select Server in list to update:
+  - Not Need Password to Delet Character:
   
-  
-Adri1998-Meliodas:
-Se centrara en:
-  - Drop item/Zenny
-  - Sistema de guilds basico (Entrar, salir) #Posiblemente funciones de puntos de estilo
-  - Sistema de Partys basico (Entrar y salir de party)
-  - Maquinas de wagu
-  - Communiy server (Chat)
-  
-Zindel
-  - Skills y sistema de buffs v1 (aprender y utilizar)
-  - Calculos de Daño
-  - Correccion de stats
-
-
-Tool quest: https://drive.google.com/file/d/1NA1Nm307_dBIZ-1YHJcz5W_O_LiqFDQL/view?usp=sharing 
-
-Descomprime archivos utiles para los requisitos de quest.
-
+	Game_Server:
+	 
+  - Rp incress when move to figth:
+  - Drop item/Zenny not appear to all map "Map know Papaya , DarkNamek":
+  - Drop item whith ? icon in some map "Map know Karin":
+  - Title list not Load all Title:
+  - Fly not Update State to Speed Dash:
+  - Mob Moviment:
+  - Not Save curExp at logout:
+  - Token Shop Start Not recibe OpCode "Buy / End  Recibe Correct":
+  - GU_UPDATE_ITEM_EQUIP Not show item correct on multiplayer: 
+	- stack count not update on item pick up create evry times new item
+	- Skills not calculate Defense;
+	- Buff not show correct value;
+	- Heal not work in other player;
 	

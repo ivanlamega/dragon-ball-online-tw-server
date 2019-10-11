@@ -60,8 +60,9 @@ public:
 	bool CheckIfItemCanGoHere(CHARACTERID CharID, BYTE Place, BYTE Pos);
 	void UpdateItemPosAndPlace(TBLIDX ItemID, BYTE Place, BYTE Pos);
 	void LearnSkill(TBLIDX skillID, CHARACTERID characterID, TBLIDX slotID);
-	void AddItem(TBLIDX itemID, CHARACTERID characterID, int place, int pose, int count, int rank, int durability,int grade);
+	void AddItem(TBLIDX itemID, CHARACTERID characterID, int place, int pose, int count, int rank, int durability,int grade, int AtributeType1, int AtributeValue1, int AtributeType2, int AtributeValue2, int AtributeType3, int AtributeValue3, int AtributeType4, int AtributeValue4, int AtributeType5, int AtributeValue5, int AtributeType6, int AtributeValue6);
 	void SaveQuickTeleport(CHARACTERID characterID, BYTE TeleportID, DWORD WorldID, float Loc_x, float Loc_y, float Loc_z, WORD Year, BYTE Moch, BYTE Day, BYTE Hour, BYTE Minute, BYTE Secound, DWORD MapTBLIDX);
+	void AddAucionHouseSell(CHARACTERID characterID, int ItemHandle, char * SellerName, TBLIDX ItemID, DWORD SellAmount, BYTE StackCount, BYTE ItemLevel, BYTE ItemType, BYTE Grade, BYTE ItemRank, int AtributeType1, int AtributeValue1, int AtributeType2, int AtributeValue2, int AtributeType3, int AtributeValue3, int AtributeType4, int AtributeValue4, int AtributeType5, int AtributeValue5, int AtributeType6, int AtributeValue6);
 	//Cash
 	void AddCashItem(TBLIDX itemID, CHARACTERID characterID, int byStackCount, int Handle);
 	///////////
@@ -73,9 +74,9 @@ public:
 	void AddNewPortal(CHARACTERID charid, PORTALID portalid);
 	bool CheckIfMailAway(CHARACTERID charID);
 	bool HowMuchMail(CHARACTERID charID);
+	ResultCodes CreateGuild(char * guildName, int guildOwner);
 	bool LoadAllMail(CHARACTERID charID);
-	void AddMail(CHARACTERID CharID, int byDay, int byMailType, int byTextSize, char* wszText, char* wszTargetName, char* wszFromName, int bIsAccept, int bIsLock, int bIsRead);
-	void DelMail(MAILID mailID);
+	void AddMail(CHARACTERID CharID, int byDay, int byMailType, int byTextSize, char* wszText, char* wszTargetName, char* wszFromName, int bIsAccept, int bIsLock, int bIsRead, int SenderType, int ItemID, int StackCount, int Grade, int Zenny);
 	void AddNewBind(CHARACTERID charid, WORLDID worldid, TBLIDX bindID);
 	void AddNewWarFog(HOBJECT id, CHARACTERID charid);
 	void SavePlayerPositionAndWorldID(sVECTOR3 position, sVECTOR3 direction, WORLDID w_id, WORLDID w_tblidx_id, CHARACTERID charid);
@@ -83,8 +84,6 @@ public:
 	void SaveTitleMarket(int TitleMarket, CHARACTERID charid);
 	void SavePlayerWagguCoin(int WagguPoint, CHARACTERID charid);
 	void SavePlayerCashPoit(int Cash, CHARACTERID charid);
-	void SavePlayerZenny(int zenny, CHARACTERID charid);
-	void SavePlayerExp(int exp, CHARACTERID charid);
 private:
 	string host;
 	string user;

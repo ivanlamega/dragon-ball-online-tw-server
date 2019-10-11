@@ -83,28 +83,13 @@ bool FormulaTable::AddTable(void * pvTable, bool bReload)
 	UNREFERENCED_PARAMETER(bReload);
 
 	sFORMULA_TBLDAT* pTbldat = (sFORMULA_TBLDAT*)pvTable;
-
-	if (false == pTbldat->bValidity_Able)
-	{
-		return false;
-	}
-
+		
 	if (false == m_mapTableList.insert(std::pair<TBLIDX, sTBLDAT*>(pTbldat->tblidx, pTbldat)).second)
 	{
 		Table::CallErrorCallbackFunction(L"[File] : %s\r\n Table Tblidx[%u] is Duplicated.", m_wszXmlFileName, pTbldat->tblidx);
 		_ASSERTE(0);
 		return false;
 	}
-
-	if (DBO_MAX_FORMULA_IDX < pTbldat->tblidx)
-	{
-		Table::CallErrorCallbackFunction(L"[File] : %s\r\n Table Tblidx[%u] is too big. The maximum is %u.", m_wszXmlFileName, pTbldat->tblidx, DBO_MAX_FORMULA_IDX);
-		_ASSERTE(0);
-		return false;
-	}
-
-	::CopyMemory(&(m_afRate[pTbldat->tblidx][1]), pTbldat->afRate, sizeof(m_afRate[pTbldat->tblidx]));
-
 	return true;
 }
 
@@ -114,33 +99,10 @@ bool FormulaTable::SetTableData(void* pvTable, WCHAR* pwszSheetName, std::wstrin
 	{
 		sFORMULA_TBLDAT* pFormula = (sFORMULA_TBLDAT*)pvTable;
 
-		if (0 == wcscmp(pstrDataName->c_str(), L"Idx"))
+		if (0 == wcscmp(pstrDataName->c_str(), L"Tblidx"))
 		{
+			CheckNegativeInvalid(pstrDataName->c_str(), bstrData);
 			pFormula->tblidx = READ_DWORD(bstrData);
-		}
-		else if (0 == wcsncmp(pstrDataName->c_str(), L"Rate", wcslen(L"Rate")))
-		{
-			bool bFound = false;
-
-			WCHAR szBuffer[1024] = { 0x00, };
-			for (int i = 0; i < DBO_MAX_FORMULA_RATE_COUNT; i++)
-			{
-				swprintf(szBuffer, 1024, L"Rate%d", i + 1);
-
-				if (0 == wcscmp(pstrDataName->c_str(), szBuffer))
-				{
-					pFormula->afRate[i] = READ_FLOAT(bstrData, pstrDataName->c_str());
-
-					bFound = true;
-					break;
-				}
-			}
-
-			if (false == bFound)
-			{
-				Table::CallErrorCallbackFunction(L"[File] : %s\n[Error] : Unknown field name found!(Field Name = %s)", m_wszXmlFileName, pstrDataName->c_str());
-				return false;
-			}
 		}
 		else
 		{
@@ -150,7 +112,6 @@ bool FormulaTable::SetTableData(void* pvTable, WCHAR* pwszSheetName, std::wstrin
 	}
 	else
 	{
-		_ASSERT(0);
 		return false;
 	}
 

@@ -65,7 +65,7 @@ bool CharSocket::GetCharacterServerList(Packet &packet, bool one)
 		
 		memcpy(sinfo.serverFarmInfo.wszGameServerFarmName, charToWChar(sXmlParser.GetStr(snode, "Name")), MAX_SIZE_SERVER_FARM_NAME_UNICODE);
 		
-		sinfo.serverFarmInfo.dwLoad = result->getInt("population");
+		sinfo.serverFarmInfo.dwLoad = result->getInt("population") / 2;
 		sinfo.serverFarmInfo.dwMaxLoad = sXmlParser.GetInt(snode, "MaxLoad");
 		isGameMaster = static_cast<bool>(sDB.GetIsGameMaster(AccountID));
 		if (sXmlParser.GetInt(snode, "Private") == 1)
@@ -226,7 +226,7 @@ bool CharSocket::GetCharacterLoad(Packet &packet)
 			cninfo.serverChannelInfo[i].bIsVisible = true;
 			cninfo.serverChannelInfo[i].byServerStatus = (eDBO_SERVER_STATUS)result->getInt("realmflags");
 			cninfo.serverChannelInfo[i].byServerChannelIndex = i;
-			cninfo.serverChannelInfo[i].dwLoad = result->getInt("population");// "0-50 - free" "50-80 Normal" "80-99 Ocuped"  "100  full" 
+			cninfo.serverChannelInfo[i].dwLoad = result->getInt("population") / 2;// "0-50 - free" "50-80 Normal" "80-99 Ocuped"  "100  full" 
 			cninfo.serverChannelInfo[i].dwMaxLoad = sXmlParser.GetInt(snode, "MaxLoad");
 			cninfo.serverChannelInfo[i].serverFarmId = req->serverFarmId;
 			cninfo.serverChannelInfo[i].is_pvpdb = result->getInt("IsEvent");
@@ -601,9 +601,6 @@ int CharSocket::AddCharacters(sPC_SUMMARY data)
 	WORD LevelCon = newb->byCon + static_cast<WORD>(newb->fLevel_Up_Con * 1);
 	float ConByPoint = 81.6; // 1con = 85 old tw
 	DWORD LP = BasicLife + static_cast<DWORD>(LevelCon * ConByPoint);
-	// Quest List
-	sDB.executes("INSERT INTO questlist (`type`, `tId`, `currentID`, `nextID`, `charID`, `isCompleted`) VALUES ('%d', '%d', '%d', '%d', '%d', '%d');",
-		0, 0, 0, 0, charid, 0);
 
 	//EP Calculation
 	WORD BasicEnergy = newb->wBasic_EP + (newb->byLevel_Up_EP * 1);
@@ -642,29 +639,30 @@ int CharSocket::AddCharacters(sPC_SUMMARY data)
 				if (eType == eEQUIP_TYPE::EQUIP_TYPE_ARMOR || eType == eEQUIP_TYPE::EQUIP_TYPE_MAIN_WEAPON || eType == eEQUIP_TYPE::EQUIP_TYPE_SUB_WEAPON
 				|| eType == eEQUIP_TYPE::EQUIP_TYPE_SCOUTER)
 				{
-					sDB.AddItem(pNewbieTbldat->aitem_Tblidx[i], charid, int(CONTAINER_TYPE_EQUIP), pNewbieTbldat->abyPos[i], 1, item->eRank, item->byDurability, 0);
+					sDB.AddItem(pNewbieTbldat->aitem_Tblidx[i], charid, int(CONTAINER_TYPE_EQUIP), pNewbieTbldat->abyPos[i], 1, item->eRank, item->byDurability, 0, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX);
 				}
 				else
 				{
 					if (item->eItemType == eITEM_TYPE::ITEM_TYPE_NETPYSTORE)
 					{
 						//NetPyStore
-						sDB.AddItem(pNewbieTbldat->aitem_Tblidx[i], charid, int(CONTAINER_TYPE_BAGSLOT), int(CONTAINER_TYPE_NETPYSTORE), 1, item->eRank, item->byDurability, 0);
+						sDB.AddItem(pNewbieTbldat->aitem_Tblidx[i], charid, int(CONTAINER_TYPE_BAGSLOT), int(CONTAINER_TYPE_NETPYSTORE), 1, item->eRank, item->byDurability, 0, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX);
 					}
 					else if (item->eItemType == eITEM_TYPE::ITEM_TYPE_WAREHOUSE)
 					{
 						//Bank Bag 
-						sDB.AddItem(pNewbieTbldat->aitem_Tblidx[i], charid, int(CONTAINER_TYPE_BANKSLOT), int(CONTAINER_TYPE_BAGSLOT), 1, item->eRank, item->byDurability, 0);
+						sDB.AddItem(pNewbieTbldat->aitem_Tblidx[i], charid, int(CONTAINER_TYPE_BANKSLOT), int(CONTAINER_TYPE_BAGSLOT), 1, item->eRank, item->byDurability, 0, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX);
 					}
 					else if (item->eItemType == eITEM_TYPE::ITEM_TYPE_GAMBLE)
 					{
 						printf("Item ID = %d \n", pNewbieTbldat->aitem_Tblidx[i]);
 						// Popo Gift Box
-						sDB.AddItem(pNewbieTbldat->aitem_Tblidx[i], charid, int(CONTAINER_TYPE_BAG1), int(BAGSLOT_POSITION_BAGSLOT_POSITION_0), 1, item->eRank, item->byDurability, 0);
+						sDB.AddItem(pNewbieTbldat->aitem_Tblidx[i], charid, int(CONTAINER_TYPE_BAG1), int(BAGSLOT_POSITION_BAGSLOT_POSITION_0), 1, item->eRank, item->byDurability, 0, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX);
 					}
 					else if (item->eItemType == eITEM_TYPE::ITEM_TYPE_BAG)
 					{
-						sDB.AddItem(pNewbieTbldat->aitem_Tblidx[i], charid, int(CONTAINER_TYPE_FIRST), int(CONTAINER_TYPE_BAGSLOT), 1, item->eRank, item->byDurability, 0);
+						sDB.AddItem(pNewbieTbldat->aitem_Tblidx[i], charid, int(CONTAINER_TYPE_BAGSLOT), int(BAGSLOT_POSITION_BAGSLOT_POSITION_0), 1, item->eRank, item->byDurability, 0, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX);
+						sDB.AddItem(pNewbieTbldat->aitem_Tblidx[i], charid, int(CONTAINER_TYPE_BAGSLOT), int(BAGSLOT_POSITION_BAGSLOT_POSITION_NETPYSTORE), 1, item->eRank, item->byDurability, 0, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX, INVALID_TBLIDX);
 					}
 				}
 			}

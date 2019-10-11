@@ -110,26 +110,17 @@ bool CharTitleTable::SetTableData(void* pvTable, WCHAR* pwszSheetName, std::wstr
 			CheckNegativeInvalid(pstrDataName->c_str(), bstrData);
 			pTitle->tblidx = READ_DWORD(bstrData);
 		}
-		else if (0 == wcscmp(pstrDataName->c_str(), L"Part_Affected"))
-		{
-			CheckNegativeInvalid(pstrDataName->c_str(), bstrData);
-			READ_STRINGW(bstrData, pTitle->wszIconName, _countof(pTitle->wszIconName));
-		}
-		else if (0 == wcscmp(pstrDataName->c_str(), L"Title_Name"))
-		{
-			CheckNegativeInvalid(pstrDataName->c_str(), bstrData);
-			READ_STRINGW(bstrData, pTitle->wszRewardCond, _countof(pTitle->wszRewardCond));
-		}
 		else if (0 == wcscmp(pstrDataName->c_str(), L"Title_tblidx"))
 		{
 			CheckNegativeInvalid(pstrDataName->c_str(), bstrData);
 			pTitle->tTitleTblidx= READ_WORD(bstrData, pstrDataName->c_str());
 		}
-		else if (0 == wcscmp(pstrDataName->c_str(), L"ClassBitflag"))
+		else if (0 == wcscmp(pstrDataName->c_str(), L"ClassBitflags"))
 		{
 			CheckNegativeInvalid(pstrDataName->c_str(), bstrData);
 			pTitle->classBitFlags = (WORD)READ_BITFLAG(bstrData);
 		}
+
 		else
 		{
 			Table::CallErrorCallbackFunction(L"[File] : %s\n[Error] : Unknown field name found!(Field Name = %s)", m_wszXmlFileName, pstrDataName->c_str());

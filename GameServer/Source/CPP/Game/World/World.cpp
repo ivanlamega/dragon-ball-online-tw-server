@@ -22,9 +22,25 @@ WORD byte_to_opcode(unsigned char val)
 {
 	return (WORD)((WORD)&val);
 }
-INT32 dbo_move_float_to_pos(float n)
+INT32 dbo_move_float_to_pos(float in_f)
 {
-	return (INT32)((INT32)&n);
+	int in_i = in_f * 100;
+	
+	bool negative = in_i < 0;
+	if (negative) in_i *= -1;
+	
+	int ret;
+	unsigned char *in_p = (unsigned char *)&in_i;
+	unsigned char *ret_p = (unsigned char *)&ret;
+	ret_p[0] = in_p[2];
+	ret_p[1] = in_p[3];
+	ret_p[2] = in_p[0];
+	ret_p[3] = in_p[1];
+	
+	if (negative) ret_p[0] |= 0x80; // apply the sign bit
+	
+	return ret;
+	
 }
 float dbo_move_pos_to_float(INT32 n)
 {
@@ -95,8 +111,20 @@ void World::Update(uint32 diff)
 	///- Move all creatures with "delayed move" and remove and delete all objects with "delayed remove"
 	sMapMgr.RemoveAllObjectsInRemoveList();
 }
+void handle_eptr(std::exception_ptr eptr) // passing by value is ok
+{
+	try {
+		if (eptr) {
+			std::rethrow_exception(eptr);
+		}
+	}
+	catch (const std::exception& e) {
+		std::cout << "Caught exception \"" << e.what() << "\"\n";
+	}
+}
 void World::UpdateSessions(uint32 /*diff*/)
 {
+	std::exception_ptr eptr;
 	///- Add new sessions
 	{
 		std::lock_guard<std::mutex> guard(m_sessionAddQueueLock);
@@ -114,7 +142,6 @@ void World::UpdateSessions(uint32 /*diff*/)
 	{
 		///- and remove not active sessions from the list
 		WorldSession* pSession = itr->second;
-
 		// if WorldSession::Update fails, it means that the session should be destroyed
 		if (!pSession->Update())
 		{
@@ -125,10 +152,17 @@ void World::UpdateSessions(uint32 /*diff*/)
 			uint32 pLimit = GetPlayerAmountLimit();
 			if (Sessions > 0){ Sessions -= 1; }
 			sLog.outDetail("Server Population (%d). Max Population (%d).", Sessions, pLimit);
-			sDB.SetGameServerState(sXmlParser.GetInt("Server", "ID"), sXmlParser.GetInt("Server", "ChannelID"), eDBO_SERVER_STATUS::DBO_SERVER_STATUS_UP, Sessions);
-			sql::ResultSet* result = sDB.executes("UPDATE account SET AccountStatus = 0 WHERE AccountStatus = 2;");
-			if (result != NULL)
-				delete result;
+			try {
+				sDB.SetGameServerState(sXmlParser.GetInt("Server", "ID"), sXmlParser.GetInt("Server", "ChannelID"), eDBO_SERVER_STATUS::DBO_SERVER_STATUS_UP, Sessions);
+				sql::ResultSet* result = sDB.executes("UPDATE account SET AccountStatus = 0 WHERE AccountStatus = 2;");
+				if (result != NULL)
+					delete result;
+			}
+			catch(...){
+				eptr = std::current_exception();
+			}
+			handle_eptr(eptr);
+
 			itr = m_sessions.erase(itr);
 			if (pSession != NULL)
 				delete pSession;

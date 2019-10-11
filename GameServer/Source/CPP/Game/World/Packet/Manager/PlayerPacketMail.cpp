@@ -62,7 +62,7 @@ void Player::LoadMail(Packet pPacket)
 			sMailData.sData.bIsLock = result->getBoolean("bIsLock");
 			sMailData.sData.bIsRead = result->getBoolean("bIsRead");
 			sMailData.sData.bySenderType = result->getInt("SenderType"); //eMAIL_SENDER_TYPE::eMAIL_SENDER_TYPE_GM;
-			sMailData.sData.byMailType = result->getInt("byMailType");eMAIL_TYPE::eMAIL_TYPE_ITEM;
+			sMailData.sData.byMailType = result->getInt("byMailType");//eMAIL_TYPE::eMAIL_TYPE_ITEM;
 			wcscpy_s(sMailData.wszText, 128, s2ws(result->getString("wszText")).c_str());
 			wcscpy_s(sMailData.sData.wszFromName, 16, s2ws(result->getString("wszFromName")).c_str());
 			sMailData.byTextSize = result->getInt("byTextSize");
@@ -70,31 +70,40 @@ void Player::LoadMail(Packet pPacket)
 			sMailData.byTextSize = result->getInt("byTextSize");
 			sMailData.sData.endTime = result->getInt("byDay");
 			sMailData.sData.mailID = result->getInt("id");
-			sMailData.sData.sItemProfile.handle = sWorld.AcquireItemSerialId();
-			sMailData.sData.sItemProfile.tblidx = result->getInt("item_id");
-			sMailData.sData.sItemProfile.byPlace = result->getInt("item_place");
-			sMailData.sData.sItemProfile.byPos = result->getInt("item_pos");
-			sMailData.sData.sItemProfile.byStackcount = 1;//result->getInt("StackCount");
-			sMailData.sData.sItemProfile.byRank = 1;
-			sMailData.sData.sItemProfile.byCurDur = 100;
-			sMailData.sData.sItemProfile.bNeedToIdentify = false;
-			sMailData.sData.sItemProfile.byGrade = 0;
-			sMailData.sData.sItemProfile.byBattleAttribute = eBATTLE_ATTRIBUTE::BATTLE_ATTRIBUTE_NONE;
-			sMailData.sData.sItemProfile.byRestrictType = eITEM_RESTRICT_TYPE::ITEM_RESTRICT_TYPE_NONE;
-			sMailData.sData.sItemProfile.aOptionTblidx = result->getInt("item_id");
-			sMailData.sData.sItemProfile.aOptionTblidx1 = INVALID_TBLIDX;
-			for (int i = 0; i <= 6; i++)
-			{
-				sMailData.sData.sItemProfile.aitemEffect[i].wType = INVALID_TBLIDX;
-				sMailData.sData.sItemProfile.aitemEffect[i].dwValue = INVALID_TBLIDX;
-			}
-			for (int i = 0; i <= 2; i++)
-			{
-				sMailData.sData.sItemProfile.aitemExtraEffect[i].wType = INVALID_TBLIDX;
-				sMailData.sData.sItemProfile.aitemExtraEffect[i].dwValue = INVALID_TBLIDX;
-			}
-			sMailData.sData.sItemProfile.byDurationType = eDURATIONTYPE::eDURATIONTYPE_NORMAL;
 
+			sMailData.sData.sItemProfile.tblidx = result->getInt("item_id");
+			sITEM_TBLDAT *ItemData = NULL;
+			if ((ItemData = (sITEM_TBLDAT*)sTBM.GetItemTable()->FindData(sMailData.sData.sItemProfile.tblidx)) == NULL)
+			{
+				ItemData = (sCASHITEM_TBLDAT*)sTBM.GetCashItemTable()->FindData(sMailData.sData.sItemProfile.tblidx);
+			}
+			if (ItemData != NULL)
+			{
+				sMailData.sData.sItemProfile.handle = sWorld.AcquireItemSerialId();
+				
+				sMailData.sData.sItemProfile.byPlace = result->getInt("item_place");
+				sMailData.sData.sItemProfile.byPos = result->getInt("item_pos");
+				sMailData.sData.sItemProfile.byStackcount = result->getInt("StackCount");
+				sMailData.sData.sItemProfile.byRank = ItemData->eRank;
+				sMailData.sData.sItemProfile.byCurDur = ItemData->byDurability;
+				sMailData.sData.sItemProfile.bNeedToIdentify = false;
+				sMailData.sData.sItemProfile.byGrade = result->getInt("grade");
+				sMailData.sData.sItemProfile.byBattleAttribute = eBATTLE_ATTRIBUTE::BATTLE_ATTRIBUTE_NONE;
+				sMailData.sData.sItemProfile.byRestrictType = eITEM_RESTRICT_TYPE::ITEM_RESTRICT_TYPE_NONE;
+				sMailData.sData.sItemProfile.aOptionTblidx = ItemData->tbxItemOption;
+				sMailData.sData.sItemProfile.aOptionTblidx1 = INVALID_TBLIDX;
+				for (int i = 0; i <= 6; i++)
+				{
+					sMailData.sData.sItemProfile.aitemEffect[i].wType = INVALID_TBLIDX;
+					sMailData.sData.sItemProfile.aitemEffect[i].dwValue = INVALID_TBLIDX;
+				}
+				for (int i = 0; i <= 2; i++)
+				{
+					sMailData.sData.sItemProfile.aitemExtraEffect[i].wType = INVALID_TBLIDX;
+					sMailData.sData.sItemProfile.aitemExtraEffect[i].dwValue = INVALID_TBLIDX;
+				}
+				sMailData.sData.sItemProfile.byDurationType = eDURATIONTYPE::eDURATIONTYPE_NORMAL;
+			}
 			SendPacket((char*)&sMailData, sizeof(sGU_MAIL_LOAD_INFO));
 			if (result->next())
 				continue;
@@ -187,7 +196,7 @@ void Player::SendMail(Packet pPacket)
 			{
 				//printf(" GAME_SUCCESS \n");
 				sMailData.wResultCode = GAME_SUCCESS;			
-				sDB.AddMail(id, req->byDay, req->byMailType, req->byTextSize, text,targetname, PlayerName, 0, 0, 0);
+				sDB.AddMail(id, req->byDay, req->byMailType, req->byTextSize, text,targetname, PlayerName, 0, 0, 0, eMAIL_SENDER_TYPE::eMAIL_SENDER_TYPE_BASIC, INVALID_TBLIDX, 1, 0, 0);
 			}	
 			if (req->byMailType == eMAIL_TYPE::eMAIL_TYPE_ITEM)
 			{
@@ -244,8 +253,6 @@ void Player::ReadMail(Packet pPacket)
 	res.endTime = 0;
 
 	SendPacket((char*)&res, sizeof(sGU_MAIL_READ_RES));
-	
-	
 }
 //----------------------------------------
 //	Delet mail
@@ -253,7 +260,6 @@ void Player::ReadMail(Packet pPacket)
 void Player::DeletMail(Packet pPacket)
 {
 	sUG_MAIL_DEL_REQ * req = (sUG_MAIL_DEL_REQ*)pPacket.GetPacketBuffer();
-
 
 	sGU_MAIL_DEL_RES  res;
 	res.wOpCode = GU_MAIL_DEL_RES;
@@ -263,7 +269,10 @@ void Player::DeletMail(Packet pPacket)
 	res.hObject = req->hObject;
 
 	// Remove in Data Base
-	sDB.DelMail(res.mailID);
+	printf("MailID %d", req->mailID);
+	sql::ResultSet* result = sDB.executes("DELETE FROM `mail` WHERE `id` = '%d';", req->mailID);
+	if (result != NULL)
+		delete result;
 	SendPacket((char*)&res, sizeof(sGU_MAIL_DEL_RES));
 }
 //----------------------------------------

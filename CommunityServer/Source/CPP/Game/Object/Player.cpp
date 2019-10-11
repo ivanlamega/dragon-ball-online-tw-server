@@ -284,18 +284,6 @@ bool Player::Create(CHARACTERID id)
 		sLog.outError("Player::Create: Error LoadAttributes(charid, this) return false");
 		return false;
 	}
-	if (skillManager.LoadSkill(charid) == false)
-	{
-		sLog.outError("Player::Create: Error LoadSkill(charid) return false");
-		return false;
-	}
-	if (inventoryManager.LoadInventory(charid, this) == false)
-	{
-		sLog.outError("Player::Create: Error LoadInventory(charid) return false");
-		return false;
-	}
-	characterManager.LoadAttributesFromItems(inventoryManager.GetEquippedItems());
-	characterManager.CreatePlayerBaseAttributesBitFlag();
 	handle = GetGSHandle();
 	return true;
 }

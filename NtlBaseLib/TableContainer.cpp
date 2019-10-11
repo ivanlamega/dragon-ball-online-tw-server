@@ -74,6 +74,7 @@
 #include "VehicleTable.h"
 
 #include "ItemRecipeTable.h"
+#include "ItemRecipeTable2.h"
 
 #include "DynamicObjectTable.h"
 #include "MobMovePatternTable.h"
@@ -311,6 +312,7 @@ void TableContainer::Init()
 	m_pVehicleTable = NULL;
 
 	m_pItemRecipeTable = NULL;
+	m_pItemRecipeTable2 = NULL;
 
 	m_pDynamicObjectTable = NULL;
 
@@ -716,7 +718,10 @@ bool TableContainer::Create(CNtlBitFlagManager& rTableFlag, WCHAR* pwszPath, Tab
 	{
 		DBO_CREATE_TABLE(ItemRecipeTable, serializer, pFileNameList->GetFileNameW(TABLE_ITEM_RECIPE), m_pItemRecipeTable, pCall);
 	}
-
+	if (false != rTableFlag.IsSet(TABLE_ITEM_RECIPE2))
+	{
+		DBO_CREATE_TABLE(ItemRecipeTable2, serializer, pFileNameList->GetFileNameW(TABLE_ITEM_RECIPE2), m_pItemRecipeTable2, pCall);
+	}
 	if (false != rTableFlag.IsSet(TABLE_DYNAMIC_OBJECT))
 	{
 		DBO_CREATE_TABLE(DynamicObjectTable, serializer, pFileNameList->GetFileNameW(TABLE_DYNAMIC_OBJECT), m_pDynamicObjectTable, pCall);
@@ -1133,6 +1138,12 @@ void TableContainer::Destroy()
 		m_pItemRecipeTable = NULL;
 	}
 	//--------------------------------------------------------------------------------
+	if (NULL != m_pItemRecipeTable2)
+	{
+		delete m_pItemRecipeTable2;
+		m_pItemRecipeTable2 = NULL;
+	}
+	//--------------------------------------------------------------------------------
 	if (NULL != m_pDynamicObjectTable)
 	{
 		delete m_pDynamicObjectTable;
@@ -1334,6 +1345,11 @@ bool TableContainer::Reload(CNtlBitFlagManager& rTableFlag, TableFileNameList* p
 	if (false != rTableFlag.IsSet(TABLE_ITEM_RECIPE))
 	{
 		DBO_RELOAD_TABLE(ItemRecipeTable, serializer, pFileNameList->GetFileNameW(TABLE_ITEM_RECIPE), m_pItemRecipeTable);
+	}
+
+	if (false != rTableFlag.IsSet(TABLE_ITEM_RECIPE2))
+	{
+		DBO_RELOAD_TABLE(ItemRecipeTable2, serializer, pFileNameList->GetFileNameW(TABLE_ITEM_RECIPE2), m_pItemRecipeTable2);
 	}
 
 	if (false != rTableFlag.IsSet(TABLE_DYNAMIC_OBJECT))
@@ -1728,6 +1744,11 @@ bool TableContainer::SaveToFile(CNtlBitFlagManager& rTableFlag, TableFileNameLis
 	if (false != rTableFlag.IsSet(TABLE_ITEM_RECIPE))
 	{
 		DBO_EXPORT_TABLE(m_pItemRecipeTable, serializer, pFileNameList->GetFileNameW(TABLE_ITEM_RECIPE), bNeedToEncrypt);
+	}
+
+	if (false != rTableFlag.IsSet(TABLE_ITEM_RECIPE2))
+	{
+		DBO_EXPORT_TABLE(m_pItemRecipeTable2, serializer, pFileNameList->GetFileNameW(TABLE_ITEM_RECIPE2), bNeedToEncrypt);
 	}
 
 	if (false != rTableFlag.IsSet(TABLE_DYNAMIC_OBJECT))

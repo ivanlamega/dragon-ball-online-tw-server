@@ -71,6 +71,11 @@ public:
 	void			SendCharDestLoc(Packet& packet);
 	void			SendCharFollowMove(Packet& packet);
 	void			SendCharSyncFollow(Packet& packet);
+	void			SendAirJumpMove(Packet& packet);
+	void			SendAirJMove(Packet& packet);
+	void			SendAirDashMove(Packet& packet);
+	void			SendAirFalling(Packet& packet);
+	void			SendAirEnd(Packet& packet);
 	// portal
 	void			SendPortalTeleport(Packet& packet);
 	void			SendAddPortal(Packet& packet);
@@ -94,34 +99,56 @@ public:
 	void			SendShopEventBuy(Packet& packet);
 	void			SendShopItemChange(Packet& packet);
 	void			SendShopSell(Packet& packet);
+	//HLS Shop
+	void			SendHLSShopStart(Packet& packet);
+	void			SendHLSShopEnd(Packet& packet);
+	//Cash Shop
+	void			SendCashItemStart(Packet& packet);
+	void			SendCashItemBuy(Packet& packet);
+	void			SendCashItemMove(Packet& packet);
+	void			SendCashItemEnd(Packet& packet);
+	//Token Shop
+	void			SendNetPyStart(Packet& packet);
+	void			SendNetPyBuy(Packet& packet);
+	void			SendNetPyEnd(Packet& packet);
+	//HoiPoiMix
+	void			SendHoiPoiMixCreate(Packet& packet);
 	// AutoAttck
 	void			SendToggleAutoAttack(bool val);
-	// Free pvp zone
-	void			SendFreePVPZoneEntered();
-	void			SendFreePVPZoneLeft();
 	//Skills
 	void			HandleUseSkill(Packet& packet);
+	void			UseSkill(Packet& packet);
 	void			LearnSkill(TBLIDX id);
+	void			RewardSkill(TBLIDX id);
+	void			LearnMestrySkill(TBLIDX id);
 	void			UpgradeSkill(Packet& packet);
 	void			ResetSkill(Packet& packet);
 	//Budokay
-	//buffs
-	void			BuffDrop(Packet& packet);
+
 	//Events
 	void			SendDragonBallsCheck(Packet& packet);
 	void			SendShenlongReward(Packet& packet);
+	//Guilds
+	void			SendGuildCreateReq(Packet& packet);
 	// command
 	void			ExecuteServerCommand(Packet& packet);
 	// social
 	void			SendSocialSkill(Packet& packet);
+	// Quest Handle
+	void			SendQuestAcept(Packet& packet);
+	void			GetQuestInfo(DWORD QuestID, DWORD tcCurId, DWORD tcNextId);
+	void			GetQuestPortalInfo(DWORD QuestID, DWORD tcCurId, DWORD tcNextId);	
+	//RankBatle
+	void			GetPlayerFromRankList();
+	
+	
 private:
 	GameSocket * const m_Socket;                       // socket pointer is owned by the network thread which created 
 	AccountTypes	_security;
 	uint32			_accountId;
 
 	std::mutex		m_recvQueueLock;
-	std::deque<std::unique_ptr<Packet>> m_recvQueue;
-
+	std::deque<std::unique_ptr<Packet>> m_recvQueue;	
 	bool			requestToLogout;
 	/*	 PLAYER INFO	*/
 	Player*			_player;

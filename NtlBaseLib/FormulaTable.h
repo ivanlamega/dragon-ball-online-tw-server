@@ -8,14 +8,24 @@ const DWORD		DBO_MAX_FORMULA_IDX = 1000;
 #pragma pack(push, 4)
 struct sFORMULA_TBLDAT : public sTBLDAT
 {
-	sFORMULA_TBLDAT()
-	{
-		bValidity_Able = true;
-	};
-
 public:
-	bool			bValidity_Able;
-	float			afRate[DBO_MAX_FORMULA_RATE_COUNT];
+	WCHAR awName[40 + 1];
+	TBLIDX tbxSystemEffect;
+	BYTE	bySetType;
+	BYTE	byRvType;
+	BYTE	ByExclIdex;
+	BYTE	byMinLevel;
+	BYTE	byMaxLevel;
+	BYTE	byFrequency;
+	WORD	wEnchantValue;
+	BYTE	byKind;
+	DWORD	dwEquip;
+	BYTE	byGroupNo;
+	WORD	wMaxValue;
+	BYTE	bIsSuperior;
+	BYTE	bIsExcellent;
+	BYTE	bIsRare;
+	BYTE	bIsLegendary;
 
 protected:
 

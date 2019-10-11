@@ -214,6 +214,7 @@
     <ClInclude Include="ItemMixMachineTable.h" />
     <ClInclude Include="ItemOptionTable.h" />
     <ClInclude Include="ItemRecipeTable.h" />
+    <ClInclude Include="ItemRecipeTable2.h" />
     <ClInclude Include="ItemTable.h" />
     <ClInclude Include="ItemUpgradeTable.h" />
     <ClInclude Include="LandMarkTable.h" />
@@ -360,6 +361,7 @@
     <ClCompile Include="ItemMixMachineTable.cpp" />
     <ClCompile Include="ItemOptionTable.cpp" />
     <ClCompile Include="ItemRecipeTable.cpp" />
+    <ClCompile Include="ItemRecipeTable2.cpp" />
     <ClCompile Include="ItemTable.cpp" />
     <ClCompile Include="ItemUpgradeTable.cpp" />
     <ClCompile Include="LandMarkTable.cpp" />

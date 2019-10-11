@@ -6,7 +6,7 @@
 #include <boost/asio.hpp>
 #include <boost/date_time/posix_time/posix_time_types.hpp>
 #include <boost/lexical_cast.hpp>
-
+#include <exception>
 #include <Socket.h>
 #include <Logger.h>
 #include <Packet.h>
@@ -44,15 +44,21 @@ bool Socket::Open()
 
 void Socket::Close()
 {
-	OnClosed();
-	assert(!IsClosed());
-	boost::system::error_code ec;
-	m_socket.shutdown(boost::asio::ip::tcp::socket::shutdown_both, ec);
-	m_socket.close();
+	try {
+		OnClosed();
+		assert(!IsClosed());
+		boost::system::error_code ec;
+		m_socket.shutdown(boost::asio::ip::tcp::socket::shutdown_both, ec);
+		m_socket.close();
 
-	if (m_closeHandler)
-		m_closeHandler(this);
-	ReadSkip(ReadLengthRemaining());
+		if (m_closeHandler)
+			m_closeHandler(this);
+		ReadSkip(ReadLengthRemaining());
+	}
+	catch (std::logic_error&)
+	{
+		std::cout << "Error closing socket" << std::endl;
+	}
 }
 
 void Socket::StartAsyncRead()
@@ -137,27 +143,34 @@ bool Socket::Read(char *buffer, int length)
 
 void Socket::Write(const char *buffer, int length)
 {
-	std::lock_guard<std::mutex> guard(m_mutex);
-	switch (m_writeState)
-	{
-	case WriteState::Idle:
-	{
-		m_outBuffer->Write(buffer, length);
-		StartWriteFlushTimer();
-		break;
+	try {
+		//std::lock_guard<std::mutex> guard(m_mutex);
+		switch (m_writeState)
+		{
+		case WriteState::Idle:
+		{
+			m_outBuffer->Write(buffer, length);
+			StartWriteFlushTimer();
+			break;
+		}
+		case WriteState::Buffering:
+		{
+			m_outBuffer->Write(buffer, length);
+			break;
+		}
+		case WriteState::Sending:
+		{
+			m_secondaryOutBuffer->Write(buffer, length);
+			break;
+		}
+		default:
+			assert(false);
+		}
+
 	}
-	case WriteState::Buffering:
+	catch (std::logic_error&)
 	{
-		m_outBuffer->Write(buffer, length);
-		break;
-	}
-	case WriteState::Sending:
-	{
-		m_secondaryOutBuffer->Write(buffer, length);
-		break;
-	}
-	default:
-		assert(false);
+		std::cout << "error writing to socket" << std::endl;
 	}
 }
 

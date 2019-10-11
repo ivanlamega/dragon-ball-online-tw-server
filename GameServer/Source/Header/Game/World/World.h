@@ -12,7 +12,7 @@
 #include <vector>
 #include <unordered_map>
 #include <cassert>
-
+#include <Packet\Game\PacketGU.h>
 #define DBO_MOVE_DIR_TO_FLOAT(n) \
 	(n / (float) 10000.0)
 #define DBO_MOVE_FLOAT_TO_DIR(n) \
@@ -20,6 +20,7 @@
 
 WORD byte_to_opcode(unsigned char val);
 float dbo_move_pos_to_float(INT32 n); // thanks sangawku
+void handle_eptr(std::exception_ptr eptr);
 INT32 dbo_move_float_to_pos(float n); // thanks luizoe
 
 enum ShutdownMask
@@ -44,7 +45,24 @@ public:
 
 	World();
 	~World();
-	bool Shenlong = false;
+	bool Shenlong;
+	bool DragonBallEventa;
+	bool BonusActive;
+	DWORD BonuxEXP;
+	DWORD BossEventMajinCurCount = 0;
+	DWORD BossEventMajinMaxCount = 50;
+	bool BossIsSpawed = false;
+	sBOSS_INFO Boss_Info[100];
+	int PlayerRankcount = 0;
+	struct RankInfo
+	{
+		HOBJECT PlayerHandle;
+		BYTE	PlayerLevel;
+		DWORD	MapTblidx;
+		bool    isInvited;
+		bool    isRegisted;
+	};
+	RankInfo	InfoRank[100];
 	static void StopNow(uint8 exitcode) { m_stopEvent = true; m_ExitCode = exitcode; }
 	static bool IsStopped() { return m_stopEvent; }
 	void Update(uint32 diff);
@@ -63,6 +81,7 @@ public:
 
 	//	GM COMMAND
 	void			SendAnnounce(std::string message);
+
 protected:
 
 private:

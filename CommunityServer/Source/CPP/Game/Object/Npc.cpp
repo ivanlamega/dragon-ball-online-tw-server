@@ -59,31 +59,31 @@ void Npc::BuildPacketForSpawn(SpawnNPC& spawnData)
 	spawnData.wOpCode = GU_OBJECT_CREATE;
 	spawnData.wPacketSize = sizeof(SpawnNPC) - 2;
 	
-	spawnData.AspectID = 0;
-	spawnData.BurnEffect = 0;
+//	spawnData.AspectID = 0;
+//	spawnData.BurnEffect = 0;
 	spawnData.CurEP = me.CurEP;
 	spawnData.CurLP = me.CurLP;
 	spawnData.Handle = GetHandle();
-	spawnData.Level = me.Level;
+//	spawnData.Level = me.Level;
 	spawnData.MaxEP = me.MaxEP;
 	spawnData.MaxLP = me.MaxLP;
-	spawnData.ModelSize = 10;
+//	spawnData.ModelSize = 10;
 	spawnData.OBJType = OBJTYPE_NPC;
-	spawnData.PoisonEffect = 0;
-	spawnData.Position.x = me.curPos.x;
-	spawnData.Position.y = me.curPos.y;
-	spawnData.Position.z = me.curPos.z;
-	spawnData.Rotation.x = me.Spawn_Dir.x;
-	spawnData.Rotation.y = me.Spawn_Dir.y;
-	spawnData.Rotation.z = me.Spawn_Dir.z;
-	spawnData.StateID = eCHARSTATE::CHARSTATE_SPAWNING;
+//	spawnData.PoisonEffect = 0;
+//	spawnData.Position.x = me.curPos.x;
+//	spawnData.Position.y = me.curPos.y;
+//	spawnData.Position.z = me.curPos.z;
+//	spawnData.Rotation.x = me.Spawn_Dir.x;
+//	spawnData.Rotation.y = me.Spawn_Dir.y;
+//	spawnData.Rotation.z = me.Spawn_Dir.z;
+//	spawnData.StateID = eCHARSTATE::CHARSTATE_SPAWNING;
 	spawnData.Tblidx = me.MonsterID;
 
-	spawnData.Unknown2 = 0;
-	for (int i = 0; i < 2; i++) spawnData.Unknown[i] = 0;
-	for (int i = 0; i < 3; i++) spawnData.Unknown3[i] = 0;
-	for (int i = 0; i < 6; i++) spawnData.Unknown4[i] = 0;
-	for (int i = 0; i < 10; i++) spawnData.Unknown5[i] = 0;
+//	spawnData.Unknown2 = 0;
+//	for (int i = 0; i < 2; i++) spawnData.Unknown[i] = 0;
+//	for (int i = 0; i < 3; i++) spawnData.Unknown3[i] = 0;
+//	for (int i = 0; i < 6; i++) spawnData.Unknown4[i] = 0;
+//	for (int i = 0; i < 10; i++) spawnData.Unknown5[i] = 0;
 }
 //----------------------------------------
 //	Create the NPC and fill all info

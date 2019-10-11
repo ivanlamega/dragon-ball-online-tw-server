@@ -19,7 +19,72 @@
 #include "NtlQuest.h"
 //#include "NtlStringHandler.h"
 
-
+enum eSTATSATRIBUTES
+{
+	Maximum_LP_Increase = 2000,
+	Maximum_EP_Increase,
+	Physical_Attack_Increase,
+	Energy_Attack_Increase,
+	Physical_Defense_Increase,
+	Energy_Defense_Increase,
+	STR_Incress,
+	CON_Incress,
+	Focus_Incress,
+	Dex_Incress,
+	Soul_Incress,
+	Eng_Incress,
+	Movement_Speed_Increase,
+	Attack_Speed_Increase,
+	Hit_Rate_Increase,
+	Dodge_rate_Increase,
+	Defense_Rate_Increase,
+	H_Defense_Prop,//
+	S_Defense_Prop,//
+	W_Defense_Prop,//
+	E_Defense_Prop,//
+	F_Defense_Prop,//
+	Energy_Damage_Reflection,
+	LP_Absorption_Increase,
+	EP_Absorption_Increase,
+	RP_Absorption_Increase,
+	Status_Success_Rate_Increase,
+	State_Resistance_Increase,
+	Physical_Crit_Rate_Increase,
+	Energy_Crit_Rate_Increase,
+	Skill_Cooldown_Time_Decrease,//
+	Paraliss_resistance_enhancement,//
+	Fear_resistance_enhancement,//
+	resistance_confusion,//
+	petrification_resistance,//
+	Candy_Resistance_Enhancement,//
+	Decreased_paraliss_duration,//
+	Reduced_fear_duration,//
+	Decrease_Confusion_Duration,//
+	Decrease_duration_of_petrification,//
+	Candy_Duration_Reduction,//
+	Reduced_bleeding_duration,//
+	Reduced_duration_of_poisoning,//
+	Reduction_of_abdominal_pain_duration,//
+	Anti_Critic,
+	Phy_Critical_Damage_Percent,
+	Energy_Critical_Damage_Percent,
+	Prop_attack_Defense,
+	Reflect_Phy_Demage,
+	Recover_LP_From_dmg_taken,
+	Recover_EP_From_dmg_taken,
+	H_attack_prop,//
+	S_attack_prop,//
+	W_attack_prop,//
+	E_attack_prop,//
+	F_attack_prop,//
+	Recover_LP_percent_when_receiving_damage,
+	Recover_EP_percent_when_receiving_damage,
+	Abdominal_Def_rate,
+	Poison_def_rate,
+	Bleed_def_rate,
+	Burn_Def_Rate,
+	Maximum_RP_Reduction = 2064,
+};
 
 //-----------------------------------------------------------------------------------
 // ������ Ÿ��
@@ -1298,7 +1363,7 @@ struct sITEM_AUTO_EQUIP_ROLLBACK_DATA
 
 //-----------------------------------------------------------------------------
 
-
+FLOAT Dbo_GetItemsStatsPoints(BYTE byRank, BYTE byLevel);
 WORD Dbo_GetFinalOffence(WORD wBaseOffence, BYTE byGrade, WORD GradePower);
 WORD Dbo_GetFinalDefence(WORD wBaseDefence, BYTE byGrade, WORD GradePower);
 

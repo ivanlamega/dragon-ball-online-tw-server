@@ -81,24 +81,31 @@ void WorldSession::QueuePacket(std::unique_ptr<Packet> new_packet)
 //----------------------------------------
 bool WorldSession::Update()
 {
-	std::lock_guard<std::mutex> guard(m_recvQueueLock);
-	///- Retrieve packets from the receive queue and call the appropriate handlers
-	/// not process packets if socket already closed
-	while (m_Socket && !m_Socket->IsClosed() && !m_recvQueue.empty())
+	try
 	{
-		auto const packet = std::move(m_recvQueue.front());
-		m_recvQueue.pop_front();
-		PacketParser(*packet);
-		packet->Destroy();
+		std::lock_guard<std::mutex> guard(m_recvQueueLock);
+		///- Retrieve packets from the receive queue and call the appropriate handlers
+		/// not process packets if socket already closed
+		while (m_Socket && !m_Socket->IsClosed() && !m_recvQueue.empty())
+		{
+			auto const packet = std::move(m_recvQueue.front());
+			m_recvQueue.pop_front();
+			PacketParser(*packet);
+			packet->Destroy();
+		}
+		// check if we are safe to proceed with logout
+		// logout procedure should happen only in World::UpdateSessions() method!!!
+		if (requestToLogout == true || m_Socket->IsClosed() == true)
+		{
+			LogoutPlayer(true);
+			return false;
+		}
+		return true;
 	}
-	// check if we are safe to proceed with logout
-	// logout procedure should happen only in World::UpdateSessions() method!!!
-	if (requestToLogout == true || m_Socket->IsClosed() == true)
+	catch (std::logic_error&)
 	{
-		LogoutPlayer(true);
-		return false;
+			sLog.outError("[exception caught] in update thread\n");
 	}
-	return true;
 }
 //----------------------------------------
 //	Logout the player and save if asked

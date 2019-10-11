@@ -23,17 +23,15 @@ public:
 	bool					canTakeDamage(Object& Attacker, Object& Target);
 	bool					HandleDamage(Object& Attacker, Object& Target);
 	void					HandlePlrFight();
-	void					HandleFight(Mob* mob, Player* plr);
 
-	void					GetPlayerDamage(bool caster);
-	void					GetPlayerCriticAttack(bool caster);
-	void					GetPlayerHitChance();
+	void					GetPlayerDamage(bool caster, eOBJTYPE ObjectTypeId);
+	void					GetPlayerCriticAttack(bool caster, eOBJTYPE ObjectTypeId);
+	void					GetPlayerHitChance(eOBJTYPE ObjectTypeId);
 	int						GetLevelDiff();
 private:
 	Player*					plr;
 	Player*					plrTarget;
 	Mob*					mob;
-	Object*					AttackerInfo;
 	Object*					TargetInfo;
 	BYTE					attackCount;
 

@@ -18,6 +18,8 @@ void CharSocket::OnConnectionDone()
 	Write((char*)rawData, sizeof(rawData));
 	memset(&rawData, 0, sizeof(rawData));
 	sLog.outDebug("Client connected: [%s]", m_address);
+	if (AccountID != -1)
+		sDB.UpdateAccountOnline(AccountID, 1); // SET OUR USER OFFLINE IN DB
 }
 void CharSocket::OnClosed()
 {

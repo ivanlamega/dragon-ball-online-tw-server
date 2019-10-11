@@ -30,7 +30,7 @@ void	WorldSession::SendAvatarCharInfo()
 	res.wCharStateSize = sizeof(sCHARSTATE_BASE);
 
 	SendPacket((char*)&res, sizeof(sGU_AVATAR_CHAR_INFO));
-	_player->characterManager.SendRpBallInformation();
+	
 	_player->SetGSHandle();
 }
 //----------------------------------------
@@ -44,6 +44,7 @@ void WorldSession::SendAvatarInfoEnd()
 	res.wPacketSize = sizeof(sGU_AVATAR_INFO_END) - 2;
 	res.wOpCode = GU_AVATAR_INFO_END;
 	SendPacket((char*)&res, sizeof(sGU_AVATAR_INFO_END));
+	_player->characterManager.SendRpBallInformation();
 }
 void WorldSession::SendAvatarWagguInfo()
 {
@@ -109,7 +110,7 @@ void WorldSession::SendAvatarItemCashInfo()
 //----------------------------------------
 void WorldSession::SendAvatarWarFogInfo()
 {
-	sGU_WAR_FOG_INFO res;
+	/*sGU_WAR_FOG_INFO res;
 	memset(&res, 0, sizeof(sGU_WAR_FOG_INFO));
 
 	res.wOpCode = GU_WAR_FOG_INFO;
@@ -129,8 +130,16 @@ void WorldSession::SendAvatarWarFogInfo()
 	while (true)
 	{
 
-		
-		for (auto m_wobjRefIter = myObjTbl->Begin(); m_wobjRefIter != myObjTbl->End(); ++m_wobjRefIter)
+		uint32 WarFogID = result->getInt("hObject");
+		uint32 uiArrayPos = WarFogID / 8;
+		uint8 byCurBit = (uint8)(WarFogID % 8);
+		res.abyWarFogInfo[uiArrayPos] |= 0x01ui8 << byCurBit;
+		iPosition++;
+		if (result->next())
+			continue;
+		else
+			break;
+		/*for (auto m_wobjRefIter = myObjTbl->Begin(); m_wobjRefIter != myObjTbl->End(); ++m_wobjRefIter)
 		{
 			sOBJECT_TBLDAT* pOBJECT_TBLDAT = reinterpret_cast<sOBJECT_TBLDAT*>(myObjTbl->FindData(m_wobjRefIter->first));
 			if (pOBJECT_TBLDAT != NULL)
@@ -150,7 +159,7 @@ void WorldSession::SendAvatarWarFogInfo()
 
 				}
 			}
-		}		
+		}	
 		iPosition++;
 		if (result->next())
 			continue;
@@ -158,7 +167,7 @@ void WorldSession::SendAvatarWarFogInfo()
 			break;
 	}
 	delete result;
-	SendPacket((char*)&res, sizeof(sGU_WAR_FOG_INFO));
+	SendPacket((char*)&res, sizeof(sGU_WAR_FOG_INFO));*/
 }
 //----------------------------------------
 //	Send the portal info
@@ -362,35 +371,57 @@ void WorldSession::SendNetMarbleMemberShipNfy()
 	res1.wPacketSize = sizeof(sGU_NETMARBLEMEMBERIP_NFY) - 2;
 	res1.wOpCode = GU_NETMARBLEMEMBERIP_NFY;
 	SendPacket((char*)&res1, sizeof(sGU_NETMARBLEMEMBERIP_NFY));
-
-	BYTE contents_onoff[] = {
-		0x0E, 0x01, 0xE4, 0x15, 0x00, 0x00, 0x40, 0xB1, 0xFF, 0x12, 0x00, 0xF8, 0x01, 0x00, 0x00, 0x90, 0x00, 0x06, 0xDa, 0x08,
-		0x00, 0x00, 0xD7, 0x08, 0x00, 0x00, 0xDB, 0x08, 0x00, 0x00, 0xD8, 0x08, 0x00, 0x00, 0xDC, 0x08, 0x00, 0x00, 0xD9, 0x08,
-		0x00, 0x00, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-		0x00, 0x00, 0x00, 0x00, 0x96, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00 };
+	
 
 	/*SendPacket((char*)contents_onoff, 272);*/
 	
-	sGU_SERVER_CONTENTS_ONOFF content;
-	memset(&content, 0, 272);
+	sGU_SERVER_CONTENTS_ONOFF content;	
+	memset(&content, 0, sizeof(sGU_SERVER_CONTENTS_ONOFF));
 
 	content.wOpCode = GU_SERVER_CONTENTS_ONOFF;
 	content.wPacketSize = sizeof(sGU_SERVER_CONTENTS_ONOFF) - 2;
 
-	content.abyContentsBitFlag[3] = 177;
-	content.abyContentsBitFlag[5] = 18;
-	content.unk[136] = 100;
-	content.unk[140] = 2;
+	content.Dojo = 1;
+
+	content.bDisableHoiPoiOld = 1;
+	content.bDisableWeirdDissassemble = 1;
+
+	content.bDisableOldScouter = 0x02;
+	content.bDisableNewScouter = 0x02;
+
+	content.BDungeon001_Trigger = 1;
+	content.Dungeon004_Trigger = 1;
+	content.Dungeon006_Trigger = 1;
+	content.Dungeon007_Trigger = 1;	
+
+	content.WZone001_NPC = 1;	
+	content.MainWorld02_NPC = 1;
+
+	content.Block_QuestType_BitFlag = 1;
+	content.IDK2 = 0;
+	content.IDK3 = 0;
+
+	content.QUESTONOFF_DWC = 0;
+	content.bDisableDWC = 0;
+
+	content.byteUnknown4_5 = 0;
+	
+	content.byteUnknown7 = 0;
+	
+	content.QUESTONOFF_SKD01 = 1;
+	content.bySkyUD_TriggersCount = 6;
+	content.tbxObjectSkyUD[0] = 1;
+	content.tbxObjectSkyUD[1] = 1;
+	content.tbxObjectSkyUD[2] = 1;
+	content.tbxObjectSkyUD[3] = 1;
+	content.tbxObjectSkyUD[4] = 1;
+	content.tbxObjectSkyUD[5] = 1;
+
+	//content.byUnknown2[0] = INVALID_BYTE;
+
+	content.dwCCBD_LastFloor = 150;
+	content.PetSystemOldNew = 1;
+	
 	SendPacket((char*)&content, sizeof(sGU_SERVER_CONTENTS_ONOFF));
 
 	BYTE server_info[] = {
@@ -414,6 +445,12 @@ void WorldSession::SendWorldEnter()
 	{
 		res.sDojoData[n].guildId = 0xffffffff;
 		res.sDojoData[n].dojoTblidx = 0xffffffff;
+		res.sDojoData[n].sMark.byMarkInColor = 1;
+		res.sDojoData[n].sMark.byMarkInLine = 1;
+		res.sDojoData[n].sMark.byMarkMain = 1;
+		res.sDojoData[n].sMark.byMarkMainColor = 1;
+		res.sDojoData[n].sMark.byMarkOutColor = 1;
+		res.sDojoData[n].sMark.byMarkOutLine = 1;		
 	}
 	sql::ResultSet* result = sDB.executes("SELECT * FROM characters WHERE CharacterID = '%d';", _player->GetCharacterID());
 	if (result == NULL)
@@ -429,7 +466,11 @@ void WorldSession::SendWorldEnter()
 		NewbieTable* pNewBieTable = sTBM.GetNewbieTable();
 		sNEWBIE_TBLDAT* pNewbieTbldat = reinterpret_cast<sNEWBIE_TBLDAT*>(pNewBieTable->GetNewbieTbldat(result->getInt("RaceID"), result->getInt("ClassID")));
 		sWORLD_TBLDAT* world = (sWORLD_TBLDAT*)sTBM.GetWorldTable()->FindData(_player->GetWorldID());
-		if (world->byWorldRuleType != eGAMERULE_TYPE::GAMERULE_NORMAL)
+		if (world == NULL)
+		{
+			world = (sWORLD_TBLDAT*)sTBM.GetWorldTable()->FindData(1);
+		}
+		/*if (world->byWorldRuleType != eGAMERULE_TYPE::GAMERULE_NORMAL)
 		{
 			sLog.outDebug("World rules = %u", world->byWorldRuleType);
 			sLog.outDebug("World out tblidx = %d", world->outWorldTblidx);
@@ -439,7 +480,7 @@ void WorldSession::SendWorldEnter()
 			world = (sWORLD_TBLDAT*)sTBM.GetWorldTable()->FindData(world->outWorldTblidx);
 			_player->SetWorldTableID(world->tblidx);
 			
-		}
+		}*/
 		res.worldInfo.tblidx = _player->GetWorldTableID();
 		res.worldInfo.worldID = _player->GetWorldID();
 		res.worldInfo.hTriggerObjectOffset = 100000;
@@ -491,6 +532,7 @@ void WorldSession::SendGameLeave(Packet& packet, bool goToCharacterServer)
 	// save player, remove him from database
 	if (goToCharacterServer == true)
 	{
+		_player->GetAttributesManager()->LoseBatle == true;
 		_player->isMovingToCharServer = true;
 		sDB.UpdateAccountOnline(_player->accID, 1);
 		// log in to char server
@@ -520,6 +562,7 @@ void WorldSession::SendGameLeave(Packet& packet, bool goToCharacterServer)
 	}
 	else
 	{
+		_player->GetAttributesManager()->LoseBatle == true;
 		requestToLogout = true;
 	}
 }
@@ -728,8 +771,9 @@ void Player::UpdateState(eCHARSTATE _state)
 	res.handle = GetHandle();
 
 	// sLog.outDetail("Need handle correct condition flag here. UpdateCharState()");
-	res.sCharState.sCharStateBase.aspectState.sAspectStateBase.byAspectStateId = 255;
-	res.sCharState.sCharStateBase.dwConditionFlag = GetState()->sCharStateBase.dwConditionFlag = 0;
+	res.sCharState.sCharStateBase.aspectState.sAspectStateBase.byAspectStateId = GetState()->sCharStateBase.aspectState.sAspectStateBase.byAspectStateId;
+	
+	res.sCharState.sCharStateBase.dwConditionFlag = GetState()->sCharStateBase.dwConditionFlag;
 	res.sCharState.sCharStateBase.dwStateTime = GetState()->sCharStateBase.dwStateTime;
 
 	res.sCharState.sCharStateBase.isFighting =  GetState()->sCharStateBase.isFighting = GetIsFighting();
@@ -737,6 +781,7 @@ void Player::UpdateState(eCHARSTATE _state)
 	
 	res.sCharState.sCharStateBase.isFlying = GetState()->sCharStateBase.isFlying = GetIsFlying();
 
+	memcpy(&res.sCharState.sCharStateBase.aspectState.sAspectStateDetail, &GetState()->sCharStateBase.aspectState.sAspectStateDetail, sizeof(sASPECTSTATE_DETAIL));
 	SendPacket((char*)&res, sizeof(sGU_UPDATE_CHAR_STATE));
 	SendToPlayerList((char*)&res, sizeof(sGU_UPDATE_CHAR_STATE));
 }

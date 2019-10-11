@@ -27,7 +27,7 @@ public:
 	sQUICK_SLOT_PROFILE		*getQuickSlots() { return QuickSlotData; }
 	TBLIDX					getIdAtPos(BYTE slot_id);
 	bool					isSkillLearned(DWORD SkillID);
-	
+
 	void					UpdateSlot(BYTE slot_id, TBLIDX id, BYTE byType);
 private:
 	bool					LoadSkillsFromDatabase();
