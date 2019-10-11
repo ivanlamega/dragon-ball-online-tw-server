@@ -1,0 +1,269 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{3C19F3B4-F167-4DA9-B6BE-08CFC5B25BDB}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>GameServer</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)Output\</OutDir>
+    <IncludePath>$(SolutionDir)GameServer\Source\Header\;$(SolutionDir)Shared\Source\Header\;$(SolutionDir)packages\boost.1.63.0.0\lib\native\include\boost\;$(SolutionDir)Shared\Source\Library\SQLLibrary\;$(SolutionDir)Shared\Source\Library\SQLLibrary\mysql\;$(SolutionDir)Shared\Source\Library\SQLLibrary\mysql\cppconn;$(SolutionDir)packages\boost.1.63.0.0\lib\native\include\;$(SolutionDir)packages\libxml2.2.7.8.7\build\native\include;$(SolutionDir)Shared\Source\Header\TableData\;$(SolutionDir)NtlBaseLib\;$(SolutionDir)Shared\Source\Library\NetworkLibrary\Header\;$(SolutionDir)GameServer\Source\Header\Game\World\;$(SolutionDir)GameServer\Source\Header\Game\Client\;$(SolutionDir)GameServer\Source\Header\Util\;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)Output\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+    <IncludePath>$(SolutionDir)GameServer\Source\Header\;$(SolutionDir)Shared\Source\Header\;$(SolutionDir)packages\boost.1.63.0.0\lib\native\include\boost\;$(SolutionDir)Shared\Source\Library\SQLLibrary\;$(SolutionDir)Shared\Source\Library\SQLLibrary\mysql\;$(SolutionDir)Shared\Source\Library\SQLLibrary\mysql\cppconn;$(SolutionDir)packages\boost.1.63.0.0\lib\native\include\;$(SolutionDir)packages\libxml2.2.7.8.7\build\native\include;$(SolutionDir)Shared\Source\Header\TableData\;$(SolutionDir)NtlBaseLib\;$(SolutionDir)Shared\Source\Library\NetworkLibrary\Header\;$(SolutionDir)GameServer\Source\Header\Game\World\;$(SolutionDir)GameServer\Source\Header\Game\Client\;$(SolutionDir)GameServer\Source\Header\Util\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)Output\</OutDir>
+    <IncludePath>$(SolutionDir)GameServer\Source\Header\;$(SolutionDir)Shared\Source\Header\;$(SolutionDir)packages\boost.1.63.0.0\lib\native\include\boost\;$(SolutionDir)Shared\Source\Library\SQLLibrary\;$(SolutionDir)Shared\Source\Library\SQLLibrary\mysql\;$(SolutionDir)Shared\Source\Library\SQLLibrary\mysql\cppconn;$(SolutionDir)packages\boost.1.63.0.0\lib\native\include\;$(SolutionDir)packages\libxml2.2.7.8.7\build\native\include;$(SolutionDir)Shared\Source\Header\TableData\;$(SolutionDir)NtlBaseLib\;$(SolutionDir)Shared\Source\Library\NetworkLibrary\Header\;$(SolutionDir)GameServer\Source\Header\Game\World\;$(SolutionDir)GameServer\Source\Header\Game\Client\;$(SolutionDir)GameServer\Source\Header\Util\;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;_WIN32_WINNT=0x0501;CPPCONN_PUBLIC_FUNC=;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Shared\Source\Library\NetworkLibrary\Header\;$(SolutionDir)packages\boost.1.63.0.0\lib\native\include\boost;$(SolutionDir)packages\boost.1.63.0.0\lib\native\include\;$(SolutionDir)NtlBaseLib\;$(SolutionDir)GameServer\Source\Header\Game\World\;$(SolutionDir)GameServer\Source\Header\Game\Client\;$(SolutionDir)GameServer\Source\Header\Util\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <SDLCheck>true</SDLCheck>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeaderFile />
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <OmitFramePointers>false</OmitFramePointers>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)packages\boost.1.63.0.0\compiled;$(SolutionDir)Shared\Source\SQLLibrary\mysql\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>mysqlcppconn.lib;libmysql.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <AdditionalOptions>/ignore:4099 %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;_WIN32_WINNT=0x0501;CPPCONN_PUBLIC_FUNC=;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Shared\Source\Library\NetworkLibrary\Header\;$(SolutionDir)packages\boost.1.63.0.0\lib\native\include\boost;$(SolutionDir)packages\boost.1.63.0.0\lib\native\include\;$(SolutionDir)NtlBaseLib\;$(SolutionDir)GameServer\Source\Header\Game\World\;$(SolutionDir)GameServer\Source\Header\Game\Client\;$(SolutionDir)GameServer\Source\Header\Util\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <SDLCheck>false</SDLCheck>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PrecompiledHeaderFile />
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)packages\boost.1.63.0.0\compiled;$(SolutionDir)Shared\Source\SQLLibrary\mysql\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>mysqlcppconn.lib;libmysql.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;_WIN32_WINNT=0x0501;CPPCONN_PUBLIC_FUNC=;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Shared\Source\Library\NetworkLibrary\Header\;$(SolutionDir)packages\boost.1.63.0.0\lib\native\include\boost;$(SolutionDir)packages\boost.1.63.0.0\lib\native\include\;$(SolutionDir)NtlBaseLib\;$(SolutionDir)GameServer\Source\Header\Game\World\;$(SolutionDir)GameServer\Source\Header\Game\Client\;$(SolutionDir)GameServer\Source\Header\Util\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <SDLCheck>true</SDLCheck>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeaderFile />
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)packages\boost.1.63.0.0\compiled;$(SolutionDir)Shared\Source\SQLLibrary\mysql\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>mysqlcppconn.lib;libmysql.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>/ignore:4099 /ignore:4006 /ignore:4251 /ignore:4098 /ignore:4311 %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\PlayerPacketMail.cpp" />
+    <ClCompile Include="Source\CPP\GameServer.cpp" />
+    <ClCompile Include="Source\CPP\GameSocket.cpp" />
+    <ClCompile Include="Source\CPP\Game\Client\CliRunnable.cpp" />
+    <ClCompile Include="Source\CPP\Game\Maps\Map.cpp" />
+    <ClCompile Include="Source\CPP\Game\Maps\MapManager.cpp" />
+    <ClCompile Include="Source\CPP\Game\Maps\Map\Tutorial.cpp" />
+    <ClCompile Include="Source\CPP\Game\Object\Manager\Attributes.cpp" />
+    <ClCompile Include="Source\CPP\Game\Object\Manager\AttributesSetters.cpp" />
+    <ClCompile Include="Source\CPP\Game\Object\Manager\Fight.cpp" />
+    <ClCompile Include="Source\CPP\Game\Object\Manager\Inventory.cpp" />
+    <ClCompile Include="Source\CPP\Game\Object\Manager\Skills.cpp" />
+    <ClCompile Include="Source\CPP\Game\Object\Mob.cpp" />
+    <ClCompile Include="Source\CPP\Game\Object\Npc.cpp" />
+    <ClCompile Include="Source\CPP\Game\Object\Object.cpp" />
+    <ClCompile Include="Source\CPP\Game\Object\Player.cpp" />
+    <ClCompile Include="Source\CPP\Game\Object\PlayerRequest.cpp" />
+    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\CommandPacketManager.cpp" />
+    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\PlayerPacketAvatar.cpp" />
+    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\PlayerPacketEvents.cpp" />
+    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\PlayerPacketFight.cpp" />
+    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\PlayerPacketItems.cpp" />
+    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\PlayerPacketItemUse.cpp" />
+    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\PlayerPacketMove.cpp" />
+    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\PlayerPacketSkills_Quick.cpp" />
+    <ClCompile Include="Source\CPP\Game\World\Packet\PacketParser.cpp" />
+    <ClCompile Include="Source\CPP\Game\World\Packet\PlayerPacket.cpp" />
+    <ClCompile Include="Source\CPP\Game\World\World.cpp" />
+    <ClCompile Include="Source\CPP\Game\World\WorldRunnable.cpp" />
+    <ClCompile Include="Source\CPP\Game\World\WorldSession.cpp" />
+    <ClCompile Include="Source\CPP\Util\Util.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\Header\GameServer.h" />
+    <ClInclude Include="Source\Header\GameSocket.h" />
+    <ClInclude Include="Source\Header\Game\Client\CliRunnable.h" />
+    <ClInclude Include="Source\Header\Game\Maps\Map.h" />
+    <ClInclude Include="Source\Header\Game\Maps\MapManager.h" />
+    <ClInclude Include="Source\Header\Game\Maps\MapReference.h" />
+    <ClInclude Include="Source\Header\Game\Maps\MapRefManager.h" />
+    <ClInclude Include="Source\Header\Game\Maps\Map\Tutorial.h" />
+    <ClInclude Include="Source\Header\Game\Object\Manager\Attributes.h" />
+    <ClInclude Include="Source\Header\Game\Object\Manager\Fight.h" />
+    <ClInclude Include="Source\Header\Game\Object\Manager\Inventory.h" />
+    <ClInclude Include="Source\Header\Game\Object\Manager\Skills.h" />
+    <ClInclude Include="Source\Header\Game\Object\Mob.h" />
+    <ClInclude Include="Source\Header\Game\Object\Npc.h" />
+    <ClInclude Include="Source\Header\Game\Object\Object.h" />
+    <ClInclude Include="Source\Header\Game\Object\Player.h" />
+    <ClInclude Include="Source\Header\Game\World\World.h" />
+    <ClInclude Include="Source\Header\Game\World\WorldRunnable.h" />
+    <ClInclude Include="Source\Header\Game\World\WorldSession.h" />
+    <ClInclude Include="Source\Header\Util\Timer.h" />
+    <ClInclude Include="Source\Header\Util\TSS.h" />
+    <ClInclude Include="Source\Header\Util\Util.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NtlBaseLib\NtlBaseLib.vcxproj">
+      <Project>{d6a637a7-ad22-4181-8426-b486cd90df72}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Shared\Shared.vcxproj">
+      <Project>{805f75eb-6600-405a-9458-b7a1d546f42c}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\boost.1.63.0.0\build\native\boost.targets" Condition="Exists('..\packages\boost.1.63.0.0\build\native\boost.targets')" />
+    <Import Project="..\packages\libxml2.redist.2.7.8.7\build\native\libxml2.redist.targets" Condition="Exists('..\packages\libxml2.redist.2.7.8.7\build\native\libxml2.redist.targets')" />
+    <Import Project="..\packages\libxml2.2.7.8.7\build\native\libxml2.targets" Condition="Exists('..\packages\libxml2.2.7.8.7\build\native\libxml2.targets')" />
+    <Import Project="..\packages\libxml2-vc140-static-64.2.9.4\build\native\libxml2-vc140-static-64.targets" Condition="Exists('..\packages\libxml2-vc140-static-64.2.9.4\build\native\libxml2-vc140-static-64.targets')" />
+  </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\boost.1.63.0.0\build\native\boost.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\boost.1.63.0.0\build\native\boost.targets'))" />
+    <Error Condition="!Exists('..\packages\libxml2.redist.2.7.8.7\build\native\libxml2.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\libxml2.redist.2.7.8.7\build\native\libxml2.redist.targets'))" />
+    <Error Condition="!Exists('..\packages\libxml2.2.7.8.7\build\native\libxml2.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\libxml2.2.7.8.7\build\native\libxml2.targets'))" />
+    <Error Condition="!Exists('..\packages\libxml2-vc140-static-64.2.9.4\build\native\libxml2-vc140-static-64.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\libxml2-vc140-static-64.2.9.4\build\native\libxml2-vc140-static-64.targets'))" />
+  </Target>
+</Project>

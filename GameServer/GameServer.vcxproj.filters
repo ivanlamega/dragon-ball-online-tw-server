@@ -1,0 +1,236 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Game">
+      <UniqueIdentifier>{d0281f4d-e266-468e-9988-e6b3fc8af9be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Game">
+      <UniqueIdentifier>{84ab7bb3-4563-4779-a325-b750aeed1d62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Game\World">
+      <UniqueIdentifier>{fe3f3472-b16d-4068-abf5-a570642ed73b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\World">
+      <UniqueIdentifier>{50971ef3-3a3a-4dec-a3ce-4be923207371}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Game\Client">
+      <UniqueIdentifier>{0559833e-4dc8-4e7b-86af-0aae22eb298a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\Client">
+      <UniqueIdentifier>{71a0cb96-e312-4cc4-9766-bbfc66ccf5a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Util">
+      <UniqueIdentifier>{e92bc6f1-439d-469f-a0e0-97d5bf9e47bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Util">
+      <UniqueIdentifier>{cfafb31e-cddc-41b4-aa4a-e79cc897d30e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Game\Object">
+      <UniqueIdentifier>{047efff1-0bc0-4ba9-9e31-171e34cb2ab6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\Object">
+      <UniqueIdentifier>{d6e2a5fe-e2c1-4f10-b325-70cafbea8c0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\Object\Manager">
+      <UniqueIdentifier>{d2f19bcb-defb-4925-a11d-c0dce2a3aa7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Game\Object\Manager">
+      <UniqueIdentifier>{1c7ecb39-72fa-4518-a497-22e763108eb4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\World\Packet">
+      <UniqueIdentifier>{f2e968c2-7d6a-40c5-94cd-f3fc6471f67a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\Maps">
+      <UniqueIdentifier>{713cf8b0-de9e-49fd-bf2f-f1d62e15b726}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Game\Maps">
+      <UniqueIdentifier>{acf5925d-1bb4-4a13-9395-780147521277}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\Maps\Map">
+      <UniqueIdentifier>{8526a908-c808-4071-ad48-16c7196bba58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Game\Maps\Map">
+      <UniqueIdentifier>{f66dc646-12d6-4e5b-a7ba-4383263bc369}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\World\Packet\Manager">
+      <UniqueIdentifier>{48043589-8b9e-4a1f-900e-45a1a4853ff7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\GameServer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\GameSocket.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\Game\World\WorldRunnable.cpp">
+      <Filter>Source Files\Game\World</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\Game\Client\CliRunnable.cpp">
+      <Filter>Source Files\Game\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\Util\Util.cpp">
+      <Filter>Source Files\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\Game\World\World.cpp">
+      <Filter>Source Files\Game\World</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\Game\World\WorldSession.cpp">
+      <Filter>Source Files\Game\World</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\Game\Object\Player.cpp">
+      <Filter>Source Files\Game\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\Game\Object\PlayerRequest.cpp">
+      <Filter>Source Files\Game\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\Game\Object\Manager\Skills.cpp">
+      <Filter>Source Files\Game\Object\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\Game\Object\Manager\Attributes.cpp">
+      <Filter>Source Files\Game\Object\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\Game\Object\Manager\Inventory.cpp">
+      <Filter>Source Files\Game\Object\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\Game\World\Packet\PacketParser.cpp">
+      <Filter>Source Files\Game\World\Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\Game\Maps\Map.cpp">
+      <Filter>Source Files\Game\Maps</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\Game\Maps\MapManager.cpp">
+      <Filter>Source Files\Game\Maps</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\Game\Object\Object.cpp">
+      <Filter>Source Files\Game\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\Game\Object\Npc.cpp">
+      <Filter>Source Files\Game\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\Game\Object\Mob.cpp">
+      <Filter>Source Files\Game\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\Game\Maps\Map\Tutorial.cpp">
+      <Filter>Source Files\Game\Maps\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\PlayerPacketMove.cpp">
+      <Filter>Source Files\Game\World\Packet\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\PlayerPacketAvatar.cpp">
+      <Filter>Source Files\Game\World\Packet\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\PlayerPacketFight.cpp">
+      <Filter>Source Files\Game\World\Packet\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\Game\World\Packet\PlayerPacket.cpp">
+      <Filter>Source Files\Game\World\Packet\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\Game\Object\Manager\Fight.cpp">
+      <Filter>Source Files\Game\Object\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\Game\Object\Manager\AttributesSetters.cpp">
+      <Filter>Source Files\Game\Object\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\PlayerPacketItems.cpp">
+      <Filter>Source Files\Game\World\Packet\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\CommandPacketManager.cpp">
+      <Filter>Source Files\Game\World\Packet\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\PlayerPacketSkills_Quick.cpp">
+      <Filter>Source Files\Game\World\Packet\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\PlayerPacketMail.cpp">
+      <Filter>Source Files\Game\World\Packet\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\PlayerPacketItemUse.cpp">
+      <Filter>Source Files\Game\World\Packet\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\PlayerPacketEvents.cpp">
+      <Filter>Source Files\Game\World\Packet\Manager</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\Header\GameServer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Header\GameSocket.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Header\Game\World\WorldRunnable.h">
+      <Filter>Header Files\Game\World</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Header\Game\Client\CliRunnable.h">
+      <Filter>Header Files\Game\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Header\Util\Timer.h">
+      <Filter>Header Files\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Header\Util\TSS.h">
+      <Filter>Header Files\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Header\Util\Util.h">
+      <Filter>Header Files\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Header\Game\World\World.h">
+      <Filter>Header Files\Game\World</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Header\Game\World\WorldSession.h">
+      <Filter>Header Files\Game\World</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Header\Game\Object\Player.h">
+      <Filter>Header Files\Game\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Header\Game\Object\Manager\Inventory.h">
+      <Filter>Header Files\Game\Object\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Header\Game\Object\Manager\Attributes.h">
+      <Filter>Header Files\Game\Object\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Header\Game\Object\Manager\Skills.h">
+      <Filter>Header Files\Game\Object\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Header\Game\Maps\Map.h">
+      <Filter>Header Files\Game\Maps</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Header\Game\Maps\MapReference.h">
+      <Filter>Header Files\Game\Maps</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Header\Game\Maps\MapRefManager.h">
+      <Filter>Header Files\Game\Maps</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Header\Game\Maps\MapManager.h">
+      <Filter>Header Files\Game\Maps</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Header\Game\Object\Object.h">
+      <Filter>Header Files\Game\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Header\Game\Object\Npc.h">
+      <Filter>Header Files\Game\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Header\Game\Object\Mob.h">
+      <Filter>Header Files\Game\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Header\Game\Maps\Map\Tutorial.h">
+      <Filter>Header Files\Game\Maps\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Header\Game\Object\Manager\Fight.h">
+      <Filter>Header Files\Game\Object\Manager</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,14 @@
+How to use this tool:
+1) Extract python-3.4.4.rar;
+2) Instal python-3.4.4.exe  32Bit (64bit version not working);
+3) Intal Library pyparsing-2.0.3.win32-py3.4.exe;
+4) Record with wireshark and save record as record.pcap - remember to use filter;
+src 142.44.142.9 or dst 142.44.142.9;
+5) check what ports are using (because some channels have diferent port) if its new port add it in main.py
+ports = [30002, 50400, 50300,30003, NEW_HERE] 
+6) change the name of file
+filename = "first_record.pcap" to the name of record from wireshark
+7) remember that all packets save into folder packets, remember to clean it before u start new record to encapsulate
+8) run in cmd in home of app C:\Users\MyUser\Desktop\dbosniff\dbosniff by typing main.py
+
+~~ thats all By Szczeepan ~~ :)

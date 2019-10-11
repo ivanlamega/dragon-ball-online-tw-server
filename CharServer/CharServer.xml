@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CharServer>
+  <!-- Log Configuration -->
+  <!-- 0 MINIMAL  1 BASIC  2 DETAIL  3 DEBUG -->
+  <LogLevel Value="3"/>
+  <!-- Server Configuration -->
+  <ServerWorker Value="1"/>
+  <Server IP="88.190.215.114" Port="50300" />
+  <MySQL Host="127.0.0.1" Database="dragonball" User="root" Password="" />
+
+  <!-- Game Data Tables Folder Location -->
+  <GameData Path="../Data/" />
+
+  <!-- Server List Configuration -->
+  <ServerCount value="1" />
+  <Server1 Name="AKCore DEV" Count="1" MaxLoad="100" Private="1">
+    <Channel1 IP="88.190.215.114" Port="50400" MaxLoad="100" />
+  </Server1>
+  <Server2 Name="AKCore Alpha" Count="1" MaxLoad="100" Private="0">
+    <Channel1 IP="88.190.215.114" Port="50500" MaxLoad="100" />
+  </Server2>
+</CharServer>
