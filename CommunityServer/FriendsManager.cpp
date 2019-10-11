@@ -106,7 +106,7 @@ void CommunitySession::SendFriendListInfomation()
 	res.wOpCode = TU_FRIEND_LIST_INFO;
 
 
-	sDB.GetFriendList(_player->GetCharacterID(), res.asInfo);
+	res.byCount = sDB.GetFriendList(_player->GetCharacterID(), res.asInfo);
 
 	res.wPacketSize = 3 + ((sizeof sFRIEND_FULL_INFO) * res.byCount);
 	/*for (int i = 0; i < res.byCount; i++)
