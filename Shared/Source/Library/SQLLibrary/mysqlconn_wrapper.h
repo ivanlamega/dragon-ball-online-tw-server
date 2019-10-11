@@ -99,6 +99,7 @@ public:
 
 	unsigned int GetFriendIdByName(std::string charName);
 	void AddFriendToList(CHARACTERID ownerId, CHARACTERID friendId);
+	BYTE GetFriendList(CHARACTERID charID, sFRIEND_FULL_INFO * friends);
 private:
 	string host;
 	string user;
