@@ -677,7 +677,10 @@ void			WorldSession::PacketParser(Packet& packet)
 			revive.wPacketSize = sizeof(sGU_CHAR_REVIVAL_RES) - 2;
 			revive.wResultCode = GAME_SUCCESS;
 			SendPacket((char*)&revive, sizeof(sGU_CHAR_REVIVAL_RES));					
-			
+			_player->SetIsDead(false);
+			_player->GetState()->sCharStateDetail.sCharStateSpawning.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_TELEPOPO;
+			_player->GetState()->sCharStateDetail.sCharStateSpawning.unk = eTELEPORT_TYPE::TELEPORT_TYPE_TELEPOPO;
+			_player->SetState(eCHARSTATE::CHARSTATE_SPAWNING);
 			break;
 		}
 		case Opcodes::UG_CHAR_ATTACK_BEGIN:

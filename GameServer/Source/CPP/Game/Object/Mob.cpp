@@ -354,7 +354,7 @@ void Mob::Update(uint32 update_diff, uint32 time)
 		}
 		else
 		{
-			MoveToPoint();
+			//MoveToPoint();
 		}
 		
 		TimmerMove = GetTickCount();
