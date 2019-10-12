@@ -221,6 +221,7 @@
     <ClCompile Include="Source\CPP\Game\World\Packet\Manager\PrivateShop.cpp" />
     <ClCompile Include="Source\CPP\Game\World\Packet\Manager\Quest.cpp" />
     <ClCompile Include="Source\CPP\Game\World\Packet\Manager\RankBattle.cpp" />
+    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\SkillAcionManager.cpp" />
     <ClCompile Include="Source\CPP\Game\World\Packet\Manager\SystemEffect.cpp" />
     <ClCompile Include="Source\CPP\Game\World\Packet\PacketParser.cpp" />
     <ClCompile Include="Source\CPP\Game\World\Packet\PlayerPacket.cpp" />

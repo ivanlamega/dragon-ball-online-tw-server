@@ -203,6 +203,9 @@
     <ClCompile Include="Source\CPP\Game\World\Packet\Manager\BossEvent.cpp">
       <Filter>Source Files\Game\World\Packet\Manager</Filter>
     </ClCompile>
+    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\SkillAcionManager.cpp">
+      <Filter>Source Files\Game\World\Packet\Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Header\GameServer.h">

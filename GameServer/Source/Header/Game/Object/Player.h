@@ -180,6 +180,10 @@ public:
 	void			    HandleFreeBattleWinners();
 	//
 	void				FindRankPlyer();
+
+	//Skills
+
+	void				GetAtributesCalculation(HOBJECT Target[32], BYTE MaxApplyTarget, BYTE bySkillType, BYTE SkillType[2], double SkillValueDemage[2], BYTE byRPBonus);
 	void				SkillAcion();
 	Packet packets;
 	//
@@ -234,6 +238,11 @@ private:
 	DWORD				SkillCastinTime;
 	DWORD				SkillCastinTimeRemain;
 	bool				CatingSkill;
+	float				SkillDemage[40];
+	float				CriticalDemage[40];
+	float				HitRate[40];
+	BYTE				AttackType[40];
+	BYTE				ObjectType;
 	//	------------------------------------------------------------------------
 	// TIMER
 	//	------------------------------------------------------------------------
