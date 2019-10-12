@@ -81,6 +81,8 @@ public:
 	void AddNewWarFog(HOBJECT id, CHARACTERID charid);
 	void SavePlayerPositionAndWorldID(sVECTOR3 position, sVECTOR3 direction, WORLDID w_id, WORLDID w_tblidx_id, CHARACTERID charid);
 	void SavePlayerLife(int CurLP, int CurEP, CHARACTERID charid);
+	void SavePlayerZenny(int dwZenny, CHARACTERID charid);
+	void SavePlayerCurExp(int curExp, CHARACTERID charid);
 	void SaveTitleMarket(int TitleMarket, CHARACTERID charid);
 	void SavePlayerWagguCoin(int WagguPoint, CHARACTERID charid);
 	void SavePlayerCashPoit(int Cash, CHARACTERID charid);

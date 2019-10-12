@@ -120,6 +120,20 @@ void MySQLConnWrapper::SavePlayerLife(int CurLP, int CurEP, CHARACTERID charid)
 	if (result != NULL)
 		delete result;
 }
+void MySQLConnWrapper::SavePlayerZenny(int dwZenny, CHARACTERID charid)
+{
+	sql::ResultSet* result = sDB.executes("UPDATE characters SET ZennyInventory = '%d' WHERE CharacterID = '%d';",
+		dwZenny, charid);
+	if (result != NULL)
+		delete result;
+}
+void MySQLConnWrapper::SavePlayerCurExp(int curExp, CHARACTERID charid)
+{
+	sql::ResultSet* result = sDB.executes("UPDATE characters SET CurrentExp = '%d' WHERE CharacterID = '%d';",
+		curExp, charid);
+	if (result != NULL)
+		delete result;
+}
 void MySQLConnWrapper::SaveTitleMarket(int TitleMarket, CHARACTERID charid)
 {
 	sql::ResultSet* result = sDB.executes("UPDATE characters SET Title_Marking = '%d' WHERE CharacterID = '%d';",
