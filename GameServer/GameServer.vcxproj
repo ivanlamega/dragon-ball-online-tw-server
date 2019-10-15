@@ -229,8 +229,23 @@
     <ClCompile Include="Source\CPP\Game\World\WorldRunnable.cpp" />
     <ClCompile Include="Source\CPP\Game\World\WorldSession.cpp" />
     <ClCompile Include="Source\CPP\Util\Util.cpp" />
+    <ClCompile Include="Source\GameObjectAgency.cpp" />
+    <ClCompile Include="Source\GameQuestAgency.cpp" />
+    <ClCompile Include="Source\GameQuestCtrl.cpp" />
+    <ClCompile Include="Source\GameQuestRecv.cpp" />
+    <ClCompile Include="Source\GameTriggerAgency.cpp" />
+    <ClCompile Include="Source\GameTriggerCtrl.cpp" />
+    <ClCompile Include="Source\GameTriggerRecv.cpp" />
+    <ClCompile Include="Source\QuestWrapper.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\GameObjectAgency.h" />
+    <ClInclude Include="Source\GameQuestAgency.h" />
+    <ClInclude Include="Source\GameQuestCtrl.h" />
+    <ClInclude Include="Source\GameQuestRecv.h" />
+    <ClInclude Include="Source\GameTriggerAgency.h" />
+    <ClInclude Include="Source\GameTriggerCtrl.h" />
+    <ClInclude Include="Source\GameTriggerRecv.h" />
     <ClInclude Include="Source\Header\GameServer.h" />
     <ClInclude Include="Source\Header\GameSocket.h" />
     <ClInclude Include="Source\Header\Game\Client\CliRunnable.h" />
@@ -253,6 +268,7 @@
     <ClInclude Include="Source\Header\Util\Timer.h" />
     <ClInclude Include="Source\Header\Util\TSS.h" />
     <ClInclude Include="Source\Header\Util\Util.h" />
+    <ClInclude Include="Source\QuestWrapper.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NtlBaseLib\NtlBaseLib.vcxproj">

@@ -63,6 +63,30 @@
     <Filter Include="Source Files\Game\World\Packet\Manager">
       <UniqueIdentifier>{48043589-8b9e-4a1f-900e-45a1a4853ff7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Game\Quest">
+      <UniqueIdentifier>{779b6592-ffd2-4849-92b4-2499002ad916}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\Quest\Agency">
+      <UniqueIdentifier>{658f11ec-7e66-4841-84da-ff4701bb671e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\Quest\Ctrl">
+      <UniqueIdentifier>{673bf0f7-cb6c-4e6b-8380-3c3c141e729b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\Quest\Recv">
+      <UniqueIdentifier>{8e6db886-404b-4d74-8364-383ef8291db1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Game\Quest">
+      <UniqueIdentifier>{c6fd09d8-0230-4704-9854-bd2cf34b06a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Game\Quest\Agency">
+      <UniqueIdentifier>{503da61e-19c0-475d-a9d1-23bc06a986c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Game\Quest\Ctrl">
+      <UniqueIdentifier>{7cbd4128-0d73-41bf-b1d3-cbbc4614a84a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Game\Quest\Recv">
+      <UniqueIdentifier>{6014bafb-c3e5-4eff-8e23-5b865ce47a39}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -206,6 +230,30 @@
     <ClCompile Include="Source\CPP\Game\World\Packet\Manager\SkillAcionManager.cpp">
       <Filter>Source Files\Game\World\Packet\Manager</Filter>
     </ClCompile>
+    <ClCompile Include="Source\QuestWrapper.cpp">
+      <Filter>Source Files\Game\Quest</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GameObjectAgency.cpp">
+      <Filter>Source Files\Game\Quest\Agency</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GameQuestAgency.cpp">
+      <Filter>Source Files\Game\Quest\Agency</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GameTriggerAgency.cpp">
+      <Filter>Source Files\Game\Quest\Agency</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GameQuestCtrl.cpp">
+      <Filter>Source Files\Game\Quest\Ctrl</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GameTriggerCtrl.cpp">
+      <Filter>Source Files\Game\Quest\Ctrl</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GameQuestRecv.cpp">
+      <Filter>Source Files\Game\Quest\Recv</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GameTriggerRecv.cpp">
+      <Filter>Source Files\Game\Quest\Recv</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Header\GameServer.h">
@@ -273,6 +321,30 @@
     </ClInclude>
     <ClInclude Include="Source\Header\Game\Object\Manager\Fight.h">
       <Filter>Header Files\Game\Object\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\QuestWrapper.h">
+      <Filter>Header Files\Game\Quest</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameObjectAgency.h">
+      <Filter>Header Files\Game\Quest\Agency</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameQuestAgency.h">
+      <Filter>Header Files\Game\Quest\Agency</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameTriggerAgency.h">
+      <Filter>Header Files\Game\Quest\Agency</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameQuestCtrl.h">
+      <Filter>Header Files\Game\Quest\Ctrl</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameTriggerCtrl.h">
+      <Filter>Header Files\Game\Quest\Ctrl</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameQuestRecv.h">
+      <Filter>Header Files\Game\Quest\Recv</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameTriggerRecv.h">
+      <Filter>Header Files\Game\Quest\Recv</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
