@@ -544,6 +544,10 @@ CREATE TABLE `realmlist` (
   `Name` varchar(20) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Realm System' ROW_FORMAT=DYNAMIC;
 
+-- ----------------------------
+-- Records of realmlist
+-- ----------------------------
+INSERT INTO `realmlist` VALUES (1, 1, 1, 1, 0, 0, NULL);
 -- --------------------------------------------------------
 
 --
