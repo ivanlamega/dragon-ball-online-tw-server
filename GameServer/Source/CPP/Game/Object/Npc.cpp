@@ -85,7 +85,8 @@ void Npc::BuildPacketForSpawn(SpawnNPC& spawnData)
 	GetState()->sCharStateBase.vCurDir.y = me.Spawn_Dir.y;
 	GetState()->sCharStateBase.vCurDir.z = me.Spawn_Dir.z;
 	GetState()->sCharStateBase.aspectState.sAspectStateBase.byAspectStateId = 255;
-
+	GetState()->sCharStateBase.isFlying = false;
+	GetState()->sCharStateBase.isFighting = false;
 	GetState()->sCharStateDetail.sCharStateSpawning.byTeleportType = 1;
 	GetState()->sCharStateDetail.sCharStateSpawning.unk = 1;
 
@@ -95,6 +96,120 @@ void Npc::BuildPacketForSpawn(SpawnNPC& spawnData)
 //----------------------------------------
 //	Create the NPC and fill all info
 //----------------------------------------
+bool Npc::Create(sNPC_TBLDAT* npcTbl, SpawnNPC spawnInfo)
+{
+	me.MonsterID = npcTbl->tblidx;
+	SetIsDead(false);
+	SetIsFighting(false);
+	me.ShowName = true;
+	me.SpawnAnimation = true;
+
+	me.Grade;
+	me.Property;
+	me.Drop_each_id;
+	me.Drop_quest_id;
+	me.Drop_type_id;
+	me.Drop_item_id;
+	me.Mob_group;
+	me.Exp;
+	me.Mob_Kind;
+	me.Sight_angle;
+	me.TMQ_Point;
+	me.DropEachRateControl;
+	me.DropEItemRateControl;
+	me.DropLItemRateControl;
+	me.DropNItemRateControl;
+	me.DropSItemRateControl;
+	me.DropTypeRateControl;
+	me.DisplayID;
+
+	me.target = INVALID_TBLIDX;
+	me.StateID = eCHARSTATE::CHARSTATE_SPAWNING;
+	me.ConditionFlag = 0;
+	me.Job = npcTbl->byJob;
+	me.Con = npcTbl->byCon;
+	me.Dex = npcTbl->byDex;
+	me.Eng = npcTbl->byEng;
+	me.Foc = npcTbl->byFoc;
+	me.Sol = npcTbl->bySol;
+	me.Str = npcTbl->byStr;
+	me.Attack_Animation_Qty = npcTbl->byAttack_Animation_Quantity;
+	me.Attack_Type = npcTbl->byAttack_Type;
+	me.Battle_Attribute = npcTbl->byBattle_Attribute;
+	me.HtbBlockRate = npcTbl->wBlock_Rate;
+	me.Level = npcTbl->byLevel;
+	me.Mob_type = npcTbl->byNpcType; // need check
+	me.Scan_range = npcTbl->byScan_Range;
+	me.Sight_range = npcTbl->bySight_Range;
+	*me.Use_skill_basis = *npcTbl->byUse_Skill_Basis;
+	me.Ai_bit_flag = npcTbl->dwAi_Bit_Flag;
+	me.AllianceID = npcTbl->dwAllianceIdx;
+	me.DialogGroup = npcTbl->dwDialogGroup;
+	me.Drop_Zenny;
+	me.Attack_range = npcTbl->fAttack_Range;
+	me.Drop_zenny_rate;
+	me.Fly_height = npcTbl->fFly_Height;
+	me.Radius = npcTbl->fRadius;
+	me.Radius_x = npcTbl->fRadius_X;
+	me.Radius_z = npcTbl->fRadius_Z;
+	me.Run_Speed = npcTbl->fRun_Speed;
+	me.Run_Speed_origin = npcTbl->fRun_Speed_Origin;
+	me.Scale = npcTbl->fScale;
+	me.Walk_Speed = npcTbl->fWalk_Speed;
+	me.Walk_Speed_origin = npcTbl->fWalk_Speed_Origin;
+	me.Name = npcTbl->Name;
+	me.CurLP = npcTbl->wBasic_LP;
+	me.CurEP = npcTbl->wBasic_EP;
+	me.MaxLP = npcTbl->wBasic_LP;
+	me.MaxEP = npcTbl->wBasic_EP;
+	me.AttackSpeedRate = npcTbl->wAttack_Speed_Rate;
+	me.use_Skill_Tblidx[6 + 1];
+	me.Aggro_max_count = npcTbl->wAggroMaxCount;
+	me.Attack_cool_time = npcTbl->wAttackCoolTime;
+	me.Attack_rate = npcTbl->wAttack_Rate;
+	me.Attack_speed_rate = npcTbl->wAttack_Speed_Rate;
+	me.Basic_aggro_point = npcTbl->wBasic_Aggro_Point;
+	me.Basic_energy_defence = npcTbl->wBasic_Energy_Defence;
+	//	me.Basic_Offence = npcTbl->wBasic_Offence;
+	me.Basic_physical_defence = npcTbl->wBasic_Physical_Defence;
+	me.Block_rate = npcTbl->wBlock_Rate;
+	me.Curse_success_rate = npcTbl->wCurse_Success_Rate;
+	me.Curse_tolerance_rate = npcTbl->wCurse_Tolerance_Rate;
+	me.Dodge_rate = npcTbl->wDodge_Rate;
+	me.Ep_Regeneration = npcTbl->wEP_Regeneration;
+	me.Lp_Regeneration = npcTbl->wLP_Regeneration;
+	*me.Use_skill_Lp = *npcTbl->wUse_Skill_LP;
+	*me.Use_skill_time = *npcTbl->wUse_Skill_Time;
+	me.MonsterSpawnID = npcTbl->tblidx;
+	me.Spawn_Loc = spawnInfo.State.sCharStateBase.vCurLoc;
+	me.Spawn_Dir = spawnInfo.State.sCharStateBase.vCurDir;
+	me.Spawn_Loc_Range = 10;
+	me.Spawn_Quantity = 1;
+	me.Spawn_Cool_Time = 1;
+	me.Spawn_Move_Type = 1;
+	me.Wander_Range = 1;
+	me.Move_Range = 1;
+	me.Move_DelayTime = 1;
+	//me.FollowDistance = 1;
+	me.Party_Index = 1;
+	me.Party_Leader = 1;
+	//me.spawnGroupId = spawnTbl->spawnGroupId;
+	me.MapID = 1; // is valid ?
+	me.KilledTime = 0;
+	me.isSpawned = false;
+	me.isAggro = false;
+	me.curPos = spawnInfo.State.sCharStateBase.vCurLoc;
+	me.chainAttackCount = 0;
+	me.MaxchainAttackCount = 0;
+	for (int i = 0; i < 6; i++)
+		me.amerchant_Tblidx[i] = npcTbl->amerchant_Tblidx[i]; // hard fix
+	handle = me.UniqueID = spawnInfo.Handle;
+
+	Relocate(me.curPos.x, me.curPos.y, me.curPos.z, me.Spawn_Dir.x, me.Spawn_Dir.y, me.Spawn_Dir.z);
+	AddToWorld();
+
+	return true;
+}
 bool Npc::Create(sSPAWN_TBLDAT* spawnTbl, sNPC_TBLDAT* npcTbl)
 {
 	me.MonsterID = npcTbl->tblidx;
@@ -209,6 +324,7 @@ bool Npc::Create(sSPAWN_TBLDAT* spawnTbl, sNPC_TBLDAT* npcTbl)
 
 	return true;
 }
+
 //----------------------------------------
 //	Remove from world
 //----------------------------------------

@@ -363,8 +363,7 @@ void Player::Update(uint32 _update_diff, uint32 _time)
 		}		
 		characterManager.UpdateAttributes(); // update our attributes all every time thats is good to prevent hack
 		CalculeRpBall();			
-		RegTmmer = GetTickCount();//Set Time		
-		BossEventUpdate();
+		RegTmmer = GetTickCount();//Set Time				
 	}	
 	DWORD Affecttimmer = GetTickCount() - AffectTime;
 	if (Affecttimmer >= 2000)
@@ -381,7 +380,7 @@ void Player::Update(uint32 _update_diff, uint32 _time)
 		NetPyTimmer = GetTickCount();//Set Time	
 		countnetpy += 1;
 	}
-
+	BossEventUpdate();
 	//HandleFreeBattleRange();	
 	PowerUpUpdate();
 	ExecuteBuffTimmer();	
@@ -398,105 +397,14 @@ void Player::Update(uint32 _update_diff, uint32 _time)
 	{
 		DWORD SkillTime = GetTickCount() - SkillCastinTime;
 		if (SkillTime >= SkillCastinTimeRemain)
-		{
-			SkillAcion();
+		{		
 			SetIsSkillCasting(false);
-			sLog.outDetail("Skill Annimation can be used now");
-		}
+			SkillAcion();			
+			//sLog.outDetail("Skill Annimation can be used now");
+		}		
 	}
-
 }
-void Player::BossEventUpdate()
-{
-	
-		sGU_DYNAMIC_FIELD_COUNT_NFY BossCount;
-		BossCount.wOpCode = GU_DYNAMIC_FIELD_COUNT_NFY;
-		BossCount.wPacketSize = sizeof(sGU_DYNAMIC_FIELD_COUNT_NFY) - 2;
-
-		BossCount.ValueMax = sWorld.BossEventMajinMaxCount;
-		BossCount.ValueMin = sWorld.BossEventMajinCurCount;
-		BossCount.ValueMax1 = 0;
-		BossCount.ValueMin1 = 0;
-		BossCount.unk = 0;		
-	
-	if (sWorld.BossEventMajinCurCount >= sWorld.BossEventMajinMaxCount)
-	{
-		BossCount.ValueMax1 = sWorld.BossEventMajinMaxCount;
-		BossCount.ValueMin1 = 0;
-		BossCount.unk = 1;
-
-		sGU_DYNAMIC_FIELD_SYSTEM_BOSS_POSITION_RES BossSpawn;
-		BossSpawn.wOpCode = GU_DYNAMIC_FIELD_SYSTEM_BOSS_POSITION_RES;
-		BossSpawn.wPacketSize = sizeof(sGU_DYNAMIC_FIELD_SYSTEM_BOSS_POSITION_RES) - 2;
-
-		BossSpawn.BossCount = 5;
-		for (int i = 0; i <= BossSpawn.BossCount; i++)
-		{			
-			int randomlocx = rand() % 2000;
-			int randomlocy = rand() % 400;
-			int randomlocz = rand() % 2000;
-				if (sWorld.BossIsSpawed == false)
-				{
-					MobTable * MobTable = sTBM.GetMobTable();
-					sMOB_TBLDAT * pMOBTblData = reinterpret_cast<sMOB_TBLDAT*>(MobTable->FindData(15712101));
-					if (pMOBTblData != NULL)
-					{
-						sWorld.BossIsSpawed = true;
-						SpawnMOB spawnData;
-						memset(&spawnData, 0, sizeof(SpawnMOB));
-
-						spawnData.wOpCode = GU_OBJECT_CREATE;
-						spawnData.wPacketSize = sizeof(SpawnMOB) - 2;
-
-						spawnData.curEP = pMOBTblData->wBasic_EP;
-						spawnData.curLP = pMOBTblData->wBasic_LP;
-						spawnData.Handle = sWorld.AcquireSerialId();
-						spawnData.Level = pMOBTblData->byLevel;
-						spawnData.maxEP = pMOBTblData->wBasic_EP;
-						spawnData.maxLP = pMOBTblData->wBasic_LP;
-						spawnData.Size = 10;
-						spawnData.Type = OBJTYPE_MOB;
-						spawnData.Tblidx = 15712101;
-
-						spawnData.fLastWalkingSpeed = 2;
-						spawnData.fLastRunningSpeed = 2;
-						spawnData.fLastAirgSpeed = 2;
-						spawnData.fLastAirgDashSpeed = 2;
-						spawnData.fLastAirgDashAccelSpeed = 2;
-
-						spawnData.State.sCharStateBase.aspectState.sAspectStateBase.byAspectStateId = 255;
-						spawnData.State.sCharStateBase.vCurLoc.x = randomlocx;
-						spawnData.State.sCharStateBase.vCurLoc.y = randomlocy;
-						spawnData.State.sCharStateBase.vCurLoc.z = randomlocz;
-						spawnData.State.sCharStateBase.vCurDir.x = m_rotation.x + rand() % 5;
-						spawnData.State.sCharStateBase.vCurDir.y = m_rotation.y;
-						spawnData.State.sCharStateBase.vCurDir.z = m_rotation.z + rand() % 5;
-						spawnData.State.sCharStateBase.byStateID = eCHARSTATE::CHARSTATE_SPAWNING;
-						
-						Mob* created_mob = new Mob;
-						if (pMOBTblData)
-						{
-							if (created_mob->Create(pMOBTblData, spawnData) == true)
-							{
-								created_mob->GetMapRef().link(this->GetMap(), created_mob);
-								//	printf("Mob ID %d inserted into map", 15712101);
-							}
-							else
-								delete created_mob;
-						}
-						sWorld.Boss_Info[i].Handle = spawnData.Handle;
-						sWorld.Boss_Info[i].vBossPos = spawnData.State.sCharStateBase.vCurLoc;
-					}
-
-				}				
-				BossSpawn.Boss_Info[i].Handle = sWorld.Boss_Info[i].Handle;
-				BossSpawn.Boss_Info[i].vBossPos = sWorld.Boss_Info[i].vBossPos;
-			}
-		SendPacket((char*)&BossSpawn, sizeof(sGU_DYNAMIC_FIELD_SYSTEM_BOSS_POSITION_RES));
-	}
-	SendPacket((char*)&BossCount, sizeof(sGU_DYNAMIC_FIELD_COUNT_NFY));
-}
-void Player::SpawnMobByID(TBLIDX MobID)
+void Player::SpawnMobByID(TBLIDX MobID, CNtlVector Loc, CNtlVector Dir)
 {
 	MobTable * MobTable = sTBM.GetMobTable();
 	sMOB_TBLDAT * pMOBTblData = reinterpret_cast<sMOB_TBLDAT*>(MobTable->FindData(MobID));
@@ -526,8 +434,12 @@ void Player::SpawnMobByID(TBLIDX MobID)
 		spawnData.fLastAirgDashAccelSpeed = 2;
 
 		spawnData.State.sCharStateBase.aspectState.sAspectStateBase.byAspectStateId = 255;
-		spawnData.State.sCharStateBase.vCurLoc = GetVectorPosition();
-		spawnData.State.sCharStateBase.vCurDir = GetVectorOriantation();	
+		spawnData.State.sCharStateBase.vCurLoc.x = Loc.x;
+		spawnData.State.sCharStateBase.vCurLoc.y = Loc.y;
+		spawnData.State.sCharStateBase.vCurLoc.z = Loc.z;
+		spawnData.State.sCharStateBase.vCurDir.x = Dir.x;	
+		spawnData.State.sCharStateBase.vCurDir.y = Dir.y;
+		spawnData.State.sCharStateBase.vCurDir.z = Dir.z;
 		
 		spawnData.State.sCharStateBase.byStateID = eCHARSTATE::CHARSTATE_SPAWNING;
 
@@ -545,6 +457,75 @@ void Player::SpawnMobByID(TBLIDX MobID)
 				delete created_mob;
 
 		}
+	}
+}
+void Player::SpawnNpcByID(TBLIDX NpcID, CNtlVector Loc, CNtlVector Dir)
+{
+	NPCTable * NpcTables = sTBM.GetNpcTable();
+	sNPC_TBLDAT * pNPCTblData = reinterpret_cast<sNPC_TBLDAT*>(NpcTables->FindData(NpcID));
+	if (pNPCTblData != NULL)
+	{
+		SpawnNPC spawnData;
+		memset(&spawnData, 0, sizeof(SpawnNPC));
+
+		spawnData.wOpCode = GU_OBJECT_CREATE;
+		spawnData.wPacketSize = sizeof(SpawnNPC) - 2;
+
+
+		spawnData.CurEP = pNPCTblData->wBasic_EP;
+		spawnData.CurLP = pNPCTblData->wBasic_LP;
+		spawnData.Handle = sWorld.AcquireSerialId();
+		//spawnData.Level = pNPCTblData->byLevel;
+		spawnData.MaxEP = pNPCTblData->wBasic_EP;
+		spawnData.MaxLP = pNPCTblData->wBasic_LP;
+		spawnData.Size = 10;
+		spawnData.OBJType = OBJTYPE_NPC;
+		spawnData.Tblidx = NpcID;
+
+		spawnData.fLastWalkingSpeed = 2;
+		spawnData.fLastRunningSpeed = 2;
+		//spawnData.fLastAirgSpeed = 2;
+		//spawnData.fLastAirgDashSpeed = 2;
+		//spawnData.fLastAirgDashAccelSpeed = 2;
+
+		spawnData.State.sCharStateBase.aspectState.sAspectStateBase.byAspectStateId = 255;
+		spawnData.State.sCharStateBase.vCurLoc.x = Loc.x;
+		spawnData.State.sCharStateBase.vCurLoc.y = Loc.y;
+		spawnData.State.sCharStateBase.vCurLoc.z = Loc.z;
+		spawnData.State.sCharStateBase.vCurDir.x = Dir.x;
+		spawnData.State.sCharStateBase.vCurDir.y = Dir.y;
+		spawnData.State.sCharStateBase.vCurDir.z = Dir.z;
+
+		spawnData.State.sCharStateBase.byStateID = eCHARSTATE::CHARSTATE_SPAWNING;
+
+		//	sWorld.SendToAll((char*)&spawnData, sizeof(SpawnMOB));
+		//Need Insert In list
+		Npc* created_npc = new Npc;
+		if (pNPCTblData)
+		{
+			if (created_npc->Create(pNPCTblData, spawnData) == true)
+			{
+				created_npc->GetMapRef().link(this->GetMap(), created_npc);
+				//printf("Mob ID %d inserted into map", MobID);
+			}
+			else
+				delete created_npc;
+
+		}
+		int freeslot = 0;
+		for (int i = 0; i <= 12; i++)
+		{
+			if (sWorld.NPCHandle[i] == 0 || sWorld.NPCHandle[i] == INVALID_TBLIDX)
+			{
+				freeslot = i;
+			}
+			if (sWorld.NPCHandle[i] == spawnData.Handle)
+			{
+				freeslot = i;
+			}
+		}
+		sWorld.NPCHandle[freeslot] = spawnData.Handle;
+		
 	}
 }
 void Player::NetPYUpdate()
@@ -595,100 +576,6 @@ void Player::PowerUpUpdate()
 			SendToPlayerList((char*)&newBall, sizeof(sGU_UPDATE_CHAR_RP_BALL));
 			GetPcProfile()->wCurRP = 0;
 		}
-	}
-}
-void Player::CheckPVPArea()
-{	
-	//printf("Plat Check \n");	
-	if (GetVectorPosition().x <= 5792.100 && GetVectorPosition().x >= 5752.100
-		&& GetVectorPosition().z >= 748.037 && GetVectorPosition().z <= 787.037 && GetAttributesManager()->IsinPVP == false)
-	{
-		//	printf("Plat in \n");
-		sGU_WORLD_FREE_PVP_ZONE_ENTERED_NFY PVPZone;
-		PVPZone.wOpCode = GU_WORLD_FREE_PVP_ZONE_ENTERED_NFY;
-		PVPZone.wPacketSize = sizeof(sGU_WORLD_FREE_PVP_ZONE_ENTERED_NFY) - 2;
-		PVPZone.Handle = GetHandle();
-		SendPacket((char*)&PVPZone, sizeof(sGU_WORLD_FREE_PVP_ZONE_ENTERED_NFY));
-		SendToPlayerList((char*)&PVPZone, sizeof(sGU_WORLD_FREE_PVP_ZONE_ENTERED_NFY));
-		GetAttributesManager()->IsinPVP = true;
-		mutexPlayer.lock();
-		for (auto it = objList.begin(); it != objList.end();)
-		{
-			if (it->second != NULL)
-			{
-				if (it->second->GetTypeId() == OBJTYPE_PC)
-				{
-					Player* plr = static_cast<Player*>(it->second);
-					if (plr->IsInWorld() == true && plr->GetSession() != NULL)
-					{
-						if (plr->GetAttributesManager()->IsinPVP == true)
-						{
-							sGU_WORLD_FREE_PVP_ZONE_ENTERED_NFY PVPZone;
-							PVPZone.wOpCode = GU_WORLD_FREE_PVP_ZONE_ENTERED_NFY;
-							PVPZone.wPacketSize = sizeof(sGU_WORLD_FREE_PVP_ZONE_ENTERED_NFY) - 2;
-							PVPZone.Handle = plr->GetHandle();
-							SendPacket((char*)&PVPZone, sizeof(sGU_WORLD_FREE_PVP_ZONE_ENTERED_NFY));
-						}
-						else
-						{
-							sGU_WORLD_FREE_PVP_ZONE_LEFT_NFY PVPZone;
-							PVPZone.wOpCode = GU_WORLD_FREE_PVP_ZONE_LEFT_NFY;
-							PVPZone.wPacketSize = sizeof(sGU_WORLD_FREE_PVP_ZONE_LEFT_NFY) - 2;
-							PVPZone.Handle = plr->GetHandle();
-							SendPacket((char*)&PVPZone, sizeof(sGU_WORLD_FREE_PVP_ZONE_LEFT_NFY));
-						}
-					}
-				}
-			}
-			it++;
-		}
-		mutexPlayer.unlock();
-	}
-	if (GetVectorPosition().x >= 5793.100 && GetAttributesManager()->IsinPVP == true
-		|| GetVectorPosition().x <= 5751.100 && GetAttributesManager()->IsinPVP == true
-		|| GetVectorPosition().z <= 746.037 && GetAttributesManager()->IsinPVP == true
-		|| GetVectorPosition().z >= 788.037 && GetAttributesManager()->IsinPVP == true)
-	{
-		//	printf("Plat out \n");
-		sGU_WORLD_FREE_PVP_ZONE_LEFT_NFY PVPZone;
-		PVPZone.wOpCode = GU_WORLD_FREE_PVP_ZONE_LEFT_NFY;
-		PVPZone.wPacketSize = sizeof(sGU_WORLD_FREE_PVP_ZONE_LEFT_NFY) - 2;
-		PVPZone.Handle = GetHandle();
-		SendPacket((char*)&PVPZone, sizeof(sGU_WORLD_FREE_PVP_ZONE_LEFT_NFY));
-		SendToPlayerList((char*)&PVPZone, sizeof(sGU_WORLD_FREE_PVP_ZONE_LEFT_NFY));
-		GetAttributesManager()->IsinPVP = false;
-		mutexPlayer.lock();
-		for (auto it = objList.begin(); it != objList.end();)
-		{
-			if (it->second != NULL)
-			{
-				if (it->second->GetTypeId() == OBJTYPE_PC)
-				{
-					Player* plr = static_cast<Player*>(it->second);
-					if (plr->IsInWorld() == true && plr->GetSession() != NULL)
-					{
-						if (plr->GetAttributesManager()->IsinPVP == true)
-						{
-							sGU_WORLD_FREE_PVP_ZONE_ENTERED_NFY PVPZone;
-							PVPZone.wOpCode = GU_WORLD_FREE_PVP_ZONE_ENTERED_NFY;
-							PVPZone.wPacketSize = sizeof(sGU_WORLD_FREE_PVP_ZONE_ENTERED_NFY) - 2;
-							PVPZone.Handle = plr->GetHandle();
-							SendPacket((char*)&PVPZone, sizeof(sGU_WORLD_FREE_PVP_ZONE_ENTERED_NFY));
-						}
-						else
-						{
-							sGU_WORLD_FREE_PVP_ZONE_LEFT_NFY PVPZone;
-							PVPZone.wOpCode = GU_WORLD_FREE_PVP_ZONE_LEFT_NFY;
-							PVPZone.wPacketSize = sizeof(sGU_WORLD_FREE_PVP_ZONE_LEFT_NFY) - 2;
-							PVPZone.Handle = plr->GetHandle();
-							SendPacket((char*)&PVPZone, sizeof(sGU_WORLD_FREE_PVP_ZONE_LEFT_NFY));
-						}
-					}
-				}
-			}
-			it++;
-		}
-		mutexPlayer.unlock();
 	}
 }
 void Player::TranformationRegen()
@@ -920,6 +807,7 @@ void Player::Regen()
 	///////////////////////////////
 	//Reg EP					//	
 	//////////////////////////////
+	
 	if (GetPcProfile()->wCurEP < GetPcProfile()->avatarAttribute.wLastMaxEP && GetIsDead() == false)
 	{
 		int curEPP = GetPcProfile()->wCurEP;
@@ -1027,7 +915,7 @@ void Player::ExecuteLPFood()
 {
 	for (int i = 0; i <= 16; i++)
 	{
-		if (GetAttributesManager()->LpFoodIsActive == true && GetAttributesManager()->sFoodInfo[i].FoodItemID != 0 & GetAttributesManager()->sFoodInfo[i].FoodItemID != INVALID_TBLIDX)
+		if (GetAttributesManager()->LpFoodIsActive == true && GetAttributesManager()->sFoodInfo[i].FoodItemID != 0 && GetAttributesManager()->sFoodInfo[i].FoodItemID != INVALID_TBLIDX)
 		{
 			sGU_EFFECT_AFFECTED afect;			
 			afect.wOpCode = GU_EFFECT_AFFECTED;
@@ -1089,7 +977,7 @@ void Player::ExecuteEPFood()
 {
 	for (int i = 0; i <= 16; i++)
 	{
-		if (GetAttributesManager()->EpFoodIsActive == true && GetAttributesManager()->sFoodInfo[i].FoodItemID != 0 & GetAttributesManager()->sFoodInfo[i].FoodItemID != INVALID_TBLIDX)
+		if (GetAttributesManager()->EpFoodIsActive == true && GetAttributesManager()->sFoodInfo[i].FoodItemID != 0 && GetAttributesManager()->sFoodInfo[i].FoodItemID != INVALID_TBLIDX)
 		{
 			sGU_EFFECT_AFFECTED afect;
 			afect.wOpCode = GU_EFFECT_AFFECTED;
@@ -2162,7 +2050,7 @@ void Player::CharAffect()
 {
 	for (int i = 0; i <= 32; i++)
 	{
-		if (GetAttributesManager()->sBuffTimeInfo[i].BuffIsActive == true && GetAttributesManager()->sBuffTimeInfo[i].isMob == false && GetAttributesManager()->sBuffTimeInfo[i].BuffID != 0 & GetAttributesManager()->sBuffTimeInfo[i].BuffID != INVALID_TBLIDX)
+		if (GetAttributesManager()->sBuffTimeInfo[i].BuffIsActive == true && GetAttributesManager()->sBuffTimeInfo[i].isMob == false && GetAttributesManager()->sBuffTimeInfo[i].BuffID != 0 && GetAttributesManager()->sBuffTimeInfo[i].BuffID != INVALID_TBLIDX)
 		{
 			if (GetAttributesManager()->sBuffTimeInfo[i].isAffectPlayer == true)
 			{			
@@ -2229,7 +2117,7 @@ void Player::CharAffect()
 			}				
 		}
 		//mob
-		if (GetAttributesManager()->sBuffTimeInfo[i].BuffIsActive == true && GetAttributesManager()->sBuffTimeInfo[i].isMob == true && GetAttributesManager()->sBuffTimeInfo[i].BuffID != 0 & GetAttributesManager()->sBuffTimeInfo[i].BuffID != INVALID_TBLIDX)
+		if (GetAttributesManager()->sBuffTimeInfo[i].BuffIsActive == true && GetAttributesManager()->sBuffTimeInfo[i].isMob == true && GetAttributesManager()->sBuffTimeInfo[i].BuffID != 0 && GetAttributesManager()->sBuffTimeInfo[i].BuffID != INVALID_TBLIDX)
 		{
 			Mob* MobInfo = static_cast<Mob*>(GetFromList(GetAttributesManager()->sBuffTimeInfo[i].PlayerHandle));
 			if (MobInfo != NULL && MobInfo->GetIsDead() == false)
@@ -2305,7 +2193,7 @@ void Player::ExecuteBuffTimmer()
 {	
 	for (int i = 0; i <= 32; i++)
 	{		
-		if (GetAttributesManager()->sBuffTimeInfo[i].BuffIsActive == true && GetAttributesManager()->sBuffTimeInfo[i].BuffID != 0 & GetAttributesManager()->sBuffTimeInfo[i].BuffID != INVALID_TBLIDX)
+		if (GetAttributesManager()->sBuffTimeInfo[i].BuffIsActive == true && GetAttributesManager()->sBuffTimeInfo[i].BuffID != 0 && GetAttributesManager()->sBuffTimeInfo[i].BuffID != INVALID_TBLIDX)
 		{				
 			DWORD deletionAt1 = GetTickCount() - GetAttributesManager()->sBuffTimeInfo[i].BuffTime;
 			if (deletionAt1 >= GetAttributesManager()->sBuffTimeInfo[i].BuffEndTime)
@@ -2604,7 +2492,7 @@ void Player::CalculePosition(uint32 _update_diff)
 		CNtlVector newHeading;
 		CNtlVector newPosition;
 		// class those function ?
-		NtlGetDestination_Keyboard(m_rotation_tmp.x, m_rotation_tmp.z, 8, m_position_tmp.x, m_position_tmp.y, m_position_tmp.z, moveDir, _update_diff, 8, newHeading, newPosition);
+		NtlGetDestination_Keyboard(m_rotation_tmp.x, m_rotation_tmp.z, GetPcProfile()->avatarAttribute.fLastRunSpeed, m_position_tmp.x, m_position_tmp.y, m_position_tmp.z, moveDir, _update_diff, GetPcProfile()->avatarAttribute.fLastRunSpeed, newHeading, newPosition);
 		if (newPosition.x != 0 && newPosition.z != 0)
 		{
 			Relocate(newPosition.x, newPosition.y, newPosition.z, newHeading.x, newHeading.y, newHeading.z);
@@ -2617,7 +2505,7 @@ void Player::CalculePosition(uint32 _update_diff)
 		CNtlVector newHeading;
 		CNtlVector newPosition;
 		// class those function ?
-		NtlGetDestination_Keyboard(m_rotation_tmp.x, m_rotation_tmp.z, 8, m_position_tmp.x, m_position_tmp.y, m_position_tmp.z, moveDir, _update_diff, 8, newHeading, newPosition);
+		NtlGetDestination_Keyboard(m_rotation_tmp.x, m_rotation_tmp.z, GetPcProfile()->avatarAttribute.fLastRunSpeed, m_position_tmp.x, m_position_tmp.y, m_position_tmp.z, moveDir, _update_diff, GetPcProfile()->avatarAttribute.fLastRunSpeed, newHeading, newPosition);
 		if (newPosition.x != 0 && newPosition.z != 0)
 		{
 			Relocate(newPosition.x, newPosition.y, newPosition.z, newHeading.x, newHeading.y, newHeading.z);
@@ -2630,7 +2518,7 @@ void Player::CalculePosition(uint32 _update_diff)
 
 		float fDistance = NtlGetDistance(m_position_tmp.x, m_position_tmp.z, GetMoveDestinationVector().x, GetMoveDestinationVector().z);
 
-		NtlGetDestination_Follow(m_rotation_tmp.x, m_rotation_tmp.z, 8, m_position_tmp.x, m_position_tmp.y, m_position_tmp.z, GetMoveDestinationVector().x, GetMoveDestinationVector().y, GetMoveDestinationVector().z, _update_diff, 2, newHeading, newPosition);
+		NtlGetDestination_Follow(m_rotation_tmp.x, m_rotation_tmp.z, GetPcProfile()->avatarAttribute.fLastRunSpeed, m_position_tmp.x, m_position_tmp.y, m_position_tmp.z, GetMoveDestinationVector().x, GetMoveDestinationVector().y, GetMoveDestinationVector().z, _update_diff, GetPcProfile()->avatarAttribute.fLastRunSpeed, newHeading, newPosition);
 		if (newPosition.x != 0 && newPosition.z != 0)
 		{
 			Relocate(newPosition.x, newPosition.y, newPosition.z, newHeading.x, newHeading.y, newHeading.z);
@@ -2643,7 +2531,7 @@ void Player::CalculePosition(uint32 _update_diff)
 
 		float fDistance = NtlGetDistance(m_position_tmp.x, m_position_tmp.z, GetMoveDestinationVector().x, GetMoveDestinationVector().z);
 
-		NtlGetDestination_Follow(m_rotation_tmp.x, m_rotation_tmp.z, 8, m_position_tmp.x, m_position_tmp.y, m_position_tmp.z, GetMoveDestinationVector().x, GetMoveDestinationVector().y, GetMoveDestinationVector().z, _update_diff, 2, newHeading, newPosition);
+		NtlGetDestination_Follow(m_rotation_tmp.x, m_rotation_tmp.z, GetPcProfile()->avatarAttribute.fLastRunSpeed, m_position_tmp.x, m_position_tmp.y, m_position_tmp.z, GetMoveDestinationVector().x, GetMoveDestinationVector().y, GetMoveDestinationVector().z, _update_diff, GetPcProfile()->avatarAttribute.fLastRunSpeed, newHeading, newPosition);
 		if (newPosition.x != 0 && newPosition.z != 0)
 		{
 			Relocate(newPosition.x, newPosition.y, newPosition.z, newHeading.x, newHeading.y, newHeading.z);
@@ -3103,9 +2991,9 @@ void Player::RewardDropFromMob(MonsterData& data)
 	int GetBall = rand() % 7;
 	int levelDiff = GetPcProfile()->byLevel - data.Level;
 	(levelDiff > 0) ? levelDiff *= 1 : levelDiff *= -1;
-	if (sWorld.DragonBallEventa == true && data.ByDagonBall == 1 && levelDiff >= 0 && levelDiff <= 5)
+	if (sWorld.DragonBallEventa == true && data.ByDagonBall == 1 && levelDiff >= 0 && levelDiff <= 70)
 	{
-		if (DragonBallDropRate >= 0 && DragonBallDropRate <= 30)
+		if (DragonBallDropRate >= 0 && DragonBallDropRate <= 40)
 		{
 			Item = GetInventoryManager()->GetItemByTblidx(DragonBalls[GetBall]);
 			if (Item == NULL)
@@ -3186,7 +3074,7 @@ void Player::RewardDropFromMob(MonsterData& data)
 	//////
 	/* /!\ NEED FUNCTION TO CREATE CORRECT DROP	/!\	*/
 	/* ITEM	*/
-	int DropAmount = rand() % 10;
+	int DropAmount = rand() % 3;
 	for (int i = 0; i <= DropAmount; i++)
 	{
 		dropped = new DroppedObject;
@@ -3249,6 +3137,48 @@ void Player::RewardDropFromMob(MonsterData& data)
 	SendPacket((char*)&dropped->zenny, sizeof(Dropzenny));
 	AddDropToList(*dropped, dropped->zenny.Handle);
 
+}
+void Player::RewardDropFromBossEvent(MonsterData & data)
+{
+	if (data.MonsterID == 11253101 || data.MonsterID == 11261104)
+	{
+		DroppedObject *dropped;
+		sITEM_TBLDAT *itemSrc = NULL;
+		sITEM_PROFILE *Item = NULL;
+
+		dropped = new DroppedObject;
+		dropped->droppedTime = GetTickCount();
+		dropped->objType = OBJTYPE_DROPITEM;
+		dropped->owner = GetHandle();
+
+		dropped->item.wPacketSize = sizeof(Drop) - 2;
+		dropped->item.wOpCode = GU_OBJECT_CREATE;
+
+		dropped->item.Handle = sWorld.AcquireItemSerialId();
+
+		dropped->item.Tblidx = 110;
+
+		if ((itemSrc = (sITEM_TBLDAT*)sTBM.GetItemTable()->FindData(dropped->item.Tblidx)) == NULL)
+		{
+			itemSrc = (sCASHITEM_TBLDAT*)sTBM.GetCashItemTable()->FindData(dropped->item.Tblidx);
+		}
+		if (itemSrc != NULL)
+		{
+			dropped->item.Type = OBJTYPE_DROPITEM;
+			dropped->item.Grade = 0;
+			dropped->item.Rank = itemSrc->eRank;
+			dropped->item.BattleAttribute = 0;
+			dropped->item.Loc.x = data.curPos.x + rand() % 6;
+			dropped->item.Loc.y = data.curPos.y;
+			dropped->item.Loc.z = data.curPos.z + rand() % 6;
+			dropped->item.IsNew = true;
+			dropped->item.NeedToIdentify = false;
+
+			/* Add Drop to list	*/
+			SendPacket((char*)&dropped->item, sizeof(Drop));
+			AddDropToList(*dropped, dropped->item.Handle);
+		}
+	}
 }
 //----------------------------------------
 //	Levelup our player
@@ -3356,6 +3286,93 @@ void	Player::LevelUpByComand(int Level)
 	sDB.UpdatePlayerLevel(GetPcProfile()->byLevel, GetCharacterID(), GetPcProfile()->dwCurExp);
 	sDB.UpdateSPPoint(GetPcProfile()->dwSpPoint, GetCharacterID());
 
+}
+void Player::TeleportToPopo()
+{
+	int ObjectID;
+	int worldID;
+	sql::ResultSet* result = sDB.executes("SELECT * FROM bind WHERE CharacterID = '%d';", GetCharacterID());
+	if (result == NULL)
+		return;
+	if (result->rowsCount() <= 0)
+	{
+		delete result;
+		return;
+	}	
+	int size = 0;//not know why need that to load correct
+	for (int i = 0; i < result->rowsCount(); i++)
+	{
+		sLog.outDebug("Recive Data Base");
+		
+		ObjectID = result->getInt("BindObjectTblIdx");
+		worldID = result->getInt("WorldID");
+		size++;
+		if (result->next())
+			continue;
+		else
+			break;
+	}	
+	delete result;	
+
+	ObjectTable *objTbl = sTBM.GetObjectTable(worldID);	
+	sOBJECT_TBLDAT* tblData = reinterpret_cast<sOBJECT_TBLDAT*>(objTbl->FindData(ObjectID));
+	if (tblData != NULL)
+	{
+		sLog.outDebug("Tblidx for Warfog %d", tblData->tblidx);
+		sLog.outDebug("ContentsTblidx %d", tblData->contentsTblidx);
+
+		sGU_CHAR_TELEPORT_RES teleport;
+		teleport.wOpCode = GU_CHAR_TELEPORT_RES;
+		teleport.wPacketSize = sizeof(sGU_CHAR_TELEPORT_RES) - 2;
+
+		sWORLD_TBLDAT *world = (sWORLD_TBLDAT*)sTBM.GetWorldTable()->FindData(worldID);
+		if (world != NULL)
+		{
+			teleport.wResultCode = GAME_SUCCESS;
+			if (world->tblidx != GetWorldID())
+			{
+				teleport.bIsToMoveAnotherServer = true;
+				teleport.sWorldInfo.worldID = world->tblidx;
+				teleport.sWorldInfo.tblidx = world->tblidx;
+				teleport.sWorldInfo.sRuleInfo.byRuleType = world->byWorldRuleType;
+				GetState()->sCharStateDetail.sCharStateTeleporting.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_TELEPOPO;
+			}
+			else
+			{
+				teleport.bIsToMoveAnotherServer = false;
+
+			}
+			teleport.vNewDir.x = tblData->vDir.x;
+			teleport.vNewDir.y = tblData->vDir.y;
+			teleport.vNewDir.z = tblData->vDir.z;
+
+			teleport.vNewLoc.x = tblData->vLoc.x + rand() % 5;
+			teleport.vNewLoc.y = tblData->vLoc.y;
+			teleport.vNewLoc.z = tblData->vLoc.z + rand() % 5;
+
+
+			SetState(eCHARSTATE::CHARSTATE_TELEPORTING);
+
+
+			SetWorldID(world->tblidx);
+			SetWorldTableID(world->tblidx);
+			Relocate(teleport.vNewLoc.x, teleport.vNewLoc.y, teleport.vNewLoc.z, teleport.vNewDir.x, teleport.vNewDir.y, teleport.vNewDir.z);
+
+
+			SendPacket((char*)&teleport, sizeof(sGU_CHAR_TELEPORT_RES));			
+			GetState()->sCharStateDetail.sCharStateSpawning.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_POPOSTONE;
+			GetState()->sCharStateDetail.sCharStateSpawning.unk = eTELEPORT_TYPE::TELEPORT_TYPE_POPOSTONE;
+			SetState(eCHARSTATE::CHARSTATE_SPAWNING);
+			Map* map = GetMap();
+			map->Remove(this, false);
+			ClearListAndReference();
+		}
+
+	}
+	else
+	{
+		sLog.outDetail("Error, can't find the ObjectID");
+	}	
 }
 void Player::SetSpeed(int sppeed)
 {
@@ -3681,6 +3698,9 @@ void Player::TeleportByCommand(TBLIDX WorldID)
 
 
 		SendPacket((char*)&teleport, sizeof(sGU_CHAR_TELEPORT_RES));
+		Map* map = GetMap();
+		map->Remove(this, false);
+		ClearListAndReference();
 	}
 	//mutexPlayer.lock();
 	for (auto it = objList.begin(); it != objList.end();)
@@ -3742,6 +3762,9 @@ void Player::TeleportByCommand(TBLIDX WorldID)
 
 
 							plr->SendPacket((char*)&teleport, sizeof(sGU_CHAR_TELEPORT_RES));
+							Map* map = plr->GetMap();
+							map->Remove(plr, false);
+							plr->ClearListAndReference();
 
 						}
 				}

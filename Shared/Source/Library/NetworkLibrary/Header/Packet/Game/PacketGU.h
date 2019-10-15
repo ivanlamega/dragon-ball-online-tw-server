@@ -2592,10 +2592,10 @@ END_PROTOCOL()
 struct sBOSS_INFO
 {
 	HOBJECT Handle;
-	sVECTOR3 vBossPos;
+	sVECTOR2 vBossPos;
 };
 BEGIN_PROTOCOL(GU_DYNAMIC_FIELD_SYSTEM_BOSS_POSITION_RES)
-int BossCount;
+BYTE BossCount;
 sBOSS_INFO Boss_Info[100];
 END_PROTOCOL()
 //------------------------------------------------------------------

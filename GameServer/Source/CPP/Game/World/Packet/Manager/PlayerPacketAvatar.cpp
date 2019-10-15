@@ -110,7 +110,7 @@ void WorldSession::SendAvatarItemCashInfo()
 //----------------------------------------
 void WorldSession::SendAvatarWarFogInfo()
 {
-	/*sGU_WAR_FOG_INFO res;
+	sGU_WAR_FOG_INFO res;
 	memset(&res, 0, sizeof(sGU_WAR_FOG_INFO));
 
 	res.wOpCode = GU_WAR_FOG_INFO;
@@ -123,51 +123,26 @@ void WorldSession::SendAvatarWarFogInfo()
 	{
 		delete result;
 		return;
-	}
-	ObjectTable* myObjTbl = sTBM.GetObjectTable(_player->GetWorldID());
-	WorldMapTable* pas = sTBM.GetWorldMapTable();
+	}	
 	int iPosition = 0;
 	while (true)
 	{
-
-		uint32 WarFogID = result->getInt("hObject");
-		uint32 uiArrayPos = WarFogID / 8;
-		uint8 byCurBit = (uint8)(WarFogID % 8);
-		res.abyWarFogInfo[uiArrayPos] |= 0x01ui8 << byCurBit;
-		iPosition++;
-		if (result->next())
-			continue;
-		else
-			break;
-		/*for (auto m_wobjRefIter = myObjTbl->Begin(); m_wobjRefIter != myObjTbl->End(); ++m_wobjRefIter)
-		{
-			sOBJECT_TBLDAT* pOBJECT_TBLDAT = reinterpret_cast<sOBJECT_TBLDAT*>(myObjTbl->FindData(m_wobjRefIter->first));
-			if (pOBJECT_TBLDAT != NULL)
-			{
-				if (pOBJECT_TBLDAT->dwSequence == (result->getInt("hObject") - 100000))
-				{
-					TBLIDX objectID = pOBJECT_TBLDAT->tblidx;
-					sOBJECT_TBLDAT* pOBJECT_TBLDAT = reinterpret_cast<sOBJECT_TBLDAT*>(myObjTbl->FindData(objectID));
-					if (pOBJECT_TBLDAT)
-					{
-						uint32 uiIndex = pOBJECT_TBLDAT->contentsTblidx;
-						uint32 uiArrayPos = uiIndex / 8;
-						uint8 byCurBit = (uint8)(uiIndex % 8);
-
-						res.abyWarFogInfo[uiArrayPos] |= 0x01ui8 << byCurBit;
-					}
-
-				}
-			}
-		}	
-		iPosition++;
+		
+			uint32 uiIndex = result->getInt("hObject");
+			uint32 uiArrayPos = uiIndex / 8;
+			uint8 byCurBit = (uint8)(uiIndex % 8);
+			res.abyWarFogInfo[uiArrayPos] |= 0x01ui8 << byCurBit;			
+			_player->WarFrogList[iPosition] = result->getInt("hObject");
+			iPosition++;
+				
 		if (result->next())
 			continue;
 		else
 			break;
 	}
 	delete result;
-	SendPacket((char*)&res, sizeof(sGU_WAR_FOG_INFO));*/
+	_player->WarFrogcount = iPosition;	
+	SendPacket((char*)&res, sizeof(sGU_WAR_FOG_INFO));
 }
 //----------------------------------------
 //	Send the portal info
@@ -315,13 +290,9 @@ void WorldSession::SendHoiPoiMixInfo()
 //----------------------------------------
 void WorldSession::SendFogOfWarRes(Packet& packet)
 {
+	uint32 WarFogID;	
 	sUG_WAR_FOG_UPDATE_REQ *req = (sUG_WAR_FOG_UPDATE_REQ *)packet.GetPacketBuffer();
-	sGU_WAR_FOG_UPDATE_RES res;
-
-	res.handle = req->hObject;
-	res.wOpCode = GU_WAR_FOG_UPDATE_RES;
-	res.wResultCode = GAME_SUCCESS;
-	res.wPacketSize = sizeof(sGU_WAR_FOG_UPDATE_RES) - 2;
+	int ObjectFinnalID;
 
 	ObjectTable *objTbl = sTBM.GetObjectTable(_player->GetWorldID());
 	if (objTbl != NULL)
@@ -339,6 +310,7 @@ void WorldSession::SendFogOfWarRes(Packet& packet)
 					{
 						sLog.outDebug("Tblidx for Warfog %d", tblData->tblidx);
 						sLog.outDebug("ContentsTblidx %d", tblData->contentsTblidx);
+						ObjectFinnalID = tblData->contentsTblidx;
 					}
 					else
 					{
@@ -352,9 +324,35 @@ void WorldSession::SendFogOfWarRes(Packet& packet)
 	{
 		sLog.outDetail("Error, Object table is invalid");
 	}
+
+
+	sGU_WAR_FOG_UPDATE_RES res;
+
+	res.wPacketSize = sizeof(sGU_WAR_FOG_UPDATE_RES) - 2;
+	res.wOpCode = GU_WAR_FOG_UPDATE_RES;
+	for (int i = 0; i <= _player->WarFrogcount; i++)
+	{
+		if (_player->WarFrogList[i] == ObjectFinnalID)
+		{
+			WarFogID = ObjectFinnalID;
+			res.wResultCode = ResultCodes::GAME_WARFOG_ARLEADY_ADDED;
+		}		
+	}	
+	if (ObjectFinnalID != WarFogID)
+	{
+		res.wResultCode = GAME_SUCCESS;
+		res.handle = req->hObject;
+		// add warfog to db		
+		printf("IDWarFrog %d \n", req->hObject);
+		
+		sDB.AddNewWarFog(ObjectFinnalID, _player->GetCharacterID());
+		_player->WarFrogcount += 1;
+		_player->WarFrogList[_player->WarFrogcount] = ObjectFinnalID;
+		
+	}
+	
 	SendPacket((char*)&res, sizeof(sGU_WAR_FOG_UPDATE_RES));
-	// add warfog to db
-	sDB.AddNewWarFog(req->hObject, _player->GetCharacterID());
+	
 }
 //----------------------------------------
 //	??
@@ -420,7 +418,7 @@ void WorldSession::SendNetMarbleMemberShipNfy()
 	//content.byUnknown2[0] = INVALID_BYTE;
 
 	content.dwCCBD_LastFloor = 150;
-	content.PetSystemOldNew = 1;
+	content.PetSystemOldNew = 2;
 	
 	SendPacket((char*)&content, sizeof(sGU_SERVER_CONTENTS_ONOFF));
 

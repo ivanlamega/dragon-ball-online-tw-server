@@ -88,32 +88,40 @@ void WorldSession::UseSkill(Packet& packet)
 	if (skillDataOriginal != NULL)
 	{
 			_player->packets = packet;
-			sGU_UPDATE_CHAR_STATE state;
+			_player->GetAtributesCalculation(pCharSkillReq->ahApplyTarget, pCharSkillReq->byApplyTargetCount, skillDataOriginal->bySkill_Type, skillDataOriginal->bySkill_Effect_Type, skillDataOriginal->SkillValue, pCharSkillReq->byRpBonusType);
+			if (skillDataOriginal->dwCastingTimeInMilliSecs > 0)
+			{
+				sGU_UPDATE_CHAR_STATE state;
 
-			state.wPacketSize = sizeof(sGU_UPDATE_CHAR_STATE) - 2;
-			state.wOpCode = GU_UPDATE_CHAR_STATE;
+				state.wPacketSize = sizeof(sGU_UPDATE_CHAR_STATE) - 2;
+				state.wOpCode = GU_UPDATE_CHAR_STATE;
 
-			state.handle = _player->GetHandle();
-			state.sCharState.sCharStateBase.byStateID = eCHARSTATE::CHARSTATE_CASTING;
+				state.handle = _player->GetHandle();
+				state.sCharState.sCharStateBase.byStateID = eCHARSTATE::CHARSTATE_CASTING;
+				_player->GetState()->sCharStateBase.byStateID = eCHARSTATE::CHARSTATE_CASTING;
+				state.sCharState.sCharStateDetail.sCharStateCasting.hTarget = _player->GetHandle();
+				state.sCharState.sCharStateDetail.sCharStateCasting.skillId = skillDataOriginal->tblidx;
+				state.sCharState.sCharStateDetail.sCharStateCasting.dwCastingTime = skillDataOriginal->dwCastingTimeInMilliSecs;
+				state.sCharState.sCharStateDetail.sCharStateCasting.dwCastingTimeRemaining = skillDataOriginal->dwCastingTimeInMilliSecs;
 
-			state.sCharState.sCharStateDetail.sCharStateCasting.hTarget = _player->GetHandle();
-			state.sCharState.sCharStateDetail.sCharStateCasting.skillId = skillDataOriginal->tblidx;
-			state.sCharState.sCharStateDetail.sCharStateCasting.dwCastingTime = skillDataOriginal->dwCastingTimeInMilliSecs;
-			state.sCharState.sCharStateDetail.sCharStateCasting.dwCastingTimeRemaining = skillDataOriginal->dwCastingTimeInMilliSecs;
+				state.sCharState.sCharStateBase.vCurLoc.x = _player->GetVectorPosition().x;
+				state.sCharState.sCharStateBase.vCurLoc.y = _player->GetVectorPosition().y;
+				state.sCharState.sCharStateBase.vCurLoc.z = _player->GetVectorPosition().z;
+				state.sCharState.sCharStateBase.vCurDir.x = _player->GetVectorOriantation().x;
+				state.sCharState.sCharStateBase.vCurDir.y = _player->GetVectorOriantation().y;
+				state.sCharState.sCharStateBase.vCurDir.z = _player->GetVectorOriantation().x;
+				state.sCharState.sCharStateBase.dwConditionFlag = _player->GetState()->sCharStateBase.dwConditionFlag;
+				state.sCharState.sCharStateBase.isFlying = false;
+				state.sCharState.sCharStateBase.isFighting = false;
+				state.sCharState.sCharStateBase.dwStateTime = 0x01;
+
+				_player->SendPacket((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
+				_player->SendToPlayerList((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
+			}			
+
 			_player->SkillCastinTime = GetTickCount();
 			_player->SkillCastinTimeRemain = skillDataOriginal->dwCastingTimeInMilliSecs;
-			state.sCharState.sCharStateBase.vCurLoc.x = _player->GetVectorPosition().x;
-			state.sCharState.sCharStateBase.vCurLoc.y = _player->GetVectorPosition().y;
-			state.sCharState.sCharStateBase.vCurLoc.z = _player->GetVectorPosition().z;
-			state.sCharState.sCharStateBase.vCurDir.x = _player->GetVectorOriantation().x;
-			state.sCharState.sCharStateBase.vCurDir.y = _player->GetVectorOriantation().y;
-			state.sCharState.sCharStateBase.vCurDir.z = _player->GetVectorOriantation().x;
-			state.sCharState.sCharStateBase.dwConditionFlag = 0;
-			state.sCharState.sCharStateBase.isFlying = false;
-			state.sCharState.sCharStateBase.dwStateTime = 2;
-
-			sWorld.SendToAll((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
-
+			_player->SetIsFighting(false);
 			_player->SetIsSkillCasting(true);			
 	}
 }

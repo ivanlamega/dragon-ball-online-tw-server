@@ -360,7 +360,7 @@ bool GameServer::loadDataTable()
 			printf("RewardItemID %d \n ", tbldat->RewardItemID[2]);					
 			
 		}*/
-		for (auto it = sTBM.GetItemRecipeTable()->Begin(); it != sTBM.GetItemRecipeTable()->End(); it++)
+		/*for (auto it = sTBM.GetItemRecipeTable()->Begin(); it != sTBM.GetItemRecipeTable()->End(); it++)
 		{
 			sITEM_RECIPE_TBLDAT* tbldat = (sITEM_RECIPE_TBLDAT*)it->second;
 			if (tbldat)
@@ -403,7 +403,7 @@ bool GameServer::loadDataTable()
 				//printf("Worldmap_Name %d \n ", tbldat->Worldmap_Name);
 				delete tbldat;
 			}
-		}
+		}*/
 	}
 	return bResult;
 }

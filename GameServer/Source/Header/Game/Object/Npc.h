@@ -17,6 +17,7 @@ public:
 	void				CleanupsBeforeDelete();
 	void				AddToWorld() override;
 	void				RemoveFromWorld() override;
+	bool				Create(sNPC_TBLDAT* npcTbl, SpawnNPC spawnInfo);
 	bool				Create(sSPAWN_TBLDAT* spawnTbl, sNPC_TBLDAT* npcTbl);
 	void				Update(uint32 update_diff, uint32 time);
 	virtual void		TakeDamage(uint32 amount) override;

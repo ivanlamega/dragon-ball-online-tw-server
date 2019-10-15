@@ -31,11 +31,11 @@ Map::Map(uint32 id) :
 			Npc *created_npc = new Npc;
 			if (created_npc->Create(pNPCSpwnTblData, pNPCTblData) == true)
 			{
-			/*	if (pNPCTblData->byJob == 3 || pNPCTblData->byJob == 38 || pNPCTblData->byJob == 44 || pNPCTblData->byJob == 47 || pNPCTblData->byJob == 50)
+				if (pNPCTblData->byJob == eNPC_JOB::NPC_JOB_SCOUTER_MERCHANT || pNPCTblData->byJob == eNPC_JOB::NPC_JOB_GAMBLE_MERCHANT || pNPCTblData->byJob == eNPC_JOB::NPC_JOB_MIX_MASTER || pNPCTblData->byJob == 47 || pNPCTblData->byJob == 50)
 				{
 					delete created_npc;
 				}
-				else*/
+				else
 				created_npc->GetMapRef().link(this, created_npc);
 			}
 			else
@@ -301,8 +301,7 @@ void Map::Update(const uint32& t_diff)
 		{
 			plr->Update(t_diff, t_diff);
 		}
-	}
-	map_mutex.unlock();
+	}	
 	for (auto m_wobjRefIter = m_wobjRefManager.begin(); m_wobjRefIter != m_wobjRefManager.end(); ++m_wobjRefIter)
 	{
 		WorldObject* curr_wObj = static_cast<WorldObject*>(m_wobjRefIter->getSource());
@@ -318,6 +317,15 @@ void Map::Update(const uint32& t_diff)
 			curr_Mob->Update(t_diff, t_diff);
 		}
 	}
+	for (auto m_npcRefIter = m_npcRefManager.begin(); m_npcRefIter != m_npcRefManager.end(); ++m_npcRefIter)
+	{
+		Npc* curr_Npc = static_cast<Npc*>(m_npcRefIter->getSource());
+		if (curr_Npc && curr_Npc->IsInWorld())
+		{
+			curr_Npc->Update(t_diff, t_diff);
+		}
+	}
+	map_mutex.unlock();
 }
 //----------------------------------------
 //	Update the player and also check visibility from other player

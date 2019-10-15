@@ -17,7 +17,7 @@ void World::SendAnnounce(std::string message)
 	sNotice.wOpCode = GU_SYSTEM_DISPLAY_TEXT;
 	sNotice.wPacketSize = sizeof(sGU_SYSTEM_DISPLAY_TEXT) - 2;
 
-	sNotice.byDisplayType = eSERVER_TEXT_TYPE::SERVER_TEXT_NOTICE;
+	sNotice.byDisplayType = eSERVER_TEXT_TYPE::SERVER_TEXT_EMERGENCY;
 	wcscpy_s(sNotice.awchMessage, BUDOKAI_MAX_NOTICE_LENGTH + 1, charToWChar(message.c_str()));
 	wcscpy_s(sNotice.awGMChar, MAX_SIZE_CHAR_NAME_UNICODE, (L" GM "));
 	sNotice.wMessageLengthInUnicode = (WORD)wcslen(sNotice.awchMessage);
@@ -90,16 +90,16 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 			sLog.outDetail("GM LearnTitle Modified");
 			strToken = str.substr(pos + 1, std::string::npos);
 			unsigned int TitleID = (unsigned int)atof(strToken.c_str());
-			_player->GetAttributesManager()->SetLastMaxLP(1000);
-			_player->GetAttributesManager()->SetLastMaxEP(1000);
-			_player->GetAttributesManager()->SetLastPhysicalOffence(1000);
-			_player->GetAttributesManager()->SetLastPhysicalCriticalRate(1000);
-			_player->GetAttributesManager()->SetLastPhysicalDefence(1000);
-			_player->GetAttributesManager()->SetLastEnergyOffence(1000);
-			_player->GetAttributesManager()->SetLastEnergyCriticalRate(1000);
-			_player->GetAttributesManager()->SetLastEnergyDefence(1000);
-			_player->GetAttributesManager()->SetLastAttackRate(1000);
-			_player->GetAttributesManager()->SetLastDodgeRate(1000);			
+			_player->GetAttributesManager()->SetLastMaxLP(20000);
+			_player->GetAttributesManager()->SetLastMaxEP(20000);
+			_player->GetAttributesManager()->SetLastPhysicalOffence(20000);
+			_player->GetAttributesManager()->SetLastPhysicalCriticalRate(20000);
+			_player->GetAttributesManager()->SetLastPhysicalDefence(20000);
+			_player->GetAttributesManager()->SetLastEnergyOffence(20000);
+			_player->GetAttributesManager()->SetLastEnergyCriticalRate(20000);
+			_player->GetAttributesManager()->SetLastEnergyDefence(20000);
+			_player->GetAttributesManager()->SetLastAttackRate(20000);
+			_player->GetAttributesManager()->SetLastDodgeRate(20000);			
 			return;
 		}
 		else if (strToken == "@Exp_Bonus")
@@ -381,7 +381,7 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 				res.wResultCode = GAME_SUCCESS;
 				res.skillId = tblidx;
 				res.bySkillSlot = _player->skillManager.getSkillsCount() + 1;
-						
+				_player->HTBID = res.skillId;
 				SendPacket((char*)&res, sizeof(sGU_HTB_LEARN_RES));
 				
 				//sDB.LearnSkill(skillID, _player->GetCharacterID(), nfy.bySlot);

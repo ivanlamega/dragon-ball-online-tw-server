@@ -31,7 +31,7 @@ void			WorldSession::PacketParser(Packet& packet)
 #pragma region (WORKING PACKET)
 	case Opcodes::UG_ENTER_WORLD:
 	{
-		//sLog.outError("UG_ENTER_WORLD");
+		sLog.outError("UG_ENTER_WORLD");
 		SendNetMarbleMemberShipNfy();
 		SendWorldEnter();
 		SendEnterWorldComplete();
@@ -39,25 +39,25 @@ void			WorldSession::PacketParser(Packet& packet)
 	}
 	case Opcodes::UG_GAME_LEAVE_REQ:
 	{
-		//sLog.outError("UG_GAME_LEAVE_REQ");
+		sLog.outError("UG_GAME_LEAVE_REQ");
 		SendGameLeave(packet);
 		break;
 	}
 	case Opcodes::UG_CHAR_EXIT_REQ:
 	{
-		//sLog.outError("UG_CHAR_EXIT_REQ");
+		sLog.outError("UG_CHAR_EXIT_REQ");
 		SendGameLeave(packet, true);
 		break;
 	}
 	case Opcodes::UG_GAME_EXIT_REQ:
 	{
-		//sLog.outError("UG_GAME_EXIT_REQ");
+		sLog.outError("UG_GAME_EXIT_REQ");
 		SendGameLeave(packet, false);
 		break;
 	}
 	case Opcodes::UG_CHAR_BIND_REQ:
 	{
-		//sLog.outError("UG_CHAR_BIND_REQ");
+		sLog.outError("UG_CHAR_BIND_REQ");
 		sUG_CHAR_BIND_REQ * req = (sUG_CHAR_BIND_REQ*)packet.GetPacketBuffer();
 		sGU_CHAR_BIND_RES res;
 
@@ -85,26 +85,26 @@ void			WorldSession::PacketParser(Packet& packet)
 	}
 	case Opcodes::UG_CHAR_SERVER_CHANGE_REQ:
 	{
-		//sLog.outError("UG_CHAR_SERVER_CHANGE_REQ");
+		sLog.outError("UG_CHAR_SERVER_CHANGE_REQ");
 		SendEnterWorldTeleport();
 		break;
 	}
 	case Opcodes::UG_CHAR_TARGET_FACING:
 	{
-		//sLog.outError("UG_CHAR_TARGET_FACING");
+		sLog.outError("UG_CHAR_TARGET_FACING");
 		sUG_CHAR_TARGET_FACING *req = (sUG_CHAR_TARGET_FACING*)packet.GetPacketBuffer();
 		_player->SetTarget(req->hTarget);
 		break;
 	}
 	case Opcodes::UG_LOADING_COMPLETE_NFY:
 	{
-		//sLog.outError("UG_LOADING_COMPLETE_NFY");
+		sLog.outError("UG_LOADING_COMPLETE_NFY");
 		/* ADD PLAYER TO MAP */
 		break;
 	}
 	case Opcodes::UG_CHAR_READY_TO_SPAWN:
 	{
-		//sLog.outError("UG_CHAR_READY_TO_SPAWN");
+		sLog.outError("UG_CHAR_READY_TO_SPAWN");
 		Map* m;
 		if ((m = sMapMgr.CreateMap(_player->GetWorldID())) == NULL)
 		{
@@ -120,7 +120,7 @@ void			WorldSession::PacketParser(Packet& packet)
 	}
 	case Opcodes::UG_CHAR_READY:
 	{
-		//sLog.outError("UG_CHAR_READY");
+		sLog.outError("UG_CHAR_READY");
 		sUG_CHAR_READY res;
 		res.byAvatarType = 0;
 		res.wOpCode = UG_CHAR_READY;
@@ -132,43 +132,43 @@ void			WorldSession::PacketParser(Packet& packet)
 #pragma region MOVEMENT
 	case Opcodes::UG_CHAR_CHANGE_HEADING:
 	{
-		//sLog.outError("UG_CHAR_CHANGE_HEADING");
+		sLog.outError("UG_CHAR_CHANGE_HEADING");
 		SendCharHeadChanging(packet);
 		break;
 	}
 	case Opcodes::UG_CHAR_TOGG_SITDOWN:
 	{
-		//sLog.outError("UG_CHAR_TOGG_SITDOWN");
+		sLog.outError("UG_CHAR_TOGG_SITDOWN");
 		SendCharToggleSitDown(packet);
 		break;
 	}
 	case Opcodes::UG_CHAR_MOVE:
 	{
-		//sLog.outError("UG_CHAR_MOVE");
+		sLog.outError("UG_CHAR_MOVE");
 		SendCharMove(packet);
 		break;
 	}
 	case Opcodes::UG_CHAR_AIR_MOVE_SYNC:
 	{
-		//sLog.outError("UG_CHAR_AIR_MOVE_SYNC");
+		sLog.outError("UG_CHAR_AIR_MOVE_SYNC");
 		SendCharMoveSync(packet);
 		break;
 	}
 	case Opcodes::UG_CHAR_JUMP:
 	{
-		//sLog.outError("UG_CHAR_JUMP");
+		sLog.outError("UG_CHAR_JUMP");
 		SendCharJump(packet);
 		break;
 	}
 	case Opcodes::UG_CHAR_JUMP_END:
 	{
-		//sLog.outError("UG_CHAR_JUMP_END");
+		sLog.outError("UG_CHAR_JUMP_END");
 		SendCharJumpEnd(packet);
 		break;
 	}
 	case Opcodes::UG_CHAR_DEST_MOVE:
 	{
-		//sLog.outError("UG_CHAR_DEST_MOVE");
+		sLog.outError("UG_CHAR_DEST_MOVE");
 		SendCharDestLoc(packet);
 		break;
 	}
@@ -177,12 +177,13 @@ void			WorldSession::PacketParser(Packet& packet)
 #pragma region SKILL_SLOT_BUFF_HTB
 	case Opcodes::UG_QUICK_SLOT_UPDATE_REQ:
 	{
-		//sLog.outError("UG_QUICK_SLOT_UPDATE_REQ");
+		sLog.outError("UG_QUICK_SLOT_UPDATE_REQ");
 		SendUpdateQuickSlots(packet);
 		break;
 	}
 	case Opcodes::UG_SOCIAL_ACTION:
 	{
+		sLog.outError("UG_SOCIAL_ACTION");
 		SendSocialSkill(packet);
 		break;
 	}
@@ -192,32 +193,32 @@ void			WorldSession::PacketParser(Packet& packet)
 	/* is this working as it don't handle HLS & Event etc item ? */
 	case Opcodes::UG_ITEM_MOVE_REQ:
 	{
-		//sLog.outError("UG_ITEM_MOVE_REQ");
+		sLog.outError("UG_ITEM_MOVE_REQ");
 		SendItemMove(packet);
 		break;
 	}
 	case Opcodes::UG_ITEM_MOVE_STACK_REQ:
 	{
-		//sLog.outError("UG_ITEM_MOVE_STACK_REQ");
+		sLog.outError("UG_ITEM_MOVE_STACK_REQ");
 		SendItemMoveStack(packet);
 		
 		break;
 	}
 	case Opcodes::UG_ITEM_DELETE_REQ:
 	{
-		//sLog.outError("UG_ITEM_DELETE_REQ");
+		sLog.outError("UG_ITEM_DELETE_REQ");
 		SendRemoveItem(packet);
 		break;
 	}
 	case Opcodes::UG_SHOP_BUY_REQ:
 	{
-	//	sLog.outError("UG_SHOP_BUY_REQ");
+		sLog.outError("UG_SHOP_BUY_REQ");
 		SendShopBuy(packet);
 		break;
 	}
 	case Opcodes::UG_SHOP_SELL_REQ:
 	{
-		//sLog.outError("UG_SHOP_SELL_REQ");
+		sLog.outError("UG_SHOP_SELL_REQ");
 		SendShopSell(packet);
 		break;
 	}
@@ -230,13 +231,13 @@ void			WorldSession::PacketParser(Packet& packet)
 	}
 	case Opcodes::UG_SHOP_END_REQ:
 	{
-		//sLog.outError("UG_SHOP_END_REQ");
+		sLog.outError("UG_SHOP_END_REQ");
 		SendShopRequest(packet, false);
 		break;
 	}
 	case Opcodes::UG_ITEM_EXCHANGE_REQ:
 	{
-		//sLog.outError("UG_ITEM_EXCHANGE_REQ");
+		sLog.outError("UG_ITEM_EXCHANGE_REQ");
 		SendShopItemChange(packet);
 		break;
 	}
@@ -245,7 +246,7 @@ void			WorldSession::PacketParser(Packet& packet)
 #pragma region FIGHT
 	case Opcodes::UG_CHAR_TOGG_FIGHTING:
 	{
-		//sLog.outError("UG_CHAR_TOGG_FIGHTING");
+		sLog.outError("UG_CHAR_TOGG_FIGHTING");
 		sUG_CHAR_TOGG_FIGHTING *req = (sUG_CHAR_TOGG_FIGHTING*)packet.GetPacketBuffer();
 		SendToggleAutoAttack(req->bFightMode);
 		break;
@@ -257,6 +258,7 @@ void			WorldSession::PacketParser(Packet& packet)
 #pragma	region	PACKET_IN_PROGRESS
 	case Opcodes::UG_BUFF_DROP_REQ:
 	{
+		sLog.outError("UG_BUFF_DROP_REQ");
 		sUG_BUFF_DROP_REQ* req = (sUG_BUFF_DROP_REQ*)packet.GetPacketBuffer();
 		sGU_BUFF_DROP_RES DropBuff;
 
@@ -290,6 +292,7 @@ void			WorldSession::PacketParser(Packet& packet)
 	}
 	case Opcodes::UG_CROSSFIRE_REQ: // F keyboard
 	{
+		sLog.outError("UG_CROSSFIRE_REQ");
 		break;
 	}
 	case Opcodes::UG_SKILL_TARGET_LIST:
@@ -301,6 +304,7 @@ void			WorldSession::PacketParser(Packet& packet)
 	}
 	case Opcodes::UG_GIFT_SHOP_START_REQ:
 	{
+		sLog.outError("UG_GIFT_SHOP_START_REQ");
 		sGU_GIFT_SHOP_START_RES GiftStart;
 		
 		GiftStart.wOpCode = GU_GIFT_SHOP_START_RES;
@@ -345,6 +349,7 @@ void			WorldSession::PacketParser(Packet& packet)
 	}
 	case Opcodes::UG_GIFT_SHOP_BUY_REQ:
 	{
+		sLog.outError("UG_GIFT_SHOP_BUY_REQ");
 		sUG_GIFT_SHOP_BUY_REQ *req = (sUG_GIFT_SHOP_BUY_REQ*)packet.GetPacketBuffer();
 		sGU_GIFT_SHOP_BUY_RES GiftShopBuy;
 
@@ -383,6 +388,7 @@ void			WorldSession::PacketParser(Packet& packet)
 	}
 	case Opcodes::UG_SHOP_GAMBLE_BUY_REQ:
 	{
+		sLog.outError("UG_SHOP_GAMBLE_BUY_REQ");
 		sUG_SHOP_GAMBLE_BUY_REQ *req = (sUG_SHOP_GAMBLE_BUY_REQ*)packet.GetPacketBuffer();
 		sGU_SHOP_GAMBLE_BUY_RES res;
 		sITEM_PROFILE createdItem;
@@ -412,6 +418,7 @@ void			WorldSession::PacketParser(Packet& packet)
 	}
 	case Opcodes::UG_CHARTITLE_SELECT_REQ:
 	{
+		sLog.outError("UG_CHARTITLE_SELECT_REQ");
 		sUG_CHARTITLE_SELECT_REQ *req = (sUG_CHARTITLE_SELECT_REQ*)packet.GetPacketBuffer();
 		//Active the Title Sellected			
 		sql::ResultSet* result = sDB.executes("SELECT * FROM `titlelist` WHERE `characterID` = '%d' AND `TitleID` = '%d'", _player->GetCharacterID(), req->TitleID);
@@ -469,6 +476,7 @@ void			WorldSession::PacketParser(Packet& packet)
 	}
 	case Opcodes::UG_DROPITEM_INFO_REQ:
 	{
+		sLog.outError("UG_DROPITEM_INFO_REQ");
 		sUG_DROPITEM_INFO_REQ *req = (sUG_DROPITEM_INFO_REQ*)packet.GetPacketBuffer();
 		sGU_DROPITEM_INFO_RES DropInfo;
 		memset(&DropInfo, 0, sizeof(sGU_DROPITEM_INFO_RES));
@@ -482,18 +490,21 @@ void			WorldSession::PacketParser(Packet& packet)
 	}
 	case Opcodes::UG_ULTIMATE_DUNGEON_ENTER_REQ:
 	{
+		sLog.outError("UG_ULTIMATE_DUNGEON_ENTER_REQ");
 		sUG_ULTIMATE_DUNGEON_ENTER_REQ *req = (sUG_ULTIMATE_DUNGEON_ENTER_REQ*)packet.GetPacketBuffer();
 		SendDangeonTeleport(req->handle, req->Dificulty);
 		break;
 	}
 		case Opcodes::UG_ZENNY_PICK_REQ:
 		{
+			sLog.outError("UG_ZENNY_PICK_REQ");
 			sUG_ZENNY_PICK_REQ *req = (sUG_ZENNY_PICK_REQ*)packet.GetPacketBuffer();
 			SendPickUp(req->handle);
 			break;
 		}
 		case Opcodes::UG_ITEM_PICK_REQ:
 		{
+			sLog.outError("UG_ITEM_PICK_REQ");
 			sUG_ITEM_PICK_REQ *req = (sUG_ITEM_PICK_REQ*)packet.GetPacketBuffer();
 			SendPickUp(req->handle);
 			break;
@@ -511,6 +522,7 @@ void			WorldSession::PacketParser(Packet& packet)
 		}
 		case Opcodes::UG_AUTH_KEY_FOR_COMMUNITY_SERVER_REQ:
 		{
+			sLog.outError("UG_CHAR_LOCATION_SYNC");
 			sGU_AUTH_KEY_FOR_COMMUNITY_SERVER_RES res;
 			
 			res.wOpCode = GU_AUTH_KEY_FOR_COMMUNITY_SERVER_RES;
@@ -560,14 +572,14 @@ void			WorldSession::PacketParser(Packet& packet)
 		// NOT WORKING BECAUSE THIS HANDLE TARGET OF TARGET TOO AND IT IS NOT MADE
 		case Opcodes::UG_CHAR_TARGET_SELECT:
 		{
-			//sLog.outError("UG_CHAR_TARGET_SELECT");
+			sLog.outError("UG_CHAR_TARGET_SELECT");
 			sUG_CHAR_TARGET_SELECT *req = (sUG_CHAR_TARGET_SELECT*)packet.GetPacketBuffer();
 			SendTargetSelection(req->hTarget);
 			break;
 		}
 		case Opcodes::UG_SCOUTER_ACTIVATION_REQ:
 		{
-			//sLog.outError("UG_SCOUTER_ACTIVATION_REQ");
+			sLog.outError("UG_SCOUTER_ACTIVATION_REQ");
 			sUG_SCOUTER_ACTIVATION_REQ *req = (sUG_SCOUTER_ACTIVATION_REQ*)packet.GetPacketBuffer();
 			sGU_SCOUTER_ACTIVATION_RES res;
 			memset(&res, 0, sizeof(sGU_SCOUTER_ACTIVATION_RES));
@@ -613,7 +625,7 @@ void			WorldSession::PacketParser(Packet& packet)
 		}
 		case Opcodes::UG_TS_EXCUTE_TRIGGER_OBJECT:
 		{
-			//sLog.outError("UG_TS_EXCUTE_TRIGGER_OBJECT");
+			sLog.outError("UG_TS_EXCUTE_TRIGGER_OBJECT");
 			sUG_TS_EXCUTE_TRIGGER_OBJECT *req = (sUG_TS_EXCUTE_TRIGGER_OBJECT*)packet.GetPacketBuffer();
 			Map *map = _player->GetMap();
 			//sLog.outDebug("Request handle interaction == %d", req->hTarget);
@@ -633,38 +645,60 @@ void			WorldSession::PacketParser(Packet& packet)
 		}
 		case Opcodes::UG_TS_CONFIRM_STEP_REQ:
 		{
-			//sLog.outError("UG_TS_CONFIRM_STEP_REQ");
+			sLog.outError("UG_TS_CONFIRM_STEP_REQ");
 			//sLog.outDebug("~~~~~~~~~ UG_TS_CONFIRM_STEP_REQ ~~~~~~~~~");
 			SendQuestAcept(packet);			
 			break;
 		}
 		case Opcodes::UG_SKILL_LEARN_REQ:
 		{
-			//sLog.outError("UG_SKILL_LEARN_REQ");
+			sLog.outError("UG_SKILL_LEARN_REQ");
 			sUG_SKILL_LEARN_REQ *req = (sUG_SKILL_LEARN_REQ*)packet.GetPacketBuffer();
 			LearnSkill(req->skillTblidx);
 			break;
 		}
 		case Opcodes::UG_SKILL_UPGRADE_REQ:
 		{
-			//sLog.outError("UG_SKILL_UPGRADE_REQ");
+			sLog.outError("UG_SKILL_UPGRADE_REQ");
 			UpgradeSkill(packet);
 			break;
 		}
 		case Opcodes::UG_CHAR_SKILL_REQ:
 		{
-			//sLog.outError("UG_CHAR_SKILL_REQ");
-		//	sLog.outPacketFile(&packet);
-			//HandleUseSkill(packet);
-			UseSkill(packet);
+			sLog.outError("UG_CHAR_SKILL_REQ");		
+			if (_player->GetState()->sCharStateBase.dwConditionFlag == eCHARCONDITION_FLAG::CHARCOND_SKILL_INABILITY_FLAG ||
+				_player->GetState()->sCharStateBase.dwConditionFlag == eCHARCONDITION_FLAG::CHARCOND_BATTLE_INABILITY_FLAG)
+			{
+				sGU_CHAR_SKILL_RES sSkil;
+				sSkil.wPacketSize = sizeof(sGU_CHAR_SKILL_RES) - 2;
+				sSkil.wOpCode = GU_CHAR_SKILL_RES;
+				sSkil.wResultCode = GAME_SKILL_CANT_CAST_NOW;
+				SendPacket((char*)&sSkil, sizeof(sGU_CHAR_SKILL_RES));
+			}
+			else
+			{
+				if (_player->GetIsSkillCasting() == true)
+				{
+					sGU_CHAR_SKILL_RES sSkil;
+					sSkil.wPacketSize = sizeof(sGU_CHAR_SKILL_RES) - 2;
+					sSkil.wOpCode = GU_CHAR_SKILL_RES;
+					sSkil.wResultCode = GAME_SKILL_CANT_CAST_NOW;
+					SendPacket((char*)&sSkil, sizeof(sGU_CHAR_SKILL_RES));
+				}
+				else
+				UseSkill(packet);
+			}			
 			break;
 		}
 		case Opcodes::UG_CHAR_REVIVAL_REQ:
 		{
+			sLog.outError("UG_CHAR_REVIVAL_REQ");
+			_player->SetIsDead(false);
+			_player->SetIsFighting(false);
 			sGU_UPDATE_CHAR_LP LPs;
 			LPs.wOpCode = GU_UPDATE_CHAR_LP;
 			LPs.wPacketSize = sizeof(sGU_UPDATE_CHAR_LP) - 2;
-			_player->GetPcProfile()->dwCurLP = _player->GetPcProfile()->avatarAttribute.wLastMaxLP - 20;
+			_player->GetPcProfile()->dwCurLP = _player->GetPcProfile()->avatarAttribute.wLastMaxLP %20;
 			LPs.dwLpEpEventId = 0;
 			LPs.handle = _player->GetHandle();
 			LPs.wCurLP = _player->GetPcProfile()->dwCurLP;
@@ -676,11 +710,10 @@ void			WorldSession::PacketParser(Packet& packet)
 			revive.wOpCode = GU_CHAR_REVIVAL_RES;
 			revive.wPacketSize = sizeof(sGU_CHAR_REVIVAL_RES) - 2;
 			revive.wResultCode = GAME_SUCCESS;
-			SendPacket((char*)&revive, sizeof(sGU_CHAR_REVIVAL_RES));					
-			_player->SetIsDead(false);
-			_player->GetState()->sCharStateDetail.sCharStateSpawning.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_TELEPOPO;
-			_player->GetState()->sCharStateDetail.sCharStateSpawning.unk = eTELEPORT_TYPE::TELEPORT_TYPE_TELEPOPO;
-			_player->SetState(eCHARSTATE::CHARSTATE_SPAWNING);
+			SendPacket((char*)&revive, sizeof(sGU_CHAR_REVIVAL_RES));	
+			_player->TeleportToPopo();
+			
+						
 			break;
 		}
 		case Opcodes::UG_CHAR_ATTACK_BEGIN:
@@ -868,7 +901,7 @@ void			WorldSession::PacketParser(Packet& packet)
 			SendAirEnd(packet);			
 			break;
 		}
-		/*case UG_HTB_START_REQ:
+		case UG_HTB_START_REQ:
 		{
 			sUG_HTB_START_REQ* req = (sUG_HTB_START_REQ*)packet.GetPacketBuffer();
 
@@ -879,7 +912,7 @@ void			WorldSession::PacketParser(Packet& packet)
 			HTBStart.wResultCode = GAME_SUCCESS;
 			HTBStart.bySkillSlot = req->bySkillSlot;
 			SendPacket((char*)&HTBStart, sizeof(sGU_HTB_START_RES));
-			int skillID = 2032031;
+			int skillID = _player->HTBID;
 			sGU_UPDATE_CHAR_STATE state;
 
 			state.wPacketSize = sizeof(sGU_UPDATE_CHAR_STATE) - 2;
@@ -889,7 +922,7 @@ void			WorldSession::PacketParser(Packet& packet)
 			state.sCharState.sCharStateBase.byStateID = eCHARSTATE::CHARSTATE_HTB;
 		
 			state.sCharState.sCharStateBase.vCurLoc.x = _player->GetVectorPosition().x;
-			state.sCharState.sCharStateBase.vCurLoc.y = _player->GetVectorPosition().y;
+			state.sCharState.sCharStateBase.vCurLoc.y = _player->GetVectorPosition().y - 15;
 			state.sCharState.sCharStateBase.vCurLoc.z = _player->GetVectorPosition().z;
 			state.sCharState.sCharStateBase.vCurDir.x = _player->GetVectorOriantation().x;
 			state.sCharState.sCharStateBase.vCurDir.y = _player->GetVectorOriantation().y;
@@ -922,9 +955,9 @@ void			WorldSession::PacketParser(Packet& packet)
 						state.sCharState.sCharStateDetail.sCharStateHTB.aHTBSkillResult[byResultCount].sSkillResult.byAttackResult = BATTLE_ATTACK_RESULT_HIT;
 						state.sCharState.sCharStateDetail.sCharStateHTB.aHTBSkillResult[byResultCount].sSkillResult.effectResult[0].Value1 = skillDataOriginal->SkillValue[0];
 						state.sCharState.sCharStateDetail.sCharStateHTB.aHTBSkillResult[byResultCount].sSkillResult.effectResult[1].Value2 = skillDataOriginal->SkillValue[1];
-						state.sCharState.sCharStateDetail.sCharStateHTB.aHTBSkillResult[byResultCount].sSkillResult.vShift.x = 0.0f;
-						state.sCharState.sCharStateDetail.sCharStateHTB.aHTBSkillResult[byResultCount].sSkillResult.vShift.y = 0.0f;
-						state.sCharState.sCharStateDetail.sCharStateHTB.aHTBSkillResult[byResultCount].sSkillResult.vShift.z = 0.0f;
+						state.sCharState.sCharStateDetail.sCharStateHTB.aHTBSkillResult[byResultCount].sSkillResult.vShift.x = _player->GetVectorPosition().x;
+						state.sCharState.sCharStateDetail.sCharStateHTB.aHTBSkillResult[byResultCount].sSkillResult.vShift.y = _player->GetVectorPosition().y - 15;
+						state.sCharState.sCharStateDetail.sCharStateHTB.aHTBSkillResult[byResultCount].sSkillResult.vShift.z = _player->GetVectorPosition().z;
 						state.sCharState.sCharStateDetail.sCharStateHTB.aHTBSkillResult[byResultCount].sSkillResult.byBlockedAction = 255;
 				
 						state.sCharState.sCharStateDetail.sCharStateHTB.byResultCount++;
@@ -935,7 +968,7 @@ void			WorldSession::PacketParser(Packet& packet)
 
 			sWorld.SendToAll((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
 			break;
-		}*/
+		}
 		case Opcodes::UG_CHAR_MOVE_COLLISION:
 		case Opcodes::UG_CHAR_MOVE_COLLISION_END:
 		{			

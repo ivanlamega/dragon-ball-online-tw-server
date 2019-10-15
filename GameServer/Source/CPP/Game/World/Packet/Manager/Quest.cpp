@@ -161,11 +161,11 @@ void WorldSession::GetQuestPortalInfo(DWORD QuestID, DWORD tcCurId, DWORD tcNext
 
 		if (world != NULL)
 		{
-			if (1 != _player->GetWorldID())
+			if (world->outWorldTblidx != _player->GetWorldID())
 			{
 				teleport.bIsToMoveAnotherServer = true;
-				teleport.sWorldInfo.worldID = 1;
-				teleport.sWorldInfo.tblidx = 1;
+				teleport.sWorldInfo.worldID = world->outWorldTblidx;
+				teleport.sWorldInfo.tblidx = world->outWorldTblidx;
 				teleport.sWorldInfo.sRuleInfo.byRuleType = world->byWorldRuleType;
 				_player->GetState()->sCharStateDetail.sCharStateTeleporting.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_WORLD_MOVE;
 			}
@@ -185,8 +185,99 @@ void WorldSession::GetQuestPortalInfo(DWORD QuestID, DWORD tcCurId, DWORD tcNext
 			_player->SetState(eCHARSTATE::CHARSTATE_TELEPORTING);
 
 
-			_player->SetWorldID(1);
-			_player->SetWorldTableID(1);
+			_player->SetWorldID(world->outWorldTblidx);
+			_player->SetWorldTableID(world->outWorldTblidx);
+			_player->Relocate(teleport.vNewLoc.x, teleport.vNewLoc.y, teleport.vNewLoc.z, teleport.vNewDir.x, teleport.vNewDir.y, teleport.vNewDir.z);
+
+			SendPacket((char*)&teleport, sizeof(sGU_CHAR_TELEPORT_RES));
+			Map* map = _player->GetMap();
+			map->Remove(_player, false);
+			_player->ClearListAndReference();
+		}
+	}
+	//SkyDangeon
+	if (QuestID == 4547 && tcCurId == 254)
+	{
+		sGU_CHAR_TELEPORT_RES teleport;
+
+		sWORLD_TBLDAT *world = (sWORLD_TBLDAT*)sTBM.GetWorldTable()->FindData(510000);
+		teleport.wResultCode = GAME_SUCCESS;
+		teleport.wOpCode = GU_CHAR_TELEPORT_RES;
+		teleport.wPacketSize = sizeof(sGU_CHAR_TELEPORT_RES) - 2;
+
+		if (world != NULL)
+		{
+			if (world->tblidx != _player->GetWorldID())
+			{
+				teleport.bIsToMoveAnotherServer = true;
+				teleport.sWorldInfo.worldID = world->tblidx;
+				teleport.sWorldInfo.tblidx = world->tblidx;
+				teleport.sWorldInfo.sRuleInfo.byRuleType = world->byWorldRuleType;
+				_player->GetState()->sCharStateDetail.sCharStateTeleporting.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_WORLD_MOVE;
+			}
+			else
+			{
+				teleport.bIsToMoveAnotherServer = false;
+
+			}
+			teleport.vNewDir.x = world->vStart1Dir.x;
+			teleport.vNewDir.y = world->vStart1Dir.y;
+			teleport.vNewDir.z = world->vStart1Dir.z;
+			teleport.vNewLoc.x = world->vStart1Loc.x;
+			teleport.vNewLoc.y = world->vStart1Loc.y;
+			teleport.vNewLoc.z = world->vStart1Loc.z;
+
+
+			_player->SetState(eCHARSTATE::CHARSTATE_TELEPORTING);
+
+
+			_player->SetWorldID(world->tblidx);
+			_player->SetWorldTableID(world->tblidx);
+			_player->Relocate(teleport.vNewLoc.x, teleport.vNewLoc.y, teleport.vNewLoc.z, teleport.vNewDir.x, teleport.vNewDir.y, teleport.vNewDir.z);
+
+			SendPacket((char*)&teleport, sizeof(sGU_CHAR_TELEPORT_RES));
+			Map* map = _player->GetMap();
+			map->Remove(_player, false);
+			_player->ClearListAndReference();
+		}
+	}
+	if (QuestID == 4548 && tcCurId == 254)
+	{
+		sGU_CHAR_TELEPORT_RES teleport;
+
+		sWORLD_TBLDAT *world = (sWORLD_TBLDAT*)sTBM.GetWorldTable()->FindData(500000);
+		teleport.wResultCode = GAME_SUCCESS;
+		teleport.wOpCode = GU_CHAR_TELEPORT_RES;
+		teleport.wPacketSize = sizeof(sGU_CHAR_TELEPORT_RES) - 2;
+
+		if (world != NULL)
+		{
+			if (world->tblidx != _player->GetWorldID())
+			{
+				teleport.bIsToMoveAnotherServer = true;
+				teleport.sWorldInfo.worldID = world->tblidx;
+				teleport.sWorldInfo.tblidx = world->tblidx;
+				teleport.sWorldInfo.sRuleInfo.byRuleType = world->byWorldRuleType;
+				_player->GetState()->sCharStateDetail.sCharStateTeleporting.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_WORLD_MOVE;
+			}
+			else
+			{
+				teleport.bIsToMoveAnotherServer = false;
+
+			}
+			teleport.vNewDir.x = world->vStart1Dir.x;
+			teleport.vNewDir.y = world->vStart1Dir.y;
+			teleport.vNewDir.z = world->vStart1Dir.z;
+			teleport.vNewLoc.x = world->vStart1Loc.x;
+			teleport.vNewLoc.y = world->vStart1Loc.y;
+			teleport.vNewLoc.z = world->vStart1Loc.z;
+
+
+			_player->SetState(eCHARSTATE::CHARSTATE_TELEPORTING);
+
+
+			_player->SetWorldID(world->tblidx);
+			_player->SetWorldTableID(world->tblidx);
 			_player->Relocate(teleport.vNewLoc.x, teleport.vNewLoc.y, teleport.vNewLoc.z, teleport.vNewDir.x, teleport.vNewDir.y, teleport.vNewDir.z);
 
 			SendPacket((char*)&teleport, sizeof(sGU_CHAR_TELEPORT_RES));

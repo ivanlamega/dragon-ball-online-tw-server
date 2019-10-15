@@ -192,13 +192,13 @@ bool Mob::Create(sMOB_TBLDAT* mobTbl, SpawnMOB spawnInfo)
 	me.curPos = spawnInfo.State.sCharStateBase.vCurLoc; //For spawning individual Mobs
 	me.chainAttackCount = 0;
 	me.MaxchainAttackCount = 0;
-	handle = me.UniqueID = sWorld.AcquireSerialId();
+	handle = me.UniqueID = spawnInfo.Handle;
 	
 	Relocate(me.curPos.x, me.curPos.y, me.curPos.z, me.Spawn_Dir.x, me.Spawn_Dir.y, me.Spawn_Dir.z);	
 	
 	AddToWorld();
 	me.isSpawned = true;
-	respawnTime = 604800000;
+	respawnTime = INVALID_TBLIDX;
 	return true;
 	
 }
@@ -320,6 +320,12 @@ bool Mob::Create(sSPAWN_TBLDAT* spawnTbl, sMOB_TBLDAT* mobTbl)
 	AddToWorld();
 	me.isSpawned = true;
 	respawnTime = me.Spawn_Cool_Time;
+	if (respawnTime <= 5)
+	{
+		respawnTime = INVALID_TBLIDX;
+	}
+
+	
 	
 	return true;
 }
@@ -327,8 +333,7 @@ bool Mob::Create(sSPAWN_TBLDAT* spawnTbl, sMOB_TBLDAT* mobTbl)
 //	Remove from world marco_rafael_@sapo.pt
 //----------------------------------------
 void Mob::Update(uint32 update_diff, uint32 time)
-{
-	
+{	
 	DWORD RegAt = GetTickCount() - TimmerReg;
 	if (RegAt >= 1400)
 	{
@@ -339,12 +344,11 @@ void Mob::Update(uint32 update_diff, uint32 time)
 		else
 		{
 			Respawn();
-		}
-		BossEventRandom = rand() % 100;
+		}		
 		TimmerReg = GetTickCount();
 	}	
 	DWORD MoveAt = GetTickCount() - TimmerMove;
-	if (MoveAt >= 8000)
+	if (MoveAt >= 8000 && GetIsDead() == false)
 	{
 		if (GetState()->sCharStateBase.byStateID == eCHARSTATE::CHARSTATE_STUNNED ||
 			GetState()->sCharStateBase.byStateID == eCHARSTATE::CHARSTATE_PARALYZED ||
@@ -354,13 +358,13 @@ void Mob::Update(uint32 update_diff, uint32 time)
 		}
 		else
 		{
-			//MoveToPoint();
+			MoveToPoint();
 		}
 		
 		TimmerMove = GetTickCount();
 	}
 	DWORD AgroAt = GetTickCount() - TimmerAgro;
-	if (AgroAt >= 1400)
+	if (AgroAt >= 1400 && GetIsDead() == false)
 	{
 		if (GetState()->sCharStateBase.byStateID == eCHARSTATE::CHARSTATE_STUNNED ||
 			GetState()->sCharStateBase.byStateID == eCHARSTATE::CHARSTATE_PARALYZED ||
@@ -420,20 +424,20 @@ void Mob::MoveToPoint()
 		if (randMove >= 0 && randMove <= 4)
 		{
 			//	printf("Mob move to random Loc \n");
-			newPos.x = dbo_move_float_to_pos(me.curPos.x + rand() % 7);
+			newPos.x = dbo_move_float_to_pos(me.curPos.x + rand() % 10);
 			newPos.y = dbo_move_float_to_pos(me.curPos.y);
-			newPos.z = dbo_move_float_to_pos(me.curPos.z + rand() % 7);
+			newPos.z = dbo_move_float_to_pos(me.curPos.z + rand() % 10);
 			res.avDestLoc[0] = newPos;
 		}
 		if (randMove >= 5 && randMove <= 10)
 		{
 			//	printf("Mob move to random Loc \n");
-			newPos.x = dbo_move_float_to_pos(me.curPos.x - rand() % 7);
+			newPos.x = dbo_move_float_to_pos(me.curPos.x - rand() % 10);
 			newPos.y = dbo_move_float_to_pos(me.curPos.y);
-			newPos.z = dbo_move_float_to_pos(me.curPos.z - rand() % 7);
+			newPos.z = dbo_move_float_to_pos(me.curPos.z - rand() % 10);
 			res.avDestLoc[0] = newPos;
 		}
-		if (DistSpawn >= 20)
+		if (DistSpawn >= 14)
 		{
 			//	printf("Mob Back to Spawn Loc \n");
 			newPos.x = dbo_move_float_to_pos(me.Spawn_Loc.x);
@@ -444,7 +448,7 @@ void Mob::MoveToPoint()
 		//Relocate(dbo_move_pos_to_float(newPos.x), dbo_move_pos_to_float(newPos.y), dbo_move_pos_to_float(newPos.z), me.Spawn_Dir.x, me.Spawn_Dir.y, me.Spawn_Dir.z);
 
 		SendToPlayerList((char*)&res, sizeof(sGU_CHAR_DEST_MOVE));
-
+		GetState()->sCharStateBase.byStateID = CHARSTATE_STANDING;
 		GetState()->sCharStateBase.vCurLoc.x = dbo_move_pos_to_float(newPos.x);
 		GetState()->sCharStateBase.vCurLoc.y = dbo_move_pos_to_float(newPos.y);
 		GetState()->sCharStateBase.vCurLoc.z = dbo_move_pos_to_float(newPos.z);
@@ -617,7 +621,7 @@ void Mob::CheckAgro()
 
 
 						DWORD SkillMob = GetTickCount() - MobSkill;
-						if (SkillMob >= 1500)
+						if (SkillMob >= 25000)
 						{
 							int rasdand = rand() % 6;
 							SkillTable * skillTable = sTBM.GetSkillTable();
@@ -676,9 +680,9 @@ void Mob::CheckAgro()
 										//float BleedDemage = DemageValue[i] / 3.5;
 										pBuffData.isactive = 1;
 										pBuffData.Type = 0;
-										pBuffData.BuffInfo[0].SystemEffectValue = skillDataOriginal->SkillValue[0] * 3;
+										pBuffData.BuffInfo[0].SystemEffectValue = skillDataOriginal->SkillValue[0];
 										pBuffData.BuffInfo[0].SystemEffectTime = skillDataOriginal->dwKeepTimeInMilliSecs;
-										pBuffData.BuffInfo[0].dwSystemEffectValue = skillDataOriginal->SkillValue[0] * 3;
+										pBuffData.BuffInfo[0].dwSystemEffectValue = skillDataOriginal->SkillValue[0];
 
 										if (pBuffData.BuffInfo[0].dwSystemEffectValue <= 0 || pBuffData.BuffInfo[0].dwSystemEffectValue > 1000000)
 										{
@@ -855,31 +859,43 @@ void Mob::CheckAgro()
 
 						AttackChain += 1;
 						//	SetState(eCHARSTATE::CHARSTATE_STANDING);						
-						if (AttackChain >= 4 || AttackChain <= 0)
+						if (AttackChain >= 3 || AttackChain <= 0)
 							AttackChain = BATTLE_CHAIN_ATTACK_START;
-						DWORD MonsterAttack = 0;
-						DWORD TargetDefese = 0;
-						DWORD MonsterHitRate = 0;
-						DWORD TargetDodgeRate = 0;
+						float MonsterAttack = 0;
+						float TargetDefese = 0;
+						float MonsterHitRate = 0;
+						float TargetDodgeRate = 0;
 						if (me.Attack_Type == eBATTLE_ATTACK_TYPE::BATTLE_ATTACK_TYPE_PHYSICAL)
 						{
-							 MonsterAttack = me.Basic_physical_Offence;							 
+							 MonsterAttack = me.Basic_physical_Offence;
+							 MonsterAttack += me.Basic_physical_Offence / 100 * me.Str;
 							 TargetDefese = plr->GetPcProfile()->avatarAttribute.wLastPhysicalDefence;
 							 MonsterHitRate = me.Attack_rate;
+							 MonsterHitRate += me.Attack_rate / 100 * me.Foc;
 							 TargetDodgeRate = plr->GetPcProfile()->avatarAttribute.wLastDodgeRate;
 						}
 						if (me.Attack_Type == eBATTLE_ATTACK_TYPE::BATTLE_ATTACK_TYPE_ENERGY)
 						{
 							 MonsterAttack = me.Basic_energy_Offence;
+							 MonsterAttack += me.Basic_energy_Offence / 100 * me.Sol;
 							 TargetDefese = plr->GetPcProfile()->avatarAttribute.wLastEnergyDefence;
 							 MonsterHitRate = me.Attack_rate;
+							 MonsterHitRate += me.Attack_rate / 100 * me.Foc;
 							 TargetDodgeRate = plr->GetPcProfile()->avatarAttribute.wLastDodgeRate;
 						}
-						int TotalAttack = MonsterAttack + TargetDefese;
-						float Attackpercent = MonsterAttack * 100 / TotalAttack;
-						float attackValue = MonsterAttack * Attackpercent / 100;					
-						attackValue *= 2;
-					
+						//int TotalAttack = MonsterAttack + TargetDefese;
+						//float Attackpercent = MonsterAttack * 100 / TotalAttack;
+						//float attackValue = MonsterAttack * Attackpercent / 100;	
+						
+						float attackValue = MonsterAttack * MonsterAttack / (MonsterAttack + TargetDefese);
+						if (attackValue >= 3000)
+						{
+							attackValue = 2888 + rand() % 200;
+						}
+						else
+						{
+							attackValue += me.Level * me.Level / (me.Level  + plr->GetPcProfile()->byLevel);
+						}
 						int HitRate = plr->GetPcProfile()->avatarAttribute.wLastAttackRate;
 						int DodgeRate = me.Attack_rate;
 						float TotalHitPercent = HitRate + DodgeRate;
@@ -1040,7 +1056,7 @@ void Mob::SendDeath()
 			Player* plr = it->getSource();
 			if (plr->IsInWorld() == true && plr->GetSession() != NULL)
 			{
-				
+				BossEventRandom = rand() % 10;
 				float dist = NtlGetDistance(me.curPos.x, me.curPos.z, plr->GetVectorPosition().x, plr->GetVectorPosition().z);
 				if (dist <= 100)
 				{
@@ -1048,16 +1064,53 @@ void Mob::SendDeath()
 					{
 						sWorld.BossEventMajinCurCount += 1;
 					}
-					if (BossEventRandom <= 10 && sWorld.BossEventMajinCurCount <= sWorld.BossEventMajinMaxCount && plr->GetPcProfile()->byLevel >= 40 && me.Level >= 40)
+					if (sWorld.BossEventMajinCurCount <= sWorld.BossEventMajinMaxCount && me.MonsterID == 11261104)
 					{
-						plr->SpawnMobByID(11253101);
+						sWorld.BossEventMajinCurCount += 1;
+					}
+					if (BossEventRandom == 4 && sWorld.BossEventMajinCurCount <= sWorld.BossEventMajinMaxCount && plr->GetPcProfile()->byLevel >= 40 && me.Level >= 40 && me.Level <= 49)
+					{
+						plr->SpawnMobByID(11253101,me.curPos,me.Spawn_Dir);
+						BossEventRandom = rand() % 100;
+					}
+					if (BossEventRandom == 8 && sWorld.BossEventMajinCurCount <= sWorld.BossEventMajinMaxCount && plr->GetPcProfile()->byLevel >= 50 && me.Level >= 50 && me.Level <= 100)
+					{
+						plr->SpawnMobByID(11261104, me.curPos, me.Spawn_Dir);
+						BossEventRandom = rand() % 100;
 					}
 
+					if (sWorld.ActiveEventBoss== true && me.MonsterID == 14351201)
+					{
+						plr->SpawnNpcByID(2413115, me.curPos, me.Spawn_Dir);
+						sWorld.BossNpcTimeDespawn = 60000;//5min NPC go Off
+						sWorld.BossNpcTimeDespawns = GetTickCount();
+						sWorld.NpcIsSpawed = true;
+						sWorld.SendAnnounce("Boss Is Killed At Yellow Map" + plr->GetName());
+					}
+					if (sWorld.ActiveEventBoss == true && me.MonsterID == 11151101)
+					{
+						plr->SpawnNpcByID(2413121, me.curPos, me.Spawn_Dir);
+						sWorld.BossNpcTimeDespawn = 60000;//5min NPC go Off
+						sWorld.BossNpcTimeDespawns = GetTickCount();
+						sWorld.NpcIsSpawed = true;
+						sWorld.SendAnnounce("Boss Is Killed At Red Map" + plr->GetName());
+					}
+					for (int i = 0; i <= 12; i++)
+					{
+						if (sWorld.Boss_Info[i].Handle == me.UniqueID)
+						{
+							printf("Delet Boss On List");
+							sWorld.Boss_Info[i].Handle = INVALID_TBLIDX;
+							sWorld.BossSpawnCount -= 1;							
+						}
+					}
+					
 					plr->SendPacket((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
 					if (attackers == plr->GetHandle())
 					{
 						plr->RewardExpFromMob(me);
 						plr->RewardDropFromMob(me);
+						plr->RewardDropFromBossEvent(me);
 					}
 				}
 			}

@@ -49,9 +49,20 @@ public:
 	bool DragonBallEventa;
 	bool BonusActive;
 	DWORD BonuxEXP;
+	bool ActiveEventBoss;
+	int countbosstime;
+	DWORD BossTime;
 	DWORD BossEventMajinCurCount = 0;
 	DWORD BossEventMajinMaxCount = 50;
+	bool NpcIsSpawed;
+	DWORD BossNpcTimeDespawn;
+	DWORD BossEventTimeRestart;
+	DWORD BossNpcTimeDespawns;//getticktime;
+	DWORD BossEventTimeRestarts;//getticktime;
 	bool BossIsSpawed = false;
+	BYTE BossSpawnCount = 12;
+	HOBJECT NPCHandle[100];
+	HOBJECT KilledBoss[100];
 	sBOSS_INFO Boss_Info[100];
 	int PlayerRankcount = 0;
 	struct RankInfo

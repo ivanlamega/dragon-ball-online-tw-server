@@ -55,7 +55,7 @@ public:
 
 	void				RewardExpFromMob(MonsterData& data);
 	void				RewardDropFromMob(MonsterData& data);
-
+	void				RewardDropFromBossEvent(MonsterData& data);
 	void				UpdateZennyAmount(DWORD amount, eZENNY_CHANGE_TYPE zennyType);
 	void				UpdateModusaAmount(DWORD amount);
 	//	------------------------------------------------------------------------
@@ -131,7 +131,8 @@ public:
 	void				PowerUpUpdate();//incress RP
 	void				NetPYUpdate();//incress RP
 	void				BossEventUpdate();//incress RP
-	void				SpawnMobByID(TBLIDX MobID);//incress RP
+	void				SpawnMobByID(TBLIDX MobID, CNtlVector Loc, CNtlVector Dir);
+	void				SpawnNpcByID(TBLIDX NpcID, CNtlVector Loc, CNtlVector Dir);
 	void				UpdateAspectState(BYTE State);
 	//Effect
 	void				ExecuteEffectCalculation(TBLIDX SkillID, bool isRemove);
@@ -188,6 +189,7 @@ public:
 	Packet packets;
 	//
 	void				TeleportByCommand(TBLIDX WorldID);
+	void				TeleportToPopo();
 	//	------------------------------------------------------------------------
 	// AucionHouse FUNCTIONS
 	//	------------------------------------------------------------------------
@@ -243,11 +245,13 @@ private:
 	float				HitRate[40];
 	BYTE				AttackType[40];
 	BYTE				ObjectType;
+	DWORD				DelayTime;
 	//	------------------------------------------------------------------------
 	// TIMER
 	//	------------------------------------------------------------------------
 	time_t				rpBallTimer;
 	DWORD				NetPyTimmer;
+	//DWORD				BossTimmer;
 	DWORD				NetPyAcumulate = 0;
 	int					countnetpy = 0;
 	DWORD				RegTmmer;
@@ -255,6 +259,9 @@ private:
 	DWORD				TranformationRegTmmer;
 	DWORD				AffectTime;
 	std::string			GuildName;
+	DWORD				WarFrogList[100];
+	int					WarFrogcount;
+	TBLIDX				HTBID;
 
 	void                SetGSHandle();
 

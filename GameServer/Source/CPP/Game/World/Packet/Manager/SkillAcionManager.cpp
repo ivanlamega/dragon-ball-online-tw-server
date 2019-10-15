@@ -19,7 +19,7 @@ void Player::GetAtributesCalculation(HOBJECT Target[32], BYTE MaxApplyTarget, BY
 {	
 	int TargetCount = 0;
 	for (int D = 0; D < MaxApplyTarget; D++)
-	{
+	{		
 		Object* ObjectInfo = static_cast<Object*>(GetFromList(Target[D]));
 		if (ObjectInfo != NULL)
 		{
@@ -134,30 +134,6 @@ void Player::GetAtributesCalculation(HOBJECT Target[32], BYTE MaxApplyTarget, BY
 				int RandomCriticHit = rand() % 100;
 				//printf("Total Critic rate Percent %f \n", TotalCriticRatePercent);
 
-				if (RandomHit <= TotalHitRatePercent && TotalHitRatePercent > 0)
-				{
-					if (RandomCriticHit >= 0 && RandomCriticHit <= TotalCriticRatePercent)
-					{
-						AttackType[TargetCount] = eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_CRITICAL_HIT;
-
-						SkillDemage[TargetCount] *= 2;
-						SkillDemage[TargetCount] / 100 *CriticalDemage[D];
-					}
-					else
-					{
-						AttackType[TargetCount] = eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_HIT;
-					}
-				}
-				else
-				{
-					AttackType[TargetCount] = eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_DODGE;
-					SkillDemage[TargetCount] = 0;
-				}
-				if (SkillDemage[TargetCount] <= 0 || SkillDemage[D] > 1000000000)
-				{
-					SkillDemage[TargetCount] = 0;
-				}
-
 
 				//RP Acion
 				if (byRPBonus == eDBO_RP_BONUS_TYPE::DBO_RP_BONUS_TYPE_KNOCKDOWN)
@@ -205,6 +181,33 @@ void Player::GetAtributesCalculation(HOBJECT Target[32], BYTE MaxApplyTarget, BY
 				{
 					SkillDemage[TargetCount] *= 2;
 				}
+				//Rates Hit/Critic/Dodge
+				if (RandomHit <= TotalHitRatePercent && TotalHitRatePercent > 0)
+				{
+					if (RandomCriticHit >= 0 && RandomCriticHit <= TotalCriticRatePercent)
+					{
+						AttackType[TargetCount] = eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_CRITICAL_HIT;
+
+						SkillDemage[TargetCount] *= 2;
+						SkillDemage[TargetCount] += CriticalDemage[D];
+					}
+					else
+					{
+						AttackType[TargetCount] = eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_HIT;
+					}
+				}
+				else
+				{
+					AttackType[TargetCount] = eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_DODGE;
+					SkillDemage[TargetCount] = 0;
+				}
+				if (SkillDemage[TargetCount] <= 0 || SkillDemage[D] > 1000000000)
+				{
+					SkillDemage[TargetCount] = 0;
+				}
+
+
+				
 				TargetCount += 1;
 			}
 			//
@@ -279,7 +282,7 @@ void Player::GetAtributesCalculation(HOBJECT Target[32], BYTE MaxApplyTarget, BY
 					}
 				}
 				//HitRate
-				int HitRate = GetPcProfile()->avatarAttribute.wLastAttackRate;
+				int HitRate = GetPcProfile()->avatarAttribute.wLastAttackRate + 500;
 				int DodgeRate = MobInfo->GetMobData().Dodge_rate;
 				float TotalHitRate = HitRate + DodgeRate;
 				float TotalHitRatePercent = HitRate * 100 / TotalHitRate;
@@ -292,28 +295,7 @@ void Player::GetAtributesCalculation(HOBJECT Target[32], BYTE MaxApplyTarget, BY
 				int RandomCriticHit = rand() % 100;
 				//	printf("Total Critic rate Percent %f \n", TotalCriticRatePercent);
 
-				if (RandomHit <= TotalHitRatePercent && TotalHitRatePercent > 0)
-				{
-					if (RandomCriticHit >= 0 && RandomCriticHit <= 40)
-					{
-						AttackType[TargetCount] = eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_CRITICAL_HIT;
-						SkillDemage[TargetCount] *= 2;
-						SkillDemage[TargetCount] / 100 * CriticalDemage[TargetCount];
-					}
-					else
-					{
-						AttackType[TargetCount] = eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_HIT;
-					}
-				}
-				else
-				{
-					AttackType[TargetCount] = eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_DODGE;
-					SkillDemage[TargetCount] = 0;
-				}
-				if (SkillDemage[TargetCount] <= 0 || SkillDemage[TargetCount] > 1000000000)
-				{
-					SkillDemage[TargetCount] = 60;
-				}
+
 				if (byRPBonus == eDBO_RP_BONUS_TYPE::DBO_RP_BONUS_TYPE_KNOCKDOWN)
 				{
 					sGU_CHAR_KNOCKDOWN state;
@@ -330,6 +312,30 @@ void Player::GetAtributesCalculation(HOBJECT Target[32], BYTE MaxApplyTarget, BY
 				{
 					SkillDemage[TargetCount] *= 2;
 				}
+				//Rates ~Hit/critic/Dodge
+				if (RandomHit <= TotalHitRatePercent && TotalHitRatePercent > 0)
+				{
+					if (RandomCriticHit >= 0 && RandomCriticHit <= 40)
+					{
+						AttackType[TargetCount] = eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_CRITICAL_HIT;
+						SkillDemage[TargetCount] *= 2;
+						SkillDemage[TargetCount] +=  CriticalDemage[TargetCount];
+					}
+					else
+					{
+						AttackType[TargetCount] = eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_HIT;
+					}
+				}
+				else
+				{
+					AttackType[TargetCount] = eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_DODGE;
+					SkillDemage[TargetCount] = 0;
+				}
+				if (SkillDemage[TargetCount] <= 0 || SkillDemage[TargetCount] > 1000000000)
+				{
+					SkillDemage[TargetCount] = 60;
+				}
+				
 				TargetCount += 1;
 			}
 		}
@@ -340,8 +346,7 @@ void Player::GetAtributesCalculation(HOBJECT Target[32], BYTE MaxApplyTarget, BY
 
 void Player::SkillAcion()
 {
-	SetState(eCHARSTATE::CHARSTATE_SKILL_AFFECTING);
-
+	
 	sUG_CHAR_SKILL_REQ *pCharSkillReq = (sUG_CHAR_SKILL_REQ*)packets.GetPacketBuffer();
 	
 	sGU_CHAR_SKILL_RES sSkil;
@@ -354,8 +359,7 @@ void Player::SkillAcion()
 	SkillTable * skillTable = sTBM.GetSkillTable();
 	sSKILL_TBLDAT * skillDataOriginal = reinterpret_cast<sSKILL_TBLDAT*>(skillTable->FindData(skillID));
 	if (skillDataOriginal != NULL)
-	{
-		GetAtributesCalculation(pCharSkillReq->ahApplyTarget, pCharSkillReq->byApplyTargetCount, skillDataOriginal->bySkill_Type, skillDataOriginal->bySkill_Effect_Type, skillDataOriginal->SkillValue, pCharSkillReq->byRpBonusType);
+	{		
 		if (GetIsDead() == false)
 		{
 			sGU_CHAR_ACTION_SKILL skillRes;
@@ -911,9 +915,9 @@ void Player::SkillAcion()
 					case ACTIVE_ATTACK_RATE_UP://100% 
 					case ACTIVE_DODGE_RATE_UP://100% 
 					case ACTIVE_BLOCK_RATE_UP://100% 
-											  //case ACTIVE_LP_REGENERATION://need Handle the effect is here to try do effects in order 
-											  //case ACTIVE_EP_REGENERATION://need Handle the effect is here to try do effects in order 
-											  //case ACTIVE_RP_CHARGE_SPEED://need Handle the effect is here to try do effects in order 
+					//case ACTIVE_LP_REGENERATION://need Handle the effect is here to try do effects in order 
+					//case ACTIVE_EP_REGENERATION://need Handle the effect is here to try do effects in order 
+					//case ACTIVE_RP_CHARGE_SPEED://need Handle the effect is here to try do effects in order 
 					case ACTIVE_PHYSICAL_CRITICAL:
 					case ACTIVE_ENERGY_CRITICAL:
 					case ACTIVE_SKILL_CASTING_TIME_DOWN:
@@ -977,7 +981,7 @@ void Player::SkillAcion()
 							ExecuteEffectCalculation(pBuffData.tblidx, false);
 
 							GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffID = pBuffData.tblidx;
-							GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffTime = GetTickCount();
+							GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffTime = GetTickCount();							
 							GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffEndTime = pBuffData.dwInitialDuration;
 							GetAttributesManager()->sBuffTimeInfo[FreePlace].PlayerHandle = pBuffData.hHandle;
 							GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffIsActive = true;
@@ -1117,9 +1121,9 @@ void Player::SkillAcion()
 											state.sCharState.sCharStateBase.dwConditionFlag = 0;
 											//	res.sCharState.sCharStateBase.bFightMode = false;
 											state.sCharState.sCharStateBase.dwStateTime = 2;
-
-											sWorld.SendToAll((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
-											//PlayerInfo->SendToPlayerList((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
+											
+											PlayerInfo->SendPacket((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
+											PlayerInfo->SendToPlayerList((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
 										}
 										count = 1;
 										//	printf("count %d \n", count);
@@ -1182,8 +1186,8 @@ void Player::SkillAcion()
 										//	res.sCharState.sCharStateBase.bFightMode = false;
 										state.sCharState.sCharStateBase.dwStateTime = 2;
 
-										sWorld.SendToAll((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
-										// SendToPlayerList((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
+										SendPacket((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
+										SendToPlayerList((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
 
 									}
 									count += 1;
@@ -1262,8 +1266,8 @@ void Player::SkillAcion()
 											//	res.sCharState.sCharStateBase.bFightMode = false;
 											state.sCharState.sCharStateBase.dwStateTime = 2;
 
-											sWorld.SendToAll((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
-											//PlayerInfo->SendToPlayerList((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
+											PlayerInfo->SendPacket((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
+											PlayerInfo->SendToPlayerList((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
 										}
 										count = 1;
 										//	printf("count %d \n", count);
@@ -1326,8 +1330,8 @@ void Player::SkillAcion()
 										//	res.sCharState.sCharStateBase.bFightMode = false;
 										state.sCharState.sCharStateBase.dwStateTime = 2;
 
-										sWorld.SendToAll((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
-										// SendToPlayerList((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
+										SendPacket((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
+										SendToPlayerList((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
 
 									}
 									count += 1;
@@ -1406,8 +1410,8 @@ void Player::SkillAcion()
 											//	res.sCharState.sCharStateBase.bFightMode = false;
 											state.sCharState.sCharStateBase.dwStateTime = 2;
 
-											sWorld.SendToAll((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
-											//PlayerInfo->SendToPlayerList((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
+											PlayerInfo->SendPacket((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
+											PlayerInfo->SendToPlayerList((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
 										}
 										count = 1;
 										//	printf("count %d \n", count);
@@ -1469,8 +1473,8 @@ void Player::SkillAcion()
 										//	res.sCharState.sCharStateBase.bFightMode = false;
 										state.sCharState.sCharStateBase.dwStateTime = 2;
 
-										sWorld.SendToAll((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
-										// SendToPlayerList((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
+										SendPacket((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
+										SendToPlayerList((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
 
 									}
 									count += 1;
@@ -1549,8 +1553,8 @@ void Player::SkillAcion()
 											//	res.sCharState.sCharStateBase.bFightMode = false;
 											state.sCharState.sCharStateBase.dwStateTime = 2;
 
-											sWorld.SendToAll((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
-											//PlayerInfo->SendToPlayerList((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
+											PlayerInfo->SendPacket((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
+											PlayerInfo->SendToPlayerList((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
 										}
 										count = 1;
 										//	printf("count %d \n", count);
@@ -1612,8 +1616,8 @@ void Player::SkillAcion()
 										//	res.sCharState.sCharStateBase.bFightMode = false;
 										state.sCharState.sCharStateBase.dwStateTime = 2;
 
-										sWorld.SendToAll((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
-										// SendToPlayerList((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
+										SendPacket((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
+										SendToPlayerList((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
 
 									}
 									count += 1;
@@ -1699,8 +1703,8 @@ void Player::SkillAcion()
 											//	res.sCharState.sCharStateBase.bFightMode = false;
 											state.sCharState.sCharStateBase.dwStateTime = 2;
 
-											sWorld.SendToAll((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
-											//PlayerInfo->SendToPlayerList((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
+											PlayerInfo->SendPacket((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
+											PlayerInfo->SendToPlayerList((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
 										}
 										count = 1;
 										//printf("count %d \n", count);
@@ -1764,8 +1768,8 @@ void Player::SkillAcion()
 										//	res.sCharState.sCharStateBase.bFightMode = false;
 										state.sCharState.sCharStateBase.dwStateTime = 2;
 
-										sWorld.SendToAll((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
-										// SendToPlayerList((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
+										SendPacket((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
+										SendToPlayerList((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
 
 									}
 									count += 1;
@@ -1844,8 +1848,8 @@ void Player::SkillAcion()
 											//	res.sCharState.sCharStateBase.bFightMode = false;
 											state.sCharState.sCharStateBase.dwStateTime = 2;
 
-											sWorld.SendToAll((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
-											//PlayerInfo->SendToPlayerList((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
+											PlayerInfo->SendPacket((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
+											PlayerInfo->SendToPlayerList((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
 										}
 										count = 1;
 										//	printf("count %d \n", count);
@@ -1908,8 +1912,8 @@ void Player::SkillAcion()
 										//	res.sCharState.sCharStateBase.bFightMode = false;
 										state.sCharState.sCharStateBase.dwStateTime = 2;
 
-										sWorld.SendToAll((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
-										// SendToPlayerList((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
+										SendPacket((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
+										SendToPlayerList((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
 
 									}
 									count += 1;
@@ -1925,14 +1929,14 @@ void Player::SkillAcion()
 					case ACTIVE_SKILL_INABILITY:
 					case ACTIVE_CONFUSE:
 					case ACTIVE_TERROR:
-						//case ACTIVE_MAX_LP_DOWN:
-						//case ACTIVE_MAX_EP_DOWN:
-						//case ACTIVE_MAX_RP_DOWN:
-						//case ACTIVE_PHYSICAL_OFFENCE_DOWN:
-						//case ACTIVE_ENERGY_OFFENCE_DOWN:
-						//case ACTIVE_PHYSICAL_DEFENCE_DOWN:
-						//case ACTIVE_ENERGY_DEFENCE_DOWN:
-						//case ACTIVE_CON_DOWN:
+					case ACTIVE_MAX_LP_DOWN:
+					case ACTIVE_MAX_EP_DOWN:
+					case ACTIVE_MAX_RP_DOWN:
+					case ACTIVE_PHYSICAL_OFFENCE_DOWN:
+					case ACTIVE_ENERGY_OFFENCE_DOWN:
+					case ACTIVE_PHYSICAL_DEFENCE_DOWN:
+					case ACTIVE_ENERGY_DEFENCE_DOWN:
+					case ACTIVE_CON_DOWN:
 					case ACTIVE_MOVE_SPEED_DOWN:
 					{
 						sSkil.wResultCode = GAME_SUCCESS;
@@ -1972,6 +1976,26 @@ void Player::SkillAcion()
 											int FreePlace = 0;
 											for (int i = 0; i <= 32; i++)
 											{
+												if (PlayerInfo->GetAttributesManager()->sBuffTimeInfo[i].BuffID == pBuffData.tblidx)
+												{
+													sGU_BUFF_DROPPED dropbuff;
+													dropbuff.wOpCode = GU_BUFF_DROPPED;
+													dropbuff.wPacketSize = sizeof(sGU_BUFF_DROPPED) - 2;
+													dropbuff.hHandle = GetHandle();
+													dropbuff.bySourceType = eDBO_OBJECT_SOURCE::DBO_OBJECT_SOURCE_SKILL;
+													dropbuff.Slot = 0;
+													dropbuff.tblidx = pBuffData.tblidx;
+													dropbuff.unk1 = 0;
+													PlayerInfo->SendPacket((char*)&dropbuff, sizeof(sGU_BUFF_DROPPED));
+													PlayerInfo->SendToPlayerList((char*)&dropbuff, sizeof(sGU_BUFF_DROPPED));
+													PlayerInfo->GetAttributesManager()->sBuffTimeInfo[i].BuffIsActive = false;
+													PlayerInfo->GetAttributesManager()->sBuffTimeInfo[i].BuffEndTime = INVALID_TBLIDX;
+													PlayerInfo->GetAttributesManager()->sBuffTimeInfo[i].BuffTime = INVALID_TBLIDX;
+													PlayerInfo->GetAttributesManager()->sBuffTimeInfo[i].BuffID = INVALID_TBLIDX;
+													//ExecuteEffectCalculation(pBuffData.tblidx, true);
+													//printf("Alardy got that buff \n");
+													FreePlace = i;
+												}
 												if (PlayerInfo->GetAttributesManager()->sBuffTimeInfo[i].BuffID == 0 || PlayerInfo->GetAttributesManager()->sBuffTimeInfo[i].BuffID == INVALID_TBLIDX)
 												{
 													FreePlace = i;
@@ -2014,6 +2038,26 @@ void Player::SkillAcion()
 										int FreePlace = 0;
 										for (int i = 0; i <= 32; i++)
 										{
+											if (GetAttributesManager()->sBuffTimeInfo[i].BuffID == pBuffData.tblidx)
+											{
+												sGU_BUFF_DROPPED dropbuff;
+												dropbuff.wOpCode = GU_BUFF_DROPPED;
+												dropbuff.wPacketSize = sizeof(sGU_BUFF_DROPPED) - 2;
+												dropbuff.hHandle = GetHandle();
+												dropbuff.bySourceType = eDBO_OBJECT_SOURCE::DBO_OBJECT_SOURCE_SKILL;
+												dropbuff.Slot = 0;
+												dropbuff.tblidx = pBuffData.tblidx;
+												dropbuff.unk1 = 0;
+												SendPacket((char*)&dropbuff, sizeof(sGU_BUFF_DROPPED));
+												SendToPlayerList((char*)&dropbuff, sizeof(sGU_BUFF_DROPPED));
+												GetAttributesManager()->sBuffTimeInfo[i].BuffIsActive = false;
+												GetAttributesManager()->sBuffTimeInfo[i].BuffEndTime = INVALID_TBLIDX;
+												GetAttributesManager()->sBuffTimeInfo[i].BuffTime = INVALID_TBLIDX;
+												GetAttributesManager()->sBuffTimeInfo[i].BuffID = INVALID_TBLIDX;
+												ExecuteEffectCalculation(pBuffData.tblidx, true);
+												//printf("Alardy got that buff \n");
+												FreePlace = i;
+											}
 											if (GetAttributesManager()->sBuffTimeInfo[i].BuffID == 0 || GetAttributesManager()->sBuffTimeInfo[i].BuffID == INVALID_TBLIDX)
 											{
 												FreePlace = i;
@@ -2053,13 +2097,28 @@ void Player::SkillAcion()
 
 						break;
 					}
+					case ACTIVE_TELEPORT_BIND:
+					{
+						sSkil.wResultCode = GAME_SUCCESS;
+
+						skillRes.skillId = skillDataOriginal->tblidx;
+						skillRes.wResultCode = GAME_SUCCESS;
+						skillRes.byRpBonusType = 0;//Untested
+						skillRes.wOpCode = GU_CHAR_ACTION_SKILL;
+						skillRes.handle = GetHandle();//My Handle
+						skillRes.hAppointedTarget = GetHandle();					
+						TeleportToPopo();
+						break;
+					}
 					//NEXT CASE
 					}
 				}
 			}
+			
 			SendPacket((char*)&sSkil, sizeof(sGU_CHAR_SKILL_RES));
 			SendPacket((char*)&skillRes, sizeof(sGU_CHAR_ACTION_SKILL));
-			SendToPlayerList((char*)&skillRes, sizeof(sGU_CHAR_ACTION_SKILL));			
+			SendToPlayerList((char*)&skillRes, sizeof(sGU_CHAR_ACTION_SKILL));	
+			DelayTime = GetTickCount();
 			if (pBuffData.hHandle != 0 && bleed == false || pBuffData.hHandle != INVALID_TBLIDX && bleed == false)
 			{
 				SendPacket((char*)&pBuffData, sizeof(BuffTypeSkill));
