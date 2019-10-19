@@ -7,7 +7,7 @@
 #include <Logger.h>
 #include <World.h>
 #include <Game\Object\Npc.h>
-#include <XmlParser.h>
+#include <XmlParser2/XmlParser2.h>
 
 //----------------------------------------
 //	Send avatar item from database

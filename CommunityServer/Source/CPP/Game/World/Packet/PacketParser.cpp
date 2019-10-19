@@ -12,7 +12,7 @@
 #include <Packet\Community\PacketUT.h>
 #include <Game\Maps\MapManager.h>
 #include <mysqlconn_wrapper.h>
-#include <XmlParser.h>
+#include <XmlParser2/XmlParser2.h>
 
 //----------------------------------------
 //	Parcket parser

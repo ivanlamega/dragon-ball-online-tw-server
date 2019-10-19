@@ -5,7 +5,7 @@
 #include <Opcodes.h>
 #include <Encryptation.h>
 #include <mysqlconn_wrapper.h>
-#include <XmlParser.h>
+#include <XmlParser2/XmlParser2.h>
 #include <Packet\Community\PacketUT.h>
 #include <Packet\Community\PacketTU.h>
 #include <Packet.h>

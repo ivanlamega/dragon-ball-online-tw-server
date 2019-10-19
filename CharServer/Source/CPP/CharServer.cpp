@@ -1,7 +1,7 @@
 #include <iostream>
 #include <CharServer.h>
 #include <mysqlconn_wrapper.h>
-#include <XmlParser.h>
+#include <XmlParser2/XmlParser2.h>
 
 CharServer::CharServer(int _port, int _workerThread) : port(_port), worker(_workerThread)
 {

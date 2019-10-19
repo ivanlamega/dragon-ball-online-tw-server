@@ -13,6 +13,10 @@ $RECYCLE.BIN/
 *.msi
 *.msm
 *.msp
+*.iobj
+*.ipdb
+*.pdb
+*.exe
 
 # Windows shortcuts
 *.lnk
@@ -60,3 +64,5 @@ CommunityServer/Win32/Release/
 DboServer.VC.db
 DboServer.VC.VC.opendb
 Output/
+*.ipch
+*.db

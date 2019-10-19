@@ -6,7 +6,7 @@
 #include <Encryptation.h>
 #include <mysqlconn_wrapper.h>
 #include <Packet\Auth\PacketAU.h>
-#include <XmlParser.h>
+#include <XmlParser2/XmlParser2.h>
 #include <string>
 #include <IPHlpApi.h>
 
