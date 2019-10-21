@@ -5,7 +5,12 @@
 //#include "NTLResultCode.h"
 #include "GameServer.h"
 
-//NTL_TS_IMPLEMENT_RTTI(CGameTriggerCtrl, CDboTSTCtrl)
+#include "QuestRewardTable.h"
+#include "DungeonTable.h"
+#include "WorldTable.h"
+#include "TableContainer.h"
+
+NTL_TS_IMPLEMENT_RTTI(CGameTriggerCtrl, CDboTSTCtrl)
 
 CGameTriggerCtrl::CGameTriggerCtrl()
 {
@@ -16,7 +21,7 @@ CGameTriggerCtrl::~CGameTriggerCtrl()
 {
 }
 
-/*void CGameTriggerCtrl::CheckContainer(CNtlTSCont* pCurCont, CNtlTSCont* pNextCont, CNtlTSTrigger* pTrigger, CDboTSTCtrl* pTriggerCtrl)
+void CGameTriggerCtrl::CheckContainer(CNtlTSCont* pCurCont, CNtlTSCont* pNextCont, CNtlTSTrigger* pTrigger, CDboTSTCtrl* pTriggerCtrl)
 {
 	if (pCurCont){
 		switch (pCurCont->GetEntityType())
@@ -408,22 +413,22 @@ void CGameTriggerCtrl::CheckContAct(CDboTSContGAct* pAct, CNtlTSCont* pParent, C
 void CGameTriggerCtrl::CheckContReward(CDboTSContReward* pReward, CNtlTSCont* pParent)
 {
 	printf("CONT_REWARD\n");
-	CQuestRewardTable* pQuestRewardTable = ((CGameServer*)NtlSfxGetApp())->GetTableContainer()->GetQuestRewardTable();
-	sQUEST_REWARD_TBLDAT* pRewardTblDat = reinterpret_cast<sQUEST_REWARD_TBLDAT*>(pQuestRewardTable->FindData(pReward->GetRewardTableIndex()));
+	//CQuestRewardTable* pQuestRewardTable = ((CGameServer*)NtlSfxGetApp())->GetTableContainer()->GetQuestRewardTable();
+	sQUEST_REWARD_TBLDAT* pRewardTblDat = (sQUEST_REWARD_TBLDAT*)sTBM.GetQuestRewardTable()->FindData(pReward->GetRewardTableIndex());//reinterpret_cast<sQUEST_REWARD_TBLDAT*>(pQuestRewardTable->FindData(pReward->GetRewardTableIndex()));
 	sREWARD_INFO m_pDefRwd[QUEST_REWARD_DEF_MAX_CNT];
 	sREWARD_INFO m_pSelRwd[QUEST_REWARD_SEL_MAX_CNT];
 	//Mount quest values
 	for (int i = 0; i < QUEST_REWARD_DEF_MAX_CNT; i++)
 	{
-		m_pDefRwd[i].m_eType = (eREWARD_TYPE)pRewardTblDat->arsDefRwd[i].byRewardType;
-		m_pDefRwd[i].m_nValue = pRewardTblDat->arsDefRwd[i].dwRewardVal;
-		m_pDefRwd[i].m_uiIdx = pRewardTblDat->arsDefRwd[i].dwRewardIdx;
+		m_pDefRwd[i].m_eType = (eREWARD_TYPE)pRewardTblDat->unk2[i].unk;
+		m_pDefRwd[i].m_nValue = pRewardTblDat->unk2[i].Amount;
+		m_pDefRwd[i].m_uiIdx = pRewardTblDat->unk2[i].Item;
 	}
 	for (int i = 0; i < QUEST_REWARD_SEL_MAX_CNT; i++)
 	{
-		m_pSelRwd[i].m_eType = (eREWARD_TYPE)pRewardTblDat->arsSelRwd[i].byRewardType;
-		m_pSelRwd[i].m_nValue = pRewardTblDat->arsSelRwd[i].dwRewardVal;
-		m_pSelRwd[i].m_uiIdx = pRewardTblDat->arsSelRwd[i].dwRewardIdx;
+		m_pSelRwd[i].m_eType = (eREWARD_TYPE)pRewardTblDat->unk2[i].unk;
+		m_pSelRwd[i].m_nValue = pRewardTblDat->unk2[i].Amount;
+		m_pSelRwd[i].m_uiIdx = pRewardTblDat->unk2[i].Item;
 	}
 	//Now we gona send the quest rewards
 	for (int i = 0; i < QUEST_REWARD_DEF_MAX_CNT; i++)
@@ -575,10 +580,10 @@ void CGameTriggerCtrl::SendActWaitTime(CDboTSActTWaitTS* pActTime)
 }
 void CGameTriggerCtrl::SendActTLQ(CDboTSActTLQ* pTLQ)
 {
-	CDungeonTable* pDgTable = ((CGameServer*)NtlSfxGetApp())->GetTableContainer()->GetDungeonTable();
-	CWorldTable* pWorldTable = ((CGameServer*)NtlSfxGetApp())->GetTableContainer()->GetWorldTable();
-	sDUNGEON_TBLDAT* pDgTbldat = reinterpret_cast<sDUNGEON_TBLDAT*>(pDgTable->FindData(pTLQ->GetDungeonTblIdx()));
-	sWORLD_TBLDAT* pWorldTblDat = reinterpret_cast<sWORLD_TBLDAT*>(pWorldTable->FindData(pDgTbldat->linkWorld));
+	//CDungeonTable* pDgTable = ((CGameServer*)NtlSfxGetApp())->GetTableContainer()->GetDungeonTable();
+	//CWorldTable* pWorldTable = ((CGameServer*)NtlSfxGetApp())->GetTableContainer()->GetWorldTable();
+	sDUNGEON_TBLDAT* pDgTbldat = (sDUNGEON_TBLDAT*)sTBM.GetDungeonTable()->FindData(pTLQ->GetDungeonTblIdx());//reinterpret_cast<sDUNGEON_TBLDAT*>(pDgTable->FindData(pTLQ->GetDungeonTblIdx()));
+	sWORLD_TBLDAT* pWorldTblDat = (sWORLD_TBLDAT*)sTBM.GetWorldTable()->FindData(pDgTbldat->linkWorld);//reinterpret_cast<sWORLD_TBLDAT*>(pWorldTable->FindData(pDgTbldat->linkWorld));
 	sVECTOR3 pos;
 	sVECTOR3 dir;
 	pos.x = pWorldTblDat->vStart1Loc.x;
@@ -793,7 +798,7 @@ void CGameTriggerCtrl::SendEvtTeleport(CDboTSTeleport* pEvtTeleport)
 }
 void CGameTriggerCtrl::SendEvtUseMail(CDboTSUseMail* pEvtUseMail)
 {
-}*/
+}
 
 /*
 	WARNING: the code below is a extract from client-side, i commented that because i dont know if we gonna need follow

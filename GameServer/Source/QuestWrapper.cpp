@@ -1,37 +1,36 @@
 ﻿#include "stdafx.h"
-//#include "NtlUnzip.h"
-//#include "NtlCipher.h"
+#include "NtlUnzip.h"
+#include "NtlCipher.h"
 #include "GameQuestAgency.h"
 #include "GameQuestRecv.h"
 #include "GameTriggerAgency.h"
 #include "GameTriggerRecv.h"
 #include "GameObjectAgency.h"
-//#include "NtlDebug.h"
+#include "NtlDebug.h"
 #include "TableContainer.h"
 #include "WorldTable.h"
 #include "NPCTable.h"
 #include "SpawnTable.h"
 #include "NtlUnzip.h"
-//#include "NtlCipher.h"
+#include "NtlCipher.h"
 #include "QuestWrapper.h"
 #include "GameServer.h"
 
-// nuevos
-#include "../GameServer/Source/libraryquest/DboTrigger/DboTSMain.h"
+#include "NtlTSCoreStatic.h" //quitar
 
 CQuestWrapper* CQuestWrapper::s_pInstance = NULL;
 
-//NTL_TS_IMPLEMENT_RTTI(CQuestWrapper, CDboTSMain)
+NTL_TS_IMPLEMENT_RTTI(CQuestWrapper, CDboTSMain)
 
 CQuestWrapper::CQuestWrapper(void)
 {
-	/*m_bCreated = false;
+	m_bCreated = false;
 
-	m_bSchedulingLoad = false;*/
+	m_bSchedulingLoad = false;
 
 	s_pInstance = this;
 
-	/*m_pQAgency = 0;
+	m_pQAgency = 0;
 	m_pTAgency = 0;
 	m_pObjAgency = 0;
 
@@ -42,7 +41,7 @@ CQuestWrapper::CQuestWrapper(void)
 	m_pclObjectZip = NULL;
 
 	m_pQRecv = 0;
-	m_pTRecv = 0;*/
+	m_pTRecv = 0;
 }
 
 CQuestWrapper::~CQuestWrapper(void)
@@ -64,6 +63,8 @@ bool CQuestWrapper::Create(void)
 	m_pclTriggerZip = new CNtlUnzip;
 	m_pclObjectZip = new CNtlUnzip;
 
+	printf("cargando ts");
+
 	bool bRet = CDboTSMain::Create();
 
 	if (bRet)
@@ -76,7 +77,7 @@ bool CQuestWrapper::Create(void)
 
 void CQuestWrapper::Delete(void)
 {
-	/*ClearAllNPCPosition();
+	ClearAllNPCPosition();
 
 	DeleteAgency_Quest();
 	DeleteAgency_Trigger();
@@ -88,15 +89,15 @@ void CQuestWrapper::Delete(void)
 	SAFE_DELETE(m_pclTriggerZip);
 	SAFE_DELETE(m_pclObjectZip);
 
-	m_bCreated = false;*/
+	m_bCreated = false;
 }
 
-/*void CQuestWrapper::DeleteTrigger(CNtlTSTrigger* pNTLTrigger)
+void CQuestWrapper::DeleteTrigger(CNtlTSTrigger* pNTLTrigger)
 {
 	m_pEntityFactory->DeleteObj((CNtlTSScrObject*&)pNTLTrigger);
-}*/
+}
 
-/*bool CQuestWrapper::LoadLog(void)
+bool CQuestWrapper::LoadLog(void)
 {
 	UnloadLog();
 
@@ -514,13 +515,13 @@ bool CQuestWrapper::LoadEventMapperFromRunTime(void)
 	{
 		m_defEvtMapper[pObj->GetClassName()] = (CNtlTSEvtMapper*)pObj;
 
-		if (!((CDboTSEMNPC*)pObj)->AddBuildData("quest", m_defQuest, ((CGameServer*)NtlSfxGetApp())->GetTableContainer()->GetNpcTable(), NULL))
+		if (!((CDboTSEMNPC*)pObj)->AddBuildData("quest", m_defQuest, sTBM.GetNpcTable(), NULL))//((CGameServer*)NtlSfxGetApp())->GetTableContainer()->GetNpcTable()
 		{
 			CNtlTSLog::Log("Building the npc in the npc event mapper is failed. [%s].", TS_CODE_TRACE());
 			return false;
 		}
 
-		if (!((CDboTSEMNPC*)pObj)->AddBuildData("pctrigger", m_defTrigger, ((CGameServer*)NtlSfxGetApp())->GetTableContainer()->GetNpcTable(), NULL))
+		if (!((CDboTSEMNPC*)pObj)->AddBuildData("pctrigger", m_defTrigger, sTBM.GetNpcTable(), NULL))
 		{
 			CNtlTSLog::Log("Building the npc in the npc event mapper is failed. [%s].", TS_CODE_TRACE());
 			return false;
@@ -531,9 +532,8 @@ bool CQuestWrapper::LoadEventMapperFromRunTime(void)
 		CNtlTSLog::Log("Can not do type cast from CNtlTSControlObject to CDboTSEMNPC. Info[%s]. [%s]", pObj ? pObj->GetClassName() : "NULL", TS_CODE_TRACE());
 		return false;
 	}
-
-	CTableContainer::OBJTABLEIT it = ((CGameServer*)NtlSfxGetApp())->GetTableContainer()->BeginObjectTable();
-	CTableContainer::OBJTABLEIT itEnd = ((CGameServer*)NtlSfxGetApp())->GetTableContainer()->EndObjectTable();
+	TableContainer::OBJTABLEIT it = sTBM.BeginObjectTable();//((CGameServer*)NtlSfxGetApp())->GetTableContainer()->BeginObjectTable();
+	TableContainer::OBJTABLEIT itEnd =sTBM.EndObjectTable();//((CGameServer*)NtlSfxGetApp())->GetTableContainer()->EndObjectTable();
 
 	for (; it != itEnd; ++it)
 	{
@@ -570,13 +570,13 @@ bool CQuestWrapper::LoadEventMapperFromRunTime(void)
 	{
 		m_defEvtMapper[pObj->GetClassName()] = (CNtlTSEvtMapper*)pObj;
 
-		if (!((CDboTSEMItem*)pObj)->AddBuildData("quest", m_defQuest, ((CGameServer*)NtlSfxGetApp())->GetTableContainer()->GetItemTable(), NULL))
+		if (!((CDboTSEMItem*)pObj)->AddBuildData("quest", m_defQuest, sTBM.GetItemTable(), NULL)) //((CGameServer*)NtlSfxGetApp())->GetTableContainer()->GetItemTable()
 		{
 			CNtlTSLog::Log("Building the item in the item event mapper is failed. [%s].", TS_CODE_TRACE());
 			return false;
 		}
 
-		if (!((CDboTSEMItem*)pObj)->AddBuildData("pctrigger", m_defTrigger, ((CGameServer*)NtlSfxGetApp())->GetTableContainer()->GetItemTable(), NULL))
+		if (!((CDboTSEMItem*)pObj)->AddBuildData("pctrigger", m_defTrigger, sTBM.GetItemTable(), NULL))
 		{
 			CNtlTSLog::Log("Building the item in the item event mapper is failed. [%s].", TS_CODE_TRACE());
 			return false;
@@ -685,13 +685,13 @@ bool CQuestWrapper::LoadEventMapperFromRunTime(void)
 	{
 		m_defEvtMapper[pObj->GetClassName()] = (CNtlTSEvtMapper*)pObj;
 
-		if (!((CDboTSEMNPC*)pObj)->AddBuildData("quest", m_defQuest, ((CGameServer*)NtlSfxGetApp())->GetTableContainer()->GetMobTable(), NULL))
+		if (!((CDboTSEMNPC*)pObj)->AddBuildData("quest", m_defQuest, sTBM.GetMobTable(), NULL)) //((CGameServer*)NtlSfxGetApp())->GetTableContainer()->GetMobTable()
 		{
 			CNtlTSLog::Log("Building the mob in the mob event mapper is failed. [%s].", TS_CODE_TRACE());
 			return false;
 		}
 
-		if (!((CDboTSEMNPC*)pObj)->AddBuildData("pctrigger", m_defTrigger, ((CGameServer*)NtlSfxGetApp())->GetTableContainer()->GetMobTable(), NULL))
+		if (!((CDboTSEMNPC*)pObj)->AddBuildData("pctrigger", m_defTrigger, sTBM.GetMobTable(), NULL))
 		{
 			CNtlTSLog::Log("Building the mob in the mob event mapper is failed. [%s].", TS_CODE_TRACE());
 			return false;
@@ -1237,4 +1237,4 @@ CDboTSTCtrl* CQuestWrapper::MakeTriggerControllerTrigger(CNtlTSTrigger* pNTLTrig
 	((CDboTSTCtrl*)pCtrlObj)->SetParent(triggerAgency);
 
 	return (CDboTSTCtrl*)pCtrlObj;
-}*/
+}

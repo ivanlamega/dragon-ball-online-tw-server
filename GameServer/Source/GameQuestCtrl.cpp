@@ -10,7 +10,10 @@
 #include "QuestItemTable.h"
 #include "GameServer.h"
 
-//NTL_TS_IMPLEMENT_RTTI(CGameQuestCtrl, CDboTSQCtrl)
+#include "TableContainer.h"
+#include "QuestRewardTable.h"
+
+NTL_TS_IMPLEMENT_RTTI(CGameQuestCtrl, CDboTSQCtrl)
 
 CGameQuestCtrl::CGameQuestCtrl()
 {
@@ -20,7 +23,7 @@ CGameQuestCtrl::CGameQuestCtrl()
 CGameQuestCtrl::~CGameQuestCtrl()
 {
 }
-/*
+
 void CGameQuestCtrl::CheckContainer(CNtlTSCont* pCurCont, CNtlTSCont* pNextCont, CNtlTSTrigger* pTrigger, CDboTSTCtrl* pTriggerCtrl)
 {
 	if (pCurCont){
@@ -404,22 +407,22 @@ void CGameQuestCtrl::CheckContAct(CDboTSContGAct* pAct, CNtlTSCont* pParent)
 void CGameQuestCtrl::CheckContReward(CDboTSContReward* pReward, CNtlTSCont* pParent)
 {
 	printf("CONT_REWARD\n");
-	CQuestRewardTable* pQuestRewardTable = ((CGameServer*)NtlSfxGetApp())->GetTableContainer()->GetQuestRewardTable();
-	sQUEST_REWARD_TBLDAT* pRewardTblDat = reinterpret_cast<sQUEST_REWARD_TBLDAT*>(pQuestRewardTable->FindData(pReward->GetRewardTableIndex()));
+	//CQuestRewardTable* pQuestRewardTable = ((CGameServer*)NtlSfxGetApp())->GetTableContainer()->GetQuestRewardTable();
+	sQUEST_REWARD_TBLDAT* pRewardTblDat = (sQUEST_REWARD_TBLDAT*)sTBM.GetQuestRewardTable()->FindData(pReward->GetRewardTableIndex());//reinterpret_cast<sQUEST_REWARD_TBLDAT*>(pQuestRewardTable->FindData(pReward->GetRewardTableIndex()));
 	sREWARD_INFO m_pDefRwd[QUEST_REWARD_DEF_MAX_CNT];
 	sREWARD_INFO m_pSelRwd[QUEST_REWARD_SEL_MAX_CNT];
 	//Mount quest values
 	for (int i = 0; i < QUEST_REWARD_DEF_MAX_CNT; i++)
 	{
-		m_pDefRwd[i].m_eType = (eREWARD_TYPE)pRewardTblDat->arsDefRwd[i].byRewardType;
-		m_pDefRwd[i].m_nValue = pRewardTblDat->arsDefRwd[i].dwRewardVal;
-		m_pDefRwd[i].m_uiIdx = pRewardTblDat->arsDefRwd[i].dwRewardIdx;
+		m_pDefRwd[i].m_eType = (eREWARD_TYPE)pRewardTblDat->unk2[i].unk;
+		m_pDefRwd[i].m_nValue = pRewardTblDat->unk2[i].Amount;
+		m_pDefRwd[i].m_uiIdx = pRewardTblDat->unk2[i].Item;
 	}
 	for (int i = 0; i < QUEST_REWARD_SEL_MAX_CNT; i++)
 	{
-		m_pSelRwd[i].m_eType = (eREWARD_TYPE)pRewardTblDat->arsSelRwd[i].byRewardType;
-		m_pSelRwd[i].m_nValue = pRewardTblDat->arsSelRwd[i].dwRewardVal;
-		m_pSelRwd[i].m_uiIdx = pRewardTblDat->arsSelRwd[i].dwRewardIdx;
+		m_pSelRwd[i].m_eType = (eREWARD_TYPE)pRewardTblDat->unk2[i].unk;
+		m_pSelRwd[i].m_nValue = pRewardTblDat->unk2[i].Amount;
+		m_pSelRwd[i].m_uiIdx = pRewardTblDat->unk2[i].Item;
 	}
 	//Now we gona send the quest rewards
 	for (int i = 0; i < QUEST_REWARD_DEF_MAX_CNT; i++)
@@ -697,7 +700,7 @@ void CGameQuestCtrl::SendActSToCEvt(CDboTSActSToCEvt* pActSToCEvt)
 void CGameQuestCtrl::SendActSWProbSF(CDboTSActSWProbSF* pActSWProbSF)
 {
 	printf("ActSWProbSF\n");
-}*/
+}
 /*
 	WARNING: the code below is a extract from client-side, i commented that because i dont know if we gonna need follow
 			 the same process as client, since we are server.
@@ -892,7 +895,6 @@ void CGameQuestCtrl::SendActSWProbSF(CDboTSActSWProbSF* pActSWProbSF)
 //}
 
 //Events
-/*
 void CGameQuestCtrl::SendEvtBindStone(CDboTSBindStone* pEvtBindStone)
 {
 }
@@ -964,4 +966,4 @@ void CGameQuestCtrl::SendEvtTeleport(CDboTSTeleport* pEvtTeleport)
 }
 void CGameQuestCtrl::SendEvtUseMail(CDboTSUseMail* pEvtUseMail)
 {
-}*/
+}

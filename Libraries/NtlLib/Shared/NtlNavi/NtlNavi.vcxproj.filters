@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Precomp">
+      <UniqueIdentifier>{1cdf4bfe-b03f-4829-8c5f-3a69db4495b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implement">
+      <UniqueIdentifier>{1450e59d-a194-4429-ac17-00d1dd1223c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implement\Serialization">
+      <UniqueIdentifier>{bb3ae35b-add8-4f4a-b72a-fa6731a7b62d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implement\Entity">
+      <UniqueIdentifier>{aad1e2ca-89ec-4386-9e72-684382145853}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implement\Entity\WE Entity">
+      <UniqueIdentifier>{f405dfb6-c635-4ee6-a5c5-96d019b94b10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implement\Entity\PE Entity">
+      <UniqueIdentifier>{9d4ad309-177b-438e-9562-b0d763d36baf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implement\Utility">
+      <UniqueIdentifier>{81730a1b-fd8b-4806-8cc2-9a10fedd3035}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implement\PathEngine wrapper">
+      <UniqueIdentifier>{151faef4-35f3-4b9a-b11c-c88fdcb93165}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implement\Log">
+      <UniqueIdentifier>{3653f058-ffb8-4e46-90c9-707f81b6d038}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implement\Exporter">
+      <UniqueIdentifier>{7d202ae0-cc07-4ae5-b4ed-53751be1370b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implement\LoadingQueue">
+      <UniqueIdentifier>{3f0411ad-8b23-4e3e-82c2-cc63320f258c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implement\Importer">
+      <UniqueIdentifier>{81f816d2-b9d7-48ff-95c0-b47b1d892715}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interface">
+      <UniqueIdentifier>{63cb301a-b4c4-4529-b2aa-af82813198e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PathEngine">
+      <UniqueIdentifier>{7d0e9fcd-abb7-414f-897c-7f8b54aed1ff}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="precomp_navi.cpp">
+      <Filter>Precomp</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\NtlNaviImp.cpp">
+      <Filter>Implement</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\NtlNaviPEDataExportMng.cpp">
+      <Filter>Implement\Serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\NtlNaviPEDataImportMng.cpp">
+      <Filter>Implement\Serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\NtlNaviWEWorld.cpp">
+      <Filter>Implement\Entity\WE Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\NtlNaviPEWorld.cpp">
+      <Filter>Implement\Entity\PE Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\NtlNaviResMng.cpp">
+      <Filter>Implement\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\NtlNaviUtility.cpp">
+      <Filter>Implement\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\NtlNaviPathEngine.cpp">
+      <Filter>Implement\PathEngine wrapper</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\NtlNaviLog.cpp">
+      <Filter>Implement\Log</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\NtlNaviIDGroupExporter.cpp">
+      <Filter>Implement\Exporter</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\NtlNaviODGroupExporter.cpp">
+      <Filter>Implement\Exporter</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\NtlNaviPEHeightMapFVMesh.cpp">
+      <Filter>Implement\Exporter</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\NtlNaviPENaviFVMesh.cpp">
+      <Filter>Implement\Exporter</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\NtlNaviLoadFinishCheckThread.cpp">
+      <Filter>Implement\LoadingQueue</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\NtlNaviLoadingQueue.cpp">
+      <Filter>Implement\LoadingQueue</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\NtlNaviPEImporter.cpp">
+      <Filter>Implement\Importer</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="precomp_navi.h">
+      <Filter>Precomp</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\NtlNaviImp.h">
+      <Filter>Implement</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\NtlNaviPEDataExportMng.h">
+      <Filter>Implement\Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\NtlNaviPEDataImportMng.h">
+      <Filter>Implement\Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\NtlNaviEntity.h">
+      <Filter>Implement\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\NtlNaviWEWorld.h">
+      <Filter>Implement\Entity\WE Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\NtlNaviPEWorld.h">
+      <Filter>Implement\Entity\PE Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\NtlNaviMatrix3.h">
+      <Filter>Implement\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\NtlNaviMatrix4.h">
+      <Filter>Implement\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\NtlNaviResMng.h">
+      <Filter>Implement\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\NtlNaviUtility.h">
+      <Filter>Implement\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\NtlNaviVector3.h">
+      <Filter>Implement\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\NtlNaviVector4.h">
+      <Filter>Implement\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\NtlNaviPathEngine.h">
+      <Filter>Implement\PathEngine wrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\NtlNaviLog.h">
+      <Filter>Implement\Log</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\NtlNaviIDGroupExporter.h">
+      <Filter>Implement\Exporter</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\NtlNaviODGroupExporter.h">
+      <Filter>Implement\Exporter</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\NtlNaviPEHeightMapFVMesh.h">
+      <Filter>Implement\Exporter</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\NtlNaviPENaviFVMesh.h">
+      <Filter>Implement\Exporter</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\NtlNaviLoadFinishCheckThread.h">
+      <Filter>Implement\LoadingQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\NtlNaviLoadingQueue.h">
+      <Filter>Implement\LoadingQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\NtlNaviSync.h">
+      <Filter>Implement\LoadingQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\NtlNaviPEImporter.h">
+      <Filter>Implement\Importer</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlNavi.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlNaviDefine.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="PathEngine\i_pathengine.h">
+      <Filter>PathEngine</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Source\NtlNaviMatrix3.inl">
+      <Filter>Implement\Utility</Filter>
+    </None>
+    <None Include="Source\NtlNaviMatrix4.inl">
+      <Filter>Implement\Utility</Filter>
+    </None>
+    <None Include="Source\NtlNaviVector3.inl">
+      <Filter>Implement\Utility</Filter>
+    </None>
+    <None Include="Source\NtlNaviVector4.inl">
+      <Filter>Implement\Utility</Filter>
+    </None>
+    <None Include="PathEngine\PathEngine.dll">
+      <Filter>PathEngine</Filter>
+    </None>
+    <None Include="PathEngine\PathEngine_x64.dll">
+      <Filter>PathEngine</Filter>
+    </None>
+  </ItemGroup>
+</Project>

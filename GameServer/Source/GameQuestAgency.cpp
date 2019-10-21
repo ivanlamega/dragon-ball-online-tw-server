@@ -14,26 +14,26 @@
 #include "GameServer.h"
 
 
-//NTL_TS_IMPLEMENT_RTTI(CGameQuestAgency, CDboTSQAgency)
+NTL_TS_IMPLEMENT_RTTI(CGameQuestAgency, CDboTSQAgency)
 
 
 CGameQuestAgency::CGameQuestAgency(void)
 {
-	//m_QuestInfo.QuestInfoList.reserve(10);
+	m_QuestInfo.QuestInfoList.reserve(10);
 }
 
 CGameQuestAgency::~CGameQuestAgency(void)
 {
-	/*mapdef_TRIGGER_LIST::iterator it = m_defCurTList.begin();
+	mapdef_TRIGGER_LIST::iterator it = m_defCurTList.begin();
 	for (; it != m_defCurTList.end(); ++it)
 	{
 		CNtlTSControlObject* pObj = it->second;
 		m_pParent->GetControlFactory()->DeleteObj(pObj);
 	}
-	m_defCurTList.clear();*/
+	m_defCurTList.clear();
 }
 
-/*CDboTSTCtrl* CGameQuestAgency::MakeTriggerController(CNtlTSTrigger* pTrig)
+CDboTSTCtrl* CGameQuestAgency::MakeTriggerController(CNtlTSTrigger* pTrig)
 {
 	// Quest controller 를 생성한다
 	CNtlTSControlObject* pCtrlObj = GetParent()->GetControlFactory()->CreateObj("CDboTSSQCtrl");
@@ -49,4 +49,4 @@ CGameQuestAgency::~CGameQuestAgency(void)
 	((CGameQuestCtrl*)pCtrlObj)->SetParent(this);
 
 	return (CGameQuestCtrl*)pCtrlObj;
-}*/
+}
