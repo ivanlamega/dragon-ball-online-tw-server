@@ -13,6 +13,10 @@ $RECYCLE.BIN/
 *.msi
 *.msm
 *.msp
+*.iobj
+*.ipdb
+*.pdb
+*.exe
 
 # Windows shortcuts
 *.lnk
@@ -63,3 +67,4 @@ Output/
 *.log
 *.suo
 *.ipch
+*.db

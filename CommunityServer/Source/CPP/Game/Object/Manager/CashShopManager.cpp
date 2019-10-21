@@ -5,7 +5,7 @@
 #include <Opcodes.h>
 #include <Encryptation.h>
 #include <mysqlconn_wrapper.h>
-#include <XmlParser.h>
+#include <XmlParser2/XmlParser2.h>
 #include <Packet\Community\PacketUT.h>
 #include <Packet\Community\PacketTU.h>
 #include <Packet.h>
@@ -147,8 +147,10 @@ void CommunitySession::SendHlsSlotMachineExtract(Packet packet)
 
 			item.sInfo.ItemHLSTableID = myArray[req->MachineID - 1][peekUp];//need Correct ItemID for Machine
 			item.sInfo.byStackCount = res.ByItemCount;//Item count
-			for (int i = 0; i <= 9; i++) { item.unk1[i] = 0; }
-			for (int i = 0; i <= 17; i++) { item.awchName[i] = 0; }
+			//for (int i = 0; i <= 9; i++) { item.unk1[i] = 0; }
+			//for (int i = 0; i <= 17; i++) { item.awchName[i] = 0; }
+			memset(item.unk1, 0, sizeof item.unk1);
+			memset(item.awchName, 0, sizeof item.awchName);
 			//Time of Item Creation
 			item.Year = 2017;
 			item.Moch = 12;

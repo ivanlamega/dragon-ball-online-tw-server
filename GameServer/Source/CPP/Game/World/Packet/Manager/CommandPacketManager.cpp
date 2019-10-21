@@ -498,7 +498,7 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 	}
 	else
 	{
-		if (strToken == "@additem")
+		if (strToken == "@additem") // for non gm players
 		{
 			strToken = str.substr(pos + 1, std::string::npos);
 			unsigned int uiTblId = (unsigned int)atof(strToken.c_str());
@@ -510,7 +510,14 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 				SendItemCreate(&createdItem);
 			}
 			return;
-		}			
+		}
+		else if (strToken == "@unstuck") // for non gm players
+			{
+				strToken = str.substr(pos + 1, std::string::npos);
+				unsigned int Point = (unsigned int)atof(strToken.c_str());
+				_player->TeleportByCommand(1);
+				return;
+			}
 		else
 		{
 			sGU_SYSTEM_DISPLAY_TEXT sNotice;

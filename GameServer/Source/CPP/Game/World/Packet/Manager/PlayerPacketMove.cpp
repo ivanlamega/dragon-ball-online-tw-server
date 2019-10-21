@@ -6,7 +6,7 @@
 #include <mysqlconn_wrapper.h>
 #include <Logger.h>
 #include <World.h>
-#include <XmlParser.h>
+#include <XmlParser2/XmlParser2.h>
 
 //----------------------------------------
 //	Sync the correct sate of our character

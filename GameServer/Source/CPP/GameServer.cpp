@@ -5,7 +5,7 @@
 #include <CliRunnable.h>
 #include <World.h>
 #include <mysqlconn_wrapper.h>
-#include <XmlParser.h>
+#include <XmlParser2/XmlParser2.h>
 
 #include <iostream>
 #include <signal.h>

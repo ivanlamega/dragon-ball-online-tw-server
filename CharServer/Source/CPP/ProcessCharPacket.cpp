@@ -5,7 +5,7 @@
 #include <Opcodes.h>
 #include <Encryptation.h>
 #include <mysqlconn_wrapper.h>
-#include <XmlParser.h>
+#include <XmlParser2/XmlParser2.h>
 #include <Packet\Char\PacketUC.h>
 #include <Packet\Char\PacketCU.h>
 
@@ -63,7 +63,7 @@ bool CharSocket::GetCharacterServerList(Packet &packet, bool one)
 		sprintf_s(snode, "Server%d", i + 1);
 		sinfo.serverFarmInfo.serverFarmId = i;
 		
-		memcpy(sinfo.serverFarmInfo.wszGameServerFarmName, charToWChar(sXmlParser.GetStr(snode, "Name")), MAX_SIZE_SERVER_FARM_NAME_UNICODE);
+		memcpy(sinfo.serverFarmInfo.wszGameServerFarmName, charToWChar(sXmlParser.GetStr(snode, "Name").c_str()), MAX_SIZE_SERVER_FARM_NAME_UNICODE);
 		
 		sinfo.serverFarmInfo.dwLoad = result->getInt("population") / 2;
 		sinfo.serverFarmInfo.dwMaxLoad = sXmlParser.GetInt(snode, "MaxLoad");
@@ -412,7 +412,7 @@ bool CharSocket::SendCharSelect(Packet &packet)
 	char serverSelected[20];
 	sprintf_s(serverSelected, "Server%u", ServerID + 1);
 	sprintf_s(channelSelected, "Channel%u", req->byServerChannelIndex + 1);
-	memcpy(res.szGameServerIP, sXmlParser.GetChildStr(serverSelected, channelSelected, "IP"), MAX_LENGTH_OF_IP);
+	memcpy(res.szGameServerIP, sXmlParser.GetChildStr(serverSelected, channelSelected, "IP").c_str(), MAX_LENGTH_OF_IP);
 	res.wGameServerPortForClient = sXmlParser.GetChildInt(serverSelected, channelSelected, "Port");
 	res.charId = req->charId;
 	res.wResultCode = CHARACTER_SUCCESS;

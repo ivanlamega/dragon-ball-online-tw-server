@@ -1,0 +1,232 @@
+ -- Gm Players Commands
+ 
+@level  (@level 70)
+@tp     (@tp 1)
+@KamiSama
+@setspeed
+@addtitle  (@addtitle 1 to 50)
+@god
+@Exp_Bonus
+@setclass  (@setclass 7) for fighter
+@setsize
+@setnight
+@addmob  (@addmob 7011101) for examble Raditz
+@addmobgrup  (@addmobgrup 11261104) for boss event
+@GiveItem
+@additem  (@additem 200001) for dragonball
+@addallskill
+@addhtb
+@dbhuntstart (@dbhuntstart 1 to stars or 0 to close)
+@Announce
+@Notice
+@Set_Attack_Speed
+
+#Pets Commands
+
+Plant
+@additem 6000056
+@additem 6000057
+@additem 6000058
+@additem 6000059
+
+Dragon
+@additem 6000060
+@additem 6000061
+@additem 6000062
+@additem 6000063
+
+Robot
+@additem 6000064
+@additem 6000065
+@additem 6000066
+@additem 6000067
+
+Puar
+@additem 6000068
+@additem 6000069
+@additem 6000070
+@additem 6000071
+
+ -- Non Gm Players Commands
+ 
+@additem
+@unstuck
+
+# Some ids for testing the server
+
+-- DragonBalls
+
+@additem 200001  - 1 Star DragonBall                    
+@additem 200002  - 2 Star DragonBall	                    
+@additem 200003  - 3 Star DragonBall	                    
+@additem 200004  - 4 Star DragonBall	                    
+@additem 200005  - 5 Star DragonBall	                   
+@additem 200006  - 6 Star DragonBall	                    
+@additem 200007  - 7 Star DragonBall 
+
+-- Mobs
+
+@addmob 7011101- Raditz
+@addmob 8211111  - Dinasour 
+@addmob 1711101 - Pig
+@addmob 7511101 - Green Water Lizard
+@addmob 1581101 - Vegeta
+@addmob 5711101 - Nappa
+@addmob 1213101 - Dracula
+@addmob 1212101 - Dracula 2
+@addmob 1211101 - Dracula3
+@addmob 4612101 - Cyborg 8000 (TMQ1)
+@addmob 2312119 - Lizzard
+@addmob 2131101 - Blue Rat
+@addmob 2611102 - Yellow Scraper Robot
+@addmob 2612104 - Red Scraper Robot
+@addmob 2914101 - Eye Robot
+@addmob 4264101 - Bee with Spikes
+@addmob 4311101 - Squirrel
+@addmob 4311201 - White Squirrel
+@addmob 4311302 - Red Squirrel
+@addmob 4611201 - Big Cyborg 8000
+@addmob 4611219 - Cyborg 8000 (TMQ3)
+@addmob 4612134 - Cyborg 8000 (TMQ3)
+@addmob 4912107 - Pink Squirrel
+@addmob 5011101 - Korin
+@addmob 5681201 - Gohan Monkey
+@addmob 5682101 - Vegeta Monkey
+@addmob 5951107 - UD3 Boss
+@addmob 6011101 - Robot Blue
+@addmob 6012101 - Robot Violet
+@addmob 6611113 - Bear
+@addmob 6582107 - Pilaf
+@addmob 7485101 - Julia 
+@addmob 1612101 - Masked Man
+@addmob 5811110 - Snake
+@addmob 1651201 - Big Robot 
+@addmob 1656101 - R. P Robot 
+@addmob 7451101 - Grandfather Gohan
+@addmob 5722101 - RP Cannon Van             
+@addmob 6681101 - Pure Buu 
+
+  --World id
+
+id	name
+	1	DBO_Main_World
+	2	DBO_Dungeon_001
+	3	DBO_Dungeon_002
+	4	DBO_Dungeon_003
+	5	DBO_Town_001
+	6	DBO_Dungeon_004
+	7	DBO_Dungeon_005
+	9	DBO_Dungeon_006
+	10	DBO_Dungeon_007
+	11	DBO_SZone_001
+	12	DBO_SZone_002
+	13	DBO_Dungeon_ETC
+	14	DBO_WZone_001
+	15	DBO_Main_World_02(Papaya)
+	100	DBO_Budoh_001
+	101	DBO_Budoh_001
+	102	DBO_Budoh_001
+	103	DBO_Budoh_001
+	104	DBO_Budoh_001
+	200	DBO_Budoh_001
+	500	DBO_Dojo_001
+	501	DBO_Dojo_001
+	502	DBO_Dojo_001
+	503	DBO_Dojo_001
+	504	DBO_Dojo_001
+	505	DBO_Dojo_001
+	506	DBO_Dojo_001
+	9999	DBO_Start_001
+	10000	DBO_Dungeon_000
+	11000	DBO_Quest_001
+	12000	DBO_Battle_001
+	13000	DBO_Battle_001
+	28000	DBO_Quest_002
+	30000	DBO_Budoh_002
+	31000	DBO_Budoh_003
+	32000	DBO_Budoh_003
+	40000	DBO_Budoh_002
+	41000	DBO_Budoh_003
+	42000	DBO_Budoh_003
+	43000	DBO_Battle_002
+	44000	DBO_Battle_002
+	45000	DBO_Battle_003
+	46000	DBO_Battle_003
+	60000	DBO_Quest_001
+	70000	DBO_Quest_002
+	80000	DBO_Quest_003
+	90000	DBO_Dungeon_001
+	100000	DBO_Quest_003
+	110000	DBO_Dungeon_001
+	120000	DBO_TLQ_001
+	130000	DBO_Quest_004
+	140000	DBO_Quest_004
+	150000	DBO_TLQ_001
+	160000	DBO_TLQ_001
+	170000	DBO_TLQ_002
+	180000	DBO_TLQ_002
+	190000	DBO_TLQ_002
+	191000	DBO_Quest_001
+	192000	DBO_Quest_002
+	193000	DBO_Quest_003
+	195000	DBO_Quest_005
+	196000	DBO_Quest_006
+	197000	DBO_Quest_007
+	198000	DBO_Quest_005
+	199000	DBO_Quest_006
+	200000	DBO_PDungeon_001
+	210000	DBO_DWC_001
+	211000	DBO_DWC_001
+	212000	DBO_DWC_001
+	213000	DBO_DWC_001
+	300000	DBO_PDungeon_001
+	310000	DBO_PDungeon_001
+	400000	DBO_TLQ_003
+	410000	DBO_TLQ_003
+	420000	DBO_TLQ_003
+	430000	DBO_TEST
+	500000	DBO_PDungeon_002
+	510000	DBO_SKDungeon_001
+	511000	DBO_SKDungeon_001
+	512000	DBO_SKDungeon_001
+	600000	DBO_PDungeon_002
+	610000	DBO_PDungeon_002
+	700000	DBO_PDungeon_003
+	710000	DBO_PDungeon_003
+	712000	DBO_PDungeon_004
+	713000	DBO_PDungeon_004
+	715000	DBO_PDungeon_005
+	717000	DBO_PDungeon_006
+	800000	DBO_Town_002(korin Tower)
+	801000	DBO_Town_003(DEF Test Center)
+	802000	DBO_Town_003
+	803000	DBO_Town_003
+	804000	DBO_Town_003
+	805000	DBO_Town_003
+	806000	DBO_Town_003
+	807000	DBO_Town_003
+	808000	DBO_Town_003
+	809000	DBO_Town_003
+	810000	DBO_Town_003
+	811000	DBO_Town_003
+	812000	DBO_Town_003
+	900000	DBO_BDungeon_001
+	900020	DBO_BDungeon_002
+	900030	DBO_BDungeon_003
+	900040	DBO_BDungeon_004
+	910000	DBO_CDungeon_001
+	
+-- Sub Class id
+
+7 - Fighter
+8 - Swordman
+9 - Crane hermit
+10 -Turtle hermit
+13 - Dark warrior
+14 - Shadow knight
+15 - dende healer
+16 - poko summoner
+17 - ultimate majin
+18 - grand majin
+19 - plasma majin
+20 - karma majin	

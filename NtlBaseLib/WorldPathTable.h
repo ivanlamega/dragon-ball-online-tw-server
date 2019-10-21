@@ -5,6 +5,7 @@
 #include "NtlWorld.h"
 #include <map>
 #include <vector>
+#include <iostream>
 
 
 struct sPATH_POINT

@@ -14,7 +14,7 @@
 #include <Packet\Community\PacketTU.h>
 #include <Game\Maps\MapManager.h>
 #include <mysqlconn_wrapper.h>
-#include <XmlParser.h>
+#include <XmlParser2/XmlParser2.h>
 #include <ctime>
 
 //----------------------------------------
