@@ -1,5 +1,3 @@
-#ifndef _NTL_UNZIP_H_
-#define _NTL_UNZIP_H_
 
 
 #ifdef __cplusplus
@@ -67,8 +65,8 @@ protected:
 
 // Constructions and Destructions
 public:
-	CNtlUnzip( const char* szFilePath = 0 );
-	virtual ~CNtlUnzip( void );
+	CNtlUnzip(const char* szFilePath = 0) {};
+	virtual ~CNtlUnzip(void) {};
 
 // Methods
 public:
@@ -103,5 +101,3 @@ public:
 }
 #endif
 
-
-#endif

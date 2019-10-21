@@ -99,6 +99,12 @@
     <Filter Include="Source Files\Game\Quest\LibraryQuest\DboTrigger">
       <UniqueIdentifier>{9de74039-21c2-44f9-8d2f-1037be85d4e8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Game\Quest\LibraryQuest\NtlTrigger">
+      <UniqueIdentifier>{eac24b03-437b-46f1-8333-c94a6aca9b91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\Quest\LibraryQuest\NtlTrigger">
+      <UniqueIdentifier>{f7ea6f73-a523-43ba-98c4-24810557d724}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -269,6 +275,9 @@
     <ClCompile Include="Source\libraryquest\DboTrigger\DboTSMain.cpp">
       <Filter>Source Files\Game\Quest\LibraryQuest\DboTrigger</Filter>
     </ClCompile>
+    <ClCompile Include="Source\libraryquest\NtlTrigger\NtlTSMain.cpp">
+      <Filter>Source Files\Game\Quest\LibraryQuest\NtlTrigger</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Header\GameServer.h">
@@ -363,6 +372,9 @@
     </ClInclude>
     <ClInclude Include="Source\libraryquest\DboTrigger\DboTSMain.h">
       <Filter>Header Files\Game\Quest\LibraryQuest\DboTrigger</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\libraryquest\NtlTrigger\NtlTSMain.h">
+      <Filter>Header Files\Game\Quest\LibraryQuest\NtlTrigger</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

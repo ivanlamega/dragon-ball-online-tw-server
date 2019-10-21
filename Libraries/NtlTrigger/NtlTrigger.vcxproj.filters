@@ -194,9 +194,6 @@
     <ClInclude Include="NtlTSUIFactoryType.h">
       <Filter>UI\Factory</Filter>
     </ClInclude>
-    <ClInclude Include="NtlTSUIObject.h">
-      <Filter>UI\Factory</Filter>
-    </ClInclude>
     <ClInclude Include="NtlTSRTTI.h">
       <Filter>Utility\RTTI</Filter>
     </ClInclude>
@@ -238,6 +235,9 @@
     </ClInclude>
     <ClInclude Include="NtlTSCoreStatic.h">
       <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlTSUIObject.h">
+      <Filter>UI\Factory</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

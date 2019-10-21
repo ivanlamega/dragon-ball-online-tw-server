@@ -47,10 +47,10 @@
       <UniqueIdentifier>{1b91e7d4-b0dc-434c-b5ea-9f8d328d5f12}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\XmlParser2">
-      <UniqueIdentifier>{10572b11-6a66-4b1d-adc6-231ccf04515e}</UniqueIdentifier>
+      <UniqueIdentifier>{fa4fff68-0351-4105-8466-8d502767b611}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\XmlParser2">
-      <UniqueIdentifier>{aeeaa692-59bb-437e-9382-3b6567f23ffc}</UniqueIdentifier>
+      <UniqueIdentifier>{2d2d1ca2-323c-4677-bc6a-c59bc63865ed}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

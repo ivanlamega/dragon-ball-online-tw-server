@@ -1,4 +1,5 @@
-
+#ifndef _NTL_TSRTTI_H_
+#define _NTL_TSRTTI_H_
 
 
 /** 
@@ -9,24 +10,13 @@
 //////////////////////////////////////////////////////////////////////////
 
 
-#define NTL_TS_DECLARE_RTTI( classname, baseclassname ) \
-	public: \
-		CNtlTSRTTI test = baseclassname::RTTI; \
-		const CNtlTSRTTI	RTTI = CNtlTSRTTI(#classname, &test); \
+#define NTL_TS_DECLARE_RTTI \
+		static	const CNtlTSRTTI	RTTI; \
 		virtual	const CNtlTSRTTI&	GetRTTI( void )	const { return RTTI; } \
 				const char*			GetClassName( void ) const { return GetRTTI().GetClassName(); } \
 				bool				IsSameClass( const CNtlTSRTTI& clVal ) const { return GetRTTI().IsSameClass( clVal ); } \
 				bool				IsDerivedClass( const CNtlTSRTTI& clVal ) const { return GetRTTI().IsDerivedClass( clVal ); } \
 				bool				IsDerivedClass( const std::string& strClassName ) const { return GetRTTI().IsDerivedClass( strClassName ); }
-
-#define NTL_TS_DECLARE_RTTI_ROOT(classname) \
-public: \
-	const CNtlTSRTTI	RTTI = CNtlTSRTTI(#classname, 0); \
-	virtual	const CNtlTSRTTI&	GetRTTI(void)	const { return RTTI; } \
-		const char*			GetClassName(void) const { return GetRTTI().GetClassName(); } \
-		bool				IsSameClass(const CNtlTSRTTI& clVal) const { return GetRTTI().IsSameClass(clVal); } \
-		bool				IsDerivedClass(const CNtlTSRTTI& clVal) const { return GetRTTI().IsDerivedClass(clVal); } \
-		bool				IsDerivedClass(const std::string& strClassName) const { return GetRTTI().IsDerivedClass(strClassName); }
 
 
 #define NTL_TS_IMPLEMENT_RTTI_ROOT( classname ) \
@@ -58,7 +48,7 @@ private:
 
 // Constructions and Destructions
 public:
-	CNtlTSRTTI(const char* pClassName, const CNtlTSRTTI* pBaseRTTI) {};
+	CNtlTSRTTI( const char* pClassName, const CNtlTSRTTI* pBaseRTTI );
 
 
 // ¸â¹ö ÇÔ¼ö.
@@ -78,3 +68,5 @@ public:
 
 //////////////////////////////////////////////////////////////////////////
 
+
+#endif

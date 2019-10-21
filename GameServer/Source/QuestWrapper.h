@@ -1,6 +1,6 @@
 #pragma once
 //#include "DboTSCore.h"
-//#include "../Source/libraryquest/DboTrigger/DboTSMain.h"
+#include "DboTSMain.h"
 #include "NtlVector.h"
 #include <map>
 struct sUZ_FILEINFO;
@@ -12,6 +12,7 @@ class CGameObjectAgency;
 class CGameQuestRecv;
 class CGameTriggerRecv;
 class CNtlUnzip;
+class CDboTSMain;
 
 class CQuestWrapper: public CDboTSMain
 {
@@ -101,7 +102,7 @@ protected:
 	// NPC Position list
 	mapdef_NPC_POS_LIST					m_defNPCPosList;
 
-	virtual bool						LoadLog(void);
+	/*virtual bool						LoadLog(void);
 	virtual void						UnloadLog(void);
 
 	virtual bool						LoadFactories(void);
@@ -123,7 +124,7 @@ protected:
 
 	bool								HasEventMapperFromFile(void);
 	bool								LoadEventMapperFromFile(void);
-	bool								LoadEventMapperFromRunTime(void);
+	bool								LoadEventMapperFromRunTime(void);*/
 
 };
 

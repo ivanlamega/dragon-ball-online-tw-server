@@ -1,5 +1,6 @@
 #include "precomp_trigger.h"
 #include "NtlTSMain.h"
+//#include "NtlTSRTTI.h"
 
 
 /** 
@@ -7,8 +8,8 @@
 */
 
 
-NTL_TS_IMPLEMENT_RTTI( CNtlTSMain, CNtlTSUIObject )
-//const CNtlTSRTTI	CNtlTSMain::RTTI("CNtlTSMain", &CNtlTSUIObject::RTTI);
+//NTL_TS_IMPLEMENT_RTTI( CNtlTSMain, CNtlTSUIObject )
+
 
 CNtlTSMain::CNtlTSMain( void )
 {

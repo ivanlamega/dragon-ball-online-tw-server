@@ -370,6 +370,7 @@
       <PrecompiledHeaderFile>precomp_trigger.h</PrecompiledHeaderFile>
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <AdditionalIncludeDirectories>$(SolutionDir)Libraries\NtlTrigger;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release4ClientLocalizeDev|x64'">
@@ -481,13 +482,13 @@
     <ClInclude Include="NtlTSControlFactory.h" />
     <ClInclude Include="NtlTSControlFactoryType.h" />
     <ClInclude Include="NtlTSControlObject.h" />
+    <ClInclude Include="NtlTSUIObject.h" />
     <ClInclude Include="precomp_trigger.h" />
     <ClInclude Include="NtlTSAgency.h" />
     <ClInclude Include="NtlTSMain.h" />
     <ClInclude Include="NtlTSRecv.h" />
     <ClInclude Include="NtlTSUIFactory.h" />
     <ClInclude Include="NtlTSUIFactoryType.h" />
-    <ClInclude Include="NtlTSUIObject.h" />
     <ClInclude Include="NtlTSRTTI.h" />
     <ClInclude Include="NtlTSLog.h" />
     <ClInclude Include="NtlTSScrFactory.h" />

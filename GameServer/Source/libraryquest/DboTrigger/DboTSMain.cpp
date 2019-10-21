@@ -1,5 +1,7 @@
 #include "precomp_trigger.h"
 #include "DboTSMain.h"
+//#include "NtlTSMain.h"
+//#include "NtlTSRTTI.h"
 /*#include "DboTSEntityFactory.h"
 #include "DboTSCtrlFactory.h"
 #include "DboTSUIFactory.h"
@@ -16,6 +18,7 @@
 
 
 //NTL_TS_IMPLEMENT_RTTI( CDboTSMain, CNtlTSMain )
+//const CNtlTSRTTI	CDboTSMain::RTTI("CDboTSMain", &CNtlTSMain::RTTI);
 
 
 CDboTSMain::CDboTSMain( void )
@@ -29,20 +32,20 @@ CDboTSMain::CDboTSMain( void )
 CDboTSMain::~CDboTSMain( void )
 {
 }
-/*
+
 bool CDboTSMain::Create( void )
 {
 	// log
-	if ( !LoadLog() )
+	/*if ( !LoadLog() )
 	{
 		Delete();
 		return false;
-	}
+	}*/
 
 	// factory
 	if ( !LoadFactories() )
 	{
-		CNtlTSLog::Log( "Loading factories is failed. [%s]", TS_CODE_TRACE() );
+		//CNtlTSLog::Log( "Loading factories is failed. [%s]", TS_CODE_TRACE() );
 		Delete();
 		return false;
 	}
@@ -50,7 +53,7 @@ bool CDboTSMain::Create( void )
 	// loading scripts
 	if ( !LoadScripts() )
 	{
-		CNtlTSLog::Log( "Loading the TS scripts is failed. [%s]", TS_CODE_TRACE() );
+		//CNtlTSLog::Log( "Loading the TS scripts is failed. [%s]", TS_CODE_TRACE() );
 		Delete();
 		return false;
 	}
@@ -58,7 +61,7 @@ bool CDboTSMain::Create( void )
 	// loading event mapper
 	if ( !LoadEventMappers() )
 	{
-		CNtlTSLog::Log( "Loading event mappers is failed. [%s]", TS_CODE_TRACE() );
+		//CNtlTSLog::Log( "Loading event mappers is failed. [%s]", TS_CODE_TRACE() );
 		Delete();
 		return false;
 	}
@@ -66,7 +69,7 @@ bool CDboTSMain::Create( void )
 	// loading receiver
 	if ( !LoadRecv() )
 	{
-		CNtlTSLog::Log( "Loading receivers is failed. [%s]", TS_CODE_TRACE() );
+		//CNtlTSLog::Log( "Loading receivers is failed. [%s]", TS_CODE_TRACE() );
 		Delete();
 		return false;
 	}
@@ -80,9 +83,9 @@ void CDboTSMain::Delete( void )
 	UnloadEventMappers();
 	UnloadAllScripts();
 	UnloadFactories();
-	UnloadLog();
+	//UnloadLog();
 }
-
+/*
 CDboTSMain::hashdef_EVT_MAPPER_LIST& CDboTSMain::GetEventMapper( void )
 {
 	return m_defEvtMapper;
@@ -124,7 +127,7 @@ void CDboTSMain::UnloadLog( void )
 		m_pLog = 0;
 	}
 }
-
+*/
 bool CDboTSMain::LoadFactories( void )
 {
 	return true;
@@ -169,10 +172,10 @@ bool CDboTSMain::LoadTSPath( std::string strPath, mapdef_TLIST& defTList )
 	HANDLE hFind = INVALID_HANDLE_VALUE;
 	std::string strSearchSpec( strPath + "*" );
 
-	hFind = FindFirstFile( strSearchSpec.c_str(), &FindFileData );
+	hFind = FindFirstFile( (LPCWSTR)strSearchSpec.c_str(), &FindFileData );
 	if ( INVALID_HANDLE_VALUE == hFind )
 	{
-		CNtlTSLog::Log( "Can not find the scripts to load. Info[%s]. [%s]", strPath.c_str(), TS_CODE_TRACE() );
+		//CNtlTSLog::Log( "Can not find the scripts to load. Info[%s]. [%s]", strPath.c_str(), TS_CODE_TRACE() );
 		return false;
 	}
 
@@ -181,7 +184,7 @@ bool CDboTSMain::LoadTSPath( std::string strPath, mapdef_TLIST& defTList )
 		if ( FILE_ATTRIBUTE_DIRECTORY != (FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) &&
 			 '.' != FindFileData.cFileName[0] )
 		{
-			LoadTriggerObject( strPath, FindFileData.cFileName, defTList );
+			//LoadTriggerObject( strPath, FindFileData.cFileName, defTList );
 		}
 	}
 	while ( FindNextFile( hFind, &FindFileData ) != 0 );
@@ -190,7 +193,7 @@ bool CDboTSMain::LoadTSPath( std::string strPath, mapdef_TLIST& defTList )
 
 	return true;
 }
-
+/*
 bool CDboTSMain::LoadTSZip( std::string strFile, mapdef_TLIST& defTList )
 {
 	char szFPath[_MAX_DIR];

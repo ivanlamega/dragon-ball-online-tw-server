@@ -1,4 +1,5 @@
 ﻿#include "stdafx.h"
+#include <string> // quitar
 //#include "NtlUnzip.h"
 //#include "NtlCipher.h"
 #include "GameQuestAgency.h"
@@ -17,7 +18,8 @@
 #include "GameServer.h"
 
 // nuevos
-#include "../GameServer/Source/libraryquest/DboTrigger/DboTSMain.h"
+//#include "DboTSMain.h"
+#//include "NtlTSRTTI.h"
 
 CQuestWrapper* CQuestWrapper::s_pInstance = NULL;
 

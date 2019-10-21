@@ -1,7 +1,7 @@
 #include <iostream>
 #include <AuthServer.h>
 #include <mysqlconn_wrapper.h>
-#include <XmlParser2/XmlParser2.h>
+#include "XmlParser2\XmlParser2.h"
 
 AuthServer::AuthServer(int _port, int _workerThread) : port(_port), worker(_workerThread)
 {

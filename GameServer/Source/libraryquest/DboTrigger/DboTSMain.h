@@ -3,7 +3,8 @@
 
 
 //#include "DboTSCoreDefine.h"
-
+#include "NtlTSMain.h"
+#include "NtlTSRTTI.h"
 
 class CDboTSEntityFactory;
 class CDboTSCtrlFactory;
@@ -11,6 +12,8 @@ class CDboTSUIFactory;
 class CDboTSQAgency;
 class CDboTSQRecv;
 class CNtlUnzip;
+class CNtlTSMain;
+class CNtlTSRTTI;
 
 
 /** 
@@ -20,9 +23,16 @@ class CNtlUnzip;
 */
 
 
-class CDboTSMain// : public CNtlTSMain
+class CDboTSMain : public CNtlTSMain
 {
-	//NTL_TS_DECLARE_RTTI
+	NTL_TS_DECLARE_RTTI(CDboTSMain, CNtlTSMain)
+/*public:
+	static	const CNtlTSRTTI	RTTI; 
+	virtual	const CNtlTSRTTI&	GetRTTI(void)	const { return RTTI; } 
+	const char*			GetClassName(void) const { return GetRTTI().GetClassName(); } 
+	bool				IsSameClass(const CNtlTSRTTI& clVal) const { return GetRTTI().IsSameClass(clVal); } 
+	bool				IsDerivedClass(const CNtlTSRTTI& clVal) const { return GetRTTI().IsDerivedClass(clVal); } 
+	bool				IsDerivedClass(const std::string& strClassName) const { return GetRTTI().IsDerivedClass(strClassName); }*/
 
 // Declarations
 public:
@@ -48,7 +58,7 @@ public:
 
 // Methods
 public:
-	virtual bool						Create( void );
+	virtual bool						Create(void);
 	virtual void						Delete( void );
 
 	/*CDboTSEntityFactory*				GetEntityFactory( void );
@@ -58,12 +68,12 @@ public:
 	hashdef_EVT_MAPPER_LIST&			GetEventMapper( void );
 	CNtlTSEvtMapper*					FindEventMapper( const std::string& strMapper );
 
-	void								DeleteAgency( CNtlTSAgency*& pTSAgency );
+	void								DeleteAgency( CNtlTSAgency*& pTSAgency );*/
 
 // Implementations
 protected:
-	virtual bool						LoadLog( void );
-	virtual void						UnloadLog( void );
+	//virtual bool						LoadLog( void );
+	//virtual void						UnloadLog( void );
 
 	virtual bool						LoadFactories( void );
 	virtual void						UnloadFactories( void );
@@ -80,7 +90,7 @@ protected:
 	// 지정된 폴더를 포함한 하위 폴더들에 대한 TS 파일( .t )들을 로딩한다
 	bool								LoadTSPath( std::string strPath, mapdef_TLIST& defTList );
 	// Zip 파일안의 TS 파일( .t )들을 로딩한다
-	bool								LoadTSZip( std::string strFile, mapdef_TLIST& defTList );
+	/*bool								LoadTSZip( std::string strFile, mapdef_TLIST& defTList );
 	// 암호화된 Zip 파일안의 TS 파일( .t )들을 로딩한다
 	bool								LoadTSCryptoData( std::string strFile, mapdef_TLIST& defTList );
 	// 암호화된 파일안의 Zip 파일을 로딩한다
