@@ -499,7 +499,7 @@ CREATE TABLE `mail` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `CharacterID` int(11) DEFAULT NULL,
   `byDay` tinyint(2) DEFAULT NULL,
-  `tCreateTime` int(50) NOT NULL,
+  `tCreateTime` int(50) DEFAULT NULL,
   `SenderType` tinyint(1) NOT NULL DEFAULT 0,
   `byMailType` tinyint(1) NOT NULL,
   `byTextSize` int(10) DEFAULT NULL,
