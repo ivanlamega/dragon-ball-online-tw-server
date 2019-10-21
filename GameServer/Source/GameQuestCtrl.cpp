@@ -2,7 +2,7 @@
 #include "GameQuestCtrl.h"
 #include "GameQuestRecv.h"
 #include "GameQuestAgency.h"
-#include "NTLResultCode.h"
+//#include "NTLResultCode.h"
 #include "QuestWrapper.h"
 #include "TableContainer.h"
 #include "ObjectTable.h"
@@ -10,7 +10,7 @@
 #include "QuestItemTable.h"
 #include "GameServer.h"
 
-NTL_TS_IMPLEMENT_RTTI(CGameQuestCtrl, CDboTSQCtrl)
+//NTL_TS_IMPLEMENT_RTTI(CGameQuestCtrl, CDboTSQCtrl)
 
 CGameQuestCtrl::CGameQuestCtrl()
 {
@@ -20,7 +20,7 @@ CGameQuestCtrl::CGameQuestCtrl()
 CGameQuestCtrl::~CGameQuestCtrl()
 {
 }
-
+/*
 void CGameQuestCtrl::CheckContainer(CNtlTSCont* pCurCont, CNtlTSCont* pNextCont, CNtlTSTrigger* pTrigger, CDboTSTCtrl* pTriggerCtrl)
 {
 	if (pCurCont){
@@ -697,7 +697,7 @@ void CGameQuestCtrl::SendActSToCEvt(CDboTSActSToCEvt* pActSToCEvt)
 void CGameQuestCtrl::SendActSWProbSF(CDboTSActSWProbSF* pActSWProbSF)
 {
 	printf("ActSWProbSF\n");
-}
+}*/
 /*
 	WARNING: the code below is a extract from client-side, i commented that because i dont know if we gonna need follow
 			 the same process as client, since we are server.
@@ -892,6 +892,7 @@ void CGameQuestCtrl::SendActSWProbSF(CDboTSActSWProbSF* pActSWProbSF)
 //}
 
 //Events
+/*
 void CGameQuestCtrl::SendEvtBindStone(CDboTSBindStone* pEvtBindStone)
 {
 }
@@ -963,4 +964,4 @@ void CGameQuestCtrl::SendEvtTeleport(CDboTSTeleport* pEvtTeleport)
 }
 void CGameQuestCtrl::SendEvtUseMail(CDboTSUseMail* pEvtUseMail)
 {
-}
+}*/

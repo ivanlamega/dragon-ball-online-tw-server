@@ -1,17 +1,17 @@
 #pragma once
-#include "DboTSCore.h"
+//#include "DboTSCore.h"
 
 class CGameTriggerCtrl;
 
-class CGameTriggerAgency : public CDboTSTAgency
+class CGameTriggerAgency //: public CDboTSTAgency
 {
-	NTL_TS_DECLARE_RTTI
+	//NTL_TS_DECLARE_RTTI
 protected:
-	SGET_QUEST_INFO						m_TriggerInfo;
+	//SGET_QUEST_INFO						m_TriggerInfo;
 public:
 	CGameTriggerAgency();
 	~CGameTriggerAgency();
 	// Implementations
-	virtual CDboTSTCtrl*				MakeTriggerController(CNtlTSTrigger* pTrig);
+	//virtual CDboTSTCtrl*				MakeTriggerController(CNtlTSTrigger* pTrig);
 };
 

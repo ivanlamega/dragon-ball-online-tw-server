@@ -1,34 +1,37 @@
 ﻿#include "stdafx.h"
-#include "NtlUnzip.h"
-#include "NtlCipher.h"
+//#include "NtlUnzip.h"
+//#include "NtlCipher.h"
 #include "GameQuestAgency.h"
 #include "GameQuestRecv.h"
 #include "GameTriggerAgency.h"
 #include "GameTriggerRecv.h"
 #include "GameObjectAgency.h"
-#include "NtlDebug.h"
+//#include "NtlDebug.h"
 #include "TableContainer.h"
 #include "WorldTable.h"
 #include "NPCTable.h"
 #include "SpawnTable.h"
 #include "NtlUnzip.h"
-#include "NtlCipher.h"
+//#include "NtlCipher.h"
 #include "QuestWrapper.h"
 #include "GameServer.h"
 
+// nuevos
+#include "../GameServer/Source/libraryquest/DboTrigger/DboTSMain.h"
+
 CQuestWrapper* CQuestWrapper::s_pInstance = NULL;
 
-NTL_TS_IMPLEMENT_RTTI(CQuestWrapper, CDboTSMain)
+//NTL_TS_IMPLEMENT_RTTI(CQuestWrapper, CDboTSMain)
 
 CQuestWrapper::CQuestWrapper(void)
 {
-	m_bCreated = false;
+	/*m_bCreated = false;
 
-	m_bSchedulingLoad = false;
+	m_bSchedulingLoad = false;*/
 
 	s_pInstance = this;
 
-	m_pQAgency = 0;
+	/*m_pQAgency = 0;
 	m_pTAgency = 0;
 	m_pObjAgency = 0;
 
@@ -39,7 +42,7 @@ CQuestWrapper::CQuestWrapper(void)
 	m_pclObjectZip = NULL;
 
 	m_pQRecv = 0;
-	m_pTRecv = 0;
+	m_pTRecv = 0;*/
 }
 
 CQuestWrapper::~CQuestWrapper(void)
@@ -73,7 +76,7 @@ bool CQuestWrapper::Create(void)
 
 void CQuestWrapper::Delete(void)
 {
-	ClearAllNPCPosition();
+	/*ClearAllNPCPosition();
 
 	DeleteAgency_Quest();
 	DeleteAgency_Trigger();
@@ -85,15 +88,15 @@ void CQuestWrapper::Delete(void)
 	SAFE_DELETE(m_pclTriggerZip);
 	SAFE_DELETE(m_pclObjectZip);
 
-	m_bCreated = false;
+	m_bCreated = false;*/
 }
 
-void CQuestWrapper::DeleteTrigger(CNtlTSTrigger* pNTLTrigger)
+/*void CQuestWrapper::DeleteTrigger(CNtlTSTrigger* pNTLTrigger)
 {
 	m_pEntityFactory->DeleteObj((CNtlTSScrObject*&)pNTLTrigger);
-}
+}*/
 
-bool CQuestWrapper::LoadLog(void)
+/*bool CQuestWrapper::LoadLog(void)
 {
 	UnloadLog();
 
@@ -1234,4 +1237,4 @@ CDboTSTCtrl* CQuestWrapper::MakeTriggerControllerTrigger(CNtlTSTrigger* pNTLTrig
 	((CDboTSTCtrl*)pCtrlObj)->SetParent(triggerAgency);
 
 	return (CDboTSTCtrl*)pCtrlObj;
-}
+}*/

@@ -1,14 +1,14 @@
 #pragma once
-#include "DboTSCore.h"
+//#include "DboTSCore.h"
 
 class CGameQuestCtrl;
 class CGameQuestAgency;
 
 //Server Quest Receiver
 
-struct sSQRUN_PARAM : public sQRUN_PARAM
+struct sSQRUN_PARAM //: public sQRUN_PARAM
 {
-public:
+/*public:
 	sSQRUN_PARAM(void) : bQuestShare(false), bQuestShareOutMsg(false), bCheckForQuestMark(false) { return; }
 
 public:
@@ -30,12 +30,12 @@ protected:
 	bool								bQuestShare;
 	bool								bQuestShareOutMsg;
 
-	bool								bCheckForQuestMark;
+	bool								bCheckForQuestMark;*/
 };
 
-class CGameQuestRecv : public CDboTSQRecv
+class CGameQuestRecv// : public CDboTSQRecv
 {
-	NTL_TS_DECLARE_RTTI
+	//NTL_TS_DECLARE_RTTI
 public:
 	CGameQuestRecv();
 	~CGameQuestRecv();

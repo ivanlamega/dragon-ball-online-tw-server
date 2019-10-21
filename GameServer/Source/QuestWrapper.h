@@ -1,5 +1,8 @@
 #pragma once
-#include "DboTSCore.h"
+//#include "DboTSCore.h"
+//#include "../Source/libraryquest/DboTrigger/DboTSMain.h"
+#include "NtlVector.h"
+#include <map>
 struct sUZ_FILEINFO;
 class CNPCTable;
 class CObjectTable;
@@ -10,9 +13,9 @@ class CGameQuestRecv;
 class CGameTriggerRecv;
 class CNtlUnzip;
 
-class CQuestWrapper : public CDboTSMain
+class CQuestWrapper: public CDboTSMain
 {
-	NTL_TS_DECLARE_RTTI
+	//NTL_TS_DECLARE_RTTI
 	// Declarations
 public:
 	typedef unsigned __int64 NPC_POS_KEY;
@@ -34,8 +37,8 @@ public:
 	virtual bool						Create(void);
 	virtual void						Delete(void);
 	bool								IsCreated(void);
-	void								DeleteTrigger(CNtlTSTrigger* pNTLTrigger);
-	CDboTSTCtrl*						MakeTriggerControllerQuest(CNtlTSTrigger* pNTLTrigger, CDboTSQAgency* questAgency);
+	//void								DeleteTrigger(CNtlTSTrigger* pNTLTrigger);
+	/*CDboTSTCtrl*						MakeTriggerControllerQuest(CNtlTSTrigger* pNTLTrigger, CDboTSQAgency* questAgency);
 	CDboTSTCtrl*						MakeTriggerControllerTrigger(CNtlTSTrigger* pNTLTrigger, CDboTSTAgency* triggerAgency);
 
 	CGameQuestAgency*					CreateAgency_Quest(void);
@@ -65,7 +68,7 @@ public:
 	CNtlTSMain::mapdef_TLISTC_CIT		BeginObjectFromTS(void) const;
 	CNtlTSMain::mapdef_TLISTC_CIT		EndObjectFromTS(void) const;
 
-	sVECTOR3*							FindNPCPosition(TBLIDX WorldIdx, TBLIDX NPCIdx);	
+	sVECTOR3*							FindNPCPosition(TBLIDX WorldIdx, TBLIDX NPCIdx);	*/
 
 	// Implementations
 protected:
@@ -84,13 +87,13 @@ protected:
 	bool								m_bSchedulingLoad;
 
 	CNtlUnzip*							m_pclQuestZip;
-	CNtlTSMain::mapdef_TLIST			m_defQuest;
+	//CNtlTSMain::mapdef_TLIST			m_defQuest;
 
 	CNtlUnzip*							m_pclTriggerZip;
-	CNtlTSMain::mapdef_TLIST			m_defTrigger;
+	//CNtlTSMain::mapdef_TLIST			m_defTrigger;
 
 	CNtlUnzip*							m_pclObjectZip;
-	CNtlTSMain::mapdef_TLIST			m_defObject;
+	//CNtlTSMain::mapdef_TLIST			m_defObject;
 
 	// Trigger receiver
 	CGameQuestRecv*						m_pQRecv;
@@ -130,7 +133,7 @@ static CQuestWrapper* GetTSCMain(void)
 }
 
 
-inline CGameQuestAgency* CQuestWrapper::GetQAgency(void)
+/*inline CGameQuestAgency* CQuestWrapper::GetQAgency(void)
 {
 	return m_pQAgency;
 }
@@ -152,4 +155,4 @@ inline CGameTriggerRecv* CQuestWrapper::GetTRecv(void)
 inline bool CQuestWrapper::IsCreated(void)
 {
 	return m_bCreated;
-}
+}*/

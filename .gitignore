@@ -60,3 +60,6 @@ CommunityServer/Win32/Release/
 DboServer.VC.db
 DboServer.VC.VC.opendb
 Output/
+*.log
+*.suo
+*.ipch

@@ -11,25 +11,25 @@
 #include "QuestNarrationTable.h"
 
 
-NTL_TS_IMPLEMENT_RTTI(CGameTriggerAgency, CDboTSTAgency)
+//NTL_TS_IMPLEMENT_RTTI(CGameTriggerAgency, CDboTSTAgency)
 
 CGameTriggerAgency::CGameTriggerAgency()
 {
-	m_TriggerInfo.QuestInfoList.reserve(10);
+	//m_TriggerInfo.QuestInfoList.reserve(10);
 }
 
 
 CGameTriggerAgency::~CGameTriggerAgency()
 {
-	mapdef_TRIGGER_LIST::iterator it = m_defCurTList.begin();
+	/*mapdef_TRIGGER_LIST::iterator it = m_defCurTList.begin();
 	for (; it != m_defCurTList.end(); ++it)
 	{
 		CNtlTSControlObject* pObj = it->second;
 		m_pParent->GetControlFactory()->DeleteObj(pObj);
 	}
-	m_defCurTList.clear();
+	m_defCurTList.clear();*/
 }
-
+/*
 CDboTSTCtrl* CGameTriggerAgency::MakeTriggerController(CNtlTSTrigger* pTrig)
 {
 	// Trigger controller 를 생성한다
@@ -46,4 +46,4 @@ CDboTSTCtrl* CGameTriggerAgency::MakeTriggerController(CNtlTSTrigger* pTrig)
 	((CGameTriggerCtrl*)pCtrlObj)->SetParent(this);
 
 	return (CGameTriggerCtrl*)pCtrlObj;
-}
+}*/

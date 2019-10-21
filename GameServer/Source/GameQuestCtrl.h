@@ -1,8 +1,8 @@
 #pragma once
-#include "DboTSCore.h"
-class CGameQuestCtrl :	public CDboTSQCtrl
+//#include "DboTSCore.h"
+class CGameQuestCtrl //:	public CDboTSQCtrl
 {
-	NTL_TS_DECLARE_RTTI
+	/*NTL_TS_DECLARE_RTTI
 private:
 	bool								m_bQuestShare;
 	//Containers
@@ -79,14 +79,14 @@ private:
 	void SendEvtTeleport(CDboTSTeleport* pEvtTeleport);
 	void SendEvtUseMail(CDboTSUseMail* pEvtUseMail);
 	//Others
-	void CheckRewardTypeAndSend(sREWARD_INFO* m_pDefRwd, sREWARD_INFO* m_pSelRwd);
+	void CheckRewardTypeAndSend(sREWARD_INFO* m_pDefRwd, sREWARD_INFO* m_pSelRwd);*/
 public:
 	CGameQuestCtrl();
 	~CGameQuestCtrl();
-	NTL_TS_T_ID tID;//Get trigger getId()
+	/*NTL_TS_T_ID tID;//Get trigger getId()
 	NTL_TS_TG_ID tgID;//((CNtlTSGroup*)pContUsr->GetParent())->GetID()
 	NTL_TS_TG_ID tcID;//pContUsr->GetID();
 
-	void CheckContainer(CNtlTSCont* pCurtCont, CNtlTSCont* pNextCont, CNtlTSTrigger* pTrigger, CDboTSTCtrl* pTriggerCtrl);
+	void CheckContainer(CNtlTSCont* pCurtCont, CNtlTSCont* pNextCont, CNtlTSTrigger* pTrigger, CDboTSTCtrl* pTriggerCtrl);*/
 };
 

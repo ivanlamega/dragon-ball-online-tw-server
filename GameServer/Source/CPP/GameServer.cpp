@@ -10,6 +10,8 @@
 #include <iostream>
 #include <signal.h>
 
+#include "../GameServer/Source/QuestWrapper.h"
+
 void signalHandler(int signum)
 {
 	sDB.SetGameServerState(sXmlParser.GetInt("Server", "ID"), sXmlParser.GetInt("Server", "ChannelID"), eDBO_SERVER_STATUS::DBO_SERVER_STATUS_DOWN, 0);

@@ -2,10 +2,10 @@
 #include "GameTriggerCtrl.h"
 #include "GameTriggerRecv.h"
 #include "GameTriggerAgency.h"
-#include "NTLResultCode.h"
+//#include "NTLResultCode.h"
 #include "GameServer.h"
 
-NTL_TS_IMPLEMENT_RTTI(CGameTriggerCtrl, CDboTSTCtrl)
+//NTL_TS_IMPLEMENT_RTTI(CGameTriggerCtrl, CDboTSTCtrl)
 
 CGameTriggerCtrl::CGameTriggerCtrl()
 {
@@ -16,7 +16,7 @@ CGameTriggerCtrl::~CGameTriggerCtrl()
 {
 }
 
-void CGameTriggerCtrl::CheckContainer(CNtlTSCont* pCurCont, CNtlTSCont* pNextCont, CNtlTSTrigger* pTrigger, CDboTSTCtrl* pTriggerCtrl)
+/*void CGameTriggerCtrl::CheckContainer(CNtlTSCont* pCurCont, CNtlTSCont* pNextCont, CNtlTSTrigger* pTrigger, CDboTSTCtrl* pTriggerCtrl)
 {
 	if (pCurCont){
 		switch (pCurCont->GetEntityType())
@@ -793,7 +793,7 @@ void CGameTriggerCtrl::SendEvtTeleport(CDboTSTeleport* pEvtTeleport)
 }
 void CGameTriggerCtrl::SendEvtUseMail(CDboTSUseMail* pEvtUseMail)
 {
-}
+}*/
 
 /*
 	WARNING: the code below is a extract from client-side, i commented that because i dont know if we gonna need follow

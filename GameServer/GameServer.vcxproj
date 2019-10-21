@@ -161,7 +161,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;_WIN32_WINNT=0x0501;CPPCONN_PUBLIC_FUNC=;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Shared\Source\Library\NetworkLibrary\Header\;$(SolutionDir)packages\boost.1.63.0.0\lib\native\include\boost;$(SolutionDir)packages\boost.1.63.0.0\lib\native\include\;$(SolutionDir)NtlBaseLib\;$(SolutionDir)GameServer\Source\Header\Game\World\;$(SolutionDir)GameServer\Source\Header\Game\Client\;$(SolutionDir)GameServer\Source\Header\Util\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Libraries\Zip\zlib1211;$(SolutionDir)Libraries\NtlTrigger;$(SolutionDir)Shared\Source\Library\NetworkLibrary\Header\;$(SolutionDir)packages\boost.1.63.0.0\lib\native\include\boost;$(SolutionDir)packages\boost.1.63.0.0\lib\native\include\;$(SolutionDir)NtlBaseLib\;$(SolutionDir)GameServer\Source\Header\Game\World\;$(SolutionDir)GameServer\Source\Header\Game\Client\;$(SolutionDir)GameServer\Source\Header\Util\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <SDLCheck>true</SDLCheck>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -236,6 +236,7 @@
     <ClCompile Include="Source\GameTriggerAgency.cpp" />
     <ClCompile Include="Source\GameTriggerCtrl.cpp" />
     <ClCompile Include="Source\GameTriggerRecv.cpp" />
+    <ClCompile Include="Source\libraryquest\DboTrigger\DboTSMain.cpp" />
     <ClCompile Include="Source\QuestWrapper.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -268,6 +269,7 @@
     <ClInclude Include="Source\Header\Util\Timer.h" />
     <ClInclude Include="Source\Header\Util\TSS.h" />
     <ClInclude Include="Source\Header\Util\Util.h" />
+    <ClInclude Include="Source\libraryquest\DboTrigger\DboTSMain.h" />
     <ClInclude Include="Source\QuestWrapper.h" />
   </ItemGroup>
   <ItemGroup>

@@ -10,7 +10,7 @@
 #include "QuestItemTable.h"
 #include "ObjectTable.h"
 
-NTL_TS_IMPLEMENT_RTTI(CGameTriggerRecv, CDboTSTRecv)
+//NTL_TS_IMPLEMENT_RTTI(CGameTriggerRecv, CDboTSTRecv)
 
 CGameTriggerRecv::CGameTriggerRecv()
 {

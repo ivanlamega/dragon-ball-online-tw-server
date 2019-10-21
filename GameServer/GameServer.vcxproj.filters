@@ -87,6 +87,18 @@
     <Filter Include="Header Files\Game\Quest\Recv">
       <UniqueIdentifier>{6014bafb-c3e5-4eff-8e23-5b865ce47a39}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Game\Quest\LibraryQuest">
+      <UniqueIdentifier>{db892e60-b820-4459-afad-7c7bc729d750}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Game\Quest\LibraryQuest\DboTrigger">
+      <UniqueIdentifier>{6b3e97e1-ac5f-484c-988a-d810111e6bf7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\Quest\LibraryQuest">
+      <UniqueIdentifier>{60833f44-106c-4019-8bbc-46d69b0d3b67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\Quest\LibraryQuest\DboTrigger">
+      <UniqueIdentifier>{9de74039-21c2-44f9-8d2f-1037be85d4e8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -254,6 +266,9 @@
     <ClCompile Include="Source\GameTriggerRecv.cpp">
       <Filter>Source Files\Game\Quest\Recv</Filter>
     </ClCompile>
+    <ClCompile Include="Source\libraryquest\DboTrigger\DboTSMain.cpp">
+      <Filter>Source Files\Game\Quest\LibraryQuest\DboTrigger</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Header\GameServer.h">
@@ -345,6 +360,9 @@
     </ClInclude>
     <ClInclude Include="Source\GameTriggerRecv.h">
       <Filter>Header Files\Game\Quest\Recv</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\libraryquest\DboTrigger\DboTSMain.h">
+      <Filter>Header Files\Game\Quest\LibraryQuest\DboTrigger</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
