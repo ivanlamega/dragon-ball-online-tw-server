@@ -74,31 +74,31 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeDev|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>NotSet</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeCJIKor|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>NotSet</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release4ClientLocalizeCJIKor|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>NotSet</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release4ClientLocalizeDev|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>NotSet</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release4Client|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>NotSet</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='FinalDebug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
@@ -106,24 +106,24 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>NotSet</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>NotSet</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeDev|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>NotSet</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeCJIKor|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>NotSet</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release4ClientLocalizeCJIKor|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -139,19 +139,19 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='FinalDebug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>NotSet</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>NotSet</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>NotSet</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -206,138 +206,113 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <_ProjectFileVersion>14.0.25431.1</_ProjectFileVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(Configuration)\</OutDir>
-    <IntDir>$(Configuration)\</IntDir>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRules />
-    <CodeAnalysisRuleAssemblies />
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(Configuration)\</OutDir>
-    <IntDir>$(Configuration)\</IntDir>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRules />
-    <CodeAnalysisRuleAssemblies />
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='FinalDebug|Win32'">
-    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
-    <IntDir>$(Configuration)\</IntDir>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRules />
-    <CodeAnalysisRuleAssemblies />
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release4Client|Win32'">
-    <OutDir>$(Configuration)\</OutDir>
-    <IntDir>$(Configuration)\</IntDir>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRules />
-    <CodeAnalysisRuleAssemblies />
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release4ClientLocalizeDev|Win32'">
-    <OutDir>$(Configuration)\</OutDir>
-    <IntDir>$(Configuration)\</IntDir>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRules />
-    <CodeAnalysisRuleAssemblies />
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release4ClientLocalizeCJIKor|Win32'">
-    <OutDir>$(Configuration)\</OutDir>
-    <IntDir>$(Configuration)\</IntDir>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRules />
-    <CodeAnalysisRuleAssemblies />
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeCJIKor|Win32'">
-    <OutDir>$(Configuration)\</OutDir>
-    <IntDir>$(Configuration)\</IntDir>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRules />
-    <CodeAnalysisRuleAssemblies />
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeDev|Win32'">
-    <OutDir>$(Configuration)\</OutDir>
-    <IntDir>$(Configuration)\</IntDir>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRules />
-    <CodeAnalysisRuleAssemblies />
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>$(Platform)\$(Configuration)\</IntDir>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRules />
-    <CodeAnalysisRuleAssemblies />
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>$(Platform)\$(Configuration)\</IntDir>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRules />
-    <CodeAnalysisRuleAssemblies />
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='FinalDebug|x64'">
-    <OutDir>$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>$(Platform)\$(Configuration)\</IntDir>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRules />
-    <CodeAnalysisRuleAssemblies />
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release4Client|x64'">
-    <IntDir>$(Platform)\$(Configuration)\</IntDir>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRules />
-    <CodeAnalysisRuleAssemblies />
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release4ClientLocalizeDev|x64'">
-    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>$(Platform)\$(Configuration)\</IntDir>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRules />
-    <CodeAnalysisRuleAssemblies />
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release4ClientLocalizeCJIKor|x64'">
-    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>$(Platform)\$(Configuration)\</IntDir>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRules />
-    <CodeAnalysisRuleAssemblies />
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeCJIKor|x64'">
-    <OutDir>$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>$(Platform)\$(Configuration)\</IntDir>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRules />
-    <CodeAnalysisRuleAssemblies />
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeDev|x64'">
-    <OutDir>$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>$(Platform)\$(Configuration)\</IntDir>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRules />
-    <CodeAnalysisRuleAssemblies />
+    <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='FinalDebug|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='FinalDebug|Win32'">$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release4Client|Win32'">$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release4Client|Win32'">$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release4ClientLocalizeDev|Win32'">$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release4ClientLocalizeDev|Win32'">$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release4ClientLocalizeCJIKor|Win32'">$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release4ClientLocalizeCJIKor|Win32'">$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeCJIKor|Win32'">$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeCJIKor|Win32'">$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeDev|Win32'">$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeDev|Win32'">$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='FinalDebug|x64'">$(Platform)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='FinalDebug|x64'">$(Platform)\$(Configuration)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release4Client|x64'">$(Platform)\$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release4ClientLocalizeDev|x64'">$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release4ClientLocalizeDev|x64'">$(Platform)\$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release4ClientLocalizeCJIKor|x64'">$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release4ClientLocalizeCJIKor|x64'">$(Platform)\$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeCJIKor|x64'">$(Platform)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeCJIKor|x64'">$(Platform)\$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeDev|x64'">$(Platform)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeDev|x64'">$(Platform)\$(Configuration)\</IntDir>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeCJIKor|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeCJIKor|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeCJIKor|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeCJIKor|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeCJIKor|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeCJIKor|x64'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeDev|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeDev|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeDev|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeDev|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeDev|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeDev|x64'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='FinalDebug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='FinalDebug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='FinalDebug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='FinalDebug|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='FinalDebug|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='FinalDebug|x64'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release4ClientLocalizeCJIKor|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release4ClientLocalizeCJIKor|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release4ClientLocalizeCJIKor|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release4ClientLocalizeCJIKor|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release4ClientLocalizeCJIKor|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release4ClientLocalizeCJIKor|x64'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release4ClientLocalizeDev|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release4ClientLocalizeDev|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release4ClientLocalizeDev|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release4ClientLocalizeDev|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release4ClientLocalizeDev|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release4ClientLocalizeDev|x64'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release4Client|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release4Client|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release4Client|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release4Client|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release4Client|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release4Client|x64'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\NtlLib\Shared\Util;..\..\NtlLib\Shared\NtlTrigger;..\NtlShared2;..\NtlGameTable;..\..\NtlLib\Shared\Zip\zlib123;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\extlib\dxsdk\include;..\..\NtlLib\Shared\Util;..\..\NtlLib\Shared\NtlTrigger;..\NtlShared2;..\NtlGameTable;..\..\NtlLib\Shared\Zip\zlib123;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <MinimalRebuild>true</MinimalRebuild>
+      <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>precomp_trigger.h</PrecompiledHeaderFile>
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
+    <Lib>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
+      <LinkTimeCodeGeneration>
+      </LinkTimeCodeGeneration>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\NtlLib\Shared\Util;..\..\NtlLib\Shared\NtlTrigger;..\NtlShared2;..\NtlGameTable;..\..\NtlLib\Shared\Zip\zlib123;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>precomp_trigger.h</PrecompiledHeaderFile>
       <WarningLevel>Level4</WarningLevel>
@@ -398,6 +373,9 @@
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
+    <Lib>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeDev|Win32'">
     <ClCompile>
@@ -412,6 +390,9 @@
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
+    <Lib>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Midl>
@@ -429,15 +410,18 @@
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
+    <Lib>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Midl>
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\NtlLib\Shared\Util;$(SolutionDir)Libraries\NtlLib\Shared\NtlTrigger;..\NtlShared2;..\NtlGameTable;..\..\NtlLib\Shared\Zip\zlib123;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)NtlBaseLib;..\..\NtlLib\Shared\Util;$(SolutionDir)Libraries\NtlLib\Shared\NtlTrigger;..\NtlShared2--;..\NtlGameTable;..\..\NtlLib\Shared\Zip\zlib123;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN64;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>precomp_trigger.h</PrecompiledHeaderFile>
       <WarningLevel>Level4</WarningLevel>
@@ -460,6 +444,9 @@
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
+    <Lib>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release4ClientLocalizeDev|x64'">
     <Midl>
@@ -493,6 +480,9 @@
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
+    <Lib>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeDev|x64'">
     <Midl>
@@ -510,8 +500,80 @@
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
+    <Lib>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="precomp_trigger.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeCJIKor|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeCJIKor|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeDev|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeDev|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='FinalDebug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release4ClientLocalizeCJIKor|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release4ClientLocalizeDev|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release4Client|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="DboTSActFactoryType.cpp" />
+    <ClCompile Include="DboTSCondFactoryType.cpp" />
+    <ClCompile Include="DboTSContFactoryType.cpp" />
+    <ClCompile Include="DboTSEntityFactory.cpp" />
+    <ClCompile Include="DboTSEventFactoryType.cpp" />
+    <ClCompile Include="DboTSBindStone.cpp" />
+    <ClCompile Include="DboTSBudokai.cpp" />
+    <ClCompile Include="DboTSClickMob.cpp" />
+    <ClCompile Include="DboTSClickNPC.cpp" />
+    <ClCompile Include="DboTSClickObject.cpp" />
+    <ClCompile Include="DboTSColObject.cpp" />
+    <ClCompile Include="DboTSColRgn.cpp" />
+    <ClCompile Include="DboTSFreeBattle.cpp" />
+    <ClCompile Include="DboTSHoipoiMix.cpp" />
+    <ClCompile Include="DboTSItemEquip.cpp" />
+    <ClCompile Include="DboTSItemGet.cpp" />
+    <ClCompile Include="DboTSItemIdentity.cpp" />
+    <ClCompile Include="DboTSItemUpgrade.cpp" />
+    <ClCompile Include="DboTSItemUse.cpp" />
+    <ClCompile Include="DboTSParty.cpp" />
+    <ClCompile Include="DboTSPrivateShop.cpp" />
+    <ClCompile Include="DboTSRB.cpp" />
+    <ClCompile Include="DboTSRcvSvrEvt.cpp" />
+    <ClCompile Include="DboTSScoutUse.cpp" />
+    <ClCompile Include="DboTSSearchQuest.cpp" />
+    <ClCompile Include="DboTSSkillUse.cpp" />
+    <ClCompile Include="DboTSSlotMachine.cpp" />
+    <ClCompile Include="DboTSTeleport.cpp" />
+    <ClCompile Include="DboTSUseMail.cpp" />
+    <ClCompile Include="DboTSCheckAttachObj.cpp" />
+    <ClCompile Include="DboTSCheckAvatarDead.cpp" />
+    <ClCompile Include="DboTSCheckBudokaiState.cpp" />
+    <ClCompile Include="DboTSCheckClrQst.cpp" />
+    <ClCompile Include="DboTSCheckCustomEvent.cpp" />
+    <ClCompile Include="DboTSCheckDistWithNPC.cpp" />
+    <ClCompile Include="DboTSCheckHasCoupon.cpp" />
+    <ClCompile Include="DboTSCheckInNPC.cpp" />
+    <ClCompile Include="DboTSCheckInWorld.cpp" />
+    <ClCompile Include="DboTSCheckItem.cpp" />
+    <ClCompile Include="DboTSCheckLvl.cpp" />
+    <ClCompile Include="DboTSCheckNPCDead.cpp" />
+    <ClCompile Include="DboTSCheckObjItem.cpp" />
+    <ClCompile Include="DboTSCheckObjState.cpp" />
+    <ClCompile Include="DboTSCheckOPObject.cpp" />
+    <ClCompile Include="DboTSCheckOutRgn.cpp" />
+    <ClCompile Include="DboTSCheckPCCls.cpp" />
+    <ClCompile Include="DboTSCheckPCRace.cpp" />
+    <ClCompile Include="DboTSCheckProgQuest.cpp" />
+    <ClCompile Include="DboTSCheckPS.cpp" />
+    <ClCompile Include="DboTSCheckQItem.cpp" />
+    <ClCompile Include="DboTSCheckReputation.cpp" />
+    <ClCompile Include="DboTSCheckSSM.cpp" />
+    <ClCompile Include="DboTSCheckSToCDelivery.cpp" />
+    <ClCompile Include="DboTSCheckSToCEvt.cpp" />
+    <ClCompile Include="DboTSCheckWItem.cpp" />
     <ClCompile Include="DboTSActBroadMsg.cpp" />
     <ClCompile Include="DboTSActConcCheck.cpp" />
     <ClCompile Include="DboTSActCustomEvt.cpp" />
@@ -524,7 +586,6 @@
     <ClCompile Include="DboTSActETimerE.cpp" />
     <ClCompile Include="DboTSActETimerS.cpp" />
     <ClCompile Include="DboTSActExcCGroup.cpp" />
-    <ClCompile Include="DboTSActFactoryType.cpp" />
     <ClCompile Include="DboTSActHint.cpp" />
     <ClCompile Include="DboTSActInSSM.cpp" />
     <ClCompile Include="DboTSActItem.cpp" />
@@ -563,43 +624,7 @@
     <ClCompile Include="DboTSActTSState.cpp" />
     <ClCompile Include="DboTSActTWaitTS.cpp" />
     <ClCompile Include="DboTSActWorldPlayScript.cpp" />
-    <ClCompile Include="DboTSBindStone.cpp" />
-    <ClCompile Include="DboTSBudokai.cpp" />
-    <ClCompile Include="DboTSCheckAttachObj.cpp" />
-    <ClCompile Include="DboTSCheckAvatarDead.cpp" />
-    <ClCompile Include="DboTSCheckBudokaiState.cpp" />
-    <ClCompile Include="DboTSCheckClrQst.cpp" />
-    <ClCompile Include="DboTSCheckCustomEvent.cpp" />
-    <ClCompile Include="DboTSCheckDistWithNPC.cpp" />
-    <ClCompile Include="DboTSCheckHasCoupon.cpp" />
-    <ClCompile Include="DboTSCheckInNPC.cpp" />
-    <ClCompile Include="DboTSCheckInWorld.cpp" />
-    <ClCompile Include="DboTSCheckItem.cpp" />
-    <ClCompile Include="DboTSCheckLvl.cpp" />
-    <ClCompile Include="DboTSCheckNPCDead.cpp" />
-    <ClCompile Include="DboTSCheckObjItem.cpp" />
-    <ClCompile Include="DboTSCheckObjState.cpp" />
-    <ClCompile Include="DboTSCheckOPObject.cpp" />
-    <ClCompile Include="DboTSCheckOutRgn.cpp" />
-    <ClCompile Include="DboTSCheckPCCls.cpp" />
-    <ClCompile Include="DboTSCheckPCRace.cpp" />
-    <ClCompile Include="DboTSCheckProgQuest.cpp" />
-    <ClCompile Include="DboTSCheckPS.cpp" />
-    <ClCompile Include="DboTSCheckQItem.cpp" />
-    <ClCompile Include="DboTSCheckReputation.cpp" />
-    <ClCompile Include="DboTSCheckSSM.cpp" />
-    <ClCompile Include="DboTSCheckSToCDelivery.cpp" />
-    <ClCompile Include="DboTSCheckSToCEvt.cpp" />
-    <ClCompile Include="DboTSCheckWItem.cpp" />
-    <ClCompile Include="DboTSClickMob.cpp" />
-    <ClCompile Include="DboTSClickNPC.cpp" />
-    <ClCompile Include="DboTSClickObject.cpp" />
-    <ClCompile Include="DboTSColObject.cpp" />
-    <ClCompile Include="DboTSColRgn.cpp" />
-    <ClCompile Include="DboTSCompleteQInfo.cpp" />
-    <ClCompile Include="DboTSCondFactoryType.cpp" />
     <ClCompile Include="DboTSContEnd.cpp" />
-    <ClCompile Include="DboTSContFactoryType.cpp" />
     <ClCompile Include="DboTSContGAct.cpp" />
     <ClCompile Include="DboTSContGCond.cpp" />
     <ClCompile Include="DboTSContNarration.cpp" />
@@ -610,8 +635,6 @@
     <ClCompile Include="DboTSContSyncAct.cpp" />
     <ClCompile Include="DboTSContUnifiedNarration.cpp" />
     <ClCompile Include="DboTSContUsrSel.cpp" />
-    <ClCompile Include="DboTSCtrlFactory.cpp" />
-    <ClCompile Include="DboTSCtrlFactoryType.cpp" />
     <ClCompile Include="DboTSEMBindStone.cpp" />
     <ClCompile Include="DboTSEMBudokai.cpp" />
     <ClCompile Include="DboTSEMColRgn.cpp" />
@@ -632,50 +655,76 @@
     <ClCompile Include="DboTSEMSvrEvt.cpp" />
     <ClCompile Include="DboTSEMTeleport.cpp" />
     <ClCompile Include="DboTSEMUseMail.cpp" />
-    <ClCompile Include="DboTSEntityFactory.cpp" />
-    <ClCompile Include="DboTSEventFactoryType.cpp" />
-    <ClCompile Include="DboTSFreeBattle.cpp" />
-    <ClCompile Include="DboTSHoipoiMix.cpp" />
-    <ClCompile Include="DboTSItemEquip.cpp" />
-    <ClCompile Include="DboTSItemGet.cpp" />
-    <ClCompile Include="DboTSItemIdentity.cpp" />
-    <ClCompile Include="DboTSItemUpgrade.cpp" />
-    <ClCompile Include="DboTSItemUse.cpp" />
-    <ClCompile Include="DboTSMain.cpp" />
-    <ClCompile Include="DboTSParty.cpp" />
-    <ClCompile Include="DboTSPrivateShop.cpp" />
-    <ClCompile Include="DboTSQAgency.cpp" />
+    <ClCompile Include="DboTSCtrlFactory.cpp" />
+    <ClCompile Include="DboTSCtrlFactoryType.cpp" />
     <ClCompile Include="DboTSQCtrl.cpp" />
-    <ClCompile Include="DboTSQRecv.cpp" />
-    <ClCompile Include="DboTSRB.cpp" />
-    <ClCompile Include="DboTSRcvSvrEvt.cpp" />
-    <ClCompile Include="DboTSScoutUse.cpp" />
-    <ClCompile Include="DboTSSearchQuest.cpp" />
-    <ClCompile Include="DboTSSkillUse.cpp" />
-    <ClCompile Include="DboTSSlotMachine.cpp" />
-    <ClCompile Include="DboTSTAgency.cpp" />
     <ClCompile Include="DboTSTCtrl.cpp" />
-    <ClCompile Include="DboTSTeleport.cpp" />
-    <ClCompile Include="DboTSTRecv.cpp" />
+    <ClCompile Include="DboTSCompleteQInfo.cpp" />
     <ClCompile Include="DboTSUIFactory.cpp" />
     <ClCompile Include="DboTSUIFactoryType.cpp" />
-    <ClCompile Include="DboTSUseMail.cpp" />
-    <ClCompile Include="precomp_trigger.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeCJIKor|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeCJIKor|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeDev|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeDev|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='FinalDebug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release4ClientLocalizeCJIKor|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release4ClientLocalizeDev|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release4Client|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
-    </ClCompile>
+    <ClCompile Include="DboTSQAgency.cpp" />
+    <ClCompile Include="DboTSTAgency.cpp" />
+    <ClCompile Include="DboTSMain.cpp" />
+    <ClCompile Include="DboTSQRecv.cpp" />
+    <ClCompile Include="DboTSTRecv.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="precomp_trigger.h" />
+    <ClInclude Include="DboTSActFactoryType.h" />
+    <ClInclude Include="DboTSCondFactoryType.h" />
+    <ClInclude Include="DboTSContFactoryType.h" />
+    <ClInclude Include="DboTSEntityFactory.h" />
+    <ClInclude Include="DboTSEventFactoryType.h" />
+    <ClInclude Include="DboTSBindStone.h" />
+    <ClInclude Include="DboTSBudokai.h" />
+    <ClInclude Include="DboTSClickMob.h" />
+    <ClInclude Include="DboTSClickNPC.h" />
+    <ClInclude Include="DboTSClickObject.h" />
+    <ClInclude Include="DboTSColObject.h" />
+    <ClInclude Include="DboTSColRgn.h" />
+    <ClInclude Include="DboTSFreeBattle.h" />
+    <ClInclude Include="DboTSHoipoiMix.h" />
+    <ClInclude Include="DboTSItemEquip.h" />
+    <ClInclude Include="DboTSItemGet.h" />
+    <ClInclude Include="DboTSItemIdentity.h" />
+    <ClInclude Include="DboTSItemUpgrade.h" />
+    <ClInclude Include="DboTSItemUse.h" />
+    <ClInclude Include="DboTSParty.h" />
+    <ClInclude Include="DboTSPrivateShop.h" />
+    <ClInclude Include="DboTSRB.h" />
+    <ClInclude Include="DboTSRcvSvrEvt.h" />
+    <ClInclude Include="DboTSScoutUse.h" />
+    <ClInclude Include="DboTSSearchQuest.h" />
+    <ClInclude Include="DboTSSkillUse.h" />
+    <ClInclude Include="DboTSSlotMachine.h" />
+    <ClInclude Include="DboTSTeleport.h" />
+    <ClInclude Include="DboTSUseMail.h" />
+    <ClInclude Include="DboTSCheckAttachObj.h" />
+    <ClInclude Include="DboTSCheckAvatarDead.h" />
+    <ClInclude Include="DboTSCheckBudokaiState.h" />
+    <ClInclude Include="DboTSCheckClrQst.h" />
+    <ClInclude Include="DboTSCheckCustomEvent.h" />
+    <ClInclude Include="DboTSCheckDistWithNPC.h" />
+    <ClInclude Include="DboTSCheckHasCoupon.h" />
+    <ClInclude Include="DboTSCheckInNPC.h" />
+    <ClInclude Include="DboTSCheckInWorld.h" />
+    <ClInclude Include="DboTSCheckItem.h" />
+    <ClInclude Include="DboTSCheckLvl.h" />
+    <ClInclude Include="DboTSCheckNPCDead.h" />
+    <ClInclude Include="DboTSCheckObjItem.h" />
+    <ClInclude Include="DboTSCheckObjState.h" />
+    <ClInclude Include="DboTSCheckOPObject.h" />
+    <ClInclude Include="DboTSCheckOutRgn.h" />
+    <ClInclude Include="DboTSCheckPCCls.h" />
+    <ClInclude Include="DboTSCheckPCRace.h" />
+    <ClInclude Include="DboTSCheckProgQuest.h" />
+    <ClInclude Include="DboTSCheckPS.h" />
+    <ClInclude Include="DboTSCheckQItem.h" />
+    <ClInclude Include="DboTSCheckReputation.h" />
+    <ClInclude Include="DboTSCheckSSM.h" />
+    <ClInclude Include="DboTSCheckSToCDelivery.h" />
+    <ClInclude Include="DboTSCheckSToCEvt.h" />
+    <ClInclude Include="DboTSCheckWItem.h" />
     <ClInclude Include="DboTSActBroadMsg.h" />
     <ClInclude Include="DboTSActConcCheck.h" />
     <ClInclude Include="DboTSActCustomEvt.h" />
@@ -688,7 +737,6 @@
     <ClInclude Include="DboTSActETimerE.h" />
     <ClInclude Include="DboTSActETimerS.h" />
     <ClInclude Include="DboTSActExcCGroup.h" />
-    <ClInclude Include="DboTSActFactoryType.h" />
     <ClInclude Include="DboTSActHint.h" />
     <ClInclude Include="DboTSActInSSM.h" />
     <ClInclude Include="DboTSActItem.h" />
@@ -727,43 +775,7 @@
     <ClInclude Include="DboTSActTSState.h" />
     <ClInclude Include="DboTSActTWaitTS.h" />
     <ClInclude Include="DboTSActWorldPlayScript.h" />
-    <ClInclude Include="DboTSBindStone.h" />
-    <ClInclude Include="DboTSBudokai.h" />
-    <ClInclude Include="DboTSCheckAttachObj.h" />
-    <ClInclude Include="DboTSCheckAvatarDead.h" />
-    <ClInclude Include="DboTSCheckBudokaiState.h" />
-    <ClInclude Include="DboTSCheckClrQst.h" />
-    <ClInclude Include="DboTSCheckCustomEvent.h" />
-    <ClInclude Include="DboTSCheckDistWithNPC.h" />
-    <ClInclude Include="DboTSCheckHasCoupon.h" />
-    <ClInclude Include="DboTSCheckInNPC.h" />
-    <ClInclude Include="DboTSCheckInWorld.h" />
-    <ClInclude Include="DboTSCheckItem.h" />
-    <ClInclude Include="DboTSCheckLvl.h" />
-    <ClInclude Include="DboTSCheckNPCDead.h" />
-    <ClInclude Include="DboTSCheckObjItem.h" />
-    <ClInclude Include="DboTSCheckObjState.h" />
-    <ClInclude Include="DboTSCheckOPObject.h" />
-    <ClInclude Include="DboTSCheckOutRgn.h" />
-    <ClInclude Include="DboTSCheckPCCls.h" />
-    <ClInclude Include="DboTSCheckPCRace.h" />
-    <ClInclude Include="DboTSCheckProgQuest.h" />
-    <ClInclude Include="DboTSCheckPS.h" />
-    <ClInclude Include="DboTSCheckQItem.h" />
-    <ClInclude Include="DboTSCheckReputation.h" />
-    <ClInclude Include="DboTSCheckSSM.h" />
-    <ClInclude Include="DboTSCheckSToCDelivery.h" />
-    <ClInclude Include="DboTSCheckSToCEvt.h" />
-    <ClInclude Include="DboTSCheckWItem.h" />
-    <ClInclude Include="DboTSClickMob.h" />
-    <ClInclude Include="DboTSClickNPC.h" />
-    <ClInclude Include="DboTSClickObject.h" />
-    <ClInclude Include="DboTSColObject.h" />
-    <ClInclude Include="DboTSColRgn.h" />
-    <ClInclude Include="DboTSCompleteQInfo.h" />
-    <ClInclude Include="DboTSCondFactoryType.h" />
     <ClInclude Include="DboTSContEnd.h" />
-    <ClInclude Include="DboTSContFactoryType.h" />
     <ClInclude Include="DboTSContGAct.h" />
     <ClInclude Include="DboTSContGCond.h" />
     <ClInclude Include="DboTSContNarration.h" />
@@ -776,8 +788,6 @@
     <ClInclude Include="DboTSContUsrSel.h" />
     <ClInclude Include="DboTSCore.h" />
     <ClInclude Include="DboTSCoreDefine.h" />
-    <ClInclude Include="DboTSCtrlFactory.h" />
-    <ClInclude Include="DboTSCtrlFactoryType.h" />
     <ClInclude Include="DboTSEMBindStone.h" />
     <ClInclude Include="DboTSEMBudokai.h" />
     <ClInclude Include="DboTSEMColRgn.h" />
@@ -798,35 +808,26 @@
     <ClInclude Include="DboTSEMSvrEvt.h" />
     <ClInclude Include="DboTSEMTeleport.h" />
     <ClInclude Include="DboTSEMUseMail.h" />
-    <ClInclude Include="DboTSEntityFactory.h" />
-    <ClInclude Include="DboTSEventFactoryType.h" />
-    <ClInclude Include="DboTSFreeBattle.h" />
-    <ClInclude Include="DboTSHoipoiMix.h" />
-    <ClInclude Include="DboTSItemEquip.h" />
-    <ClInclude Include="DboTSItemGet.h" />
-    <ClInclude Include="DboTSItemIdentity.h" />
-    <ClInclude Include="DboTSItemUpgrade.h" />
-    <ClInclude Include="DboTSItemUse.h" />
-    <ClInclude Include="DboTSMain.h" />
-    <ClInclude Include="DboTSParty.h" />
-    <ClInclude Include="DboTSPrivateShop.h" />
-    <ClInclude Include="DboTSQAgency.h" />
+    <ClInclude Include="DboTSCtrlFactory.h" />
+    <ClInclude Include="DboTSCtrlFactoryType.h" />
     <ClInclude Include="DboTSQCtrl.h" />
-    <ClInclude Include="DboTSQRecv.h" />
-    <ClInclude Include="DboTSRB.h" />
-    <ClInclude Include="DboTSRcvSvrEvt.h" />
-    <ClInclude Include="DboTSScoutUse.h" />
-    <ClInclude Include="DboTSSearchQuest.h" />
-    <ClInclude Include="DboTSSkillUse.h" />
-    <ClInclude Include="DboTSSlotMachine.h" />
-    <ClInclude Include="DboTSTAgency.h" />
     <ClInclude Include="DboTSTCtrl.h" />
-    <ClInclude Include="DboTSTeleport.h" />
-    <ClInclude Include="DboTSTRecv.h" />
+    <ClInclude Include="DboTSCompleteQInfo.h" />
     <ClInclude Include="DboTSUIFactory.h" />
     <ClInclude Include="DboTSUIFactoryType.h" />
-    <ClInclude Include="DboTSUseMail.h" />
-    <ClInclude Include="precomp_trigger.h" />
+    <ClInclude Include="DboTSQAgency.h" />
+    <ClInclude Include="DboTSTAgency.h" />
+    <ClInclude Include="DboTSMain.h" />
+    <ClInclude Include="DboTSQRecv.h" />
+    <ClInclude Include="DboTSTRecv.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\NtlBaseLib\NtlBaseLib.vcxproj">
+      <Project>{d6a637a7-ad22-4181-8426-b486cd90df72}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\NtlLib\Shared\NtlTrigger\NtlTrigger.vcxproj">
+      <Project>{e18fb469-6ea5-4440-9c5d-99f62f45d7e4}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

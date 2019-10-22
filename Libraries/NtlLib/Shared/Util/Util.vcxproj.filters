@@ -5,22 +5,22 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
     </Filter>
     <Filter Include="FixedString">
-      <UniqueIdentifier>{3cf79a5b-f7c7-4299-9e5d-0cae711db614}</UniqueIdentifier>
+      <UniqueIdentifier>{f02f14a5-020f-4a78-8c72-97ccad4e9a74}</UniqueIdentifier>
     </Filter>
     <Filter Include="LogMessageManager">
-      <UniqueIdentifier>{d49c3fea-f38e-40b6-910d-3cdd3918a6fa}</UniqueIdentifier>
+      <UniqueIdentifier>{3ed244c2-c9d4-4621-b80f-4162d89e9ce2}</UniqueIdentifier>
     </Filter>
     <Filter Include="Common">
-      <UniqueIdentifier>{2a8ab9b4-4217-44c8-ad97-978f96e0f338}</UniqueIdentifier>
+      <UniqueIdentifier>{1dc48bc4-0a06-4d32-8a96-a0d3ab6ae9e9}</UniqueIdentifier>
     </Filter>
     <Filter Include="Common\PreCompiledHeader">
-      <UniqueIdentifier>{1508b9be-6eb5-4741-8723-e28b7cb23e9d}</UniqueIdentifier>
+      <UniqueIdentifier>{87249837-b048-4f66-8309-9af93157ee7e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Crypt">
-      <UniqueIdentifier>{0901ca75-0e7f-452b-81e1-4c10cbd90d22}</UniqueIdentifier>
+      <UniqueIdentifier>{88e4f345-76fa-4537-850b-7dab1f7b36a3}</UniqueIdentifier>
     </Filter>
     <Filter Include="PathData">
-      <UniqueIdentifier>{6a77804b-1afe-41e1-af88-5c0a57e92af9}</UniqueIdentifier>
+      <UniqueIdentifier>{45ddfb1b-d316-47fc-b9bd-7f6f9d2b5587}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -54,34 +54,7 @@
     <ClInclude Include="stdafx.h">
       <Filter>Common\PreCompiledHeader</Filter>
     </ClInclude>
-    <ClInclude Include="AESCipher.h">
-      <Filter>Crypt</Filter>
-    </ClInclude>
-    <ClInclude Include="Blowfish.h">
-      <Filter>Crypt</Filter>
-    </ClInclude>
-    <ClInclude Include="CDes.h">
-      <Filter>Crypt</Filter>
-    </ClInclude>
-    <ClInclude Include="Cipher.h">
-      <Filter>Crypt</Filter>
-    </ClInclude>
-    <ClInclude Include="Constant.h">
-      <Filter>Crypt</Filter>
-    </ClInclude>
-    <ClInclude Include="CryptRSA.h">
-      <Filter>Crypt</Filter>
-    </ClInclude>
-    <ClInclude Include="md5.h">
-      <Filter>Crypt</Filter>
-    </ClInclude>
     <ClInclude Include="NtlCipher.h">
-      <Filter>Crypt</Filter>
-    </ClInclude>
-    <ClInclude Include="TripleDes.h">
-      <Filter>Crypt</Filter>
-    </ClInclude>
-    <ClInclude Include="TwofishCipher.h">
       <Filter>Crypt</Filter>
     </ClInclude>
     <ClInclude Include="NtlNaviData.h">
@@ -142,31 +115,7 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Common\PreCompiledHeader</Filter>
     </ClCompile>
-    <ClCompile Include="AESCipher.cpp">
-      <Filter>Crypt</Filter>
-    </ClCompile>
-    <ClCompile Include="Blowfish.cpp">
-      <Filter>Crypt</Filter>
-    </ClCompile>
-    <ClCompile Include="CDes.cpp">
-      <Filter>Crypt</Filter>
-    </ClCompile>
-    <ClCompile Include="Cipher.cpp">
-      <Filter>Crypt</Filter>
-    </ClCompile>
-    <ClCompile Include="CryptRSA.cpp">
-      <Filter>Crypt</Filter>
-    </ClCompile>
-    <ClCompile Include="md5.cpp">
-      <Filter>Crypt</Filter>
-    </ClCompile>
     <ClCompile Include="NtlCipher.cpp">
-      <Filter>Crypt</Filter>
-    </ClCompile>
-    <ClCompile Include="TripleDes.cpp">
-      <Filter>Crypt</Filter>
-    </ClCompile>
-    <ClCompile Include="TwofishCipher.cpp">
       <Filter>Crypt</Filter>
     </ClCompile>
     <ClCompile Include="NtlNaviData.cpp">
@@ -183,6 +132,6 @@
     <ClCompile Include="NtlTokenizer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
+    <None Include="ReadMe.txt" />
   </ItemGroup>
 </Project>

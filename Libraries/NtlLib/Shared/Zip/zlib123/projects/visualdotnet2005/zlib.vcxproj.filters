@@ -2,26 +2,26 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
-      <UniqueIdentifier>{e6627a5a-c2c6-4e4c-a7c5-cc3fecac313e}</UniqueIdentifier>
+      <UniqueIdentifier>{a4607e88-9c05-4901-8192-bf22d63c8c3f}</UniqueIdentifier>
       <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
     </Filter>
     <Filter Include="Header Files">
-      <UniqueIdentifier>{967fb4bc-a716-4cce-a180-a7c3dc942893}</UniqueIdentifier>
+      <UniqueIdentifier>{1d875875-58b2-4c6b-94ea-3c0827f2e2d4}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl</Extensions>
     </Filter>
     <Filter Include="Resource Files">
-      <UniqueIdentifier>{0a0c7b43-795d-4aa1-80b6-e0f7a862caa8}</UniqueIdentifier>
+      <UniqueIdentifier>{58c82a2d-c199-4f9b-b6f5-f840129c2fa0}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
     <Filter Include="Assembler Files %28Unsupported%29">
-      <UniqueIdentifier>{b24373a8-e7bf-46a0-a18b-97d2f7ea9d60}</UniqueIdentifier>
+      <UniqueIdentifier>{fc749e59-6a16-4bb6-99fb-7e77d0a2ebd7}</UniqueIdentifier>
       <Extensions>asm;obj;c;cpp;cxx;h;hpp;hxx</Extensions>
     </Filter>
     <Filter Include="MiniZip">
-      <UniqueIdentifier>{4060ef4d-fa94-4b75-b7dc-3885abfff026}</UniqueIdentifier>
+      <UniqueIdentifier>{f9d3a788-bfd9-4716-9c31-700e8c3d585c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Wrapper">
-      <UniqueIdentifier>{91db0977-3e50-49c6-ad6e-d7800422f597}</UniqueIdentifier>
+      <UniqueIdentifier>{0167cb18-32c1-438e-b7cb-eee3a19d539c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -87,6 +87,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="README.txt" />
+  </ItemGroup>
+  <ItemGroup>
     <ClInclude Include="..\..\crc32.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -148,12 +151,11 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="README.txt" />
+    <CustomBuildStep Include="..\..\win32\zlib.def">
+      <Filter>Source Files</Filter>
+    </CustomBuildStep>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="..\..\win32\zlib.def">
-      <Filter>Source Files</Filter>
-    </CustomBuild>
     <CustomBuild Include="..\..\contrib\masmx86\gvmat32.asm">
       <Filter>Assembler Files %28Unsupported%29</Filter>
     </CustomBuild>

@@ -2,49 +2,49 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="TableData">
-      <UniqueIdentifier>{7ba23ae5-5513-43f9-a427-56d9864ca1c3}</UniqueIdentifier>
+      <UniqueIdentifier>{433ad29f-49a9-4536-b28f-0e46caa4883e}</UniqueIdentifier>
     </Filter>
     <Filter Include="TableData\Item">
-      <UniqueIdentifier>{4fb05464-907a-447a-b326-8d4f16c8b61b}</UniqueIdentifier>
+      <UniqueIdentifier>{ebd0529e-42e9-4d51-b78f-2749c7b061bf}</UniqueIdentifier>
     </Filter>
     <Filter Include="TableData\Character">
-      <UniqueIdentifier>{7daea73f-55c8-4940-9f5b-9d25800506bf}</UniqueIdentifier>
+      <UniqueIdentifier>{bf042a2c-5cd8-428a-8e66-391a8e94594a}</UniqueIdentifier>
     </Filter>
     <Filter Include="TableData\Skill">
-      <UniqueIdentifier>{759baee4-cd89-4784-9f8a-debff91b3406}</UniqueIdentifier>
+      <UniqueIdentifier>{cff7d2de-79fe-4785-b7d2-e3b6927199d5}</UniqueIdentifier>
     </Filter>
     <Filter Include="TableData\Party">
-      <UniqueIdentifier>{e48382ba-ee33-44f0-9eb4-01561a5407da}</UniqueIdentifier>
+      <UniqueIdentifier>{9a26b1ce-2291-4249-b1f7-268f5070fe0e}</UniqueIdentifier>
     </Filter>
     <Filter Include="TableData\World">
-      <UniqueIdentifier>{8df16c62-fdcf-41b0-abde-e3905bf3e9c2}</UniqueIdentifier>
+      <UniqueIdentifier>{f12bd4d0-5b43-45a3-87ea-f126ec60010e}</UniqueIdentifier>
     </Filter>
     <Filter Include="TableData\Quest">
-      <UniqueIdentifier>{78787606-5342-4967-aef7-c915953668ac}</UniqueIdentifier>
+      <UniqueIdentifier>{7c347406-d4dc-4be4-8bf4-91313afa0a5d}</UniqueIdentifier>
     </Filter>
     <Filter Include="TableData\Misc">
-      <UniqueIdentifier>{5dfab6fc-edd2-4b37-bafc-5d99de63c7a8}</UniqueIdentifier>
+      <UniqueIdentifier>{b69bbb6b-6161-4dc1-aff0-644d08256471}</UniqueIdentifier>
     </Filter>
     <Filter Include="TableData\Text">
-      <UniqueIdentifier>{bfacd01f-65a2-4016-b184-3a76e82368c4}</UniqueIdentifier>
+      <UniqueIdentifier>{af7306cd-ced0-479f-beb9-c36e3f8c5bf2}</UniqueIdentifier>
     </Filter>
     <Filter Include="TableData\Rule">
-      <UniqueIdentifier>{33ca1ccc-9f68-4bfc-a9a2-f4ae9a4ccf14}</UniqueIdentifier>
+      <UniqueIdentifier>{a3d1815b-a13b-4bd2-bb39-d84160209531}</UniqueIdentifier>
     </Filter>
     <Filter Include="Base">
-      <UniqueIdentifier>{2eefd343-3c50-4dd6-9260-5a154d2040f5}</UniqueIdentifier>
+      <UniqueIdentifier>{57c9a247-0596-4b3c-925e-52ca38184ff2}</UniqueIdentifier>
     </Filter>
     <Filter Include="Container">
-      <UniqueIdentifier>{cd7a36a8-de2c-40f7-8ae6-611158e00076}</UniqueIdentifier>
+      <UniqueIdentifier>{6fb01a97-80a4-448b-b84d-ea6e66ed0105}</UniqueIdentifier>
     </Filter>
     <Filter Include="ModelToolData">
-      <UniqueIdentifier>{83c7f2d1-3dc4-4a32-a391-006ec35d2d86}</UniqueIdentifier>
+      <UniqueIdentifier>{b4db869e-baf8-4f8c-b46a-5111eace1041}</UniqueIdentifier>
     </Filter>
     <Filter Include="WorldData">
-      <UniqueIdentifier>{3ca7bd63-841e-4036-b205-27ecacbbbe90}</UniqueIdentifier>
+      <UniqueIdentifier>{bad37363-4cae-4fe8-b377-4445ee0d556e}</UniqueIdentifier>
     </Filter>
     <Filter Include="WorldDataNewNavi">
-      <UniqueIdentifier>{30e4bc11-e111-41eb-93b4-112daf647ad6}</UniqueIdentifier>
+      <UniqueIdentifier>{eb39e5f5-f5e6-4d3b-af58-c2220ba479fd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -495,6 +495,6 @@
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ReadMe.txt" />
+    <Text Include="ReadMe.txt" />
   </ItemGroup>
 </Project>

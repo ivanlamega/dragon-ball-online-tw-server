@@ -2,55 +2,55 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Precomp">
-      <UniqueIdentifier>{c6738b89-cb92-4a18-8313-0336b8153df2}</UniqueIdentifier>
+      <UniqueIdentifier>{0d124be4-a35d-471b-a168-85e3bd60cf05}</UniqueIdentifier>
     </Filter>
     <Filter Include="Entity">
-      <UniqueIdentifier>{f736d100-801e-48c8-a55e-85200351f27c}</UniqueIdentifier>
+      <UniqueIdentifier>{eda51030-6d26-4636-8576-dc2fefcd48a4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Entity\Factory">
-      <UniqueIdentifier>{85bc4722-c576-4f5c-b37e-79867128ad26}</UniqueIdentifier>
+      <UniqueIdentifier>{88ddd558-5d91-4019-90e3-8448c3054b6c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Entity\Event">
-      <UniqueIdentifier>{678f6a24-23b0-442f-905c-366b919777c1}</UniqueIdentifier>
+      <UniqueIdentifier>{66fc6f8e-3955-4f47-a5d4-57a787d39375}</UniqueIdentifier>
     </Filter>
     <Filter Include="Entity\Condition">
-      <UniqueIdentifier>{83d193b5-bda4-45ff-9ee4-56edc479d74a}</UniqueIdentifier>
+      <UniqueIdentifier>{903ef511-c8fe-459a-b9b3-51afdd352bff}</UniqueIdentifier>
     </Filter>
     <Filter Include="Entity\Action">
-      <UniqueIdentifier>{dca47304-1d74-4036-928a-e2e2bbbef602}</UniqueIdentifier>
+      <UniqueIdentifier>{1f535911-e904-4195-bbec-1258ea3923d4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Entity\Container">
-      <UniqueIdentifier>{d09059af-251e-4cb9-916a-7d526661a88a}</UniqueIdentifier>
+      <UniqueIdentifier>{06fda187-9cf3-4927-aa8f-be3f7a3f40b8}</UniqueIdentifier>
     </Filter>
     <Filter Include="Global">
-      <UniqueIdentifier>{bb8f1ac6-0c9a-45c1-a637-cf674e499e30}</UniqueIdentifier>
+      <UniqueIdentifier>{d7cfc299-8eb2-4482-98a2-8d57ee4c9476}</UniqueIdentifier>
     </Filter>
     <Filter Include="Control">
-      <UniqueIdentifier>{c07b3b35-e0f7-498d-b8b1-b6ab90c113b0}</UniqueIdentifier>
+      <UniqueIdentifier>{015ddfc9-ede6-4726-a3ef-49ff4aadb82c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Control\Event Mapper">
-      <UniqueIdentifier>{d57cb475-dd8b-4f1a-bb98-df20f3a48113}</UniqueIdentifier>
+      <UniqueIdentifier>{017ea0e3-60a3-40bc-a46a-80b6326e8313}</UniqueIdentifier>
     </Filter>
     <Filter Include="Control\Factory">
-      <UniqueIdentifier>{10fa7a42-9416-4ab8-9da6-c5cc14ba21db}</UniqueIdentifier>
+      <UniqueIdentifier>{9abd4ba8-057a-430a-b206-077b5d802f0a}</UniqueIdentifier>
     </Filter>
     <Filter Include="Control\Controller">
-      <UniqueIdentifier>{2ec26596-fe8b-43c3-a34f-38100952d82b}</UniqueIdentifier>
+      <UniqueIdentifier>{7565b13b-aa96-49da-92b1-0318404603f5}</UniqueIdentifier>
     </Filter>
     <Filter Include="UI">
-      <UniqueIdentifier>{7a33a2b7-4232-4e64-8114-459d7881a979}</UniqueIdentifier>
+      <UniqueIdentifier>{8940ca24-2ebc-4467-8f0d-33a117bd689b}</UniqueIdentifier>
     </Filter>
     <Filter Include="UI\Factory">
-      <UniqueIdentifier>{67e22d79-ce25-4d9b-974a-5d398dfcaa05}</UniqueIdentifier>
+      <UniqueIdentifier>{3b59b666-0033-4d3e-82d3-3faa75d43f96}</UniqueIdentifier>
     </Filter>
     <Filter Include="UI\Agency">
-      <UniqueIdentifier>{56295907-fb78-462e-8da1-820a50c87bba}</UniqueIdentifier>
+      <UniqueIdentifier>{315f221f-30c5-4562-aed8-0049f732cf0c}</UniqueIdentifier>
     </Filter>
     <Filter Include="UI\Main">
-      <UniqueIdentifier>{8884c386-de7b-413d-aa02-4b2b1e58e229}</UniqueIdentifier>
+      <UniqueIdentifier>{a67e754b-6713-4e55-b2e6-171a1cfa8031}</UniqueIdentifier>
     </Filter>
     <Filter Include="UI\Receiver">
-      <UniqueIdentifier>{d377e163-d329-4227-a0f8-b23c41dd422e}</UniqueIdentifier>
+      <UniqueIdentifier>{1486b89e-1419-44a3-b48e-9143044a16b3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -947,14 +947,14 @@
     <ClInclude Include="DboTSTAgency.h">
       <Filter>UI\Agency</Filter>
     </ClInclude>
+    <ClInclude Include="DboTSMain.h">
+      <Filter>UI\Main</Filter>
+    </ClInclude>
     <ClInclude Include="DboTSQRecv.h">
       <Filter>UI\Receiver</Filter>
     </ClInclude>
     <ClInclude Include="DboTSTRecv.h">
       <Filter>UI\Receiver</Filter>
-    </ClInclude>
-    <ClInclude Include="DboTSMain.h">
-      <Filter>UI\Main</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

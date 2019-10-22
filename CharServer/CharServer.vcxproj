@@ -154,7 +154,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;_WIN32_WINNT=0x0501;CPPCONN_PUBLIC_FUNC=;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Shared\Source\Library\NetworkLibrary\Header\;$(SolutionDir)packages\boost.1.63.0.0\lib\native\include\boost;$(SolutionDir)packages\boost.1.63.0.0\lib\native\include\;$(SolutionDir)NtlBaseLib\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Libraries\NtlLib\Shared\NtlTrigger;$(SolutionDir)Shared\Source\Library\NetworkLibrary\Header\;$(SolutionDir)packages\boost.1.63.0.0\lib\native\include\boost;$(SolutionDir)packages\boost.1.63.0.0\lib\native\include\;$(SolutionDir)NtlBaseLib\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <SDLCheck>true</SDLCheck>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -187,6 +187,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Libraries\NtlLib\Shared\NtlTrigger\NtlTrigger.vcxproj">
+      <Project>{e18fb469-6ea5-4440-9c5d-99f62f45d7e4}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\NtlBaseLib\NtlBaseLib.vcxproj">
       <Project>{d6a637a7-ad22-4181-8426-b486cd90df72}</Project>
     </ProjectReference>

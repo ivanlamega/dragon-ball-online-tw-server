@@ -2,127 +2,124 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Game">
-      <UniqueIdentifier>{1d108bf2-86a7-4525-9290-94885ae43937}</UniqueIdentifier>
+      <UniqueIdentifier>{038c92df-01da-41bc-a39b-0b8a12336f3c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Base">
-      <UniqueIdentifier>{0bfcf4ac-a582-4696-b489-fb118e6d7a16}</UniqueIdentifier>
+      <UniqueIdentifier>{d9f82a92-27ba-4ed8-998f-680aa0e47af6}</UniqueIdentifier>
     </Filter>
     <Filter Include="Protocol">
-      <UniqueIdentifier>{a5ad869f-bb57-4af3-b6b9-663fe31cb2e5}</UniqueIdentifier>
+      <UniqueIdentifier>{00c043e9-98a9-45fa-9480-b7feb6f63940}</UniqueIdentifier>
     </Filter>
     <Filter Include="Protocol\Client ↔ Server">
-      <UniqueIdentifier>{fc385fa8-8923-46bb-91e7-cc99cd5c4ad5}</UniqueIdentifier>
+      <UniqueIdentifier>{fb2d7fd1-6a17-49b0-9e7b-a7fb7a90ae3d}</UniqueIdentifier>
     </Filter>
     <Filter Include="Protocol\Client ↔ Server\Auth">
-      <UniqueIdentifier>{dbfd0690-48c0-479e-ba84-6494d246d6c8}</UniqueIdentifier>
+      <UniqueIdentifier>{e8d6f10a-8f66-43b4-9398-9fe0fb895a3e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Protocol\Client ↔ Server\Game">
-      <UniqueIdentifier>{79b21530-34e3-42f1-84ac-58172ae31b4f}</UniqueIdentifier>
+      <UniqueIdentifier>{e752add3-fcb3-4560-bd6d-fd68397a722e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Protocol\Client ↔ Server\Character">
-      <UniqueIdentifier>{e0c5f0a3-f74a-493b-97b4-a583dccbd0be}</UniqueIdentifier>
+      <UniqueIdentifier>{b2f8c3be-897b-4d7a-887d-91326aa79792}</UniqueIdentifier>
     </Filter>
     <Filter Include="Protocol\Client ↔ Server\Community">
-      <UniqueIdentifier>{c75ff4a5-90ed-40da-9260-eee2f10fda99}</UniqueIdentifier>
+      <UniqueIdentifier>{e5ff576b-31f6-4ce5-b431-6c8e80d42987}</UniqueIdentifier>
     </Filter>
     <Filter Include="Protocol\Master ↔ Server">
-      <UniqueIdentifier>{96d76a1c-8ecb-4c96-9fd4-c3c138ad2b87}</UniqueIdentifier>
+      <UniqueIdentifier>{b8465909-ee78-452e-8cb8-a8c87996d98f}</UniqueIdentifier>
     </Filter>
     <Filter Include="Protocol\Master ↔ Server\Auth">
-      <UniqueIdentifier>{cbf82e6a-fccc-4615-b663-0a33c108820e}</UniqueIdentifier>
+      <UniqueIdentifier>{866feb8c-33a1-4b52-be16-d44f30701401}</UniqueIdentifier>
     </Filter>
     <Filter Include="Protocol\Master ↔ Server\Character">
-      <UniqueIdentifier>{cafa0f09-a98a-4709-9373-ea1371c31b27}</UniqueIdentifier>
+      <UniqueIdentifier>{c2172195-269e-499c-8f19-0c9ca1931d78}</UniqueIdentifier>
     </Filter>
     <Filter Include="Protocol\Master ↔ Server\Game">
-      <UniqueIdentifier>{cbefda49-21d7-4672-9887-315fc946aa6d}</UniqueIdentifier>
+      <UniqueIdentifier>{55926d23-cdb8-4aad-94be-1fe4d368f6f2}</UniqueIdentifier>
     </Filter>
     <Filter Include="Protocol\Master ↔ Server\Log">
-      <UniqueIdentifier>{4459fa39-9b86-4757-90d6-7ee97a30c552}</UniqueIdentifier>
+      <UniqueIdentifier>{f976b75a-fdbb-40bf-a17d-4e7fd1712082}</UniqueIdentifier>
     </Filter>
     <Filter Include="Protocol\Master ↔ Server\Community">
-      <UniqueIdentifier>{621824fe-4a2c-45ff-93f2-68aaff28fbb8}</UniqueIdentifier>
+      <UniqueIdentifier>{16860484-e416-4af6-a14e-84dec6605687}</UniqueIdentifier>
     </Filter>
     <Filter Include="Protocol\Master ↔ Server\Query">
-      <UniqueIdentifier>{767445bc-f39e-47d2-80dd-b6e8c7b3f0c9}</UniqueIdentifier>
+      <UniqueIdentifier>{79787705-6b93-49ac-b3df-5a2cec93fc6c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Protocol\Master ↔ Server\Master">
-      <UniqueIdentifier>{6b3ca416-d77a-4dd1-8fd7-2ff126e0c4bd}</UniqueIdentifier>
+      <UniqueIdentifier>{2d25e882-11ff-4c1c-b00e-298db0046e3d}</UniqueIdentifier>
     </Filter>
     <Filter Include="Protocol\Master ↔ Server\Npc">
-      <UniqueIdentifier>{524fbecc-67c8-4c52-b181-d9c3cd9dc893}</UniqueIdentifier>
+      <UniqueIdentifier>{19403875-15a4-4cb5-b23c-9f28856c3990}</UniqueIdentifier>
     </Filter>
     <Filter Include="Protocol\Master ↔ Server\Operating">
-      <UniqueIdentifier>{6565c8a6-29f7-4233-b30a-e253b58b8f0a}</UniqueIdentifier>
+      <UniqueIdentifier>{939c8a7f-69b8-4a72-a811-463c870c6ef4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Protocol\Master ↔ Server\System Tool">
-      <UniqueIdentifier>{71e38d26-cebe-4e5c-b5e2-cf0c3c581cc7}</UniqueIdentifier>
+      <UniqueIdentifier>{45b463e2-23f7-4ca6-93ae-1fa50c2b081b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Protocol\Master ↔ Server\Server Agent">
-      <UniqueIdentifier>{881ce490-af4e-4101-bcd8-98444b911444}</UniqueIdentifier>
+      <UniqueIdentifier>{7991d5b7-419c-4612-87d0-a30028afb384}</UniqueIdentifier>
     </Filter>
     <Filter Include="Protocol\Master ↔ Server\Report">
-      <UniqueIdentifier>{2ceee61a-6df6-44bc-95dd-ea07322a9fc1}</UniqueIdentifier>
+      <UniqueIdentifier>{88cc24d7-a352-4da1-af55-89fec76633fc}</UniqueIdentifier>
     </Filter>
     <Filter Include="Protocol\Server ↔ Server">
-      <UniqueIdentifier>{9388f6c6-8995-4ab6-8582-19ef483d9bd4}</UniqueIdentifier>
+      <UniqueIdentifier>{87fbf7af-3e9a-4abb-8de6-31f2dcd178e5}</UniqueIdentifier>
     </Filter>
     <Filter Include="Protocol\Server ↔ Server\Game ↔ NPC">
-      <UniqueIdentifier>{9d984064-55aa-41bb-b267-9a62364ba2e0}</UniqueIdentifier>
+      <UniqueIdentifier>{e465c773-6cce-4943-84af-274a5663bf97}</UniqueIdentifier>
     </Filter>
     <Filter Include="Protocol\Server ↔ Server\Character ↔ Query">
-      <UniqueIdentifier>{446f68df-964a-4f4a-9331-47a5c4542cab}</UniqueIdentifier>
+      <UniqueIdentifier>{fe353565-1c9b-4cfb-b867-a48a5e3a4f62}</UniqueIdentifier>
     </Filter>
     <Filter Include="Protocol\Server ↔ Server\Game ↔ Query">
-      <UniqueIdentifier>{bfdb4e0d-ed69-4e79-a9c0-12a7848e174e}</UniqueIdentifier>
+      <UniqueIdentifier>{edc02b2e-d3d5-4aad-9881-d2edbfd5a31c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Protocol\Server ↔ Server\Game ↔ Community">
-      <UniqueIdentifier>{6db9379d-e57d-418e-ad5a-ff504b10b006}</UniqueIdentifier>
+      <UniqueIdentifier>{a493e365-e99e-47c3-90cb-1d0dd127e642}</UniqueIdentifier>
     </Filter>
     <Filter Include="Protocol\Server ↔ Server\Log">
-      <UniqueIdentifier>{e0670634-f64f-409f-b84f-68271adb3540}</UniqueIdentifier>
+      <UniqueIdentifier>{d986b2e3-3b0e-4340-a467-ee6ca3e14b0f}</UniqueIdentifier>
     </Filter>
     <Filter Include="Protocol\Server ↔ Server\Agent ↔ Controller">
-      <UniqueIdentifier>{04f5e5a1-e6f8-4a2e-9864-1a807986b1ab}</UniqueIdentifier>
+      <UniqueIdentifier>{acb794da-fe16-4809-80ec-ed59ca664b65}</UniqueIdentifier>
     </Filter>
     <Filter Include="Protocol\Server ↔ Server\Community ↔ Query">
-      <UniqueIdentifier>{ab9213f5-e019-45da-8dda-266be5051288}</UniqueIdentifier>
+      <UniqueIdentifier>{cef061a6-5959-4bb8-977b-74b3288129e5}</UniqueIdentifier>
     </Filter>
     <Filter Include="Protocol\Server ↔ Server\Report">
-      <UniqueIdentifier>{f284f2e8-1a61-4081-a820-d18c9de35411}</UniqueIdentifier>
+      <UniqueIdentifier>{93a72917-56aa-4a38-8587-8bab2c1664a2}</UniqueIdentifier>
     </Filter>
     <Filter Include="Protocol\Server ↔ Server\Operating ↔ SystemTool">
-      <UniqueIdentifier>{d80d024b-0704-4db0-b211-e204c1564cbe}</UniqueIdentifier>
+      <UniqueIdentifier>{46e368c7-f9ac-4f0c-a26d-86aa7ca80f14}</UniqueIdentifier>
     </Filter>
     <Filter Include="Protocol\Server ↔ Server\Community ↔ Operating">
-      <UniqueIdentifier>{01e1b6f5-83ab-4fbd-97c1-b0c85f6c7d39}</UniqueIdentifier>
+      <UniqueIdentifier>{e50e2c86-753d-4661-b176-1d4b7df4370d}</UniqueIdentifier>
     </Filter>
     <Filter Include="Protocol\Server ↔ Server\Operating ↔ Game">
-      <UniqueIdentifier>{a200aa2b-74af-4c73-a24d-bb85115f38de}</UniqueIdentifier>
+      <UniqueIdentifier>{59c1989b-bfe2-41db-8c31-d283d9a24ffa}</UniqueIdentifier>
     </Filter>
     <Filter Include="Protocol\Server ↔ Server\Operating ↔ Query">
-      <UniqueIdentifier>{81019ba9-f745-4ad5-b67d-d5f9d8f57200}</UniqueIdentifier>
+      <UniqueIdentifier>{2c0bc65d-05ad-435f-b72b-d7b0cc6fd829}</UniqueIdentifier>
     </Filter>
     <Filter Include="Protocol\Server ↔ Server\Operating ↔ Character">
-      <UniqueIdentifier>{7f4367ec-d86e-4cc8-a8ce-1f7ab62d13e7}</UniqueIdentifier>
+      <UniqueIdentifier>{f6f3db2e-1158-4579-bf31-d64271226775}</UniqueIdentifier>
     </Filter>
     <Filter Include="Protocol\Server ↔ Server\Operating ↔ Auth">
-      <UniqueIdentifier>{15efd44d-49b3-4618-8b83-b27c913872a7}</UniqueIdentifier>
+      <UniqueIdentifier>{acf9eb77-4630-48c3-b54f-b3bb6dd930fe}</UniqueIdentifier>
     </Filter>
     <Filter Include="Protocol\BotSystem">
-      <UniqueIdentifier>{476c0b3e-8f6c-4f40-940d-eb31151750a2}</UniqueIdentifier>
+      <UniqueIdentifier>{944f4210-4e66-4337-a6f3-b43ed5c7d0b4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Protocol\BotSystem\BotMaster ↔ BotAgent">
-      <UniqueIdentifier>{dfef9288-8431-4977-a761-1c44d48139f4}</UniqueIdentifier>
+      <UniqueIdentifier>{f0f64b57-d99b-4349-8228-030b63f9edca}</UniqueIdentifier>
     </Filter>
     <Filter Include="Protocol\BotSystem\BotMaster ↔ BotClient">
-      <UniqueIdentifier>{cde2882e-7991-4799-b9e9-9c6f0f0e81b2}</UniqueIdentifier>
+      <UniqueIdentifier>{13dc6fe9-c3e2-4a53-bfc1-91b6190348d1}</UniqueIdentifier>
     </Filter>
     <Filter Include="Math">
-      <UniqueIdentifier>{abbabe40-ce8a-4c95-8b90-bb15dbcda219}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Protocol\Server ↔ Server\Auth ↔ Query">
-      <UniqueIdentifier>{a8e2220a-4acf-469a-b643-eeb13c37e11f}</UniqueIdentifier>
+      <UniqueIdentifier>{08723bad-f348-46b2-9182-3651f6610c81}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -469,13 +466,6 @@
       <Filter>Math</Filter>
     </ClInclude>
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="NtlPacketAQ.h">
-      <Filter>Protocol\Server ↔ Server\Auth ↔ Query</Filter>
-    </ClInclude>
-    <ClInclude Include="NtlPacketQA.h">
-      <Filter>Protocol\Server ↔ Server\Auth ↔ Query</Filter>
-    </ClInclude>
-    <ClInclude Include="ServerGeneralDef.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="NtlAvatar.cpp">
@@ -731,14 +721,8 @@
       <Filter>Math</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp" />
-    <ClCompile Include="NtlPacketQA.cpp">
-      <Filter>Protocol\Server ↔ Server\Auth ↔ Query</Filter>
-    </ClCompile>
-    <ClCompile Include="NtlPacketAQ.cpp">
-      <Filter>Protocol\Server ↔ Server\Auth ↔ Query</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ReadMe.txt" />
+    <Text Include="ReadMe.txt" />
   </ItemGroup>
 </Project>

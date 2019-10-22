@@ -2,43 +2,43 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Entity">
-      <UniqueIdentifier>{bd63d8bf-a6f7-453d-b8a4-2901a81b7029}</UniqueIdentifier>
+      <UniqueIdentifier>{a45220d1-b36c-4e3b-9277-d0d8e68e3a58}</UniqueIdentifier>
     </Filter>
     <Filter Include="Entity\Factory">
-      <UniqueIdentifier>{68972f64-9e34-48ac-b837-81815c677667}</UniqueIdentifier>
+      <UniqueIdentifier>{6406bb85-5d80-45eb-b39e-07b279a52258}</UniqueIdentifier>
     </Filter>
     <Filter Include="Control">
-      <UniqueIdentifier>{eba2144b-8e4a-42b7-8a3f-c41a7d44c01b}</UniqueIdentifier>
+      <UniqueIdentifier>{cadd8ebe-a495-4e6c-8e6e-315373a341e6}</UniqueIdentifier>
     </Filter>
     <Filter Include="Control\Factory">
-      <UniqueIdentifier>{18bf6942-54e4-41d9-a7c3-82e9c083b52a}</UniqueIdentifier>
+      <UniqueIdentifier>{b3ae55bd-5381-4b55-99d3-8ae1c450bde7}</UniqueIdentifier>
     </Filter>
     <Filter Include="Precomp">
-      <UniqueIdentifier>{76637639-3fcb-4a41-b4cf-adfc482cd134}</UniqueIdentifier>
+      <UniqueIdentifier>{e48cc8b1-83ba-46b0-9d28-7b1f5ecdf661}</UniqueIdentifier>
     </Filter>
     <Filter Include="UI">
-      <UniqueIdentifier>{adf2543d-1a1e-4faf-a1ab-e24a96bb8a80}</UniqueIdentifier>
+      <UniqueIdentifier>{2f2a5ff3-117c-4db2-90f6-7829667236dd}</UniqueIdentifier>
     </Filter>
     <Filter Include="UI\Factory">
-      <UniqueIdentifier>{ca7b2953-884c-43fd-8424-493911a64f58}</UniqueIdentifier>
+      <UniqueIdentifier>{f53059a3-690a-4e0d-be39-2c46151942f0}</UniqueIdentifier>
     </Filter>
     <Filter Include="Utility">
-      <UniqueIdentifier>{741ce666-5f21-4e18-a3a8-6008684694c0}</UniqueIdentifier>
+      <UniqueIdentifier>{19a14377-f7ca-4c80-86c3-12e938afaab3}</UniqueIdentifier>
     </Filter>
     <Filter Include="Utility\RTTI">
-      <UniqueIdentifier>{a32081e4-aa7a-46f0-a7ce-6ea33ab93ba8}</UniqueIdentifier>
+      <UniqueIdentifier>{52050ce6-c3a4-40e9-b1cf-f5d51a085eae}</UniqueIdentifier>
     </Filter>
     <Filter Include="Utility\Log">
-      <UniqueIdentifier>{fc57e878-f661-4c97-bc8e-eada41739e61}</UniqueIdentifier>
+      <UniqueIdentifier>{3be8f2eb-b4f3-49fb-8e5f-7cff489ed846}</UniqueIdentifier>
     </Filter>
     <Filter Include="Utility\Script">
-      <UniqueIdentifier>{f5e13423-bd1e-4b8c-be1a-c1afbece17c1}</UniqueIdentifier>
+      <UniqueIdentifier>{cf61f6f0-69a4-4f57-af9a-46b8b00b40d2}</UniqueIdentifier>
     </Filter>
     <Filter Include="Utility\IO">
-      <UniqueIdentifier>{a0c3a786-1f83-45ac-96d2-f6fa23e9bb7a}</UniqueIdentifier>
+      <UniqueIdentifier>{514c072a-b5ba-4763-a976-7a8f900ad255}</UniqueIdentifier>
     </Filter>
     <Filter Include="Global">
-      <UniqueIdentifier>{0e018e4f-91ee-4061-afe3-c192bd970bcb}</UniqueIdentifier>
+      <UniqueIdentifier>{0fa395a4-fa3b-4eb8-b6ac-a64addc2d78e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
