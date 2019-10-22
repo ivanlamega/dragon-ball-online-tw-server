@@ -14,6 +14,7 @@ public:
 
 	int  Encrypt(const char* originalData, int originalDataLength, char* encData, int encDataSize);
 	int  Decrypt(const char* originalData, int originalDataLength, char* decData, int decDataSize);
+	//virtual void ReleaseCipher(void) { return; };
 
 	CipherBase* GetCipher(void) { return mCipherPtr; };
 
