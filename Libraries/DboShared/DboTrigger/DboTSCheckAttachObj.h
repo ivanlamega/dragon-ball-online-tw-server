@@ -12,7 +12,7 @@
 
 class CDboTSCheckAttachObj : public CNtlTSCond
 {
-	NTL_TS_DECLARE_RTTI(CDboTSCheckAttachObj, CNtlTSCond)
+	NTL_TS_DECLARE_RTTI
 
 // Declarations
 public:
@@ -50,6 +50,7 @@ protected:
 	void								PackingObjectIdxList( std::string& strObjList, const mapdef_OBJECT_LIST& defObjList );
 	void								UnPackingObjectIdxList( const std::string& strObjList, mapdef_OBJECT_LIST& defObjList );
 };
+
 
 inline unsigned int CDboTSCheckAttachObj::GetWorldIdx( void ) const
 {

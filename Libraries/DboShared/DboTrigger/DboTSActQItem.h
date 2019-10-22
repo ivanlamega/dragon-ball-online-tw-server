@@ -22,7 +22,7 @@ struct stTS_QITEM_INFO
 
 class CDboTSActQItem : public CNtlTSAction
 {
-	NTL_TS_DECLARE_RTTI(CDboTSActQItem, CNtlTSAction)
+	NTL_TS_DECLARE_RTTI
 
 // Declarations
 public:

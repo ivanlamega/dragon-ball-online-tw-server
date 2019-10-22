@@ -7,7 +7,7 @@
 
 class CDboTSActTMQStage : public CNtlTSAction
 {
-	NTL_TS_DECLARE_RTTI(CDboTSActTMQStage, CNtlTSAction)
+	NTL_TS_DECLARE_RTTI
 
 // Member variables
 protected:

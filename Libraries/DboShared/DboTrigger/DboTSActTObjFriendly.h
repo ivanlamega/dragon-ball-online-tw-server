@@ -12,7 +12,7 @@
 
 class CDboTSActTObjFriendly : public CNtlTSAction
 {
-	NTL_TS_DECLARE_RTTI(CDboTSActTObjFriendly, CNtlTSAction)
+	NTL_TS_DECLARE_RTTI
 
 // Member variables
 protected:

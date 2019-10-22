@@ -2,9 +2,6 @@
 #define _DBO_TSCOREDEFINE_H_
 
 #include "NtlQuest.h"
-#include "NtlTSCoreDefine.h" // quitar
-#include <string> //quitar
-#include <vector> // quitar
 
 //////////////////////////////////////////////////////////////////////////
 //

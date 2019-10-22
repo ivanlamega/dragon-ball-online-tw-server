@@ -12,7 +12,7 @@
 
 class CDboTSCheckBudokaiState : public CNtlTSCond
 {
-	NTL_TS_DECLARE_RTTI(CDboTSCheckBudokaiState, CNtlTSCond)
+	NTL_TS_DECLARE_RTTI
 
 // Member variables
 protected:

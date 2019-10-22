@@ -3,7 +3,7 @@
 
 
 #include "DboTSCoreDefine.h"
-#include "NtlTSController.h"//quitar
+
 
 class CDboTSTAgency;
 class CDboTSActETimerS;
@@ -22,7 +22,7 @@ class CDboTSActETimerS;
 
 class CDboTSTCtrl : public CNtlTSController
 {
-	NTL_TS_DECLARE_RTTI(CDboTSTCtrl, CNtlTSController)
+	NTL_TS_DECLARE_RTTI
 
 // Declarations
 public:
@@ -98,13 +98,13 @@ protected:
 
 // Constructions
 public:
-	CDboTSTCtrl(void) ;
-	virtual ~CDboTSTCtrl(void) ;
+	CDboTSTCtrl( void );
+	virtual ~CDboTSTCtrl( void );
 
 // Methods
 public:
 	// TS 갱신
-	virtual void						Update(void) ;
+	virtual void						Update( void );
 
 	// 트리거를 진행 할 수 있는지 검사
 	bool								CanProgressClickObject( unsigned int uiObjId );
@@ -134,7 +134,7 @@ public:
 
 	// 부모 ( Agency )
 	CDboTSTAgency*						GetParent( void );
-	void								SetParent(CDboTSTAgency* pParent) ;
+	void								SetParent( CDboTSTAgency* pParent );
 
 	CNtlTSCont*							GetCurTSP( void );
 
@@ -227,31 +227,31 @@ public:
 
 	void								ClearAllEventGenInfo( void );
 
-	virtual unsigned int				GetCurTime(void) ;
+	virtual unsigned int				GetCurTime( void );
 
-	virtual void						AttachUpdateExceptionGroup(NTL_TS_TG_ID tgId) ;
+	virtual void						AttachUpdateExceptionGroup( NTL_TS_TG_ID tgId );
 
 // Implementations
 protected:
 	// 트리거 단계 진행 갱신
-	virtual void						UpdateTSStep(void) ;
+	virtual void						UpdateTSStep( void );
 
 	// 예외 그룹 갱신
 	virtual bool						IfInterestingDoExceptionGroup( NTL_TS_TG_ID ) const { return true; }
-	virtual void						UpdateExceptionGroup(void) ;
-	virtual void						AutoDetachedUpdateExceptionGroup(CNtlTSGroup* pAutoDetachedGroup) ;
+	virtual void						UpdateExceptionGroup( void );
+	virtual void						AutoDetachedUpdateExceptionGroup( CNtlTSGroup* pAutoDetachedGroup );
 
 	virtual void						BeginExceptionAction( sTS_KEY& sKey ) { UNREFERENCED_PARAMETER( sKey ); }
 	virtual void						EndExceptionAction( sTS_KEY& sKey ) { UNREFERENCED_PARAMETER( sKey ); }
 
-	virtual void						AddUpdateExceptionGroupActRef(NTL_TS_TG_ID tgId) ;
-	virtual void						ReleaseUpdateExceptionGroupActRef(NTL_TS_TG_ID tgId) ;
+	virtual void						AddUpdateExceptionGroupActRef( NTL_TS_TG_ID tgId );
+	virtual void						ReleaseUpdateExceptionGroupActRef( NTL_TS_TG_ID tgId );
 
 	// 시간에 따른 TSP 진행 대기 갱신
-	virtual void						UpdateTimeWait(void) ;
+	virtual void						UpdateTimeWait( void );
 
 	// 트리거 진행에 따른 TSP 처리 함수
-	virtual void						MoveTSP(CNtlTSCont* pCurCont, CNtlTSCont* pNextCont, bool bSave) ;
+	virtual void						MoveTSP( CNtlTSCont* pCurCont, CNtlTSCont* pNextCont, bool bSave );
 
 	virtual void						ChangeTSState( unsigned int uiChangFlag ) { UNREFERENCED_PARAMETER( uiChangFlag ); return; }
 };

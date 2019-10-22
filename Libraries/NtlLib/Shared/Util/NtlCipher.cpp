@@ -1,11 +1,11 @@
 #include "StdAfx.h"
-#include "CDes.h"
-#include "TwofishCipher.h"
-#include "AESCipher.h"
-#include "CryptRSA.h"
-#include "blowfish.h"
-#include "md5.h"
-#include "TripleDes.h"
+#include "CipherDes.h"
+#include "CipherTwofish.h"
+#include "CipherAES.h"
+#include "CipherRSA.h"
+#include "CipherBlowfish.h"
+#include "CipherMD5.h"
+#include "CipherTripleDES.h"
 #include "NtlCipher.h"
 
 #include <wchar.h>
@@ -62,26 +62,26 @@ int  CNtlCipher::SetKey(unsigned char cipher, const char * cipherKey, int cipher
 	switch (mCipherType) 
 	{
 	case DES_CIPHER:
-		mCipherPtr = new CDes;	
+		mCipherPtr = new CipherDes;	
 		break;
 	case TWOFISH_CIPHER:
-		mCipherPtr = new CTwofishCipher;
+		mCipherPtr = new CipherTwofish;
 		break;
 	case AES_CIPHER:
-		mCipherPtr = new CAESCipher;
+		mCipherPtr = new CipherAES;
 		break;
 	case TRIPLEDES_CIPHER:
 		//mCipherPtr = new CCryptTripleDes;
-		mCipherPtr = new CTripleDes;
+		mCipherPtr = new CipherTripleDes;
 		break;
 	case BLOWFISH_CIPHER:
-		mCipherPtr = new CBlowfish;
+		mCipherPtr = new CipherBlowfish;
 		break;
 	case MD5_CIPHER:
-		mCipherPtr = new MD5;
+		mCipherPtr = new CipherMD5;
 		break;
 	case RSA_CIPHER:
-		mCipherPtr = new CCryptRSA;
+		mCipherPtr = new CipherRSA;
 		break;
 	default:
 		break;

@@ -1,7 +1,7 @@
 #ifndef _DBO_TSCTRLFACTORYTYPE_H_
 #define _DBO_TSCTRLFACTORYTYPE_H_
 
-#include "NtlTSControlFactoryType.h" //quitar
+
 /** 
 	Control 객체를 Runtime 시에 생성하기 위한 control type class 들
 */

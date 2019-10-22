@@ -12,7 +12,7 @@
 
 class CDboTSCheckObjState : public CNtlTSCond
 {
-	NTL_TS_DECLARE_RTTI(CDboTSCheckObjState, CNtlTSCond)
+	NTL_TS_DECLARE_RTTI
 
 // Declarations
 public:

@@ -12,7 +12,7 @@
 
 class CDboTSContSwitch : public CNtlTSCont
 {
-	NTL_TS_DECLARE_RTTI(CDboTSContSwitch, CNtlTSCont)
+	NTL_TS_DECLARE_RTTI
 
 // Declarations
 public:

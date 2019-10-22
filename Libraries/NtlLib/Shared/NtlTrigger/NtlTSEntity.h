@@ -18,7 +18,7 @@ class CNtlTSRecv;
 
 class CNtlTSEntity : public CNtlTSScrObject
 {
-	NTL_TS_DECLARE_RTTI(CNtlTSEntity, CNtlTSScrObject)
+	NTL_TS_DECLARE_RTTI
 
 // Member variables
 protected:

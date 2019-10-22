@@ -1,7 +1,6 @@
 #ifndef _DBO_TSTRECV_H_
 #define _DBO_TSTRECV_H_
 
-#include "NtlTSRecv.h" //quitar
 
 class CDboTSTCtrl;
 class CDboTSTAgency;
@@ -43,12 +42,12 @@ protected:
 
 class CDboTSTRecv : public CNtlTSRecv
 {
-	NTL_TS_DECLARE_RTTI(CDboTSTRecv, CNtlTSRecv)
+	NTL_TS_DECLARE_RTTI
 
 // Methods
 public:
-	virtual	NTL_TSRESULT				Search(CNtlTSEntity* pEntity, void* pParam) ;
-	virtual	NTL_TSRESULT				Run(CNtlTSEntity* pEntity, void* pParam) ;
+	virtual	NTL_TSRESULT				Search( CNtlTSEntity* pEntity, void* pParam );
+	virtual	NTL_TSRESULT				Run( CNtlTSEntity* pEntity, void* pParam );
 };
 
 

@@ -12,7 +12,7 @@ class CNtlUnzip;
 
 class CQuestWrapper : public CDboTSMain
 {
-	NTL_TS_DECLARE_RTTI(CQuestWrapper, CDboTSMain)
+	NTL_TS_DECLARE_RTTI
 	// Declarations
 public:
 	typedef unsigned __int64 NPC_POS_KEY;

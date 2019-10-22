@@ -12,7 +12,7 @@
 
 class CDboTSBudokai : public CNtlTSEvent
 {
-	NTL_TS_DECLARE_RTTI(CDboTSBudokai, CNtlTSEvent)
+	NTL_TS_DECLARE_RTTI
 
 // Constructions
 public:

@@ -16,10 +16,10 @@
 #include "QuestWrapper.h"
 #include "GameServer.h"
 
-#include "NtlTSCoreStatic.h" //quitar
+//#include "NtlTSCoreStatic.h" //quitar
 
 CQuestWrapper* CQuestWrapper::s_pInstance = NULL;
-char g_NtlTSString[1024]; //quitar
+//char g_NtlTSString[1024]; //quitar
 
 NTL_TS_IMPLEMENT_RTTI(CQuestWrapper, CDboTSMain)
 

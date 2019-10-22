@@ -12,7 +12,7 @@
 
 class CDboTSSearchQuest : public CNtlTSEvent
 {
-	NTL_TS_DECLARE_RTTI(CDboTSSearchQuest, CNtlTSEvent)
+	NTL_TS_DECLARE_RTTI
 
 // Constructions
 public:

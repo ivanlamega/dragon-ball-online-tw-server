@@ -3,7 +3,7 @@
 
 
 #include "DboTSCoreDefine.h"
-#include "NtlTSEvent.h" //quitar
+
 
 /**
 	Click NPC event
@@ -15,7 +15,7 @@
 
 class CDboTSClickNPC : public CNtlTSEvent
 {
-	NTL_TS_DECLARE_RTTI(CDboTSClickNPC, CNtlTSEvent)
+	NTL_TS_DECLARE_RTTI
 
 // Member variables
 protected:

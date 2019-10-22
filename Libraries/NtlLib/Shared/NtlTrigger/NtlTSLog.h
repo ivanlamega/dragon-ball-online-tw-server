@@ -26,9 +26,9 @@ protected:
 
 // Static methods
 public:
-	static void							Register(CNtlTSLog* pLog) ;
-	static void							Unregister(void) ;
-	static void							Log(const char* pFormat, ...) ;
+	static void							Register( CNtlTSLog* pLog );
+	static void							Unregister( void );
+	static void							Log( const char* pFormat, ... );
 
 // Constructions and Destructions
 public:
@@ -36,7 +36,7 @@ public:
 
 // Implementations
 protected:
-	virtual void						OnLogEvent(const char* pLog) ;
+	virtual void						OnLogEvent( const char* pLog );
 };
 
 

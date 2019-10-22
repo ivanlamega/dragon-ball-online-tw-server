@@ -15,7 +15,7 @@ class CNtlTSTrigger;
 
 class CNtlTSMain : public CNtlTSUIObject
 {
-	NTL_TS_DECLARE_RTTI(CNtlTSMain, CNtlTSUIObject)
+	NTL_TS_DECLARE_RTTI
 
 // Declarations
 public:
@@ -25,8 +25,8 @@ public:
 
 // Constructions and Destructions
 public:
-	CNtlTSMain(void) ;
-	virtual ~CNtlTSMain(void) ;
+	CNtlTSMain( void );
+	virtual ~CNtlTSMain( void );
 };
 
 

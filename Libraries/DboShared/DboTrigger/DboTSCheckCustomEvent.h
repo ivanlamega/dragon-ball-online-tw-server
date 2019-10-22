@@ -12,7 +12,7 @@
 
 class CDboTSCheckCustomEvent : public CNtlTSCond
 {
-	NTL_TS_DECLARE_RTTI(CDboTSCheckCustomEvent, CNtlTSCond)
+	NTL_TS_DECLARE_RTTI
 
 // Member variables
 protected:

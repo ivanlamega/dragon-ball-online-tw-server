@@ -9,7 +9,7 @@
 
 class CDboTSEMBindStone : public CNtlTSEvtMapper
 {
-	NTL_TS_DECLARE_RTTI(CDboTSEMBindStone, CNtlTSEvtMapper)
+	NTL_TS_DECLARE_RTTI
 
 // Declarations
 public:

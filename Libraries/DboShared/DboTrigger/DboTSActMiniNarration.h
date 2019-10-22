@@ -12,7 +12,7 @@
 
 class CDboTSActMiniNarration : public CNtlTSAction
 {
-	NTL_TS_DECLARE_RTTI(CDboTSActMiniNarration, CNtlTSAction)
+	NTL_TS_DECLARE_RTTI
 
 // Member variables
 protected:

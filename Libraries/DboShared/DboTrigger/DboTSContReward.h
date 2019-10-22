@@ -5,7 +5,7 @@
 #include "DboTSContGAct.h"
 
 
-class CQuestRewardTable;
+class QuestRewardTable;
 
 
 /**
@@ -23,7 +23,7 @@ struct sREWARD_INFO
 
 class CDboTSContReward : public CNtlTSCont
 {
-	NTL_TS_DECLARE_RTTI(CDboTSContReward, CNtlTSCont)
+	NTL_TS_DECLARE_RTTI
 
 // Member variables
 protected:
@@ -74,8 +74,8 @@ public:
 
 	unsigned int						GetRewardTableIndex( void ) const;
 
-	const sREWARD_INFO&					GetDefRewardInfo( int nIdx, CQuestRewardTable* pRewardTbl );
-	const sREWARD_INFO&					GetSelRewardInfo( int nIdx, CQuestRewardTable* pRewardTbl );
+	const sREWARD_INFO&					GetDefRewardInfo( int nIdx, QuestRewardTable* pRewardTbl );
+	const sREWARD_INFO&					GetSelRewardInfo( int nIdx, QuestRewardTable* pRewardTbl );
 
 // Implementations
 protected:
@@ -83,7 +83,7 @@ protected:
 	virtual	void						ApplyScriptDataForScript( const CNtlTSScrProperty& clProperty );
 	virtual	void						TakeScriptDataForScript( CNtlTSScrProperty& clProperty );
 
-	void								LoadTable( CQuestRewardTable* pRewardTbl );
+	void								LoadTable( QuestRewardTable* pRewardTbl );
 };
 
 inline NTL_TS_TC_ID CDboTSContReward::GetNextLinkID( void ) const

@@ -9,7 +9,7 @@
 
 class CDboTSEMPrivateShop : public CNtlTSEvtMapper
 {
-	NTL_TS_DECLARE_RTTI(CDboTSEMPrivateShop, CNtlTSEvtMapper)
+	NTL_TS_DECLARE_RTTI
 
 // Declarations
 public:

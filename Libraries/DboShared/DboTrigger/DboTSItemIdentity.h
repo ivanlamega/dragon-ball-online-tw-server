@@ -12,7 +12,7 @@
 
 class CDboTSItemIdentity : public CNtlTSEvent
 {
-	NTL_TS_DECLARE_RTTI(CDboTSItemIdentity, CNtlTSEvent)
+	NTL_TS_DECLARE_RTTI
 
 // Constructions
 public:

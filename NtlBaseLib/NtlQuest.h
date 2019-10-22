@@ -1,10 +1,10 @@
-ï»¿//***********************************************************************************
+//***********************************************************************************
 //
 //	File		:	NtlQuest.h
 //
 //	Begin		:	2006-10-31
 //
-//	Copyright	:	â“’ NTL-Inc Co., Ltd
+//	Copyright	:	¨Ï NTL-Inc Co., Ltd
 //
 //	Author		:	Hyun Woo, Koo   ( zeroera@ntl-inc.com )
 //
@@ -15,79 +15,34 @@
 #pragma once
 
 #include "Base.h"
+#include "NtlTSCore.h"
 #include "NtlSharedType.h"
-
-/**
-Trigger
-*/
-
-
-typedef unsigned short TS_T_ID;
-
-#define TS_T_ID_INVALID						(0xFFFF)
-
-
-/**
-Trigger group
-*/
-
-
-typedef unsigned char TS_TG_ID;
-
-#define TS_TG_ID_INVALID					(0xFF)
-
-
-/**
-Trigger container
-*/
-
-
-typedef unsigned char TS_TC_ID;
-
-#define TS_TC_ID_INVALID					(0xFF)
-
-
-/**
-Trigger action
-*/
-
-
-typedef unsigned char TS_TA_ID;
-
-#define TS_TA_ID_INVALID					(0xFF)
-
-
-/**
-Trigger Event
-*/
-typedef unsigned int TS_EVENT_ID;
-
-#define TS_EVENT_ID_INVALID					(0xFFFFFFFF)
+#include "NtlBitFlag.h"
 
 
 //===================================================================================
-//	í€˜ìŠ¤íŠ¸ ì•„ì´ë””
+//	Äù½ºÆ® ¾ÆÀÌµð
 //===================================================================================
 
-// í€˜ìŠ¤íŠ¸ ì•„ì´ë”” ì‚¬ìš© ìš©ë„ ì •ì˜
-//	ì£¼ì˜) ì•„ëž˜ì— ìƒíƒœ ì¶”ê°€ í•„ìš”ì„± ë°œìƒ ì‹œ ë°˜ë“œì‹œ
-//		  í€˜ìŠ¤íŠ¸ ë‹´ë‹¹ìž ( lleo52@ntl-inc.com )ì—ê²Œ ì—°ë½ ë°”ëžŒ
+// Äù½ºÆ® ¾ÆÀÌµð »ç¿ë ¿ëµµ Á¤ÀÇ
+//	ÁÖÀÇ) ¾Æ·¡¿¡ »óÅÂ Ãß°¡ ÇÊ¿ä¼º ¹ß»ý ½Ã ¹Ýµå½Ã
+//		  Äù½ºÆ® ´ã´çÀÚ ( lleo52@ntl-inc.com )¿¡°Ô ¿¬¶ô ¹Ù¶÷
 enum eQUEST_ID_RANGE
 {
-	// General questëŠ” ì¼ë°˜ì ì¸ í€˜ìŠ¤íŠ¸ë¡œ ì•„ëž˜ì™€ ê°™ì€ ì•„ì´ë”” ë²”ì£¼ë‚´ì—ì„œ ì‚¬ìš©ë˜ì–´ì•¼ í•¨.
-	// ì¶”í›„ í™•ìž¥ ìš”ì²­ì‹œ Reserve quest rangeë¥¼ ì´ìš©í•˜ì—¬ í™•ìž¥í•˜ë©´ ë¨.
+	// General quest´Â ÀÏ¹ÝÀûÀÎ Äù½ºÆ®·Î ¾Æ·¡¿Í °°Àº ¾ÆÀÌµð ¹üÁÖ³»¿¡¼­ »ç¿ëµÇ¾î¾ß ÇÔ.
+	// ÃßÈÄ È®Àå ¿äÃ»½Ã Reserve quest range¸¦ ÀÌ¿ëÇÏ¿© È®ÀåÇÏ¸é µÊ.
 	eQUEST_ID_RANGE_GENERAL_QUEST_MIN		= 0,
 	eQUEST_ID_RANGE_GENERAL_QUEST_MAX		= 7000,
 	eQUEST_ID_RANGE_GENERAL_QUEST_COUNT		= eQUEST_ID_RANGE_GENERAL_QUEST_MAX - eQUEST_ID_RANGE_GENERAL_QUEST_MIN,
 
-	// Reserve questëŠ” ì¶”í›„ General questì˜ í™•ìž¥ì„ ê¸°íšì—ì„œ ìš”êµ¬í•  ìˆ˜ ìžˆë‹¤ëŠ” ê°€ì •í•˜ì—
-	// ì•„ëž˜ì™€ ê°™ì´ ì˜ˆì•½ í•´ ë†“ìŒ.
+	// Reserve quest´Â ÃßÈÄ General questÀÇ È®ÀåÀ» ±âÈ¹¿¡¼­ ¿ä±¸ÇÒ ¼ö ÀÖ´Ù´Â °¡Á¤ÇÏ¿¡
+	// ¾Æ·¡¿Í °°ÀÌ ¿¹¾à ÇØ ³õÀ½.
 	eQUEST_ID_RANGE_RESERVE_QUEST_MIN		= 7000,
 	eQUEST_ID_RANGE_RESERVE_QUEST_MAX		= 11000,
 	eQUEST_ID_RANGE_RESERVE_QUEST_COUNT		= eQUEST_ID_RANGE_RESERVE_QUEST_MAX - eQUEST_ID_RANGE_RESERVE_QUEST_MIN,
 
-	// Special questëŠ” Tutorial, TMQ ì™€ ê°™ì´ íŠ¹ì • ì‹œìŠ¤í…œì—ì„œ ì‚¬ìš©í•˜ëŠ” í€˜ìŠ¤íŠ¸ ì•„ì´ë””ë¡œì¨
-	// íŠ¹ì • ì‹œìŠ¤í…œì´ ì¢…ë£Œ ë˜ëŠ” ì‹œì ì— ìžë™ ì‚­ì œë˜ì–´ì•¼ í•˜ëŠ” í€˜ìŠ¤íŠ¸ì— í•œí•´ì„œ ì‚¬ìš©ë¨.
+	// Special quest´Â Tutorial, TMQ ¿Í °°ÀÌ Æ¯Á¤ ½Ã½ºÅÛ¿¡¼­ »ç¿ëÇÏ´Â Äù½ºÆ® ¾ÆÀÌµð·Î½á
+	// Æ¯Á¤ ½Ã½ºÅÛÀÌ Á¾·á µÇ´Â ½ÃÁ¡¿¡ ÀÚµ¿ »èÁ¦µÇ¾î¾ß ÇÏ´Â Äù½ºÆ®¿¡ ÇÑÇØ¼­ »ç¿ëµÊ.
 	eQUEST_ID_RANGE_SPECIAL_QUEST_MIN		= 11000,
 	eQUEST_ID_RANGE_SPECIAL_QUEST_MAX		= 14000,
 	eQUEST_ID_RANGE_SPECIAL_QUEST_COUNT		= eQUEST_ID_RANGE_SPECIAL_QUEST_MAX - eQUEST_ID_RANGE_SPECIAL_QUEST_MIN,
@@ -97,12 +52,12 @@ enum eQUEST_ID_RANGE
 
 
 //===================================================================================
-//	ì™„ë£Œëœ í€˜ìŠ¤íŠ¸ ì •ë³´
+//	¿Ï·áµÈ Äù½ºÆ® Á¤º¸
 //===================================================================================
 
-//	í€˜ìŠ¤íŠ¸ ì™„ë£Œ ìƒíƒœ
-//	ì£¼ì˜) ì•„ëž˜ì— ìƒíƒœ ì¶”ê°€ í•„ìš”ì„± ë°œìƒ ì‹œ ë°˜ë“œì‹œ
-//		  í€˜ìŠ¤íŠ¸ ë‹´ë‹¹ìž ( lleo52@ntl-inc.com )ì—ê²Œ ì—°ë½ ë°”ëžŒ
+//	Äù½ºÆ® ¿Ï·á »óÅÂ
+//	ÁÖÀÇ) ¾Æ·¡¿¡ »óÅÂ Ãß°¡ ÇÊ¿ä¼º ¹ß»ý ½Ã ¹Ýµå½Ã
+//		  Äù½ºÆ® ´ã´çÀÚ ( lleo52@ntl-inc.com )¿¡°Ô ¿¬¶ô ¹Ù¶÷
 enum eCOMPLETE_QUEST_STATE
 {
 	eCOMPLETE_QUEST_STATE_CLEAR				= 0x1,
@@ -146,50 +101,50 @@ struct sCOMPLETE_QUEST_TOTAL_BIT_INFO
 
 
 //===================================================================================
-//	ì§„í–‰ ì¤‘ì¸ í€˜ìŠ¤íŠ¸ ì •ë³´
+//	ÁøÇà ÁßÀÎ Äù½ºÆ® Á¤º¸
 //===================================================================================
 
-// ì§„í–‰ ê°€ëŠ¥í•œ ìµœëŒ€ í€˜ìŠ¤íŠ¸ ê°œìˆ˜
+// ÁøÇà °¡´ÉÇÑ ÃÖ´ë Äù½ºÆ® °³¼ö
 enum
 {
 	eMAX_CAN_PROGRESS_QUEST_NUM				= 20,
 
-	eMAX_CAN_PROGRESS_GENERAL_QUEST_NUM		= 10,	// ì¼ë°˜ì ì¸ í€˜ìŠ¤íŠ¸
-	eMAX_CAN_PROGRESS_SPECIAL_QUEST_NUM		= 10,	// TMQ, Tutorial... ìš© í€˜ìŠ¤íŠ¸
+	eMAX_CAN_PROGRESS_GENERAL_QUEST_NUM		= 10,	// ÀÏ¹ÝÀûÀÎ Äù½ºÆ®
+	eMAX_CAN_PROGRESS_SPECIAL_QUEST_NUM		= 10,	// TMQ, Tutorial... ¿ë Äù½ºÆ®
 };
 
-// ì§„í–‰ ê°€ëŠ¥í•œ ìµœëŒ€ íŠ¸ë¦¬ê±° ê°œìˆ˜
+// ÁøÇà °¡´ÉÇÑ ÃÖ´ë Æ®¸®°Å °³¼ö
 enum
 {
 	eMAX_CAN_PROGRESS_TRIGGER_NUM			= 20
 };
 
-// ì§„í–‰ ì¤‘ì¸ í€˜ìŠ¤íŠ¸ì˜ ìƒíƒœ
-// ì£¼) í˜„ìž¬ ìƒíƒœë¥¼ ì €ìž¥í•˜ê¸° ìœ„í•œ ê³µê°„ì´ 2 Byteë¡œ ì˜ˆì•½ ë˜ì–´ ìžˆìŒ.
-//	   ì•„ëž˜ ìƒíƒœ ì¶”ê°€ì‹œ 2Byteë¥¼ ë„˜ì§€ ì•Šë„ë¡ ì£¼ì˜ í•„ìš”.
+// ÁøÇà ÁßÀÎ Äù½ºÆ®ÀÇ »óÅÂ
+// ÁÖ) ÇöÀç »óÅÂ¸¦ ÀúÀåÇÏ±â À§ÇÑ °ø°£ÀÌ 2 Byte·Î ¿¹¾à µÇ¾î ÀÖÀ½.
+//	   ¾Æ·¡ »óÅÂ Ãß°¡½Ã 2Byte¸¦ ³ÑÁö ¾Êµµ·Ï ÁÖÀÇ ÇÊ¿ä.
 enum eTS_SVR_STATE
 {
-	eTS_SVR_STATE_ERROR						= 0x0001,		// ì—ëŸ¬ ìƒíƒœ
-	eTS_SVR_STATE_FAILED					= 0x0002,		// í€˜ìŠ¤íŠ¸ ì§„í–‰ ì‹¤íŒ¨ ìƒíƒœ
-	eTS_SVR_STATE_ESCORT					= 0x0004,		// í˜¸ìœ„ ìƒíƒœ
-	eTS_SVR_STATE_SVR_EVT_WORLD_RANGE		= 0x0008,		// ì„œë²„ì´ë²¤íŠ¸(ëª¹í‚¬...)ì˜ ì ìš© ëŒ€ìƒì´ ì›”ë“œ ( ì´ í”Œëž˜ê·¸ê°€ ì¼œì ¸ ìžˆì§€ ì•Šìœ¼ë©´ íŒŒí‹° ê¸°ì¤€ìœ¼ë¡œ ì²˜ë¦¬ë¨ )
-	eTS_SVR_STATE_WPS_MODE					= 0x0010,		// World play script ì•¡ì…˜ì´ ë™ìž‘ì¤‘
-	eTS_SVR_STATE_USER_OUT_FAILED_WPS		= 0x0020,		// World play script ë™ìž‘ì¤‘ ìœ ì €ê°€ ë¡œê·¸ ì•„ì›ƒ í•œ ê²½ìš° Failed ì²˜ë¦¬ ë˜ì–´ì•¼ í•˜ëŠ” ê²½ìš°ë¥¼ ì €ìž¥í•˜ëŠ” í”Œëž˜ê·¸
+	eTS_SVR_STATE_ERROR						= 0x0001,		// ¿¡·¯ »óÅÂ
+	eTS_SVR_STATE_FAILED					= 0x0002,		// Äù½ºÆ® ÁøÇà ½ÇÆÐ »óÅÂ
+	eTS_SVR_STATE_ESCORT					= 0x0004,		// È£À§ »óÅÂ
+	eTS_SVR_STATE_SVR_EVT_WORLD_RANGE		= 0x0008,		// ¼­¹öÀÌº¥Æ®(¸÷Å³...)ÀÇ Àû¿ë ´ë»óÀÌ ¿ùµå ( ÀÌ ÇÃ·¡±×°¡ ÄÑÁ® ÀÖÁö ¾ÊÀ¸¸é ÆÄÆ¼ ±âÁØÀ¸·Î Ã³¸®µÊ )
+	eTS_SVR_STATE_WPS_MODE					= 0x0010,		// World play script ¾×¼ÇÀÌ µ¿ÀÛÁß
+	eTS_SVR_STATE_USER_OUT_FAILED_WPS		= 0x0020,		// World play script µ¿ÀÛÁß À¯Àú°¡ ·Î±× ¾Æ¿ô ÇÑ °æ¿ì Failed Ã³¸® µÇ¾î¾ß ÇÏ´Â °æ¿ì¸¦ ÀúÀåÇÏ´Â ÇÃ·¡±×
 };
 
 #pragma pack( 1 )
 struct sMAIN_TSP
 {
-	TS_TC_ID							tcCurId;
-	TS_TC_ID							tcPreId;
+	NTL_TS_TC_ID							tcCurId;
+	NTL_TS_TC_ID							tcPreId;
 };
 #pragma pack()
 
 #pragma pack( 1 )
 struct sEXCEPT_TIMER
 {
-	TS_TC_ID							tcId;
-	TS_TA_ID							taId;
+	NTL_TS_TC_ID							tcId;
+	NTL_TS_TA_ID							taId;
 
 	unsigned int							uiRemainTime;
 };
@@ -210,7 +165,7 @@ struct sSTORAGE_SLOT_MEMORY
 {
 	enum { eSTORAGE_SLOT_MEMORY_MAX = 8 };
 
-	// ë°°ì—´ì˜ ì¸ë±ìŠ¤ê°€ SSM ì˜ ì•„ì´ë””ë¡œ ì‚¬ìš©ë¨
+	// ¹è¿­ÀÇ ÀÎµ¦½º°¡ SSM ÀÇ ¾ÆÀÌµð·Î »ç¿ëµÊ
 	unsigned int							auiSSM[eSTORAGE_SLOT_MEMORY_MAX];
 };
 #pragma pack()
@@ -220,14 +175,14 @@ struct sSTOC_EVT_DB_DATA
 {
 	enum { eSTOC_EVT_DB_DATA_USER_DATA_MAX = 4 };
 
-	TS_TC_ID							tcId;
-	TS_TA_ID							taId;
-	unsigned int							m_aUserData[eSTOC_EVT_DB_DATA_USER_DATA_MAX];		// tcId, taIdì— ì˜í•´ ì˜í–¥ë°›ëŠ” ì‚¬ìš©ìž ì •ì˜ ë°ì´í„°
+	NTL_TS_TC_ID							tcId;
+	NTL_TS_TA_ID							taId;
+	unsigned int							m_aUserData[eSTOC_EVT_DB_DATA_USER_DATA_MAX];		// tcId, taId¿¡ ÀÇÇØ ¿µÇâ¹Þ´Â »ç¿ëÀÚ Á¤ÀÇ µ¥ÀÌÅÍ
 
 	void Init( void )
 	{
-		tcId = TS_TC_ID_INVALID;
-		taId = TS_TA_ID_INVALID;
+		tcId = NTL_TS_TC_ID_INVALID;
+		taId = NTL_TS_TA_ID_INVALID;
 		memset( m_aUserData, 0, sizeof( m_aUserData ) );
 	}
 };
@@ -242,30 +197,30 @@ struct sPROGRESS_QUEST_INFO
 	sPROGRESS_QUEST_INFO( void )
 	{
 		byVer = eCUR_VERSION;
-		tId = TS_T_ID_INVALID;
+		tId = NTL_TS_T_ID_INVALID;
 
 		memset( &uData.sQInfoV0, 0xff, sizeof( uData.sQInfoV0 ) );
 		uData.sQInfoV0.wQState = 0;
-		uData.sQInfoV0.tcQuestInfo = TS_TC_ID_INVALID;
-		uData.sQInfoV0.taQuestInfo = TS_TA_ID_INVALID;
+		uData.sQInfoV0.tcQuestInfo = NTL_TS_TC_ID_INVALID;
+		uData.sQInfoV0.taQuestInfo = NTL_TS_TA_ID_INVALID;
 	}
 
-	unsigned char							byVer;				// ë²„ì „
-	TS_T_ID								tId;				// í€˜ìŠ¤íŠ¸ ì•„ì´ë””
+	unsigned char							byVer;				// ¹öÀü
+	NTL_TS_T_ID								tId;				// Äù½ºÆ® ¾ÆÀÌµð
 
 	union uDATA
 	{
 		struct sEXTENDED_POSSIBLE_V0
 		{
-			unsigned short					wQState;			// í€˜ìŠ¤íŠ¸ ìƒíƒœ
-			sMAIN_TSP						sMainTSP;			// í€˜ìŠ¤íŠ¸ ì§„í–‰ í¬ì¸í„°
-			sEXCEPT_TIMER_SLOT				sETSlot;			// ì˜ˆì™¸ íƒ€ì´ë¨¸ì˜ ì €ìž¥ ìŠ¬ë¡¯
-			sSTORAGE_SLOT_MEMORY			sSSM;				// ì €ìž¥ ìŠ¬ë¡¯ ë©”ëª¨ë¦¬
-			sSTOC_EVT_DB_DATA				sSToCEvtData;		// ì„œë²„ ì´ë²¤íŠ¸ ë°ì´í„°
-			TS_TG_ID					tgExcCGroup;		// ì‹¤í–‰í•  í´ë¼ì´ì–¸íŠ¸ ê·¸ë£¹
+			unsigned short					wQState;			// Äù½ºÆ® »óÅÂ
+			sMAIN_TSP						sMainTSP;			// Äù½ºÆ® ÁøÇà Æ÷ÀÎÅÍ
+			sEXCEPT_TIMER_SLOT				sETSlot;			// ¿¹¿Ü Å¸ÀÌ¸ÓÀÇ ÀúÀå ½½·Ô
+			sSTORAGE_SLOT_MEMORY			sSSM;				// ÀúÀå ½½·Ô ¸Þ¸ð¸®
+			sSTOC_EVT_DB_DATA				sSToCEvtData;		// ¼­¹ö ÀÌº¥Æ® µ¥ÀÌÅÍ
+			NTL_TS_TG_ID					tgExcCGroup;		// ½ÇÇàÇÒ Å¬¶óÀÌ¾ðÆ® ±×·ì
 
-			TS_TC_ID					tcQuestInfo;		// í€˜ìŠ¤íŠ¸ ì •ë³´ ì»¨í…Œì´ë„ˆ ì•„ì´ë””
-			TS_TA_ID					taQuestInfo;		// í€˜ìŠ¤íŠ¸ ì •ë³´ ì•¡ì…˜ ì•„ì´ë””
+			NTL_TS_TC_ID					tcQuestInfo;		// Äù½ºÆ® Á¤º¸ ÄÁÅ×ÀÌ³Ê ¾ÆÀÌµð
+			NTL_TS_TA_ID					taQuestInfo;		// Äù½ºÆ® Á¤º¸ ¾×¼Ç ¾ÆÀÌµð
 		};
 		sEXTENDED_POSSIBLE_V0				sQInfoV0;
 	};
@@ -276,13 +231,13 @@ struct sPROGRESS_QUEST_INFO
 //===================================================================================
 //
 //===================================================================================
-typedef TS_T_ID		QUESTID;
-const	QUESTID			INVALID_QUESTID = TS_T_ID_INVALID;
+typedef NTL_TS_T_ID		QUESTID;
+const	QUESTID			INVALID_QUESTID = NTL_TS_T_ID_INVALID;
 //===================================================================================
 
 
 //-----------------------------------------------------------------------------------
-// íŠ¸ë¦¬ê±° ì˜¤ë¸Œì íŠ¸ì˜ ìƒíƒœ
+// Æ®¸®°Å ¿ÀºêÁ§Æ®ÀÇ »óÅÂ
 //-----------------------------------------------------------------------------------
 typedef BYTE TOBJECT_STATE;
 
@@ -291,7 +246,7 @@ typedef BYTE TOBJECT_SUBSTATE;
 
 enum eTOBJECT_STATE
 {
-	TOBJECT_STATE_NONE = 0xFF, // ìƒíƒœ ì—†ìŒ
+	TOBJECT_STATE_NONE = 0xFF, // »óÅÂ ¾øÀ½
 
 	MAX_TOBJECT_STATE = 10
 };
@@ -377,11 +332,11 @@ enum eTRIGGER_SERVER_EVENT_TYPE
 
 enum eTS_EVENT_SEND_TYPE
 {
-	TS_EVENT_SEND_TYPE_WORLD,				// ì›”ë“œì— ë¸Œë¡œë“œìºìŠ¤íŠ¸
-	TS_EVENT_SEND_TYPE_WORLD_AREA,			// ì›”ë“œì˜ íŠ¹ì • ì§€ì ì—ì„œë¶€í„° ì¼ì •ê±°ë¦¬ê¹Œì§€ ë¸Œë¡œë“œìºìŠ¤íŠ¸
-	TS_EVENT_SEND_TYPE_PARTY,				// ëª¨ë“  íŒŒí‹°ì› : íŒŒí‹°ê°€ ì—†ì„ ê²½ìš° ê°œì¸
-	TS_EVENT_SEND_TYPE_PARTY_AREA,			// ì¼ì • ê±°ë¦¬ ì•ˆì— ìžˆëŠ” íŒŒí‹°ì› : íŒŒí‹°ê°€ ì—†ì„ ê²½ìš° ê°œì¸.
-	TS_EVENT_SEND_TYPE_PC,					// ê°œì¸
+	TS_EVENT_SEND_TYPE_WORLD,				// ¿ùµå¿¡ ºê·ÎµåÄ³½ºÆ®
+	TS_EVENT_SEND_TYPE_WORLD_AREA,			// ¿ùµåÀÇ Æ¯Á¤ ÁöÁ¡¿¡¼­ºÎÅÍ ÀÏÁ¤°Å¸®±îÁö ºê·ÎµåÄ³½ºÆ®
+	TS_EVENT_SEND_TYPE_PARTY,				// ¸ðµç ÆÄÆ¼¿ø : ÆÄÆ¼°¡ ¾øÀ» °æ¿ì °³ÀÎ
+	TS_EVENT_SEND_TYPE_PARTY_AREA,			// ÀÏÁ¤ °Å¸® ¾È¿¡ ÀÖ´Â ÆÄÆ¼¿ø : ÆÄÆ¼°¡ ¾øÀ» °æ¿ì °³ÀÎ.
+	TS_EVENT_SEND_TYPE_PC,					// °³ÀÎ
 	TS_EVENT_SEND_TYPE_INVALID = 0xffffffff
 };
 
@@ -398,36 +353,36 @@ const BYTE		DBO_MAX_OBJECT_STATE_ANIMATION = 10;
 //===================================================================================
 //
 //===================================================================================
-const unsigned int			QUEST_INVENTORY_WIDTH = 4;
-const unsigned int			QUEST_TIMER_SLOT_MAX = 4;
-const unsigned int			QUEST_INVENTORY_HEIGHT = 8;
-const unsigned int			QUEST_EVENT_PARAM_MAX = 12;
-const unsigned int			QUEST_INVENTORY_SLOT_COUNT = QUEST_INVENTORY_WIDTH * QUEST_INVENTORY_HEIGHT;
+const unsigned int			NTL_QUEST_INVENTORY_WIDTH = 4;
+const unsigned int			NTL_QUEST_TIMER_SLOT_MAX = 4;
+const unsigned int			NTL_QUEST_INVENTORY_HEIGHT = 8;
+const unsigned int			NTL_QUEST_EVENT_PARAM_MAX = 12;
+const unsigned int			NTL_QUEST_INVENTORY_SLOT_COUNT = NTL_QUEST_INVENTORY_WIDTH * NTL_QUEST_INVENTORY_HEIGHT;
 //===================================================================================
 
 
 
-// í•œë²ˆì— ìƒì„±í•  ìˆ˜ ìžˆëŠ” í€˜ìŠ¤íŠ¸ ì•„ì´í…œì˜ ìµœëŒ€ ì¢…ë¥˜
-const int QUEST_ITEM_CREATE_MAX_COUNT = 5;
+// ÇÑ¹ø¿¡ »ý¼ºÇÒ ¼ö ÀÖ´Â Äù½ºÆ® ¾ÆÀÌÅÛÀÇ ÃÖ´ë Á¾·ù
+const int NTL_QUEST_ITEM_CREATE_MAX_COUNT = 5;
 
 enum eQUEST_ITEM_UPDATE_TYPE
 {
-	eQUEST_ITEM_UPDATE_TYPE_CREATE = 0,	// ìƒì„±
-	eQUEST_ITEM_UPDATE_TYPE_UPDATE,		// ì—…ë°ì´íŠ¸
-	eQUEST_ITEM_UPDATE_TYPE_DELETE		// ì‚­ì œ
+	eQUEST_ITEM_UPDATE_TYPE_CREATE = 0,	// »ý¼º
+	eQUEST_ITEM_UPDATE_TYPE_UPDATE,		// ¾÷µ¥ÀÌÆ®
+	eQUEST_ITEM_UPDATE_TYPE_DELETE		// »èÁ¦
 };
 
 
-// Query Server ë¡œ í€˜ìŠ¤íŠ¸ ì•„ì´í…œ ìƒì„± ë° ì‚­ì œ ìš”ì²­ ì‹œ ë³´ë‚¸ë‹¤.
-// resë¥¼ ë°›ì•˜ì„ ë•Œ ì²˜ë¦¬ë¥¼ ìœ„í•´ì—¬ ì‚¬ìš©
+// Query Server ·Î Äù½ºÆ® ¾ÆÀÌÅÛ »ý¼º ¹× »èÁ¦ ¿äÃ» ½Ã º¸³½´Ù.
+// res¸¦ ¹Þ¾ÒÀ» ¶§ Ã³¸®¸¦ À§ÇØ¿© »ç¿ë
 enum eQUEST_ITEM_REQUEST_TYPE
 {
-	eQUEST_ITEM_REQUEST_TYPE_TS_CREATE,		// TS ì—ì„œ ìƒì„± ìš”ì²­	-> callback
-	eQUEST_ITEM_REQUEST_TYPE_TS_DELETE,		// TS ì—ì„œ ì‚­ì œ ìš”ì²­	-> callback
-	eQUEST_ITEM_REQUEST_TYPE_MOB_DROP,		// ëª¹ì´ ë“œëž			-> ì—†ìŒ
-	eQUEST_ITEM_REQUEST_TYPE_USER_DELETE,	// ì‚¬ìš©ìž ì‚­ì œ ìš”ì²­
-	eQUEST_ITEM_REQUEST_TYPE_SERVER_EVENT,	// Server Eventì—ì„œ have quest item í€˜ìŠ¤íŠ¸ í¬ê¸°ì‹œ ì‚¬ìš©
-	eQUEST_ITEM_REQUEST_TYPE_VISIT_EVENT,	// Visit eventì—ì„œ ì‚¬ìš©
+	eQUEST_ITEM_REQUEST_TYPE_TS_CREATE,		// TS ¿¡¼­ »ý¼º ¿äÃ»	-> callback
+	eQUEST_ITEM_REQUEST_TYPE_TS_DELETE,		// TS ¿¡¼­ »èÁ¦ ¿äÃ»	-> callback
+	eQUEST_ITEM_REQUEST_TYPE_MOB_DROP,		// ¸÷ÀÌ µå¶ø			-> ¾øÀ½
+	eQUEST_ITEM_REQUEST_TYPE_USER_DELETE,	// »ç¿ëÀÚ »èÁ¦ ¿äÃ»
+	eQUEST_ITEM_REQUEST_TYPE_SERVER_EVENT,	// Server Event¿¡¼­ have quest item Äù½ºÆ® Æ÷±â½Ã »ç¿ë
+	eQUEST_ITEM_REQUEST_TYPE_VISIT_EVENT,	// Visit event¿¡¼­ »ç¿ë
 
 	eQUEST_ITEM_REQUEST_TYPE_INVALID = 0xFF
 };
@@ -443,11 +398,11 @@ enum eQUEST_DROP_PERMISSION_TYPE
 };
 
 
-// ì—ìŠ¤ì½”íŠ¸ íƒ€ìž…
+// ¿¡½ºÄÚÆ® Å¸ÀÔ
 enum eESCORT_TYPE
 {
-	ESCORT_TYPE_UNDER_ESCORT, // í˜¸ìœ„ë‹¹í•˜ê³  ìžˆìŒ
-	ESCORT_TYPE_TARGET_FOLLOW, // ëˆ„êµ°ê°€ë¥¼ ë”°ë¼ê°€ê³  ìžˆìŒ
+	ESCORT_TYPE_UNDER_ESCORT, // È£À§´çÇÏ°í ÀÖÀ½
+	ESCORT_TYPE_TARGET_FOLLOW, // ´©±º°¡¸¦ µû¶ó°¡°í ÀÖÀ½
 
 	MAX_ESCORT_TYPE,
 	INVALID_ESCORT_TYPE,
@@ -468,26 +423,26 @@ struct sQUESTITEM_DATA
 {
 	TBLIDX			tblidx;
 	BYTE			byCurStackCount;
-	BYTE			byPos;				// ì¸ë²¤í† ë¦¬ì—ì„œì˜ ì•„ì´í…œì˜ ìœ„ì¹˜ by ju-hyeong
+	BYTE			byPos;				// ÀÎº¥Åä¸®¿¡¼­ÀÇ ¾ÆÀÌÅÛÀÇ À§Ä¡ by ju-hyeong
 };
 
 
-// Quesy Server â†” Game Server ì—ì„œ ì‚¬ìš©
-typedef sCOMPLETE_QUEST_INFO		sQUEST_COMPLETE_DATA;		// í€˜ìŠ¤íŠ¸ ì™„ë£Œ ì •ë³´
-typedef sPROGRESS_QUEST_INFO		sQUEST_PROGRESS_DATA;		// í€˜ìŠ¤íŠ¸ ì§„í–‰ ì •ë³´
-typedef sQUESTITEM_DATA				sQUEST_INVENTORY_DATA;		// í€˜ìŠ¤íŠ¸ ì¸ë²¤í† ë¦¬ 
+// Quesy Server ¡ê Game Server ¿¡¼­ »ç¿ë
+typedef sCOMPLETE_QUEST_INFO		sQUEST_COMPLETE_DATA;		// Äù½ºÆ® ¿Ï·á Á¤º¸
+typedef sPROGRESS_QUEST_INFO		sQUEST_PROGRESS_DATA;		// Äù½ºÆ® ÁøÇà Á¤º¸
+typedef sQUESTITEM_DATA				sQUEST_INVENTORY_DATA;		// Äù½ºÆ® ÀÎº¥Åä¸® 
 
-typedef sCOMPLETE_QUEST_TOTAL_BIT_INFO		sCOMPLETE_QUEST_TOTAL_BIT_DATA;		// í€˜ìŠ¤íŠ¸ ì™„ë£Œ ì •ë³´
+typedef sCOMPLETE_QUEST_TOTAL_BIT_INFO		sCOMPLETE_QUEST_TOTAL_BIT_DATA;		// Äù½ºÆ® ¿Ï·á Á¤º¸
 
-// í€˜ìŠ¤íŠ¸ ì¸ë²¤í† ë¦¬ - í´ë¼ì´ì–¸íŠ¸ì—ì„œ ëª¨ë“  í€˜ìŠ¤íŠ¸ ì•„ì´í…œë“¤ì„ ì €ìž¥í•˜ëŠ” ë° ì‚¬ìš©
+// Äù½ºÆ® ÀÎº¥Åä¸® - Å¬¶óÀÌ¾ðÆ®¿¡¼­ ¸ðµç Äù½ºÆ® ¾ÆÀÌÅÛµéÀ» ÀúÀåÇÏ´Â µ¥ »ç¿ë
 struct sQUEST_INVENTORY_FULLDATA
 {
-	BYTE				byQuestItemCount;	// ì•„ì´í…œ ê°œìˆ˜
-	sQUESTITEM_DATA		aQuestItemData[QUEST_INVENTORY_SLOT_COUNT];	// ì•„ì´í…œ
+	BYTE				byQuestItemCount;	// ¾ÆÀÌÅÛ °³¼ö
+	sQUESTITEM_DATA		aQuestItemData[NTL_QUEST_INVENTORY_SLOT_COUNT];	// ¾ÆÀÌÅÛ
 };
 
 
-// ì„œë²„ë‚´ì˜ êµ¬ì¡°ì²´ì™€ ì„œë²„ â†” í´ë¼ì´ì–¸íŠ¸ì˜ êµ¬ì¡°ì²´ë¥¼ ê°™ì´ ì‚¬ìš©í•˜ë¯€ë¡œ ë‹¤ìŒê³¼ ê°™ì´ typedef
+// ¼­¹ö³»ÀÇ ±¸Á¶Ã¼¿Í ¼­¹ö ¡ê Å¬¶óÀÌ¾ðÆ®ÀÇ ±¸Á¶Ã¼¸¦ °°ÀÌ »ç¿ëÇÏ¹Ç·Î ´ÙÀ½°ú °°ÀÌ typedef
 typedef sCOMPLETE_QUEST_INFO	sQUEST_COMPLETE_INFO;
 typedef sPROGRESS_QUEST_INFO	sQUEST_PROGRESS_INFO;
 typedef sQUESTITEM_DATA			sQUEST_INVENTORY_INFO;
@@ -504,7 +459,7 @@ struct sTOBJECT_STATE
 {
 	BYTE		byState; // Main State
 	BYTE		bySubStateFlag; // Sub State Flag
-	DWORD		dwStateTime; // í•´ë‹¹ Stateë¡œ ë“¤ì–´ì™€ì„œ ì§€ë‚˜ì˜¨ ì‹œê°„	
+	DWORD		dwStateTime; // ÇØ´ç State·Î µé¾î¿Í¼­ Áö³ª¿Â ½Ã°£	
 };
 
 
@@ -514,13 +469,13 @@ struct sTOBJECT_STATE
 #pragma pack( 1 )
 
 
-// í€˜ìŠ¤íŠ¸ ì•„ì´í…œì„ ì—…ë°ì´íŠ¸[ìƒì„±,ë³€ê²½,ì‚­ì œ] ì‹œ í€˜ìŠ¤íŠ¸ ì•„ì´í…œ í•˜ë‚˜ì˜ ì •ë³´
+// Äù½ºÆ® ¾ÆÀÌÅÛÀ» ¾÷µ¥ÀÌÆ®[»ý¼º,º¯°æ,»èÁ¦] ½Ã Äù½ºÆ® ¾ÆÀÌÅÛ ÇÏ³ªÀÇ Á¤º¸
 struct sQUEST_ITEM_UPDATE_DATA
 {
 	BYTE		byUpdateType;	// eQUEST_ITEM_UPDATE_TYPE
-	TBLIDX		itemTblidx;		// í€˜ìŠ¤íŠ¸ ì•„ì´í…œ index
-	BYTE		byPos;			// í€˜ìŠ¤íŠ¸ ì•„ì´í…œì˜ ìœ„ì¹˜
-	BYTE		byCurCount;		// í€˜ìŠ¤íŠ¸ ì•„ì´í…œì˜ ê°œìˆ˜
+	TBLIDX		itemTblidx;		// Äù½ºÆ® ¾ÆÀÌÅÛ index
+	BYTE		byPos;			// Äù½ºÆ® ¾ÆÀÌÅÛÀÇ À§Ä¡
+	BYTE		byCurCount;		// Äù½ºÆ® ¾ÆÀÌÅÛÀÇ °³¼ö
 };
 
 
@@ -538,52 +493,52 @@ struct sTSM_SERIAL
 struct sQUEST_ITEM_TS_SUB_DATA
 {
 	BYTE		byTSType;				// eTSM_MANAGER_TYPE
-	HOBJECT		hObject;				// Trigger Object Handle : ObjectTriggerì—ì„œë§Œ ì“°ì¸ë‹¤.
+	HOBJECT		hObject;				// Trigger Object Handle : ObjectTrigger¿¡¼­¸¸ ¾²ÀÎ´Ù.
 	sTSM_SERIAL	sSerial;
 };
 
 
-// í€˜ìŠ¤íŠ¸ ì•„ì´í…œì„ ì—…ë°ì´íŠ¸[ìƒì„±,ë³€ê²½,ì‚­ì œ]ì‹œ ë³´ë‚´ì–´ì§€ëŠ” ì„œë¸Œë°ì´í„°
-// enum eQUEST_ITEM_REQUEST_TYPE ê³¼ ë§¤ì¹˜ëœë‹¤.
+// Äù½ºÆ® ¾ÆÀÌÅÛÀ» ¾÷µ¥ÀÌÆ®[»ý¼º,º¯°æ,»èÁ¦]½Ã º¸³»¾îÁö´Â ¼­ºêµ¥ÀÌÅÍ
+// enum eQUEST_ITEM_REQUEST_TYPE °ú ¸ÅÄ¡µÈ´Ù.
 union uQUEST_ITEM_UPDATE_SUB_DATA
 {
-	sQUEST_ITEM_TS_SUB_DATA	sTSCreate;	// í€˜ìŠ¤íŠ¸ ì•„ì´í…œ ìƒì„±
-	sQUEST_ITEM_TS_SUB_DATA	sTSDelete;	// í€˜ìŠ¤íŠ¸ ì•„ì´í…œ ì‚­ì œ
-	DWORD					dwReserve;	// ì‚¬ìš©í•˜ì§€ ì•ŠìŒ - ëª¹ ì‚¬ëƒ¥ìœ¼ë¡œ ì¸í•œ ì•„ì´í…œ ìƒì„±
+	sQUEST_ITEM_TS_SUB_DATA	sTSCreate;	// Äù½ºÆ® ¾ÆÀÌÅÛ »ý¼º
+	sQUEST_ITEM_TS_SUB_DATA	sTSDelete;	// Äù½ºÆ® ¾ÆÀÌÅÛ »èÁ¦
+	DWORD					dwReserve;	// »ç¿ëÇÏÁö ¾ÊÀ½ - ¸÷ »ç³ÉÀ¸·Î ÀÎÇÑ ¾ÆÀÌÅÛ »ý¼º
 };
 
 
 //---------------------------------------------------------------------------------------
 
 
-// Quest Server Event Update ì‹œ ì‚¬ìš©í•˜ëŠ” êµ¬ì¡°
+// Quest Server Event Update ½Ã »ç¿ëÇÏ´Â ±¸Á¶
 union uSTOC_EVT_UPDATE_DATA
 {
-	// ëª¹ ì£½ì´ê¸°
+	// ¸÷ Á×ÀÌ±â
 	struct sMOB_KILL_CNT
 	{
 		int											nCurMobCnt;
 	};
 
-	// ëª¹ ì•„ì´í…œ ë£¨íŒ… í•˜ê¸°
+	// ¸÷ ¾ÆÀÌÅÛ ·çÆÃ ÇÏ±â
 	struct sMOB_KILL_ITEM_CNT
 	{
 		int											nCurMobLICnt;
 	};
 
-	// ì•„ì´í…œ ë°°ë‹¬í•˜ê¸°
+	// ¾ÆÀÌÅÛ ¹è´ÞÇÏ±â
 	struct sDELIVERY_ITEM
 	{
 		int											nCurItemCnt;
 	};
 
-	// ì˜¤ë¸Œì íŠ¸ ì•„ì´í…œ
+	// ¿ÀºêÁ§Æ® ¾ÆÀÌÅÛ
 	struct sOBJECT_ITEM
 	{
 		int											nCurItemCnt;
 	};
 
-	// public ëª¹ ì•„ì´í…œ ë£¨íŒ… - ëª¹ ê³µí†µ ë“œëž ì´ë²¤íŠ¸
+	// public ¸÷ ¾ÆÀÌÅÛ ·çÆÃ - ¸÷ °øÅë µå¶ø ÀÌº¥Æ®
 	struct sPUBLIC_MOB_ITEM_CNT
 	{
 		int											nCurItemCnt;

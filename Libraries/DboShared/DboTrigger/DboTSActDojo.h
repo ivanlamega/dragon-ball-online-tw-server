@@ -7,7 +7,7 @@
 
 class CDboTSActDojo : public CNtlTSAction
 {
-	NTL_TS_DECLARE_RTTI(CDboTSActDojo, CNtlTSAction)
+	NTL_TS_DECLARE_RTTI
 
 
 // Member variables

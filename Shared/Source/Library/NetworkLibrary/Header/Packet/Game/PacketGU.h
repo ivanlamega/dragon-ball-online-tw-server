@@ -1151,22 +1151,22 @@ END_PROTOCOL()
 BEGIN_PROTOCOL(GU_TS_CONFIRM_STEP_RES)
 BYTE			byTsType; // Æ®¸®°Å Å¸ÀÔ
 WORD			wResultCode;
-TS_T_ID			tId;
-TS_TC_ID		tcCurId;
-TS_TC_ID		tcNextId;
+NTL_TS_T_ID			tId;
+NTL_TS_TC_ID		tcCurId;
+NTL_TS_TC_ID		tcNextId;
 DWORD			dwParam;
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(GU_TS_UPDATE_SYNC_NFY)
 BYTE			byTsType; // Æ®¸®°Å Å¸ÀÔ
-TS_T_ID			tId;
-TS_TC_ID		tcId;
-TS_TA_ID		taId;
+NTL_TS_T_ID			tId;
+NTL_TS_TC_ID		tcId;
+NTL_TS_TA_ID		taId;
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(GU_TS_UPDATE_STATE)
 BYTE			byTsType; // Æ®¸®°Å Å¸ÀÔ
-TS_T_ID			tId;
+NTL_TS_T_ID			tId;
 BYTE			byType;
 WORD			wTSState;
 DWORD			dwParam;
@@ -1174,12 +1174,12 @@ END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(GU_TS_UPDATE_EVENT_NFY)
 BYTE			byTsType; // Æ®¸®°Å Å¸ÀÔ
-TS_EVENT_ID		teid;
+NTL_TS_EVENT_ID		teid;
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(GU_TS_EXCUTE_TRIGGER)
 BYTE			byTsType; // Æ®¸®°Å Å¸ÀÔ
-TS_T_ID			tId; // Æ®¸®°Å ¾ÆÀÌµð
+NTL_TS_T_ID			tId; // Æ®¸®°Å ¾ÆÀÌµð
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(GU_TS_EXCUTE_TRIGGER_OBJECT_RES)
@@ -1198,8 +1198,8 @@ TBLIDX				textTblidx;			// text
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(GU_TS_SKIP_CONTAINER)
-TS_T_ID			tId;
-TS_TC_ID		tcId;
+NTL_TS_T_ID			tId;
+NTL_TS_TC_ID		tcId;
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(GU_QUEST_ITEM_CREATE_NFY)
@@ -1231,35 +1231,35 @@ BYTE				byDeletePos;		// »èÁ¦ÇÑ ¾ÆÀÌÅÛÀÇ À§Ä¡
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(GU_QUEST_SVREVT_START_NFY)
-TS_T_ID				tId;
-TS_TC_ID			tcId;
-TS_TA_ID			taId;
+NTL_TS_T_ID				tId;
+NTL_TS_TC_ID			tcId;
+NTL_TS_TA_ID			taId;
 BYTE				test;
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(GU_QUEST_SVREVT_END_NFY)
-TS_T_ID				tId;
-TS_TC_ID			tcId;
-TS_TA_ID			taId;
+NTL_TS_T_ID				tId;
+NTL_TS_TC_ID			tcId;
+NTL_TS_TA_ID			taId;
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(GU_QUEST_SVREVT_UPDATE_NFY)
-TS_T_ID				tId;
-TS_TC_ID			tcId;
-TS_TA_ID			taId;
+NTL_TS_T_ID				tId;
+NTL_TS_TC_ID			tcId;
+NTL_TS_TA_ID			taId;
 BYTE					bySvrEvtType;		// eSTOC_EVT_DATA_TYPE
 BYTE					bySlot;
 uSTOC_EVT_UPDATE_DATA	uEvtData;
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(GU_QUEST_GIVEUP_RES)
-TS_T_ID			tId;
+NTL_TS_T_ID			tId;
 WORD				wResultCode;
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(GU_QUEST_SHARE_NFY)				// Äù½ºÆ® °øÀ¯
 WORD				wResultCode;
-TS_T_ID			tId;
+NTL_TS_T_ID			tId;
 HOBJECT				hActor;
 END_PROTOCOL()
 //------------------------------------------------------------------
@@ -1547,7 +1547,7 @@ END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(GU_TIMEQUEST_REWARD_NFY)
 BYTE					byTriggerType;			// º¸»ó °ü·Ã tsÅ¸ÀÔ Á¤º¸
-TS_EVENT_ID			teid;					// º¸»ó °ü·Ã tsÀÌº¥Æ® Á¤º¸
+NTL_TS_EVENT_ID			teid;					// º¸»ó °ü·Ã tsÀÌº¥Æ® Á¤º¸
 DWORD					dwWaitTime;				// Reward Wait ½Ã°£
 DWORD					dwClearTime;			// Å¬¸®¾î ½Ã°£
 DWORD					dwBonusTime;			// º¸³Ê½º ½Ã°£

@@ -1,7 +1,7 @@
 #ifndef _DBO_TSUIFFACTORYTYPE_H_
 #define _DBO_TSUIFFACTORYTYPE_H_
 
-#include "NtlTSUIFactoryType.h" //quitar
+
 /** 
 	UI 객체를 Runtime 시에 생성하기 위한 ui type class 들
 */

@@ -9,7 +9,7 @@
 
 class CDboTSEMBudokai : public CNtlTSEvtMapper
 {
-	NTL_TS_DECLARE_RTTI(CDboTSEMBudokai, CNtlTSEvtMapper)
+	NTL_TS_DECLARE_RTTI
 
 // Declarations
 public:

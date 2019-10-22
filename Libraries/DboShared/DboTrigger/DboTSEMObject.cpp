@@ -67,12 +67,12 @@ CDboTSEMObject::~CDboTSEMObject( void )
 
 bool CDboTSEMObject::AddBuildData( const std::string& strKey, const CNtlTSMain::mapdef_TLIST& TList, void* pTblList, void* pParameter )
 {
-	CObjectTable* pObjTbl = (CObjectTable*) pTblList;
+	ObjectTable* pObjTbl = (ObjectTable*) pTblList;
 
 	unsigned int uiWorldIdx = pParameter ? *(unsigned int*)pParameter : 0xffffffff;
 
-	CTable::TABLEIT itBegin = pObjTbl->Begin();
-	CTable::TABLEIT itEnd = pObjTbl->End();
+	Table::TABLEIT itBegin = pObjTbl->Begin();
+	Table::TABLEIT itEnd = pObjTbl->End();
 
 	vecdef_TID_LIST defTIDList;
 

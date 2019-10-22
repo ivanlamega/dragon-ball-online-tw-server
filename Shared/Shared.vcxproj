@@ -162,7 +162,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Shared\Source\Header;$(SolutionDir)Shared\Source\Library\SQLLibrary\mysql;$(SolutionDir)Shared\Source\Library\SQLLibrary\;$(SolutionDir)Shared\Source\Library\SQLLibrary\mysql\cppconn;$(SolutionDir)packages\libxml2.2.7.8.7\build\native\include;$(SolutionDir)Shared\Source\Header\TableData\;$(SolutionDir)Shared\Source\Library\NetworkLibrary\Header\;$(SolutionDir)packages\boost.1.63.0.0\lib\native\include\boost\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Libraries\NtlLib\Shared\NtlTrigger;$(SolutionDir)Shared\Source\Header;$(SolutionDir)Shared\Source\Library\SQLLibrary\mysql;$(SolutionDir)Shared\Source\Library\SQLLibrary\;$(SolutionDir)Shared\Source\Library\SQLLibrary\mysql\cppconn;$(SolutionDir)packages\libxml2.2.7.8.7\build\native\include;$(SolutionDir)Shared\Source\Header\TableData\;$(SolutionDir)Shared\Source\Library\NetworkLibrary\Header\;$(SolutionDir)packages\boost.1.63.0.0\lib\native\include\boost\</AdditionalIncludeDirectories>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <BufferSecurityCheck>true</BufferSecurityCheck>
       <SDLCheck>true</SDLCheck>
@@ -228,6 +228,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Libraries\NtlLib\Shared\NtlTrigger\NtlTrigger.vcxproj">
+      <Project>{e18fb469-6ea5-4440-9c5d-99f62f45d7e4}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

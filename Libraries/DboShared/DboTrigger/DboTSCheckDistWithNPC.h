@@ -7,7 +7,7 @@
 
 class CDboTSCheckDistWithNPC : public CNtlTSCond
 {
-	NTL_TS_DECLARE_RTTI(CDboTSCheckDistWithNPC, CNtlTSCond)
+	NTL_TS_DECLARE_RTTI
 
 
 // Declarations

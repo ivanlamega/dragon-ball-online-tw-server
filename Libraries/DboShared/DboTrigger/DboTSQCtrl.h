@@ -13,7 +13,7 @@
 
 class CDboTSQCtrl : public CDboTSTCtrl
 {
-	NTL_TS_DECLARE_RTTI(CDboTSQCtrl, CDboTSTCtrl)
+	NTL_TS_DECLARE_RTTI
 
 // Declarations
 public:
@@ -59,8 +59,8 @@ protected:
 
 // Constructions
 public:
-	CDboTSQCtrl(void) ;
-	virtual ~CDboTSQCtrl(void) ;
+	CDboTSQCtrl( void );
+	virtual ~CDboTSQCtrl( void );
 
 // Methods
 public:
@@ -93,13 +93,13 @@ public:
 	void								SetQuestInfo( NTL_TS_TC_ID tcID, NTL_TS_TA_ID taID );
 
 	// 퀘스트 컨트롤러 정보 설정
-	virtual void						LoadQuestProgressInfo_V0( const sPROGRESS_QUEST_INFO::uDATA& uData )=0;
+	virtual void						LoadQuestProgressInfo_V0( const sPROGRESS_QUEST_INFO::uDATA& uData );
 	void								SaveQuestProgressInfo_V0( sPROGRESS_QUEST_INFO::uDATA& uData );
 
 // Implementations
 protected:
 	// 퀘스트 단계 진행 처리 함수
-	virtual void						MoveTSP(CNtlTSCont* pCurCont, CNtlTSCont* pNextCont, bool bSave) ;
+	virtual void						MoveTSP( CNtlTSCont* pCurCont, CNtlTSCont* pNextCont, bool bSave );
 };
 
 

@@ -12,7 +12,7 @@
 
 class CDboTSActObjState : public CNtlTSAction
 {
-	NTL_TS_DECLARE_RTTI(CDboTSActObjState, CNtlTSAction)
+	NTL_TS_DECLARE_RTTI
 
 // Declarations
 public:

@@ -9,7 +9,7 @@
 
 class CDboTSEMSlotMachine : public CNtlTSEvtMapper
 {
-	NTL_TS_DECLARE_RTTI(CDboTSEMSlotMachine, CNtlTSEvtMapper)
+	NTL_TS_DECLARE_RTTI
 
 // Declarations
 public:

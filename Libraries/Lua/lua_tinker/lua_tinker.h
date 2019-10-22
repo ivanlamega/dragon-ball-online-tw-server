@@ -50,7 +50,7 @@ namespace lua_tinker
 	template<typename T> struct class_name;
 	struct table;
 
-template<bool C, typename A, typename B> struct if_ {return;};
+template<bool C, typename A, typename B> struct if_ {};
 template<typename A, typename B>		struct if_<true, A, B> { typedef A type; };
 template<typename A, typename B>		struct if_<false, A, B> { typedef B type; };
 
@@ -533,7 +533,7 @@ template<typename A, typename B>		struct if_<false, A, B> { typedef B type; };
 
 	// constructor
 	template<typename T1=void, typename T2=void, typename T3=void, typename T4=void>
-	struct constructor {return;};
+	struct constructor {};
 
 	template<typename T1, typename T2, typename T3>
 	struct constructor<T1,T2,T3>

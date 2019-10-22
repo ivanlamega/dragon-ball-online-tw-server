@@ -22,12 +22,12 @@ public:
 
 class CDboTSQRecv : public CDboTSTRecv
 {
-	NTL_TS_DECLARE_RTTI(CDboTSQRecv, CDboTSTRecv)
+	NTL_TS_DECLARE_RTTI
 
 // Methods
 public:
-	virtual	NTL_TSRESULT				Search(CNtlTSEntity* pEntity, void* pParam) ;
-	virtual	NTL_TSRESULT				Run(CNtlTSEntity* pEntity, void* pParam) ;
+	virtual	NTL_TSRESULT				Search( CNtlTSEntity* pEntity, void* pParam );
+	virtual	NTL_TSRESULT				Run( CNtlTSEntity* pEntity, void* pParam );
 };
 
 

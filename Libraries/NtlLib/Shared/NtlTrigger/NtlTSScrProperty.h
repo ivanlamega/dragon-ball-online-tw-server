@@ -4,9 +4,6 @@
 
 #include "NtlTSCoreDefine.h"
 #include "NtlTSLog.h"
-#include <iterator> // quitar
-#define _SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS 1 //quitar
-#include <hash_map> //quitar
 
 
 /** 

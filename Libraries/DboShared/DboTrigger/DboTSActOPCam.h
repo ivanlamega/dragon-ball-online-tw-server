@@ -14,7 +14,7 @@
 
 class CDboTSActOPCam : public CNtlTSAction
 {
-	NTL_TS_DECLARE_RTTI(CDboTSActOPCam, CNtlTSAction)
+	NTL_TS_DECLARE_RTTI
 
 // Member variables
 protected:

@@ -3,7 +3,7 @@
 
 
 #include "NtlTSEntity.h"
-#include <deque> //quitar
+
 
 class CNtlTSRecv;
 class CNtlTSScrObject;
@@ -16,7 +16,7 @@ class CNtlTSScrObject;
 
 class CNtlTSCont : public CNtlTSEntity
 {
-	NTL_TS_DECLARE_RTTI(CNtlTSCont, CNtlTSEntity)
+	NTL_TS_DECLARE_RTTI
 
 // Declarations
 public:
@@ -53,7 +53,7 @@ public:
 	int									GetNumOfChildEntity( void ) const;
 	CNtlTSEntity*						GetChildEntity( int nIdx );
 	CNtlTSEntity*						FindChildEntity( NTL_TS_TA_ID taId );
-	CNtlTSEntity*						GetEventEntity(void) ;
+	CNtlTSEntity*						GetEventEntity( void );
 	bool								AttachChildEntity( CNtlTSEntity* pEntity );
 	void								DetachChildEntity( CNtlTSEntity* pEntity );
 

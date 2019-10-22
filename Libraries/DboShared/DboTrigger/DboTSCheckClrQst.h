@@ -14,7 +14,7 @@
 
 class CDboTSCheckClrQst : public CNtlTSCond
 {
-	NTL_TS_DECLARE_RTTI(CDboTSCheckClrQst, CNtlTSCond)
+	NTL_TS_DECLARE_RTTI
 
 // Member variables
 protected:

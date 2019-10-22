@@ -66,7 +66,7 @@ void CDboTSContReward::SetDesc( unsigned int uiDesc )
 	m_uiDesc = uiDesc;
 }
 
-const sREWARD_INFO& CDboTSContReward::GetDefRewardInfo( int nIdx, CQuestRewardTable* pRewardTbl )
+const sREWARD_INFO& CDboTSContReward::GetDefRewardInfo( int nIdx, QuestRewardTable* pRewardTbl )
 {
 	if ( IsUseTable() && !m_bLoadTable )
 	{
@@ -77,7 +77,7 @@ const sREWARD_INFO& CDboTSContReward::GetDefRewardInfo( int nIdx, CQuestRewardTa
 	return m_asDefReward[nIdx];
 }
 
-const sREWARD_INFO& CDboTSContReward::GetSelRewardInfo( int nIdx, CQuestRewardTable* pRewardTbl )
+const sREWARD_INFO& CDboTSContReward::GetSelRewardInfo( int nIdx, QuestRewardTable* pRewardTbl )
 {
 	if ( IsUseTable() && !m_bLoadTable )
 	{
@@ -265,7 +265,7 @@ void CDboTSContReward::TakeScriptDataForScript( CNtlTSScrProperty& clProperty )
 	}
 }
 
-void CDboTSContReward::LoadTable( CQuestRewardTable* pRewardTbl )
+void CDboTSContReward::LoadTable( QuestRewardTable* pRewardTbl )
 {
 #define GET_TRIGGER_ID (m_pParent ? ( m_pParent->GetParent() ? ((CNtlTSTrigger*)m_pParent->GetParent())->GetID() : 0 ) : 0)
 
@@ -290,15 +290,15 @@ void CDboTSContReward::LoadTable( CQuestRewardTable* pRewardTbl )
 
 	for ( i = 0; i < QUEST_REWARD_DEF_MAX_CNT; ++i )
 	{
-		m_asDefReward[i].m_eType = pTblData->arsDefRwd[i].byRewardType == 255 ? eREWARD_TYPE_INVALID : (eREWARD_TYPE)pTblData->arsDefRwd[i].byRewardType;
-		m_asDefReward[i].m_uiIdx = pTblData->arsDefRwd[i].dwRewardIdx;
-		m_asDefReward[i].m_nValue = pTblData->arsDefRwd[i].dwRewardVal;
+		m_asDefReward[i].m_eType = pTblData->unk2[i].unk == 255 ? eREWARD_TYPE_INVALID : (eREWARD_TYPE)pTblData->unk2[i].unk;
+		m_asDefReward[i].m_uiIdx = pTblData->unk2[i].Item;
+		m_asDefReward[i].m_nValue = pTblData->unk2[i].Amount;
 	}
 
 	for ( i = 0; i < QUEST_REWARD_SEL_MAX_CNT; ++i )
 	{
-		m_asSelReward[i].m_eType = pTblData->arsSelRwd[i].byRewardType == 255 ? eREWARD_TYPE_INVALID : (eREWARD_TYPE)pTblData->arsSelRwd[i].byRewardType;
-		m_asSelReward[i].m_uiIdx = pTblData->arsSelRwd[i].dwRewardIdx;
-		m_asSelReward[i].m_nValue = pTblData->arsSelRwd[i].dwRewardVal;
+		m_asSelReward[i].m_eType = pTblData->unk2[i].unk == 255 ? eREWARD_TYPE_INVALID : (eREWARD_TYPE)pTblData->unk2[i].unk;
+		m_asSelReward[i].m_uiIdx = pTblData->unk2[i].Item;
+		m_asSelReward[i].m_nValue = pTblData->unk2[i].Amount;
 	}
 }

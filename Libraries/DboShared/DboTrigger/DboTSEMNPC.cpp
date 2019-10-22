@@ -56,10 +56,10 @@ bool CDboTSEMNPC::AddBuildData( const std::string& strKey, const CNtlTSMain::map
 {
 	UNREFERENCED_PARAMETER( pParameter );
 
-	CNPCTable* pNPCTbl = (CNPCTable*) pTblList;
+	NPCTable* pNPCTbl = (NPCTable*) pTblList;
 
-	CTable::TABLEIT itBegin = pNPCTbl->Begin();
-	CTable::TABLEIT itEnd = pNPCTbl->End();
+	Table::TABLEIT itBegin = pNPCTbl->Begin();
+	Table::TABLEIT itEnd = pNPCTbl->End();
 
 	vecdef_TID_LIST defTIDList;
 

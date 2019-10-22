@@ -12,7 +12,7 @@
 
 class CDboTSParty : public CNtlTSEvent
 {
-	NTL_TS_DECLARE_RTTI(CDboTSParty, CNtlTSEvent)
+	NTL_TS_DECLARE_RTTI
 
 // Constructions
 public:

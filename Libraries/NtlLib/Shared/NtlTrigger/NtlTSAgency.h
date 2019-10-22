@@ -12,11 +12,11 @@
 
 class CNtlTSAgency : public CNtlTSUIObject
 {
-	NTL_TS_DECLARE_RTTI(CNtlTSAgency, CNtlTSUIObject)
+	NTL_TS_DECLARE_RTTI
 
 // Constructions and Destructions
 public:
-	virtual ~CNtlTSAgency(void) ;
+	virtual ~CNtlTSAgency( void );
 };
 
 

@@ -27,7 +27,6 @@
 #include "DboTSUseMail.h"
 #include "DboTSParty.h"
 
-#include "NtlTSEntityFactoryType.h" //quitar
 
 /** 
 	Event 관련 객체를 Runtime 시에 생성하기 위한 event entity type class 들

@@ -13,7 +13,7 @@
 
 class CNtlTSControlObject
 {
-	NTL_TS_DECLARE_RTTI_ROOT(CNtlTSControlObject)
+	NTL_TS_DECLARE_RTTI
 
 // Constructions and Destructions
 public:

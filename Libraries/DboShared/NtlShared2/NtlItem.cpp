@@ -19,6 +19,8 @@
 #include "NtlStringHandler.h"
 #include "NtlHex.h"
 
+#include "NtlStringHandler.h"
+
 WORD Dbo_GetFinalOffence(WORD wBaseOffence, BYTE byGrade)
 {
 	if (ITEM_GRADE_LEVEL_0 == byGrade)

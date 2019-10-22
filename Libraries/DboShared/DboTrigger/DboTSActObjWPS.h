@@ -12,7 +12,7 @@
 
 class CDboTSActObjWPS : public CNtlTSAction
 {
-	NTL_TS_DECLARE_RTTI(CDboTSActObjWPS, CNtlTSAction)
+	NTL_TS_DECLARE_RTTI
 
 // Member variables
 protected:

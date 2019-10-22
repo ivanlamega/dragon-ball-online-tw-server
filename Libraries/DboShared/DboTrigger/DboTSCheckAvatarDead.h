@@ -7,7 +7,7 @@
 
 class CDboTSCheckAvatarDead : public CNtlTSCond
 {
-	NTL_TS_DECLARE_RTTI(CDboTSCheckAvatarDead, CNtlTSCond)
+	NTL_TS_DECLARE_RTTI
 
 // Member variables
 protected:

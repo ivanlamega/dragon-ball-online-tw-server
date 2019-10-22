@@ -7,7 +7,7 @@
 
 class CDboTSActSendSvrEvt : public CNtlTSAction
 {
-	NTL_TS_DECLARE_RTTI(CDboTSActSendSvrEvt, CNtlTSAction)
+	NTL_TS_DECLARE_RTTI
 
 // Member variables
 protected:

@@ -66,8 +66,8 @@ protected:
 
 // Constructions and Destructions
 public:
-	CNtlUnzip(const char* szFilePath = 0) ;
-	virtual ~CNtlUnzip(void) ;
+	CNtlUnzip( const char* szFilePath = 0 );
+	virtual ~CNtlUnzip( void );
 
 // Methods
 public:
@@ -77,24 +77,24 @@ public:
 	bool								UnzipFile( int nFile, const char* szFolder = 0, bool bIgnoreFilePath = false );
 	bool								UnzipFile( const char* szFolder = 0, bool bIgnoreFilePath = false );
 
-	bool								OpenZip(const char* szFilePath) ;
-	bool								OpenZip(const char* szFilePath, const char* pBuffer, int nSize) ;
+	bool								OpenZip( const char* szFilePath );
+	bool								OpenZip( const char* szFilePath, const char* pBuffer, int nSize );
 	bool								CloseZip( void );
 
 	bool								SetOutputFolder( const char* szFolder );
 	
 	int									GetFileCount( void );
 
-	bool								GetFileInfo(sUZ_FILEINFO& sInfo) ;
+	bool								GetFileInfo( sUZ_FILEINFO& sInfo );
 	bool								GetFileInfo( int nFile, sUZ_FILEINFO& sInfo );
 
-	bool								ReadFileData(char* pBuff, int nSize) ;
+	bool								ReadFileData( char* pBuff, int nSize );
 	
 	bool								GotoFile( const char* szFileName, bool bIgnoreFilePath = true );
 	bool								GotoFile( int nFile );
 
-	bool								GotoFirstFile(const char* szExt = 0) ;
-	bool								GotoNextFile(const char* szExt = 0) ;
+	bool								GotoFirstFile( const char* szExt = 0 );
+	bool								GotoNextFile( const char* szExt = 0 );
 };
 
 

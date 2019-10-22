@@ -8,7 +8,8 @@
 */
 
 
-NTL_TS_IMPLEMENT_RTTI(CNtlTSEntity, CNtlTSScrObject)
+NTL_TS_IMPLEMENT_RTTI( CNtlTSEntity, CNtlTSScrObject )
+
 
 CNtlTSEntity::CNtlTSEntity( void )
 : m_pParent( 0 )

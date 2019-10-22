@@ -9,7 +9,7 @@
 
 class CDboTSEMRB : public CNtlTSEvtMapper
 {
-	NTL_TS_DECLARE_RTTI(CDboTSEMRB, CNtlTSEvtMapper)
+	NTL_TS_DECLARE_RTTI
 
 // Member variables
 protected:

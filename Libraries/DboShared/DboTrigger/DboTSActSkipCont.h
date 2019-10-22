@@ -7,7 +7,7 @@
 
 class CDboTSActSkipCont : public CNtlTSAction
 {
-	NTL_TS_DECLARE_RTTI(CDboTSActSkipCont, CNtlTSAction)
+	NTL_TS_DECLARE_RTTI
 
 
 // Member variables

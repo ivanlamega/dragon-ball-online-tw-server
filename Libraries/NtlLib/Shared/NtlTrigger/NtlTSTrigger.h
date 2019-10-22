@@ -15,7 +15,7 @@ class CNtlTSGroup;
 
 class CNtlTSTrigger : public CNtlTSEntity
 {
-	NTL_TS_DECLARE_RTTI(CNtlTSTrigger, CNtlTSEntity)
+	NTL_TS_DECLARE_RTTI
 
 // Declarations
 public:

@@ -2,7 +2,7 @@
 #include "DboTSCore.h"
 class CGameObjectAgency : public CDboTSTAgency
 {
-	NTL_TS_DECLARE_RTTI(CGameObjectAgency, CDboTSTAgency)
+	NTL_TS_DECLARE_RTTI
 protected:
 	SGET_QUEST_INFO						m_QuestInfo;
 

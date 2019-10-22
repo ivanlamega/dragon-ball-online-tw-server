@@ -7,7 +7,7 @@
 
 class CDboTSActWorldPlayScript : public CNtlTSAction
 {
-	NTL_TS_DECLARE_RTTI(CDboTSActWorldPlayScript, CNtlTSAction)
+	NTL_TS_DECLARE_RTTI
 
 
 // Member variables

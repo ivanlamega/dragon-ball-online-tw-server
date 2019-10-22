@@ -23,16 +23,16 @@ protected:
 
 // Constructions and Destructions
 public:
-	virtual ~CNtlTSUIFactory(void) ;
+	virtual ~CNtlTSUIFactory( void );
 
 // Methods
 public:
-	virtual	CNtlTSUIObject*				CreateObj(const std::string& strName) ;
-	virtual void						DeleteObj(CNtlTSUIObject*& pObj) ;
+	virtual	CNtlTSUIObject*				CreateObj( const std::string& strName );
+	virtual void						DeleteObj( CNtlTSUIObject*& pObj );
 
 	// Runtime 생성을 위한 UI type 등록
 	virtual	void						RegisterUIType( void ) { return; }
-	virtual	void						UnRegisterUIType(void) ;
+	virtual	void						UnRegisterUIType( void );
 };
 
 

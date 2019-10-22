@@ -12,7 +12,7 @@
 
 class CDboTSTeleport : public CNtlTSEvent
 {
-	NTL_TS_DECLARE_RTTI(CDboTSTeleport, CNtlTSEvent)
+	NTL_TS_DECLARE_RTTI
 
 // Constructions
 public:

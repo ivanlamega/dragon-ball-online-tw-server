@@ -7,7 +7,7 @@
 
 class CDboTSRB : public CNtlTSEvent
 {
-	NTL_TS_DECLARE_RTTI(CDboTSRB, CNtlTSEvent)
+	NTL_TS_DECLARE_RTTI
 
 // Member variables
 protected:

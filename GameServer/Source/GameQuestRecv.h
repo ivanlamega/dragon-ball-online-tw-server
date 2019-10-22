@@ -35,7 +35,7 @@ protected:
 
 class CGameQuestRecv : public CDboTSQRecv
 {
-	NTL_TS_DECLARE_RTTI(CGameQuestRecv, CDboTSQRecv)
+	NTL_TS_DECLARE_RTTI
 public:
 	CGameQuestRecv();
 	~CGameQuestRecv();

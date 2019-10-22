@@ -9,7 +9,7 @@
 
 class CDboTSEMTeleport : public CNtlTSEvtMapper
 {
-	NTL_TS_DECLARE_RTTI(CDboTSEMTeleport, CNtlTSEvtMapper)
+	NTL_TS_DECLARE_RTTI
 
 // Declarations
 public:

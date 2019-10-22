@@ -9,7 +9,7 @@
 
 class CDboTSEMItemUpgrade : public CNtlTSEvtMapper
 {
-	NTL_TS_DECLARE_RTTI(CDboTSEMItemUpgrade, CNtlTSEvtMapper)
+	NTL_TS_DECLARE_RTTI
 
 // Declarations
 public:

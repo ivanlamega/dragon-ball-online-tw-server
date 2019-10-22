@@ -58,17 +58,17 @@ bool CDboTSEMMob::AddBuildData( const std::string& strKey, const CNtlTSMain::map
 
 	std::map< unsigned int, unsigned int > mapMobGroupList;
 
-	CMobTable* pMobTbl = (CMobTable*) pTblList;
+	MobTable* pMobTbl = (MobTable*) pTblList;
 
-	CTable::TABLEIT itBegin = pMobTbl->Begin();
-	CTable::TABLEIT itEnd = pMobTbl->End();
+	Table::TABLEIT itBegin = pMobTbl->Begin();
+	Table::TABLEIT itEnd = pMobTbl->End();
 
 	// Mob table을 순회하여 Mob group을 추출한다
 	for ( ; itBegin != itEnd; ++itBegin )
 	{
 		sMOB_TBLDAT* pMobData = (sMOB_TBLDAT*)itBegin->second;
 
-		mapMobGroupList[pMobData->dwMobGroup] = pMobData->dwMobGroup;
+		mapMobGroupList[pMobData->Mob_Group] = pMobData->Mob_Group;
 	}
 
 	vecdef_TID_LIST defTIDList;

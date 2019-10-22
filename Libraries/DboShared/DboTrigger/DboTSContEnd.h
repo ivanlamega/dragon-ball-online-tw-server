@@ -19,7 +19,7 @@ enum eEND_TYPE
 
 class CDboTSContEnd : public CDboTSContGAct
 {
-	NTL_TS_DECLARE_RTTI(CDboTSContEnd, CDboTSContGAct)
+	NTL_TS_DECLARE_RTTI
 
 // Member variables
 protected:

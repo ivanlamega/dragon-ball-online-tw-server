@@ -12,7 +12,7 @@
 
 class CDboTSCheckObjItem : public CNtlTSCond
 {
-	NTL_TS_DECLARE_RTTI(CDboTSCheckObjItem, CNtlTSCond)
+	NTL_TS_DECLARE_RTTI
 
 // Member variables
 protected:

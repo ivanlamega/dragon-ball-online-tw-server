@@ -1,6 +1,6 @@
 #ifndef __NTL_NAVI_WORLD_H__
 #define __NTL_NAVI_WORLD_H__
-
+#define _SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS 1
 
 #include <string>
 #include <list>

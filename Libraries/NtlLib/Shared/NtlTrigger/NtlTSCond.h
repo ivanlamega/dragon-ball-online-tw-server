@@ -11,7 +11,7 @@
 
 class CNtlTSCond : public CNtlTSEntity
 {
-	NTL_TS_DECLARE_RTTI(CNtlTSCond, CNtlTSEntity)
+	NTL_TS_DECLARE_RTTI
 
 // Constructions and Destructions
 public:

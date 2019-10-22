@@ -2,7 +2,7 @@
 #include "DboTSCore.h"
 class CGameTriggerCtrl : public CDboTSTCtrl
 {
-	NTL_TS_DECLARE_RTTI(CGameTriggerCtrl, CDboTSTCtrl)
+	NTL_TS_DECLARE_RTTI
 private:
 	//Containers
 	void CheckContCond(CDboTSContGCond* pCond, CNtlTSCont* pParent);

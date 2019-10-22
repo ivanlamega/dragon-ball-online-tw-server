@@ -7,7 +7,7 @@
 
 class CDboTSActOpenWindow : public CNtlTSAction
 {
-	NTL_TS_DECLARE_RTTI(CDboTSActOpenWindow, CNtlTSAction)
+	NTL_TS_DECLARE_RTTI
 
 // Member variables
 protected:

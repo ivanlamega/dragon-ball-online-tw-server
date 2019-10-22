@@ -7,7 +7,7 @@
 
 class CDboTSActRmvCoupon : public CNtlTSAction
 {
-	NTL_TS_DECLARE_RTTI(CDboTSActRmvCoupon, CNtlTSAction)
+	NTL_TS_DECLARE_RTTI
 
 
 // Member variables

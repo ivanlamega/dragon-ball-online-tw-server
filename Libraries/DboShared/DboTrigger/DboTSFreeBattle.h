@@ -12,7 +12,7 @@
 
 class CDboTSFreeBattle : public CNtlTSEvent
 {
-	NTL_TS_DECLARE_RTTI(CDboTSFreeBattle, CNtlTSEvent)
+	NTL_TS_DECLARE_RTTI
 
 // Constructions
 public:

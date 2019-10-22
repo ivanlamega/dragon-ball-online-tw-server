@@ -16,7 +16,7 @@ class CNtlTSCont;
 
 class CNtlTSGroup : public CNtlTSEntity
 {
-	NTL_TS_DECLARE_RTTI(CNtlTSGroup, CNtlTSEntity)
+	NTL_TS_DECLARE_RTTI
 
 // Declarations
 public:

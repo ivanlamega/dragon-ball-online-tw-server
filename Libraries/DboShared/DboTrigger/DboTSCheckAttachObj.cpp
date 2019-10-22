@@ -7,7 +7,7 @@
 */
 
 
-//NTL_TS_IMPLEMENT_RTTI( CDboTSCheckAttachObj, CNtlTSCond )
+NTL_TS_IMPLEMENT_RTTI( CDboTSCheckAttachObj, CNtlTSCond )
 
 
 CDboTSCheckAttachObj::CDboTSCheckAttachObj( void )

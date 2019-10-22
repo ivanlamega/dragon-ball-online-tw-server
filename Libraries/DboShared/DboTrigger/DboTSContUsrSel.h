@@ -12,7 +12,7 @@
 
 class CDboTSContUsrSel : public CNtlTSCont
 {
-	NTL_TS_DECLARE_RTTI(CDboTSContUsrSel, CNtlTSCont)
+	NTL_TS_DECLARE_RTTI
 
 // Declarations
 public:

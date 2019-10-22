@@ -9,7 +9,7 @@
 
 class CDboTSEMHoipoiMix : public CNtlTSEvtMapper
 {
-	NTL_TS_DECLARE_RTTI(CDboTSEMHoipoiMix, CNtlTSEvtMapper)
+	NTL_TS_DECLARE_RTTI
 
 // Declarations
 public:

@@ -12,7 +12,7 @@
 
 class CDboTSColRgn : public CNtlTSEvent
 {
-	NTL_TS_DECLARE_RTTI(CDboTSColRgn, CNtlTSEvent)
+	NTL_TS_DECLARE_RTTI
 
 // Declarations
 public:

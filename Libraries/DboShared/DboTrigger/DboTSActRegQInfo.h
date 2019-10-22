@@ -14,7 +14,7 @@
 
 class CDboTSActRegQInfo : public CNtlTSAction
 {
-	NTL_TS_DECLARE_RTTI(CDboTSActRegQInfo, CNtlTSAction)
+	NTL_TS_DECLARE_RTTI
 
 // Declarations
 public:

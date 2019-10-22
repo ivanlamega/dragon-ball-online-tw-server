@@ -12,7 +12,7 @@
 
 class CDboTSSlotMachine : public CNtlTSEvent
 {
-	NTL_TS_DECLARE_RTTI(CDboTSSlotMachine, CNtlTSEvent)
+	NTL_TS_DECLARE_RTTI
 
 // Constructions
 public:

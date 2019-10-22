@@ -7,7 +7,7 @@
 
 class CDboTSActDrop : public CNtlTSAction
 {
-	NTL_TS_DECLARE_RTTI(CDboTSActDrop, CNtlTSAction)
+	NTL_TS_DECLARE_RTTI
 
 
 // Member variables

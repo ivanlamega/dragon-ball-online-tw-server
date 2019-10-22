@@ -8,7 +8,6 @@
 #include "DboTSContGAct.h"
 #include "DboTSActETimerS.h"
 #include "DboTSActETimerE.h"
-#include "NtlTSCont.h" //quitar
 
 
 /**

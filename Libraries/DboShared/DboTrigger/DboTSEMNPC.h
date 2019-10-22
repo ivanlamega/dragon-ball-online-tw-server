@@ -10,7 +10,7 @@
 
 class CDboTSEMNPC : public CNtlTSEvtMapper
 {
-	NTL_TS_DECLARE_RTTI(CDboTSEMNPC, CNtlTSEvtMapper)
+	NTL_TS_DECLARE_RTTI
 
 // Constructions and Destructions
 public:

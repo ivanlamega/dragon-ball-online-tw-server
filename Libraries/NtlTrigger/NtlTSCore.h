@@ -1,6 +1,6 @@
 #ifndef _NTL_TSCORE_H_
 #define _NTL_TSCORE_H_
-
+#define _SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS 1
 
 #include <string>
 #include <vector>

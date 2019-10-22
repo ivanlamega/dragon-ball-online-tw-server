@@ -1,7 +1,7 @@
 #ifndef _DBO_TSEMOBJECT_H_
 #define _DBO_TSEMOBJECT_H_
 
-#include "NtlTSEvtMapper.h" //quitar
+
 /** 
 	Event mapper object
 	특정 Object가 제공할 수 있는 Trigger id를 외부에 제공할 책임을 가진다
@@ -10,7 +10,7 @@
 
 class CDboTSEMObject : public CNtlTSEvtMapper
 {
-	NTL_TS_DECLARE_RTTI(CDboTSEMObject, CNtlTSEvtMapper)
+	NTL_TS_DECLARE_RTTI
 
 // Constructions and Destructions
 public:

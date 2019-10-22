@@ -12,7 +12,7 @@
 
 class CNtlTSEvent : public CNtlTSEntity
 {
-	NTL_TS_DECLARE_RTTI(CNtlTSEvent, CNtlTSEntity)
+	NTL_TS_DECLARE_RTTI
 
 // Constructions and Destructions
 public:
