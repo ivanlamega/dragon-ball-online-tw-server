@@ -9,7 +9,7 @@
 
 class CDboTSEMParty : public CNtlTSEvtMapper
 {
-	NTL_TS_DECLARE_RTTI
+	NTL_TS_DECLARE_RTTI(CDboTSEMParty, CNtlTSEvtMapper)
 
 // Declarations
 public:

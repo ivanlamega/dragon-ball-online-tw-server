@@ -13,7 +13,7 @@
 
 class CDboTSQCtrl : public CDboTSTCtrl
 {
-	NTL_TS_DECLARE_RTTI
+	NTL_TS_DECLARE_RTTI(CDboTSQCtrl, CDboTSTCtrl)
 
 // Declarations
 public:

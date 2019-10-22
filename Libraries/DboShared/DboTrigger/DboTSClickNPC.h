@@ -15,7 +15,7 @@
 
 class CDboTSClickNPC : public CNtlTSEvent
 {
-	NTL_TS_DECLARE_RTTI
+	NTL_TS_DECLARE_RTTI(CDboTSClickNPC, CNtlTSEvent)
 
 // Member variables
 protected:

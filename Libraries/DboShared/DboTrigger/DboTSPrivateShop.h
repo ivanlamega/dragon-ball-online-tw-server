@@ -12,7 +12,7 @@
 
 class CDboTSPrivateShop : public CNtlTSEvent
 {
-	NTL_TS_DECLARE_RTTI
+	NTL_TS_DECLARE_RTTI(CDboTSPrivateShop, CNtlTSEvent)
 
 // Constructions
 public:

@@ -12,7 +12,7 @@
 
 class CDboTSBindStone : public CNtlTSEvent
 {
-	NTL_TS_DECLARE_RTTI
+	NTL_TS_DECLARE_RTTI(CDboTSBindStone, CNtlTSEvent)
 
 // Constructions
 public:

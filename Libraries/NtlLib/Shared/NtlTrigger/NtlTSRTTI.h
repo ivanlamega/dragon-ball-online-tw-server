@@ -10,22 +10,44 @@
 //////////////////////////////////////////////////////////////////////////
 
 
-#define NTL_TS_DECLARE_RTTI \
+/*#define NTL_TS_DECLARE_RTTI \
 	public: \
 		static	const CNtlTSRTTI	RTTI; \
 		virtual	const CNtlTSRTTI&	GetRTTI( void )	const { return RTTI; } \
 				const char*			GetClassName( void ) const { return GetRTTI().GetClassName(); } \
 				bool				IsSameClass( const CNtlTSRTTI& clVal ) const { return GetRTTI().IsSameClass( clVal ); } \
 				bool				IsDerivedClass( const CNtlTSRTTI& clVal ) const { return GetRTTI().IsDerivedClass( clVal ); } \
+				bool				IsDerivedClass( const std::string& strClassName ) const { return GetRTTI().IsDerivedClass( strClassName ); }*/
+
+#define NTL_TS_DECLARE_RTTI( classname, baseclassname ) \
+	public: \
+		const CNtlTSRTTI rtti = baseclassname::RTTI; \
+		static const char * className;  \
+		const CNtlTSRTTI	RTTI = CNtlTSRTTI(#classname, &rtti); \
+		virtual	const CNtlTSRTTI&	GetRTTI( void )	const { return RTTI; } \
+				const char*			GetClassName( void ) const { return GetRTTI().GetClassName(); } \
+				bool				IsSameClass( const CNtlTSRTTI& clVal ) const { return GetRTTI().IsSameClass( clVal ); } \
+				bool				IsDerivedClass( const CNtlTSRTTI& clVal ) const { return GetRTTI().IsDerivedClass( clVal ); } \
 				bool				IsDerivedClass( const std::string& strClassName ) const { return GetRTTI().IsDerivedClass( strClassName ); }
+
+#define NTL_TS_DECLARE_RTTI_ROOT(classname) \
+public: \
+	const CNtlTSRTTI	RTTI = CNtlTSRTTI(#classname, 0); \
+	virtual	const CNtlTSRTTI&	GetRTTI(void)	const { return RTTI; } \
+		const char*			GetClassName(void) const { return GetRTTI().GetClassName(); } \
+		bool				IsSameClass(const CNtlTSRTTI& clVal) const { return GetRTTI().IsSameClass(clVal); } \
+		bool				IsDerivedClass(const CNtlTSRTTI& clVal) const { return GetRTTI().IsDerivedClass(clVal); } \
+		bool				IsDerivedClass(const std::string& strClassName) const { return GetRTTI().IsDerivedClass(strClassName); }
 
 
 #define NTL_TS_IMPLEMENT_RTTI_ROOT( classname ) \
-	const CNtlTSRTTI	classname::RTTI( #classname, 0 );
+	const char * classname::className = #classname;
+	//const CNtlTSRTTI	classname::RTTI( #classname, 0 );
 
 
 #define NTL_TS_IMPLEMENT_RTTI( classname, baseclassname ) \
-	const CNtlTSRTTI	classname::RTTI( #classname, &baseclassname::RTTI );
+	const char * classname::className = #classname;
+				//const CNtlTSRTTI	classname::RTTI( #classname, &baseclassname::RTTI );
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -49,7 +71,7 @@ private:
 
 // Constructions and Destructions
 public:
-	CNtlTSRTTI( const char* pClassName, const CNtlTSRTTI* pBaseRTTI );
+	CNtlTSRTTI( const char* pClassName, const CNtlTSRTTI* pBaseRTTI ) {};
 
 
 // ¸â¹ö ÇÔ¼ö.

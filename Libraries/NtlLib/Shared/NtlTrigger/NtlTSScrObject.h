@@ -19,7 +19,7 @@
 
 class CNtlTSScrObject
 {
-	NTL_TS_DECLARE_RTTI
+	NTL_TS_DECLARE_RTTI_ROOT(CNtlTSScrObject)
 
 // Constructions and Destructions
 public:

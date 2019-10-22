@@ -9,7 +9,7 @@
 
 class CDboTSEMUseMail : public CNtlTSEvtMapper
 {
-	NTL_TS_DECLARE_RTTI
+	NTL_TS_DECLARE_RTTI(CDboTSEMUseMail, CNtlTSEvtMapper)
 
 // Declarations
 public:

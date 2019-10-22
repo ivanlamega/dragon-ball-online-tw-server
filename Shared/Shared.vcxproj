@@ -195,6 +195,7 @@
     <ClInclude Include="Source\Header\Threading.h" />
     <ClInclude Include="Source\Header\ThreadingModel.h" />
     <ClInclude Include="Source\Header\XmlParser.h" />
+    <ClInclude Include="Source\Header\XmlParser2\XmlParser2.h" />
     <ClInclude Include="Source\Library\NetworkLibrary\Header\LinkedElement\LinkedList.h" />
     <ClInclude Include="Source\Library\NetworkLibrary\Header\LinkedElement\Reference.h" />
     <ClInclude Include="Source\Library\NetworkLibrary\Header\LinkedElement\RefManager.h" />
@@ -217,6 +218,7 @@
     <ClCompile Include="Source\CPP\SQL\GameRequest.cpp" />
     <ClCompile Include="Source\CPP\Threading.cpp" />
     <ClCompile Include="Source\CPP\XmlParser.cpp" />
+    <ClCompile Include="Source\CPP\XmlParser2\XmlParser2.cpp" />
     <ClCompile Include="Source\Library\NetworkLibrary\CPP\Listener.cpp" />
     <ClCompile Include="Source\Library\NetworkLibrary\CPP\Packet.cpp" />
     <ClCompile Include="Source\Library\NetworkLibrary\CPP\PacketBuffer.cpp" />

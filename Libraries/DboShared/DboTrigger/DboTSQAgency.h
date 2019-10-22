@@ -15,7 +15,7 @@ class CDboTSQCtrl;
 
 class CDboTSQAgency : public CDboTSTAgency
 {
-	NTL_TS_DECLARE_RTTI
+	NTL_TS_DECLARE_RTTI(CDboTSQAgency, CDboTSTAgency)
 
 // Member variables
 protected:

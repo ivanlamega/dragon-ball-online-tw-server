@@ -12,7 +12,7 @@
 
 class CNtlTSAgency : public CNtlTSUIObject
 {
-	NTL_TS_DECLARE_RTTI
+	NTL_TS_DECLARE_RTTI(CNtlTSAgency, CNtlTSUIObject)
 
 // Constructions and Destructions
 public:

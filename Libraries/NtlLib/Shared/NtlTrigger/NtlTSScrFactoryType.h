@@ -18,7 +18,7 @@ class CNtlTSScrObject;
 // 생성하고자 하는 오브젝트의 클래스 이름을 파라미터로 입력 한다
 #define NTL_TS_DECLARE_REGIST_SCRIPT_RUNTIME_CREATE( classname ) \
 	public: \
-	static const char* OBJ_CLASS_NAME( void ) { return classname::RTTI.GetClassName(); }
+	static const char* OBJ_CLASS_NAME( void ) { return classname::className; }
 
 
 class CNtlTSScrFactoryType

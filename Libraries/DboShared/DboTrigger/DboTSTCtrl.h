@@ -22,7 +22,7 @@ class CDboTSActETimerS;
 
 class CDboTSTCtrl : public CNtlTSController
 {
-	NTL_TS_DECLARE_RTTI
+	NTL_TS_DECLARE_RTTI(CDboTSTCtrl, CNtlTSController)
 
 // Declarations
 public:

@@ -12,7 +12,7 @@
 
 class CDboTSItemUpgrade : public CNtlTSEvent
 {
-	NTL_TS_DECLARE_RTTI
+	NTL_TS_DECLARE_RTTI(CDboTSItemUpgrade, CNtlTSEvent)
 
 // Constructions
 public:

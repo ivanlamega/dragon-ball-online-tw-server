@@ -43,7 +43,7 @@ protected:
 
 class CDboTSTRecv : public CNtlTSRecv
 {
-	NTL_TS_DECLARE_RTTI
+	NTL_TS_DECLARE_RTTI(CDboTSTRecv, CNtlTSRecv)
 
 // Methods
 public:

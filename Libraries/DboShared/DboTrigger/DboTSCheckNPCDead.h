@@ -7,7 +7,7 @@
 
 class CDboTSCheckNPCDead : public CNtlTSCond
 {
-	NTL_TS_DECLARE_RTTI
+	NTL_TS_DECLARE_RTTI(CDboTSCheckNPCDead, CNtlTSCond)
 
 // Declarations
 public:

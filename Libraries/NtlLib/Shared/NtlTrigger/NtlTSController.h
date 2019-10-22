@@ -16,7 +16,7 @@ class CNtlTSTrigger;
 
 class CNtlTSController : public CNtlTSControlObject
 {
-	NTL_TS_DECLARE_RTTI
+	NTL_TS_DECLARE_RTTI(CNtlTSController, CNtlTSControlObject)
 
 // Member variables
 protected:

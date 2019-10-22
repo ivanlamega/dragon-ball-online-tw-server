@@ -12,7 +12,7 @@
 
 class CDboTSUseMail : public CNtlTSEvent
 {
-	NTL_TS_DECLARE_RTTI
+	NTL_TS_DECLARE_RTTI(CDboTSUseMail, CNtlTSEvent)
 
 // Constructions
 public:

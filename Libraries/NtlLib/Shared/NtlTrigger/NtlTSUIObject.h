@@ -13,7 +13,7 @@
 
 class CNtlTSUIObject
 {
-	NTL_TS_DECLARE_RTTI
+	NTL_TS_DECLARE_RTTI_ROOT(CNtlTSUIObject)
 
 // Constructions and Destructions
 public:

@@ -15,7 +15,7 @@
 
 class CDboTSColObject : public CNtlTSEvent
 {
-	NTL_TS_DECLARE_RTTI
+	NTL_TS_DECLARE_RTTI(CDboTSColObject, CNtlTSEvent)
 
 // Declarations
 public:

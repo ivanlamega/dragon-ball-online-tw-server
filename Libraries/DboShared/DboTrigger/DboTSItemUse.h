@@ -7,7 +7,7 @@
 
 class CDboTSItemUse : public CNtlTSEvent
 {
-	NTL_TS_DECLARE_RTTI
+	NTL_TS_DECLARE_RTTI(CDboTSItemUse, CNtlTSEvent)
 
 // Member variables
 protected:

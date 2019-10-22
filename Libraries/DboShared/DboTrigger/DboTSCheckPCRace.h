@@ -13,7 +13,7 @@
 
 class CDboTSCheckPCRace : public CNtlTSCond
 {
-	NTL_TS_DECLARE_RTTI
+	NTL_TS_DECLARE_RTTI(CDboTSCheckPCRace, CNtlTSCond)
 
 // Member variables
 protected:

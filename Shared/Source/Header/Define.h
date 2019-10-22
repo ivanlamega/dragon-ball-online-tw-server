@@ -35,7 +35,7 @@ typedef std::int8_t int8;
 typedef std::uint64_t uint64;
 typedef unsigned int uint32;
 typedef std::uint16_t uint16;
-typedef unsigned char uint8;
+#define uint8 unsigned char
 
 #  pragma warning( disable : 4328)
 #  pragma warning( disable : 4819)

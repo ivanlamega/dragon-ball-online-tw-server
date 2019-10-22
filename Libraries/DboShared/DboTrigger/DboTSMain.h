@@ -22,7 +22,7 @@ class CNtlUnzip;
 
 class CDboTSMain : public CNtlTSMain
 {
-	NTL_TS_DECLARE_RTTI
+	NTL_TS_DECLARE_RTTI(CDboTSMain, CNtlTSMain)
 
 // Declarations
 public:

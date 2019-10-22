@@ -12,7 +12,7 @@
 
 class CDboTSClickMob : public CNtlTSEvent
 {
-	NTL_TS_DECLARE_RTTI
+	NTL_TS_DECLARE_RTTI(CDboTSClickMob, CNtlTSEvent)
 
 // Member variables
 protected:

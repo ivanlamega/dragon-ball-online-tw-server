@@ -15,7 +15,7 @@ class CNtlTSEntity;
 
 class CNtlTSRecv : public CNtlTSUIObject
 {
-	NTL_TS_DECLARE_RTTI
+	NTL_TS_DECLARE_RTTI(CNtlTSRecv, CNtlTSUIObject)
 
 // Constructions and Destructions
 public:

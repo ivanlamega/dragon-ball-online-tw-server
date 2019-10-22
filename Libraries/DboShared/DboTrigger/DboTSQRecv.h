@@ -22,7 +22,7 @@ public:
 
 class CDboTSQRecv : public CDboTSTRecv
 {
-	NTL_TS_DECLARE_RTTI
+	NTL_TS_DECLARE_RTTI(CDboTSQRecv, CDboTSTRecv)
 
 // Methods
 public:

@@ -12,7 +12,7 @@
 
 class CDboTSCheckSToCDelivery : public CNtlTSCond
 {
-	NTL_TS_DECLARE_RTTI
+	NTL_TS_DECLARE_RTTI(CDboTSCheckSToCDelivery, CNtlTSCond)
 
 // Declarations
 public:

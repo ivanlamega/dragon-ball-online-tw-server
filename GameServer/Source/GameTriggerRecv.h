@@ -20,7 +20,7 @@ public:
 
 class CGameTriggerRecv : public CDboTSTRecv
 {
-	NTL_TS_DECLARE_RTTI
+	NTL_TS_DECLARE_RTTI(CGameTriggerRecv, CDboTSTRecv)
 public:
 	CGameTriggerRecv();
 	~CGameTriggerRecv();

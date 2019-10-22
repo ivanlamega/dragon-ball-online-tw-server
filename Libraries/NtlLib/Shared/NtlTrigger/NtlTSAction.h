@@ -12,7 +12,7 @@
 
 class CNtlTSAction : public CNtlTSEntity
 {
-	NTL_TS_DECLARE_RTTI
+	NTL_TS_DECLARE_RTTI(CNtlTSAction, CNtlTSEntity)
 
 // Member variables
 protected:

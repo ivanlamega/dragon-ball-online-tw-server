@@ -12,7 +12,7 @@
 
 class CDboTSHoipoiMix : public CNtlTSEvent
 {
-	NTL_TS_DECLARE_RTTI
+	NTL_TS_DECLARE_RTTI(CDboTSHoipoiMix, CNtlTSEvent)
 
 // Constructions
 public:
