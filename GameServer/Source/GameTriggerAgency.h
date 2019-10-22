@@ -5,7 +5,7 @@ class CGameTriggerCtrl;
 
 class CGameTriggerAgency : public CDboTSTAgency
 {
-	NTL_TS_DECLARE_RTTI
+	NTL_TS_DECLARE_RTTI(CGameTriggerAgency, CDboTSTAgency)
 protected:
 	SGET_QUEST_INFO						m_TriggerInfo;
 public:

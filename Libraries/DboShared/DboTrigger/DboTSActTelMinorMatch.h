@@ -12,7 +12,7 @@
 
 class CDboTSActTelMinorMatch : public CNtlTSAction
 {
-	NTL_TS_DECLARE_RTTI
+	NTL_TS_DECLARE_RTTI(CDboTSActTelMinorMatch, CNtlTSAction)
 
 // Member variables
 protected:

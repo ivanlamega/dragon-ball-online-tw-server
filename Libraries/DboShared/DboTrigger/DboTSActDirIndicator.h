@@ -7,7 +7,7 @@
 
 class CDboTSActDirIndicator : public CNtlTSAction
 {
-	NTL_TS_DECLARE_RTTI
+	NTL_TS_DECLARE_RTTI(CDboTSActDirIndicator, CNtlTSAction)
 
 
 // Declarations

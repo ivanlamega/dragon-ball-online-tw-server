@@ -13,7 +13,7 @@
 
 class CNtlTSEvtMapper : public CNtlTSControlObject
 {
-	NTL_TS_DECLARE_RTTI
+	NTL_TS_DECLARE_RTTI(CNtlTSEvtMapper, CNtlTSControlObject)
 
 // Declarations
 public:

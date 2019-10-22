@@ -71,7 +71,7 @@ private:
 
 // Constructions and Destructions
 public:
-	CNtlTSRTTI( const char* pClassName, const CNtlTSRTTI* pBaseRTTI ) {};
+	CNtlTSRTTI( const char* pClassName, const CNtlTSRTTI* pBaseRTTI ) ;
 
 
 // ¸â¹ö ÇÔ¼ö.
@@ -82,7 +82,7 @@ public:
 
 	bool								IsDerivedClass( const CNtlTSRTTI& clVal ) const;
 
-	bool								IsDerivedClass( const std::string& strClassName ) const;
+	bool								IsDerivedClass(const std::string& strClassName) const;
 };
 
 

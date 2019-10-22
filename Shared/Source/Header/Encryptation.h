@@ -9,10 +9,10 @@
 class RandomGen
 {
 public:
-	RandomGen(void) {};
+	RandomGen(void) {return;};
 	RandomGen(unsigned int seed);
 	RandomGen& operator=(RandomGen & rRandGen);
-	virtual ~RandomGen(void) {};
+	virtual ~RandomGen(void) {return;};
 public:
 	unsigned int Generate();
 	void Reset();
@@ -33,7 +33,7 @@ class PacketEncoder
 {
 public:
 	PacketEncoder(bool bSeedSwap = false);
-	~PacketEncoder(void) {};
+	~PacketEncoder(void) {return;};
 	int RxDecrypt(void * pvPacketHeader);
 	int TxEncrypt(void * pvPacketHeader);
 	int RxDecrypt(Packet& rPacket);

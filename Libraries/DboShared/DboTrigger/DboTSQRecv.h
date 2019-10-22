@@ -26,8 +26,8 @@ class CDboTSQRecv : public CDboTSTRecv
 
 // Methods
 public:
-	virtual	NTL_TSRESULT				Search( CNtlTSEntity* pEntity, void* pParam );
-	virtual	NTL_TSRESULT				Run( CNtlTSEntity* pEntity, void* pParam );
+	virtual	NTL_TSRESULT				Search(CNtlTSEntity* pEntity, void* pParam) ;
+	virtual	NTL_TSRESULT				Run(CNtlTSEntity* pEntity, void* pParam) ;
 };
 
 

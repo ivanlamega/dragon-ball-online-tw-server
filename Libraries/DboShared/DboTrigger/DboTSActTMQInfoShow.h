@@ -8,7 +8,7 @@
 
 class CDboTSActTMQInfoShow : public CNtlTSAction
 {
-	NTL_TS_DECLARE_RTTI
+	NTL_TS_DECLARE_RTTI(CDboTSActTMQInfoShow, CNtlTSAction)
 
 // Member variables
 protected:

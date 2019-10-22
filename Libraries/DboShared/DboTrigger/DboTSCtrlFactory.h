@@ -11,7 +11,7 @@ class CDboTSCtrlFactory : public CNtlTSControlFactory
 {
 // Methods
 public:
-	virtual	void						RegisterCtrlType( void );
+	virtual	void						RegisterCtrlType(void) ;
 };
 
 

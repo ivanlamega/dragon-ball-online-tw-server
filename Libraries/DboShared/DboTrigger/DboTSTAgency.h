@@ -33,21 +33,21 @@ protected:
 
 // Constructions and Destructions
 public:
-	CDboTSTAgency( void );
-	virtual ~CDboTSTAgency( void );
+	CDboTSTAgency(void) ;
+	virtual ~CDboTSTAgency(void) ;
 
 // Methods
 public:
 	// 트리거 에이젼시 갱신
-	virtual void						Update( void );
+	virtual void						Update(void) = 0;
 
 	// 주 트리거 시스템
 	CDboTSMain*							GetParent( void );
-	void								SetParent( CDboTSMain* pParent );
+	void								SetParent(CDboTSMain* pParent) ;
 
 	// 트리거 리시버
 	CDboTSTRecv*						GetRecv( void );
-	void								SetRecv( CDboTSTRecv* pRecv );
+	void								SetRecv(CDboTSTRecv* pRecv) ;
 
 	// 현재 진행 중인 트리거 리스트
 	mapdef_TRIGGER_LIST*				GetCurTList( void ) { return &m_defCurTList; }
@@ -59,7 +59,7 @@ public:
 
 // Implementations
 protected:
-	virtual CDboTSTCtrl*				MakeTriggerController( CNtlTSTrigger* pTrig );
+	virtual CDboTSTCtrl*				MakeTriggerController(CNtlTSTrigger* pTrig) = 0;
 };
 
 

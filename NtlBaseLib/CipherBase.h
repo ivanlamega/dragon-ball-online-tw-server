@@ -58,8 +58,8 @@ enum {
 class CipherBase
 {
 public:
-	CipherBase() {};
-	~CipherBase() {};
+	CipherBase() {return;};
+	~CipherBase() {return;};
 	virtual	int SetKey(unsigned char * cipherKey, int cipherKeyLength) = 0;
 	virtual int Encrypt(char* originalData, int originalDataLength, char* encData, int encDataSize) { return 0; };
 	virtual int Decrypt(char* originalData, int originalDataLength, char* decData, int decDataSize) { return 0; };

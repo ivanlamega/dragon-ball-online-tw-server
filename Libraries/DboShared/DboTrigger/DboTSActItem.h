@@ -21,7 +21,7 @@ struct stTS_ITEM_INFO
 
 class CDboTSActItem : public CNtlTSAction
 {
-	NTL_TS_DECLARE_RTTI
+	NTL_TS_DECLARE_RTTI(CDboTSActItem, CNtlTSAction)
 
 // Declarations
 public:

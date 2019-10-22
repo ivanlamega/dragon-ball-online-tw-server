@@ -19,13 +19,13 @@ class CNtlTSRecv : public CNtlTSUIObject
 
 // Constructions and Destructions
 public:
-	CNtlTSRecv( void );
-	virtual ~CNtlTSRecv( void );
+	CNtlTSRecv(void) ;
+	virtual ~CNtlTSRecv(void) ;
 
 // Methods
 public:
-	virtual	NTL_TSRESULT				Search( CNtlTSEntity* pEntity, void* pParam );
-	virtual	NTL_TSRESULT				Run( CNtlTSEntity* pEntity, void* pParam );
+	virtual	NTL_TSRESULT				Search(CNtlTSEntity* pEntity, void* pParam) ;
+	virtual	NTL_TSRESULT				Run(CNtlTSEntity* pEntity, void* pParam) ;
 };
 
 

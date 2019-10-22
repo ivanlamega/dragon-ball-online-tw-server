@@ -23,8 +23,8 @@ protected:
 
 // Constructions and Destructions
 public:
-	CDboTSQAgency( void );
-	virtual ~CDboTSQAgency( void );
+	CDboTSQAgency(void) ;
+	virtual ~CDboTSQAgency(void) ;
 
 // Methods
 public:
@@ -36,7 +36,7 @@ public:
 
 // Implementations
 protected:
-	virtual CDboTSTCtrl*				MakeTriggerController( CNtlTSTrigger* pTrig );
+	virtual CDboTSTCtrl*				MakeTriggerController( CNtlTSTrigger* pTrig ) = 0;
 
 	void								LoadCompletedQInfo( const sCOMPLETE_QUEST_INFO& sInfo );
 	void								LoadQuestProgressInfo_V0( CNtlTSTrigger* pTrigger, const sPROGRESS_QUEST_INFO& stQInfo );

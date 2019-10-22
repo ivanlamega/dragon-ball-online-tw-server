@@ -7,7 +7,7 @@
 
 class CDboTSCheckOutRGN : public CNtlTSCond
 {
-	NTL_TS_DECLARE_RTTI
+	NTL_TS_DECLARE_RTTI(CDboTSCheckOutRGN, CNtlTSCond)
 
 // Member variables
 protected:

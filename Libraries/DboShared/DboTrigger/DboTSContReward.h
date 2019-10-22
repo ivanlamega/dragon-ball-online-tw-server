@@ -23,7 +23,7 @@ struct sREWARD_INFO
 
 class CDboTSContReward : public CNtlTSCont
 {
-	NTL_TS_DECLARE_RTTI
+	NTL_TS_DECLARE_RTTI(CDboTSContReward, CNtlTSCont)
 
 // Member variables
 protected:

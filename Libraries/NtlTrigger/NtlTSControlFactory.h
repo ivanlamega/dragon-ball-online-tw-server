@@ -23,16 +23,16 @@ protected:
 
 // Constructions and Destructions
 public:
-	virtual ~CNtlTSControlFactory( void );
+	virtual ~CNtlTSControlFactory(void) ;;
 
 // Methods
 public:
-	virtual	CNtlTSControlObject*		CreateObj( const std::string& strName );
-	virtual void						DeleteObj( CNtlTSControlObject*& pObj );
+	virtual	CNtlTSControlObject*		CreateObj(const std::string& strName) ;
+	virtual void						DeleteObj(CNtlTSControlObject*& pObj) ;
 
 	// Runtime 생성을 위한 controller type 등록
 	virtual	void						RegisterCtrlType( void ) { return; }
-	virtual	void						UnRegisterCtrlType( void );
+	virtual	void						UnRegisterCtrlType(void) ;
 };
 
 

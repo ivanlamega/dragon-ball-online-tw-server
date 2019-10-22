@@ -26,19 +26,19 @@ protected:
 
 // Constructions and Destructions
 public:
-	CNtlTSEntityFactory( void );
-	virtual ~CNtlTSEntityFactory( void );
+	CNtlTSEntityFactory(void) ;
+	virtual ~CNtlTSEntityFactory(void) ;
 
 // Methods
 public:
-	virtual	CNtlTSScrFactoryType*		GetFactoryType( const std::string& strClassName );
+	virtual	CNtlTSScrFactoryType*		GetFactoryType(const std::string& strClassName) ;
 
-	virtual	CNtlTSScrObject*			CreateObj( const std::string& strName );
-	virtual void						DeleteObj( CNtlTSScrObject*& pObj );
+	virtual	CNtlTSScrObject*			CreateObj(const std::string& strName) ;
+	virtual void						DeleteObj(CNtlTSScrObject*& pObj) ;
 
 	// Runtime 생성을 위한 Entity type 등록
-	virtual	void						RegisterEntityType( void );
-	virtual	void						UnRegisterEntityType( void );
+	virtual	void						RegisterEntityType(void) ;
+	virtual	void						UnRegisterEntityType(void) ;
 };
 
 

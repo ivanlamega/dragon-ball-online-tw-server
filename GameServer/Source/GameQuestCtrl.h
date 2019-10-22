@@ -2,7 +2,7 @@
 #include "DboTSCore.h"
 class CGameQuestCtrl :	public CDboTSQCtrl
 {
-	NTL_TS_DECLARE_RTTI
+	NTL_TS_DECLARE_RTTI(CGameQuestCtrl, CDboTSQCtrl)
 private:
 	bool								m_bQuestShare;
 	//Containers

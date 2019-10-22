@@ -9,7 +9,7 @@
 
 class CDboTSEMSearchQuest : public CNtlTSEvtMapper
 {
-	NTL_TS_DECLARE_RTTI
+	NTL_TS_DECLARE_RTTI(CDboTSEMSearchQuest, CNtlTSEvtMapper)
 
 // Declarations
 public:

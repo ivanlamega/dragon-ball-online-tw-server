@@ -53,7 +53,7 @@ public:
 	int									GetNumOfChildEntity( void ) const;
 	CNtlTSEntity*						GetChildEntity( int nIdx );
 	CNtlTSEntity*						FindChildEntity( NTL_TS_TA_ID taId );
-	CNtlTSEntity*						GetEventEntity( void );
+	CNtlTSEntity*						GetEventEntity(void) ;
 	bool								AttachChildEntity( CNtlTSEntity* pEntity );
 	void								DetachChildEntity( CNtlTSEntity* pEntity );
 

@@ -13,7 +13,7 @@
 
 class CDboTSContGCond : public CNtlTSCont
 {
-	NTL_TS_DECLARE_RTTI
+	NTL_TS_DECLARE_RTTI(CDboTSContGCond, CNtlTSCont)
 
 // Member variables
 protected:

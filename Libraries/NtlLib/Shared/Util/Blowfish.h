@@ -86,7 +86,7 @@ public:
 	virtual int SetKey(unsigned char *cipherKey,int cipherKeyLength);
 	virtual int Encrypt(char *originalData, int originalDataLength, char *encData, int encDataSize);
 	virtual int Decrypt(char *originalData, int originalDataLength, char *decData, int decDataSize);
-	virtual void ReleaseCipher(void){return;};
+	virtual void ReleaseCipher(void);
 
 private :
 	Blowfish_matrix		mBlowfishmatrix;

@@ -10,7 +10,7 @@
 
 class CDboTSEMSkill : public CNtlTSEvtMapper
 {
-	NTL_TS_DECLARE_RTTI
+	NTL_TS_DECLARE_RTTI(CDboTSEMSkill, CNtlTSEvtMapper)
 
 // Constructions and Destructions
 public:

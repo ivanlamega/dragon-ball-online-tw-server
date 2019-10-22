@@ -16,7 +16,7 @@ class CNtlTSAgency : public CNtlTSUIObject
 
 // Constructions and Destructions
 public:
-	virtual ~CNtlTSAgency( void );
+	virtual ~CNtlTSAgency(void) ;
 };
 
 

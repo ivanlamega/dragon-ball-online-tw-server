@@ -24,13 +24,13 @@ protected:
 
 // Constructions and Destructions
 public:
-	CNtlTSController( void );
-	virtual ~CNtlTSController( void );
+	CNtlTSController(void) ;
+	virtual ~CNtlTSController(void) ;
 
 // Methods
 public:
 	CNtlTSTrigger*						GetTrigger( void );
-	CNtlTSTrigger*						SetTrigger( CNtlTSTrigger* pTrigger );
+	CNtlTSTrigger*						SetTrigger(CNtlTSTrigger* pTrigger) ;
 
 	NTL_TSRESULT						SearchAll( CNtlTSRecv* pTSRecv, void* pParam );
 	NTL_TSRESULT						SearchTarget( NTL_TS_TG_ID tgID, NTL_TS_TC_ID tcID, CNtlTSRecv* pTSRecv, void* pParam );

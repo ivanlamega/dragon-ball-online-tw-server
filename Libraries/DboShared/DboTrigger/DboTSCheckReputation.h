@@ -12,7 +12,7 @@
 
 class CDboTSCheckReputation : public CNtlTSCond
 {
-	NTL_TS_DECLARE_RTTI
+	NTL_TS_DECLARE_RTTI(CDboTSCheckReputation, CNtlTSCond)
 
 // Member variables
 protected:

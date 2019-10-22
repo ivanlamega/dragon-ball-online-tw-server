@@ -271,6 +271,21 @@
     <ClInclude Include="Source\QuestWrapper.h" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Libraries\DboShared\DboTrigger\DboTrigger.vcxproj">
+      <Project>{3bee299b-d145-4030-81dd-d8b9ade8b767}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Libraries\NtlLib\Server\NtlSystem\NtlSystem.vcxproj">
+      <Project>{6d76c448-b419-424f-ad6a-04041b1c2315}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Libraries\NtlLib\Shared\NtlTrigger\NtlTrigger.vcxproj">
+      <Project>{e18fb469-6ea5-4440-9c5d-99f62f45d7e4}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Libraries\NtlLib\Shared\Util\Util.vcxproj">
+      <Project>{5229f8ae-a505-4077-b6d3-5ce0164dfe73}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Libraries\NtlLib\Shared\Zip\zlib123\projects\visualdotnet2005\zlib.vcxproj">
+      <Project>{9b2b6c11-764e-4d4b-8db2-f91ac99e0b93}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\NtlBaseLib\NtlBaseLib.vcxproj">
       <Project>{d6a637a7-ad22-4181-8426-b486cd90df72}</Project>
     </ProjectReference>

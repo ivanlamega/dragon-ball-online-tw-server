@@ -7,7 +7,7 @@
 
 class CDboTSActTMQTimeBonus : public CNtlTSAction
 {
-	NTL_TS_DECLARE_RTTI
+	NTL_TS_DECLARE_RTTI(CDboTSActTMQTimeBonus, CNtlTSAction)
 
 // Member variables
 protected:

@@ -11,7 +11,7 @@ class CDboTSUIFactory : public CNtlTSUIFactory
 {
 // Methods
 public:
-	virtual	void						RegisterUIType( void );
+	virtual	void						RegisterUIType(void) {return;};
 };
 
 

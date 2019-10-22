@@ -7,7 +7,7 @@
 
 class CDboTSActEscort : public CNtlTSAction
 {
-	NTL_TS_DECLARE_RTTI
+	NTL_TS_DECLARE_RTTI(CDboTSActEscort, CNtlTSAction)
 
 
 // Member variables

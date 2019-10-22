@@ -7,7 +7,7 @@
 
 class CDboTSActPIDgn : public CNtlTSAction
 {
-	NTL_TS_DECLARE_RTTI
+	NTL_TS_DECLARE_RTTI(CDboTSActPIDgn, CNtlTSAction)
 
 
 // Member variables

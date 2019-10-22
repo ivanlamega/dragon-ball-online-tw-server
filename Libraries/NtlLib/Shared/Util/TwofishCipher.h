@@ -68,7 +68,7 @@ public:
 	virtual int SetKey(unsigned char* cipherKey, int cipherKeyLength);
 	virtual int Encrypt(unsigned char *originalData,  int originalDataLength, unsigned char* encData, int encDataSize);
 	virtual int Decrypt(unsigned char *originalData,  int originalDataLength, unsigned char* decData, int decDataSize);
-	virtual void ReleaseCipher(void){return;};
+	virtual void ReleaseCipher(void);
 
 private:
 	twofish_context		mTwofishContext;
