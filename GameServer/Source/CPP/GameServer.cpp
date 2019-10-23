@@ -10,7 +10,7 @@
 #include <iostream>
 #include <signal.h>
 
-#include "../GameServer/Source/QuestWrapper.h"
+#include "QuestWrapper.h"
 
 void signalHandler(int signum)
 {
