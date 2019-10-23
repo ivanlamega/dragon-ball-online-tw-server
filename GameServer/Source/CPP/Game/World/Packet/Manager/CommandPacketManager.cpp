@@ -518,6 +518,14 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 				_player->TeleportByCommand(1);
 				return;
 			}
+		else if (strToken == "@setclass") // for non gm players
+		{
+			sLog.outDetail("GM Class Modified");
+			strToken = str.substr(pos + 1, std::string::npos);
+			unsigned int clase = (unsigned int)atof(strToken.c_str());
+			_player->ConvertClass(clase, _player->GetTarget());
+			return;
+		}
 		else
 		{
 			sGU_SYSTEM_DISPLAY_TEXT sNotice;
