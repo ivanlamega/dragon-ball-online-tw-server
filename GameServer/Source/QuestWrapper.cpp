@@ -54,9 +54,9 @@ CQuestWrapper::~CQuestWrapper(void)
 
 bool CQuestWrapper::Create(void)
 {
-	m_strQuestPath = ".\\ts_decrypted\\quest\\";
-	m_strTriggerPath = ".\\ts_decrypted\\pctrigger\\";
-	m_strObjectPath = ".\\ts_decrypted\\objtrigger\\";
+	m_strQuestPath = "..\\Quest\\corea\\ts\\quest.e";
+	m_strTriggerPath = "..\\Quest\\corea\\ts\\pctrigger.e";
+	m_strObjectPath = "..\\Quest\\corea\\ts\\objtrigger.e";
 
 	m_bSchedulingLoad = true;
 
@@ -400,7 +400,7 @@ bool CQuestWrapper::HasEventMapperFromFile(void)
 
 bool CQuestWrapper::LoadEventMapperFromFile(void)
 {
-	std::string strEvtPath = ".\\ts\\evt.e";
+	std::string strEvtPath = "..\\Quest\\corea\\ts\\evt.e";
 
 	char* pReadBuf = NULL;
 	char* pDecryptBuf = NULL;
@@ -424,7 +424,7 @@ bool CQuestWrapper::LoadEventMapperFromFile(void)
 	fclose(pFile);
 
 	// ��ȣȭ�� Ǭ��
-	std::string strKey = "tddkaghghkqlalfqjsghdlqslek";
+	std::string strKey = "tddkaghghkqlalfqjsghdlqslek"; //"dnfldbofmftkfkdgowntpdy";//
 	CNtlCipher Cipher;
 	Cipher.SetKey(DES_CIPHER, strKey.c_str(), (int)strKey.size());
 	pDecryptBuf = new char[nReadSize + 256];

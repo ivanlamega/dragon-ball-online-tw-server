@@ -7,10 +7,14 @@
 #include <Logger.h>
 #include <GameSocket.h>
 
+class CQuestWrapper;
+
 class GameServer
 {
 public:
+	CQuestWrapper			*g_pQuestWrapper;
 	int Run();
+	bool loadQuests();
 private:
 	Listener<GameSocket>	*network;
 	int _ServerID;

@@ -1,0 +1,117 @@
+CNtlTSTrigger
+{
+	sm = 1;
+	sq = 1;
+	rq = 0;
+	tid = 1339;
+	title = 133902;
+
+	CNtlTSGroup
+	{
+		gid = 0;
+
+		CDboTSContGAct
+		{
+			cid = 2;
+			elnk = 252;
+			nextlnk = 100;
+			prelnk = "1;";
+
+			CDboTSActNPCConv
+			{
+				conv = 133909;
+				ctype = 1;
+				idx = 4372211;
+				taid = 2;
+			}
+			CDboTSActRegQInfo
+			{
+				cont = 133908;
+				gtype = 0;
+				area = 133901;
+				goal = 133904;
+				grade = 132203;
+				rwd = 100;
+				sort = 133905;
+				stype = 2;
+				taid = 1;
+				title = 133902;
+			}
+		}
+		CDboTSContReward
+		{
+			canclnk = 255;
+			cid = 100;
+			desc = 133914;
+			nextlnk = 254;
+			rwdtbl = 133901;
+			rwdtype = 0;
+			ltime = -1;
+			prelnk = "2;";
+			usetbl = 1;
+
+			CDboTSClickNPC
+			{
+				npcidx = 5313101;
+			}
+		}
+		CDboTSContProposal
+		{
+			cancellnk = 253;
+			cid = 1;
+			cont = 133908;
+			gtype = 0;
+			oklnk = 2;
+			area = 133901;
+			goal = 133904;
+			sort = 133905;
+			prelnk = "0;";
+			ds = 1;
+			grade = 132203;
+			rwd = 100;
+			title = 133902;
+		}
+		CDboTSContStart
+		{
+			cid = 0;
+			stdiag = 133907;
+			nolnk = 253;
+			rm = 0;
+			yeslnk = 1;
+
+			CDboTSClickNPC
+			{
+				npcidx = 4372211;
+			}
+			CDboTSCheckLvl
+			{
+				maxlvl = 53;
+				minlvl = 45;
+			}
+			CDboTSCheckClrQst
+			{
+				and = "1338;";
+			}
+		}
+		CDboTSContGAct
+		{
+			cid = 252;
+			elnk = 255;
+			nextlnk = 253;
+			prelnk = "2;";
+		}
+		CDboTSContEnd
+		{
+			cid = 253;
+			prelnk = "0;1;252;";
+			type = 0;
+		}
+		CDboTSContEnd
+		{
+			cid = 254;
+			prelnk = "100;";
+			type = 1;
+		}
+	}
+}
+

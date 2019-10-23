@@ -38,6 +38,13 @@ void signalHandler(int signum)
 	}
 	sLog.outDebug("Interrupt signal (%d) received.", signum);
 }
+
+bool GameServer::loadQuests()
+{
+	this->g_pQuestWrapper = new CQuestWrapper;
+	return this->g_pQuestWrapper->Create();
+}
+
 bool GameServer::loadDataTable()
 {
 	sLog.outDetail("==== LOADING GAME TABLES ... ====");
@@ -449,6 +456,8 @@ int GameServer::Run()
 	sLog.outString("Using configuration file 'GameServer.xml'.");
 	sLog.outString("Using Boost: %s", BOOST_LIB_VERSION);
 
+	loadQuests();
+
 	if (sXmlParser.loadFile("GameServer") == false)
 		return 1;
 	sLog.SetLogLevel((LogLevel)sXmlParser.GetInt("LogLevel", "Value"));
@@ -463,6 +472,7 @@ int GameServer::Run()
 		system("PAUSE");
 		return 1;
 	}
+
 	_ServerID = sXmlParser.GetInt("Server", "ID");
 	_ChannelID = sXmlParser.GetInt("Server", "ChannelID");
 	AKCore::Thread world_thread(new WorldRunnable);
