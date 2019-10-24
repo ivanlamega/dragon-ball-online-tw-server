@@ -32,6 +32,7 @@ protected:
 	unsigned int						m_uiArea;
 	unsigned int						m_uiGoal;
 	unsigned int						m_uiGrade;
+	unsigned int						m_uiItem;
 	eGRADE_TYPE							m_eGradeType;
 	eQUEST_SORT_TYPE					m_eSort;
 	unsigned int						m_uiSort;
@@ -53,6 +54,9 @@ public:
 
 	unsigned int						GetArea( void ) const;
 	void								SetArea( unsigned int uiArea );
+
+	unsigned int						GetItem(void) const;
+	void								SetItem(unsigned int uiItem);
 
 	unsigned int						GetGoal( void ) const;
 	void								SetGoal( unsigned int uiGoal );
@@ -95,6 +99,11 @@ inline unsigned int CDboTSActRegQInfo::GetTitle( void ) const
 inline unsigned int CDboTSActRegQInfo::GetArea( void ) const
 {
 	return m_uiArea;
+}
+
+inline unsigned int CDboTSActRegQInfo::GetItem(void) const
+{
+	return m_uiItem;
 }
 
 inline unsigned int CDboTSActRegQInfo::GetGoal( void ) const

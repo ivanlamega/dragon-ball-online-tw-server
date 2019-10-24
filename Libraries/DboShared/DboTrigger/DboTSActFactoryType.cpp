@@ -252,12 +252,14 @@ CDboTSEntityFactoryType_CDboTSActRegQInfo::CDboTSEntityFactoryType_CDboTSActRegQ
 	m_defPropertyList["sort"].eType		= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;
 	m_defPropertyList["cont"].eType		= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;
 	m_defPropertyList["rwd"].eType		= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;
+	m_defPropertyList["scitem"].eType	= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;
 
 	m_defPropertyList["m0widx"].eType	= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;
 	m_defPropertyList["m0fx"].eType		= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_STRING;
 	m_defPropertyList["m0fy"].eType		= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_STRING;
 	m_defPropertyList["m0fz"].eType		= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_STRING;
 	m_defPropertyList["m0ttip"].eType	= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;
+	m_defPropertyList["m0pat"].eType	= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;
 
 	m_defPropertyList["m1widx"].eType	= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;
 	m_defPropertyList["m1fx"].eType		= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_STRING;

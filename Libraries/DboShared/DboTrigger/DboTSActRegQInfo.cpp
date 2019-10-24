@@ -34,6 +34,11 @@ void CDboTSActRegQInfo::SetArea( unsigned int uiArea )
 	m_uiArea = uiArea;
 }
 
+void CDboTSActRegQInfo::SetItem(unsigned int uiItem)
+{
+	m_uiItem = uiItem;
+}
+
 void CDboTSActRegQInfo::SetGoal( unsigned int uiGoal )
 {
 	m_uiGoal = uiGoal;
@@ -209,6 +214,9 @@ void CDboTSActRegQInfo::TakeScriptDataForScript( CNtlTSScrProperty& clProperty )
 	sprintf_s( g_NtlTSString, "%d", GetGradeType() );
 	clProperty.m_defProperty["gtype"]		= g_NtlTSString;
 
+	sprintf_s(g_NtlTSString, "%d", GetItem());
+	clProperty.m_defProperty["scitem"] = g_NtlTSString;
+
 	// 스크립트에는 eQUEST_SORT_TYPE 타입들이 Bit flag로 통합되어 저장되므로
 	// 통합해서 저장해야한다.
 	// 또한 eQUEST_SORT_TYPE 이 존재하지 않는 경우는 0 이다
@@ -248,6 +256,9 @@ void CDboTSActRegQInfo::TakeScriptDataForScript( CNtlTSScrProperty& clProperty )
 
 		sprintf_s( g_NtlTSString, "%d", m_sQuestMarkInfo[0].uiTooltipIdx );
 		clProperty.m_defProperty["m0ttip"]	= g_NtlTSString;
+
+		sprintf_s(g_NtlTSString, "%d", 0);// ); m_sQuestMarkInfo[0].uiTooltipIdx);
+		clProperty.m_defProperty["m0pat"] = g_NtlTSString;
 	}
 
 	if ( 0xffffffff != m_sQuestMarkInfo[1].uiWorldTblIdx )

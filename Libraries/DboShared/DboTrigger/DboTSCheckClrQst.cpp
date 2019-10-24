@@ -91,6 +91,44 @@ void CDboTSCheckClrQst::ClearOrIdList( void )
 	m_vecOrIdList.clear();
 }
 
+bool CDboTSCheckClrQst::SetNotIdList(const std::string& strIDList)
+{
+	std::string strNum;
+	strNum.reserve(10);
+
+	std::string::const_iterator cit = strIDList.begin();
+	for (; cit != strIDList.end(); ++cit)
+	{
+		if (';' == *cit)
+		{
+			m_vecNotIdList.push_back((NTL_TS_T_ID)atoi(strNum.c_str()));
+			strNum.clear();
+		}
+		else if ('0' > *cit || '9' < *cit)
+		{
+			m_vecNotIdList.clear();
+			CNtlTSLog::Log("Only must have numbers. Info[%s]. [%s]", strIDList.c_str(), TS_CODE_TRACE());
+			return false;
+		}
+		else
+		{
+			strNum += *cit;
+		}
+	}
+
+	if (!strNum.empty())
+	{
+		m_vecNotIdList.push_back((NTL_TS_T_ID)atoi(strNum.c_str()));
+	}
+
+	return true;
+}
+
+void CDboTSCheckClrQst::ClearNotIdList(void)
+{
+	m_vecNotIdList.clear();
+}
+
 void CDboTSCheckClrQst::ApplyScriptDataForScript( const CNtlTSScrProperty& clProperty )
 {
 	CNtlTSCond::ApplyScriptDataForScript( clProperty );
@@ -136,5 +174,18 @@ void CDboTSCheckClrQst::TakeScriptDataForScript( CNtlTSScrProperty& clProperty )
 	if ( !strIdList.empty() )
 	{
 		clProperty.m_defProperty["or"] = strIdList;
+	}
+
+	strIdList.clear();
+	it = m_vecNotIdList.begin();
+	for (; it != m_vecNotIdList.end(); ++it)
+	{
+		sprintf_s(g_NtlTSString, "%d", *it);
+		strIdList += g_NtlTSString;
+		strIdList += ";";
+	}
+	if (!strIdList.empty())
+	{
+		clProperty.m_defProperty["not"] = strIdList;
 	}
 }

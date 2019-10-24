@@ -107,8 +107,11 @@ void CDboTSEntityFactoryType_CDboTSCheckQItem::DeleteObj( CNtlTSScrObject*& pObj
 
 CDboTSEntityFactoryType_CDboTSCheckClrQst::CDboTSEntityFactoryType_CDboTSCheckClrQst( void )
 {
-	m_defPropertyList["and"].eType	= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_STRING;
-	m_defPropertyList["or"].eType	= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_STRING;
+	m_defPropertyList["and"].eType			= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_STRING;
+	m_defPropertyList["or"].eType			= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_STRING;
+	m_defPropertyList["not"].eType			= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_STRING;
+	m_defPropertyList["flink"].eType		= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;
+	m_defPropertyList["flinknextqid"].eType = CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_STRING;
 }
 
 CNtlTSScrObject* CDboTSEntityFactoryType_CDboTSCheckClrQst::CreateObj( void )

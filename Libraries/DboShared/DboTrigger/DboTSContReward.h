@@ -31,6 +31,7 @@ protected:
 	NTL_TS_TC_ID						m_tcCancelLinkId;
 
 	eREWARD_CONTAINER_TYPE				m_eRwdContType;
+	unsigned int						m_uiRwdZeny;
 	unsigned int						m_uiLimitTime;
 
 	unsigned int						m_uiDesc;
@@ -63,8 +64,11 @@ public:
 
 	eREWARD_CONTAINER_TYPE				GetRewardContType( void ) const;
 	void								SetRewardContType( eREWARD_CONTAINER_TYPE eRwdContType );
+	
+	void								SetRewardZeny(unsigned int uiRwdZeny);
+	unsigned int						GetRewardZeny( void ) const;
 
-	unsigned int						GetLimitTime( void ) const;
+	unsigned int						GetLimitTime(void) const;
 	void								SetLimitTime( unsigned int uiLimitTime );
 
 	unsigned int						GetDesc( void ) const;
@@ -104,6 +108,11 @@ inline eREWARD_CONTAINER_TYPE CDboTSContReward::GetRewardContType( void ) const
 inline unsigned int CDboTSContReward::GetLimitTime( void ) const
 {
 	return m_uiLimitTime;
+}
+
+inline unsigned int CDboTSContReward::GetRewardZeny(void) const
+{
+	return m_uiRwdZeny;
 }
 
 inline unsigned int CDboTSContReward::GetDesc( void ) const

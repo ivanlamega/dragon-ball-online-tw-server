@@ -20,6 +20,7 @@ class CDboTSCheckClrQst : public CNtlTSCond
 protected:
 	std::vector<NTL_TS_T_ID>			m_vecAndIdList;
 	std::vector<NTL_TS_T_ID>			m_vecOrIdList;
+	std::vector<NTL_TS_T_ID>			m_vecNotIdList;
 
 // Constructions and Destructions
 public:
@@ -38,6 +39,10 @@ public:
 	bool								SetOrIdList( const std::string& strIDList );
 	void								ClearOrIdList( void );
 
+	const std::vector<NTL_TS_T_ID>&		GetNotIdList(void) const;
+	bool								SetNotIdList(const std::string& strIDList);
+	void								ClearNotIdList(void);
+
 // Implementations
 protected:
 	// 스크립트로 부터 컴포넌트 객체의 데이터를 로딩 및 입력 시키기 위한 함수
@@ -54,6 +59,11 @@ inline const std::vector<NTL_TS_T_ID>& CDboTSCheckClrQst::GetAndIdList( void ) c
 inline const std::vector<NTL_TS_T_ID>& CDboTSCheckClrQst::GetOrIdList( void ) const
 {
 	return m_vecOrIdList;
+}
+
+inline const std::vector<NTL_TS_T_ID>& CDboTSCheckClrQst::GetNotIdList(void) const
+{
+	return m_vecNotIdList;
 }
 
 
