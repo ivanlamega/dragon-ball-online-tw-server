@@ -66,6 +66,11 @@ void CDboTSContReward::SetRewardZeny(unsigned int uiRwdZeny)
 	m_uiRwdZeny = uiRwdZeny;
 }
 
+void CDboTSContReward::SetRewardExp(unsigned int uiRwdExp)
+{
+	m_uiRwdExp = uiRwdExp;
+}
+
 void CDboTSContReward::SetDesc( unsigned int uiDesc )
 {
 	m_uiDesc = uiDesc;
@@ -115,6 +120,11 @@ void CDboTSContReward::ApplyScriptDataForScript( const CNtlTSScrProperty& clProp
 	if (clProperty.IsExist("rwdzeny"))
 	{
 		SetRewardZeny(clProperty.GetValueAsInt("rwdzeny"));
+	}
+
+	if (clProperty.IsExist("rwdexp"))
+	{
+		SetRewardExp(clProperty.GetValueAsInt("rwdexp"));
 	}
 
 	if ( clProperty.IsExist( "ltime" ) )
@@ -215,6 +225,9 @@ void CDboTSContReward::TakeScriptDataForScript( CNtlTSScrProperty& clProperty )
 	
 	sprintf_s(g_NtlTSString, "%d", GetRewardZeny());
 	clProperty.m_defProperty["rwdzeny"] = g_NtlTSString; 
+
+	sprintf_s(g_NtlTSString, "%d", GetRewardExp());
+	clProperty.m_defProperty["rwdexp"] = g_NtlTSString;
 
 	sprintf_s( g_NtlTSString, "%d", GetLimitTime() );
 	clProperty.m_defProperty["ltime"] = g_NtlTSString;

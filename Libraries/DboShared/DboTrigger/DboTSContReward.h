@@ -32,6 +32,7 @@ protected:
 
 	eREWARD_CONTAINER_TYPE				m_eRwdContType;
 	unsigned int						m_uiRwdZeny;
+	unsigned int						m_uiRwdExp;
 	unsigned int						m_uiLimitTime;
 
 	unsigned int						m_uiDesc;
@@ -67,6 +68,9 @@ public:
 	
 	void								SetRewardZeny(unsigned int uiRwdZeny);
 	unsigned int						GetRewardZeny( void ) const;
+
+	void								SetRewardExp(unsigned int uiRwdExp);
+	unsigned int						GetRewardExp(void) const;
 
 	unsigned int						GetLimitTime(void) const;
 	void								SetLimitTime( unsigned int uiLimitTime );
@@ -113,6 +117,11 @@ inline unsigned int CDboTSContReward::GetLimitTime( void ) const
 inline unsigned int CDboTSContReward::GetRewardZeny(void) const
 {
 	return m_uiRwdZeny;
+}
+
+inline unsigned int CDboTSContReward::GetRewardExp(void) const
+{
+	return m_uiRwdExp;
 }
 
 inline unsigned int CDboTSContReward::GetDesc( void ) const

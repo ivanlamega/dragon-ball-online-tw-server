@@ -92,6 +92,7 @@ CDboTSContFactoryType_CDboTSContReward::CDboTSContFactoryType_CDboTSContReward( 
 	m_defPropertyList["ltime"].eType = CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;
 	m_defPropertyList["desc"].eType = CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;
 	m_defPropertyList["rwdzeny"].eType = CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;
+	m_defPropertyList["rwdexp"].eType = CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;
 
 	m_defPropertyList["usetbl"].eType = CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;
 	m_defPropertyList["rwdtbl"].eType = CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;
