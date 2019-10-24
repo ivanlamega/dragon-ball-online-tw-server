@@ -75,6 +75,7 @@ void CDboTSEntityFactory::RegisterEntityType( void )
 	m_defEntityTypeList[CDboTSEntityFactoryType_CDboTSActETimerE::OBJ_CLASS_NAME()]		= new CDboTSEntityFactoryType_CDboTSActETimerE;
 	m_defEntityTypeList[CDboTSEntityFactoryType_CDboTSActSToCEvt::OBJ_CLASS_NAME()]		= new CDboTSEntityFactoryType_CDboTSActSToCEvt;
 	m_defEntityTypeList[CDboTSEntityFactoryType_CDboTSActNPCConv::OBJ_CLASS_NAME()]		= new CDboTSEntityFactoryType_CDboTSActNPCConv;
+	m_defEntityTypeList[CDboTSEntityFactoryType_CDboTSActOutMsg::OBJ_CLASS_NAME()]		= new CDboTSEntityFactoryType_CDboTSActOutMsg;
 	m_defEntityTypeList[CDboTSEntityFactoryType_CDboTSActRegQInfo::OBJ_CLASS_NAME()]	= new CDboTSEntityFactoryType_CDboTSActRegQInfo;
 	m_defEntityTypeList[CDboTSEntityFactoryType_CDboTSActDir::OBJ_CLASS_NAME()]			= new CDboTSEntityFactoryType_CDboTSActDir;
 	m_defEntityTypeList[CDboTSEntityFactoryType_CDboTSActOPCam::OBJ_CLASS_NAME()]		= new CDboTSEntityFactoryType_CDboTSActOPCam;

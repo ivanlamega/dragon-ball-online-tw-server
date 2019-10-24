@@ -150,6 +150,7 @@ CNtlTSEntityFactoryType_CNtlTSTrigger::CNtlTSEntityFactoryType_CNtlTSTrigger( vo
 {
 	m_defPropertyList["tid"].eType		= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;
 	m_defPropertyList["rq"].eType		= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;
+	m_defPropertyList["qc"].eType		= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;
 	m_defPropertyList["sq"].eType		= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;
 	m_defPropertyList["sm"].eType		= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;
 	m_defPropertyList["title"].eType	= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;

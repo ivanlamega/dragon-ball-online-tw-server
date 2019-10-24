@@ -54,9 +54,9 @@ CQuestWrapper::~CQuestWrapper(void)
 
 bool CQuestWrapper::Create(void)
 {
-	m_strQuestPath = "..\\Quest\\corea\\ts\\quest.e";
-	m_strTriggerPath = "..\\Quest\\corea\\ts\\pctrigger.e";
-	m_strObjectPath = "..\\Quest\\corea\\ts\\objtrigger.e";
+	m_strQuestPath = "..\\Quest\\quest";
+	m_strTriggerPath = "..\\Quest\\pctrigger\\";
+	m_strObjectPath = "..\\Quest\\objtrigger\\";
 
 	m_bSchedulingLoad = true;
 

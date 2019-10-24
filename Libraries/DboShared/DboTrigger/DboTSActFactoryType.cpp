@@ -215,6 +215,31 @@ void CDboTSEntityFactoryType_CDboTSActNPCConv::DeleteObj( CNtlTSScrObject*& pObj
 
 //////////////////////////////////////////////////////////////////////////
 
+//////////////////////////////////////////////////////////////////////////
+
+
+CDboTSEntityFactoryType_CDboTSActOutMsg::CDboTSEntityFactoryType_CDboTSActOutMsg(void)
+{
+	m_defPropertyList["idx"].eType = CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;
+}
+
+CNtlTSScrObject* CDboTSEntityFactoryType_CDboTSActOutMsg::CreateObj(void)
+{
+	return new CDboTSActOutMsg;
+}
+
+void CDboTSEntityFactoryType_CDboTSActOutMsg::DeleteObj(CNtlTSScrObject*& pObj)
+{
+	if (pObj)
+	{
+		delete pObj;
+		pObj = 0;
+	}
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+
 
 CDboTSEntityFactoryType_CDboTSActRegQInfo::CDboTSEntityFactoryType_CDboTSActRegQInfo( void )
 {

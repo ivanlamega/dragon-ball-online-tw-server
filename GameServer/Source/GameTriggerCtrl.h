@@ -37,6 +37,7 @@ private:
 	void SendActItem(CDboTSActItem* pActItem);
 	void SendActMiniNarration(CDboTSActMiniNarration* pActMiniNarration);
 	void SendActNPCConv(CDboTSActNPCConv* pActNPCConv);
+	void SendActOutMsg(CDboTSActOutMsg* pActNPCConv);
 	void SendActObjConv(CDboTSActObjConv* pActObjConv);
 	void SendActObjState(CDboTSActObjState* pActObjState);
 	void SendActObjWPS(CDboTSActObjWPS* pActObjWPS);

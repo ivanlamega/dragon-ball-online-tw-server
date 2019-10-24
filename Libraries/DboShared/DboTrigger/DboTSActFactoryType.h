@@ -8,6 +8,7 @@
 #include "DboTSActETimerE.h"
 #include "DboTSActSToCEvt.h"
 #include "DboTSActNPCConv.h"
+#include "DboTSActOutMsg.h"
 #include "DboTSActRegQInfo.h"
 #include "DboTSActDir.h"
 #include "DboTSActOPCam.h"
@@ -140,6 +141,20 @@ public:
 public:
 	virtual	CNtlTSScrObject*			CreateObj( void );
 	virtual	void						DeleteObj( CNtlTSScrObject*& pObj );
+};
+
+class CDboTSEntityFactoryType_CDboTSActOutMsg : public CNtlTSEntityFactoryType_CNtlTSAction
+{
+	NTL_TS_DECLARE_REGIST_SCRIPT_RUNTIME_CREATE(CDboTSActOutMsg)
+
+		// Constructions and Destructions
+public:
+	CDboTSEntityFactoryType_CDboTSActOutMsg(void);
+
+	// Methods
+public:
+	virtual	CNtlTSScrObject*			CreateObj(void);
+	virtual	void						DeleteObj(CNtlTSScrObject*& pObj);
 };
 
 class CDboTSEntityFactoryType_CDboTSActRegQInfo : public CNtlTSEntityFactoryType_CNtlTSAction

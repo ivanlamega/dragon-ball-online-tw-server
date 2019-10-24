@@ -334,6 +334,10 @@ void CGameQuestCtrl::CheckContAct(CDboTSContGAct* pAct, CNtlTSCont* pParent)
 		{
 			SendActNPCConv((CDboTSActNPCConv*)pEntity);
 		}
+		else if (pEntity->IsDerivedClass("CDboTSActOutMsg"))
+		{
+			SendActOutMsg((CDboTSActOutMsg*)pEntity);
+		}
 		else if (pEntity->IsDerivedClass("CDboTSActObjConv"))
 		{
 			SendActObjConv((CDboTSActObjConv*)pEntity);
@@ -635,7 +639,11 @@ void CGameQuestCtrl::SendActMiniNarration(CDboTSActMiniNarration* pActMiniNarrat
 }
 void CGameQuestCtrl::SendActNPCConv(CDboTSActNPCConv* pActNPCConv)
 {
-	printf("ACtNPCConv\n");
+	printf("ActNPCConv\n");
+}
+void CGameQuestCtrl::SendActOutMsg(CDboTSActOutMsg* pActOutMsg)
+{
+	printf("ActOutMsg\n");
 }
 void CGameQuestCtrl::SendActObjConv(CDboTSActObjConv* pActObjConv)
 {

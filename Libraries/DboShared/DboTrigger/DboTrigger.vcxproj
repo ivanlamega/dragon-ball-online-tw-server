@@ -505,6 +505,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DboTSActOutMsg.cpp" />
     <ClCompile Include="precomp_trigger.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeCJIKor|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeCJIKor|x64'">Create</PrecompiledHeader>
@@ -669,6 +670,7 @@
     <ClCompile Include="DboTSTRecv.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DboTSActOutMsg.h" />
     <ClInclude Include="precomp_trigger.h" />
     <ClInclude Include="DboTSActFactoryType.h" />
     <ClInclude Include="DboTSCondFactoryType.h" />

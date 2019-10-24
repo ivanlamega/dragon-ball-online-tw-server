@@ -340,6 +340,10 @@ void CGameTriggerCtrl::CheckContAct(CDboTSContGAct* pAct, CNtlTSCont* pParent, C
 		{
 			SendActNPCConv((CDboTSActNPCConv*)pEntity);
 		}
+		else if (pEntity->IsDerivedClass("CDboTSActOutMsg"))
+		{
+			SendActOutMsg((CDboTSActOutMsg*)pEntity);
+		}
 		else if (pEntity->IsDerivedClass("CDboTSActObjConv"))
 		{
 			SendActObjConv((CDboTSActObjConv*)pEntity);
@@ -661,6 +665,10 @@ void CGameTriggerCtrl::SendActMiniNarration(CDboTSActMiniNarration* pActMiniNarr
 void CGameTriggerCtrl::SendActNPCConv(CDboTSActNPCConv* pActNPCConv)
 {
 	printf("ACtNPCConv\n");
+}
+void CGameTriggerCtrl::SendActOutMsg(CDboTSActOutMsg* pActNPCConv)
+{
+	printf("ActOutMsg\n");
 }
 void CGameTriggerCtrl::SendActObjConv(CDboTSActObjConv* pActObjConv)
 {
