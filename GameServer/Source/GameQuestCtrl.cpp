@@ -282,6 +282,10 @@ void CGameQuestCtrl::CheckContAct(CDboTSContGAct* pAct, CNtlTSCont* pParent)
 		{
 			SendActDir((CDboTSActDir*)pEntity);
 		}
+		else if (pEntity->IsDerivedClass("CDboTSActMail"))
+		{
+			SendActMail((CDboTSActMail*)pEntity);
+		}
 		else if (pEntity->IsDerivedClass("CDboTSActDirIndicator"))
 		{
 			SendActDirIndicator((CDboTSActDirIndicator*)pEntity);
@@ -600,6 +604,10 @@ void CGameQuestCtrl::SendActCustomEvt(CDboTSActCustomEvt* pActCustomEvt)
 void CGameQuestCtrl::SendActDir(CDboTSActDir* pActDir)
 {
 	printf("ActDir\n");
+}
+void CGameQuestCtrl::SendActMail(CDboTSActMail* pActMail)
+{
+	printf("ActMail\n");
 }
 void CGameQuestCtrl::SendActDirIndicator(CDboTSActDirIndicator* pActDirIndicator)
 {

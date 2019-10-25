@@ -3,6 +3,8 @@
 
 
 #include "DboTSCheckLvl.h"
+#include "DboTSLevelCheck.h"
+#include "DboTSClickSideIcon.h"
 #include "DboTSCheckPCCls.h"
 #include "DboTSCheckPCRace.h"
 #include "DboTSCheckQItem.h"
@@ -46,6 +48,36 @@ public:
 public:
 	virtual	CNtlTSScrObject*			CreateObj( void );
 	virtual	void						DeleteObj( CNtlTSScrObject*& pObj );
+};
+
+
+class CDboTSEntityFactoryType_CDboTSLevelCheck : public CNtlTSEntityFactoryType_CNtlTSCond
+{
+	NTL_TS_DECLARE_REGIST_SCRIPT_RUNTIME_CREATE(CDboTSLevelCheck)
+
+		// Constructions and Destructions
+public:
+	CDboTSEntityFactoryType_CDboTSLevelCheck(void);
+
+	// Methods
+public:
+	virtual	CNtlTSScrObject*			CreateObj(void);
+	virtual	void						DeleteObj(CNtlTSScrObject*& pObj);
+}; 
+
+
+class CDboTSEntityFactoryType_CDboTSClickSideIcon : public CNtlTSEntityFactoryType_CNtlTSCond
+{
+	NTL_TS_DECLARE_REGIST_SCRIPT_RUNTIME_CREATE(CDboTSClickSideIcon)
+
+		// Constructions and Destructions
+public:
+	CDboTSEntityFactoryType_CDboTSClickSideIcon(void);
+
+	// Methods
+public:
+	virtual	CNtlTSScrObject*			CreateObj(void);
+	virtual	void						DeleteObj(CNtlTSScrObject*& pObj);
 };
 
 

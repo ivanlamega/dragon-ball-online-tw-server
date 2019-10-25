@@ -288,6 +288,10 @@ void CGameTriggerCtrl::CheckContAct(CDboTSContGAct* pAct, CNtlTSCont* pParent, C
 		{
 			SendActDir((CDboTSActDir*)pEntity);
 		}
+		else if (pEntity->IsDerivedClass("CDboTSActMail"))
+		{
+			SendActMail((CDboTSActMail*)pEntity);
+		}
 		else if (pEntity->IsDerivedClass("CDboTSActDirIndicator"))
 		{
 			SendActDirIndicator((CDboTSActDirIndicator*)pEntity);
@@ -625,6 +629,10 @@ void CGameTriggerCtrl::SendActCustomEvt(CDboTSActCustomEvt* pActCustomEvt)
 void CGameTriggerCtrl::SendActDir(CDboTSActDir* pActDir)
 {
 	printf("ActDir\n");
+}
+void CGameTriggerCtrl::SendActMail(CDboTSActMail* pActMail)
+{
+	printf("ActMail\n");
 }
 void CGameTriggerCtrl::SendActDirIndicator(CDboTSActDirIndicator* pActDirIndicator)
 {

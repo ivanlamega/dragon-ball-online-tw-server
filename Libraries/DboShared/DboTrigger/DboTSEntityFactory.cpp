@@ -43,6 +43,8 @@ void CDboTSEntityFactory::RegisterEntityType( void )
 
 	// Register condition types
 	m_defEntityTypeList[CDboTSEntityFactoryType_CDboTSCheckLvl::OBJ_CLASS_NAME()]		= new CDboTSEntityFactoryType_CDboTSCheckLvl;
+	m_defEntityTypeList[CDboTSEntityFactoryType_CDboTSLevelCheck::OBJ_CLASS_NAME()]		= new CDboTSEntityFactoryType_CDboTSLevelCheck;
+	m_defEntityTypeList[CDboTSEntityFactoryType_CDboTSClickSideIcon::OBJ_CLASS_NAME()]	= new CDboTSEntityFactoryType_CDboTSClickSideIcon;
 	m_defEntityTypeList[CDboTSEntityFactoryType_CDboTSCheckPCCls::OBJ_CLASS_NAME()]		= new CDboTSEntityFactoryType_CDboTSCheckPCCls;
 	m_defEntityTypeList[CDboTSEntityFactoryType_CDboTSCheckPCRace::OBJ_CLASS_NAME()]	= new CDboTSEntityFactoryType_CDboTSCheckPCRace;
 	m_defEntityTypeList[CDboTSEntityFactoryType_CDboTSCheckQItem::OBJ_CLASS_NAME()]		= new CDboTSEntityFactoryType_CDboTSCheckQItem;
@@ -80,6 +82,7 @@ void CDboTSEntityFactory::RegisterEntityType( void )
 	m_defEntityTypeList[CDboTSEntityFactoryType_CDboTSActOutMsg::OBJ_CLASS_NAME()]		= new CDboTSEntityFactoryType_CDboTSActOutMsg;
 	m_defEntityTypeList[CDboTSEntityFactoryType_CDboTSActRegQInfo::OBJ_CLASS_NAME()]	= new CDboTSEntityFactoryType_CDboTSActRegQInfo;
 	m_defEntityTypeList[CDboTSEntityFactoryType_CDboTSActDir::OBJ_CLASS_NAME()]			= new CDboTSEntityFactoryType_CDboTSActDir;
+	m_defEntityTypeList[CDboTSEntityFactoryType_CDboTSActMail::OBJ_CLASS_NAME()]		= new CDboTSEntityFactoryType_CDboTSActMail;
 	m_defEntityTypeList[CDboTSEntityFactoryType_CDboTSActOPCam::OBJ_CLASS_NAME()]		= new CDboTSEntityFactoryType_CDboTSActOPCam;
 	m_defEntityTypeList[CDboTSEntityFactoryType_CDboTSActTWaitTS::OBJ_CLASS_NAME()]		= new CDboTSEntityFactoryType_CDboTSActTWaitTS;
 	m_defEntityTypeList[CDboTSEntityFactoryType_CDboTSActInSSM::OBJ_CLASS_NAME()]		= new CDboTSEntityFactoryType_CDboTSActInSSM;

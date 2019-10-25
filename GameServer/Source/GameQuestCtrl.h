@@ -25,6 +25,7 @@ private:
 	void SendActConcCheck(CDboTSActConcCheck* pActConcCheck);
 	void SendActCustomEvt(CDboTSActCustomEvt* pActCustomEvt);
 	void SendActDir(CDboTSActDir* pActDir);
+	void SendActMail(CDboTSActMail* pActMail);
 	void SendActDirIndicator(CDboTSActDirIndicator* pActDirIndicator);
 	void SendActDojo(CDboTSActDojo* pActDojo);
 	void SendActDoSkill(CDboTSActDoSkill* pActDoSkill);

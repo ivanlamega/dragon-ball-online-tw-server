@@ -513,6 +513,15 @@
     <ClCompile Include="DboTSActAvatarDead.cpp">
       <Filter>Entity\Action</Filter>
     </ClCompile>
+    <ClCompile Include="DboTSClickSideIcon.cpp">
+      <Filter>Entity\Condition</Filter>
+    </ClCompile>
+    <ClCompile Include="DboTSActMail.cpp">
+      <Filter>Entity\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="DboTSLevelCheck.cpp">
+      <Filter>Entity\Condition</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="precomp_trigger.h">
@@ -979,6 +988,15 @@
     </ClInclude>
     <ClInclude Include="DboTSActAvatarDead.h">
       <Filter>Entity\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="DboTSClickSideIcon.h">
+      <Filter>Entity\Condition</Filter>
+    </ClInclude>
+    <ClInclude Include="DboTSActMail.h">
+      <Filter>Entity\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="DboTSLevelCheck.h">
+      <Filter>Entity\Condition</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

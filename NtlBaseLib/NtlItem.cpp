@@ -32,6 +32,7 @@ FLOAT Dbo_GetItemsStatsPoints(BYTE byRank, BYTE byLevel)
 	case eITEM_RANK::ITEM_RANK_EXCELLENT: {return pow(pow(fPoints * 2.3f * 100.f, 1.5f), 2.f / 3.f); break; }
 	case eITEM_RANK::ITEM_RANK_RARE: {return pow(pow(fPoints * 2.8f * 100.f, 1.5f), 2.f / 3.f); break; }
 	case eITEM_RANK::ITEM_RANK_LEGENDARY: { return pow(pow(fPoints * 3.4f * 100.f, 1.5f), 2.f / 3.f); break; }
+	default: return 0.0f;
 	}
 
 }

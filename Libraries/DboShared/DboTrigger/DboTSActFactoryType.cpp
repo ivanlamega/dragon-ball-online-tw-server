@@ -371,6 +371,31 @@ void CDboTSEntityFactoryType_CDboTSActDir::DeleteObj( CNtlTSScrObject*& pObj )
 	}
 }
 
+//////////////////////////////////////////////////////////////////////////
+
+
+CDboTSEntityFactoryType_CDboTSActMail::CDboTSEntityFactoryType_CDboTSActMail(void)
+{
+	m_defPropertyList["zenny"].eType = CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;
+	m_defPropertyList["icnt"].eType = CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;
+	m_defPropertyList["stidx"].eType = CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;
+	m_defPropertyList["itidx"].eType = CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;
+	m_defPropertyList["dtidx"].eType = CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;
+}
+
+CNtlTSScrObject* CDboTSEntityFactoryType_CDboTSActMail::CreateObj(void)
+{
+	return new CDboTSActMail;
+}
+
+void CDboTSEntityFactoryType_CDboTSActMail::DeleteObj(CNtlTSScrObject*& pObj)
+{
+	if (pObj)
+	{
+		delete pObj;
+		pObj = 0;
+	}
+}
 
 //////////////////////////////////////////////////////////////////////////
 

@@ -30,6 +30,49 @@ void CDboTSEntityFactoryType_CDboTSCheckLvl::DeleteObj( CNtlTSScrObject*& pObj )
 	}
 }
 
+//////////////////////////////////////////////////////////////////////////
+
+
+CDboTSEntityFactoryType_CDboTSLevelCheck::CDboTSEntityFactoryType_CDboTSLevelCheck(void)
+{
+}
+
+CNtlTSScrObject* CDboTSEntityFactoryType_CDboTSLevelCheck::CreateObj(void)
+{
+	return new CDboTSLevelCheck;
+}
+
+void CDboTSEntityFactoryType_CDboTSLevelCheck::DeleteObj(CNtlTSScrObject*& pObj)
+{
+	if (pObj)
+	{
+		delete pObj;
+		pObj = 0;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+
+CDboTSEntityFactoryType_CDboTSClickSideIcon::CDboTSEntityFactoryType_CDboTSClickSideIcon(void)
+{
+	m_defPropertyList["sitype"].eType = CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;
+}
+
+CNtlTSScrObject* CDboTSEntityFactoryType_CDboTSClickSideIcon::CreateObj(void)
+{
+	return new CDboTSClickSideIcon;
+}
+
+void CDboTSEntityFactoryType_CDboTSClickSideIcon::DeleteObj(CNtlTSScrObject*& pObj)
+{
+	if (pObj)
+	{
+		delete pObj;
+		pObj = 0;
+	}
+}
+
 
 //////////////////////////////////////////////////////////////////////////
 

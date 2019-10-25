@@ -61,6 +61,8 @@
 #include "DboTSCheckClrQst.h"
 #include "DboTSCheckItem.h"
 #include "DboTSCheckLvl.h"
+#include "DboTSLevelCheck.h"
+#include "DboTSClickSideIcon.h"
 #include "DboTSCheckPCCls.h"
 #include "DboTSCheckPCRace.h"
 #include "DboTSCheckQItem.h"
@@ -87,6 +89,7 @@
 #include "DboTSActFactoryType.h"
 
 #include "DboTSActDir.h"
+#include "DboTSActMail.h"
 #include "DboTSActETimerS.h"
 #include "DboTSActETimerE.h"
 #include "DboTSActInSSM.h"

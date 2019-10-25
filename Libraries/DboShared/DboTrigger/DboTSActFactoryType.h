@@ -13,6 +13,7 @@
 #include "DboTSActOutMsg.h"
 #include "DboTSActRegQInfo.h"
 #include "DboTSActDir.h"
+#include "DboTSActMail.h"
 #include "DboTSActOPCam.h"
 #include "DboTSActTWaitTS.h"
 #include "DboTSActInSSM.h"
@@ -214,6 +215,20 @@ public:
 	virtual	CNtlTSScrObject*			CreateObj( void );
 	virtual	void						DeleteObj( CNtlTSScrObject*& pObj );
 };
+
+class CDboTSEntityFactoryType_CDboTSActMail : public CNtlTSEntityFactoryType_CNtlTSAction
+{
+	NTL_TS_DECLARE_REGIST_SCRIPT_RUNTIME_CREATE(CDboTSActMail)
+
+		// Constructions and Destructions
+public:
+	CDboTSEntityFactoryType_CDboTSActMail(void);
+
+	// Methods
+public:
+	virtual	CNtlTSScrObject*			CreateObj(void);
+	virtual	void						DeleteObj(CNtlTSScrObject*& pObj);
+}; 
 
 class CDboTSEntityFactoryType_CDboTSActOPCam : public CNtlTSEntityFactoryType_CNtlTSAction
 {
