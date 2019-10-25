@@ -153,3 +153,6 @@ inline bool CQuestWrapper::IsCreated(void)
 {
 	return m_bCreated;
 }
+
+// Trigger container singleton
+#define sTSM AKCore::Singleton<CQuestWrapper>::Instance()

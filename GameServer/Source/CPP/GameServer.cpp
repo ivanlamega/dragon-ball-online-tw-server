@@ -41,8 +41,9 @@ void signalHandler(int signum)
 
 bool GameServer::loadQuests()
 {
-	this->g_pQuestWrapper = new CQuestWrapper;
-	return this->g_pQuestWrapper->Create();
+	//this->g_pQuestWrapper = new CQuestWrapper;
+	//return this->g_pQuestWrapper->Create();
+	return sTSM.Create();
 }
 
 bool GameServer::loadDataTable()
