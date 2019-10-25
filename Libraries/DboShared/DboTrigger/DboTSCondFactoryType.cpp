@@ -469,6 +469,7 @@ void CDboTSEntityFactoryType_CDboTSCheckAttachObj::DeleteObj( CNtlTSScrObject*& 
 CDboTSEntityFactoryType_CDboTSCheckProgQuest::CDboTSEntityFactoryType_CDboTSCheckProgQuest( void )
 {
 	m_defPropertyList["qid"].eType			= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;
+	m_defPropertyList["not"].eType			= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_STRING;
 }
 
 CNtlTSScrObject* CDboTSEntityFactoryType_CDboTSCheckProgQuest::CreateObj( void )

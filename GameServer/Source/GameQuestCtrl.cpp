@@ -398,6 +398,10 @@ void CGameQuestCtrl::CheckContAct(CDboTSContGAct* pAct, CNtlTSCont* pParent)
 		{
 			SendActSToCEvt((CDboTSActSToCEvt*)pEntity);
 		}
+		else if (pEntity->IsDerivedClass("CDboTSActWPSFD"))
+		{
+			SendActWPSFD((CDboTSActWPSFD*)pEntity);
+		}
 		else if (pEntity->IsDerivedClass("CDboTSActSWProbSF"))
 		{
 			SendActSWProbSF((CDboTSActSWProbSF*)pEntity);
@@ -704,6 +708,10 @@ void CGameQuestCtrl::SendActSkipCont(CDboTSActSkipCont* pActSkipCont)
 void CGameQuestCtrl::SendActSToCEvt(CDboTSActSToCEvt* pActSToCEvt)
 {
 	printf("ActSToCEvt\n");
+}
+void CGameQuestCtrl::SendActWPSFD(CDboTSActWPSFD* pActWPSFD)
+{
+	printf("ActWPSFD\n");
 }
 void CGameQuestCtrl::SendActSWProbSF(CDboTSActSWProbSF* pActSWProbSF)
 {

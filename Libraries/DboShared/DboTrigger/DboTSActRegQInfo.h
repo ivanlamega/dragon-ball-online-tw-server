@@ -24,6 +24,7 @@ public:
 		unsigned int					uiWorldTblIdx;
 		float							fX, fY, fZ;
 		unsigned int					uiTooltipIdx;
+		unsigned int					uiPat;
 	};
 
 // Member variables
@@ -39,7 +40,7 @@ protected:
 	unsigned int						m_uiContents;
 	NTL_TS_TC_ID						m_tcReward;
 
-	SQUEST_MARK_INFO					m_sQuestMarkInfo[3];
+	SQUEST_MARK_INFO					m_sQuestMarkInfo[5];
 
 // Constructions
 public:

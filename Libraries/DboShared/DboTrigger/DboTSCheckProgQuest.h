@@ -17,6 +17,7 @@ class CDboTSCheckProgQuest : public CNtlTSCond
 // Member variables
 protected:
 	NTL_TS_T_ID							m_tQuestID;
+	std::vector<NTL_TS_T_ID>			m_vecNotIdList;
 
 // Constructions
 public:
@@ -28,6 +29,10 @@ public:
 
 	NTL_TS_T_ID							GetQuestID( void ) const;
 	void								SetQuestID( NTL_TS_T_ID tQID );
+
+	const std::vector<NTL_TS_T_ID>&		GetNotIdList(void) const;
+	bool								SetNotIdList(const std::string& strIDList);
+	void								ClearNotIdList(void);
 
 
 // Implementations
@@ -43,5 +48,8 @@ inline NTL_TS_T_ID CDboTSCheckProgQuest::GetQuestID( void ) const
 	return m_tQuestID;
 }
 
-
+inline const std::vector<NTL_TS_T_ID>& CDboTSCheckProgQuest::GetNotIdList(void) const
+{
+	return m_vecNotIdList;
+}
 #endif

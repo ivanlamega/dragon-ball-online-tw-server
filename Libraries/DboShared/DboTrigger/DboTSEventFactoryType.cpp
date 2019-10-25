@@ -420,6 +420,7 @@ void CDboTSEntityFactoryType_CDboTSBudokai::DeleteObj( CNtlTSScrObject*& pObj )
 
 CDboTSEntityFactoryType_CDboTSSlotMachine::CDboTSEntityFactoryType_CDboTSSlotMachine( void )
 {
+	m_defPropertyList["st"].eType = CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;
 }
 
 CNtlTSScrObject* CDboTSEntityFactoryType_CDboTSSlotMachine::CreateObj( void )

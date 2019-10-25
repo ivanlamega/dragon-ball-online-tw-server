@@ -7,6 +7,7 @@
 #include "DboTSActETimerS.h"
 #include "DboTSActETimerE.h"
 #include "DboTSActSToCEvt.h"
+#include "DboTSActWPSFD.h"
 #include "DboTSActNPCConv.h"
 #include "DboTSActOutMsg.h"
 #include "DboTSActRegQInfo.h"
@@ -127,6 +128,20 @@ public:
 public:
 	virtual	CNtlTSScrObject*			CreateObj( void );
 	virtual	void						DeleteObj( CNtlTSScrObject*& pObj );
+};
+
+class CDboTSEntityFactoryType_CDboTSActWPSFD : public CNtlTSEntityFactoryType_CNtlTSAction
+{
+	NTL_TS_DECLARE_REGIST_SCRIPT_RUNTIME_CREATE(CDboTSActWPSFD)
+
+		// Constructions and Destructions
+public:
+	CDboTSEntityFactoryType_CDboTSActWPSFD(void);
+
+	// Methods
+public:
+	virtual	CNtlTSScrObject*			CreateObj(void);
+	virtual	void						DeleteObj(CNtlTSScrObject*& pObj);
 };
 
 class CDboTSEntityFactoryType_CDboTSActNPCConv : public CNtlTSEntityFactoryType_CNtlTSAction

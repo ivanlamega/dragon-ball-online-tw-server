@@ -170,6 +170,8 @@ void CDboTSActRegQInfo::ApplyScriptDataForScript( const CNtlTSScrProperty& clPro
 		m_sQuestMarkInfo[0].fZ = (float)atof( clProperty.GetValue( "m0fz" ).c_str() );
 
 		m_sQuestMarkInfo[0].uiTooltipIdx = clProperty.GetValueAsInt( "m0ttip" );
+
+		m_sQuestMarkInfo[0].uiPat = clProperty.GetValueAsInt( "m0pat" );
 	}
 
 	if ( clProperty.IsExist( "m1widx" ) )
@@ -181,6 +183,8 @@ void CDboTSActRegQInfo::ApplyScriptDataForScript( const CNtlTSScrProperty& clPro
 		m_sQuestMarkInfo[1].fZ = (float)atof( clProperty.GetValue( "m1fz" ).c_str() );
 
 		m_sQuestMarkInfo[1].uiTooltipIdx = clProperty.GetValueAsInt( "m1ttip" );
+
+		m_sQuestMarkInfo[1].uiPat = clProperty.GetValueAsInt("m1pat");
 	}
 
 	if ( clProperty.IsExist( "m2widx" ) )
@@ -192,6 +196,34 @@ void CDboTSActRegQInfo::ApplyScriptDataForScript( const CNtlTSScrProperty& clPro
 		m_sQuestMarkInfo[2].fZ = (float)atof( clProperty.GetValue( "m2fz" ).c_str() );
 
 		m_sQuestMarkInfo[2].uiTooltipIdx = clProperty.GetValueAsInt( "m2ttip" );
+
+		m_sQuestMarkInfo[2].uiPat = clProperty.GetValueAsInt("m2pat");
+	}
+
+	if (clProperty.IsExist("m3widx"))
+	{
+		m_sQuestMarkInfo[3].uiWorldTblIdx = clProperty.GetValueAsInt("m3widx");
+
+		m_sQuestMarkInfo[3].fX = (float)atof(clProperty.GetValue("m3fx").c_str());
+		m_sQuestMarkInfo[3].fY = (float)atof(clProperty.GetValue("m3fy").c_str());
+		m_sQuestMarkInfo[3].fZ = (float)atof(clProperty.GetValue("m3fz").c_str());
+
+		m_sQuestMarkInfo[3].uiTooltipIdx = clProperty.GetValueAsInt("m3ttip");
+
+		m_sQuestMarkInfo[3].uiPat = clProperty.GetValueAsInt("m3pat");
+	}
+
+	if (clProperty.IsExist("m4widx"))
+	{
+		m_sQuestMarkInfo[4].uiWorldTblIdx = clProperty.GetValueAsInt("m4widx");
+
+		m_sQuestMarkInfo[4].fX = (float)atof(clProperty.GetValue("m4fx").c_str());
+		m_sQuestMarkInfo[4].fY = (float)atof(clProperty.GetValue("m4fy").c_str());
+		m_sQuestMarkInfo[4].fZ = (float)atof(clProperty.GetValue("m4fz").c_str());
+
+		m_sQuestMarkInfo[4].uiTooltipIdx = clProperty.GetValueAsInt("m4ttip");
+
+		m_sQuestMarkInfo[4].uiPat = clProperty.GetValueAsInt("m4pat");
 	}
 }
 
@@ -257,7 +289,7 @@ void CDboTSActRegQInfo::TakeScriptDataForScript( CNtlTSScrProperty& clProperty )
 		sprintf_s( g_NtlTSString, "%d", m_sQuestMarkInfo[0].uiTooltipIdx );
 		clProperty.m_defProperty["m0ttip"]	= g_NtlTSString;
 
-		sprintf_s(g_NtlTSString, "%d", 0);// ); m_sQuestMarkInfo[0].uiTooltipIdx);
+		sprintf_s(g_NtlTSString, "%d", m_sQuestMarkInfo[0].uiPat);
 		clProperty.m_defProperty["m0pat"] = g_NtlTSString;
 	}
 
@@ -277,6 +309,9 @@ void CDboTSActRegQInfo::TakeScriptDataForScript( CNtlTSScrProperty& clProperty )
 
 		sprintf_s( g_NtlTSString, "%d", m_sQuestMarkInfo[1].uiTooltipIdx );
 		clProperty.m_defProperty["m1ttip"]	= g_NtlTSString;
+
+		sprintf_s(g_NtlTSString, "%d", m_sQuestMarkInfo[1].uiPat);
+		clProperty.m_defProperty["m1pat"] = g_NtlTSString;
 	}
 
 	if ( 0xffffffff != m_sQuestMarkInfo[2].uiWorldTblIdx )
@@ -295,5 +330,51 @@ void CDboTSActRegQInfo::TakeScriptDataForScript( CNtlTSScrProperty& clProperty )
 
 		sprintf_s( g_NtlTSString, "%d", m_sQuestMarkInfo[2].uiTooltipIdx );
 		clProperty.m_defProperty["m2ttip"]	= g_NtlTSString;
+
+		sprintf_s(g_NtlTSString, "%d", m_sQuestMarkInfo[2].uiPat);
+		clProperty.m_defProperty["m2pat"] = g_NtlTSString;
 	}
+
+	if (0xffffffff != m_sQuestMarkInfo[3].uiWorldTblIdx)
+	{
+		sprintf_s(g_NtlTSString, "%d", m_sQuestMarkInfo[3].uiWorldTblIdx);
+		clProperty.m_defProperty["m3widx"] = g_NtlTSString;
+
+		sprintf_s(g_NtlTSString, "%f", m_sQuestMarkInfo[3].fX);
+		clProperty.m_defProperty["m3fx"] = g_NtlTSString;
+
+		sprintf_s(g_NtlTSString, "%f", m_sQuestMarkInfo[3].fY);
+		clProperty.m_defProperty["m3fy"] = g_NtlTSString;
+
+		sprintf_s(g_NtlTSString, "%f", m_sQuestMarkInfo[3].fZ);
+		clProperty.m_defProperty["m3fz"] = g_NtlTSString;
+
+		sprintf_s(g_NtlTSString, "%d", m_sQuestMarkInfo[3].uiTooltipIdx);
+		clProperty.m_defProperty["m3ttip"] = g_NtlTSString;
+
+		sprintf_s(g_NtlTSString, "%d", m_sQuestMarkInfo[3].uiPat);
+		clProperty.m_defProperty["m3pat"] = g_NtlTSString;
+	}
+
+	if (0xffffffff != m_sQuestMarkInfo[4].uiWorldTblIdx)
+	{
+		sprintf_s(g_NtlTSString, "%d", m_sQuestMarkInfo[4].uiWorldTblIdx);
+		clProperty.m_defProperty["m4widx"] = g_NtlTSString;
+
+		sprintf_s(g_NtlTSString, "%f", m_sQuestMarkInfo[4].fX);
+		clProperty.m_defProperty["m4fx"] = g_NtlTSString;
+
+		sprintf_s(g_NtlTSString, "%f", m_sQuestMarkInfo[4].fY);
+		clProperty.m_defProperty["m4fy"] = g_NtlTSString;
+
+		sprintf_s(g_NtlTSString, "%f", m_sQuestMarkInfo[4].fZ);
+		clProperty.m_defProperty["m4fz"] = g_NtlTSString;
+
+		sprintf_s(g_NtlTSString, "%d", m_sQuestMarkInfo[4].uiTooltipIdx);
+		clProperty.m_defProperty["m4ttip"] = g_NtlTSString;
+
+		sprintf_s(g_NtlTSString, "%d", m_sQuestMarkInfo[4].uiPat);
+		clProperty.m_defProperty["m4pat"] = g_NtlTSString;
+	}
+
 }

@@ -142,6 +142,11 @@ void CDboTSCheckClrQst::ApplyScriptDataForScript( const CNtlTSScrProperty& clPro
 	{
 		SetOrIdList( clProperty.GetValue( "or" ) );
 	}
+
+	if (clProperty.IsExist("not"))
+	{
+		SetNotIdList(clProperty.GetValue("not"));
+	}
 }
 
 void CDboTSCheckClrQst::TakeScriptDataForScript( CNtlTSScrProperty& clProperty )

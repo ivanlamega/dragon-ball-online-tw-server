@@ -53,6 +53,7 @@ private:
 	void SendActSendSvrEvt(CDboTSActSendSvrEvt* pActSendSvrEvt);
 	void SendActSkipCont(CDboTSActSkipCont* pActSkipCont);
 	void SendActSToCEvt(CDboTSActSToCEvt* pActSToCEvt);
+	void SendActWPSFD(CDboTSActWPSFD* pActSToCEvt);
 	void SendActSWProbSF(CDboTSActSWProbSF* pActSWProbSF);
 
 	//Events

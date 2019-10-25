@@ -504,6 +504,9 @@
     <ClCompile Include="DboTSActOutMsg.cpp">
       <Filter>Entity\Action</Filter>
     </ClCompile>
+    <ClCompile Include="DboTSActWPSFD.cpp">
+      <Filter>Entity\Action</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="precomp_trigger.h">
@@ -960,6 +963,9 @@
       <Filter>UI\Receiver</Filter>
     </ClInclude>
     <ClInclude Include="DboTSActOutMsg.h">
+      <Filter>Entity\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="DboTSActWPSFD.h">
       <Filter>Entity\Action</Filter>
     </ClInclude>
   </ItemGroup>

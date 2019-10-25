@@ -404,6 +404,10 @@ void CGameTriggerCtrl::CheckContAct(CDboTSContGAct* pAct, CNtlTSCont* pParent, C
 		{
 			SendActSToCEvt((CDboTSActSToCEvt*)pEntity);
 		}
+		else if (pEntity->IsDerivedClass("CDboTSActWPSFD"))
+		{
+			SendActWPSFD((CDboTSActWPSFD*)pEntity);
+		}
 		else if (pEntity->IsDerivedClass("CDboTSActSWProbSF"))
 		{
 			SendActSWProbSF((CDboTSActSWProbSF*)pEntity);
@@ -729,6 +733,10 @@ void CGameTriggerCtrl::SendActSkipCont(CDboTSActSkipCont* pActSkipCont)
 void CGameTriggerCtrl::SendActSToCEvt(CDboTSActSToCEvt* pActSToCEvt)
 {
 	printf("ActSToCEvt\n");
+}
+void CGameTriggerCtrl::SendActWPSFD(CDboTSActWPSFD* pActWPSFD)
+{
+	printf("ActWPSFD\n");
 }
 void CGameTriggerCtrl::SendActSWProbSF(CDboTSActSWProbSF* pActSWProbSF)
 {

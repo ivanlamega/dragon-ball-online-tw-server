@@ -126,6 +126,29 @@ void CDboTSEntityFactoryType_CDboTSActETimerE::DeleteObj( CNtlTSScrObject*& pObj
 //////////////////////////////////////////////////////////////////////////
 
 
+CDboTSEntityFactoryType_CDboTSActWPSFD::CDboTSEntityFactoryType_CDboTSActWPSFD(void)
+{
+	m_defPropertyList["sid"].eType = CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;
+}
+
+CNtlTSScrObject* CDboTSEntityFactoryType_CDboTSActWPSFD::CreateObj(void)
+{
+	return new CDboTSActWPSFD;
+}
+
+void CDboTSEntityFactoryType_CDboTSActWPSFD::DeleteObj(CNtlTSScrObject*& pObj)
+{
+	if (pObj)
+	{
+		delete pObj;
+		pObj = 0;
+	}
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+
+
 CDboTSEntityFactoryType_CDboTSActSToCEvt::CDboTSEntityFactoryType_CDboTSActSToCEvt( void )
 {
 	m_defPropertyList["etype"].eType	= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;
@@ -266,12 +289,28 @@ CDboTSEntityFactoryType_CDboTSActRegQInfo::CDboTSEntityFactoryType_CDboTSActRegQ
 	m_defPropertyList["m1fy"].eType		= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_STRING;
 	m_defPropertyList["m1fz"].eType		= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_STRING;
 	m_defPropertyList["m1ttip"].eType	= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;
+	m_defPropertyList["m1pat"].eType	= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;
 
 	m_defPropertyList["m2widx"].eType	= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;
 	m_defPropertyList["m2fx"].eType		= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_STRING;
 	m_defPropertyList["m2fy"].eType		= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_STRING;
 	m_defPropertyList["m2fz"].eType		= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_STRING;
 	m_defPropertyList["m2ttip"].eType	= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;
+	m_defPropertyList["m2pat"].eType	= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;
+
+	m_defPropertyList["m3widx"].eType	= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;
+	m_defPropertyList["m3fx"].eType		= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_STRING;
+	m_defPropertyList["m3fy"].eType		= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_STRING;
+	m_defPropertyList["m3fz"].eType		= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_STRING;
+	m_defPropertyList["m3ttip"].eType	= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;
+	m_defPropertyList["m3pat"].eType	= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;
+
+	m_defPropertyList["m4widx"].eType	= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;
+	m_defPropertyList["m4fx"].eType		= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_STRING;
+	m_defPropertyList["m4fy"].eType		= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_STRING;
+	m_defPropertyList["m4fz"].eType		= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_STRING;
+	m_defPropertyList["m4ttip"].eType	= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;
+	m_defPropertyList["m4pat"].eType	= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;
 }
 
 CNtlTSScrObject* CDboTSEntityFactoryType_CDboTSActRegQInfo::CreateObj( void )
