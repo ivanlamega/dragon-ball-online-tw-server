@@ -269,7 +269,7 @@ bool CDboTSMain::LoadTSCryptoData( std::string strFile, mapdef_TLIST& defTList )
 	fclose( pFile );
 
 	// 암호화를 푼다
-	std::string strKey = "tddkaghghkqlalfqjsghdlqslek";
+	std::string strKey = "dnfldbofmftkfkdgowntpdy";//"tddkaghghkqlalfqjsghdlqslek";
 	CNtlCipher Cipher;
 	Cipher.SetKey( DES_CIPHER, strKey.c_str(), (int)strKey.size() );
 	char* pDecryptBuf = new char[nReadSize+256];
@@ -354,7 +354,7 @@ bool CDboTSMain::LoadTSCryptoData_UnZip( std::string strFile, CNtlUnzip* pclUnzi
 	fclose( pFile );
 
 	// 암호화를 푼다
-	std::string strKey = "tddkaghghkqlalfqjsghdlqslek";
+	std::string strKey = "dnfldbofmftkfkdgowntpdy";//"tddkaghghkqlalfqjsghdlqslek";
 	CNtlCipher Cipher;
 	Cipher.SetKey( DES_CIPHER, strKey.c_str(), (int)strKey.size() );
 	char* pDecryptBuf = new char[nReadSize+256];

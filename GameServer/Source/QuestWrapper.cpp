@@ -54,9 +54,9 @@ CQuestWrapper::~CQuestWrapper(void)
 
 bool CQuestWrapper::Create(void)
 {
-	m_strQuestPath = "..\\Quest\\quest";
-	m_strTriggerPath = "..\\Quest\\pctrigger\\";
-	m_strObjectPath = "..\\Quest\\objtrigger\\";
+	m_strQuestPath = "..\\Quest\\ts\\quest.e";
+	m_strTriggerPath = "..\\Quest\\ts\\pctrigger.e";
+	m_strObjectPath = "..\\Quest\\ts\\objtrigger.e";
 
 	m_bSchedulingLoad = true;
 
@@ -400,7 +400,7 @@ bool CQuestWrapper::HasEventMapperFromFile(void)
 
 bool CQuestWrapper::LoadEventMapperFromFile(void)
 {
-	std::string strEvtPath = "..\\Quest\\ts\\evt.e";
+	std::string strEvtPath = "..\\Quest\\evt\\";
 
 	char* pReadBuf = NULL;
 	char* pDecryptBuf = NULL;

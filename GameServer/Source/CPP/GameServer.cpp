@@ -456,8 +456,6 @@ int GameServer::Run()
 	sLog.outString("Using configuration file 'GameServer.xml'.");
 	sLog.outString("Using Boost: %s", BOOST_LIB_VERSION);
 
-	loadQuests();
-
 	if (sXmlParser.loadFile("GameServer") == false)
 		return 1;
 	sLog.SetLogLevel((LogLevel)sXmlParser.GetInt("LogLevel", "Value"));
@@ -469,6 +467,13 @@ int GameServer::Run()
 	if (loadDataTable() == false)
 	{
 		sLog.outError("Table data unsucessfully loaded, exiting...");
+		system("PAUSE");
+		return 1;
+	}
+
+	if (loadQuests() == false)
+	{
+		sLog.outError("Trigger data unsucessfully loaded, exiting...");
 		system("PAUSE");
 		return 1;
 	}
