@@ -11,6 +11,7 @@
 #include "DboTSContUsrSel.h"
 #include "DboTSContNarration.h"
 #include "DboTSContProposal.h"
+#include "DboTSDialogOpen.h"
 #include "DboTSContSwitch.h"
 #include "DboTSContUnifiedNarration.h"
 
@@ -136,6 +137,20 @@ public:
 public:
 	virtual	CNtlTSScrObject*			CreateObj( void );
 	virtual	void						DeleteObj( CNtlTSScrObject*& pObj );
+};
+
+class CDboTSContFactoryType_CDboTSDialogOpen : public CNtlTSEntityFactoryType_CNtlTSCont
+{
+	NTL_TS_DECLARE_REGIST_SCRIPT_RUNTIME_CREATE(CDboTSDialogOpen)
+
+		// Constructions and Destructions
+public:
+	CDboTSContFactoryType_CDboTSDialogOpen(void);
+
+	// Methods
+public:
+	virtual	CNtlTSScrObject*			CreateObj(void);
+	virtual	void						DeleteObj(CNtlTSScrObject*& pObj);
 };
 
 class CDboTSContFactoryType_CDboTSContSwitch : public CNtlTSEntityFactoryType_CNtlTSCont

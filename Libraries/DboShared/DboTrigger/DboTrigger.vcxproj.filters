@@ -507,6 +507,12 @@
     <ClCompile Include="DboTSActWPSFD.cpp">
       <Filter>Entity\Action</Filter>
     </ClCompile>
+    <ClCompile Include="DboTSDialogOpen.cpp">
+      <Filter>Entity\Container</Filter>
+    </ClCompile>
+    <ClCompile Include="DboTSActAvatarDead.cpp">
+      <Filter>Entity\Action</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="precomp_trigger.h">
@@ -966,6 +972,12 @@
       <Filter>Entity\Action</Filter>
     </ClInclude>
     <ClInclude Include="DboTSActWPSFD.h">
+      <Filter>Entity\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="DboTSDialogOpen.h">
+      <Filter>Entity\Container</Filter>
+    </ClInclude>
+    <ClInclude Include="DboTSActAvatarDead.h">
       <Filter>Entity\Action</Filter>
     </ClInclude>
   </ItemGroup>

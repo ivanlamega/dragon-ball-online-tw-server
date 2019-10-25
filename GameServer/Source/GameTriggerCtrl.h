@@ -13,6 +13,7 @@ private:
 	void CheckContUserSel(CDboTSContUsrSel* pUserSel, CNtlTSCont* pParent);
 	void CheckContNarration(CDboTSContNarration* pNarration, CNtlTSCont* pParent);
 	void CheckContProposal(CDboTSContProposal* pProposal, CNtlTSCont* pParent);
+	void CheckDialogOpen(CDboTSDialogOpen* pDialog, CNtlTSCont* pParent);
 	void CheckContSwitch(CDboTSContSwitch* pSwitch, CNtlTSCont* pParent);
 	void CheckContUnifiedNarration(CDboTSContUnifiedNarration* pUnifiedNarration, CNtlTSCont* pParent);
 
@@ -37,6 +38,7 @@ private:
 	void SendActItem(CDboTSActItem* pActItem);
 	void SendActMiniNarration(CDboTSActMiniNarration* pActMiniNarration);
 	void SendActNPCConv(CDboTSActNPCConv* pActNPCConv);
+	void SendActAvatarDead(CDboTSActAvatarDead* pActAvatarDead);
 	void SendActOutMsg(CDboTSActOutMsg* pActNPCConv);
 	void SendActObjConv(CDboTSActObjConv* pActObjConv);
 	void SendActObjState(CDboTSActObjState* pActObjState);

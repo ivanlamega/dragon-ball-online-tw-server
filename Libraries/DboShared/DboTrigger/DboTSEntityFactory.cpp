@@ -76,6 +76,7 @@ void CDboTSEntityFactory::RegisterEntityType( void )
 	m_defEntityTypeList[CDboTSEntityFactoryType_CDboTSActSToCEvt::OBJ_CLASS_NAME()]		= new CDboTSEntityFactoryType_CDboTSActSToCEvt;
 	m_defEntityTypeList[CDboTSEntityFactoryType_CDboTSActWPSFD::OBJ_CLASS_NAME()]		= new CDboTSEntityFactoryType_CDboTSActWPSFD;
 	m_defEntityTypeList[CDboTSEntityFactoryType_CDboTSActNPCConv::OBJ_CLASS_NAME()]		= new CDboTSEntityFactoryType_CDboTSActNPCConv;
+	m_defEntityTypeList[CDboTSEntityFactoryType_CDboTSActAvatarDead::OBJ_CLASS_NAME()]	= new CDboTSEntityFactoryType_CDboTSActAvatarDead;
 	m_defEntityTypeList[CDboTSEntityFactoryType_CDboTSActOutMsg::OBJ_CLASS_NAME()]		= new CDboTSEntityFactoryType_CDboTSActOutMsg;
 	m_defEntityTypeList[CDboTSEntityFactoryType_CDboTSActRegQInfo::OBJ_CLASS_NAME()]	= new CDboTSEntityFactoryType_CDboTSActRegQInfo;
 	m_defEntityTypeList[CDboTSEntityFactoryType_CDboTSActDir::OBJ_CLASS_NAME()]			= new CDboTSEntityFactoryType_CDboTSActDir;
@@ -125,7 +126,8 @@ void CDboTSEntityFactory::RegisterEntityType( void )
 	m_defEntityTypeList[CDboTSContFactoryType_CDboTSContEnd::OBJ_CLASS_NAME()]			= new CDboTSContFactoryType_CDboTSContEnd;
 	m_defEntityTypeList[CDboTSContFactoryType_CDboTSContUsrSel::OBJ_CLASS_NAME()]		= new CDboTSContFactoryType_CDboTSContUsrSel;
 	m_defEntityTypeList[CDboTSContFactoryType_CDboTSContNarration::OBJ_CLASS_NAME()]	= new CDboTSContFactoryType_CDboTSContNarration;
-	m_defEntityTypeList[CDboTSContFactoryType_CDboTSContProposal::OBJ_CLASS_NAME()]		= new CDboTSContFactoryType_CDboTSContProposal;
+	m_defEntityTypeList[CDboTSContFactoryType_CDboTSContProposal::OBJ_CLASS_NAME()]		= new CDboTSContFactoryType_CDboTSContProposal; 
+	m_defEntityTypeList[CDboTSContFactoryType_CDboTSDialogOpen::OBJ_CLASS_NAME()]		= new CDboTSContFactoryType_CDboTSDialogOpen;
 	m_defEntityTypeList[CDboTSContFactoryType_CDboTSContSwitch::OBJ_CLASS_NAME()]		= new CDboTSContFactoryType_CDboTSContSwitch;
 	m_defEntityTypeList[CDboTSContFactoryType_CDboTSContUnifiedNarration::OBJ_CLASS_NAME()]	= new CDboTSContFactoryType_CDboTSContUnifiedNarration;
 }

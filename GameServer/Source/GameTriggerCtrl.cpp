@@ -340,6 +340,10 @@ void CGameTriggerCtrl::CheckContAct(CDboTSContGAct* pAct, CNtlTSCont* pParent, C
 		{
 			SendActNPCConv((CDboTSActNPCConv*)pEntity);
 		}
+		else if (pEntity->IsDerivedClass("CDboTSActAvatarDead"))
+		{
+			SendActAvatarDead((CDboTSActAvatarDead*)pEntity);
+		}
 		else if (pEntity->IsDerivedClass("CDboTSActOutMsg"))
 		{
 			SendActOutMsg((CDboTSActOutMsg*)pEntity);
@@ -458,6 +462,10 @@ void CGameTriggerCtrl::CheckContNarration(CDboTSContNarration* pNarration, CNtlT
 void CGameTriggerCtrl::CheckContProposal(CDboTSContProposal* pProposal, CNtlTSCont* pParent)
 {
 	printf("CONT_PROPOSAL\n");
+}
+void CGameTriggerCtrl::CheckDialogOpen(CDboTSDialogOpen* pDialog, CNtlTSCont* pParent)
+{
+	printf("CONT_DIALOG\n");
 }
 void CGameTriggerCtrl::CheckContSwitch(CDboTSContSwitch* pSwitch, CNtlTSCont* pParent)
 {
@@ -668,7 +676,11 @@ void CGameTriggerCtrl::SendActMiniNarration(CDboTSActMiniNarration* pActMiniNarr
 }
 void CGameTriggerCtrl::SendActNPCConv(CDboTSActNPCConv* pActNPCConv)
 {
-	printf("ACtNPCConv\n");
+	printf("ActNPCConv\n");
+}
+void CGameTriggerCtrl::SendActAvatarDead(CDboTSActAvatarDead* pActNPCConv)
+{
+	printf("ActAvatarDead\n");
 }
 void CGameTriggerCtrl::SendActOutMsg(CDboTSActOutMsg* pActNPCConv)
 {

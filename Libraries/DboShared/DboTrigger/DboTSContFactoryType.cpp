@@ -279,6 +279,30 @@ void CDboTSContFactoryType_CDboTSContProposal::DeleteObj( CNtlTSScrObject*& pObj
 //////////////////////////////////////////////////////////////////////////
 
 
+
+CDboTSContFactoryType_CDboTSDialogOpen::CDboTSContFactoryType_CDboTSDialogOpen(void)
+{
+	m_defPropertyList["dotype"].eType = CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;
+}
+
+CNtlTSScrObject* CDboTSContFactoryType_CDboTSDialogOpen::CreateObj(void)
+{
+	return new CDboTSDialogOpen;
+}
+
+void CDboTSContFactoryType_CDboTSDialogOpen::DeleteObj(CNtlTSScrObject*& pObj)
+{
+	if (pObj)
+	{
+		delete pObj;
+		pObj = 0;
+	}
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+
+
 CDboTSContFactoryType_CDboTSContSwitch::CDboTSContFactoryType_CDboTSContSwitch( void )
 {
 	const std::string strContID = "cid";

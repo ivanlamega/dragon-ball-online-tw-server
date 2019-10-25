@@ -238,6 +238,25 @@ void CDboTSEntityFactoryType_CDboTSActNPCConv::DeleteObj( CNtlTSScrObject*& pObj
 
 //////////////////////////////////////////////////////////////////////////
 
+CDboTSEntityFactoryType_CDboTSActAvatarDead::CDboTSEntityFactoryType_CDboTSActAvatarDead(void)
+{
+	m_defPropertyList["start"].eType = CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;
+}
+
+CNtlTSScrObject* CDboTSEntityFactoryType_CDboTSActAvatarDead::CreateObj(void)
+{
+	return new CDboTSActAvatarDead;
+}
+
+void CDboTSEntityFactoryType_CDboTSActAvatarDead::DeleteObj(CNtlTSScrObject*& pObj)
+{
+	if (pObj)
+	{
+		delete pObj;
+		pObj = 0;
+	}
+}
+
 //////////////////////////////////////////////////////////////////////////
 
 

@@ -92,6 +92,7 @@
 #include "DboTSActInSSM.h"
 #include "DboTSActItem.h"
 #include "DboTSActNPCConv.h"
+#include "DboTSActAvatarDead.h"
 #include "DboTSActOPCam.h"
 #include "DboTSActQItem.h"
 #include "DboTSActRegQInfo.h"
@@ -142,6 +143,7 @@
 #include "DboTSContEnd.h"
 #include "DboTSContNarration.h"
 #include "DboTSContProposal.h"
+#include "DboTSDialogOpen.h"
 #include "DboTSContSwitch.h"
 #include "DboTSContUnifiedNarration.h"
 
