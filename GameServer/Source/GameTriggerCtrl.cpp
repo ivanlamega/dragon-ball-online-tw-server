@@ -264,6 +264,10 @@ void CGameTriggerCtrl::CheckContAct(CDboTSContGAct* pAct, CNtlTSCont* pParent, C
 		{
 			SendActPortal((CDboTSActPortal*)pEntity);
 		}
+		if (pEntity->IsDerivedClass("CDboTSActSkyDgn"))
+		{
+			SendActSkyDgn((CDboTSActSkyDgn*)pEntity);
+		}
 		else if (pEntity->IsDerivedClass("CDboTSActTWaitTS"))
 		{
 			SendActWaitTime((CDboTSActTWaitTS*)pEntity);
@@ -613,6 +617,10 @@ void CGameTriggerCtrl::SendActTLQ(CDboTSActTLQ* pTLQ)
 	dir.z = pWorldTblDat->vStart1Dir.z;
 	dir.y = pWorldTblDat->vStart1Dir.y;
 	//TODO: Pass the values above to player and send
+}
+void CGameTriggerCtrl::SendActSkyDgn(CDboTSActSkyDgn* pActSkyDgn)
+{
+	printf("ActSkyDgn\n");
 }
 void CGameTriggerCtrl::SendActBroadMsg(CDboTSActBroadMsg* pActBroadMsg)
 {

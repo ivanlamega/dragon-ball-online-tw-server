@@ -27,6 +27,11 @@ void CDboTSActPIDgn::SetHardDungeonTblIdx( unsigned int uiTblIdx )
 	m_uiHardDungeonTblIdx = uiTblIdx;
 }
 
+void CDboTSActPIDgn::SetRDungeonTblIdx(unsigned int uiTblIdx)
+{
+	m_uiRDungeonTblIdx = uiTblIdx;
+}
+
 void CDboTSActPIDgn::ApplyScriptDataForScript( const CNtlTSScrProperty& clProperty )
 {
 	CNtlTSAction::ApplyScriptDataForScript( clProperty );
@@ -45,6 +50,11 @@ void CDboTSActPIDgn::ApplyScriptDataForScript( const CNtlTSScrProperty& clProper
 	{
 		SetHardDungeonTblIdx( atoi( clProperty.GetValue( "hidx" ).c_str() ) );
 	}
+
+	if (clProperty.IsExist("ridx"))
+	{
+		SetRDungeonTblIdx(atoi(clProperty.GetValue("ridx").c_str()));
+	}
 }
 
 void CDboTSActPIDgn::TakeScriptDataForScript( CNtlTSScrProperty& clProperty )
@@ -59,4 +69,7 @@ void CDboTSActPIDgn::TakeScriptDataForScript( CNtlTSScrProperty& clProperty )
 
 	sprintf_s( g_NtlTSString, "%d", GetHardDungeonTblIdx() );
 	clProperty.m_defProperty["hidx"] = g_NtlTSString;
+
+	sprintf_s(g_NtlTSString, "%d", GetRDungeonTblIdx());
+	clProperty.m_defProperty["ridx"] = g_NtlTSString;
 }

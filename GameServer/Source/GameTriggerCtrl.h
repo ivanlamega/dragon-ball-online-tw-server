@@ -19,6 +19,7 @@ private:
 
 	//Actions
 	void SendActPortal(CDboTSActPortal* pActPortal);
+	void SendActSkyDgn(CDboTSActSkyDgn* pActSkyDgn);
 	void SendActWaitTime(CDboTSActTWaitTS* pActTime);
 	void SendActTLQ(CDboTSActTLQ* pACtTLQ);
 	void SendActBroadMsg(CDboTSActBroadMsg* pActBroadMsg);

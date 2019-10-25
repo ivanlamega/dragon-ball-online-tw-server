@@ -522,6 +522,12 @@
     <ClCompile Include="DboTSLevelCheck.cpp">
       <Filter>Entity\Condition</Filter>
     </ClCompile>
+    <ClCompile Include="DboTSQuest.cpp">
+      <Filter>Entity\Condition</Filter>
+    </ClCompile>
+    <ClCompile Include="DboTSActSkyDgn.cpp">
+      <Filter>Entity\Action</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="precomp_trigger.h">
@@ -997,6 +1003,12 @@
     </ClInclude>
     <ClInclude Include="DboTSLevelCheck.h">
       <Filter>Entity\Condition</Filter>
+    </ClInclude>
+    <ClInclude Include="DboTSQuest.h">
+      <Filter>Entity\Condition</Filter>
+    </ClInclude>
+    <ClInclude Include="DboTSActSkyDgn.h">
+      <Filter>Entity\Action</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

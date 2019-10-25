@@ -21,6 +21,7 @@ private:
 	void SetQuestShareMode(bool bShare) { m_bQuestShare = bShare; }
 	//Actions
 	void SendActPortal(CDboTSActPortal* pActPortal);
+	void SendActSkyDgn(CDboTSActSkyDgn* pActSkyDgn);
 	void SendActBroadMsg(CDboTSActBroadMsg* pActBroadMsg);
 	void SendActConcCheck(CDboTSActConcCheck* pActConcCheck);
 	void SendActCustomEvt(CDboTSActCustomEvt* pActCustomEvt);

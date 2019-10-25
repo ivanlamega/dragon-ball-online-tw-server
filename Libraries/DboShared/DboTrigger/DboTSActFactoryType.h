@@ -19,6 +19,7 @@
 #include "DboTSActInSSM.h"
 #include "DboTSActTSState.h"
 #include "DboTSActPortal.h"
+#include "DboTSActSkyDgn.h"
 #include "DboTSActObjState.h"
 #include "DboTSActConcCheck.h"
 #include "DboTSActObjConv.h"
@@ -300,6 +301,20 @@ public:
 	virtual	void						DeleteObj( CNtlTSScrObject*& pObj );
 };
 
+
+class CDboTSEntityFactoryType_CDboTSActSkyDgn : public CNtlTSEntityFactoryType_CNtlTSAction
+{
+	NTL_TS_DECLARE_REGIST_SCRIPT_RUNTIME_CREATE(CDboTSActSkyDgn)
+
+		// Constructions and Destructions
+public:
+	CDboTSEntityFactoryType_CDboTSActSkyDgn(void);
+
+	// Methods
+public:
+	virtual	CNtlTSScrObject*			CreateObj(void);
+	virtual	void						DeleteObj(CNtlTSScrObject*& pObj);
+}; 
 
 class CDboTSEntityFactoryType_CDboTSActObjState : public CNtlTSEntityFactoryType_CNtlTSAction
 {

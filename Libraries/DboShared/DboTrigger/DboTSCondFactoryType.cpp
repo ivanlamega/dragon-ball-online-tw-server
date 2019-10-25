@@ -33,6 +33,27 @@ void CDboTSEntityFactoryType_CDboTSCheckLvl::DeleteObj( CNtlTSScrObject*& pObj )
 //////////////////////////////////////////////////////////////////////////
 
 
+CDboTSEntityFactoryType_CDboTSQuest::CDboTSEntityFactoryType_CDboTSQuest(void)
+{
+}
+
+CNtlTSScrObject* CDboTSEntityFactoryType_CDboTSQuest::CreateObj(void)
+{
+	return new CDboTSQuest;
+}
+
+void CDboTSEntityFactoryType_CDboTSQuest::DeleteObj(CNtlTSScrObject*& pObj)
+{
+	if (pObj)
+	{
+		delete pObj;
+		pObj = 0;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+
 CDboTSEntityFactoryType_CDboTSLevelCheck::CDboTSEntityFactoryType_CDboTSLevelCheck(void)
 {
 }

@@ -508,10 +508,12 @@
     <ClCompile Include="DboTSActAvatarDead.cpp" />
     <ClCompile Include="DboTSActMail.cpp" />
     <ClCompile Include="DboTSActOutMsg.cpp" />
+    <ClCompile Include="DboTSActSkyDgn.cpp" />
     <ClCompile Include="DboTSActWPSFD.cpp" />
     <ClCompile Include="DboTSClickSideIcon.cpp" />
     <ClCompile Include="DboTSDialogOpen.cpp" />
     <ClCompile Include="DboTSLevelCheck.cpp" />
+    <ClCompile Include="DboTSQuest.cpp" />
     <ClCompile Include="precomp_trigger.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeCJIKor|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeCJIKor|x64'">Create</PrecompiledHeader>
@@ -679,10 +681,12 @@
     <ClInclude Include="DboTSActAvatarDead.h" />
     <ClInclude Include="DboTSActMail.h" />
     <ClInclude Include="DboTSActOutMsg.h" />
+    <ClInclude Include="DboTSActSkyDgn.h" />
     <ClInclude Include="DboTSActWPSFD.h" />
     <ClInclude Include="DboTSClickSideIcon.h" />
     <ClInclude Include="DboTSDialogOpen.h" />
     <ClInclude Include="DboTSLevelCheck.h" />
+    <ClInclude Include="DboTSQuest.h" />
     <ClInclude Include="precomp_trigger.h" />
     <ClInclude Include="DboTSActFactoryType.h" />
     <ClInclude Include="DboTSCondFactoryType.h" />

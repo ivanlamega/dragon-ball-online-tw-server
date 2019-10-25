@@ -266,6 +266,10 @@ void CGameQuestCtrl::CheckContAct(CDboTSContGAct* pAct, CNtlTSCont* pParent)
 		{
 			SendActPortal((CDboTSActPortal*)pEntity);
 		}
+		if (pEntity->IsDerivedClass("CDboTSActSkyDgn"))
+		{
+			SendActSkyDgn((CDboTSActSkyDgn*)pEntity);
+		}
 		else if (pEntity->IsDerivedClass("CDboTSActBroadMsg"))
 		{
 			SendActBroadMsg((CDboTSActBroadMsg*)pEntity);
@@ -588,6 +592,10 @@ void CGameQuestCtrl::SendActPortal(CDboTSActPortal* pActPortal)
 		}
 		break;
 	}
+}
+void CGameQuestCtrl::SendActSkyDgn(CDboTSActSkyDgn* pActSkyDgn)
+{
+	printf("ActSkyDgn\n");
 }
 void CGameQuestCtrl::SendActBroadMsg(CDboTSActBroadMsg* pActBroadMsg)
 {

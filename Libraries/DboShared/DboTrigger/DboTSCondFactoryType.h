@@ -3,6 +3,7 @@
 
 
 #include "DboTSCheckLvl.h"
+#include "DboTSQuest.h"
 #include "DboTSLevelCheck.h"
 #include "DboTSClickSideIcon.h"
 #include "DboTSCheckPCCls.h"
@@ -49,6 +50,20 @@ public:
 	virtual	CNtlTSScrObject*			CreateObj( void );
 	virtual	void						DeleteObj( CNtlTSScrObject*& pObj );
 };
+
+class CDboTSEntityFactoryType_CDboTSQuest : public CNtlTSEntityFactoryType_CNtlTSCond
+{
+	NTL_TS_DECLARE_REGIST_SCRIPT_RUNTIME_CREATE(CDboTSQuest)
+
+		// Constructions and Destructions
+public:
+	CDboTSEntityFactoryType_CDboTSQuest(void);
+
+	// Methods
+public:
+	virtual	CNtlTSScrObject*			CreateObj(void);
+	virtual	void						DeleteObj(CNtlTSScrObject*& pObj);
+}; 
 
 
 class CDboTSEntityFactoryType_CDboTSLevelCheck : public CNtlTSEntityFactoryType_CNtlTSCond

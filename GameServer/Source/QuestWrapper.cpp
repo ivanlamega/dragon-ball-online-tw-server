@@ -400,7 +400,7 @@ bool CQuestWrapper::HasEventMapperFromFile(void)
 
 bool CQuestWrapper::LoadEventMapperFromFile(void)
 {
-	std::string strEvtPath = "..\\Quest\\corea\\ts\\evt.e";
+	std::string strEvtPath = "..\\Quest\\ts\\evt.e";
 
 	char* pReadBuf = NULL;
 	char* pDecryptBuf = NULL;
@@ -424,7 +424,7 @@ bool CQuestWrapper::LoadEventMapperFromFile(void)
 	fclose(pFile);
 
 	// ��ȣȭ�� Ǭ��
-	std::string strKey = "tddkaghghkqlalfqjsghdlqslek"; //"dnfldbofmftkfkdgowntpdy";//
+	std::string strKey = "dnfldbofmftkfkdgowntpdy";//"tddkaghghkqlalfqjsghdlqslek"; //
 	CNtlCipher Cipher;
 	Cipher.SetKey(DES_CIPHER, strKey.c_str(), (int)strKey.size());
 	pDecryptBuf = new char[nReadSize + 256];

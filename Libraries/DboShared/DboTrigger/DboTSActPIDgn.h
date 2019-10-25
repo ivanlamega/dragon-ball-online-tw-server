@@ -15,6 +15,7 @@ protected:
 	ePARTY_DUNGEON_TYPE					m_eDungeonType;
 	unsigned int						m_uiNormalDungeonTblIdx;
 	unsigned int						m_uiHardDungeonTblIdx;
+	unsigned int						m_uiRDungeonTblIdx;
 
 
 // Constructions
@@ -34,6 +35,9 @@ public:
 
 	unsigned int						GetHardDungeonTblIdx( void ) const;
 	void								SetHardDungeonTblIdx( unsigned int uiTblIdx );
+
+	unsigned int						GetRDungeonTblIdx(void) const;
+	void								SetRDungeonTblIdx(unsigned int uiTblIdx);
 
 
 // Implementations
@@ -58,6 +62,11 @@ inline unsigned int CDboTSActPIDgn::GetNormalDungeonTblIdx( void ) const
 inline unsigned int CDboTSActPIDgn::GetHardDungeonTblIdx( void ) const
 {
 	return m_uiHardDungeonTblIdx;
+}
+
+inline unsigned int CDboTSActPIDgn::GetRDungeonTblIdx(void) const
+{
+	return m_uiRDungeonTblIdx;
 }
 
 

@@ -524,6 +524,29 @@ void CDboTSEntityFactoryType_CDboTSActPortal::DeleteObj( CNtlTSScrObject*& pObj 
 //////////////////////////////////////////////////////////////////////////
 
 
+CDboTSEntityFactoryType_CDboTSActSkyDgn::CDboTSEntityFactoryType_CDboTSActSkyDgn(void)
+{
+	m_defPropertyList["type"].eType = CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;
+	m_defPropertyList["idx"].eType = CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;
+}
+
+CNtlTSScrObject* CDboTSEntityFactoryType_CDboTSActSkyDgn::CreateObj(void)
+{
+	return new CDboTSActSkyDgn;
+}
+
+void CDboTSEntityFactoryType_CDboTSActSkyDgn::DeleteObj(CNtlTSScrObject*& pObj)
+{
+	if (pObj)
+	{
+		delete pObj;
+		pObj = 0;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+
 CDboTSEntityFactoryType_CDboTSActObjState::CDboTSEntityFactoryType_CDboTSActObjState( void )
 {
 	m_defPropertyList["widx"].eType		= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;
@@ -1048,6 +1071,7 @@ CDboTSEntityFactoryType_CDboTSActPIDgn::CDboTSEntityFactoryType_CDboTSActPIDgn( 
 	m_defPropertyList["type"].eType		= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;
 	m_defPropertyList["nidx"].eType		= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;
 	m_defPropertyList["hidx"].eType		= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;
+	m_defPropertyList["ridx"].eType		= CNtlTSScrFactoryType::sPROPERTY_TYPE::eDATA_TYPE_NUMBER;
 }
 
 CNtlTSScrObject* CDboTSEntityFactoryType_CDboTSActPIDgn::CreateObj( void )
