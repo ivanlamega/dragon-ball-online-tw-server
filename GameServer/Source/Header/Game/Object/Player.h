@@ -252,8 +252,10 @@ private:
 	time_t				rpBallTimer;
 	DWORD				NetPyTimmer;
 	//DWORD				BossTimmer;
+	DWORD				Playeronline;
 	DWORD				NetPyAcumulate = 0;
 	int					countnetpy = 0;
+	int					timeonline = 0;
 	DWORD				RegTmmer;
 	DWORD				AutoAttackTmmer;
 	DWORD				TranformationRegTmmer;
