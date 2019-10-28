@@ -382,7 +382,7 @@ void Player::Update(uint32 _update_diff, uint32 _time)
 	}
 
 	DWORD PlayerOnTimer = GetTickCount() - Playeronline;
-	if (PlayerOnTimer >= 15000)
+	if (PlayerOnTimer >= 60000)
 	{
 		if (timeonline >= 1)
 		{

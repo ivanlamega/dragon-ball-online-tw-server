@@ -1090,7 +1090,7 @@ void			WorldSession::PacketParser(Packet& packet)
 		}
 		case Opcodes::UG_BANK_MOVE_REQ:
 		{
-			sLog.outDebug("UG_BANK_START_REQ");
+			sLog.outDebug("UG_BANK_MOVE_REQ");
 			//CClientSession::SendBankMoveReq(pPacket, app);
 			break;
 		}	
@@ -1295,7 +1295,7 @@ void			WorldSession::PacketParser(Packet& packet)
 			_player->ClearListAndReference();*/
 			break;
 		}
-		case Opcodes::UG_PARTY_CREATE_REQ:
+		case Opcodes::UG_PARTY_CREATE_REQ: // Create party with name you want
 		{
 			sUG_PARTY_CREATE_REQ *req = (sUG_PARTY_CREATE_REQ*)packet.GetPacketBuffer();
 
@@ -1311,7 +1311,20 @@ void			WorldSession::PacketParser(Packet& packet)
 
 			break;
 		}
-		/*case Opcodes::UG_PARTY_INVITE_REQ:
+		case Opcodes::UG_PARTY_LEAVE_REQ: // Remove the party
+		{
+			sUG_PARTY_LEAVE_REQ* req = (sUG_PARTY_LEAVE_REQ *)packet.GetPacketBuffer();
+
+			sGU_PARTY_LEAVE_RES res;
+			res.wOpCode = GU_PARTY_LEAVE_RES;
+			res.wPacketSize = sizeof(sGU_PARTY_LEAVE_RES) - 2;
+			res.wResultCode = GAME_SUCCESS;
+			sLog.outError("UG_PARTY_LEAVE_REQ");
+			SendPacket((char*)&res, sizeof(sGU_PARTY_LEAVE_RES)); 
+
+			break;
+		}
+		case Opcodes::UG_PARTY_INVITE_REQ: 
 		{
 			sUG_PARTY_INVITE_REQ *req = (sUG_PARTY_INVITE_REQ*)packet.GetPacketBuffer();
 			Player* PlayerInfo = static_cast<Player*>(_player->GetFromList(req->hTarget));
@@ -1336,8 +1349,8 @@ void			WorldSession::PacketParser(Packet& packet)
 				//sLog.outError("UG_PARTY_INVITE_REQ");
 			}
 			break;
-		}*/
-		/*case Opcodes::UG_PARTY_RESPONSE_INVITATION:
+		}
+		case Opcodes::UG_PARTY_RESPONSE_INVITATION:
 		{
 			sUG_PARTY_RESPONSE_INVITATION *req = (sUG_PARTY_RESPONSE_INVITATION*)packet.GetPacketBuffer();
 			Player* PlayerInfo = static_cast<Player*>(_player->GetFromList(_player->GetAttributesManager()->PartyLeader));
@@ -1413,7 +1426,7 @@ void			WorldSession::PacketParser(Packet& packet)
 				}
 			}
 			break;
-		}*/
+		}
 		case Opcodes::UG_TRADE_START_REQ:
 		{
 			//sLog.outError("UG_TRADE_START_REQ");
@@ -2099,7 +2112,7 @@ void			WorldSession::PacketParser(Packet& packet)
 			SendPacket((char*)&info, sizeof(sGU_BUDOKAI_MUDOSA_INFO_RES));
 			break;
 		}
-		/*case Opcodes::UG_BUDOKAI_MUDOSA_TELEPORT_REQ:
+		case Opcodes::UG_BUDOKAI_MUDOSA_TELEPORT_REQ: // Opening Path for cc and dungeons
 		{
 			sUG_BUDOKAI_MUDOSA_TELEPORT_REQ *req = (sUG_BUDOKAI_MUDOSA_TELEPORT_REQ*)packet.GetPacketBuffer();
 			sGU_BUDOKAI_MUDOSA_TELEPORT_RES info;
@@ -2141,7 +2154,7 @@ void			WorldSession::PacketParser(Packet& packet)
 
 			SendPacket((char*)&res1, sizeof(sGU_AVATAR_WORLD_INFO));
 			break;
-		}*/
+		}
 		case Opcodes::UG_RANKBATTLE_INFO_REQ:
 		{
 			//sLog.outError("UG_MASCOT_SKILL_ADD_REQ");
@@ -2223,7 +2236,7 @@ void			WorldSession::PacketParser(Packet& packet)
 			TeleportConfirm.bClearInterface = true;
 			SendPacket((char*)&TeleportConfirm, sizeof(sGU_TELEPORT_CONFIRM_RES));
 
-			/*if (req->bTeleport == true)
+			if (req->bTeleport == true)
 			{
 				sGU_CHAR_TELEPORT_RES teleport;
 
@@ -2273,7 +2286,7 @@ void			WorldSession::PacketParser(Packet& packet)
 				rank.directTblidx = 12000;
 				SendPacket((char*)&rank, sizeof(sGU_CHAR_DIRECT_PLAY));
 				
-			}*/
+			}
 			break;
 		}
 		case Opcodes::UG_MASCOT_SKILL_ADD_REQ:
@@ -2402,7 +2415,7 @@ void			WorldSession::PacketParser(Packet& packet)
 			
 			break;
 		}
-		/*case UG_BATTLE_DUNGEON_ENTER_REQ:
+		/*case UG_BATTLE_DUNGEON_ENTER_REQ: // not working yet, character stuck.
 		{			
 			sGU_AVATAR_WORLD_INFO res1;
 			WorldTable *WorldTable = sTBM.GetWorldTable();
