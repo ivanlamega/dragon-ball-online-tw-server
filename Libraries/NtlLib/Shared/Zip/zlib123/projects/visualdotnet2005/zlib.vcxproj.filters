@@ -1,0 +1,166 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{a4607e88-9c05-4901-8192-bf22d63c8c3f}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{1d875875-58b2-4c6b-94ea-3c0827f2e2d4}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{58c82a2d-c199-4f9b-b6f5-f840129c2fa0}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+    <Filter Include="Assembler Files %28Unsupported%29">
+      <UniqueIdentifier>{fc749e59-6a16-4bb6-99fb-7e77d0a2ebd7}</UniqueIdentifier>
+      <Extensions>asm;obj;c;cpp;cxx;h;hpp;hxx</Extensions>
+    </Filter>
+    <Filter Include="MiniZip">
+      <UniqueIdentifier>{f9d3a788-bfd9-4716-9c31-700e8c3d585c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Wrapper">
+      <UniqueIdentifier>{0167cb18-32c1-438e-b7cb-eee3a19d539c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\adler32.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\compress.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\crc32.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\deflate.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\gzio.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\infback.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\inffast.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\inflate.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\inftrees.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\trees.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\uncompr.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\zutil.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\contrib\masmx86\gvmat32c.c">
+      <Filter>Assembler Files %28Unsupported%29</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ioapi.c">
+      <Filter>MiniZip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\iowin32.c">
+      <Filter>MiniZip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\mztools.c">
+      <Filter>MiniZip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\unzip.c">
+      <Filter>MiniZip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\zip.c">
+      <Filter>MiniZip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\NtlUnzip.cpp">
+      <Filter>Wrapper</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\NtlZip.cpp">
+      <Filter>Wrapper</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="README.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\crc32.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\deflate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inffast.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inffixed.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inflate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inftrees.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\trees.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\zconf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\zlib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\zutil.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\crypt.h">
+      <Filter>MiniZip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ioapi.h">
+      <Filter>MiniZip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\iowin32.h">
+      <Filter>MiniZip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\mztools.h">
+      <Filter>MiniZip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\unzip.h">
+      <Filter>MiniZip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\zip.h">
+      <Filter>MiniZip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\NtlUnzip.h">
+      <Filter>Wrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\NtlZip.h">
+      <Filter>Wrapper</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\win32\zlib1.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuildStep Include="..\..\win32\zlib.def">
+      <Filter>Source Files</Filter>
+    </CustomBuildStep>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\contrib\masmx86\gvmat32.asm">
+      <Filter>Assembler Files %28Unsupported%29</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\contrib\masmx86\inffas32.asm">
+      <Filter>Assembler Files %28Unsupported%29</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,319 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{598C45F3-7AB4-423C-9E08-8E98F1C89437}</ProjectGuid>
+    <RootNamespace>Navigator</RootNamespace>
+    <SccProjectName>Navigator</SccProjectName>
+    <SccLocalPath>.</SccLocalPath>
+    <SccProvider>MSSCCI:NXN alienbrain</SccProvider>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>12.0.30501.0</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <PreBuildEvent>
+      <Command />
+    </PreBuildEvent>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\;..\..\Util;..\..\PathEngine-5.07\interface;..\..\PathEngine-5.07\code\libs\PathEngine_Interface;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Lib>
+      <OutputFile>$(OutDir)$(ProjectName)D.lib</OutputFile>
+      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
+    </Lib>
+    <PostBuildEvent>
+      <Command>copy $(Configuration)\$(ProjectName)D.lib ..\Lib\$(ProjectName)D.lib</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <PreBuildEvent>
+      <Command />
+    </PreBuildEvent>
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\;..\..\PathEngine-5.07\interface;..\..\PathEngine-5.03\code\libs\PathEngine_Interface;..\..\Util;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN64;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Lib>
+      <OutputFile>$(OutDir)$(ProjectName)$(Platform)D.lib</OutputFile>
+      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
+    </Lib>
+    <PostBuildEvent>
+      <Command>copy $(Platform)\$(Configuration)\$(ProjectName)$(Platform)D.lib ..\Lib\$(ProjectName)$(Platform)D.lib</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <PreBuildEvent>
+      <Command />
+    </PreBuildEvent>
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\;..\..\Util;..\..\PathEngine-5.07\interface;..\..\PathEngine-5.07\code\libs\PathEngine_Interface;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Lib>
+      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
+    </Lib>
+    <PostBuildEvent>
+      <Command>copy $(Configuration)\$(ProjectName).lib ..\Lib\$(ProjectName).lib</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <PreBuildEvent>
+      <Command />
+    </PreBuildEvent>
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\;..\..\PathEngine-5.07\interface;..\..\PathEngine-5.03\code\libs\PathEngine_Interface;..\..\Util;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN64;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Lib>
+      <OutputFile>$(OutDir)$(ProjectName)$(Platform).lib</OutputFile>
+      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
+    </Lib>
+    <PostBuildEvent>
+      <Command>copy $(Platform)\$(Configuration)\$(ProjectName)$(Platform).lib ..\Lib\$(ProjectName)$(Platform).lib</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="CActiveThreadList.h" />
+    <ClInclude Include="CBaseThread.h" />
+    <ClInclude Include="CBaseThreadManager.h" />
+    <ClInclude Include="CFixedStringHashTable.h" />
+    <ClInclude Include="CFixedStringLinkedList.h" />
+    <ClInclude Include="CFixedStringListNode.h" />
+    <ClInclude Include="CFixedStringTreeNodeW.h" />
+    <ClInclude Include="CFixedStringTreeW.h" />
+    <ClInclude Include="CMemoryBuffer.h" />
+    <ClInclude Include="CMultipleQueue.h" />
+    <ClInclude Include="CNavArea.h" />
+    <ClInclude Include="CNavBounding.h" />
+    <ClInclude Include="CNavBounding2D.h" />
+    <ClInclude Include="CNavConverter.h" />
+    <ClInclude Include="CNavEntity.h" />
+    <ClInclude Include="CNavEntityFactory.h" />
+    <ClInclude Include="CNavEntityHashTable.h" />
+    <ClInclude Include="CNavEntityHierarchy.h" />
+    <ClInclude Include="CNavEntityLinkedList.h" />
+    <ClInclude Include="CNavEntityNode.h" />
+    <ClInclude Include="CNavEntityVector.h" />
+    <ClInclude Include="CNavErrorHandler.h" />
+    <ClInclude Include="CNavExportMeshThread.h" />
+    <ClInclude Include="CNavFaceVertexMesh.h" />
+    <ClInclude Include="CNavFilePath.h" />
+    <ClInclude Include="CNavHeightMap.h" />
+    <ClInclude Include="CNavigator.h" />
+    <ClInclude Include="CNavLoadMeshThread.h" />
+    <ClInclude Include="CNavObject.h" />
+    <ClInclude Include="CNavOutputStream.h" />
+    <ClInclude Include="CNavPath.h" />
+    <ClInclude Include="CNavPathEngine.h" />
+    <ClInclude Include="CNavPortal.h" />
+    <ClInclude Include="CNavPosition.h" />
+    <ClInclude Include="CNavPosition2D.h" />
+    <ClInclude Include="CNavPositionList.h" />
+    <ClInclude Include="CNavPreProcessThread.h" />
+    <ClInclude Include="CNavQueryCallback.h" />
+    <ClInclude Include="CNavRenderer.h" />
+    <ClInclude Include="CNavSection.h" />
+    <ClInclude Include="CNavSector.h" />
+    <ClInclude Include="CNavShapeManager.h" />
+    <ClInclude Include="CNavStringTable.h" />
+    <ClInclude Include="CNavTerrain.h" />
+    <ClInclude Include="CNavWorld.h" />
+    <ClInclude Include="CNavZone.h" />
+    <ClInclude Include="CSingleQueue.h" />
+    <ClInclude Include="CXMLParserW.h" />
+    <ClInclude Include="DebugEx.h" />
+    <ClInclude Include="FaceVertexMeshBase.h" />
+    <ClInclude Include="NavBase.h" />
+    <ClInclude Include="NavEntityBase.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="stdafx.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CActiveThreadList.cpp" />
+    <ClCompile Include="CBaseThread.cpp" />
+    <ClCompile Include="CBaseThreadManager.cpp" />
+    <ClCompile Include="CFixedStringHashTable.cpp" />
+    <ClCompile Include="CFixedStringLinkedList.cpp" />
+    <ClCompile Include="CFixedStringListNode.cpp" />
+    <ClCompile Include="CFixedStringTreeNodeW.cpp" />
+    <ClCompile Include="CFixedStringTreeW.cpp" />
+    <ClCompile Include="CMemoryBuffer.cpp" />
+    <ClCompile Include="CMultipleQueue.cpp" />
+    <ClCompile Include="CNavConverter.cpp" />
+    <ClCompile Include="CNavEntity.cpp" />
+    <ClCompile Include="CNavEntityFactory.cpp" />
+    <ClCompile Include="CNavEntityFactory_Instance.cpp" />
+    <ClCompile Include="CNavEntityHashTable.cpp" />
+    <ClCompile Include="CNavEntityLinkedList.cpp" />
+    <ClCompile Include="CNavEntityNode.cpp" />
+    <ClCompile Include="CNavEntityVector.cpp" />
+    <ClCompile Include="CNavEntityVector_Error.cpp" />
+    <ClCompile Include="CNavErrorHandler.cpp" />
+    <ClCompile Include="CNavErrorHandler_Instance.cpp" />
+    <ClCompile Include="CNavExportMeshThread.cpp" />
+    <ClCompile Include="CNavFaceVertexMesh.cpp" />
+    <ClCompile Include="CNavFaceVertexMesh_iFaceVertexMesh.cpp" />
+    <ClCompile Include="CNavHeightMap.cpp" />
+    <ClCompile Include="CNavHeightMap_Parse.cpp" />
+    <ClCompile Include="CNavigator.cpp" />
+    <ClCompile Include="CNavigator_Callback.cpp" />
+    <ClCompile Include="CNavigator_Instance.cpp" />
+    <ClCompile Include="CNavigator_Parse.cpp" />
+    <ClCompile Include="CNavigator_World.cpp" />
+    <ClCompile Include="CNavLoadMeshThread.cpp" />
+    <ClCompile Include="CNavObject.cpp" />
+    <ClCompile Include="CNavObject_Agent.cpp" />
+    <ClCompile Include="CNavOutputStream.cpp" />
+    <ClCompile Include="CNavPath.cpp" />
+    <ClCompile Include="CNavPathEngine.cpp" />
+    <ClCompile Include="CNavPathEngine_Instance.cpp" />
+    <ClCompile Include="CNavPath_FindPath.cpp" />
+    <ClCompile Include="CNavPositionList.cpp" />
+    <ClCompile Include="CNavPreProcessThread.cpp" />
+    <ClCompile Include="CNavQueryCallback.cpp" />
+    <ClCompile Include="CNavRenderer.cpp" />
+    <ClCompile Include="CNavSector.cpp" />
+    <ClCompile Include="CNavSector_Callback.cpp" />
+    <ClCompile Include="CNavSector_HeightMap.cpp" />
+    <ClCompile Include="CNavShapeManager.cpp" />
+    <ClCompile Include="CNavStringTable.cpp" />
+    <ClCompile Include="CNavTerrain.cpp" />
+    <ClCompile Include="CNavTerrain_Callback.cpp" />
+    <ClCompile Include="CNavTerrain_Mesh.cpp" />
+    <ClCompile Include="CNavTerrain_Object.cpp" />
+    <ClCompile Include="CNavTerrain_Parse.cpp" />
+    <ClCompile Include="CNavWorld.cpp" />
+    <ClCompile Include="CNavWorld_Callback.cpp" />
+    <ClCompile Include="CNavWorld_Parse.cpp" />
+    <ClCompile Include="CNavWorld_Sector.cpp" />
+    <ClCompile Include="CNavWorld_Zone.cpp" />
+    <ClCompile Include="CNavZone.cpp" />
+    <ClCompile Include="CNavZone_Area.cpp" />
+    <ClCompile Include="CNavZone_Callback.cpp" />
+    <ClCompile Include="CNavZone_Parse.cpp" />
+    <ClCompile Include="CNavZone_Portal.cpp" />
+    <ClCompile Include="CNavZone_Section.cpp" />
+    <ClCompile Include="CNavZone_Sector.cpp" />
+    <ClCompile Include="CSingleQueue.cpp" />
+    <ClCompile Include="CXMLParserW.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Navigator.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

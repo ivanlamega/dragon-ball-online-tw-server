@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Packet">
+      <UniqueIdentifier>{fa042d9e-532a-4b82-91f1-c6cff535fb5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{ae4b6291-15e5-435f-a5b2-1042a361e476}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Socket">
+      <UniqueIdentifier>{5b43f883-6fd8-461e-ae24-240e6c00f436}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Session">
+      <UniqueIdentifier>{f1886001-cfee-4a98-844c-bc840c9eabf3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="NtlNetBuffer.h">
+      <Filter>Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlPacket.h">
+      <Filter>Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlPacketEncoder.h">
+      <Filter>Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlPacketEncoder_RandKey.h">
+      <Filter>Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlPacketEncoder_XOR.h">
+      <Filter>Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlPacketSYS.h">
+      <Filter>Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlAcceptor.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlConnection.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlConnector.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlIOCP.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlNetwork.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlNetworkProcessor.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlSockAddr.h">
+      <Filter>Socket</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlSocket.h">
+      <Filter>Socket</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlSession.h">
+      <Filter>Session</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlSessionFactory.h">
+      <Filter>Session</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlSessionList.h">
+      <Filter>Session</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlSessionMap.h">
+      <Filter>Session</Filter>
+    </ClInclude>
+    <ClInclude Include="BotSystemLog_Server.h" />
+    <ClInclude Include="NetworkCompileOption.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="NtlPacket.cpp">
+      <Filter>Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlPacketEncoder.cpp">
+      <Filter>Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlPacketEncoder_RandKey.cpp">
+      <Filter>Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlPacketEncoder_XOR.cpp">
+      <Filter>Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlAcceptor.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlConnection.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlConnector.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlIOCP.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlNetwork.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlNetworkProcessor.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlSocket.cpp">
+      <Filter>Socket</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlSession.cpp">
+      <Filter>Session</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlSessionList.cpp">
+      <Filter>Session</Filter>
+    </ClCompile>
+    <ClCompile Include="BotSystemLog_Server.cpp" />
+    <ClCompile Include="stdafx.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+</Project>

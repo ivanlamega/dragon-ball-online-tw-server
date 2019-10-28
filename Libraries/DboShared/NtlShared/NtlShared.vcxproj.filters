@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="NtlAssert.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlMovement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlPacket.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlPacketATCh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlPacketATU.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlPacketChTA.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlPacketChTC.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlPacketChTG.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlPacketChTU.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlPacketCTCh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlPacketCTG.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlPacketCTU.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlPacketGTC.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlPacketGTCh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlPacketGTU.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlPacketUTA.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlPacketUTC.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlPacketUTCh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlPacketUTG.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlShared.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlVector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="NtlAssert.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlBattle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlCharacter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlChat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlGame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlItem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlMovement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlMsgPacket.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlPacket.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlPacketATCh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlPacketATU.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlPacketChTA.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlPacketChTC.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlPacketChTG.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlPacketChTU.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlPacketCTCh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlPacketCTG.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlPacketCTU.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlPacketGTC.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlPacketGTCh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlPacketGTU.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlPacketInternal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlPacketUTA.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlPacketUTC.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlPacketUTCh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlPacketUTG.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlVector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+</Project>

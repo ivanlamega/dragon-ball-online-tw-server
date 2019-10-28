@@ -541,9 +541,9 @@ END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(UG_TS_CONFIRM_STEP_REQ)
 BYTE				byTsType; // Æ®¸®°Å Å¸ÀÔ
-TS_T_ID			tId;
-TS_TC_ID		tcCurId;
-TS_TC_ID		tcNextId;
+NTL_TS_T_ID			tId;
+NTL_TS_TC_ID		tcCurId;
+NTL_TS_TC_ID		tcNextId;
 DWORD				dwParam;
 BYTE				byEventType;
 DWORD				dwEventData;
@@ -551,7 +551,7 @@ END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(UG_TS_UPDATE_STATE)
 BYTE				byTsType;	// Æ®¸®°Å Å¸ÀÔ
-TS_T_ID			tId;
+NTL_TS_T_ID			tId;
 BYTE				byType;
 WORD				wTSState;
 DWORD				dwParam;
@@ -574,11 +574,11 @@ BYTE				byDeletePos;
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(UG_QUEST_GIVEUP_REQ)
-TS_T_ID			tId;
+NTL_TS_T_ID			tId;
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(UG_QUEST_SHARE)
-TS_T_ID			tId;
+NTL_TS_T_ID			tId;
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(UG_QUEST_OBJECT_VISIT_REQ)

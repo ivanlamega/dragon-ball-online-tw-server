@@ -62,8 +62,8 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 			_player->TeleportByCommand(Point);
 			return;
 		}
-		else if (strToken == "@KamiSama")
-		{			
+		else if (strToken == "@kamisama")
+		{
 			strToken = str.substr(pos + 1, std::string::npos);
 			unsigned int Point = (unsigned int)atof(strToken.c_str());
 			_player->TeleportByCommand(211000);
@@ -76,13 +76,13 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 			unsigned int speed = (unsigned int)atof(strToken.c_str());
 			_player->SetSpeed(speed);
 			return;
-		}	
+		}
 		else if (strToken == "@addtitle")
 		{
 			sLog.outDetail("GM LearnTitle Modified");
 			strToken = str.substr(pos + 1, std::string::npos);
 			unsigned int TitleID = (unsigned int)atof(strToken.c_str());
-			_player->SendAddTitle(TitleID);								
+			_player->SendAddTitle(TitleID);
 			return;
 		}
 		else if (strToken == "@god")
@@ -99,13 +99,13 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 			_player->GetAttributesManager()->SetLastEnergyCriticalRate(20000);
 			_player->GetAttributesManager()->SetLastEnergyDefence(20000);
 			_player->GetAttributesManager()->SetLastAttackRate(20000);
-			_player->GetAttributesManager()->SetLastDodgeRate(20000);			
+			_player->GetAttributesManager()->SetLastDodgeRate(20000);
 			return;
 		}
-		else if (strToken == "@Exp_Bonus")
+		else if (strToken == "@expbonus")
 		{
 			strToken = str.substr(pos + 1, std::string::npos);
-			unsigned int Bonus = (unsigned int)atof(strToken.c_str());			
+			unsigned int Bonus = (unsigned int)atof(strToken.c_str());
 			if (Bonus == 0)
 			{
 				sGU_SYSTEM_DISPLAY_TEXT sNotice;
@@ -159,9 +159,9 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 			zoneinfo.wPacketSize = sizeof(sGU_AVATAR_ZONE_INFO) - 2;
 			zoneinfo.zoneInfo.bIsDark = zoneId;
 			zoneinfo.zoneInfo.zoneId = 0; // 0 namek start zone
-			//SendPacket((char*)&zoneinfo, sizeof(sGU_AVATAR_ZONE_INFO));
+										  //SendPacket((char*)&zoneinfo, sizeof(sGU_AVATAR_ZONE_INFO));
 			sWorld.SendToAll((char*)&zoneinfo, sizeof(sGU_AVATAR_ZONE_INFO));
-		}		
+		}
 		else if (strToken == "@addmob")
 		{
 			strToken = str.substr(pos + 1, std::string::npos);
@@ -223,7 +223,7 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 			printf("Executed\n");
 			return;
 		}
-		else if (strToken == "@addmobgrup")
+		else if (strToken == "@addmobgroup")
 		{
 			strToken = str.substr(pos + 1, std::string::npos);
 			unsigned int MobID = (unsigned int)atof(strToken.c_str());
@@ -286,7 +286,7 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 			printf("Executed\n");
 			return;
 		}
-		else if (strToken == "@GiveItem")
+		else if (strToken == "@giveitem")
 		{
 			strToken = str.substr(pos + 1, std::string::npos);
 			unsigned int ItemID = (unsigned int)atof(strToken.c_str());
@@ -375,21 +375,21 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 			//if (_player->GetPcProfile()->dwSpPoint >= 1 || _player->GetPcProfile()->bIsGameMaster == true)
 			//{
 			//	SendUpdateSkillPassiveAtributeByID(tblidx, true);
-				sGU_HTB_LEARN_RES res;
-				res.wOpCode = GU_HTB_LEARN_RES;
-				res.wPacketSize = sizeof(sGU_HTB_LEARN_RES) - 2;
-				res.wResultCode = GAME_SUCCESS;
-				res.skillId = tblidx;
-				res.bySkillSlot = _player->skillManager.getSkillsCount() + 1;
-				_player->HTBID = res.skillId;
-				SendPacket((char*)&res, sizeof(sGU_HTB_LEARN_RES));
-				
-				//sDB.LearnSkill(skillID, _player->GetCharacterID(), nfy.bySlot);
-				//Load skill for can use after that
-				//_player->skillManager.LoadSkill(_player->charid);
-				//SendAvatarSkillInfo();
+			sGU_HTB_LEARN_RES res;
+			res.wOpCode = GU_HTB_LEARN_RES;
+			res.wPacketSize = sizeof(sGU_HTB_LEARN_RES) - 2;
+			res.wResultCode = GAME_SUCCESS;
+			res.skillId = tblidx;
+			res.bySkillSlot = _player->skillManager.getSkillsCount() + 1;
+			_player->HTBID = res.skillId;
+			SendPacket((char*)&res, sizeof(sGU_HTB_LEARN_RES));
 
-				//SendUpdateSkillPassiveAtributeByID(skillID, false);
+			//sDB.LearnSkill(skillID, _player->GetCharacterID(), nfy.bySlot);
+			//Load skill for can use after that
+			//_player->skillManager.LoadSkill(_player->charid);
+			//SendAvatarSkillInfo();
+
+			//SendUpdateSkillPassiveAtributeByID(skillID, false);
 			return;
 		}
 		else if (strToken == "@dbhuntstart")
@@ -438,12 +438,12 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 			}
 			return;
 		}
-		else if (strToken == "@Announce")
+		else if (strToken == "@announce")
 		{
 			strToken = str.substr(pos + 1, std::string::npos);
 			sWorld.SendAnnounce(strToken);
 		}
-		else if (strToken == "@Notice")
+		else if (strToken == "@notice")
 		{
 			strToken = str.substr(pos + 1, std::string::npos);
 			sGU_SYSTEM_DISPLAY_TEXT sNotice;
@@ -458,7 +458,7 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 
 			sWorld.SendToAll((char*)&sNotice, sizeof(sGU_SYSTEM_DISPLAY_TEXT));
 		}
-		else if (strToken == "@Set_Attack_Speed")
+		else if (strToken == "@speed")
 		{
 			strToken = str.substr(pos + 1, std::string::npos);
 			unsigned int SpeedRate = (unsigned int)atof(strToken.c_str());
@@ -511,21 +511,15 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 			}
 			return;
 		}
+
 		else if (strToken == "@unstuck") // for non gm players
-			{
-				strToken = str.substr(pos + 1, std::string::npos);
-				unsigned int Point = (unsigned int)atof(strToken.c_str());
-				_player->TeleportByCommand(1);
-				return;
-			}
-		else if (strToken == "@setclass") // for non gm players
 		{
-			sLog.outDetail("GM Class Modified");
 			strToken = str.substr(pos + 1, std::string::npos);
-			unsigned int clase = (unsigned int)atof(strToken.c_str());
-			_player->ConvertClass(clase, _player->GetTarget());
+			unsigned int Point = (unsigned int)atof(strToken.c_str());
+			_player->TeleportByCommand(1);
 			return;
 		}
+
 		else
 		{
 			sGU_SYSTEM_DISPLAY_TEXT sNotice;

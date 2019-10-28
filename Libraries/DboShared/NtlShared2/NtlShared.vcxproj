@@ -1,0 +1,674 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug4ClientLocalizeCJIKor|Win32">
+      <Configuration>Debug4ClientLocalizeCJIKor</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug4ClientLocalizeCJIKor|x64">
+      <Configuration>Debug4ClientLocalizeCJIKor</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug4ClientLocalizeDev|Win32">
+      <Configuration>Debug4ClientLocalizeDev</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug4ClientLocalizeDev|x64">
+      <Configuration>Debug4ClientLocalizeDev</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release4ClientLocalizeCJIKor|Win32">
+      <Configuration>Release4ClientLocalizeCJIKor</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release4ClientLocalizeCJIKor|x64">
+      <Configuration>Release4ClientLocalizeCJIKor</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release4ClientLocalizeDev|Win32">
+      <Configuration>Release4ClientLocalizeDev</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release4ClientLocalizeDev|x64">
+      <Configuration>Release4ClientLocalizeDev</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release4Client|Win32">
+      <Configuration>Release4Client</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release4Client|x64">
+      <Configuration>Release4Client</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{573EB1E4-7620-479E-8CCF-DEF06491545B}</ProjectGuid>
+    <RootNamespace>NtlShared</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeDev|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeCJIKor|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release4ClientLocalizeCJIKor|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release4ClientLocalizeDev|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release4Client|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeDev|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeCJIKor|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release4ClientLocalizeCJIKor|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release4ClientLocalizeDev|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release4Client|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeDev|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeCJIKor|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release4ClientLocalizeCJIKor|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release4ClientLocalizeDev|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release4Client|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeDev|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeCJIKor|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release4ClientLocalizeCJIKor|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release4ClientLocalizeDev|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release4Client|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>14.0.25431.1</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release4Client|Win32'">
+    <OutDir>$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release4ClientLocalizeDev|Win32'">
+    <OutDir>$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release4ClientLocalizeCJIKor|Win32'">
+    <OutDir>$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeCJIKor|Win32'">
+    <OutDir>$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeDev|Win32'">
+    <OutDir>$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release4Client|x64'">
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release4ClientLocalizeDev|x64'">
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release4ClientLocalizeCJIKor|x64'">
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeCJIKor|x64'">
+    <OutDir>$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeDev|x64'">
+    <OutDir>$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\NtlLib\Shared;..\..\NtlLib\Shared\NtlTrigger;..\..\NtlLib\Shared\Util;..\..\NtlLib\Server\NtlSystem;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\NtlLib\Shared;..\..\NtlLib\Shared\NtlTrigger;..\..\NtlLib\Shared\Util;..\..\NtlLib\Server\NtlSystem;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release4Client|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\NtlLib\Shared;..\..\NtlLib\Shared\NtlTrigger;..\..\NtlLib\Shared\Util;..\..\NtlLib\Server\NtlSystem;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release4ClientLocalizeDev|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\NtlLib\Shared;..\..\NtlLib\Shared\NtlTrigger;..\..\NtlLib\Shared\Util;..\..\NtlLib\Server\NtlSystem;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release4ClientLocalizeCJIKor|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\NtlLib\Shared;..\..\NtlLib\Shared\NtlTrigger;..\..\NtlLib\Shared\Util;..\..\NtlLib\Server\NtlSystem;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeCJIKor|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\NtlLib\Shared;..\..\NtlLib\Shared\NtlTrigger;..\..\NtlLib\Shared\Util;..\..\NtlLib\Server\NtlSystem;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeDev|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\NtlLib\Shared;..\..\NtlLib\Shared\NtlTrigger;..\..\NtlLib\Shared\Util;..\..\NtlLib\Server\NtlSystem;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\NtlLib\Shared;..\..\NtlLib\Shared\NtlTrigger;..\..\NtlLib\Shared\Util;..\..\NtlLib\Server\NtlSystem;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN64;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)NtlBaseLib;..\..\NtlLib\Shared;..\..\NtlLib\Shared\NtlTrigger;$(SolutionDir)Libraries\NtlLib\Shared\Util--;..\..\NtlLib\Server\NtlSystem;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN64;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <TreatWarningAsError>false</TreatWarningAsError>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release4ClientLocalizeDev|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <Link>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release4ClientLocalizeCJIKor|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <Link>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeCJIKor|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\NtlLib\Shared;..\..\NtlLib\Shared\NtlTrigger;..\..\NtlLib\Shared\Util;..\..\NtlLib\Server\NtlSystem;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN64;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeDev|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\NtlLib\Shared;..\..\NtlLib\Shared\NtlTrigger;..\..\NtlLib\Shared\Util;..\..\NtlLib\Server\NtlSystem;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN64;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="CNtlMrPoPoMsg.h" />
+    <ClInclude Include="NtlActionPattern.h" />
+    <ClInclude Include="NtlAdmin.h" />
+    <ClInclude Include="NtlAvatar.h" />
+    <ClInclude Include="NtlBattle.h" />
+    <ClInclude Include="NtlBBox.h" />
+    <ClInclude Include="NTLBotSystemResultCode.h" />
+    <ClInclude Include="NtlBudokai.h" />
+    <ClInclude Include="NtlCharacter.h" />
+    <ClInclude Include="NtlCharacterState.h" />
+    <ClInclude Include="NtlChat.h" />
+    <ClInclude Include="NtlCSArchitecture.h" />
+    <ClInclude Include="NtlDirection.h" />
+    <ClInclude Include="NtlDojo.h" />
+    <ClInclude Include="NtlDragonBall.h" />
+    <ClInclude Include="NtlFriend.h" />
+    <ClInclude Include="NtlGuild.h" />
+    <ClInclude Include="NtlHlsItem.h" />
+    <ClInclude Include="NtlItem.h" />
+    <ClInclude Include="NtlLine.h" />
+    <ClInclude Include="NtlMail.h" />
+    <ClInclude Include="NtlMatch.h" />
+    <ClInclude Include="NtlMovement.h" />
+    <ClInclude Include="NtlNetP.h" />
+    <ClInclude Include="NtlObject.h" />
+    <ClInclude Include="NtlPacketAll.h" />
+    <ClInclude Include="NtlPacketAM.h" />
+    <ClInclude Include="NtlPacketAP.h" />
+    <ClInclude Include="NtlPacketAU.h" />
+    <ClInclude Include="NtlPacketBABM.h" />
+    <ClInclude Include="NtlPacketBCBM.h" />
+    <ClInclude Include="NtlPacketBMBA.h" />
+    <ClInclude Include="NtlPacketBMBC.h" />
+    <ClInclude Include="NtlPacketCM.h" />
+    <ClInclude Include="NtlPacketCommon.h" />
+    <ClInclude Include="NtlPacketCP.h" />
+    <ClInclude Include="NtlPacketCQ.h" />
+    <ClInclude Include="NtlPacketCU.h" />
+    <ClInclude Include="NtlPacketEM.h" />
+    <ClInclude Include="NtlPacketEO.h" />
+    <ClInclude Include="NtlPacketGM.h" />
+    <ClInclude Include="NtlPacketGN.h" />
+    <ClInclude Include="NtlPacketGP.h" />
+    <ClInclude Include="NtlPacketGQ.h" />
+    <ClInclude Include="NtlPacketGT.h" />
+    <ClInclude Include="NtlPacketGU.h" />
+    <ClInclude Include="NtlPacketLM.h" />
+    <ClInclude Include="NtlPacketMA.h" />
+    <ClInclude Include="NtlPacketMC.h" />
+    <ClInclude Include="NtlPacketME.h" />
+    <ClInclude Include="NtlPacketMG.h" />
+    <ClInclude Include="NtlPacketML.h" />
+    <ClInclude Include="NtlPacketMN.h" />
+    <ClInclude Include="NtlPacketMP.h" />
+    <ClInclude Include="NtlPacketMQ.h" />
+    <ClInclude Include="NtlPacketMR.h" />
+    <ClInclude Include="NtlPacketMS.h" />
+    <ClInclude Include="NtlPacketMT.h" />
+    <ClInclude Include="NtlPacketNG.h" />
+    <ClInclude Include="NtlPacketNM.h" />
+    <ClInclude Include="NtlPacketOE.h" />
+    <ClInclude Include="NtlPacketPA.h" />
+    <ClInclude Include="NtlPacketPC.h" />
+    <ClInclude Include="NtlPacketPG.h" />
+    <ClInclude Include="NtlPacketPM.h" />
+    <ClInclude Include="NtlPacketPQ.h" />
+    <ClInclude Include="NtlPacketPS.h" />
+    <ClInclude Include="NtlPacketPT.h" />
+    <ClInclude Include="NtlPacketQC.h" />
+    <ClInclude Include="NtlPacketQG.h" />
+    <ClInclude Include="NtlPacketQM.h" />
+    <ClInclude Include="NtlPacketQP.h" />
+    <ClInclude Include="NtlPacketQT.h" />
+    <ClInclude Include="NtlPacketRM.h" />
+    <ClInclude Include="NtlPacketSM.h" />
+    <ClInclude Include="NtlPacketSP.h" />
+    <ClInclude Include="NtlPacketTG.h" />
+    <ClInclude Include="NtlPacketTL.h" />
+    <ClInclude Include="NtlPacketTM.h" />
+    <ClInclude Include="NtlPacketTP.h" />
+    <ClInclude Include="NtlPacketTQ.h" />
+    <ClInclude Include="NtlPacketTU.h" />
+    <ClInclude Include="NtlPacketUA.h" />
+    <ClInclude Include="NtlPacketUC.h" />
+    <ClInclude Include="NtlPacketUG.h" />
+    <ClInclude Include="NtlPacketUT.h" />
+    <ClInclude Include="NtlPacketUtil.h" />
+    <ClInclude Include="NtlPacketXR.h" />
+    <ClInclude Include="NtlParty.h" />
+    <ClInclude Include="NtlPartyDungeon.h" />
+    <ClInclude Include="NtlPet.h" />
+    <ClInclude Include="NtlPetition.h" />
+    <ClInclude Include="NtlQuest.h" />
+    <ClInclude Include="NtlRandom.h" />
+    <ClInclude Include="NtlRankBattle.h" />
+    <ClInclude Include="NtlReport.h" />
+    <ClInclude Include="NtlResultCode.h" />
+    <ClInclude Include="NtlRide.h" />
+    <ClInclude Include="NtlServer.h" />
+    <ClInclude Include="NtlService.h" />
+    <ClInclude Include="NtlSharedBotSystemDef.h" />
+    <ClInclude Include="NtlSharedDef.h" />
+    <ClInclude Include="NtlSharedType.h" />
+    <ClInclude Include="NtlSkill.h" />
+    <ClInclude Include="NtlSphere.h" />
+    <ClInclude Include="NtlStatistics.h" />
+    <ClInclude Include="NtlSvrMath.h" />
+    <ClInclude Include="NtlSystemEffect.h" />
+    <ClInclude Include="NtlSystemTool.h" />
+    <ClInclude Include="NtlTeleport.h" />
+    <ClInclude Include="NtlTimeQuest.h" />
+    <ClInclude Include="NtlTLQ.h" />
+    <ClInclude Include="NtlVector.h" />
+    <ClInclude Include="NtlWorld.h" />
+    <ClInclude Include="stdafx.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="NtlAvatar.cpp" />
+    <ClCompile Include="NtlBattle.cpp" />
+    <ClCompile Include="NtlBBox.cpp" />
+    <ClCompile Include="NtlBudokai.cpp" />
+    <ClCompile Include="NtlCharacter.cpp" />
+    <ClCompile Include="NtlCharacterState.cpp" />
+    <ClCompile Include="NtlGuild.cpp" />
+    <ClCompile Include="NtlItem.cpp" />
+    <ClCompile Include="NtlLine.cpp" />
+    <ClCompile Include="NtlMovement.cpp" />
+    <ClCompile Include="NtlNetP.cpp" />
+    <ClCompile Include="NtlObject.cpp" />
+    <ClCompile Include="NtlPacketAM.cpp" />
+    <ClCompile Include="NtlPacketAP.cpp" />
+    <ClCompile Include="NtlPacketAU.cpp" />
+    <ClCompile Include="NtlPacketBABM.cpp" />
+    <ClCompile Include="NtlPacketBCBM.cpp" />
+    <ClCompile Include="NtlPacketBMBA.cpp" />
+    <ClCompile Include="NtlPacketBMBC.cpp" />
+    <ClCompile Include="NtlPacketCM.cpp" />
+    <ClCompile Include="NtlPacketCP.cpp" />
+    <ClCompile Include="NtlPacketCQ.cpp" />
+    <ClCompile Include="NtlPacketCU.cpp" />
+    <ClCompile Include="NtlPacketEM.cpp" />
+    <ClCompile Include="NtlPacketEO.cpp" />
+    <ClCompile Include="NtlPacketGM.cpp" />
+    <ClCompile Include="NtlPacketGN.cpp" />
+    <ClCompile Include="NtlPacketGP.cpp" />
+    <ClCompile Include="NtlPacketGQ.cpp" />
+    <ClCompile Include="NtlPacketGT.cpp" />
+    <ClCompile Include="NtlPacketGU.cpp" />
+    <ClCompile Include="NtlPacketLM.cpp" />
+    <ClCompile Include="NtlPacketMA.cpp" />
+    <ClCompile Include="NtlPacketMC.cpp" />
+    <ClCompile Include="NtlPacketME.cpp" />
+    <ClCompile Include="NtlPacketMG.cpp" />
+    <ClCompile Include="NtlPacketML.cpp" />
+    <ClCompile Include="NtlPacketMN.cpp" />
+    <ClCompile Include="NtlPacketMP.cpp" />
+    <ClCompile Include="NtlPacketMQ.cpp" />
+    <ClCompile Include="NtlPacketMR.cpp" />
+    <ClCompile Include="NtlPacketMS.cpp" />
+    <ClCompile Include="NtlPacketMT.cpp" />
+    <ClCompile Include="NtlPacketNG.cpp" />
+    <ClCompile Include="NtlPacketNM.cpp" />
+    <ClCompile Include="NtlPacketOE.cpp" />
+    <ClCompile Include="NtlPacketPA.cpp" />
+    <ClCompile Include="NtlPacketPC.cpp" />
+    <ClCompile Include="NtlPacketPG.cpp" />
+    <ClCompile Include="NtlPacketPM.cpp" />
+    <ClCompile Include="NtlPacketPQ.cpp" />
+    <ClCompile Include="NtlPacketPS.cpp" />
+    <ClCompile Include="NtlPacketPT.cpp" />
+    <ClCompile Include="NtlPacketQC.cpp" />
+    <ClCompile Include="NtlPacketQG.cpp" />
+    <ClCompile Include="NtlPacketQM.cpp" />
+    <ClCompile Include="NtlPacketQP.cpp" />
+    <ClCompile Include="NtlPacketQT.cpp" />
+    <ClCompile Include="NtlPacketRM.cpp" />
+    <ClCompile Include="NtlPacketSM.cpp" />
+    <ClCompile Include="NtlPacketSP.cpp" />
+    <ClCompile Include="NtlPacketTG.cpp" />
+    <ClCompile Include="NtlPacketTL.cpp" />
+    <ClCompile Include="NtlPacketTM.cpp" />
+    <ClCompile Include="NtlPacketTP.cpp" />
+    <ClCompile Include="NtlPacketTQ.cpp" />
+    <ClCompile Include="NtlPacketTU.cpp" />
+    <ClCompile Include="NtlPacketUA.cpp" />
+    <ClCompile Include="NtlPacketUC.cpp" />
+    <ClCompile Include="NtlPacketUG.cpp" />
+    <ClCompile Include="NtlPacketUT.cpp" />
+    <ClCompile Include="NtlPacketUtil.cpp" />
+    <ClCompile Include="NtlPacketXR.cpp" />
+    <ClCompile Include="NtlPetition.cpp" />
+    <ClCompile Include="NtlRandom.cpp" />
+    <ClCompile Include="NtlReport.cpp" />
+    <ClCompile Include="NtlService.cpp" />
+    <ClCompile Include="NtlSkill.cpp" />
+    <ClCompile Include="NtlSphere.cpp" />
+    <ClCompile Include="NtlStatistics.cpp" />
+    <ClCompile Include="NtlSvrMath.cpp" />
+    <ClCompile Include="NtlSystemTool.cpp" />
+    <ClCompile Include="NtlVector.cpp" />
+    <ClCompile Include="NtlWorld.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeCJIKor|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeCJIKor|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeDev|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug4ClientLocalizeDev|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release4ClientLocalizeCJIKor|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release4ClientLocalizeDev|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release4Client|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

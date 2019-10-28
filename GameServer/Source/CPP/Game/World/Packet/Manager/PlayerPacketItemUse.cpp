@@ -491,11 +491,13 @@ void Player::HandleItemUse(Packet pPacket)
 							}
 							if (GetPcProfile()->bIsAdult == false)
 							{
-								ConvertAdult(true);								
+								ConvertAdult(true);
+								sql::ResultSet* result = sDB.executes("UPDATE characters SET IsAdult = 1 WHERE CharacterID = '%d';", GetCharacterID()); // Saving Adult to database
 							}
 							else
 							{
 								ConvertAdult(false);
+								sql::ResultSet* result = sDB.executes("UPDATE characters SET IsAdult = 0 WHERE CharacterID = '%d';", GetCharacterID()); // Saving the reverse to database
 							}
 							UseItem.wResultCode = GAME_SUCCESS;
 							break;

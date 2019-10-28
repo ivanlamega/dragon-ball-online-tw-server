@@ -10,7 +10,7 @@
 #include <iostream>
 #include <signal.h>
 
-#include "../GameServer/Source/QuestWrapper.h"
+#include "QuestWrapper.h"
 
 void signalHandler(int signum)
 {
@@ -38,6 +38,14 @@ void signalHandler(int signum)
 	}
 	sLog.outDebug("Interrupt signal (%d) received.", signum);
 }
+
+bool GameServer::loadQuests()
+{
+	//this->g_pQuestWrapper = new CQuestWrapper;
+	//return this->g_pQuestWrapper->Create();
+	return sTSM.Create();
+}
+
 bool GameServer::loadDataTable()
 {
 	sLog.outDetail("==== LOADING GAME TABLES ... ====");
@@ -463,6 +471,14 @@ int GameServer::Run()
 		system("PAUSE");
 		return 1;
 	}
+
+	if (loadQuests() == false)
+	{
+		sLog.outError("Trigger data unsucessfully loaded, exiting...");
+		system("PAUSE");
+		return 1;
+	}
+
 	_ServerID = sXmlParser.GetInt("Server", "ID");
 	_ChannelID = sXmlParser.GetInt("Server", "ChannelID");
 	AKCore::Thread world_thread(new WorldRunnable);

@@ -323,7 +323,7 @@ struct MonsterData
 };
 struct sOBJECT_INFO
 {
-	sOBJECT_INFO() {};
+	sOBJECT_INFO() ;
 	BYTE					objType;
 
 	union

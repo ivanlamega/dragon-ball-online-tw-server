@@ -72,7 +72,7 @@ public:
 	explicit			WorldObject();
 	~WorldObject();
 	bool				Create(sOBJECT_TBLDAT& objRef);
-	void				TakeDamage(uint32 amount) {};
+	void				TakeDamage(uint32 amount) {return;};
 	virtual DWORD		GetPowerLevel() { return 0; }
 
 	virtual void		Update(uint32 update_diff, uint32 time) override;

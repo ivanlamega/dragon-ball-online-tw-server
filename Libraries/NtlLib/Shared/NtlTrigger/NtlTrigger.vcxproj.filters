@@ -1,0 +1,251 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Entity">
+      <UniqueIdentifier>{a45220d1-b36c-4e3b-9277-d0d8e68e3a58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entity\Factory">
+      <UniqueIdentifier>{6406bb85-5d80-45eb-b39e-07b279a52258}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Control">
+      <UniqueIdentifier>{cadd8ebe-a495-4e6c-8e6e-315373a341e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Control\Factory">
+      <UniqueIdentifier>{b3ae55bd-5381-4b55-99d3-8ae1c450bde7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Precomp">
+      <UniqueIdentifier>{e48cc8b1-83ba-46b0-9d28-7b1f5ecdf661}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{2f2a5ff3-117c-4db2-90f6-7829667236dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Factory">
+      <UniqueIdentifier>{f53059a3-690a-4e0d-be39-2c46151942f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility">
+      <UniqueIdentifier>{19a14377-f7ca-4c80-86c3-12e938afaab3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\RTTI">
+      <UniqueIdentifier>{52050ce6-c3a4-40e9-b1cf-f5d51a085eae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Log">
+      <UniqueIdentifier>{3be8f2eb-b4f3-49fb-8e5f-7cff489ed846}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Script">
+      <UniqueIdentifier>{cf61f6f0-69a4-4f57-af9a-46b8b00b40d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\IO">
+      <UniqueIdentifier>{514c072a-b5ba-4763-a976-7a8f900ad255}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Global">
+      <UniqueIdentifier>{0fa395a4-fa3b-4eb8-b6ac-a64addc2d78e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="NtlTSAction.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlTSCond.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlTSCont.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlTSEntity.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlTSEvent.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlTSGroup.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlTSTrigger.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlTSEntityFactory.cpp">
+      <Filter>Entity\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlTSEntityFactoryType.cpp">
+      <Filter>Entity\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlTSController.cpp">
+      <Filter>Control</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlTSEvtMapper.cpp">
+      <Filter>Control</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlTSControlFactory.cpp">
+      <Filter>Control\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlTSControlFactoryType.cpp">
+      <Filter>Control\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlTSControlObject.cpp">
+      <Filter>Control\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="precomp_trigger.cpp">
+      <Filter>Precomp</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlTSAgency.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlTSMain.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlTSRecv.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlTSUIFactory.cpp">
+      <Filter>UI\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlTSUIFactoryType.cpp">
+      <Filter>UI\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlTSUIObject.cpp">
+      <Filter>UI\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlTSRTTI.cpp">
+      <Filter>Utility\RTTI</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlTSLog.cpp">
+      <Filter>Utility\Log</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlTSScrObject.cpp">
+      <Filter>Utility\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlTSScrParser.cpp">
+      <Filter>Utility\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlTSScrSaver.cpp">
+      <Filter>Utility\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlTSScrStream.cpp">
+      <Filter>Utility\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlTSScrTokenizer.cpp">
+      <Filter>Utility\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlTSMemIO.cpp">
+      <Filter>Utility\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="NtlTSCoreStatic.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="NtlTSAction.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlTSCond.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlTSCont.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlTSEntity.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlTSEvent.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlTSGroup.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlTSTrigger.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlTSEntityFactory.h">
+      <Filter>Entity\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlTSEntityFactoryType.h">
+      <Filter>Entity\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlTSController.h">
+      <Filter>Control</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlTSEvtMapper.h">
+      <Filter>Control</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlTSControlFactory.h">
+      <Filter>Control\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlTSControlFactoryType.h">
+      <Filter>Control\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlTSControlObject.h">
+      <Filter>Control\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="precomp_trigger.h">
+      <Filter>Precomp</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlTSAgency.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlTSMain.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlTSRecv.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlTSUIFactory.h">
+      <Filter>UI\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlTSUIFactoryType.h">
+      <Filter>UI\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlTSUIObject.h">
+      <Filter>UI\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlTSRTTI.h">
+      <Filter>Utility\RTTI</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlTSLog.h">
+      <Filter>Utility\Log</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlTSScrFactory.h">
+      <Filter>Utility\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlTSScrFactoryType.h">
+      <Filter>Utility\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlTSScrObject.h">
+      <Filter>Utility\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlTSScrParser.h">
+      <Filter>Utility\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlTSScrProperty.h">
+      <Filter>Utility\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlTSScrSaver.h">
+      <Filter>Utility\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlTSScrStream.h">
+      <Filter>Utility\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlTSScrTokenizer.h">
+      <Filter>Utility\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlTSMemIO.h">
+      <Filter>Utility\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlTSCore.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlTSCoreDefine.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="NtlTSCoreStatic.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="NtlTSRTTI.inl">
+      <Filter>Utility\RTTI</Filter>
+    </None>
+    <None Include="NtlTSScrProperty.inl">
+      <Filter>Utility\Script</Filter>
+    </None>
+  </ItemGroup>
+</Project>

@@ -5,7 +5,12 @@
 //#include "NTLResultCode.h"
 #include "GameServer.h"
 
-//NTL_TS_IMPLEMENT_RTTI(CGameTriggerCtrl, CDboTSTCtrl)
+#include "QuestRewardTable.h"
+#include "DungeonTable.h"
+#include "WorldTable.h"
+#include "TableContainer.h"
+
+NTL_TS_IMPLEMENT_RTTI(CGameTriggerCtrl, CDboTSTCtrl)
 
 CGameTriggerCtrl::CGameTriggerCtrl()
 {
@@ -16,7 +21,7 @@ CGameTriggerCtrl::~CGameTriggerCtrl()
 {
 }
 
-/*void CGameTriggerCtrl::CheckContainer(CNtlTSCont* pCurCont, CNtlTSCont* pNextCont, CNtlTSTrigger* pTrigger, CDboTSTCtrl* pTriggerCtrl)
+void CGameTriggerCtrl::CheckContainer(CNtlTSCont* pCurCont, CNtlTSCont* pNextCont, CNtlTSTrigger* pTrigger, CDboTSTCtrl* pTriggerCtrl)
 {
 	if (pCurCont){
 		switch (pCurCont->GetEntityType())
@@ -259,6 +264,10 @@ void CGameTriggerCtrl::CheckContAct(CDboTSContGAct* pAct, CNtlTSCont* pParent, C
 		{
 			SendActPortal((CDboTSActPortal*)pEntity);
 		}
+		if (pEntity->IsDerivedClass("CDboTSActSkyDgn"))
+		{
+			SendActSkyDgn((CDboTSActSkyDgn*)pEntity);
+		}
 		else if (pEntity->IsDerivedClass("CDboTSActTWaitTS"))
 		{
 			SendActWaitTime((CDboTSActTWaitTS*)pEntity);
@@ -282,6 +291,10 @@ void CGameTriggerCtrl::CheckContAct(CDboTSContGAct* pAct, CNtlTSCont* pParent, C
 		else if (pEntity->IsDerivedClass("CDboTSActDir"))
 		{
 			SendActDir((CDboTSActDir*)pEntity);
+		}
+		else if (pEntity->IsDerivedClass("CDboTSActMail"))
+		{
+			SendActMail((CDboTSActMail*)pEntity);
 		}
 		else if (pEntity->IsDerivedClass("CDboTSActDirIndicator"))
 		{
@@ -334,6 +347,14 @@ void CGameTriggerCtrl::CheckContAct(CDboTSContGAct* pAct, CNtlTSCont* pParent, C
 		else if (pEntity->IsDerivedClass("CDboTSActNPCConv"))
 		{
 			SendActNPCConv((CDboTSActNPCConv*)pEntity);
+		}
+		else if (pEntity->IsDerivedClass("CDboTSActAvatarDead"))
+		{
+			SendActAvatarDead((CDboTSActAvatarDead*)pEntity);
+		}
+		else if (pEntity->IsDerivedClass("CDboTSActOutMsg"))
+		{
+			SendActOutMsg((CDboTSActOutMsg*)pEntity);
 		}
 		else if (pEntity->IsDerivedClass("CDboTSActObjConv"))
 		{
@@ -395,6 +416,10 @@ void CGameTriggerCtrl::CheckContAct(CDboTSContGAct* pAct, CNtlTSCont* pParent, C
 		{
 			SendActSToCEvt((CDboTSActSToCEvt*)pEntity);
 		}
+		else if (pEntity->IsDerivedClass("CDboTSActWPSFD"))
+		{
+			SendActWPSFD((CDboTSActWPSFD*)pEntity);
+		}
 		else if (pEntity->IsDerivedClass("CDboTSActSWProbSF"))
 		{
 			SendActSWProbSF((CDboTSActSWProbSF*)pEntity);
@@ -408,22 +433,22 @@ void CGameTriggerCtrl::CheckContAct(CDboTSContGAct* pAct, CNtlTSCont* pParent, C
 void CGameTriggerCtrl::CheckContReward(CDboTSContReward* pReward, CNtlTSCont* pParent)
 {
 	printf("CONT_REWARD\n");
-	CQuestRewardTable* pQuestRewardTable = ((CGameServer*)NtlSfxGetApp())->GetTableContainer()->GetQuestRewardTable();
-	sQUEST_REWARD_TBLDAT* pRewardTblDat = reinterpret_cast<sQUEST_REWARD_TBLDAT*>(pQuestRewardTable->FindData(pReward->GetRewardTableIndex()));
+	//CQuestRewardTable* pQuestRewardTable = ((CGameServer*)NtlSfxGetApp())->GetTableContainer()->GetQuestRewardTable();
+	sQUEST_REWARD_TBLDAT* pRewardTblDat = (sQUEST_REWARD_TBLDAT*)sTBM.GetQuestRewardTable()->FindData(pReward->GetRewardTableIndex());//reinterpret_cast<sQUEST_REWARD_TBLDAT*>(pQuestRewardTable->FindData(pReward->GetRewardTableIndex()));
 	sREWARD_INFO m_pDefRwd[QUEST_REWARD_DEF_MAX_CNT];
 	sREWARD_INFO m_pSelRwd[QUEST_REWARD_SEL_MAX_CNT];
 	//Mount quest values
 	for (int i = 0; i < QUEST_REWARD_DEF_MAX_CNT; i++)
 	{
-		m_pDefRwd[i].m_eType = (eREWARD_TYPE)pRewardTblDat->arsDefRwd[i].byRewardType;
-		m_pDefRwd[i].m_nValue = pRewardTblDat->arsDefRwd[i].dwRewardVal;
-		m_pDefRwd[i].m_uiIdx = pRewardTblDat->arsDefRwd[i].dwRewardIdx;
+		m_pDefRwd[i].m_eType = (eREWARD_TYPE)pRewardTblDat->unk2[i].unk;
+		m_pDefRwd[i].m_nValue = pRewardTblDat->unk2[i].Amount;
+		m_pDefRwd[i].m_uiIdx = pRewardTblDat->unk2[i].Item;
 	}
 	for (int i = 0; i < QUEST_REWARD_SEL_MAX_CNT; i++)
 	{
-		m_pSelRwd[i].m_eType = (eREWARD_TYPE)pRewardTblDat->arsSelRwd[i].byRewardType;
-		m_pSelRwd[i].m_nValue = pRewardTblDat->arsSelRwd[i].dwRewardVal;
-		m_pSelRwd[i].m_uiIdx = pRewardTblDat->arsSelRwd[i].dwRewardIdx;
+		m_pSelRwd[i].m_eType = (eREWARD_TYPE)pRewardTblDat->unk2[i].unk;
+		m_pSelRwd[i].m_nValue = pRewardTblDat->unk2[i].Amount;
+		m_pSelRwd[i].m_uiIdx = pRewardTblDat->unk2[i].Item;
 	}
 	//Now we gona send the quest rewards
 	for (int i = 0; i < QUEST_REWARD_DEF_MAX_CNT; i++)
@@ -445,6 +470,10 @@ void CGameTriggerCtrl::CheckContNarration(CDboTSContNarration* pNarration, CNtlT
 void CGameTriggerCtrl::CheckContProposal(CDboTSContProposal* pProposal, CNtlTSCont* pParent)
 {
 	printf("CONT_PROPOSAL\n");
+}
+void CGameTriggerCtrl::CheckDialogOpen(CDboTSDialogOpen* pDialog, CNtlTSCont* pParent)
+{
+	printf("CONT_DIALOG\n");
 }
 void CGameTriggerCtrl::CheckContSwitch(CDboTSContSwitch* pSwitch, CNtlTSCont* pParent)
 {
@@ -575,10 +604,10 @@ void CGameTriggerCtrl::SendActWaitTime(CDboTSActTWaitTS* pActTime)
 }
 void CGameTriggerCtrl::SendActTLQ(CDboTSActTLQ* pTLQ)
 {
-	CDungeonTable* pDgTable = ((CGameServer*)NtlSfxGetApp())->GetTableContainer()->GetDungeonTable();
-	CWorldTable* pWorldTable = ((CGameServer*)NtlSfxGetApp())->GetTableContainer()->GetWorldTable();
-	sDUNGEON_TBLDAT* pDgTbldat = reinterpret_cast<sDUNGEON_TBLDAT*>(pDgTable->FindData(pTLQ->GetDungeonTblIdx()));
-	sWORLD_TBLDAT* pWorldTblDat = reinterpret_cast<sWORLD_TBLDAT*>(pWorldTable->FindData(pDgTbldat->linkWorld));
+	//CDungeonTable* pDgTable = ((CGameServer*)NtlSfxGetApp())->GetTableContainer()->GetDungeonTable();
+	//CWorldTable* pWorldTable = ((CGameServer*)NtlSfxGetApp())->GetTableContainer()->GetWorldTable();
+	sDUNGEON_TBLDAT* pDgTbldat = (sDUNGEON_TBLDAT*)sTBM.GetDungeonTable()->FindData(pTLQ->GetDungeonTblIdx());//reinterpret_cast<sDUNGEON_TBLDAT*>(pDgTable->FindData(pTLQ->GetDungeonTblIdx()));
+	sWORLD_TBLDAT* pWorldTblDat = (sWORLD_TBLDAT*)sTBM.GetWorldTable()->FindData(pDgTbldat->linkWorld);//reinterpret_cast<sWORLD_TBLDAT*>(pWorldTable->FindData(pDgTbldat->linkWorld));
 	sVECTOR3 pos;
 	sVECTOR3 dir;
 	pos.x = pWorldTblDat->vStart1Loc.x;
@@ -588,6 +617,10 @@ void CGameTriggerCtrl::SendActTLQ(CDboTSActTLQ* pTLQ)
 	dir.z = pWorldTblDat->vStart1Dir.z;
 	dir.y = pWorldTblDat->vStart1Dir.y;
 	//TODO: Pass the values above to player and send
+}
+void CGameTriggerCtrl::SendActSkyDgn(CDboTSActSkyDgn* pActSkyDgn)
+{
+	printf("ActSkyDgn\n");
 }
 void CGameTriggerCtrl::SendActBroadMsg(CDboTSActBroadMsg* pActBroadMsg)
 {
@@ -604,6 +637,10 @@ void CGameTriggerCtrl::SendActCustomEvt(CDboTSActCustomEvt* pActCustomEvt)
 void CGameTriggerCtrl::SendActDir(CDboTSActDir* pActDir)
 {
 	printf("ActDir\n");
+}
+void CGameTriggerCtrl::SendActMail(CDboTSActMail* pActMail)
+{
+	printf("ActMail\n");
 }
 void CGameTriggerCtrl::SendActDirIndicator(CDboTSActDirIndicator* pActDirIndicator)
 {
@@ -655,7 +692,15 @@ void CGameTriggerCtrl::SendActMiniNarration(CDboTSActMiniNarration* pActMiniNarr
 }
 void CGameTriggerCtrl::SendActNPCConv(CDboTSActNPCConv* pActNPCConv)
 {
-	printf("ACtNPCConv\n");
+	printf("ActNPCConv\n");
+}
+void CGameTriggerCtrl::SendActAvatarDead(CDboTSActAvatarDead* pActNPCConv)
+{
+	printf("ActAvatarDead\n");
+}
+void CGameTriggerCtrl::SendActOutMsg(CDboTSActOutMsg* pActNPCConv)
+{
+	printf("ActOutMsg\n");
 }
 void CGameTriggerCtrl::SendActObjConv(CDboTSActObjConv* pActObjConv)
 {
@@ -716,6 +761,10 @@ void CGameTriggerCtrl::SendActSkipCont(CDboTSActSkipCont* pActSkipCont)
 void CGameTriggerCtrl::SendActSToCEvt(CDboTSActSToCEvt* pActSToCEvt)
 {
 	printf("ActSToCEvt\n");
+}
+void CGameTriggerCtrl::SendActWPSFD(CDboTSActWPSFD* pActWPSFD)
+{
+	printf("ActWPSFD\n");
 }
 void CGameTriggerCtrl::SendActSWProbSF(CDboTSActSWProbSF* pActSWProbSF)
 {
@@ -793,7 +842,7 @@ void CGameTriggerCtrl::SendEvtTeleport(CDboTSTeleport* pEvtTeleport)
 }
 void CGameTriggerCtrl::SendEvtUseMail(CDboTSUseMail* pEvtUseMail)
 {
-}*/
+}
 
 /*
 	WARNING: the code below is a extract from client-side, i commented that because i dont know if we gonna need follow

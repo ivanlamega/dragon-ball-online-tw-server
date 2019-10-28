@@ -380,6 +380,17 @@ void Player::Update(uint32 _update_diff, uint32 _time)
 		NetPyTimmer = GetTickCount();//Set Time	
 		countnetpy += 1;
 	}
+
+	DWORD PlayerOnTimer = GetTickCount() - Playeronline;
+	if (PlayerOnTimer >= 15000)
+	{
+		if (timeonline >= 1)
+		{
+			SavePlayer();
+		}
+		Playeronline = GetTickCount();//Set Time	
+		timeonline += 1;
+	}
 	BossEventUpdate();
 	//HandleFreeBattleRange();	
 	PowerUpUpdate();

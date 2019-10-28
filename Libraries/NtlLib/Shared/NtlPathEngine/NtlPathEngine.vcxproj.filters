@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="PathEngine">
+      <UniqueIdentifier>{a344dbdb-bdd7-4454-84fa-97e8304b362d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main">
+      <UniqueIdentifier>{da93ba39-41b0-45ed-aef0-fef6fe834521}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main\Log">
+      <UniqueIdentifier>{a5be1e04-b851-45a6-85a4-73f52dd76735}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main\Util">
+      <UniqueIdentifier>{6ce126ea-3145-44df-9fe1-5ce73480b75b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main\Federation">
+      <UniqueIdentifier>{097d6b29-b251-4b1e-8351-a573e31291b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main\Mesh">
+      <UniqueIdentifier>{1b6333d8-7617-4cf7-91dc-602eff76eda4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main\Seamless">
+      <UniqueIdentifier>{48c3ca9a-76d9-4cbb-9681-6edaccbd663a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Precomp">
+      <UniqueIdentifier>{b9fccc0b-e11f-4475-aadb-259e178d980c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="PathEngine\i_pathengine.h">
+      <Filter>PathEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\NtlPathEngine.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\NtlPathEngineDef.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\NtlPathEngineLog.h">
+      <Filter>Main\Log</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\NtlFileOutputStream.h">
+      <Filter>Main\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\NtlPathEngineHelper.h">
+      <Filter>Main\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\NtlSimpleDOM.h">
+      <Filter>Main\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\PerformanceChecker.h">
+      <Filter>Main\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\NtlMeshFederation.h">
+      <Filter>Main\Federation</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\NtlMeshFederationBuilder.h">
+      <Filter>Main\Federation</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\NtlMeshFederationContainer.h">
+      <Filter>Main\Federation</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\NtlMeshFederationTileGeneratedCallBack.h">
+      <Filter>Main\Federation</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\NtlMesh.h">
+      <Filter>Main\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\NtlPathCS.h">
+      <Filter>Main\Seamless</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\NtlPathSeamlessLoader.h">
+      <Filter>Main\Seamless</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\NtlPathSeamlessLoadingManager.h">
+      <Filter>Main\Seamless</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\NtlPathSeamlessManager.h">
+      <Filter>Main\Seamless</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\NtlSeamlessMesh.h">
+      <Filter>Main\Seamless</Filter>
+    </ClInclude>
+    <ClInclude Include="Precomp_NtlPathEngine.h">
+      <Filter>Precomp</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\NtlPathEngine.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\NtlPathEngineLog.cpp">
+      <Filter>Main\Log</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\NtlFileOutputStream.cpp">
+      <Filter>Main\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\NtlPathEngineHelper.cpp">
+      <Filter>Main\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\NtlSimpleDOM.cpp">
+      <Filter>Main\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\PerformanceChecker.cpp">
+      <Filter>Main\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\NtlMeshFederation.cpp">
+      <Filter>Main\Federation</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\NtlMeshFederationBuilder.cpp">
+      <Filter>Main\Federation</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\NtlMeshFederationContainer.cpp">
+      <Filter>Main\Federation</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\NtlMeshFederationTileGeneratedCallBack.cpp">
+      <Filter>Main\Federation</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\NtlMesh.cpp">
+      <Filter>Main\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\NtlPathCS.cpp">
+      <Filter>Main\Seamless</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\NtlPathSeamlessLoader.cpp">
+      <Filter>Main\Seamless</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\NtlPathSeamlessLoadingManager.cpp">
+      <Filter>Main\Seamless</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\NtlPathSeamlessManager.cpp">
+      <Filter>Main\Seamless</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\NtlSeamlessMesh.cpp">
+      <Filter>Main\Seamless</Filter>
+    </ClCompile>
+    <ClCompile Include="Precomp_NtlPathEngine.cpp">
+      <Filter>Precomp</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
