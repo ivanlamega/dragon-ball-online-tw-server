@@ -65,8 +65,8 @@ protected:
 
 // Constructions and Destructions
 public:
-	CNtlUnzip(const char* szFilePath = 0) {};
-	virtual ~CNtlUnzip(void) {};
+	CNtlUnzip(const char* szFilePath = 0);
+	virtual ~CNtlUnzip(void);
 
 // Methods
 public:
