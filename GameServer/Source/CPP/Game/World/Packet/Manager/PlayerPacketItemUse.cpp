@@ -337,7 +337,7 @@ void Player::HandleItemUse(Packet pPacket)
 							HoiPoiReg.wPacketSize = sizeof(sGU_HOIPOIMIX_RECIPE_REG_NFY) - 2;
 
 							HoiPoiReg.recipeTblidx = UseItemData->tblidx;
-
+							sDB.LearnRecipe(charid, HoiPoiReg.recipeTblidx);
 							SendPacket((char*)&HoiPoiReg, sizeof(sGU_HOIPOIMIX_RECIPE_REG_NFY));
 							break;
 						}

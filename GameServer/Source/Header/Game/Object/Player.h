@@ -49,6 +49,7 @@ public:
 	void				ConvertAdult(int Adult);
 	void				SendUpdateSize(int Size);
 	void				SendAddTitle(int TitleID);
+	void				learnrecipecraft(int recipeTblidx);
 
 	void				SavePlayer();
 	void				CalculeRpBall();

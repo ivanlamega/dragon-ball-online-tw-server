@@ -68,6 +68,7 @@ public:
 	///////////
 	//Title
 	void AddTitle( CHARACTERID characterID, TBLIDX TitleID);
+	void LearnRecipe(CHARACTERID ChariD, TBLIDX RecipeID);
 	void UpdateSPPoint(int point, CHARACTERID id);
 	void UpdateSkill(TBLIDX NewskillID, CHARACTERID characterID, TBLIDX skillID);
 	void UpdatePlayerLevel(int _level, CHARACTERID CharID, int _exp);
