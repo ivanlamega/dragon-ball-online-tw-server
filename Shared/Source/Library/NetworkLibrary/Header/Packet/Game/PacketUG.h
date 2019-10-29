@@ -545,6 +545,11 @@ NTL_TS_T_ID			tId;
 NTL_TS_TC_ID		tcCurId;
 NTL_TS_TC_ID		tcNextId;
 DWORD				dwParam;
+unsigned char 				unknown1;
+unsigned long 				unknown2;
+unsigned int				unknown3;
+unsigned short				unknown4;
+unsigned char 				unknown5;
 BYTE				byEventType;
 DWORD				dwEventData;
 END_PROTOCOL()

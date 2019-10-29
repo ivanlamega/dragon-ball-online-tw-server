@@ -8,6 +8,7 @@
 #include <mysqlconn_wrapper.h>
 #include <Logger.h>
 #include <World.h>
+#include <QuestWrapper.h>
 #include <XmlParser2/XmlParser2.h>
 
 
@@ -431,9 +432,47 @@ void WorldSession::SendQuestAcept(Packet& packet)
 {
 	sUG_TS_CONFIRM_STEP_REQ *req = (sUG_TS_CONFIRM_STEP_REQ*)packet.GetPacketBuffer();
 	sGU_TS_CONFIRM_STEP_RES res;
+
+	// example ts
+	CNtlTSCont * cont = sTSM.FindQuestFromTS(req->tId)->GetGroup(NTL_TS_MAIN_GROUP_ID)->GetChildCont(req->tcCurId);
+	for (int i = 0; i < cont->GetNumOfChildEntity(); i++)
+	{
+		sLog.outDetail("Cont: %s %d, %d", cont->GetChildEntity(i)->GetClassNameW(), cont->GetChildEntity(i)->GetEntityType(), DBO_COND_TYPE_ID_CHECK_LVL);
+		switch (cont->GetChildEntity(i)->GetEntityType())
+		{
+			case DBO_COND_TYPE_ID_CHECK_LVL:
+			{
+				CDboTSCheckLvl * checkLvl = ((CDboTSCheckLvl*)cont->GetChildEntity(i));
+				sLog.outDetail("Quest: minlvl %d maxlvl %d", checkLvl->GetMinLvl(), checkLvl->GetMaxLvl());
+				break;
+			}
+			case DBO_COND_TYPE_ID_CHECK_CLRQST:
+			{
+				CDboTSCheckClrQst * clrQst = ((CDboTSCheckClrQst*)cont->GetChildEntity(i));
+				sLog.outDetail("Quest: not size: %d  and size: %d or size: %d", clrQst->GetNotIdList().size(), clrQst->GetAndIdList().size(), clrQst->GetOrIdList().size());
+				break;
+			}
+			case DBO_EVENT_TYPE_ID_CLICK_NPC:
+			{
+				CDboTSClickNPC * clickNpc = ((CDboTSClickNPC*)cont->GetChildEntity(i));
+				sLog.outDetail("Quest: Npc tblidx %d", clickNpc->GetNPCIdx());
+				break;
+			}
+			case DBO_COND_TYPE_ID_CHECK_PCRACE:
+			{
+				break;
+			}
+			case DBO_COND_TYPE_ID_CHECK_PCCLS:
+			{
+				break;
+			}
+		}
+	}
+
 	if (req)
-	{	
-		
+	{
+
+
 		QuestRewardTable * dat = sTBM.GetQuestRewardTable();
 		sLog.outDebug("Event type: %u, TS Type: %u, DWData %d, DWParam: %d, tid: %u, CurID: %u, NextID: %u", req->byEventType, req->byTsType, req->dwEventData, req->dwParam, req->tId, req->tcCurId, req->tcNextId);
 		res.byTsType = req->byTsType;
@@ -445,7 +484,7 @@ void WorldSession::SendQuestAcept(Packet& packet)
 		res.wPacketSize = sizeof(sGU_TS_CONFIRM_STEP_RES) - 2;
 		res.wResultCode = RESULT_SUCCESS;
 
-		if (req->byTsType == 0)
+		if (req->byTsType == TS_TYPE_QUEST_CS)
 		{		
 			if (req->tcCurId == 2)
 			{
@@ -459,13 +498,18 @@ void WorldSession::SendQuestAcept(Packet& packet)
 				GetQuestInfo(req->tId, req->tcCurId, req->tcNextId);
 			}
 		}
-		if (req->byTsType == 1)
+		if (req->byTsType == TS_TYPE_PC_TRIGGER_CS)
 		{
 			if (req->tcCurId == 254)
 			{
 				GetQuestPortalInfo(req->tId, req->tcCurId, req->tcNextId);
 			}
-		}	
+		}
+
+		if (req->byTsType == TS_TYPE_OBJECT_TRIGGER_S)
+		{
+
+		}
 
 		//Need Find Logic to Complete Quest for Correct ID
 		//Need Load Reward Tables etc....
