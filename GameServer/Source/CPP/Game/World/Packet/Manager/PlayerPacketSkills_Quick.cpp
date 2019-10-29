@@ -1090,7 +1090,7 @@ void WorldSession::UpgradeSkill(Packet & packet)
 
 void WorldSession::ResetSkill(Packet & packet)
 {
-	/*int bySkillCount = _player->skillManager.getSkillsCount();
+	int bySkillCount = _player->skillManager.getSkillsCount();
 	for (int i = 0; i < bySkillCount; i++)
 	{
 		int skillID = _player->skillManager.getSkillsInfos()[i].tblidx;
@@ -1151,5 +1151,5 @@ void WorldSession::ResetSkill(Packet & packet)
 			SendAvatarSkillInfo();
 			SendUpdateSkillPassiveAtributeByID(pNewbieTbldat->aSkillTblidx[i], false);
 		}
-	}*/
+	}
 }
