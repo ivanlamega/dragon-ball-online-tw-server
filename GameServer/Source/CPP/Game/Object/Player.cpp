@@ -3445,21 +3445,25 @@ void Player::ConvertClass(int Class, HOBJECT Target)
 		{
 			SetMyClass(ePC_CLASS::PC_CLASS_STREET_FIGHTER);			
 				m_session->LearnMestrySkill(729991);
+				sql::ResultSet* result = sDB.executes("UPDATE characters SET ClassID = 7 WHERE CharacterID = '%d';", GetCharacterID());
 		}
 		if (Class == 8)
 		{
 			SetMyClass(ePC_CLASS::PC_CLASS_SWORD_MASTER);			
 				m_session->LearnMestrySkill(829991);
+				sql::ResultSet* result = sDB.executes("UPDATE characters SET ClassID = 8 WHERE CharacterID = '%d';", GetCharacterID());
 		}
 		if (Class == 9)
 		{
 			SetMyClass(ePC_CLASS::PC_CLASS_CRANE_ROSHI);			
 				m_session->LearnMestrySkill(929991);
+				sql::ResultSet* result = sDB.executes("UPDATE characters SET ClassID = 9 WHERE CharacterID = '%d';", GetCharacterID());
 		}
 		if (Class == 10)
 		{
 			SetMyClass(ePC_CLASS::PC_CLASS_TURTLE_ROSHI);			
 				m_session->LearnMestrySkill(1029991);
+				sql::ResultSet* result = sDB.executes("UPDATE characters SET ClassID = 10 WHERE CharacterID = '%d';", GetCharacterID());
 		}
 		if (Class == 11)
 		{
@@ -3473,41 +3477,49 @@ void Player::ConvertClass(int Class, HOBJECT Target)
 		{
 			SetMyClass(ePC_CLASS::PC_CLASS_DARK_WARRIOR);			
 				m_session->LearnMestrySkill(1329991);
+				sql::ResultSet* result = sDB.executes("UPDATE characters SET ClassID = 13 WHERE CharacterID = '%d';", GetCharacterID());
 		}
 		if (Class == 14)
 		{
 			SetMyClass(ePC_CLASS::PC_CLASS_SHADOW_KNIGHT);			
 				m_session->LearnMestrySkill(1429991);
+				sql::ResultSet* result = sDB.executes("UPDATE characters SET ClassID = 14 WHERE CharacterID = '%d';", GetCharacterID());
 		}
 		if (Class == 15)
 		{
 			SetMyClass(ePC_CLASS::PC_CLASS_DENDEN_HEALER);			
 				m_session->LearnMestrySkill(1529991);
+				sql::ResultSet* result = sDB.executes("UPDATE characters SET ClassID = 15 WHERE CharacterID = '%d';", GetCharacterID());
 		}
 		if (Class == 16)
 		{
 			SetMyClass(ePC_CLASS::PC_CLASS_POCO_SUMMONER);			
 				m_session->LearnMestrySkill(1629991);
+				sql::ResultSet* result = sDB.executes("UPDATE characters SET ClassID = 16 WHERE CharacterID = '%d';", GetCharacterID());
 		}
 		if (Class == 17)
 		{
 			SetMyClass(ePC_CLASS::PC_CLASS_ULTI_MA);			
 				m_session->LearnMestrySkill(1729991);
+				sql::ResultSet* result = sDB.executes("UPDATE characters SET ClassID = 17 WHERE CharacterID = '%d';", GetCharacterID());
 		}
 		if (Class == 18)
 		{
 			SetMyClass(ePC_CLASS::PC_CLASS_GRAND_MA);			
 				m_session->LearnMestrySkill(1829991);
+				sql::ResultSet* result = sDB.executes("UPDATE characters SET ClassID = 18 WHERE CharacterID = '%d';", GetCharacterID());
 		}
 		if (Class == 19)
 		{
 			SetMyClass(ePC_CLASS::PC_CLASS_PLAS_MA);			
 				m_session->LearnMestrySkill(1929991);
+				sql::ResultSet* result = sDB.executes("UPDATE characters SET ClassID = 19 WHERE CharacterID = '%d';", GetCharacterID());
 		}
 		if (Class == 20)
 		{
 			SetMyClass(ePC_CLASS::PC_CLASS_KAR_MA);		
 				m_session->LearnMestrySkill(2029991);
+				sql::ResultSet* result = sDB.executes("UPDATE characters SET ClassID = 20 WHERE CharacterID = '%d';", GetCharacterID());
 		}
 
 		SendPacket((char*)&clase, sizeof(sGU_CHAR_CONVERT_CLASS));
