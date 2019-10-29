@@ -20,6 +20,7 @@ class GameSocket;
 class Player;
 enum eCHARSTATE;
 struct sITEM_PROFILE;
+struct sUG_TS_CONFIRM_STEP_REQ;
 class WorldSession
 {
 public:
@@ -138,6 +139,7 @@ public:
 	void			SendQuestAcept(Packet& packet);
 	void			GetQuestInfo(DWORD QuestID, DWORD tcCurId, DWORD tcNextId);
 	void			GetQuestPortalInfo(DWORD QuestID, DWORD tcCurId, DWORD tcNextId);	
+	void			FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req);
 	//RankBatle
 	void			GetPlayerFromRankList();
 	

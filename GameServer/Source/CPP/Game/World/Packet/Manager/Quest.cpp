@@ -433,42 +433,6 @@ void WorldSession::SendQuestAcept(Packet& packet)
 	sUG_TS_CONFIRM_STEP_REQ *req = (sUG_TS_CONFIRM_STEP_REQ*)packet.GetPacketBuffer();
 	sGU_TS_CONFIRM_STEP_RES res;
 
-	// example ts
-	CNtlTSCont * cont = sTSM.FindQuestFromTS(req->tId)->GetGroup(NTL_TS_MAIN_GROUP_ID)->GetChildCont(req->tcCurId);
-	for (int i = 0; i < cont->GetNumOfChildEntity(); i++)
-	{
-		sLog.outDetail("Cont: %s %d, %d", cont->GetChildEntity(i)->GetClassNameW(), cont->GetChildEntity(i)->GetEntityType(), DBO_COND_TYPE_ID_CHECK_LVL);
-		switch (cont->GetChildEntity(i)->GetEntityType())
-		{
-			case DBO_COND_TYPE_ID_CHECK_LVL:
-			{
-				CDboTSCheckLvl * checkLvl = ((CDboTSCheckLvl*)cont->GetChildEntity(i));
-				sLog.outDetail("Quest: minlvl %d maxlvl %d", checkLvl->GetMinLvl(), checkLvl->GetMaxLvl());
-				break;
-			}
-			case DBO_COND_TYPE_ID_CHECK_CLRQST:
-			{
-				CDboTSCheckClrQst * clrQst = ((CDboTSCheckClrQst*)cont->GetChildEntity(i));
-				sLog.outDetail("Quest: not size: %d  and size: %d or size: %d", clrQst->GetNotIdList().size(), clrQst->GetAndIdList().size(), clrQst->GetOrIdList().size());
-				break;
-			}
-			case DBO_EVENT_TYPE_ID_CLICK_NPC:
-			{
-				CDboTSClickNPC * clickNpc = ((CDboTSClickNPC*)cont->GetChildEntity(i));
-				sLog.outDetail("Quest: Npc tblidx %d", clickNpc->GetNPCIdx());
-				break;
-			}
-			case DBO_COND_TYPE_ID_CHECK_PCRACE:
-			{
-				break;
-			}
-			case DBO_COND_TYPE_ID_CHECK_PCCLS:
-			{
-				break;
-			}
-		}
-	}
-
 	if (req)
 	{
 
@@ -497,6 +461,11 @@ void WorldSession::SendQuestAcept(Packet& packet)
 				SendPacket((char*)&start, sizeof(sGU_QUEST_SVREVT_START_NFY));
 				GetQuestInfo(req->tId, req->tcCurId, req->tcNextId);
 			}
+
+			/////////////////////////////////////////////////////////
+			
+			FindQuestInformation(req);
+
 		}
 		if (req->byTsType == TS_TYPE_PC_TRIGGER_CS)
 		{
@@ -565,5 +534,48 @@ void WorldSession::SendQuestAcept(Packet& packet)
 			}
 		}
 		SendPacket((char*)&res, sizeof(sGU_TS_CONFIRM_STEP_RES));
+	}
+}
+
+void WorldSession::FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req)
+{
+	// example ts
+	CNtlTSCont * cont = sTSM.FindQuestFromTS(req->tId)->GetGroup(NTL_TS_MAIN_GROUP_ID)->GetChildCont(req->tcCurId);
+	for (int i = 0; i < cont->GetNumOfChildEntity(); i++)
+	{
+		sLog.outDetail("Cont: %s %d, %d", cont->GetChildEntity(i)->GetClassNameW(), cont->GetChildEntity(i)->GetEntityType(), DBO_COND_TYPE_ID_CHECK_LVL);
+		switch (cont->GetChildEntity(i)->GetEntityType())
+		{
+		case DBO_COND_TYPE_ID_CHECK_LVL:
+		{
+			CDboTSCheckLvl * checkLvl = ((CDboTSCheckLvl*)cont->GetChildEntity(i));
+			sLog.outDetail("Quest: minlvl %d maxlvl %d", checkLvl->GetMinLvl(), checkLvl->GetMaxLvl());
+			break;
+		}
+		case DBO_COND_TYPE_ID_CHECK_CLRQST:
+		{
+			CDboTSCheckClrQst * clrQst = ((CDboTSCheckClrQst*)cont->GetChildEntity(i));
+			sLog.outDetail("Quest: not size: %d  and size: %d or size: %d", clrQst->GetNotIdList().size(), clrQst->GetAndIdList().size(), clrQst->GetOrIdList().size());
+			break;
+		}
+		case DBO_EVENT_TYPE_ID_CLICK_NPC:
+		{
+			CDboTSClickNPC * clickNpc = ((CDboTSClickNPC*)cont->GetChildEntity(i));
+			sLog.outDetail("Quest: Npc tblidx %d", clickNpc->GetNPCIdx());
+			break;
+		}
+		case DBO_COND_TYPE_ID_CHECK_PCRACE:
+		{
+			CDboTSCheckPCRace * pcRace = ((CDboTSCheckPCRace*)cont->GetChildEntity(i));
+			sLog.outDetail("Quest: race flag %d", pcRace->GetRaceFlags());
+			break;
+		}
+		case DBO_COND_TYPE_ID_CHECK_PCCLS:
+		{
+			CDboTSCheckPCCls * pcClass = ((CDboTSCheckPCCls*)cont->GetChildEntity(i));
+			sLog.outDetail("Quest: class flag %d", pcClass->GetClsFlags());
+			break;
+		}
+		}
 	}
 }
