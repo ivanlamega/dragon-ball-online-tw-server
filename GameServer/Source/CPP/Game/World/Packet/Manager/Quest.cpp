@@ -539,43 +539,75 @@ void WorldSession::SendQuestAcept(Packet& packet)
 
 void WorldSession::FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req)
 {
-	// example ts
-	CNtlTSCont * cont = sTSM.FindQuestFromTS(req->tId)->GetGroup(NTL_TS_MAIN_GROUP_ID)->GetChildCont(req->tcCurId);
-	for (int i = 0; i < cont->GetNumOfChildEntity(); i++)
+	// example tss
+	CNtlTSCont * contBase = sTSM.FindQuestFromTS(req->tId)->GetGroup(NTL_TS_MAIN_GROUP_ID)->GetChildCont(req->tcCurId);
+	sLog.outError("type: %d %d", contBase->GetEntityType(), DBO_CONT_TYPE_ID_CONT_START);
+	switch (contBase->GetEntityType())
 	{
-		sLog.outDetail("Cont: %s %d, %d", cont->GetChildEntity(i)->GetClassNameW(), cont->GetChildEntity(i)->GetEntityType(), DBO_COND_TYPE_ID_CHECK_LVL);
-		switch (cont->GetChildEntity(i)->GetEntityType())
+		case DBO_CONT_TYPE_ID_CONT_START:
 		{
-		case DBO_COND_TYPE_ID_CHECK_LVL:
-		{
-			CDboTSCheckLvl * checkLvl = ((CDboTSCheckLvl*)cont->GetChildEntity(i));
-			sLog.outDetail("Quest: minlvl %d maxlvl %d", checkLvl->GetMinLvl(), checkLvl->GetMaxLvl());
-			break;
+			for (int i = 0; i < contBase->GetNumOfChildEntity(); i++)
+			{
+				CDboTSContStart * contStart = ((CDboTSContStart*)contBase);
+				sLog.outDetail("Cont: %s %d", contStart->GetChildEntity(i)->GetClassNameW(), contStart->GetChildEntity(i)->GetEntityType());
+				switch (contStart->GetChildEntity(i)->GetEntityType())
+				{
+					case DBO_COND_TYPE_ID_CHECK_LVL:
+					{
+						CDboTSCheckLvl * checkLvl = ((CDboTSCheckLvl*)contStart->GetChildEntity(i));
+						sLog.outDetail("Quest: minlvl %d maxlvl %d", checkLvl->GetMinLvl(), checkLvl->GetMaxLvl());
+						break;
+					}
+					case DBO_COND_TYPE_ID_CHECK_CLRQST:
+					{
+						CDboTSCheckClrQst * clrQst = ((CDboTSCheckClrQst*)contStart->GetChildEntity(i));
+						sLog.outDetail("Quest: not size: %d  and size: %d or size: %d", clrQst->GetNotIdList().size(), clrQst->GetAndIdList().size(), clrQst->GetOrIdList().size());
+						break;
+					}
+					case DBO_EVENT_TYPE_ID_CLICK_NPC:
+					{
+						CDboTSClickNPC * clickNpc = ((CDboTSClickNPC*)contStart->GetChildEntity(i));
+						sLog.outDetail("Quest: Npc tblidx %d", clickNpc->GetNPCIdx());
+						break;
+					}
+					case DBO_COND_TYPE_ID_CHECK_PCRACE:
+					{
+						CDboTSCheckPCRace * pcRace = ((CDboTSCheckPCRace*)contStart->GetChildEntity(i));
+						sLog.outDetail("Quest: race flag %d", pcRace->GetRaceFlags());
+						break;
+					}
+					case DBO_COND_TYPE_ID_CHECK_PCCLS:
+					{
+						CDboTSCheckPCCls * pcClass = ((CDboTSCheckPCCls*)contStart->GetChildEntity(i));
+						sLog.outDetail("Quest: class flag %d", pcClass->GetClsFlags());
+						break;
+					}
+				}
+			}
 		}
-		case DBO_COND_TYPE_ID_CHECK_CLRQST:
+
+		case DBO_CONT_TYPE_ID_CONT_GACT:
 		{
-			CDboTSCheckClrQst * clrQst = ((CDboTSCheckClrQst*)cont->GetChildEntity(i));
-			sLog.outDetail("Quest: not size: %d  and size: %d or size: %d", clrQst->GetNotIdList().size(), clrQst->GetAndIdList().size(), clrQst->GetOrIdList().size());
-			break;
-		}
-		case DBO_EVENT_TYPE_ID_CLICK_NPC:
-		{
-			CDboTSClickNPC * clickNpc = ((CDboTSClickNPC*)cont->GetChildEntity(i));
-			sLog.outDetail("Quest: Npc tblidx %d", clickNpc->GetNPCIdx());
-			break;
-		}
-		case DBO_COND_TYPE_ID_CHECK_PCRACE:
-		{
-			CDboTSCheckPCRace * pcRace = ((CDboTSCheckPCRace*)cont->GetChildEntity(i));
-			sLog.outDetail("Quest: race flag %d", pcRace->GetRaceFlags());
-			break;
-		}
-		case DBO_COND_TYPE_ID_CHECK_PCCLS:
-		{
-			CDboTSCheckPCCls * pcClass = ((CDboTSCheckPCCls*)cont->GetChildEntity(i));
-			sLog.outDetail("Quest: class flag %d", pcClass->GetClsFlags());
-			break;
-		}
+			CDboTSContGAct * contGAct = ((CDboTSContGAct*)contBase);
+			for (int i = 0; i < contGAct->GetNumOfChildEntity(); i++)
+			{
+				sLog.outDetail("Cont: %s %d, %d", contGAct->GetChildEntity(i)->GetClassNameW(), contGAct->GetChildEntity(i)->GetEntityType(), DBO_COND_TYPE_ID_CHECK_LVL);
+				switch (contGAct->GetChildEntity(i)->GetEntityType())
+				{
+				case DBO_ACT_TYPE_ID_ACT_NPCCONV:
+				{
+					CDboTSActNPCConv * NPCConv = (CDboTSActNPCConv*)contGAct->GetChildEntity(i);
+					sLog.outDetail("Quest: npc tblidx %d", NPCConv->GetNPCIdx());
+					break;
+				}
+				case DBO_ACT_TYPE_ID_ACT_REGQINFO:
+				{
+					CDboTSActRegQInfo * regQInfo = (CDboTSActRegQInfo*)contGAct->GetChildEntity(i);
+					sLog.outDetail("Quest: reward %d world tblidx %d tooltip tblidx %d pos: (%f, %f, %f)", regQInfo->GetReward(), regQInfo->GetQuestMarkInfo(0).uiWorldTblIdx,
+						regQInfo->GetQuestMarkInfo(0).uiTooltipIdx, regQInfo->GetQuestMarkInfo(0).fX, regQInfo->GetQuestMarkInfo(0).fY, regQInfo->GetQuestMarkInfo(0).fZ);
+				}
+				}
+			}
 		}
 	}
 }
