@@ -24,7 +24,7 @@ public:
 
 	// Methods
 public:
-	virtual unsigned int				GetEntityType(void) const { return DBO_ACT_TYPE_ID_ACT_STOCEVT; }
+	virtual unsigned int				GetEntityType(void) const { return DBO_ACT_TYPE_ID_ACT_WPSFD; }
 
 	unsigned int						GetSid(void) const;
 	void								SetSid(unsigned int uiSid);

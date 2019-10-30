@@ -25,7 +25,7 @@ public:
 
 // Methods
 public:
-	virtual unsigned int				GetEntityType(void) const { return DBO_ACT_TYPE_ID_ACT_PORTAL; }
+	virtual unsigned int				GetEntityType(void) const { return DBO_ACT_TYPE_ID_ACT_SKYDGN; }
 
 	unsigned int						GetType(void) const;
 	void								SetType(unsigned int uiType);

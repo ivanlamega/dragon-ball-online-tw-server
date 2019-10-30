@@ -24,7 +24,7 @@ public:
 
 	// Methods
 public:
-	virtual unsigned int				GetEntityType(void) const { return DBO_ACT_TYPE_ID_ACT_NPCCONV; }
+	virtual unsigned int				GetEntityType(void) const { return DBO_ACT_TYPE_ID_ACT_AVATAR_DEAD; }
 
 	unsigned int						GetStart(void) const;
 	void								SetStart(unsigned int uiStart);

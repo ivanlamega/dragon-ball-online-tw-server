@@ -20,7 +20,7 @@ public:
 
 // Methods
 public:
-	virtual unsigned int				GetEntityType(void) const { return DBO_COND_TYPE_ID_CHECK_LVL; }
+	virtual unsigned int				GetEntityType(void) const { return DBO_COND_TYPE_ID_QUEST; }
 
 // Implementations
 protected:

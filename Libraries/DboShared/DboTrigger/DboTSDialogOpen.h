@@ -24,7 +24,7 @@ public:
 
 // Methods
 public:
-	virtual unsigned int				GetEntityType(void) const { return DBO_CONT_TYPE_ID_CONT_PROPOSAL; }
+	virtual unsigned int				GetEntityType(void) const { return DBO_EVENT_TYPE_ID_DIALOG_OPEN; }
 
 	unsigned int						GetDotype(void) const;
 	void								SetDotype(unsigned int uiDotype);

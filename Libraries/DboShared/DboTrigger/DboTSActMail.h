@@ -28,7 +28,7 @@ public:
 
 	// Methods
 public:
-	virtual unsigned int				GetEntityType(void) const { return DBO_ACT_TYPE_ID_ACT_DIR; }
+	virtual unsigned int				GetEntityType(void) const { return DBO_ACT_TYPE_ID_ACT_MAIL; }
 
 	unsigned int						GetZenny(void) const;
 	void								SetZenny(unsigned int uiZenny);

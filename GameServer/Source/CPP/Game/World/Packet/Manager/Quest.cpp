@@ -594,17 +594,41 @@ void WorldSession::FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req)
 				sLog.outDetail("Cont: %s %d, %d", contGAct->GetChildEntity(i)->GetClassNameW(), contGAct->GetChildEntity(i)->GetEntityType(), DBO_COND_TYPE_ID_CHECK_LVL);
 				switch (contGAct->GetChildEntity(i)->GetEntityType())
 				{
-				case DBO_ACT_TYPE_ID_ACT_NPCCONV:
-				{
-					CDboTSActNPCConv * NPCConv = (CDboTSActNPCConv*)contGAct->GetChildEntity(i);
-					sLog.outDetail("Quest: npc tblidx %d", NPCConv->GetNPCIdx());
-					break;
+					case DBO_ACT_TYPE_ID_ACT_NPCCONV:
+					{
+						CDboTSActNPCConv * NPCConv = (CDboTSActNPCConv*)contGAct->GetChildEntity(i);
+						sLog.outDetail("Quest: npc tblidx %d", NPCConv->GetNPCIdx());
+						break;
+					}
+					case DBO_ACT_TYPE_ID_ACT_REGQINFO:
+					{
+						CDboTSActRegQInfo * regQInfo = (CDboTSActRegQInfo*)contGAct->GetChildEntity(i);
+						sLog.outDetail("Quest: reward %d world tblidx %d tooltip tblidx %d pos: (%f, %f, %f)", regQInfo->GetReward(), regQInfo->GetQuestMarkInfo(0).uiWorldTblIdx,
+							regQInfo->GetQuestMarkInfo(0).uiTooltipIdx, regQInfo->GetQuestMarkInfo(0).fX, regQInfo->GetQuestMarkInfo(0).fY, regQInfo->GetQuestMarkInfo(0).fZ);
+					}
+					case DBO_ACT_TYPE_ID_ACT_OUTMSG:
+					{
+						CDboTSActOutMsg * outMsg = (CDboTSActOutMsg*)contGAct->GetChildEntity(i);
+						sLog.outDetail("Quest: message tblidx %d, action id %d", outMsg->GetMsgIdx(), outMsg->GetActionId());
+						break;
+					}
 				}
-				case DBO_ACT_TYPE_ID_ACT_REGQINFO:
+			}
+		}
+
+		case DBO_CONT_TYPE_ID_CONT_GCOND:
+		{
+			CDboTSContGCond * contGCond = ((CDboTSContGCond*)contBase);
+			for (int i = 0; i < contGCond->GetNumOfChildEntity(); i++)
+			{
+				sLog.outDetail("Cont: %s %d, %d", contGCond->GetChildEntity(i)->GetClassNameW(), contGCond->GetChildEntity(i)->GetEntityType(), DBO_EVENT_TYPE_ID_SCOUT_USE);
+				switch (contGCond->GetChildEntity(i)->GetEntityType())
 				{
-					CDboTSActRegQInfo * regQInfo = (CDboTSActRegQInfo*)contGAct->GetChildEntity(i);
-					sLog.outDetail("Quest: reward %d world tblidx %d tooltip tblidx %d pos: (%f, %f, %f)", regQInfo->GetReward(), regQInfo->GetQuestMarkInfo(0).uiWorldTblIdx,
-						regQInfo->GetQuestMarkInfo(0).uiTooltipIdx, regQInfo->GetQuestMarkInfo(0).fX, regQInfo->GetQuestMarkInfo(0).fY, regQInfo->GetQuestMarkInfo(0).fZ);
+				case DBO_EVENT_TYPE_ID_SCOUT_USE:
+				{
+					CDboTSScoutUse * scoutUse = (CDboTSScoutUse*)contGCond->GetChildEntity(i);
+					sLog.outDetail("Quest: item tblidx %d, target tblidx %d, target type %d", scoutUse->GetItemIdx(), scoutUse->GetTargetIdx(), scoutUse->GetTargetType());
+					break;
 				}
 				}
 			}

@@ -22,7 +22,7 @@ public:
 
 	// Methods
 public:
-	virtual unsigned int				GetEntityType(void) const { return DBO_ACT_TYPE_ID_ACT_NPCCONV; }
+	virtual unsigned int				GetEntityType(void) const { return DBO_ACT_TYPE_ID_ACT_OUTMSG; }
 	unsigned int						GetMsgIdx(void) const;
 	void								SetMsgIdx(unsigned int uiMsjIdx);
 
