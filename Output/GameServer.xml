@@ -17,6 +17,9 @@
   
   <!-- Char Server List Configuration -->
   <CharServerList Count="1">
-    <CharServer1 IP="dbotwdev.ddns.net" Port="50300" />
+    <CharServer1 IP="127.0.0.2" Port="50300" />
   </CharServerList>
+  
+  <!-- Community Server Configuration -->
+  <CommunityServer ID="1" ChannelID="1" IP="127.0.0.1" Port="50500" />
 </GameServer>
