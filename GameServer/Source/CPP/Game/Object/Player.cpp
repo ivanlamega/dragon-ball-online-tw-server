@@ -3416,30 +3416,37 @@ void Player::ConvertClass(int Class, HOBJECT Target)
 		if (Class == 0)
 		{
 			SetMyClass(ePC_CLASS::PC_CLASS_HUMAN_FIGHTER);
+			sql::ResultSet* result = sDB.executes("UPDATE characters SET ClassID = 0 WHERE CharacterID = '%d';", GetCharacterID());
 		}
 		if (Class == 1)
 		{
 			SetMyClass(ePC_CLASS::PC_CLASS_HUMAN_MYSTIC);
+			sql::ResultSet* result = sDB.executes("UPDATE characters SET ClassID = 1 WHERE CharacterID = '%d';", GetCharacterID());
 		}
 		if (Class == 2)
 		{
 			SetMyClass(ePC_CLASS::PC_CLASS_HUMAN_ENGINEER);
+			sql::ResultSet* result = sDB.executes("UPDATE characters SET ClassID = 2 WHERE CharacterID = '%d';", GetCharacterID());
 		}
 		if (Class == 3)
 		{
 			SetMyClass(ePC_CLASS::PC_CLASS_NAMEK_FIGHTER);
+			sql::ResultSet* result = sDB.executes("UPDATE characters SET ClassID = 3 WHERE CharacterID = '%d';", GetCharacterID());
 		}
 		if (Class == 4)
 		{
 			SetMyClass(ePC_CLASS::PC_CLASS_NAMEK_MYSTIC);
+			sql::ResultSet* result = sDB.executes("UPDATE characters SET ClassID = 4 WHERE CharacterID = '%d';", GetCharacterID());
 		}
 		if (Class == 5)
 		{
 			SetMyClass(ePC_CLASS::PC_CLASS_MIGHTY_MAJIN);
+			sql::ResultSet* result = sDB.executes("UPDATE characters SET ClassID = 5 WHERE CharacterID = '%d';", GetCharacterID());
 		}
 		if (Class == 6)
 		{
 			SetMyClass(ePC_CLASS::PC_CLASS_WONDER_MAJIN);
+			sql::ResultSet* result = sDB.executes("UPDATE characters SET ClassID = 6 WHERE CharacterID = '%d';", GetCharacterID());
 		}
 		if (Class == 7)
 		{
