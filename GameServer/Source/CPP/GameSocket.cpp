@@ -44,8 +44,8 @@ bool GameSocket::HandleAuthSession(Packet& packet)
 	res.wOpCode = GU_GAME_ENTER_RES;
 	res.wPacketSize = sizeof(sGU_GAME_ENTER_RES) - 2;
 	res.wResultCode = GAME_SUCCESS;
-	strcpy_s(res.achCommunityServerIP, sizeof(res.achCommunityServerIP), sXmlParser.GetStr("CharServerList.CharServer1", "IP").c_str());
-	res.wCommunityServerPort = sXmlParser.GetInt("CharServerList.CharServer1", "Port");
+	strcpy_s(res.achCommunityServerIP, sizeof(res.achCommunityServerIP), sXmlParser.GetStr("CommunityServer", "IP").c_str());
+	res.wCommunityServerPort = sXmlParser.GetInt("CommunityServer", "Port");
 	res.timeDBOEnter = time(NULL);
 
 	if (!(m_session = new WorldSession(req->accountId, this, (AccountTypes)sDB.GetIsGameMaster(req->accountId))))
