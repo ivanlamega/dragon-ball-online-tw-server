@@ -139,7 +139,13 @@ public:
 	void			SendQuestAcept(Packet& packet);
 	void			GetQuestInfo(DWORD QuestID, DWORD tcCurId, DWORD tcNextId);
 	void			GetQuestPortalInfo(DWORD QuestID, DWORD tcCurId, DWORD tcNextId);	
+	// TS Quest
 	void			FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req);
+	void			ProcessTSContStart(CDboTSContStart * contStart);
+	void			ProcessTsContGAct(CDboTSContGAct * contGAct);
+	void			ProcessTsContGCond(CDboTSContGCond * contGCond);
+	void			ProcessTsContReward(CDboTSContReward * contReward);
+	void			ProcessTsContEnd(CDboTSContEnd * contEnd);
 	//RankBatle
 	void			GetPlayerFromRankList();
 	
