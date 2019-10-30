@@ -546,7 +546,7 @@ void WorldSession::FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req)
 		return;
 	}
 
-	sLog.outError("type: %d %d", contBase->GetEntityType(), DBO_CONT_TYPE_ID_CONT_START);
+	sLog.outError("type: %s %d", contBase->GetClassNameW(), contBase->GetEntityType());
 	switch (contBase->GetEntityType())
 	{
 		case DBO_CONT_TYPE_ID_CONT_START:
@@ -615,6 +615,7 @@ void WorldSession::FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req)
 					}
 				}
 			}
+			break;
 		}
 
 		case DBO_CONT_TYPE_ID_CONT_GACT:
@@ -648,6 +649,7 @@ void WorldSession::FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req)
 						}
 						sLog.outDetail("Quest: reward %d world tblidx %d tooltip tblidx %d pos: (%f, %f, %f)", regQInfo->GetReward(), regQInfo->GetQuestMarkInfo(0).uiWorldTblIdx,
 							regQInfo->GetQuestMarkInfo(0).uiTooltipIdx, regQInfo->GetQuestMarkInfo(0).fX, regQInfo->GetQuestMarkInfo(0).fY, regQInfo->GetQuestMarkInfo(0).fZ);
+						break;
 					}
 					case DBO_ACT_TYPE_ID_ACT_OUTMSG:
 					{
@@ -661,6 +663,7 @@ void WorldSession::FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req)
 					}
 				}
 			}
+			break;
 		}
 
 		case DBO_CONT_TYPE_ID_CONT_GCOND:
@@ -675,18 +678,19 @@ void WorldSession::FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req)
 				sLog.outDetail("Cont: %s %d, %d", contGCond->GetChildEntity(i)->GetClassNameW(), contGCond->GetChildEntity(i)->GetEntityType(), DBO_EVENT_TYPE_ID_SCOUT_USE);
 				switch (contGCond->GetChildEntity(i)->GetEntityType())
 				{
-				case DBO_EVENT_TYPE_ID_SCOUT_USE:
-				{
-					CDboTSScoutUse * scoutUse = (CDboTSScoutUse*)contGCond->GetChildEntity(i);
-					if (scoutUse == NULL)
+					case DBO_EVENT_TYPE_ID_SCOUT_USE:
 					{
-						continue;
+						CDboTSScoutUse * scoutUse = (CDboTSScoutUse*)contGCond->GetChildEntity(i);
+						if (scoutUse == NULL)
+						{
+							continue;
+						}
+						sLog.outDetail("Quest: item tblidx %d, target tblidx %d, target type %d", scoutUse->GetItemIdx(), scoutUse->GetTargetIdx(), scoutUse->GetTargetType());
+						break;
 					}
-					sLog.outDetail("Quest: item tblidx %d, target tblidx %d, target type %d", scoutUse->GetItemIdx(), scoutUse->GetTargetIdx(), scoutUse->GetTargetType());
-					break;
-				}
 				}
 			}
+			break;
 		}
 
 		case DBO_CONT_TYPE_ID_CONT_REWARD:
@@ -706,18 +710,19 @@ void WorldSession::FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req)
 				sLog.outDebug("Reward: tblidx %d zenny %d type %d experience %d", contReward->GetRewardTableIndex(), contReward->GetRewardZeny(), contReward->GetRewardContType(), contReward->GetRewardExp());
 				switch (contReward->GetChildEntity(i)->GetEntityType())
 				{
-				case DBO_EVENT_TYPE_ID_CLICK_NPC:
-				{
-					CDboTSClickNPC * clickNpc = (CDboTSClickNPC*)contReward->GetChildEntity(i);
-					if (clickNpc == NULL)
+					case DBO_EVENT_TYPE_ID_CLICK_NPC:
 					{
-						continue;
+						CDboTSClickNPC * clickNpc = (CDboTSClickNPC*)contReward->GetChildEntity(i);
+						if (clickNpc == NULL)
+						{
+							continue;
+						}
+						sLog.outDetail("Quest: npc tblidx %d", clickNpc->GetNPCIdx());
+						break;
 					}
-					sLog.outDetail("Quest: npc tblidx %d", clickNpc->GetNPCIdx());
-					break;
-				}
 				}
 			}
+			break;
 		}
 
 		case DBO_CONT_TYPE_ID_CONT_END:
@@ -731,6 +736,7 @@ void WorldSession::FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req)
 			{
 				sLog.outDetail("Cont: %s %d, %d", contEnd->GetChildEntity(i)->GetClassNameW(), contEnd->GetChildEntity(i)->GetEntityType(), DBO_EVENT_TYPE_ID_CLICK_NPC);
 			}
+			break;
 		}
 	}
 }
