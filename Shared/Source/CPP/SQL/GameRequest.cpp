@@ -169,6 +169,14 @@ void MySQLConnWrapper::AddTitle(CHARACTERID characterID, TBLIDX TitleID)
 	if (result != NULL)
 		delete result;
 }
+
+void MySQLConnWrapper::LearnRecipe(CHARACTERID CharID, TBLIDX RecipeID)
+{
+	sql::ResultSet* result = sDB.executes("INSERT INTO hoipoimix (`CharID`,  `RecipeID`) VALUES('%d','%d');",
+		CharID, RecipeID);
+	if (result != NULL)
+		delete result;
+}
 void MySQLConnWrapper::SaveQuickTeleport(CHARACTERID characterID, BYTE TeleportID, DWORD WorldID, float Loc_x, float Loc_y, float Loc_z, WORD Year, BYTE Moch, BYTE Day, BYTE Hour, BYTE Minute, BYTE Secound, DWORD MapTBLIDX)
 {
 	sql::ResultSet* result = sDB.executes("INSERT INTO QuickTeleporter (`CharacterID`, `TeleportID`, `WorldID`, `Loc_x`, `Loc_y`, `Loc_z`, `Year`, `Moch`, `Day`, `Hour`, `Minute`, `Secound`, `MapTblidx` ) VALUES('%d','%d','%d','%f','%f','%f','%d','%d','%d','%d','%d','%d','%d');",
