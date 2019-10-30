@@ -38,7 +38,7 @@ bool CDboTSMain::Create( void )
 		Delete();
 		return false;
 	}
-	printf("Cargando factories");
+
 	// factory
 	if ( !LoadFactories() )
 	{
@@ -47,7 +47,7 @@ bool CDboTSMain::Create( void )
 		Delete();
 		return false;
 	}
-	printf("Cargando scripts");
+
 	// loading scripts
 	if ( !LoadScripts() )
 	{
@@ -55,7 +55,7 @@ bool CDboTSMain::Create( void )
 		Delete();
 		return false;
 	}
-	printf("Cargando evtmappers");
+
 	// loading event mapper
 	if ( !LoadEventMappers() )
 	{
@@ -63,7 +63,7 @@ bool CDboTSMain::Create( void )
 		Delete();
 		return false;
 	}
-	printf("Cargando loadrecv");
+
 	// loading receiver
 	if ( !LoadRecv() )
 	{

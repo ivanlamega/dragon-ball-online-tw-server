@@ -64,8 +64,6 @@ bool CQuestWrapper::Create(void)
 	m_pclTriggerZip = new CNtlUnzip;
 	m_pclObjectZip = new CNtlUnzip;
 
-	printf("cargando ts");
-
 	bool bRet = CDboTSMain::Create();
 
 	if (bRet)
