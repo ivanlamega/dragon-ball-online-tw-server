@@ -12,6 +12,8 @@
 #include <Packet\Game\PacketUG.h>
 #include <Packet\Game\PacketGU.h>
 
+#include <XmlParser2/XmlParser2.h>
+
 GameSocket::GameSocket(boost::asio::io_service &service, std::function<void(Socket *)> closeHandler)
 	: Socket(service, closeHandler), m_session(nullptr)
 {
@@ -42,8 +44,8 @@ bool GameSocket::HandleAuthSession(Packet& packet)
 	res.wOpCode = GU_GAME_ENTER_RES;
 	res.wPacketSize = sizeof(sGU_GAME_ENTER_RES) - 2;
 	res.wResultCode = GAME_SUCCESS;
-	strcpy_s(res.achCommunityServerIP, sizeof(res.achCommunityServerIP), "dbotwdev.ddns.net");
-	res.wCommunityServerPort = 50500;
+	strcpy_s(res.achCommunityServerIP, sizeof(res.achCommunityServerIP), sXmlParser.GetStr("CharServerList.CharServer1", "IP").c_str());
+	res.wCommunityServerPort = sXmlParser.GetInt("CharServerList.CharServer1", "Port");
 	res.timeDBOEnter = time(NULL);
 
 	if (!(m_session = new WorldSession(req->accountId, this, (AccountTypes)sDB.GetIsGameMaster(req->accountId))))
