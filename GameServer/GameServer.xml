@@ -19,4 +19,7 @@
   <CharServerList Count="1">
     <CharServer1 IP="88.190.215.114" Port="50300" />
   </CharServerList>
+  
+    <!-- Community Server Configuration -->
+  <CommunityServer ID="1" ChannelID="1" IP="127.0.0.1" Port="50500" />
 </GameServer>
