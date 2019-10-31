@@ -15,12 +15,22 @@ enum AccountTypes
 	PLAYER = 0,
 	GAME_MASTER
 };
+
+
 class Packet;
 class GameSocket;
 class Player;
 enum eCHARSTATE;
 struct sITEM_PROFILE;
 struct sUG_TS_CONFIRM_STEP_REQ;
+class sUG_TS_CONFIRM_STEP_REQ;
+class CDboTSContStart;
+class CDboTSContGAct;
+class CDboTSContGCond;
+class CDboTSContReward;
+class CDboTSContEnd;
+
+
 class WorldSession
 {
 public:
