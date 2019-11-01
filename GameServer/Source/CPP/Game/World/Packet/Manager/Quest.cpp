@@ -450,21 +450,21 @@ void WorldSession::SendQuestAcept(Packet& packet)
 
 		if (req->byTsType == TS_TYPE_QUEST_CS)
 		{		
+			FindQuestInformation(req);
+
 			if (req->tcCurId == 2)
 			{
-				sGU_QUEST_SVREVT_START_NFY start;
+				/*sGU_QUEST_SVREVT_START_NFY start;
 				start.wOpCode = GU_QUEST_SVREVT_START_NFY;
 				start.wPacketSize = sizeof(sGU_QUEST_SVREVT_START_NFY) - 2;
 				start.tId = req->tId;
 				start.tcId = req->tcCurId;
 				start.taId = req->tcNextId;				
-				SendPacket((char*)&start, sizeof(sGU_QUEST_SVREVT_START_NFY));
+				SendPacket((char*)&start, sizeof(sGU_QUEST_SVREVT_START_NFY));*/
 				GetQuestInfo(req->tId, req->tcCurId, req->tcNextId);
 			}
 
 			/////////////////////////////////////////////////////////
-			
-			FindQuestInformation(req);
 
 		}
 		if (req->byTsType == TS_TYPE_PC_TRIGGER_CS)
@@ -718,6 +718,7 @@ void WorldSession::FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req)
 		{
 			CDboTSContGAct * contGAct = ((CDboTSContGAct*)contBase);
 			ProcessTsContGAct(contGAct);
+			SendQuestSVRevtStartNotify(req->tId, req->tcCurId, req->tcNextId);
 			break;
 		}
 
@@ -725,6 +726,7 @@ void WorldSession::FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req)
 		{
 			CDboTSContGCond * contGCond = ((CDboTSContGCond*)contBase);
 			ProcessTsContGCond(contGCond);
+			sLog.outDebug("Check if the quest is completed correctly");
 			break;
 		}
 
@@ -742,4 +744,15 @@ void WorldSession::FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req)
 			break;
 		}
 	}
+}
+
+void WorldSession::SendQuestSVRevtStartNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, NTL_TS_TA_ID taId)
+{
+	sGU_QUEST_SVREVT_START_NFY start;
+	start.wOpCode = GU_QUEST_SVREVT_START_NFY;
+	start.wPacketSize = sizeof(sGU_QUEST_SVREVT_START_NFY) - 2;
+	start.tId = tid;
+	start.tcId = tcId;
+	start.taId = taId;
+	SendPacket((char*)&start, sizeof(sGU_QUEST_SVREVT_START_NFY));
 }

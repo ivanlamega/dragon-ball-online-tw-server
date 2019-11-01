@@ -10,6 +10,8 @@
 #include <mutex>
 #include <memory>
 
+#include "NtlTSCoreDefine.h" //quitar
+
 enum AccountTypes
 {
 	PLAYER = 0,
@@ -17,13 +19,15 @@ enum AccountTypes
 };
 
 
+
+enum eCHARSTATE;
+
+struct sITEM_PROFILE;
+struct sUG_TS_CONFIRM_STEP_REQ;
+
 class Packet;
 class GameSocket;
 class Player;
-enum eCHARSTATE;
-struct sITEM_PROFILE;
-struct sUG_TS_CONFIRM_STEP_REQ;
-class sUG_TS_CONFIRM_STEP_REQ;
 class CDboTSContStart;
 class CDboTSContGAct;
 class CDboTSContGCond;
@@ -156,6 +160,7 @@ public:
 	void			ProcessTsContGCond(CDboTSContGCond * contGCond);
 	void			ProcessTsContReward(CDboTSContReward * contReward);
 	void			ProcessTsContEnd(CDboTSContEnd * contEnd);
+	void			SendQuestSVRevtStartNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, NTL_TS_TA_ID taId);
 	//RankBatle
 	void			GetPlayerFromRankList();
 	
