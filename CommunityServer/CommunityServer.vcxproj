@@ -183,6 +183,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ChatManager.cpp" />
+    <ClCompile Include="FriendsManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Source\CPP\CommunityServer.cpp" />
     <ClCompile Include="Source\CPP\CommunitySocket.cpp" />

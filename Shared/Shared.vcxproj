@@ -212,6 +212,7 @@
     <ClInclude Include="Source\Library\SQLLibrary\mysqlconn_wrapper.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ChatRequest.cpp" />
     <ClCompile Include="Source\CPP\Encryptation.cpp" />
     <ClCompile Include="Source\CPP\Logger.cpp" />
     <ClCompile Include="Source\CPP\ObjectLifeTime.cpp" />

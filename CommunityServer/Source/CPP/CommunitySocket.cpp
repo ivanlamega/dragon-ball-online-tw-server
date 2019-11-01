@@ -70,6 +70,7 @@ bool CommunitySocket::HandleAuthSession(Packet& packet)
 		sLog.outError("Player create failed !.");
 		return false;
 	}	
+	m_session->SendFriendListInfomation();
 	sCommunity.AddSession_(m_session);
 	return true;
 }

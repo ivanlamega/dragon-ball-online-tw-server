@@ -757,12 +757,13 @@ void WorldSession::SendQuestSVRevtStartNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId
 	SendPacket((char*)&start, sizeof(sGU_QUEST_SVREVT_START_NFY));
 }
 
-void WorldSession::SendQuestCompleteInfo()
-{
-	sGU_AVATAR_QUEST_COMPLETE_INFO info;
-	info.wOpCode = GU_AVATAR_QUEST_COMPLETE_INFO;
-	info.wPacketSize = sizeof(sGU_AVATAR_QUEST_COMPLETE_INFO);
-	info.completeInfo.abyQCInfo[0] = 2;
+//void WorldSession::SendQuestCompleteInfo()
+//{
+//	sGU_AVATAR_QUEST_COMPLETE_INFO info;
+//info.wOpCode = GU_AVATAR_QUEST_COMPLETE_INFO;
+//info.wPacketSize = sizeof(sGU_AVATAR_QUEST_COMPLETE_INFO);
+//	info.completeInfo.abyQCInfo[0] = 2;
 
-	SendPacket((char*)&info, sizeof sGU_AVATAR_QUEST_COMPLETE_INFO);
-}
+//	SendPacket((char*)&info, sizeof sGU_AVATAR_QUEST_COMPLETE_INFO);
+//	memset(&info, 0, sizeof GU_AVATAR_QUEST_COMPLETE_INFO);*/
+//}

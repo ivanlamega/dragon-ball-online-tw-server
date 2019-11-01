@@ -87,6 +87,20 @@ public:
 	void SaveTitleMarket(int TitleMarket, CHARACTERID charid);
 	void SavePlayerWagguCoin(int WagguPoint, CHARACTERID charid);
 	void SavePlayerCashPoit(int Cash, CHARACTERID charid);
+	//Friend
+	/** Convert from wchar to char */
+	inline void wcharToChar(const wchar_t * src, char *dst, const unsigned int & srcSize) {
+
+
+		//wcstombs(dst, src, srcSize);
+
+		size_t   charsConverted;
+		wcstombs_s(&charsConverted, dst, (float)(srcSize / sizeof(wchar_t)), src, srcSize);
+	}
+
+	unsigned int GetFriendIdByName(std::string charName);
+	void AddFriendToList(CHARACTERID ownerId, CHARACTERID friendId);
+	BYTE GetFriendList(CHARACTERID charID, sFRIEND_FULL_INFO * friends);
 private:
 	string host;
 	string user;

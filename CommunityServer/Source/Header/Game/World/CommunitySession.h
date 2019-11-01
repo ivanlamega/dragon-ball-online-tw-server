@@ -53,6 +53,13 @@ public:
 	void SendHlsSlotMachineExtract(Packet packet);
 	void SendHlsSlotMachineWinnerInfo(Packet packet);
 
+	/*     Friend Manager    */
+	void SendFriendAdd(Packet packet);
+	void SendFriendDelete(Packet packet);
+	void SendFriendMove(Packet packet);
+	void SendFriendBlackAdd(Packet packet);
+	void SendFriendBlackDelete(Packet packet);
+	void SendFriendListInfomation();
 private:
 	CommunitySocket * const m_Socket;                       // socket pointer is owned by the network thread which created 
 	AccountTypes	_security;

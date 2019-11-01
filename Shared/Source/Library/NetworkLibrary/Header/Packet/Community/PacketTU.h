@@ -244,17 +244,19 @@ END_PROTOCOL()
 BEGIN_PROTOCOL(TU_FRIEND_DEL_RES)
 	WORD						wResultCode;
 	CHARACTERID					targetID;
+	WCHAR						wchName[MAX_SIZE_CHAR_NAME_UNICODE + 1];
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(TU_FRIEND_MOVE_RES)
 	WORD						wResultCode;
 	CHARACTERID					targetID;
+	WCHAR						wchName[MAX_SIZE_CHAR_NAME_UNICODE + 1];
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(TU_FRIEND_LIST_INFO)
 	BYTE						byCount;
 	sFRIEND_FULL_INFO			asInfo[MAX_COUNT_FRIEND + MAX_COUNT_FRIEND];
-	sFRIEND_INFO				sInfo[MAX_COUNT_FRIEND + MAX_COUNT_FRIEND];
+	//sFRIEND_INFO				sInfo[MAX_COUNT_FRIEND + MAX_COUNT_FRIEND];
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(TU_FRIEND_BLACK_ADD_RES)
@@ -266,6 +268,7 @@ END_PROTOCOL()
 BEGIN_PROTOCOL(TU_FRIEND_BLACK_DEL_RES)
 	WORD						wResultCode;
 	CHARACTERID					targetID;
+	WCHAR						wchName[MAX_SIZE_CHAR_NAME_UNICODE + 1];
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(TU_FRIEND_INFO)
