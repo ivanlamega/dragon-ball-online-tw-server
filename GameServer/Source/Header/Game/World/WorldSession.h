@@ -153,6 +153,7 @@ public:
 	void			SendQuestAcept(Packet& packet);
 	void			GetQuestInfo(DWORD QuestID, DWORD tcCurId, DWORD tcNextId);
 	void			GetQuestPortalInfo(DWORD QuestID, DWORD tcCurId, DWORD tcNextId);	
+	void			SendQuestCompleteInfo();
 	// TS Quest
 	void			FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req);
 	void			ProcessTSContStart(CDboTSContStart * contStart);
