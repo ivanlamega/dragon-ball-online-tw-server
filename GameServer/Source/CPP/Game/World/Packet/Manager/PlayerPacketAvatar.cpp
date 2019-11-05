@@ -435,11 +435,12 @@ void WorldSession::SendNetMarbleMemberShipNfy()
 void WorldSession::SendWorldEnter()
 {
 	sGU_AVATAR_WORLD_INFO res;
+	memset(&res, 0, sizeof sGU_AVATAR_WORLD_INFO);
 
-	res.byDojoCount = 7;
+	res.byDojoCount = 0;
 	res.wOpCode = GU_AVATAR_WORLD_INFO;
 	res.wPacketSize = sizeof(sGU_AVATAR_WORLD_INFO) - 2;
-	for (int n = 0; n < DBO_MAX_COUNT_DOJO_IN_WORLD; n++)
+	/*for (int n = 0; n < DBO_MAX_COUNT_DOJO_IN_WORLD; n++)
 	{
 		res.sDojoData[n].guildId = 0xffffffff;
 		res.sDojoData[n].dojoTblidx = 0xffffffff;
@@ -449,7 +450,7 @@ void WorldSession::SendWorldEnter()
 		res.sDojoData[n].sMark.byMarkMainColor = 1;
 		res.sDojoData[n].sMark.byMarkOutColor = 1;
 		res.sDojoData[n].sMark.byMarkOutLine = 1;		
-	}
+	}*/
 	sql::ResultSet* result = sDB.executes("SELECT * FROM characters WHERE CharacterID = '%d';", _player->GetCharacterID());
 	if (result == NULL)
 		return;

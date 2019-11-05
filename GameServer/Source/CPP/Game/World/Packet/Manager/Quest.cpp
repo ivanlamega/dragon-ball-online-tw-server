@@ -766,4 +766,4 @@ void WorldSession::SendQuestSVRevtStartNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId
 	info.completeInfo.abyQCInfo[0] = 0;
 
     SendPacket((char*)&info, sizeof sGU_AVATAR_QUEST_COMPLETE_INFO);
-	}
+}
