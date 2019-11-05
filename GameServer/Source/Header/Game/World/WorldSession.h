@@ -21,6 +21,7 @@ enum AccountTypes
 
 
 enum eCHARSTATE;
+enum ResultCodes;
 
 struct sITEM_PROFILE;
 struct sUG_TS_CONFIRM_STEP_REQ;
@@ -155,10 +156,10 @@ public:
 	void			GetQuestPortalInfo(DWORD QuestID, DWORD tcCurId, DWORD tcNextId);	
 	void			SendQuestCompleteInfo();
 	// TS Quest
-	void			FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req);
-	void			ProcessTSContStart(CDboTSContStart * contStart);
+	ResultCodes		FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req);
+	ResultCodes		ProcessTSContStart(CDboTSContStart * contStart);
 	void			ProcessTsContGAct(CDboTSContGAct * contGAct);
-	void			ProcessTsContGCond(CDboTSContGCond * contGCond);
+	ResultCodes		ProcessTsContGCond(CDboTSContGCond * contGCond);
 	void			ProcessTsContReward(CDboTSContReward * contReward);
 	void			ProcessTsContEnd(CDboTSContEnd * contEnd);
 	void			SendQuestSVRevtStartNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, NTL_TS_TA_ID taId);

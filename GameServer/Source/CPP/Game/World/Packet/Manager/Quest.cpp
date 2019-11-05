@@ -4,6 +4,9 @@
 #include <Packet\Community\PacketUT.h>
 #include <Packet\Community\PacketTU.h>
 #include <Game\Object\Player.h>
+#include <Game\Object\Npc.h>
+#include <Game\Object\Mob.h>
+#include <Game\Object\Object.h>
 #include <Game\Maps\MapManager.h>
 #include <mysqlconn_wrapper.h>
 #include <Logger.h>
@@ -461,6 +464,7 @@ void WorldSession::SendQuestAcept(Packet& packet)
 				start.tcId = req->tcCurId;
 				start.taId = req->tcNextId;				
 				SendPacket((char*)&start, sizeof(sGU_QUEST_SVREVT_START_NFY));*/
+				SendQuestSVRevtStartNotify(req->tId, req->tcCurId, req->tcNextId);
 				GetQuestInfo(req->tId, req->tcCurId, req->tcNextId);
 			}
 
@@ -537,7 +541,7 @@ void WorldSession::SendQuestAcept(Packet& packet)
 	}
 }
 
-void WorldSession::ProcessTSContStart(CDboTSContStart * contStart)
+ResultCodes WorldSession::ProcessTSContStart(CDboTSContStart * contStart)
 {
 	for (int i = 0; i < contStart->GetNumOfChildEntity(); i++)
 	{
@@ -549,9 +553,14 @@ void WorldSession::ProcessTSContStart(CDboTSContStart * contStart)
 				CDboTSCheckLvl * checkLvl = ((CDboTSCheckLvl*)contStart->GetChildEntity(i));
 				if (checkLvl == NULL)
 				{
+					return RESULT_FAIL;
+				}
+				
+				if (_player->GetPcProfile()->byLevel >= checkLvl->GetMinLvl() && _player->GetPcProfile()->byLevel <= checkLvl->GetMaxLvl())
+				{
+					sLog.outDetail("Quest: minlvl %d maxlvl %d player lvl: %d", checkLvl->GetMinLvl(), checkLvl->GetMaxLvl(), _player->GetPcProfile()->byLevel);
 					continue;
 				}
-				sLog.outDetail("Quest: minlvl %d maxlvl %d", checkLvl->GetMinLvl(), checkLvl->GetMaxLvl());
 				break;
 			}
 			case DBO_COND_TYPE_ID_CHECK_CLRQST:
@@ -559,7 +568,7 @@ void WorldSession::ProcessTSContStart(CDboTSContStart * contStart)
 				CDboTSCheckClrQst * clrQst = ((CDboTSCheckClrQst*)contStart->GetChildEntity(i));
 				if (clrQst == NULL)
 				{
-					continue;
+					return RESULT_FAIL;
 				}
 				sLog.outDetail("Quest: not size: %d  and size: %d or size: %d", clrQst->GetNotIdList().size(), clrQst->GetAndIdList().size(), clrQst->GetOrIdList().size());
 				break;
@@ -569,7 +578,7 @@ void WorldSession::ProcessTSContStart(CDboTSContStart * contStart)
 				CDboTSClickNPC * clickNpc = ((CDboTSClickNPC*)contStart->GetChildEntity(i));
 				if (clickNpc == NULL)
 				{
-					continue;
+					return RESULT_FAIL;
 				}
 				sLog.outDetail("Quest: Npc tblidx %d", clickNpc->GetNPCIdx());
 				break;
@@ -579,9 +588,14 @@ void WorldSession::ProcessTSContStart(CDboTSContStart * contStart)
 				CDboTSCheckPCRace * pcRace = ((CDboTSCheckPCRace*)contStart->GetChildEntity(i));
 				if (pcRace == NULL)
 				{
+					return RESULT_FAIL;
+				}
+				unsigned int uiRace = _player->GetAttributesManager()->PlayerRaceID;
+				if (pcRace->GetRaceFlags() & (1 << uiRace))
+				{
+					sLog.outDetail("Quest: race flag %d uirace: %d player race: %d", pcRace->GetRaceFlags(), 1 << uiRace, uiRace);
 					continue;
 				}
-				sLog.outDetail("Quest: race flag %d", pcRace->GetRaceFlags());
 				break;
 			}
 			case DBO_COND_TYPE_ID_CHECK_PCCLS:
@@ -589,13 +603,19 @@ void WorldSession::ProcessTSContStart(CDboTSContStart * contStart)
 				CDboTSCheckPCCls * pcClass = ((CDboTSCheckPCCls*)contStart->GetChildEntity(i));
 				if (pcClass == NULL)
 				{
+					return RESULT_FAIL;
+				}
+				unsigned int uiCls = _player->GetAttributesManager()->PlayerClassID;
+				if (pcClass->GetClsFlags() & (1 << uiCls))
+				{
+					sLog.outDetail("Quest: class flag %d uiclass: %d class player: %d", pcClass->GetClsFlags(), 1 << uiCls, uiCls);
 					continue;
 				}
-				sLog.outDetail("Quest: class flag %d", pcClass->GetClsFlags());
 				break;
 			}
 		}
 	}
+	return RESULT_SUCCESS;
 }
 
 void WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct)
@@ -640,7 +660,7 @@ void WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct)
 	}
 }
 
-void WorldSession::ProcessTsContGCond(CDboTSContGCond * contGCond)
+ResultCodes WorldSession::ProcessTsContGCond(CDboTSContGCond * contGCond)
 {
 	for (int i = 0; i < contGCond->GetNumOfChildEntity(); i++)
 	{
@@ -652,13 +672,29 @@ void WorldSession::ProcessTsContGCond(CDboTSContGCond * contGCond)
 				CDboTSScoutUse * scoutUse = (CDboTSScoutUse*)contGCond->GetChildEntity(i);
 				if (scoutUse == NULL)
 				{
+					return RESULT_FAIL;
+				}
+
+				Npc* NpcInfo = static_cast<Npc*>(_player->GetFromList(_player->GetTarget()));
+				if (NpcInfo == NULL)
+				{
+					sLog.outError("NPC NOT FOUND");
+					return RESULT_FAIL;
+				}
+
+				if (NpcInfo->GetNpcData().MonsterID == scoutUse->GetTargetIdx())
+				{ 
+					sLog.outError("NPC IS THE TARGET");
+					sLog.outDetail("Quest: item tblidx %d, target tblidx %d, target type %d, npc tblidx %d",
+						scoutUse->GetItemIdx(), scoutUse->GetTargetIdx(), scoutUse->GetTargetType(), NpcInfo->GetNpcData().MonsterID);
 					continue;
 				}
-				sLog.outDetail("Quest: item tblidx %d, target tblidx %d, target type %d", scoutUse->GetItemIdx(), scoutUse->GetTargetIdx(), scoutUse->GetTargetType());
 				break;
 			}
 		}
 	}
+
+	return RESULT_SUCCESS;
 }
 
 void WorldSession::ProcessTsContReward(CDboTSContReward * contReward)
@@ -695,13 +731,13 @@ void WorldSession::ProcessTsContEnd(CDboTSContEnd * contEnd)
 	}
 }
 
-void WorldSession::FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req)
+ResultCodes WorldSession::FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req)
 {
 	// example tss
 	CNtlTSCont * contBase = sTSM.FindQuestFromTS(req->tId)->GetGroup(NTL_TS_MAIN_GROUP_ID)->GetChildCont(req->tcCurId);
 	if (contBase == NULL)
 	{
-		return;
+		return RESULT_FAIL;
 	}
 
 	sLog.outError("type: %s %d", contBase->GetClassNameW(), contBase->GetEntityType());
@@ -725,8 +761,12 @@ void WorldSession::FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req)
 		case DBO_CONT_TYPE_ID_CONT_GCOND:
 		{
 			CDboTSContGCond * contGCond = ((CDboTSContGCond*)contBase);
-			ProcessTsContGCond(contGCond);
 			sLog.outDebug("Check if the quest is completed correctly");
+			if (ProcessTsContGCond(contGCond) == RESULT_FAIL)
+			{
+				return RESULT_FAIL;
+			}
+			sLog.outDebug("Quest complete correctly");
 			break;
 		}
 
