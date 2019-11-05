@@ -758,6 +758,12 @@ ResultCodes WorldSession::FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req)
 			break;
 		}
 
+		case DBO_CONT_TYPE_ID_CONT_PROPOSAL:
+		{
+			CDboTSContProposal* contProposal = ((CDboTSContProposal*)contBase);
+			break;
+		}
+
 		case DBO_CONT_TYPE_ID_CONT_GCOND:
 		{
 			CDboTSContGCond * contGCond = ((CDboTSContGCond*)contBase);
