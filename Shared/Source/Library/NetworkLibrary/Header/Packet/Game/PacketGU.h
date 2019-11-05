@@ -3317,6 +3317,7 @@ DWORD		DoggiEffectValue1;
 BYTE        DogiballPlace;
 BYTE        DoggiballPos;
 BYTE        DoggiballCount;
+
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(GU_ITEM_SOCKET_DESTROY_BEAD_RES)//100%

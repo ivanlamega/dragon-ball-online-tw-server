@@ -521,6 +521,7 @@ void Player::ItemSoketInsert(Packet pPacket)
 	sITEM_PROFILE *DoggiBall = NULL;
 	sITEM_TBLDAT *ItemTbl = NULL;
 	sITEM_TBLDAT *DoggiballTbl = NULL;
+	sFORMULA_TBLDAT *EnchantTable = NULL;
 	Item = this->inventoryManager.GetItemAtPlaceAndPost(req->itemPlace, req->itemPos);
 	DoggiBall = this->inventoryManager.GetItemAtPlaceAndPost(req->DogiBallplace, req->DogiBallPos);
 	if (Item != NULL && DoggiBall != NULL)
@@ -537,12 +538,13 @@ void Player::ItemSoketInsert(Packet pPacket)
 		}
 		if (ItemTbl != NULL && DoggiballTbl != NULL)
 		{
+			SetStatsByEquip(ItemTbl->eItemType);
 			sGU_ITEM_SOCKET_INSERT_BEAD_RES DoggiBallEffect;
-			memset(&DoggiBallEffect, 0, sizeof(sGU_ITEM_SOCKET_INSERT_BEAD_RES));
-
+			memset(&DoggiBallEffect, INVALID_TBLIDX, sizeof(sGU_ITEM_SOCKET_INSERT_BEAD_RES));
 			DoggiBallEffect.wOpCode = GU_ITEM_SOCKET_INSERT_BEAD_RES;
 			DoggiBallEffect.wPacketSize = sizeof(sGU_ITEM_SOCKET_INSERT_BEAD_RES) - 2;
 			DoggiBallEffect.wResultCode = GAME_SUCCESS;
+
 			DoggiBallEffect.ItemPlace = Item->byPlace;
 			DoggiBallEffect.ItemPos = Item->byPos;
 			DoggiBallEffect.BallID = 120;
@@ -550,6 +552,33 @@ void Player::ItemSoketInsert(Packet pPacket)
 			DoggiBallEffect.DoggiballPos = DoggiBall->byPos;
 			DoggiBallEffect.DoggiballCount = DoggiBall->byStackcount - 1;
 			DoggiBall->byStackcount = DoggiBallEffect.DoggiballCount;
+			
+			int StatsCounts = 1 + rand() % 5;
+			
+			for (int i = 0; i <= StatsCounts; i++)
+			{
+				int randommstats = rand() % GetAttributesManager()->countstats;
+				if (GetAttributesManager()->Stats[randommstats] != 0 && GetAttributesManager()->Stats[randommstats] != INVALID_TBLIDX)
+				{
+					EnchantTable = (sFORMULA_TBLDAT*)sTBM.GetFormulaTable()->FindData(GetAttributesManager()->Stats[randommstats]);
+					if (EnchantTable != NULL)
+					{
+						float randStats = 1 + rand() % static_cast<int>(Dbo_GetItemsStatsPoints(ItemTbl->eRank, ItemTbl->byNeedLevel) / EnchantTable->wEnchantValue) + 1;
+						DoggiBallEffect.DoggiEffectType = GetAttributesManager()->Stats[randommstats];
+						DoggiBallEffect.DoggiEffectValue = randStats;//
+						GetAttributesManager()->Stats[randommstats] = INVALID_TBLIDX;
+						
+					}
+				}
+			}
+			
+			for (int i = 0; i <= 2; i++)
+			
+			DoggiBallEffect.DoggiEffectValue1 = INVALID_TBLIDX;
+			DoggiBallEffect.DoggiEffectType1 = INVALID_TBLIDX;			
+			DoggiBallEffect.DoggiEffectType = DoggiBallEffect.DoggiEffectType;
+			DoggiBallEffect.DoggiEffectValue = DoggiBallEffect.DoggiEffectValue;
+			
 
 			if (DoggiBall->byStackcount <= 0)
 			{
@@ -577,16 +606,8 @@ void Player::ItemSoketInsert(Packet pPacket)
 				DoggiBall->byStackcount = StackUpdate.byStack;
 				SendPacket((char*)&StackUpdate, sizeof(sGU_ITEM_STACK_UPDATE));
 			}
-			//not used
-			for (int i = 0; i <= 16; i++)
-			{
-				DoggiBallEffect.unk[i] = 0;
-			}
-			//Define Effects 
-			DoggiBallEffect.DoggiEffectType = 2001 + rand() % 50;
-			DoggiBallEffect.DoggiEffectValue = 1 + rand() % 12;
-			DoggiBallEffect.DoggiEffectType1 = 2001 + rand() % 50;
-			DoggiBallEffect.DoggiEffectValue1 = 1 + rand() % 12;
+			
+			
 
 			SendPacket((char*)&DoggiBallEffect, sizeof(sGU_ITEM_SOCKET_INSERT_BEAD_RES));
 		}
@@ -878,7 +899,46 @@ void Player::SetStatsByEquip(BYTE ItemType)
 		GetAttributesManager()->Stats[4] = eSTATSATRIBUTES::Bleed_def_rate;
 		GetAttributesManager()->Stats[5] = eSTATSATRIBUTES::Poison_def_rate;
 		GetAttributesManager()->Stats[6] = eSTATSATRIBUTES::Burn_Def_Rate;
-		GetAttributesManager()->countstats = 7;
+		GetAttributesManager()->Stats[7] = eSTATSATRIBUTES::Movement_Speed_Increase;
+		GetAttributesManager()->countstats = 8;
+	}
+	if (ItemType == eITEM_TYPE::ITEM_TYPE_COSTUME)
+	{
+		GetAttributesManager()->Stats[0] = eSTATSATRIBUTES::CON_Incress;
+		GetAttributesManager()->Stats[1] = eSTATSATRIBUTES::Recover_LP_percent_when_receiving_damage;
+		GetAttributesManager()->Stats[2] = eSTATSATRIBUTES::Movement_Speed_Increase;
+		GetAttributesManager()->countstats = 3;
+	}
+	if (ItemType == eITEM_TYPE::ITEM_TYPE_HAIR)
+	{
+		GetAttributesManager()->Stats[0] = eSTATSATRIBUTES::Phy_Critical_Damage_Percent;
+		GetAttributesManager()->Stats[1] = eSTATSATRIBUTES::Soul_Incress;
+		GetAttributesManager()->Stats[2] = eSTATSATRIBUTES::Attack_Speed_Increase;
+		GetAttributesManager()->countstats = 3;
+	}
+	if (ItemType == eITEM_TYPE::ITEM_TYPE_ACCESSORY1)
+	{
+		GetAttributesManager()->Stats[0] = eSTATSATRIBUTES::Focus_Incress;
+		GetAttributesManager()->Stats[1] = eSTATSATRIBUTES::Skill_Cooldown_Time_Decrease;
+		GetAttributesManager()->Stats[2] = eSTATSATRIBUTES::Attack_Speed_Increase;
+		GetAttributesManager()->Stats[3] = eSTATSATRIBUTES::Hit_Rate_Increase;
+		GetAttributesManager()->countstats = 4;
+	}
+	if (ItemType == eITEM_TYPE::ITEM_TYPE_ACCESSORY2)
+	{
+		GetAttributesManager()->Stats[0] = eSTATSATRIBUTES::Physical_Crit_Rate_Increase;
+		GetAttributesManager()->Stats[1] = eSTATSATRIBUTES::Dex_Incress;
+		GetAttributesManager()->Stats[2] = eSTATSATRIBUTES::Hit_Rate_Increase;
+		GetAttributesManager()->Stats[3] = eSTATSATRIBUTES::Energy_Crit_Rate_Increase;
+		GetAttributesManager()->countstats = 4;
+	}
+	if (ItemType == eITEM_TYPE::ITEM_TYPE_ACCESSORY3)
+	{
+		GetAttributesManager()->Stats[0] = eSTATSATRIBUTES::Energy_Attack_Increase;
+		GetAttributesManager()->Stats[1] = eSTATSATRIBUTES::Energy_Critical_Damage_Percent;
+		GetAttributesManager()->Stats[2] = eSTATSATRIBUTES::Recover_EP_percent_when_receiving_damage;
+		GetAttributesManager()->Stats[3] = eSTATSATRIBUTES::STR_Incress;
+		GetAttributesManager()->countstats = 4;
 	}
 }
 void Player::ItemOptionsChange(Packet pPacket)
