@@ -69,3 +69,4 @@ Output/
 *.ipch
 *.db
 *.htm
+*.cache
