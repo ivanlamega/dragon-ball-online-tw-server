@@ -707,7 +707,7 @@ void Player::UpdateDropListTimer()
 //----------------------------------------
 void Player::UpdateZennyAmount(DWORD amount, eZENNY_CHANGE_TYPE zennyType)
 {
-	sGU_UPDATE_CHAR_ZENNY zenny;
+	/*sGU_UPDATE_CHAR_ZENNY zenny;
 	zenny.wOpCode = GU_UPDATE_CHAR_ZENNY;
 	zenny.wPacketSize = sizeof(sGU_UPDATE_CHAR_ZENNY) - 2;
 
@@ -716,7 +716,19 @@ void Player::UpdateZennyAmount(DWORD amount, eZENNY_CHANGE_TYPE zennyType)
 	zenny.handle = GetHandle();
 	zenny.dwZenny = GetPcProfile()->dwZenny += amount;
 
-	SendPacket((char*)&zenny, sizeof(sGU_UPDATE_CHAR_ZENNY));
+	SendPacket((char*)&zenny, sizeof(sGU_UPDATE_CHAR_ZENNY));*/
+	GetPcProfile()->dwZenny += amount;
+	m_session->SendUpdateCharZenny(GetPcProfile()->dwZenny, zennyType, GetHandle(), true);
+}
+void Player::UpdateExperienceAmount(DWORD exp, DWORD bonus)
+{
+	GetPcProfile()->dwCurExp += (exp + bonus);
+	if (GetPcProfile()->dwCurExp >= GetPcProfile()->dwMaxExpInThisLevel)
+	{
+		GetPcProfile()->dwCurExp -= GetPcProfile()->dwMaxExpInThisLevel;
+		LevelUp();
+	}
+	m_session->SendUpdateCharExp(exp, bonus, GetHandle(), GetPcProfile()->dwCurExp);
 }
 void Player::UpdateModusaAmount(DWORD amount)
 {

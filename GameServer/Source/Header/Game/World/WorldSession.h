@@ -22,6 +22,8 @@ enum AccountTypes
 
 enum eCHARSTATE;
 enum ResultCodes;
+enum eREWARD_CONTAINER_TYPE;
+enum eZENNY_CHANGE_TYPE;
 
 struct sITEM_PROFILE;
 struct sUG_TS_CONFIRM_STEP_REQ;
@@ -110,6 +112,9 @@ public:
 	void			SendItemCreate(sITEM_PROFILE *createdItem);
 
 	void			SendPickUp(HOBJECT handle);
+
+	void			SendUpdateCharZenny(DWORD amount, eZENNY_CHANGE_TYPE zennyType, HOBJECT handle, bool bIsNew);
+	void			SendUpdateCharExp(DWORD expAmount, DWORD bonus, HOBJECT handle, DWORD curExp);
 	// SHOP
 	void			SendShopBuy(Packet& packet);
 	void			SendShopEventBuy(Packet& packet);
@@ -155,12 +160,13 @@ public:
 	void			GetQuestInfo(DWORD QuestID, DWORD tcCurId, DWORD tcNextId);
 	void			GetQuestPortalInfo(DWORD QuestID, DWORD tcCurId, DWORD tcNextId);	
 	void			SendQuestCompleteInfo();
+	ResultCodes		GivePlayerQuestReward(TBLIDX tblidx, eREWARD_CONTAINER_TYPE rewardContType);
 	// TS Quest
 	ResultCodes		FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req);
 	ResultCodes		ProcessTSContStart(CDboTSContStart * contStart);
 	void			ProcessTsContGAct(CDboTSContGAct * contGAct);
 	ResultCodes		ProcessTsContGCond(CDboTSContGCond * contGCond);
-	void			ProcessTsContReward(CDboTSContReward * contReward);
+	ResultCodes		ProcessTsContReward(CDboTSContReward * contReward);
 	void			ProcessTsContEnd(CDboTSContEnd * contEnd);
 	void			SendQuestSVRevtStartNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, NTL_TS_TA_ID taId);
 	//RankBatle

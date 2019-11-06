@@ -59,6 +59,7 @@ public:
 	void				RewardDropFromBossEvent(MonsterData& data);
 	void				UpdateZennyAmount(DWORD amount, eZENNY_CHANGE_TYPE zennyType);
 	void				UpdateModusaAmount(DWORD amount);
+	void				UpdateExperienceAmount(DWORD exp, DWORD bonus);
 	//	------------------------------------------------------------------------
 	// GETTER
 	//	------------------------------------------------------------------------

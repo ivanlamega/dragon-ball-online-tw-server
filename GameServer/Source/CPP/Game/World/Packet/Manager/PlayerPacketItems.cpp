@@ -601,3 +601,32 @@ void WorldSession::SendPickUp(HOBJECT handle)
 			break;
 	}
 }
+
+void WorldSession::SendUpdateCharZenny(DWORD amount, eZENNY_CHANGE_TYPE zennyType, HOBJECT handle, bool bIsNew)
+{
+	sGU_UPDATE_CHAR_ZENNY zenny;
+	zenny.wOpCode = GU_UPDATE_CHAR_ZENNY;
+	zenny.wPacketSize = sizeof(sGU_UPDATE_CHAR_ZENNY) - 2;
+
+	zenny.bIsNew = bIsNew;
+	zenny.byChangeType = zennyType;
+	zenny.handle = handle;
+	zenny.dwZenny = amount;
+
+	SendPacket((char*)&zenny, sizeof(sGU_UPDATE_CHAR_ZENNY));
+}
+
+void WorldSession::SendUpdateCharExp(DWORD expAmount, DWORD bonus, HOBJECT handle, DWORD curExp)
+{
+	sGU_UPDATE_CHAR_EXP expPacket;
+
+	expPacket.dwIncreasedExp = expAmount + bonus;
+	expPacket.dwAcquisitionExp = expAmount;
+	expPacket.dwBonusExp = bonus;
+	expPacket.wOpCode = GU_UPDATE_CHAR_EXP;
+	expPacket.wPacketSize = sizeof(sGU_UPDATE_CHAR_EXP) - 2;
+	expPacket.handle = handle;
+	expPacket.dwCurExp = curExp;
+
+	SendPacket((char*)&expPacket, sizeof(sGU_UPDATE_CHAR_EXP));
+}

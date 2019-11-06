@@ -453,7 +453,7 @@ void WorldSession::SendQuestAcept(Packet& packet)
 
 		if (req->byTsType == TS_TYPE_QUEST_CS)
 		{		
-			FindQuestInformation(req);
+			int result = FindQuestInformation(req);
 
 			if (req->tcCurId == 2)
 			{
@@ -506,15 +506,16 @@ void WorldSession::SendQuestAcept(Packet& packet)
 
 			}
 			//sLog.outDebug("RWquestID %d", RWquestID);
-			sQUEST_REWARD_TBLDAT * tbldat = reinterpret_cast<sQUEST_REWARD_TBLDAT*>(dat->FindData(RWquestID));
+			/*sQUEST_REWARD_TBLDAT * tbldat = reinterpret_cast<sQUEST_REWARD_TBLDAT*>(dat->FindData(RWquestID));
 			if (tbldat != NULL)
 			{							
 				if (_player->GetPcProfile()->byLevel < 70)
 				{
 					DWORD exp = tbldat->EXP;
+					DWORD bonus = 0;*/
 
-					sGU_UPDATE_CHAR_EXP expPacket;				
-					DWORD bonus = 0;
+					/*sGU_UPDATE_CHAR_EXP expPacket;				
+					
 
 					expPacket.dwIncreasedExp = exp + bonus;
 					expPacket.dwAcquisitionExp = exp;
@@ -523,19 +524,19 @@ void WorldSession::SendQuestAcept(Packet& packet)
 					expPacket.wPacketSize = sizeof(sGU_UPDATE_CHAR_EXP) - 2;
 					expPacket.handle = _player->GetHandle();
 					_player->GetPcProfile()->dwCurExp += (exp + bonus);
-					expPacket.dwCurExp = _player->GetPcProfile()->dwCurExp;
+					expPacket.dwCurExp = _player->GetPcProfile()->dwCurExp;*/
 
-					_player->UpdateZennyAmount(tbldat->Zenny, eZENNY_CHANGE_TYPE::ZENNY_CHANGE_TYPE_DB_REWARD);
-
-					if (_player->GetPcProfile()->dwCurExp >= _player->GetPcProfile()->dwMaxExpInThisLevel)
+					/*_player->UpdateZennyAmount(tbldat->Zenny, eZENNY_CHANGE_TYPE::ZENNY_CHANGE_TYPE_DB_REWARD);
+					_player->UpdateExperienceAmount(exp, bonus);
+					/*if (_player->GetPcProfile()->dwCurExp >= _player->GetPcProfile()->dwMaxExpInThisLevel)
 					{
 						expPacket.dwCurExp = _player->GetPcProfile()->dwCurExp -= _player->GetPcProfile()->dwMaxExpInThisLevel;
 						_player->LevelUp();
 					}					
 
-					SendPacket((char*)&expPacket, sizeof(sGU_UPDATE_CHAR_EXP));
-				}
-			}
+					SendPacket((char*)&expPacket, sizeof(sGU_UPDATE_CHAR_EXP));*/
+				/*}
+			}*/
 		}
 		SendPacket((char*)&res, sizeof(sGU_TS_CONFIRM_STEP_RES));
 	}
@@ -697,13 +698,11 @@ ResultCodes WorldSession::ProcessTsContGCond(CDboTSContGCond * contGCond)
 	return RESULT_SUCCESS;
 }
 
-void WorldSession::ProcessTsContReward(CDboTSContReward * contReward)
+ResultCodes WorldSession::ProcessTsContReward(CDboTSContReward * contReward)
 {
 	for (int i = 0; i < contReward->GetNumOfChildEntity(); i++)
 	{
 		sLog.outDetail("Cont: %s %d, %d", contReward->GetChildEntity(i)->GetClassNameW(), contReward->GetChildEntity(i)->GetEntityType(), DBO_EVENT_TYPE_ID_CLICK_NPC);
-		//sREWARD_INFO rwdInfo = contReward->GetDefRewardInfo(contReward->GetRewardTableIndex(), sTBM.GetQuestRewardTable());
-
 
 		//sLog.outDebug("Reward: tblidx %d value %d type %d", rwdInfo.m_uiIdx, rwdInfo.m_nValue, rwdInfo.m_eType);
 		sLog.outDebug("Reward: tblidx %d zenny %d type %d experience %d", contReward->GetRewardTableIndex(), contReward->GetRewardZeny(), contReward->GetRewardContType(), contReward->GetRewardExp());
@@ -711,17 +710,46 @@ void WorldSession::ProcessTsContReward(CDboTSContReward * contReward)
 		{
 			case DBO_EVENT_TYPE_ID_CLICK_NPC:
 			{
+				//Check here if npc is the same of the quest
 				CDboTSClickNPC * clickNpc = (CDboTSClickNPC*)contReward->GetChildEntity(i);
 				if (clickNpc == NULL)
 				{
-					continue;
+					return RESULT_FAIL;
 				}
 				sLog.outDetail("Quest: npc tblidx %d", clickNpc->GetNPCIdx());
 				break;
 			}
 		}
 	}
+
+	if (GivePlayerQuestReward(contReward->GetRewardTableIndex(), contReward->GetRewardContType()) == RESULT_FAIL)
+	{
+		return RESULT_FAIL;
+	}
+
+	return RESULT_SUCCESS;
 }
+
+ResultCodes WorldSession::GivePlayerQuestReward(TBLIDX tblidx, eREWARD_CONTAINER_TYPE rewardContType)
+{
+	if (rewardContType == eREWARD_CONTAINER_TYPE_QUEST)
+	{
+		QuestRewardTable* dat = sTBM.GetQuestRewardTable();
+		sQUEST_REWARD_TBLDAT* tbldat = reinterpret_cast<sQUEST_REWARD_TBLDAT*>(dat->FindData(tblidx));
+		if (tbldat == NULL)
+		{
+			return RESULT_FAIL;
+		}
+
+		DWORD bonus = 0;
+
+		_player->UpdateZennyAmount(tbldat->Zenny, eZENNY_CHANGE_TYPE::ZENNY_CHANGE_TYPE_DB_REWARD);
+		_player->UpdateExperienceAmount(tbldat->EXP, bonus);
+	}
+
+	return RESULT_SUCCESS;
+}
+
 
 void WorldSession::ProcessTsContEnd(CDboTSContEnd * contEnd)
 {
@@ -746,13 +774,24 @@ ResultCodes WorldSession::FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req)
 		case DBO_CONT_TYPE_ID_CONT_START:
 		{
 			CDboTSContStart * contStart = ((CDboTSContStart*)contBase);
-			ProcessTSContStart(contStart);
+			if (contStart == NULL)
+			{
+				return RESULT_FAIL;
+			}
+			if (ProcessTSContStart(contStart) == RESULT_FAIL);
+			{
+				return RESULT_FAIL;
+			}
 			break;
 		}
 
 		case DBO_CONT_TYPE_ID_CONT_GACT:
 		{
 			CDboTSContGAct * contGAct = ((CDboTSContGAct*)contBase);
+			if (contGAct == NULL)
+			{
+				return RESULT_FAIL;
+			}
 			ProcessTsContGAct(contGAct);
 			SendQuestSVRevtStartNotify(req->tId, req->tcCurId, req->tcNextId);
 			break;
@@ -761,6 +800,10 @@ ResultCodes WorldSession::FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req)
 		case DBO_CONT_TYPE_ID_CONT_PROPOSAL:
 		{
 			CDboTSContProposal* contProposal = ((CDboTSContProposal*)contBase);
+			if (contProposal == NULL)
+			{
+				return RESULT_FAIL;
+			}
 			break;
 		}
 
@@ -768,6 +811,11 @@ ResultCodes WorldSession::FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req)
 		{
 			CDboTSContGCond * contGCond = ((CDboTSContGCond*)contBase);
 			sLog.outDebug("Check if the quest is completed correctly");
+
+			if (contGCond == NULL)
+			{
+				return RESULT_FAIL;
+			}
 			if (ProcessTsContGCond(contGCond) == RESULT_FAIL)
 			{
 				return RESULT_FAIL;
@@ -779,17 +827,30 @@ ResultCodes WorldSession::FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req)
 		case DBO_CONT_TYPE_ID_CONT_REWARD:
 		{
 			CDboTSContReward * contReward = ((CDboTSContReward*)contBase);
-			ProcessTsContReward(contReward);
+			if (contReward == NULL)
+			{
+				return RESULT_FAIL;
+			}
+			if (ProcessTsContReward(contReward) == RESULT_FAIL)
+			{
+				return RESULT_FAIL;
+			}
 			break;
 		}
 
 		case DBO_CONT_TYPE_ID_CONT_END:
 		{
 			CDboTSContEnd * contEnd = ((CDboTSContEnd*)contBase);
+			if (contEnd == NULL)
+			{
+				return RESULT_FAIL;
+			}
 			ProcessTsContEnd(contEnd);
 			break;
 		}
 	}
+
+	return RESULT_SUCCESS;
 }
 
 void WorldSession::SendQuestSVRevtStartNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, NTL_TS_TA_ID taId)
