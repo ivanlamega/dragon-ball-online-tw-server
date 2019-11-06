@@ -35,6 +35,7 @@ class CDboTSContStart;
 class CDboTSContGAct;
 class CDboTSContGCond;
 class CDboTSContReward;
+class CDboTSActSToCEvt;
 class CDboTSContEnd;
 
 
@@ -162,10 +163,11 @@ public:
 	void			SendQuestCompleteInfo();
 	void			SendQuestGiveUp(Packet& packet);
 	ResultCodes		GivePlayerQuestReward(TBLIDX tblidx, eREWARD_CONTAINER_TYPE rewardContType);
+	ResultCodes		CheckEvtDataType(CDboTSActSToCEvt* sToCEvt);
 	// TS Quest
 	ResultCodes		FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req);
 	ResultCodes		ProcessTSContStart(CDboTSContStart * contStart);
-	void			ProcessTsContGAct(CDboTSContGAct * contGAct);
+	ResultCodes		ProcessTsContGAct(CDboTSContGAct * contGAct);
 	ResultCodes		ProcessTsContGCond(CDboTSContGCond * contGCond);
 	ResultCodes		ProcessTsContReward(CDboTSContReward * contReward);
 	void			ProcessTsContEnd(CDboTSContEnd * contEnd);
