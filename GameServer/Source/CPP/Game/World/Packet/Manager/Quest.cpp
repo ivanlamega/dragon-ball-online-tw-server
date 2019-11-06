@@ -294,7 +294,7 @@ void WorldSession::GetQuestPortalInfo(DWORD QuestID, DWORD tcCurId, DWORD tcNext
 void WorldSession::GetQuestInfo(DWORD QuestID, DWORD tcCurId, DWORD tcNextId)
 {
 	int freeslot = 0;	
-	if (QuestID == 2 || QuestID == 1924)
+	/*if (QuestID == 2 || QuestID == 1924)
 	{
 		for (int i = 0; i <= 30; i++)
 		{			
@@ -307,7 +307,7 @@ void WorldSession::GetQuestInfo(DWORD QuestID, DWORD tcCurId, DWORD tcNextId)
 		_player->GetAttributesManager()->QuestDat[freeslot].MobID = 4911101;
 		_player->GetAttributesManager()->QuestDat[freeslot].count = 0;
 		_player->GetAttributesManager()->QuestDat[freeslot].Maxcount = 3;
-	}	
+	}	*/
 	if (QuestID == 3 || QuestID == 1925)
 	{			
 		sGU_CHAR_TELEPORT_RES Teleport;
@@ -331,7 +331,7 @@ void WorldSession::GetQuestInfo(DWORD QuestID, DWORD tcCurId, DWORD tcNextId)
 		_player->SetState(eCHARSTATE::CHARSTATE_TELEPORTING);
 		SendPacket((char*)&Teleport, sizeof(sGU_CHAR_TELEPORT_RES));			
 	}
-	if (QuestID == 4)
+	/*if (QuestID == 4)
 	{
 		for (int i = 0; i <= 30; i++)
 		{
@@ -428,7 +428,7 @@ void WorldSession::GetQuestInfo(DWORD QuestID, DWORD tcCurId, DWORD tcNextId)
 		_player->GetAttributesManager()->QuestDat[freeslot].MobID = 11253101;
 		_player->GetAttributesManager()->QuestDat[freeslot].count = 0;
 		_player->GetAttributesManager()->QuestDat[freeslot].Maxcount = 30;
-	}
+	}*/
 
 }
 void WorldSession::SendQuestAcept(Packet& packet)
@@ -619,7 +619,7 @@ ResultCodes WorldSession::ProcessTSContStart(CDboTSContStart * contStart)
 	return RESULT_SUCCESS;
 }
 
-void WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct)
+ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct)
 {
 	for (int i = 0; i < contGAct->GetNumOfChildEntity(); i++)
 	{
@@ -631,7 +631,7 @@ void WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct)
 				CDboTSActNPCConv * NPCConv = (CDboTSActNPCConv*)contGAct->GetChildEntity(i);
 				if (NPCConv == NULL)
 				{
-					continue;
+					return RESULT_FAIL;
 				}
 				sLog.outDetail("Quest: npc tblidx %d", NPCConv->GetNPCIdx());
 				break;
@@ -641,7 +641,7 @@ void WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct)
 				CDboTSActRegQInfo * regQInfo = (CDboTSActRegQInfo*)contGAct->GetChildEntity(i);
 				if (regQInfo == NULL)
 				{
-					continue;
+					return RESULT_FAIL;
 				}
 				sLog.outDetail("Quest: reward %d world tblidx %d tooltip tblidx %d pos: (%f, %f, %f)", regQInfo->GetReward(), regQInfo->GetQuestMarkInfo(0).uiWorldTblIdx,
 					regQInfo->GetQuestMarkInfo(0).uiTooltipIdx, regQInfo->GetQuestMarkInfo(0).fX, regQInfo->GetQuestMarkInfo(0).fY, regQInfo->GetQuestMarkInfo(0).fZ);
@@ -652,13 +652,38 @@ void WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct)
 				CDboTSActOutMsg * outMsg = (CDboTSActOutMsg*)contGAct->GetChildEntity(i);
 				if (outMsg == NULL)
 				{
-					continue;
+					return RESULT_FAIL;
 				}
 				sLog.outDetail("Quest: message tblidx %d, action id %d", outMsg->GetMsgIdx(), outMsg->GetActionId());
 				break;
 			}
+			case DBO_ACT_TYPE_ID_ACT_STOCEVT:
+			{
+				CDboTSActSToCEvt* sToCEvt = (CDboTSActSToCEvt*)contGAct->GetChildEntity(i);
+				if (sToCEvt == NULL)
+				{
+					return RESULT_FAIL;
+				}
+				sLog.outDetail("Quest %d", sToCEvt->GetEvtDataType());
+				if (CheckEvtDataType(sToCEvt) == RESULT_FAIL)
+				{
+					return RESULT_FAIL;
+				}
+				break;
+			}
+			case DBO_ACT_TYPE_ID_ACT_OPEN_WINDOW:
+			{
+				CDboTSActOpenWindow* openWindow = (CDboTSActOpenWindow*)contGAct->GetChildEntity(i);
+				if (openWindow == NULL)
+				{
+					return RESULT_FAIL;
+				}
+				sLog.outDetail("Quest: tableidx %d, type %d", openWindow->GetTableIdx(), openWindow->GetWindowType());
+				break;
+			}
 		}
 	}
+	return RESULT_SUCCESS;
 }
 
 ResultCodes WorldSession::ProcessTsContGCond(CDboTSContGCond * contGCond)
@@ -792,7 +817,10 @@ ResultCodes WorldSession::FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req)
 			{
 				return RESULT_FAIL;
 			}
-			ProcessTsContGAct(contGAct);
+			if (ProcessTsContGAct(contGAct) == RESULT_FAIL)
+			{
+				return RESULT_FAIL;
+			}
 			SendQuestSVRevtStartNotify(req->tId, req->tcCurId, req->tcNextId);
 			break;
 		}
@@ -850,6 +878,80 @@ ResultCodes WorldSession::FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req)
 		}
 	}
 
+	return RESULT_SUCCESS;
+}
+
+ResultCodes	WorldSession::CheckEvtDataType(CDboTSActSToCEvt* sToCEvt)
+{
+	switch (sToCEvt->GetEvtDataType())
+	{
+		case eSTOC_EVT_DATA_TYPE_MOB_KILL_CNT:
+		{
+			CNtlTSTrigger* trigger = (CNtlTSTrigger*)sToCEvt->GetRoot();
+
+			if (trigger == NULL)
+			{
+				return RESULT_FAIL;
+			}
+
+			int freeslot = 0;
+			for (int i = 0; i <= 30; i++)
+			{
+				if (_player->GetAttributesManager()->QuestDat[i].QuestID == 0 || _player->GetAttributesManager()->QuestDat[i].QuestID == INVALID_TBLIDX)
+				{
+					freeslot = i;
+				}
+			}
+
+			_player->GetAttributesManager()->QuestDat[freeslot].QuestID = trigger->GetID();
+			_player->GetAttributesManager()->QuestDat[freeslot].MobID = sToCEvt->GetEvtData().sMobKillCnt[0].uiMobIdx;
+			_player->GetAttributesManager()->QuestDat[freeslot].count = sToCEvt->GetEvtData().sMobKillCnt[0].nCurMobCnt;
+			_player->GetAttributesManager()->QuestDat[freeslot].Maxcount = sToCEvt->GetEvtData().sMobKillCnt[0].nMobCnt;
+
+			for (int i = 0; i < sToCEvt->GetEvtData().MAX_MOB_KILL; i++)
+			{
+				sToCEvt->GetEvtData().sMobKillCnt[i].uiMobIdx;
+				sToCEvt->GetEvtData().sMobKillCnt[i].nMobCnt;
+				sToCEvt->GetEvtData().sMobKillCnt[i].nCurMobCnt;
+
+				sLog.outError("ROOT TS: %d", trigger->GetID());
+				sLog.outDetail("Mob kill: tblidx: %d count: %d, curcout: %d", 
+					sToCEvt->GetEvtData().sMobKillCnt[i].uiMobIdx, sToCEvt->GetEvtData().sMobKillCnt[i].nMobCnt, sToCEvt->GetEvtData().sMobKillCnt[i].nCurMobCnt);
+			}
+			sLog.outDetail("Quest: type eSTOC_EVT_DATA_TYPE_MOB_KILL_CNT");
+			break;
+		}
+		case eSTOC_EVT_DATA_TYPE_MOB_KILL_ITEM_CNT:
+		{
+			sLog.outDetail("Quest: type eSTOC_EVT_DATA_TYPE_MOB_KILL_ITEM_CNT");
+			break;
+		}
+		case eSTOC_EVT_DATA_TYPE_DELIVERY_ITEM:
+		{
+			sLog.outDetail("Quest: type eSTOC_EVT_DATA_TYPE_DELIVERY_ITEM");
+			break;
+		}
+		case eSTOC_EVT_DATA_TYPE_OBJECT_ITEM:
+		{
+			sLog.outDetail("Quest: type eSTOC_EVT_DATA_TYPE_OBJECT_ITEM");
+			break;
+		}
+		case eSTOC_EVT_DATA_TYPE_PUBLIC_MOB_ITEM_CNT:
+		{
+			sLog.outDetail("Quest: type eSTOC_EVT_DATA_TYPE_PUBLIC_MOB_ITEM_CNT");
+			break;
+		}
+		case eSTOC_EVT_DATA_TYPE_CUSTOM_EVT_CNT:
+		{
+			sLog.outDetail("Quest: type eSTOC_EVT_DATA_TYPE_CUSTOM_EVT_CNT");
+			break;
+		}
+		case eSTOC_EVT_DATA_TYPE_VISIT:
+		{
+			sLog.outDetail("Quest: type eSTOC_EVT_DATA_TYPE_VISIT");
+			break;
+		}
+	}
 	return RESULT_SUCCESS;
 }
 

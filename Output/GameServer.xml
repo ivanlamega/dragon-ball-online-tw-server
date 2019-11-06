@@ -22,4 +22,11 @@
   
   <!-- Community Server Configuration -->
   <CommunityServer ID="1" ChannelID="1" IP="127.0.0.1" Port="50500" />
+  
+  <!-- Game TS Folder Location -->
+  <GameTS>
+	<Quest Path="../Quest/ts/quest.e"/>
+	<PcTrigger Path="../Quest/ts/pctrigger.e"/>
+	<ObjTrigger Path="../Quest/ts/objtrigger.e"/>
+  </GameTS>
 </GameServer>

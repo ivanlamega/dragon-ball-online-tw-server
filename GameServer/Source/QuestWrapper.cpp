@@ -16,6 +16,8 @@
 #include "QuestWrapper.h"
 #include "GameServer.h"
 
+#include <XmlParser2/XmlParser2.h>
+
 //#include "NtlTSCoreStatic.h" //quitar
 
 CQuestWrapper* CQuestWrapper::s_pInstance = NULL;
@@ -54,9 +56,9 @@ CQuestWrapper::~CQuestWrapper(void)
 
 bool CQuestWrapper::Create(void)
 {
-	m_strQuestPath = "..\\Quest\\ts\\quest.e";
-	m_strTriggerPath = "..\\Quest\\ts\\pctrigger.e";
-	m_strObjectPath = "..\\Quest\\ts\\objtrigger.e";
+	m_strQuestPath = sXmlParser.GetStr("GameTS.Quest", "Path");//"..\\Quest\\ts\\quest.e";
+	m_strTriggerPath = sXmlParser.GetStr("GameTS.PcTrigger", "Path");// "..\\Quest\\ts\\pctrigger.e";
+	m_strObjectPath = sXmlParser.GetStr("GameTS.ObjTrigger", "Path");// "..\\Quest\\ts\\objtrigger.e";
 
 	m_bSchedulingLoad = true;
 
