@@ -160,6 +160,7 @@ public:
 	void			GetQuestInfo(DWORD QuestID, DWORD tcCurId, DWORD tcNextId);
 	void			GetQuestPortalInfo(DWORD QuestID, DWORD tcCurId, DWORD tcNextId);	
 	void			SendQuestCompleteInfo();
+	void			SendQuestGiveUp(Packet& packet);
 	ResultCodes		GivePlayerQuestReward(TBLIDX tblidx, eREWARD_CONTAINER_TYPE rewardContType);
 	// TS Quest
 	ResultCodes		FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req);
