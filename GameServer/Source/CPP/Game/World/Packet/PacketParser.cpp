@@ -650,6 +650,12 @@ void			WorldSession::PacketParser(Packet& packet)
 			SendQuestAcept(packet);			
 			break;
 		}
+		case Opcodes::UG_QUEST_GIVEUP_REQ:
+		{
+			sLog.outError("UG_QUEST_GIVEUP_REQ");
+			SendQuestGiveUp(packet);
+			break;
+		}
 		case Opcodes::UG_SKILL_LEARN_REQ:
 		{
 			sLog.outError("UG_SKILL_LEARN_REQ");

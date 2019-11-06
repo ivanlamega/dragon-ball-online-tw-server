@@ -874,3 +874,18 @@ void WorldSession::SendQuestSVRevtStartNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId
 
     SendPacket((char*)&info, sizeof sGU_AVATAR_QUEST_COMPLETE_INFO);
 }
+
+ void WorldSession::SendQuestGiveUp(Packet& packet)
+ {
+	 sUG_QUEST_GIVEUP_REQ* req = (sUG_QUEST_GIVEUP_REQ*)packet.GetPacketBuffer();
+
+	 sGU_QUEST_GIVEUP_RES res;
+	 memset(&res, 0, sizeof sGU_QUEST_GIVEUP_RES);
+
+	 res.wOpCode = GU_QUEST_GIVEUP_RES;
+	 res.wPacketSize = sizeof(sGU_QUEST_GIVEUP_RES) - 2;
+	 res.tId = req->tId;
+	 res.wResultCode = RESULT_SUCCESS;
+
+	 SendPacket((char*)&res, sizeof sGU_QUEST_GIVEUP_RES);
+ }
