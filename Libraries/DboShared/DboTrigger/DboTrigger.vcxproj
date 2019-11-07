@@ -505,6 +505,8 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CDboTSEMDialogOpen.cpp" />
+    <ClCompile Include="CDboTSEMFLink.cpp" />
     <ClCompile Include="DboTSActAvatarDead.cpp" />
     <ClCompile Include="DboTSActMail.cpp" />
     <ClCompile Include="DboTSActOutMsg.cpp" />
@@ -678,6 +680,8 @@
     <ClCompile Include="DboTSTRecv.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CDboTSEMDialogOpen.h" />
+    <ClInclude Include="CDboTSEMFLink.h" />
     <ClInclude Include="DboTSActAvatarDead.h" />
     <ClInclude Include="DboTSActMail.h" />
     <ClInclude Include="DboTSActOutMsg.h" />

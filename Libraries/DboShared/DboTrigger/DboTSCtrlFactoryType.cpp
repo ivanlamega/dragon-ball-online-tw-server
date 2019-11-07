@@ -9,6 +9,8 @@
 #include "DboTSEMRB.h"
 #include "DboTSEMMob.h"
 #include "DboTSEMBindStone.h"
+#include "CDboTSEMFLink.h"
+#include "CDboTSEMDialogOpen.h"
 #include "DboTSEMSearchQuest.h"
 #include "DboTSEMItemUpgrade.h"
 #include "DboTSEMTeleport.h"
@@ -269,6 +271,58 @@ void CDboTSControlFactoryType_CDboTSEMBindStone::DeleteObj( CNtlTSControlObject*
 const char* CDboTSControlFactoryType_CDboTSEMBindStone::GetKeyword( void ) const
 {
 	return CDboTSEMBindStone::RTTI.GetClassName();
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+
+CDboTSControlFactoryType_CDboTSEMFLink::CDboTSControlFactoryType_CDboTSEMFLink(void)
+{
+}
+
+CNtlTSControlObject* CDboTSControlFactoryType_CDboTSEMFLink::CreateObj(void)
+{
+	return new CDboTSEMFLink;
+}
+
+void CDboTSControlFactoryType_CDboTSEMFLink::DeleteObj(CNtlTSControlObject*& pObj)
+{
+	if (pObj)
+	{
+		delete pObj;
+		pObj = 0;
+	}
+}
+
+const char* CDboTSControlFactoryType_CDboTSEMFLink::GetKeyword(void) const
+{
+	return CDboTSEMFLink::RTTI.GetClassName();
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+
+CDboTSControlFactoryType_CDboTSEMDialogOpen::CDboTSControlFactoryType_CDboTSEMDialogOpen(void)
+{
+}
+
+CNtlTSControlObject* CDboTSControlFactoryType_CDboTSEMDialogOpen::CreateObj(void)
+{
+	return new CDboTSEMDialogOpen;
+}
+
+void CDboTSControlFactoryType_CDboTSEMDialogOpen::DeleteObj(CNtlTSControlObject*& pObj)
+{
+	if (pObj)
+	{
+		delete pObj;
+		pObj = 0;
+	}
+}
+
+const char* CDboTSControlFactoryType_CDboTSEMDialogOpen::GetKeyword(void) const
+{
+	return CDboTSEMDialogOpen::RTTI.GetClassName();
 }
 
 

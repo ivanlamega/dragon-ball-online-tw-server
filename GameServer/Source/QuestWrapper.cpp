@@ -400,7 +400,7 @@ bool CQuestWrapper::HasEventMapperFromFile(void)
 
 bool CQuestWrapper::LoadEventMapperFromFile(void)
 {
-	std::string strEvtPath = "..\\Quest\\evt\\";
+	std::string strEvtPath = sXmlParser.GetStr("GameTS.EventMapper", "Path");//"..\\Quest\\evt\\";
 
 	char* pReadBuf = NULL;
 	char* pDecryptBuf = NULL;
@@ -724,6 +724,52 @@ bool CQuestWrapper::LoadEventMapperFromRunTime(void)
 	else
 	{
 		CNtlTSLog::Log("Can not do type cast from CNtlTSControlObject to CDboTSEMBindStone. Info[%s]. [%s]", pObj ? pObj->GetClassName() : "NULL", TS_CODE_TRACE());
+		return false;
+	}
+
+	pObj = m_pCtrlFactory->CreateObj("CDboTSEMFLink");
+	if (pObj && pObj->IsDerivedClass("CNtlTSEvtMapper") && pObj->IsDerivedClass("CDboTSEMFLink"))
+	{
+		m_defEvtMapper[pObj->GetClassName()] = (CNtlTSEvtMapper*)pObj;
+
+		if (!((CDboTSEMFLink*)pObj)->AddBuildData("quest", m_defQuest, NULL, NULL))
+		{
+			CNtlTSLog::Log("Building bind stone event mapper is failed. [%s].", TS_CODE_TRACE());
+			return false;
+		}
+
+		if (!((CDboTSEMFLink*)pObj)->AddBuildData("pctrigger", m_defTrigger, NULL, NULL))
+		{
+			CNtlTSLog::Log("Building bind stone event mapper is failed. [%s].", TS_CODE_TRACE());
+			return false;
+		}
+	}
+	else
+	{
+		CNtlTSLog::Log("Can not do type cast from CNtlTSControlObject to CDboTSEMFLink. Info[%s]. [%s]", pObj ? pObj->GetClassName() : "NULL", TS_CODE_TRACE());
+		return false;
+	}
+
+	pObj = m_pCtrlFactory->CreateObj("CDboTSEMDialogOpen");
+	if (pObj && pObj->IsDerivedClass("CNtlTSEvtMapper") && pObj->IsDerivedClass("CDboTSEMDialogOpen"))
+	{
+		m_defEvtMapper[pObj->GetClassName()] = (CNtlTSEvtMapper*)pObj;
+
+		if (!((CDboTSEMDialogOpen*)pObj)->AddBuildData("quest", m_defQuest, NULL, NULL))
+		{
+			CNtlTSLog::Log("Building bind stone event mapper is failed. [%s].", TS_CODE_TRACE());
+			return false;
+		}
+
+		if (!((CDboTSEMDialogOpen*)pObj)->AddBuildData("pctrigger", m_defTrigger, NULL, NULL))
+		{
+			CNtlTSLog::Log("Building bind stone event mapper is failed. [%s].", TS_CODE_TRACE());
+			return false;
+		}
+	}
+	else
+	{
+		CNtlTSLog::Log("Can not do type cast from CNtlTSControlObject to CDboTSEMDialogOpen. Info[%s]. [%s]", pObj ? pObj->GetClassName() : "NULL", TS_CODE_TRACE());
 		return false;
 	}
 

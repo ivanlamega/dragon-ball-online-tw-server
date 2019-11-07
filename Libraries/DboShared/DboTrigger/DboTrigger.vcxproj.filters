@@ -528,6 +528,12 @@
     <ClCompile Include="DboTSActSkyDgn.cpp">
       <Filter>Entity\Action</Filter>
     </ClCompile>
+    <ClCompile Include="CDboTSEMDialogOpen.cpp">
+      <Filter>Control\Event Mapper</Filter>
+    </ClCompile>
+    <ClCompile Include="CDboTSEMFLink.cpp">
+      <Filter>Control\Event Mapper</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="precomp_trigger.h">
@@ -1009,6 +1015,12 @@
     </ClInclude>
     <ClInclude Include="DboTSActSkyDgn.h">
       <Filter>Entity\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="CDboTSEMDialogOpen.h">
+      <Filter>Control\Event Mapper</Filter>
+    </ClInclude>
+    <ClInclude Include="CDboTSEMFLink.h">
+      <Filter>Control\Event Mapper</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

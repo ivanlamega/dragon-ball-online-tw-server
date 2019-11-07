@@ -171,6 +171,8 @@
 #include "DboTSEMRB.h"
 #include "DboTSEMMob.h"
 #include "DboTSEMBindStone.h"
+#include "CDboTSEMFLink.h"
+#include "CDboTSEMDialogOpen.h"
 #include "DboTSEMSearchQuest.h"
 #include "DboTSEMItemUpgrade.h"
 #include "DboTSEMTeleport.h"
