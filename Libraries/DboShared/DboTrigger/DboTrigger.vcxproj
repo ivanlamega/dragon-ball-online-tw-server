@@ -509,6 +509,7 @@
     <ClCompile Include="CDboTSEMFLink.cpp" />
     <ClCompile Include="CDboTSEMLevelCheck.cpp" />
     <ClCompile Include="CDboTSEMQuest.cpp" />
+    <ClCompile Include="CDboTSEMSideIcon.cpp" />
     <ClCompile Include="DboTSActAvatarDead.cpp" />
     <ClCompile Include="DboTSActMail.cpp" />
     <ClCompile Include="DboTSActOutMsg.cpp" />
@@ -686,6 +687,7 @@
     <ClInclude Include="CDboTSEMFLink.h" />
     <ClInclude Include="CDboTSEMLevelCheck.h" />
     <ClInclude Include="CDboTSEMQuest.h" />
+    <ClInclude Include="CDboTSEMSideIcon.h" />
     <ClInclude Include="DboTSActAvatarDead.h" />
     <ClInclude Include="DboTSActMail.h" />
     <ClInclude Include="DboTSActOutMsg.h" />

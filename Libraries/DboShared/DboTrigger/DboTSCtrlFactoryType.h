@@ -132,6 +132,19 @@ public:
 	virtual const char*					GetKeyword( void ) const;
 };
 
+class CDboTSControlFactoryType_CDboTSEMSideIcon : public CNtlTSControlFactoryType_CNtlTSEvtMapper
+{
+	// Constructions and Destructions
+public:
+	CDboTSControlFactoryType_CDboTSEMSideIcon(void);
+
+	// Methods
+public:
+	virtual	CNtlTSControlObject* CreateObj(void);
+	virtual void						DeleteObj(CNtlTSControlObject*& pObj);
+	virtual const char* GetKeyword(void) const;
+}; 
+
 class CDboTSControlFactoryType_CDboTSEMQuest : public CNtlTSControlFactoryType_CNtlTSEvtMapper
 {
 	// Constructions and Destructions

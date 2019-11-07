@@ -26,7 +26,6 @@ CNtlTSControlObject* CNtlTSControlFactory::CreateObj( const std::string& strName
 	else
 	{
 		CNtlTSLog::Log( "Can not find the control object type. Info[%s]. [%s]", strName.c_str(), TS_CODE_TRACE() );
-		printf("Can not find the control object type. Info[%s]. [%s]", strName.c_str(), TS_CODE_TRACE());
 	}
 
 	return 0;

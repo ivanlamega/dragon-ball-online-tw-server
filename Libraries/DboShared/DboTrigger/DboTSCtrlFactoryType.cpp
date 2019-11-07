@@ -9,6 +9,7 @@
 #include "DboTSEMRB.h"
 #include "DboTSEMMob.h"
 #include "DboTSEMBindStone.h"
+#include "CDboTSEMSideIcon.h"
 #include "CDboTSEMQuest.h"
 #include "CDboTSEMLevelCheck.h"
 #include "CDboTSEMFLink.h"
@@ -273,6 +274,32 @@ void CDboTSControlFactoryType_CDboTSEMBindStone::DeleteObj( CNtlTSControlObject*
 const char* CDboTSControlFactoryType_CDboTSEMBindStone::GetKeyword( void ) const
 {
 	return CDboTSEMBindStone::RTTI.GetClassName();
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+
+CDboTSControlFactoryType_CDboTSEMSideIcon::CDboTSControlFactoryType_CDboTSEMSideIcon(void)
+{
+}
+
+CNtlTSControlObject* CDboTSControlFactoryType_CDboTSEMSideIcon::CreateObj(void)
+{
+	return new CDboTSEMSideIcon;
+}
+
+void CDboTSControlFactoryType_CDboTSEMSideIcon::DeleteObj(CNtlTSControlObject*& pObj)
+{
+	if (pObj)
+	{
+		delete pObj;
+		pObj = 0;
+	}
+}
+
+const char* CDboTSControlFactoryType_CDboTSEMSideIcon::GetKeyword(void) const
+{
+	return CDboTSEMSideIcon::RTTI.GetClassName();
 }
 
 //////////////////////////////////////////////////////////////////////////

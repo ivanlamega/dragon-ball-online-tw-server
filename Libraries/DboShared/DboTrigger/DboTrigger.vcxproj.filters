@@ -540,6 +540,9 @@
     <ClCompile Include="CDboTSEMQuest.cpp">
       <Filter>Control\Event Mapper</Filter>
     </ClCompile>
+    <ClCompile Include="CDboTSEMSideIcon.cpp">
+      <Filter>Control\Event Mapper</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="precomp_trigger.h">
@@ -1032,6 +1035,9 @@
       <Filter>Control\Event Mapper</Filter>
     </ClInclude>
     <ClInclude Include="CDboTSEMQuest.h">
+      <Filter>Control\Event Mapper</Filter>
+    </ClInclude>
+    <ClInclude Include="CDboTSEMSideIcon.h">
       <Filter>Control\Event Mapper</Filter>
     </ClInclude>
   </ItemGroup>

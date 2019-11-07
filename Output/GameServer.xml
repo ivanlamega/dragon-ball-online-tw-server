@@ -28,6 +28,6 @@
 	<Quest Path="../Quest/ts/quest.e"/>
 	<PcTrigger Path="../Quest/ts/pctrigger.e"/>
 	<ObjTrigger Path="../Quest/ts/objtrigger.e"/>
-	<EventMapper Path="../Quest/evt/"/>
+	<EventMapper Path="../Quest/ts/evt.e"/>
   </GameTS>
 </GameServer>
