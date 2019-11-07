@@ -40,7 +40,16 @@ void WorldSession::SendTargetSelection(HOBJECT hTarget)
 
 		_player->SetTarget(hTarget);
 		res.hSubject = hTarget;
-		res.unknow = PlayerInfo->GetTarget();
+		try //temporal
+		{
+			res.unknow = PlayerInfo->GetTarget();
+		}
+		catch (int e)
+		{
+			sLog.outError("Error n: %d", e);
+			res.unknow = INVALID_TBLIDX;
+		}
+		
 		SendPacket((char*)&res, sizeof(sGU_CHAR_TARGET_CHANGED));
 	}	
 	Mob* MobInfo = static_cast<Mob*>(_player->GetFromList(hTarget));
