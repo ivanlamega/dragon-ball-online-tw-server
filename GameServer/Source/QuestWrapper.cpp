@@ -727,6 +727,29 @@ bool CQuestWrapper::LoadEventMapperFromRunTime(void)
 		return false;
 	}
 
+	pObj = m_pCtrlFactory->CreateObj("CDboTSEMQuest");
+	if (pObj && pObj->IsDerivedClass("CNtlTSEvtMapper") && pObj->IsDerivedClass("CDboTSEMQuest"))
+	{
+		m_defEvtMapper[pObj->GetClassName()] = (CNtlTSEvtMapper*)pObj;
+
+		if (!((CDboTSEMQuest*)pObj)->AddBuildData("quest", m_defQuest, NULL, NULL))
+		{
+			CNtlTSLog::Log("Building bind stone event mapper is failed. [%s].", TS_CODE_TRACE());
+			return false;
+		}
+
+		if (!((CDboTSEMQuest*)pObj)->AddBuildData("pctrigger", m_defTrigger, NULL, NULL))
+		{
+			CNtlTSLog::Log("Building bind stone event mapper is failed. [%s].", TS_CODE_TRACE());
+			return false;
+		}
+	}
+	else
+	{
+		CNtlTSLog::Log("Can not do type cast from CNtlTSControlObject to CDboTSEMQuest. Info[%s]. [%s]", pObj ? pObj->GetClassName() : "NULL", TS_CODE_TRACE());
+		return false;
+	}
+
 	pObj = m_pCtrlFactory->CreateObj("CDboTSEMFLink");
 	if (pObj && pObj->IsDerivedClass("CNtlTSEvtMapper") && pObj->IsDerivedClass("CDboTSEMFLink"))
 	{

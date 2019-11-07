@@ -41,6 +41,12 @@ void CDboTSCtrlFactory::RegisterCtrlType( void )
 	pType = new CDboTSControlFactoryType_CDboTSEMBindStone;
 	m_defCtrlTypeList[pType->GetKeyword()] = pType;
 
+	pType = new CDboTSControlFactoryType_CDboTSEMQuest;
+	m_defCtrlTypeList[pType->GetKeyword()] = pType; 
+
+	pType = new CDboTSControlFactoryType_CDboTSEMLevelCheck;
+	m_defCtrlTypeList[pType->GetKeyword()] = pType; 
+
 	pType = new CDboTSControlFactoryType_CDboTSEMFLink;
 	m_defCtrlTypeList[pType->GetKeyword()] = pType;
 

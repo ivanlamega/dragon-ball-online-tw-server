@@ -1,5 +1,5 @@
-#ifndef _DBO_TSEMLEVELCHECK_H_
-#define _DBO_TSEMLEVELCHECK_H_
+#ifndef _DBO_TSEMQUEST_H_
+#define _DBO_TSEMQUEST_H_
 
 
 /**
@@ -7,26 +7,26 @@
 */
 
 
-class CDboTSEMLevelCheck : public CNtlTSEvtMapper
+class CDboTSEMQuest : public CNtlTSEvtMapper
 {
 	NTL_TS_DECLARE_RTTI
 
 		// Declarations
 public:
-	typedef std::map< std::string, vecdef_TID_LIST > mapdef_LEVELCHECK_MAPPER;
+	typedef std::map< std::string, vecdef_TID_LIST > mapdef_QUEST_MAPPER;
 
 	// Member variables
 protected:
-	mapdef_LEVELCHECK_MAPPER					m_defLevelCheckMapper;
+	mapdef_QUEST_MAPPER					m_defQuestMapper;
 
 	// Constructions and Destructions
 public:
-	CDboTSEMLevelCheck(void);
-	virtual ~CDboTSEMLevelCheck(void);
+	CDboTSEMQuest(void);
+	virtual ~CDboTSEMQuest(void);
 
 	// Methods
 public:
-	virtual const vecdef_TID_LIST*			FindTSList(unsigned int uiId, const std::string& strKey) const;
+	virtual const vecdef_TID_LIST* FindTSList(unsigned int uiId, const std::string& strKey) const;
 
 	virtual void							Clear(void);
 

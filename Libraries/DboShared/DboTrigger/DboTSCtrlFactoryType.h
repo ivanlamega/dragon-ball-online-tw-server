@@ -132,6 +132,32 @@ public:
 	virtual const char*					GetKeyword( void ) const;
 };
 
+class CDboTSControlFactoryType_CDboTSEMQuest : public CNtlTSControlFactoryType_CNtlTSEvtMapper
+{
+	// Constructions and Destructions
+public:
+	CDboTSControlFactoryType_CDboTSEMQuest(void);
+
+	// Methods
+public:
+	virtual	CNtlTSControlObject* CreateObj(void);
+	virtual void						DeleteObj(CNtlTSControlObject*& pObj);
+	virtual const char* GetKeyword(void) const;
+}; 
+
+class CDboTSControlFactoryType_CDboTSEMLevelCheck : public CNtlTSControlFactoryType_CNtlTSEvtMapper
+{
+	// Constructions and Destructions
+public:
+	CDboTSControlFactoryType_CDboTSEMLevelCheck(void);
+
+	// Methods
+public:
+	virtual	CNtlTSControlObject* CreateObj(void);
+	virtual void						DeleteObj(CNtlTSControlObject*& pObj);
+	virtual const char* GetKeyword(void) const;
+};
+
 class CDboTSControlFactoryType_CDboTSEMFLink : public CNtlTSControlFactoryType_CNtlTSEvtMapper
 {
 	// Constructions and Destructions

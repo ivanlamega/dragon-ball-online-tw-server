@@ -1,28 +1,28 @@
 #include "precomp_trigger.h"
-#include "CDboTSEMLevelCheck.h"
+#include "CDboTSEMQuest.h"
 #include "DboTSCoreDefine.h"
 #include "NtlTSMemIO.h"
 
 
-struct sLEVELCHECK_PARAM
+struct sQUEST_PARAM
 {
-	sLEVELCHECK_PARAM(void) : bFind(false) { return; }
+	sQUEST_PARAM(void) : bFind(false) { return; }
 
 	bool						bFind;
 };
 
-class CDboTSEMLevelCheck_Recv : public CNtlTSRecv
+class CDboTSEMQuest_Recv : public CNtlTSRecv
 {
 public:
 	NTL_TSRESULT				Search(CNtlTSEntity* pEntity, void* pParam);
 	NTL_TSRESULT				Run(CNtlTSEntity*, void*) { return 0; }
 };
 
-NTL_TSRESULT CDboTSEMLevelCheck_Recv::Search(CNtlTSEntity* pEntity, void* pParam)
+NTL_TSRESULT CDboTSEMQuest_Recv::Search(CNtlTSEntity* pEntity, void* pParam)
 {
 	if (pEntity->GetEntityType() == DBO_EVENT_TYPE_ID_BIND_STONE)
 	{
-		((sLEVELCHECK_PARAM*)pParam)->bFind = true;
+		((sQUEST_PARAM*)pParam)->bFind = true;
 	}
 
 	return 0;
@@ -34,33 +34,33 @@ NTL_TSRESULT CDboTSEMLevelCheck_Recv::Search(CNtlTSEntity* pEntity, void* pParam
 */
 
 
-NTL_TS_IMPLEMENT_RTTI(CDboTSEMLevelCheck, CNtlTSEvtMapper)
+NTL_TS_IMPLEMENT_RTTI(CDboTSEMQuest, CNtlTSEvtMapper)
 
 
-CDboTSEMLevelCheck::CDboTSEMLevelCheck(void)
+CDboTSEMQuest::CDboTSEMQuest(void)
 {
 }
 
-CDboTSEMLevelCheck::~CDboTSEMLevelCheck(void)
+CDboTSEMQuest::~CDboTSEMQuest(void)
 {
 }
 
-const CNtlTSEvtMapper::vecdef_TID_LIST* CDboTSEMLevelCheck::FindTSList(unsigned int uiId, const std::string& strKey) const
+const CNtlTSEvtMapper::vecdef_TID_LIST* CDboTSEMQuest::FindTSList(unsigned int uiId, const std::string& strKey) const
 {
 	UNREFERENCED_PARAMETER(uiId);
 
-	mapdef_LEVELCHECK_MAPPER::const_iterator it = m_defLevelCheckMapper.find(strKey);
-	if (it == m_defLevelCheckMapper.end()) return NULL;
+	mapdef_QUEST_MAPPER::const_iterator it = m_defQuestMapper.find(strKey);
+	if (it == m_defQuestMapper.end()) return NULL;
 
 	return &(it->second);
 }
 
-void CDboTSEMLevelCheck::Clear(void)
+void CDboTSEMQuest::Clear(void)
 {
-	m_defLevelCheckMapper.clear();
+	m_defQuestMapper.clear();
 }
 
-bool CDboTSEMLevelCheck::Load(const std::string& strFileName)
+bool CDboTSEMQuest::Load(const std::string& strFileName)
 {
 	FILE* pFile = NULL;
 	fopen_s(&pFile, strFileName.c_str(), "rb");
@@ -70,7 +70,7 @@ bool CDboTSEMLevelCheck::Load(const std::string& strFileName)
 		return false;
 	}
 
-	m_defLevelCheckMapper.clear();
+	m_defQuestMapper.clear();
 
 	//////////////////////////////////////////////////////////////////////////
 	//
@@ -94,7 +94,7 @@ bool CDboTSEMLevelCheck::Load(const std::string& strFileName)
 		fread(pStr, nStrLen, 1, pFile);
 		pStr[nStrLen] = '\0';
 
-		vecdef_TID_LIST* pTrigList = &m_defLevelCheckMapper.insert(mapdef_LEVELCHECK_MAPPER::value_type(pStr, vecdef_TID_LIST())).first->second;
+		vecdef_TID_LIST* pTrigList = &m_defQuestMapper.insert(mapdef_QUEST_MAPPER::value_type(pStr, vecdef_TID_LIST())).first->second;
 
 		delete[] pStr;
 		pStr = NULL;
@@ -122,11 +122,11 @@ bool CDboTSEMLevelCheck::Load(const std::string& strFileName)
 	return true;
 }
 
-bool CDboTSEMLevelCheck::Load(const char* pData, int nDataSize)
+bool CDboTSEMQuest::Load(const char* pData, int nDataSize)
 {
 	CNtlTSMemInput clMemInput(pData, nDataSize);
 
-	m_defLevelCheckMapper.clear();
+	m_defQuestMapper.clear();
 
 	//////////////////////////////////////////////////////////////////////////
 	//
@@ -136,7 +136,7 @@ bool CDboTSEMLevelCheck::Load(const char* pData, int nDataSize)
 	int nMapperCnt;
 	if (!clMemInput.Read(&nMapperCnt, sizeof(nMapperCnt)))
 	{
-		m_defLevelCheckMapper.clear();
+		m_defQuestMapper.clear();
 		return false;
 	}
 
@@ -150,7 +150,7 @@ bool CDboTSEMLevelCheck::Load(const char* pData, int nDataSize)
 		int nStrLen;
 		if (!clMemInput.Read(&nStrLen, sizeof(nStrLen)))
 		{
-			m_defLevelCheckMapper.clear();
+			m_defQuestMapper.clear();
 			return false;
 		}
 
@@ -158,13 +158,13 @@ bool CDboTSEMLevelCheck::Load(const char* pData, int nDataSize)
 
 		if (!clMemInput.Read(pStr, nStrLen))
 		{
-			m_defLevelCheckMapper.clear();
+			m_defQuestMapper.clear();
 			return false;
 		}
 
 		pStr[nStrLen] = '\0';
 
-		vecdef_TID_LIST* pTrigList = &m_defLevelCheckMapper.insert(mapdef_LEVELCHECK_MAPPER::value_type(pStr, vecdef_TID_LIST())).first->second;
+		vecdef_TID_LIST* pTrigList = &m_defQuestMapper.insert(mapdef_QUEST_MAPPER::value_type(pStr, vecdef_TID_LIST())).first->second;
 
 		delete[] pStr;
 		pStr = NULL;
@@ -175,7 +175,7 @@ bool CDboTSEMLevelCheck::Load(const char* pData, int nDataSize)
 		int nTrigCnt;
 		if (!clMemInput.Read(&nTrigCnt, sizeof(nTrigCnt)))
 		{
-			m_defLevelCheckMapper.clear();
+			m_defQuestMapper.clear();
 			return false;
 		}
 
@@ -187,7 +187,7 @@ bool CDboTSEMLevelCheck::Load(const char* pData, int nDataSize)
 			NTL_TS_T_ID tID;
 			if (!clMemInput.Read(&tID, sizeof(tID)))
 			{
-				m_defLevelCheckMapper.clear();
+				m_defQuestMapper.clear();
 				return false;
 			}
 
@@ -198,7 +198,7 @@ bool CDboTSEMLevelCheck::Load(const char* pData, int nDataSize)
 	return true;
 }
 
-bool CDboTSEMLevelCheck::Save(const std::string& strFileName)
+bool CDboTSEMQuest::Save(const std::string& strFileName)
 {
 	FILE* pFile = NULL;
 	fopen_s(&pFile, strFileName.c_str(), "wb");
@@ -213,11 +213,11 @@ bool CDboTSEMLevelCheck::Save(const std::string& strFileName)
 	//	Mapper counter
 	//
 	//////////////////////////////////////////////////////////////////////////
-	int nMapperCnt = (int)m_defLevelCheckMapper.size();
+	int nMapperCnt = (int)m_defQuestMapper.size();
 	fwrite(&nMapperCnt, sizeof(nMapperCnt), 1, pFile);
 
-	mapdef_LEVELCHECK_MAPPER::iterator itMapper = m_defLevelCheckMapper.begin();
-	for (; itMapper != m_defLevelCheckMapper.end(); ++itMapper)
+	mapdef_QUEST_MAPPER::iterator itMapper = m_defQuestMapper.begin();
+	for (; itMapper != m_defQuestMapper.end(); ++itMapper)
 	{
 		//////////////////////////////////////////////////////////////////////////
 		//
@@ -253,23 +253,23 @@ bool CDboTSEMLevelCheck::Save(const std::string& strFileName)
 	return true;
 }
 
-bool CDboTSEMLevelCheck::AddBuildData(const std::string& strKey, const CNtlTSMain::mapdef_TLIST& TList, void* pTblList, void* pParameter)
+bool CDboTSEMQuest::AddBuildData(const std::string& strKey, const CNtlTSMain::mapdef_TLIST& TList, void* pTblList, void* pParameter)
 {
 	UNREFERENCED_PARAMETER(pTblList);
 	UNREFERENCED_PARAMETER(pParameter);
 
-	if (m_defLevelCheckMapper.find(strKey) == m_defLevelCheckMapper.end())
+	if (m_defQuestMapper.find(strKey) == m_defQuestMapper.end())
 	{
-		m_defLevelCheckMapper[strKey] = vecdef_TID_LIST();
+		m_defQuestMapper[strKey] = vecdef_TID_LIST();
 	}
 
-	vecdef_TID_LIST& defTIDList = m_defLevelCheckMapper[strKey];
+	vecdef_TID_LIST& defTIDList = m_defQuestMapper[strKey];
 
 	// Trigger system script들을 순회하면서 해당 collision region으로 시작할 수 있는
 	// trigger를 찾는다
 
-	sLEVELCHECK_PARAM sParam;
-	CDboTSEMLevelCheck_Recv clRecv;
+	sQUEST_PARAM sParam;
+	CDboTSEMQuest_Recv clRecv;
 
 	CNtlTSTrigger* pTrig;
 	CNtlTSMain::mapdef_TLIST::const_iterator citTSBegin = TList.begin();
@@ -292,12 +292,12 @@ bool CDboTSEMLevelCheck::AddBuildData(const std::string& strKey, const CNtlTSMai
 	return true;
 }
 
-bool CDboTSEMLevelCheck::DelBuildData(const std::string& strKey)
+bool CDboTSEMQuest::DelBuildData(const std::string& strKey)
 {
-	mapdef_LEVELCHECK_MAPPER::iterator it = m_defLevelCheckMapper.find(strKey);
-	if (it != m_defLevelCheckMapper.end())
+	mapdef_QUEST_MAPPER::iterator it = m_defQuestMapper.find(strKey);
+	if (it != m_defQuestMapper.end())
 	{
-		m_defLevelCheckMapper.erase(it);
+		m_defQuestMapper.erase(it);
 	}
 
 	return true;
