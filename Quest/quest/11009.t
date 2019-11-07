@@ -73,7 +73,7 @@ CNtlTSTrigger
 			cid = 83;
 			dt = 1;
 			lilnk = 255;
-			oklnk = 255;
+			oklnk = 80;
 			ot = 0;
 			pt = 1;
 			mlt = 5000;
@@ -126,7 +126,7 @@ CNtlTSTrigger
 			pt = 1;
 			mlt = 5000;
 			os = 0;
-			prelnk = "47;";
+			prelnk = "83;47;";
 			dg = 1000162;
 			gt = 0;
 			oi = 7511101;

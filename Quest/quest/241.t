@@ -87,7 +87,7 @@ CNtlTSTrigger
 				apptype = 0;
 				cnt1 = 0;
 				eitype = 0;
-				idx0 = 3211104;
+				idx0 = 3211101;
 				cnt0 = 7;
 				cnt2 = 0;
 				ectype = -1;

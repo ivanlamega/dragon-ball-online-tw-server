@@ -32,6 +32,13 @@ CNtlTSTrigger
 				idx = 3332102;
 				taid = 2;
 			}
+			CDboTSActWorldPlayScript
+			{
+				sid = 726;
+				start = 1;
+				taid = 4;
+				uof = 1;
+			}
 			CDboTSActSToCEvt
 			{
 				apptype = 0;
@@ -130,6 +137,13 @@ CNtlTSTrigger
 			nextlnk = 254;
 			prelnk = "100;";
 
+			CDboTSActWorldPlayScript
+			{
+				sid = 726;
+				start = 0;
+				taid = 2;
+				uof = 0;
+			}
 			CDboTSActSToCEvt
 			{
 				apptype = 0;
