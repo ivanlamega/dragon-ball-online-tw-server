@@ -5,7 +5,7 @@
 
 #include <Packet\Game\PacketGU.h>
 #include <TableAll.h>
-//#include <DboTSCoreDefine.h>
+#include <DboTSCoreDefine.h>
 
 class Player;
 class AttributesManager
@@ -23,10 +23,10 @@ public:
 	{
 		int QuestID;
 		int RewardID;
-		int MobID;
+		/*int MobID;
 		int count;
-		int Maxcount;
-		//uSTOC_EVT_DATA uEvtData;
+		int Maxcount;*/
+		uSTOC_EVT_DATA uEvtData;
 	};
 	QuestData		QuestDat[30];
 	//CashShop Info

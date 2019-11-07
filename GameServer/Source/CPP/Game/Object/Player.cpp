@@ -2984,26 +2984,30 @@ void Player::RewardDropFromMob(MonsterData& data)
 {
 	for (int i = 0; i <= 30; i++)
 	{
-		if (GetAttributesManager()->QuestDat[i].count < GetAttributesManager()->QuestDat[i].Maxcount)
+		for (int j = 0; j < GetAttributesManager()->QuestDat[i].uEvtData.MAX_MOB_KILL; j++)
 		{
-			if (GetAttributesManager()->QuestDat[i].MobID == data.MonsterID || GetAttributesManager()->QuestDat[i].MobID +1 == data.MonsterID)
+			if (GetAttributesManager()->QuestDat[i].uEvtData.sMobKillCnt[j].nCurMobCnt < GetAttributesManager()->QuestDat[i].uEvtData.sMobKillCnt[j].nMobCnt)
 			{
-				sLog.outDebug("Count Quest Mob");
-				GetAttributesManager()->KillerCount += 1;
-				GetAttributesManager()->QuestDat[i].count += 1;
-				sGU_QUEST_SVREVT_UPDATE_NFY start;
-				start.wOpCode = GU_QUEST_SVREVT_UPDATE_NFY;
-				start.wPacketSize = sizeof(sGU_QUEST_SVREVT_UPDATE_NFY) - 2;
-				start.tId = GetAttributesManager()->QuestDat[i].QuestID;
-				start.tcId = 2;
-				start.taId = 3;
-				start.bySvrEvtType = 0;
-				start.bySlot = 0;
-				start.uEvtData.sMobKillCnt.nCurMobCnt = GetAttributesManager()->QuestDat[i].count;
-				SendPacket((char*)&start, sizeof(sGU_QUEST_SVREVT_UPDATE_NFY));
+				if (GetAttributesManager()->QuestDat[i].uEvtData.sMobKillCnt[j].uiMobIdx ==
+					data.MonsterID || GetAttributesManager()->QuestDat[i].uEvtData.sMobKillCnt[j].uiMobIdx +1 == data.MonsterID)
+				{
+					sLog.outDebug("Count Quest Mob");
+					GetAttributesManager()->KillerCount += 1;
+					GetAttributesManager()->QuestDat[i].uEvtData.sMobKillCnt[j].nCurMobCnt += 1;
+					sGU_QUEST_SVREVT_UPDATE_NFY start;
+					start.wOpCode = GU_QUEST_SVREVT_UPDATE_NFY;
+					start.wPacketSize = sizeof(sGU_QUEST_SVREVT_UPDATE_NFY) - 2;
+					start.tId = GetAttributesManager()->QuestDat[i].QuestID;
+					start.tcId = 2;
+					start.taId = 3;
+					start.bySvrEvtType = 0;
+					start.bySlot = 0;
+					start.uEvtData.sMobKillCnt.nCurMobCnt = GetAttributesManager()->QuestDat[i].uEvtData.sMobKillCnt[j].nCurMobCnt;
+					SendPacket((char*)&start, sizeof(sGU_QUEST_SVREVT_UPDATE_NFY));
 
-			}
-		}	
+				}
+			}	
+		}
 	}	
 	DroppedObject *dropped;
 	sITEM_TBLDAT *itemSrc = NULL;

@@ -105,6 +105,16 @@ bool MobTable::AddTable(void * pvTable, bool bReload)
 		return false;
 	}
 
+	MOB_TABLEIT iter = m_mapMobTableList.find(pTbldat->Mob_Group);
+	if (MobEnd() == iter)
+	{
+		if (false == m_mapMobTableList.insert(MOB_TABLEVAL(pTbldat->Mob_Group, pTbldat->tblidx)).second)
+		{
+			_ASSERTE(0);
+			return false;
+		}
+	}
+
 
 	return true;
 }

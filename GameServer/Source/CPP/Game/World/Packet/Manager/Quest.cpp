@@ -499,9 +499,14 @@ void WorldSession::SendQuestAcept(Packet& packet)
 				{
 					//sLog.outDebug("Remove Quest Finnish");
 					_player->GetAttributesManager()->QuestDat[i].QuestID == INVALID_TBLIDX;
-					_player->GetAttributesManager()->QuestDat[i].MobID == INVALID_TBLIDX;
-					_player->GetAttributesManager()->QuestDat[i].count == INVALID_TBLIDX;
-					_player->GetAttributesManager()->QuestDat[i].Maxcount == INVALID_TBLIDX;
+
+					for (int j = 0; j < _player->GetAttributesManager()->QuestDat[i].uEvtData.MAX_MOB_KILL; j++)
+					{
+						_player->GetAttributesManager()->QuestDat[i].uEvtData.sMobKillCnt[j].uiMobIdx == INVALID_TBLIDX;
+						_player->GetAttributesManager()->QuestDat[i].uEvtData.sMobKillCnt[j].nCurMobCnt == INVALID_TBLIDX;
+						_player->GetAttributesManager()->QuestDat[i].uEvtData.sMobKillCnt[j].nMobCnt == INVALID_TBLIDX;
+					}
+					
 				}
 
 			}
@@ -904,19 +909,19 @@ ResultCodes	WorldSession::CheckEvtDataType(CDboTSActSToCEvt* sToCEvt)
 			}
 
 			_player->GetAttributesManager()->QuestDat[freeslot].QuestID = trigger->GetID();
-			_player->GetAttributesManager()->QuestDat[freeslot].MobID = sToCEvt->GetEvtData().sMobKillCnt[0].uiMobIdx;
-			_player->GetAttributesManager()->QuestDat[freeslot].count = sToCEvt->GetEvtData().sMobKillCnt[0].nCurMobCnt;
-			_player->GetAttributesManager()->QuestDat[freeslot].Maxcount = sToCEvt->GetEvtData().sMobKillCnt[0].nMobCnt;
 
 			for (int i = 0; i < sToCEvt->GetEvtData().MAX_MOB_KILL; i++)
 			{
-				sToCEvt->GetEvtData().sMobKillCnt[i].uiMobIdx;
-				sToCEvt->GetEvtData().sMobKillCnt[i].nMobCnt;
-				sToCEvt->GetEvtData().sMobKillCnt[i].nCurMobCnt;
+				TBLIDX groupTblidx = sToCEvt->GetEvtData().sMobKillCnt[i].uiMobIdx;
+				TBLIDX mobTblidx = sTBM.GetMobTable()->FindTblidxByGroup(groupTblidx);
+
+				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sMobKillCnt[i].uiMobIdx = mobTblidx;
+				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sMobKillCnt[i].nCurMobCnt = sToCEvt->GetEvtData().sMobKillCnt[i].nCurMobCnt;
+				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sMobKillCnt[i].nMobCnt = sToCEvt->GetEvtData().sMobKillCnt[i].nMobCnt;
 
 				sLog.outError("ROOT TS: %d", trigger->GetID());
-				sLog.outDetail("Mob kill: tblidx: %d count: %d, curcout: %d", 
-					sToCEvt->GetEvtData().sMobKillCnt[i].uiMobIdx, sToCEvt->GetEvtData().sMobKillCnt[i].nMobCnt, sToCEvt->GetEvtData().sMobKillCnt[i].nCurMobCnt);
+				sLog.outDetail("Mob kill: group tblidx: %d  mobTblidx: %d count: %d, curcout: %d", 
+					groupTblidx, mobTblidx, sToCEvt->GetEvtData().sMobKillCnt[i].nMobCnt, sToCEvt->GetEvtData().sMobKillCnt[i].nCurMobCnt);
 			}
 			sLog.outDetail("Quest: type eSTOC_EVT_DATA_TYPE_MOB_KILL_CNT");
 			break;
