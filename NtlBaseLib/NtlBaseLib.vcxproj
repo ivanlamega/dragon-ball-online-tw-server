@@ -288,6 +288,7 @@
     <ClInclude Include="QuestNarrationTable.h" />
     <ClInclude Include="QuestProbabilityTable.h" />
     <ClInclude Include="QuestProbabilityTable2.h" />
+    <ClInclude Include="QuestRewardSelectTable.h" />
     <ClInclude Include="QuestRewardTable.h" />
     <ClInclude Include="QuestTextDataTable.h" />
     <ClInclude Include="Queue.h" />
@@ -407,6 +408,7 @@
     <ClCompile Include="QuestNarrationTable.cpp" />
     <ClCompile Include="QuestProbabilityTable.cpp" />
     <ClCompile Include="QuestProbabilityTable2.cpp" />
+    <ClCompile Include="QuestRewardSelectTable.cpp" />
     <ClCompile Include="QuestRewardTable.cpp" />
     <ClCompile Include="QuestTextDataTable.cpp" />
     <ClCompile Include="RankBattleTable.cpp" />

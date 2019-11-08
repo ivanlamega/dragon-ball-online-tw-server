@@ -47,6 +47,7 @@
 #include "QuestProbabilityTable2.h"
 #include "QuestTextDataTable.h"
 #include "QuestRewardTable.h"
+#include "QuestRewardSelectTable.h"
 
 #include "HTBSetTable.h"
 #include "SkillTable.h"

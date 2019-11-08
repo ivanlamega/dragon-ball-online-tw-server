@@ -55,6 +55,7 @@ class QuestProbabilityTable;
 class QuestProbabilityTable2;
 class QuestTextDataTable;
 class QuestRewardTable;
+class QuestRewardSelectTable;
 
 // Rule
 class RankBattleTable;
@@ -150,6 +151,7 @@ public:
 		TABLE_QUEST_PROBABILITY2,
 		TABLE_QUEST_TEXT_DATA,
 		TABLE_QUEST_REWARD,
+		TABLE_QUEST_REWARD_SELECT, //POSIBLE ERROR
 
 		// Rule
 		TABLE_RANKBATTLE,
@@ -287,6 +289,7 @@ public:
 	QuestProbabilityTable2* GetQuestProbabilityTable2() { return m_pQuestProbalityTable2; }
 	QuestTextDataTable* GetQuestTextDataTable() { return m_pQuestTextDataTable; }
 	QuestRewardTable* GetQuestRewardTable() { return m_pQuestRewardTable; }
+	QuestRewardSelectTable* GetQuestRewardSelectTable() { return m_pQuestRewardSelectTable; }
 
 	// Rule
 	RankBattleTable* GetRankBattleTable() { return m_pRankBattleTable; }
@@ -407,6 +410,7 @@ protected:
 	QuestProbabilityTable2* m_pQuestProbalityTable2;
 	QuestTextDataTable* m_pQuestTextDataTable;
 	QuestRewardTable* m_pQuestRewardTable;
+	QuestRewardSelectTable* m_pQuestRewardSelectTable;
 
 	// Rule
 	RankBattleTable* m_pRankBattleTable;

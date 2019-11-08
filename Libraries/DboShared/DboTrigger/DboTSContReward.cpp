@@ -316,15 +316,15 @@ void CDboTSContReward::LoadTable( QuestRewardTable* pRewardTbl )
 
 	for ( i = 0; i < QUEST_REWARD_DEF_MAX_CNT; ++i )
 	{
-		m_asDefReward[i].m_eType = pTblData->unk2[i].unk == 255 ? eREWARD_TYPE_INVALID : (eREWARD_TYPE)pTblData->unk2[i].unk;
-		m_asDefReward[i].m_uiIdx = pTblData->unk2[i].Item;
-		m_asDefReward[i].m_nValue = pTblData->unk2[i].Amount;
+		m_asDefReward[i].m_eType = pTblData->rewardData[i].unknown == 255 ? eREWARD_TYPE_INVALID : (eREWARD_TYPE)pTblData->rewardData[i].unknown;
+		m_asDefReward[i].m_uiIdx = pTblData->rewardData[i].rwdIdx;
+		m_asDefReward[i].m_nValue = pTblData->rewardData[i].Amount;
 	}
 
 	for ( i = 0; i < QUEST_REWARD_SEL_MAX_CNT; ++i )
 	{
-		m_asSelReward[i].m_eType = pTblData->unk2[i].unk == 255 ? eREWARD_TYPE_INVALID : (eREWARD_TYPE)pTblData->unk2[i].unk;
-		m_asSelReward[i].m_uiIdx = pTblData->unk2[i].Item;
-		m_asSelReward[i].m_nValue = pTblData->unk2[i].Amount;
+		m_asSelReward[i].m_eType = pTblData->rewardData[i].unknown == 255 ? eREWARD_TYPE_INVALID : (eREWARD_TYPE)pTblData->rewardData[i].unknown;
+		m_asSelReward[i].m_uiIdx = pTblData->rewardData[i].rwdIdx;
+		m_asSelReward[i].m_nValue = pTblData->rewardData[i].Amount;
 	}
 }

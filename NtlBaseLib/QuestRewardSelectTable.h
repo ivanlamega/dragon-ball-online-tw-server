@@ -2,24 +2,23 @@
 
 #include "Table.h"
 
-const int QUEST_REWARD_DEF_MAX_CNT = 4;			/* DboTSCoreDefine.h => MAX_DEFAULT_REWARD */
-const int QUEST_REWARD_SEL_MAX_CNT = 4;			/* DboTSCoreDefine.h => MAX_SELECTION_REWARD */
+const int QUEST_REWARD_SELECT_DEF_MAX_CNT = 4;			/* DboTSCoreDefine.h => MAX_DEFAULT_REWARD */
+const int QUEST_REWARD_SELECT_SEL_MAX_CNT = 4;			/* DboTSCoreDefine.h => MAX_SELECTION_REWARD */
 
 #pragma pack(push, 4)
-struct sQUEST_REWARD_DATASET
+struct sQUEST_REWARD_SELECT_DATASET
 {
-	BYTE   unknown;
-	BYTE   Padding[3];
-	DWORD  rwdIdx;
-	DWORD  Amount;
+	BYTE			unknown;
+	TBLIDX			itemTblidx;
+	unsigned int	amount;
+
 };
 
-struct sQUEST_REWARD_TBLDAT : public sTBLDAT
+struct sQUEST_REWARD_SELECT_TBLDAT : public sTBLDAT
 {
-public:	
-	DWORD  EXP;
-	DWORD  Zenny;
-	sQUEST_REWARD_DATASET  rewardData[8]; //Item Need look When quest Working
+public:
+	BYTE					unknown;
+	sQUEST_REWARD_SELECT_DATASET	rewardData[20];
 protected:
 
 	virtual int GetDataSize()
@@ -31,11 +30,11 @@ protected:
 
 
 
-class QuestRewardTable : public Table
+class QuestRewardSelectTable : public Table
 {
 public:
-	QuestRewardTable(void);
-	virtual ~QuestRewardTable(void);
+	QuestRewardSelectTable(void);
+	virtual ~QuestRewardSelectTable(void);
 
 	bool Create(DWORD dwCodePage);
 	void Destroy();
@@ -48,10 +47,10 @@ public:
 protected:
 	void Init();
 
-	WCHAR** GetSheetListInWChar() { return &(QuestRewardTable::m_pwszSheetList[0]); }
+	WCHAR** GetSheetListInWChar() { return &(QuestRewardSelectTable::m_pwszSheetList[0]); }
 	void* AllocNewTable(WCHAR* pwszSheetName, DWORD dwCodePage);
 	bool DeallocNewTable(void* pvTable, WCHAR* pwszSheetName);
-	bool AddTable(void * pvTable, bool bReload);
+	bool AddTable(void* pvTable, bool bReload);
 	bool SetTableData(void* pvTable, WCHAR* pwszSheetName, std::wstring* pstrDataName, BSTR bstrData);
 
 private:

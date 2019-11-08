@@ -43,6 +43,7 @@
 #include "QuestProbabilityTable2.h"
 #include "QuestTextDataTable.h"
 #include "QuestRewardTable.h"
+#include "QuestRewardSelectTable.h"
 
 #include "HTBSetTable.h"
 #include "SkillTable.h"
@@ -271,6 +272,7 @@ void TableContainer::Init()
 	m_pQuestProbalityTable2 = NULL;
 	m_pQuestTextDataTable = NULL;
 	m_pQuestRewardTable = NULL;
+	m_pQuestRewardSelectTable = NULL;
 
 	m_pHTBSetTable = NULL;
 	m_pSkillTable = NULL;
@@ -532,6 +534,10 @@ bool TableContainer::Create(CNtlBitFlagManager& rTableFlag, WCHAR* pwszPath, Tab
 	if (false != rTableFlag.IsSet(TABLE_QUEST_REWARD))
 	{
 		DBO_CREATE_TABLE(QuestRewardTable, serializer, pFileNameList->GetFileNameW(TABLE_QUEST_REWARD), m_pQuestRewardTable, pCall);
+	}
+	if (false != rTableFlag.IsSet(TABLE_QUEST_REWARD_SELECT))
+	{
+		DBO_CREATE_TABLE(QuestRewardSelectTable, serializer, pFileNameList->GetFileNameW(TABLE_QUEST_REWARD_SELECT), m_pQuestRewardSelectTable, pCall);
 	}
 	//--------------------------------------------------------------------------------
 
@@ -977,6 +983,11 @@ void TableContainer::Destroy()
 	{
 		delete m_pQuestRewardTable;
 		m_pQuestRewardTable = NULL;
+	}
+	if (NULL != m_pQuestRewardSelectTable)
+	{
+		delete m_pQuestRewardSelectTable;
+		m_pQuestRewardSelectTable = NULL;
 	}
 	//--------------------------------------------------------------------------------
 
@@ -1594,6 +1605,10 @@ bool TableContainer::SaveToFile(CNtlBitFlagManager& rTableFlag, TableFileNameLis
 	if (false != rTableFlag.IsSet(TABLE_QUEST_REWARD))
 	{
 		DBO_EXPORT_TABLE(m_pQuestRewardTable, serializer, pFileNameList->GetFileNameW(TABLE_QUEST_REWARD), bNeedToEncrypt);
+	}
+	if (false != rTableFlag.IsSet(TABLE_QUEST_REWARD_SELECT))
+	{
+		DBO_EXPORT_TABLE(m_pQuestRewardSelectTable, serializer, pFileNameList->GetFileNameW(TABLE_QUEST_REWARD_SELECT), bNeedToEncrypt);
 	}
 	//--------------------------------------------------------------------------------
 

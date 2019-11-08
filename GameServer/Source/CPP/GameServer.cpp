@@ -141,6 +141,7 @@ bool GameServer::loadDataTable()
 	//flagManager.Set(TableContainer::TABLE_SPEECH);												
 	flagManager.Set(TableContainer::TABLE_FORMULA);	
 	flagManager.Set(TableContainer::TABLE_QUEST_REWARD);
+	flagManager.Set(TableContainer::TABLE_QUEST_REWARD_SELECT);
 	//flagManager.Set(TableContainer::TABLE_QUEST_NARRATION);
 
 	flagManager.Set(TableContainer::TABLE_CASHITEM_TABLE);
@@ -155,6 +156,7 @@ bool GameServer::loadDataTable()
 	fileNameList.SetFileName(TableContainer::TABLE_SKILL,					"Table_Skill_Data");//structure Done
 	fileNameList.SetFileName(TableContainer::TABLE_VEHICLE,					"Table_Vehicle_Data");//structure Done
 	fileNameList.SetFileName(TableContainer::TABLE_QUEST_REWARD,			"Table_Quest_Reward_Data");//structure Done
+	fileNameList.SetFileName(TableContainer::TABLE_QUEST_REWARD_SELECT,		"table_quest_reward_select_data");
 	fileNameList.SetFileName(TableContainer::TABLE_ITEM,					"Table_Item_Data");//structure Done
 	fileNameList.SetFileName(TableContainer::TABLE_CASHITEM_TABLE,			"o_table_item_data");//structure Done
 	fileNameList.SetFileName(TableContainer::TABLE_DRAGONBALL_REWARD,		"Table_DB_Reward_Data");//structure Done
