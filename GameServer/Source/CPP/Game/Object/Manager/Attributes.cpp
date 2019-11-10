@@ -385,7 +385,7 @@ bool AttributesManager::LoadAttributeFromDB()
 	PlayerProfile.avatarAttribute.unknown_rate1 = 0;
 	PlayerProfile.avatarAttribute.unknown_rate2 = 0;
 	// SKILL SPEED
-	PlayerProfile.avatarAttribute.SkillSpeed = 70.0f;
+	PlayerProfile.avatarAttribute.SkillSpeed = 75.0f;
 	//LP Get up Reg
 	PlayerProfile.avatarAttribute.wBaseLpRegen = 70;
 	PlayerProfile.avatarAttribute.wLastLpRegen = 70;
@@ -461,8 +461,8 @@ bool AttributesManager::LoadAttributeFromDB()
 	PlayerProfile.avatarAttribute.fEnergyCriticalDamageBonusRate = 0;
 	PlayerProfile.avatarAttribute.fItemUpgradeBonusRate = 0;
 	PlayerProfile.avatarAttribute.fItemUpgradeBreakBonusRate = 0;
-	PlayerProfile.avatarAttribute.fBaseAirDash2Speed = 25.0f;//Dash Fly2 TW
-	PlayerProfile.avatarAttribute.fLastAirDash2Speed = 25.0f;//Dash Fly2 TW
+	PlayerProfile.avatarAttribute.fBaseAirDash2Speed = 30.0f;//Dash Fly2 TW
+	PlayerProfile.avatarAttribute.fLastAirDash2Speed = 30.0f;//Dash Fly2 TW
 	PlayerProfile.avatarAttribute.fBaseAirDashSpeed = 20.0f;//Dash Fly TW
 	PlayerProfile.avatarAttribute.fLastAirDashSpeed = 20.0f;//Dash Fly TW
 	PlayerProfile.avatarAttribute.fBaseRunSpeed = static_cast<WORD>(result->getDouble("LastRunSpeed")); //Base Run TW
@@ -572,7 +572,7 @@ bool AttributesManager::LoadCharacterAttrFromDB(sPC_TBLDAT* pTblData)
 	//Calculation Physical Critical Atack 
 	WORD BasicPhysicalCritical = 0;
 	WORD LevelDex = pTblData->byDex + static_cast<WORD>(pTblData->fLevel_Up_Dex * PlayerProfile.byLevel);
-	float DexByPoint = 0.2; // 1Dex = 1 critical old tw
+	float DexByPoint = 0.5; // 1Dex = 1 critical old tw
 	WORD PhysicalCriticalRate = BasicPhysicalCritical + static_cast<WORD>(LevelDex * DexByPoint); 
 	// Atack Defese Physical
 	result = sDB.executes("UPDATE characters_attributes SET BasePhysicalOffence = '%d', LastPhysicalOffence = '%d', BasePhysicalDefence = '%d', LastPhysicalDefence = '%d', BasePhysicalCriticalRate = '%d', LastPhysicalCriticalRate = '%d' WHERE CharacterID = '%d';",
@@ -594,7 +594,7 @@ bool AttributesManager::LoadCharacterAttrFromDB(sPC_TBLDAT* pTblData)
 	//Calculation Energy Critical Atack
 	WORD BasicEnergyCritical = 0;
 	WORD LevelFoc = pTblData->byFoc + static_cast<WORD>(pTblData->fLevel_Up_Foc * PlayerProfile.byLevel);
-	float FocByPoint = 0.2; // 1Focus = 1 pont critical 
+	float FocByPoint = 0.5; // 1Focus = 1 pont critical 
 	WORD EnergyCriticalRate = BasicEnergyCritical + static_cast<WORD>(LevelFoc * FocByPoint);
 	// Atack Defese Energy
 	result = sDB.executes("UPDATE characters_attributes SET BaseEnergyOffence = '%d', LastEnergyOffence = '%d', BaseEnergyDefence = '%d', LastEnergyDefence = '%d', BaseEnergyCriticalRate = '%d', LastEnergyCriticalRate = '%d' WHERE CharacterID = '%d';",
@@ -903,7 +903,7 @@ void AttributesManager::UpdateExtraAttributesFromItem(sITEM_EFFECT aitemEffect[6
 					{
 						plr->GetAttributesManager()->SetLastFoc(aitemEffect[i].dwValue * -1);
 						WORD LevelFoc = aitemEffect[i].dwValue;
-						float EnergyCriticalByPoint = 0.2; // 1Focus = 1 pont critical 
+						float EnergyCriticalByPoint = 0.5; // 1Focus = 1 pont critical 
 						float EnergyAttackByPoint = 2; // 1Focus = 1 pont critical 
 						float HitRateByPoint = 10; // 1 point = 10 hit rate old tw
 						WORD EnergyCriticalRate = static_cast<WORD>(LevelFoc * EnergyCriticalByPoint);
@@ -922,7 +922,7 @@ void AttributesManager::UpdateExtraAttributesFromItem(sITEM_EFFECT aitemEffect[6
 					{
 						plr->GetAttributesManager()->SetLastFoc(aitemEffect[i].dwValue);
 						WORD LevelFoc = aitemEffect[i].dwValue;
-						float EnergyCriticalByPoint = 0.2; // 1Focus = 1 pont critical 
+						float EnergyCriticalByPoint = 0.5; // 1Focus = 1 pont critical 
 						float EnergyAttackByPoint = 2; // 1Focus = 1 pont critical 
 						float HitRateByPoint = 10; // 1 point = 10 hit rate old tw
 						WORD EnergyCriticalRate = static_cast<WORD>(LevelFoc * EnergyCriticalByPoint);
@@ -940,7 +940,7 @@ void AttributesManager::UpdateExtraAttributesFromItem(sITEM_EFFECT aitemEffect[6
 					{
 						plr->GetAttributesManager()->SetLastDex(aitemEffect[i].dwValue * -1);
 						WORD LevelDex = aitemEffect[i].dwValue;
-						float CriticalAttackByPoint = 0.2; // 1Dex = 1 critical old tw
+						float CriticalAttackByPoint = 0.5; // 1Dex = 1 critical old tw
 						float PhyAttackByPoint = 2; // 1Dex = 1 phyattack old tw
 						float DoggeByPoint = 5;
 						WORD PhysicalCriticalRate = static_cast<WORD>(LevelDex * CriticalAttackByPoint);
@@ -964,7 +964,7 @@ void AttributesManager::UpdateExtraAttributesFromItem(sITEM_EFFECT aitemEffect[6
 					{
 						plr->GetAttributesManager()->SetLastDex(aitemEffect[i].dwValue);
 						WORD LevelDex = aitemEffect[i].dwValue;
-						float CriticalAttackByPoint = 0.2; // 1Dex = 1 critical old tw
+						float CriticalAttackByPoint = 0.5; // 1Dex = 1 critical old tw
 						float PhyAttackByPoint = 2; // 1Dex = 1 phyattack old tw
 						float DoggeByPoint = 5;
 						WORD PhysicalCriticalRate = static_cast<WORD>(LevelDex * CriticalAttackByPoint);
