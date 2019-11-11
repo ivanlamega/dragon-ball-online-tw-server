@@ -785,7 +785,7 @@ ResultCodes WorldSession::GivePlayerQuestReward(TBLIDX tblidx, eREWARD_CONTAINER
 			{
 				sLog.outDebug("Reward Select table: %d type: %d", rewardSelect->tblidx, rewardSelect->unknown);
 
-				if (rewardSelect->unknown == eREWARD_TYPE_NORMAL_ITEM)
+				if (rewardSelect->unknown == 1) //eREWARD_TYPE_NORMAL_ITEM
 				{
 					for (int itRw = 0; itRw < 20; itRw++)
 					{
