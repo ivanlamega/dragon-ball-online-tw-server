@@ -803,6 +803,21 @@ ResultCodes WorldSession::GivePlayerItemReward(sQUEST_REWARD_TBLDAT* rewardTbl, 
 						case eREWARD_TYPE_NORMAL_ITEM:
 						{
 							sLog.outDebug("Item tblidx :%d", rewardSelect->rewardData[itRw].itemTblidx);
+
+							sITEM_TBLDAT* itemTbl = (sITEM_TBLDAT*)sTBM.GetItemTable()->FindData(rewardTbl->rewardSelData[rw].rwdIdx);
+
+							DWORD myFlag;
+							// if we have double spec
+							// (0x01 << 0) | (0x01 << plr->GetMyClass());
+							myFlag = MAKE_BIT_FLAG(static_cast<int>(_player->GetMyClass()));
+							sLog.outDetail("My flag: %d flag need %d my class: %d", myFlag, itemTbl->dwNeedClassBitFlag, _player->GetMyClass());
+							if (itemTbl->dwNeedClassBitFlag == INVALID_TBLIDX && myFlag & ~itemTbl->dwNeedClassBitFlag)
+							{
+								sLog.outDebug("Special class: %u, need class: %d", itemTbl->byClassSpecial, itemTbl->dwNeedClassBitFlag);
+								sLog.outError("This item is not for this class");
+								continue;
+							}
+
 							sITEM_PROFILE createdItem;
 							WORD result = _player->GetInventoryManager()->PerformShopBuy(rewardSelect->rewardData[itRw].itemTblidx, rewardSelect->rewardData[itRw].amount, createdItem);
 							if (result == GAME_SUCCESS && createdItem.tblidx != INVALID_TBLIDX)
@@ -856,6 +871,21 @@ ResultCodes WorldSession::GivePlayerItemReward(sQUEST_REWARD_TBLDAT* rewardTbl, 
 					case eREWARD_TYPE_NORMAL_ITEM:
 					{
 						sLog.outDebug("Item tblidx :%d type item: %d", rewardSelect->rewardData[dwParam].itemTblidx, rewardSelect->rewardData[dwParam].unknown);
+
+						sITEM_TBLDAT* itemTbl = (sITEM_TBLDAT*)sTBM.GetItemTable()->FindData(rewardTbl->rewardSelData[rw].rwdIdx);
+
+						DWORD myFlag;
+						// if we have double spec
+						// (0x01 << 0) | (0x01 << plr->GetMyClass());
+						myFlag = MAKE_BIT_FLAG(static_cast<int>(_player->GetMyClass()));
+						sLog.outDetail("My flag: %d flag need %d my class: %d", myFlag, itemTbl->dwNeedClassBitFlag, _player->GetMyClass());
+						if (itemTbl->dwNeedClassBitFlag == INVALID_TBLIDX && myFlag & ~itemTbl->dwNeedClassBitFlag)
+						{
+							sLog.outDebug("Special class: %u, need class: %d", itemTbl->byClassSpecial, itemTbl->dwNeedClassBitFlag);
+							sLog.outError("This item is not for this class");
+							continue;
+						}
+
 						sITEM_PROFILE createdItem;
 						WORD result = _player->GetInventoryManager()->PerformShopBuy(rewardSelect->rewardData[dwParam].itemTblidx, rewardSelect->rewardData[dwParam].amount, createdItem);
 						if (result == GAME_SUCCESS && createdItem.tblidx != INVALID_TBLIDX)
