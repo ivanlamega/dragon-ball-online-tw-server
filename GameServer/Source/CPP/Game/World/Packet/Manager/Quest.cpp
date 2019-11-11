@@ -761,6 +761,122 @@ ResultCodes WorldSession::ProcessTsContReward(CDboTSContReward * contReward, DWO
 	return RESULT_SUCCESS;
 }
 
+ResultCodes WorldSession::GivePlayerItemReward(sQUEST_REWARD_TBLDAT* rewardTbl, DWORD dwParam)
+{
+	for (int rw = 0; rw < QUEST_REWARD_DEF_MAX_CNT; rw++)
+	{
+		if (rewardTbl->rewardDefData[rw].rwdIdx == INVALID_TBLIDX)
+		{
+			break; // cambiar por continue si causa bug
+		}
+
+		sITEM_TBLDAT* itemTbl = (sITEM_TBLDAT*)sTBM.GetItemTable()->FindData(rewardTbl->rewardDefData[rw].rwdIdx);
+		if (itemTbl)
+		{
+			sITEM_PROFILE createdItem;
+			WORD result = _player->GetInventoryManager()->PerformShopBuy(itemTbl->tblidx, rewardTbl->rewardDefData[rw].Amount, createdItem);
+			if (result == GAME_SUCCESS && createdItem.tblidx != INVALID_TBLIDX)
+			{
+				sLog.outDetail("Item Reward Created\n");
+				SendItemCreate(&createdItem);
+			}
+			continue;
+		}
+
+		sQUEST_REWARD_SELECT_TBLDAT* rewardSelect = (sQUEST_REWARD_SELECT_TBLDAT*)sTBM.GetQuestRewardSelectTable()->FindData(rewardTbl->rewardDefData[rw].rwdIdx);
+
+		if (rewardSelect)
+		{
+			sLog.outDebug("Reward Select table: %d type: %d", rewardSelect->tblidx, rewardSelect->unknown);
+
+			if (rewardSelect->unknown == eREWARD_SLOT_TYPE_DEFAULT)
+			{
+				for (int itRw = 0; itRw < QUEST_REWARD_SELECT_MAX_CNT; itRw++)
+				{
+					if (rewardSelect->rewardData[itRw].itemTblidx == INVALID_TBLIDX) // quitar si causa bugs
+					{
+						break;
+					}
+
+					switch (rewardSelect->rewardData[itRw].unknown)
+					{
+						case eREWARD_TYPE_NORMAL_ITEM:
+						{
+							sLog.outDebug("Item tblidx :%d", rewardSelect->rewardData[itRw].itemTblidx);
+							sITEM_PROFILE createdItem;
+							WORD result = _player->GetInventoryManager()->PerformShopBuy(rewardSelect->rewardData[itRw].itemTblidx, rewardSelect->rewardData[itRw].amount, createdItem);
+							if (result == GAME_SUCCESS && createdItem.tblidx != INVALID_TBLIDX)
+							{
+								sLog.outDetail("Item Reward Created\n");
+								SendItemCreate(&createdItem);
+							}
+							else 
+							{
+								sLog.outError("Item reward not found");
+								return RESULT_FAIL;
+							}
+							break;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	for (int rw = 0; rw < QUEST_REWARD_SEL_MAX_CNT; rw++)
+	{
+		if (rewardTbl->rewardSelData[rw].rwdIdx == INVALID_TBLIDX)
+		{
+			break; // cambiar por continue si causa bugs
+		}
+
+		sITEM_TBLDAT* itemTbl = (sITEM_TBLDAT*)sTBM.GetItemTable()->FindData(rewardTbl->rewardSelData[rw].rwdIdx);
+		if (itemTbl)
+		{
+			sITEM_PROFILE createdItem;
+			WORD result = _player->GetInventoryManager()->PerformShopBuy(itemTbl->tblidx, rewardTbl->rewardSelData[rw].Amount, createdItem);
+			if (result == GAME_SUCCESS && createdItem.tblidx != INVALID_TBLIDX)
+			{
+				sLog.outDetail("Item Reward Created %d", itemTbl->tblidx);
+				SendItemCreate(&createdItem);
+			}
+			continue;
+		}
+
+		sQUEST_REWARD_SELECT_TBLDAT* rewardSelect = (sQUEST_REWARD_SELECT_TBLDAT*)sTBM.GetQuestRewardSelectTable()->FindData(rewardTbl->rewardSelData[rw].rwdIdx);
+
+		if (rewardSelect)
+		{
+			sLog.outDebug("Reward Select table: %d type: %d", rewardSelect->tblidx, rewardSelect->unknown);
+
+			if (rewardSelect->unknown == eREWARD_SLOT_TYPE_SELECTION)
+			{
+				switch (rewardSelect->rewardData[dwParam].unknown)
+				{
+					case eREWARD_TYPE_NORMAL_ITEM:
+					{
+						sLog.outDebug("Item tblidx :%d type item: %d", rewardSelect->rewardData[dwParam].itemTblidx, rewardSelect->rewardData[dwParam].unknown);
+						sITEM_PROFILE createdItem;
+						WORD result = _player->GetInventoryManager()->PerformShopBuy(rewardSelect->rewardData[dwParam].itemTblidx, rewardSelect->rewardData[dwParam].amount, createdItem);
+						if (result == GAME_SUCCESS && createdItem.tblidx != INVALID_TBLIDX)
+						{
+							sLog.outDetail("Item Reward Created");
+							SendItemCreate(&createdItem);
+						}
+						else
+						{
+							return RESULT_FAIL;
+						}
+						break;
+					}
+				}
+			}
+		}
+	}
+
+	return RESULT_SUCCESS;
+}
+
 ResultCodes WorldSession::GivePlayerQuestReward(TBLIDX tblidx, eREWARD_CONTAINER_TYPE rewardContType, DWORD dwParam)
 {
 	if (rewardContType == eREWARD_CONTAINER_TYPE_QUEST)
@@ -773,139 +889,12 @@ ResultCodes WorldSession::GivePlayerQuestReward(TBLIDX tblidx, eREWARD_CONTAINER
 		}
 		sLog.outDebug("Reward table: %d", rewardTbl->tblidx);
 
-		for (int rw = 0; rw < QUEST_REWARD_DEF_MAX_CNT; rw++)
-		{
-			if (rewardTbl->rewardDefData[rw].rwdIdx == INVALID_TBLIDX)
-			{
-				continue;
-			}
-
-			sQUEST_REWARD_SELECT_TBLDAT* rewardSelect = (sQUEST_REWARD_SELECT_TBLDAT*)sTBM.GetQuestRewardSelectTable()->FindData(rewardTbl->rewardDefData[rw].rwdIdx);
-
-			if (rewardSelect)
-			{
-				sLog.outDebug("Reward Select table: %d type: %d", rewardSelect->tblidx, rewardSelect->unknown);
-
-				switch (rewardSelect->unknown)
-				{
-					case eREWARD_SLOT_TYPE_SELECTION:
-					{
-						break;
-					}
-					case eREWARD_SLOT_TYPE_DEFAULT:
-					{
-						for (int itRw = 0; itRw < QUEST_REWARD_SELECT_MAX_CNT; itRw++)
-						{
-							switch (rewardSelect->rewardData[itRw].unknown)
-							{
-								case eREWARD_TYPE_NORMAL_ITEM:
-								{
-									sITEM_TBLDAT* itemTbl = (sITEM_TBLDAT*)sTBM.GetItemTable()->FindData(rewardSelect->rewardData[itRw].itemTblidx);
-
-									if (itemTbl)
-									{
-										sLog.outDebug("Item tblidx :%d", itemTbl->tblidx);
-										sITEM_PROFILE createdItem;
-										WORD result = _player->GetInventoryManager()->PerformShopBuy(itemTbl->tblidx, rewardSelect->rewardData[itRw].amount, createdItem);
-										if (result == GAME_SUCCESS && createdItem.tblidx != INVALID_TBLIDX)
-										{
-											sLog.outDetail("Item Reward Created\n");
-											SendItemCreate(&createdItem);
-										}
-									}
-									break;
-								}
-							}
-						}
-						break;
-					}
-				}
-			}
-
-			sITEM_TBLDAT* itemTbl = (sITEM_TBLDAT*)sTBM.GetItemTable()->FindData(rewardTbl->rewardDefData[rw].rwdIdx);
-			if (itemTbl)
-			{
-				sITEM_PROFILE createdItem;
-				WORD result = _player->GetInventoryManager()->PerformShopBuy(itemTbl->tblidx, rewardTbl->rewardDefData[rw].Amount, createdItem);
-				if (result == GAME_SUCCESS && createdItem.tblidx != INVALID_TBLIDX)
-				{
-					sLog.outDetail("Item Reward Created\n");
-					SendItemCreate(&createdItem);
-				}
-			}
-		}
-
-		for (int rw = 0; rw < QUEST_REWARD_SEL_MAX_CNT; rw++)
-		{
-			if (rewardTbl->rewardSelData[rw].rwdIdx == INVALID_TBLIDX)
-			{
-				continue;
-			}
-
-			sQUEST_REWARD_SELECT_TBLDAT* rewardSelect = (sQUEST_REWARD_SELECT_TBLDAT*)sTBM.GetQuestRewardSelectTable()->FindData(rewardTbl->rewardSelData[rw].rwdIdx);
-
-			if (rewardSelect)
-			{
-				sLog.outDebug("Reward Select table: %d type: %d", rewardSelect->tblidx, rewardSelect->unknown);
-
-				switch (rewardSelect->unknown)
-				{
-				case eREWARD_SLOT_TYPE_DEFAULT:
-				{
-					break;
-				}
-				case eREWARD_SLOT_TYPE_SELECTION:
-				{
-					switch (rewardSelect->rewardData[dwParam].unknown)
-					{
-						case eREWARD_TYPE_NORMAL_ITEM:
-						{
-							sITEM_TBLDAT* itemTbl = (sITEM_TBLDAT*)sTBM.GetItemTable()->FindData(rewardSelect->rewardData[dwParam].itemTblidx);
-
-							if (itemTbl)
-							{
-								sLog.outDebug("Item tblidx :%d", itemTbl->tblidx);
-								sITEM_PROFILE createdItem;
-								WORD result = _player->GetInventoryManager()->PerformShopBuy(itemTbl->tblidx, rewardSelect->rewardData[dwParam].amount, createdItem);
-								if (result == GAME_SUCCESS && createdItem.tblidx != INVALID_TBLIDX)
-								{
-									sLog.outDetail("Item Reward Created\n");
-									SendItemCreate(&createdItem);
-								}
-							}
-							break;
-						}
-					}
-					break;
-				}
-				}
-			}
-
-			sITEM_TBLDAT* itemTbl = (sITEM_TBLDAT*)sTBM.GetItemTable()->FindData(rewardTbl->rewardSelData[rw].rwdIdx);
-			if (itemTbl)
-			{
-				sITEM_PROFILE createdItem;
-				WORD result = _player->GetInventoryManager()->PerformShopBuy(itemTbl->tblidx, rewardTbl->rewardSelData[rw].Amount, createdItem);
-				if (result == GAME_SUCCESS && createdItem.tblidx != INVALID_TBLIDX)
-				{
-					sLog.outDetail("Item Reward Created\n");
-					SendItemCreate(&createdItem);
-				}
-			}
-		}
-		/*
-			strToken = str.substr(pos + 1, std::string::npos);
-			unsigned int uiTblId = (unsigned int)atof(strToken.c_str());
-			sITEM_PROFILE createdItem;
-			WORD result = _player->GetInventoryManager()->PerformShopBuy(uiTblId, 1, createdItem);
-			if (result == GAME_SUCCESS && createdItem.tblidx != INVALID_TBLIDX)
-			{
-				sLog.outDetail("Item Created\n");
-				SendItemCreate(&createdItem);
-			}
-			*/
-
 		DWORD bonus = 0;
+
+		if (GivePlayerItemReward(rewardTbl, dwParam) != RESULT_SUCCESS)
+		{
+			return RESULT_FAIL;
+		}
 
 		_player->UpdateZennyAmount(rewardTbl->Zenny, eZENNY_CHANGE_TYPE::ZENNY_CHANGE_TYPE_DB_REWARD);
 		_player->UpdateExperienceAmount(rewardTbl->EXP, bonus);

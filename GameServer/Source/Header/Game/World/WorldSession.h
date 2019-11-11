@@ -27,6 +27,7 @@ enum eZENNY_CHANGE_TYPE;
 
 struct sITEM_PROFILE;
 struct sUG_TS_CONFIRM_STEP_REQ;
+struct sQUEST_REWARD_TBLDAT;
 
 class Packet;
 class GameSocket;
@@ -163,6 +164,7 @@ public:
 	void			SendQuestCompleteInfo();
 	void			SendQuestGiveUp(Packet& packet);
 	ResultCodes		GivePlayerQuestReward(TBLIDX tblidx, eREWARD_CONTAINER_TYPE rewardContType, DWORD dwParam);
+	ResultCodes		GivePlayerItemReward(sQUEST_REWARD_TBLDAT* rewardTbl, DWORD dwParam);
 	ResultCodes		CheckEvtDataType(CDboTSActSToCEvt* sToCEvt);
 	// TS Quest
 	ResultCodes		FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req);
