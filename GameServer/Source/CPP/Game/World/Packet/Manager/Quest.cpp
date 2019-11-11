@@ -804,7 +804,7 @@ ResultCodes WorldSession::GivePlayerItemReward(sQUEST_REWARD_TBLDAT* rewardTbl, 
 						{
 							sLog.outDebug("Item tblidx :%d", rewardSelect->rewardData[itRw].itemTblidx);
 
-							sITEM_TBLDAT* itemTbl = (sITEM_TBLDAT*)sTBM.GetItemTable()->FindData(rewardTbl->rewardSelData[rw].rwdIdx);
+							sITEM_TBLDAT* itemTbl = (sITEM_TBLDAT*)sTBM.GetItemTable()->FindData(rewardSelect->rewardData[rw].itemTblidx);
 
 							if (itemTbl == NULL)
 							{
