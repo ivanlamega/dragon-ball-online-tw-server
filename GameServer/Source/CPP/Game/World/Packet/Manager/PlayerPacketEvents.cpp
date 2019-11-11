@@ -41,16 +41,14 @@ void WorldSession::SendDragonBallsCheck(Packet & packet)
 		check.wResultCode = GAME_SUCCESS;
 		SendPacket((char*)&check, sizeof(sGU_DRAGONBALL_CHECK_RES));
 
-		//Set Nigth 
-		//Disable Because Disconect Client
 
-		//sGU_AVATAR_ZONE_INFO zoneinfo;
-		//zoneinfo.wOpCode = GU_AVATAR_ZONE_INFO;
-		//zoneinfo.wPacketSize = sizeof(sGU_AVATAR_ZONE_INFO) - 2;
-		//zoneinfo.zoneInfo.bIsDark = true;
-		//zoneinfo.zoneInfo.zoneId = 0; // 0 namek start zone
-		//SendPacket((char*)&zoneinfo, sizeof(sGU_AVATAR_ZONE_INFO));
-		//sWorld.SendToAll((char*)&zoneinfo, sizeof(sGU_AVATAR_ZONE_INFO));
+		sGU_AVATAR_ZONE_INFO zoneinfo;
+		zoneinfo.wOpCode = GU_AVATAR_ZONE_INFO;
+		zoneinfo.wPacketSize = sizeof(sGU_AVATAR_ZONE_INFO) - 2;
+		zoneinfo.zoneInfo.bIsDark = true;
+		zoneinfo.zoneInfo.zoneId = 0;
+		SendPacket((char*)&zoneinfo, sizeof(sGU_AVATAR_ZONE_INFO));
+		sWorld.SendToAll((char*)&zoneinfo, sizeof(sGU_AVATAR_ZONE_INFO));
 
 		//Spawn Shenlong
 		NPCTable * NpcTable = sTBM.GetNpcTable();
@@ -143,15 +141,15 @@ void WorldSession::SendShenlongReward(Packet & packet)
 		Reward.wResultCode = GAME_SUCCESS;
 		SendPacket((char*)&Reward, sizeof(sGU_DRAGONBALL_REWARD_RES));
 
-		//Set Day Disable because Disconect Client
+		
 
-		//sGU_AVATAR_ZONE_INFO zoneinfo;
-		//zoneinfo.wOpCode = GU_AVATAR_ZONE_INFO;
-		//zoneinfo.zoneInfo.bIsDark = false;
-		//zoneinfo.zoneInfo.zoneId = 0;
-
-		//SendPacket((char*)&zoneinfo, sizeof(sGU_AVATAR_ZONE_INFO));
-		//_player->SendToPlayerList((char*)&zoneinfo, sizeof(sGU_AVATAR_ZONE_INFO));
+		sGU_AVATAR_ZONE_INFO zoneinfo;
+		zoneinfo.wOpCode = GU_AVATAR_ZONE_INFO;
+		zoneinfo.wPacketSize = sizeof(sGU_AVATAR_ZONE_INFO) - 2;
+		zoneinfo.zoneInfo.bIsDark = false;
+		zoneinfo.zoneInfo.zoneId = 0; 
+		SendPacket((char*)&zoneinfo, sizeof(sGU_AVATAR_ZONE_INFO));
+		sWorld.SendToAll((char*)&zoneinfo, sizeof(sGU_AVATAR_ZONE_INFO));
 
 		// Despawning Shenlong
 		sGU_UPDATE_CHAR_STATE update;
