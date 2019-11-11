@@ -837,12 +837,12 @@ ResultCodes WorldSession::GivePlayerQuestReward(TBLIDX tblidx, eREWARD_CONTAINER
 
 		for (int rw = 0; rw < QUEST_REWARD_SEL_MAX_CNT; rw++)
 		{
-			if (rewardTbl->rewardDefData[rw].rwdIdx == INVALID_TBLIDX)
+			if (rewardTbl->rewardSelData[rw].rwdIdx == INVALID_TBLIDX)
 			{
 				continue;
 			}
 
-			sQUEST_REWARD_SELECT_TBLDAT* rewardSelect = (sQUEST_REWARD_SELECT_TBLDAT*)sTBM.GetQuestRewardSelectTable()->FindData(rewardTbl->rewardDefData[rw].rwdIdx);
+			sQUEST_REWARD_SELECT_TBLDAT* rewardSelect = (sQUEST_REWARD_SELECT_TBLDAT*)sTBM.GetQuestRewardSelectTable()->FindData(rewardTbl->rewardSelData[rw].rwdIdx);
 
 			if (rewardSelect)
 			{
@@ -881,11 +881,11 @@ ResultCodes WorldSession::GivePlayerQuestReward(TBLIDX tblidx, eREWARD_CONTAINER
 				}
 			}
 
-			sITEM_TBLDAT* itemTbl = (sITEM_TBLDAT*)sTBM.GetItemTable()->FindData(rewardTbl->rewardDefData[rw].rwdIdx);
+			sITEM_TBLDAT* itemTbl = (sITEM_TBLDAT*)sTBM.GetItemTable()->FindData(rewardTbl->rewardSelData[rw].rwdIdx);
 			if (itemTbl)
 			{
 				sITEM_PROFILE createdItem;
-				WORD result = _player->GetInventoryManager()->PerformShopBuy(itemTbl->tblidx, rewardTbl->rewardDefData[rw].Amount, createdItem);
+				WORD result = _player->GetInventoryManager()->PerformShopBuy(itemTbl->tblidx, rewardTbl->rewardSelData[rw].Amount, createdItem);
 				if (result == GAME_SUCCESS && createdItem.tblidx != INVALID_TBLIDX)
 				{
 					sLog.outDetail("Item Reward Created\n");
