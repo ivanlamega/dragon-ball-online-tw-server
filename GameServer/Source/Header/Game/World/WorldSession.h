@@ -162,14 +162,14 @@ public:
 	void			GetQuestPortalInfo(DWORD QuestID, DWORD tcCurId, DWORD tcNextId);	
 	void			SendQuestCompleteInfo();
 	void			SendQuestGiveUp(Packet& packet);
-	ResultCodes		GivePlayerQuestReward(TBLIDX tblidx, eREWARD_CONTAINER_TYPE rewardContType);
+	ResultCodes		GivePlayerQuestReward(TBLIDX tblidx, eREWARD_CONTAINER_TYPE rewardContType, DWORD dwParam);
 	ResultCodes		CheckEvtDataType(CDboTSActSToCEvt* sToCEvt);
 	// TS Quest
 	ResultCodes		FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req);
 	ResultCodes		ProcessTSContStart(CDboTSContStart * contStart);
 	ResultCodes		ProcessTsContGAct(CDboTSContGAct * contGAct);
 	ResultCodes		ProcessTsContGCond(CDboTSContGCond * contGCond);
-	ResultCodes		ProcessTsContReward(CDboTSContReward * contReward);
+	ResultCodes		ProcessTsContReward(CDboTSContReward * contReward, DWORD dwParam);
 	void			ProcessTsContEnd(CDboTSContEnd * contEnd);
 	void			SendQuestSVRevtStartNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, NTL_TS_TA_ID taId);
 	//RankBatle

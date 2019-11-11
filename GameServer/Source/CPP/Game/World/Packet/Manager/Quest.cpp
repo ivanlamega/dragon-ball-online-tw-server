@@ -728,7 +728,7 @@ ResultCodes WorldSession::ProcessTsContGCond(CDboTSContGCond * contGCond)
 	return RESULT_SUCCESS;
 }
 
-ResultCodes WorldSession::ProcessTsContReward(CDboTSContReward * contReward)
+ResultCodes WorldSession::ProcessTsContReward(CDboTSContReward * contReward, DWORD dwParam)
 {
 	for (int i = 0; i < contReward->GetNumOfChildEntity(); i++)
 	{
@@ -752,7 +752,8 @@ ResultCodes WorldSession::ProcessTsContReward(CDboTSContReward * contReward)
 		}
 	}
 
-	if (GivePlayerQuestReward(contReward->GetRewardTableIndex(), contReward->GetRewardContType()) == RESULT_FAIL)
+	ResultCodes result = GivePlayerQuestReward(contReward->GetRewardTableIndex(), contReward->GetRewardContType(), dwParam);
+	if (result == RESULT_FAIL)
 	{
 		return RESULT_FAIL;
 	}
@@ -760,7 +761,7 @@ ResultCodes WorldSession::ProcessTsContReward(CDboTSContReward * contReward)
 	return RESULT_SUCCESS;
 }
 
-ResultCodes WorldSession::GivePlayerQuestReward(TBLIDX tblidx, eREWARD_CONTAINER_TYPE rewardContType)
+ResultCodes WorldSession::GivePlayerQuestReward(TBLIDX tblidx, eREWARD_CONTAINER_TYPE rewardContType, DWORD dwParam)
 {
 	if (rewardContType == eREWARD_CONTAINER_TYPE_QUEST)
 	{
@@ -818,6 +819,65 @@ ResultCodes WorldSession::GivePlayerQuestReward(TBLIDX tblidx, eREWARD_CONTAINER
 						}
 						break;
 					}
+				}
+			}
+
+			sITEM_TBLDAT* itemTbl = (sITEM_TBLDAT*)sTBM.GetItemTable()->FindData(rewardTbl->rewardDefData[rw].rwdIdx);
+			if (itemTbl)
+			{
+				sITEM_PROFILE createdItem;
+				WORD result = _player->GetInventoryManager()->PerformShopBuy(itemTbl->tblidx, rewardTbl->rewardDefData[rw].Amount, createdItem);
+				if (result == GAME_SUCCESS && createdItem.tblidx != INVALID_TBLIDX)
+				{
+					sLog.outDetail("Item Reward Created\n");
+					SendItemCreate(&createdItem);
+				}
+			}
+		}
+
+		for (int rw = 0; rw < QUEST_REWARD_SEL_MAX_CNT; rw++)
+		{
+			if (rewardTbl->rewardDefData[rw].rwdIdx == INVALID_TBLIDX)
+			{
+				continue;
+			}
+
+			sQUEST_REWARD_SELECT_TBLDAT* rewardSelect = (sQUEST_REWARD_SELECT_TBLDAT*)sTBM.GetQuestRewardSelectTable()->FindData(rewardTbl->rewardDefData[rw].rwdIdx);
+
+			if (rewardSelect)
+			{
+				sLog.outDebug("Reward Select table: %d type: %d", rewardSelect->tblidx, rewardSelect->unknown);
+
+				switch (rewardSelect->unknown)
+				{
+				case eREWARD_SLOT_TYPE_DEFAULT:
+				{
+					break;
+				}
+				case eREWARD_SLOT_TYPE_SELECTION:
+				{
+					switch (rewardSelect->rewardData[dwParam].unknown)
+					{
+						case eREWARD_TYPE_NORMAL_ITEM:
+						{
+							sITEM_TBLDAT* itemTbl = (sITEM_TBLDAT*)sTBM.GetItemTable()->FindData(rewardSelect->rewardData[dwParam].itemTblidx);
+
+							if (itemTbl)
+							{
+								sLog.outDebug("Item tblidx :%d", itemTbl->tblidx);
+								sITEM_PROFILE createdItem;
+								WORD result = _player->GetInventoryManager()->PerformShopBuy(itemTbl->tblidx, rewardSelect->rewardData[dwParam].amount, createdItem);
+								if (result == GAME_SUCCESS && createdItem.tblidx != INVALID_TBLIDX)
+								{
+									sLog.outDetail("Item Reward Created\n");
+									SendItemCreate(&createdItem);
+								}
+							}
+							break;
+						}
+					}
+					break;
+				}
 				}
 			}
 
@@ -938,7 +998,7 @@ ResultCodes WorldSession::FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req)
 			{
 				return RESULT_FAIL;
 			}
-			if (ProcessTsContReward(contReward) == RESULT_FAIL)
+			if (ProcessTsContReward(contReward, req->dwParam) == RESULT_FAIL)
 			{
 				return RESULT_FAIL;
 			}
