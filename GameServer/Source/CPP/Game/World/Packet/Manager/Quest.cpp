@@ -293,8 +293,8 @@ void WorldSession::GetQuestPortalInfo(DWORD QuestID, DWORD tcCurId, DWORD tcNext
 }
 void WorldSession::GetQuestInfo(DWORD QuestID, DWORD tcCurId, DWORD tcNextId)
 {
-	int freeslot = 0;	
-	/*if (QuestID == 2 || QuestID == 1924)
+	/*int freeslot = 0;
+	if (QuestID == 2 || QuestID == 1924)
 	{
 		for (int i = 0; i <= 30; i++)
 		{			
@@ -806,6 +806,11 @@ ResultCodes WorldSession::GivePlayerItemReward(sQUEST_REWARD_TBLDAT* rewardTbl, 
 
 							sITEM_TBLDAT* itemTbl = (sITEM_TBLDAT*)sTBM.GetItemTable()->FindData(rewardTbl->rewardSelData[rw].rwdIdx);
 
+							if (itemTbl == NULL)
+							{
+								continue;
+							}
+
 							DWORD myFlag;
 							// if we have double spec
 							// (0x01 << 0) | (0x01 << plr->GetMyClass());
@@ -864,6 +869,11 @@ ResultCodes WorldSession::GivePlayerItemReward(sQUEST_REWARD_TBLDAT* rewardTbl, 
 		{
 			sLog.outDebug("Reward Select table: %d type: %d", rewardSelect->tblidx, rewardSelect->unknown);
 
+			if (dwParam == INVALID_TBLIDX)
+			{
+				break; //Cambiar si causa bugs
+			}
+
 			if (rewardSelect->unknown == eREWARD_SLOT_TYPE_SELECTION)
 			{
 				switch (rewardSelect->rewardData[dwParam].unknown)
@@ -871,20 +881,6 @@ ResultCodes WorldSession::GivePlayerItemReward(sQUEST_REWARD_TBLDAT* rewardTbl, 
 					case eREWARD_TYPE_NORMAL_ITEM:
 					{
 						sLog.outDebug("Item tblidx :%d type item: %d", rewardSelect->rewardData[dwParam].itemTblidx, rewardSelect->rewardData[dwParam].unknown);
-
-						sITEM_TBLDAT* itemTbl = (sITEM_TBLDAT*)sTBM.GetItemTable()->FindData(rewardTbl->rewardSelData[rw].rwdIdx);
-
-						DWORD myFlag;
-						// if we have double spec
-						// (0x01 << 0) | (0x01 << plr->GetMyClass());
-						myFlag = MAKE_BIT_FLAG(static_cast<int>(_player->GetMyClass()));
-						sLog.outDetail("My flag: %d flag need %d my class: %d", myFlag, itemTbl->dwNeedClassBitFlag, _player->GetMyClass());
-						if (itemTbl->dwNeedClassBitFlag == INVALID_TBLIDX && myFlag & ~itemTbl->dwNeedClassBitFlag)
-						{
-							sLog.outDebug("Special class: %u, need class: %d", itemTbl->byClassSpecial, itemTbl->dwNeedClassBitFlag);
-							sLog.outError("This item is not for this class");
-							continue;
-						}
 
 						sITEM_PROFILE createdItem;
 						WORD result = _player->GetInventoryManager()->PerformShopBuy(rewardSelect->rewardData[dwParam].itemTblidx, rewardSelect->rewardData[dwParam].amount, createdItem);
@@ -939,6 +935,7 @@ void WorldSession::ProcessTsContEnd(CDboTSContEnd * contEnd)
 	for (int i = 0; i < contEnd->GetNumOfChildEntity(); i++)
 	{
 		sLog.outDetail("Cont: %s %d, %d", contEnd->GetChildEntity(i)->GetClassNameW(), contEnd->GetChildEntity(i)->GetEntityType(), DBO_EVENT_TYPE_ID_CLICK_NPC);
+		sLog.outDebug("End of quest");
 	}
 }
 
