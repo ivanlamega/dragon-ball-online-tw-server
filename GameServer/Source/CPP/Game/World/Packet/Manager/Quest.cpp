@@ -783,7 +783,7 @@ ResultCodes WorldSession::GivePlayerQuestReward(TBLIDX tblidx, eREWARD_CONTAINER
 
 			if (rewardSelect)
 			{
-				sLog.outDebug("Reward Select table: %d", rewardSelect->tblidx);
+				sLog.outDebug("Reward Select table: %d type: %d", rewardSelect->tblidx, rewardSelect->unknown);
 
 				if (rewardSelect->unknown == eREWARD_TYPE_NORMAL_ITEM)
 				{
@@ -793,6 +793,7 @@ ResultCodes WorldSession::GivePlayerQuestReward(TBLIDX tblidx, eREWARD_CONTAINER
 
 						if (itemTbl)
 						{
+							sLog.outDebug("Item tblidx :%d", itemTbl->tblidx);
 							sITEM_PROFILE createdItem;
 							WORD result = _player->GetInventoryManager()->PerformShopBuy(itemTbl->tblidx, rewardSelect->rewardData[i].amount, createdItem);
 							if (result == GAME_SUCCESS && createdItem.tblidx != INVALID_TBLIDX)
