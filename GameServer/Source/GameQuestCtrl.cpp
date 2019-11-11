@@ -434,15 +434,15 @@ void CGameQuestCtrl::CheckContReward(CDboTSContReward* pReward, CNtlTSCont* pPar
 	//Mount quest values
 	for (int i = 0; i < QUEST_REWARD_DEF_MAX_CNT; i++)
 	{
-		m_pDefRwd[i].m_eType = (eREWARD_TYPE)pRewardTblDat->rewardData[i].unknown;
-		m_pDefRwd[i].m_nValue = pRewardTblDat->rewardData[i].Amount;
-		m_pDefRwd[i].m_uiIdx = pRewardTblDat->rewardData[i].rwdIdx;
+		m_pDefRwd[i].m_eType = (eREWARD_TYPE)pRewardTblDat->rewardDefData[i].unknown;
+		m_pDefRwd[i].m_nValue = pRewardTblDat->rewardDefData[i].Amount;
+		m_pDefRwd[i].m_uiIdx = pRewardTblDat->rewardDefData[i].rwdIdx;
 	}
 	for (int i = 0; i < QUEST_REWARD_SEL_MAX_CNT; i++)
 	{
-		m_pSelRwd[i].m_eType = (eREWARD_TYPE)pRewardTblDat->rewardData[i].unknown;
-		m_pSelRwd[i].m_nValue = pRewardTblDat->rewardData[i].Amount;
-		m_pSelRwd[i].m_uiIdx = pRewardTblDat->rewardData[i].rwdIdx;
+		m_pSelRwd[i].m_eType = (eREWARD_TYPE)pRewardTblDat->rewardSelData[i].unknown;
+		m_pSelRwd[i].m_nValue = pRewardTblDat->rewardSelData[i].Amount;
+		m_pSelRwd[i].m_uiIdx = pRewardTblDat->rewardSelData[i].rwdIdx;
 	}
 	//Now we gona send the quest rewards
 	for (int i = 0; i < QUEST_REWARD_DEF_MAX_CNT; i++)

@@ -19,7 +19,8 @@ struct sQUEST_REWARD_TBLDAT : public sTBLDAT
 public:	
 	DWORD  EXP;
 	DWORD  Zenny;
-	sQUEST_REWARD_DATASET  rewardData[8]; //Item Need look When quest Working
+	sQUEST_REWARD_DATASET  rewardDefData[QUEST_REWARD_DEF_MAX_CNT]; //Item Need look When quest Working
+	sQUEST_REWARD_DATASET  rewardSelData[QUEST_REWARD_SEL_MAX_CNT]; //Item Need look When quest Working
 protected:
 
 	virtual int GetDataSize()

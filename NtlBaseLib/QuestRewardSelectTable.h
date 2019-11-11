@@ -4,6 +4,7 @@
 
 const int QUEST_REWARD_SELECT_DEF_MAX_CNT = 4;			/* DboTSCoreDefine.h => MAX_DEFAULT_REWARD */
 const int QUEST_REWARD_SELECT_SEL_MAX_CNT = 4;			/* DboTSCoreDefine.h => MAX_SELECTION_REWARD */
+const int QUEST_REWARD_SELECT_MAX_CNT = 20;
 
 #pragma pack(push, 4)
 struct sQUEST_REWARD_SELECT_DATASET
@@ -18,7 +19,7 @@ struct sQUEST_REWARD_SELECT_TBLDAT : public sTBLDAT
 {
 public:
 	BYTE					unknown;
-	sQUEST_REWARD_SELECT_DATASET	rewardData[20];
+	sQUEST_REWARD_SELECT_DATASET	rewardData[QUEST_REWARD_SELECT_MAX_CNT];
 protected:
 
 	virtual int GetDataSize()
