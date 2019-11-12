@@ -815,8 +815,9 @@ ResultCodes WorldSession::GivePlayerItemReward(sQUEST_REWARD_TBLDAT* rewardTbl, 
 							// if we have double spec
 							// (0x01 << 0) | (0x01 << plr->GetMyClass());
 							myFlag = MAKE_BIT_FLAG(static_cast<int>(_player->GetMyClass()));
-							sLog.outDetail("My flag: %d flag need %d my class: %d", myFlag, itemTbl->dwNeedClassBitFlag, _player->GetMyClass());
-							if (itemTbl->dwNeedClassBitFlag == INVALID_TBLIDX && myFlag & ~itemTbl->dwNeedClassBitFlag)
+							sLog.outDetail("My flag: %d flag need %d my class: %d is not same %d", 
+								myFlag, itemTbl->dwNeedClassBitFlag, _player->GetMyClass(), (myFlag & ~itemTbl->dwNeedClassBitFlag));
+							if (itemTbl->dwNeedClassBitFlag == INVALID_TBLIDX || (myFlag & ~itemTbl->dwNeedClassBitFlag))
 							{
 								sLog.outDebug("Special class: %u, need class: %d", itemTbl->byClassSpecial, itemTbl->dwNeedClassBitFlag);
 								sLog.outError("This item is not for this class");
