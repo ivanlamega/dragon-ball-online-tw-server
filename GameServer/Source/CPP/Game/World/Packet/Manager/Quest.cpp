@@ -819,7 +819,7 @@ ResultCodes WorldSession::GivePlayerItemReward(sQUEST_REWARD_TBLDAT* rewardTbl, 
 							sLog.outDebug("Item tblidx2 :%d", itemTblSelect->tblidx);
 							sLog.outDetail("My flag: %d flag need %d my class: %d is not same %d", 
 								myFlag, itemTblSelect->dwNeedClassBitFlag, _player->GetMyClass(), (myFlag & ~itemTblSelect->dwNeedClassBitFlag));
-							if (itemTblSelect->dwNeedClassBitFlag == INVALID_TBLIDX || !(myFlag & ~itemTblSelect->dwNeedClassBitFlag))
+							if (itemTblSelect->dwNeedClassBitFlag == INVALID_TBLIDX || (myFlag & ~itemTblSelect->dwNeedClassBitFlag))// lo mismo que !(myFlag & itemTblSelect->dwNeedClassBitFlag)
 							{
 								sLog.outDebug("Special class: %u, need class: %d", itemTblSelect->byClassSpecial, itemTblSelect->dwNeedClassBitFlag);
 								sLog.outError("This item is not for this class");
