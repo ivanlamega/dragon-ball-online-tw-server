@@ -791,6 +791,7 @@ ResultCodes WorldSession::GivePlayerItemReward(sQUEST_REWARD_TBLDAT* rewardTbl, 
 
 			if (rewardSelect1->unknown == eREWARD_SLOT_TYPE_DEFAULT)
 			{
+				sITEM_TBLDAT* itemTblSelect;
 				for (int itRw = 0; itRw < QUEST_REWARD_SELECT_MAX_CNT; itRw++)
 				{
 					if (rewardSelect1->rewardData[itRw].itemTblidx == INVALID_TBLIDX) // quitar si causa bugs
@@ -804,7 +805,7 @@ ResultCodes WorldSession::GivePlayerItemReward(sQUEST_REWARD_TBLDAT* rewardTbl, 
 						{
 							sLog.outDebug("Item tblidx :%d", rewardSelect1->rewardData[itRw].itemTblidx);
 
-							sITEM_TBLDAT* itemTblSelect = (sITEM_TBLDAT*)sTBM.GetItemTable()->FindData(rewardSelect1->rewardData[rw].itemTblidx);
+							itemTblSelect = (sITEM_TBLDAT*)sTBM.GetItemTable()->FindData(rewardSelect1->rewardData[itRw].itemTblidx);
 
 							if (itemTblSelect == NULL)
 							{
