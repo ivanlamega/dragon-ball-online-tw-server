@@ -770,18 +770,20 @@ ResultCodes WorldSession::GivePlayerItemReward(sQUEST_REWARD_TBLDAT* rewardTbl, 
 			break; // cambiar por continue si causa bug
 		}
 
-		sITEM_TBLDAT* itemTbl = (sITEM_TBLDAT*)sTBM.GetItemTable()->FindData(rewardTbl->rewardDefData[rw].rwdIdx);
-		if (itemTbl)
+		sITEM_TBLDAT* itemTblDefault = (sITEM_TBLDAT*)sTBM.GetItemTable()->FindData(rewardTbl->rewardDefData[rw].rwdIdx);
+		if (itemTblDefault)
 		{
 			sITEM_PROFILE createdItem;
-			WORD result = _player->GetInventoryManager()->PerformShopBuy(itemTbl->tblidx, rewardTbl->rewardDefData[rw].Amount, createdItem);
+			WORD result = _player->GetInventoryManager()->PerformShopBuy(itemTblDefault->tblidx, rewardTbl->rewardDefData[rw].Amount, createdItem);
 			if (result == GAME_SUCCESS && createdItem.tblidx != INVALID_TBLIDX)
 			{
 				sLog.outDetail("Item Reward Created\n");
 				SendItemCreate(&createdItem);
 			}
+			itemTblDefault = NULL;
 			continue;
 		}
+		itemTblDefault = NULL;
 
 		sQUEST_REWARD_SELECT_TBLDAT* rewardSelect = (sQUEST_REWARD_SELECT_TBLDAT*)sTBM.GetQuestRewardSelectTable()->FindData(rewardTbl->rewardDefData[rw].rwdIdx);
 
@@ -804,9 +806,9 @@ ResultCodes WorldSession::GivePlayerItemReward(sQUEST_REWARD_TBLDAT* rewardTbl, 
 						{
 							sLog.outDebug("Item tblidx :%d", rewardSelect->rewardData[itRw].itemTblidx);
 
-							sITEM_TBLDAT* itemTbl = (sITEM_TBLDAT*)sTBM.GetItemTable()->FindData(rewardSelect->rewardData[rw].itemTblidx);
+							sITEM_TBLDAT* itemTblSelect = (sITEM_TBLDAT*)sTBM.GetItemTable()->FindData(rewardSelect->rewardData[rw].itemTblidx);
 
-							if (itemTbl == NULL)
+							if (itemTblSelect == NULL)
 							{
 								continue;
 							}
@@ -816,13 +818,15 @@ ResultCodes WorldSession::GivePlayerItemReward(sQUEST_REWARD_TBLDAT* rewardTbl, 
 							// (0x01 << 0) | (0x01 << plr->GetMyClass());
 							myFlag = MAKE_BIT_FLAG(static_cast<int>(_player->GetMyClass()));
 							sLog.outDetail("My flag: %d flag need %d my class: %d is not same %d", 
-								myFlag, itemTbl->dwNeedClassBitFlag, _player->GetMyClass(), (myFlag & ~itemTbl->dwNeedClassBitFlag));
-							if (itemTbl->dwNeedClassBitFlag == INVALID_TBLIDX || (myFlag & ~itemTbl->dwNeedClassBitFlag))
+								myFlag, itemTblSelect->dwNeedClassBitFlag, _player->GetMyClass(), (myFlag & ~itemTblSelect->dwNeedClassBitFlag));
+							if (itemTblSelect->dwNeedClassBitFlag == INVALID_TBLIDX || !(myFlag & ~itemTblSelect->dwNeedClassBitFlag))
 							{
-								sLog.outDebug("Special class: %u, need class: %d", itemTbl->byClassSpecial, itemTbl->dwNeedClassBitFlag);
+								sLog.outDebug("Special class: %u, need class: %d", itemTblSelect->byClassSpecial, itemTblSelect->dwNeedClassBitFlag);
 								sLog.outError("This item is not for this class");
+								itemTblSelect = NULL;
 								continue;
 							}
+							itemTblSelect = NULL;
 
 							sITEM_PROFILE createdItem;
 							WORD result = _player->GetInventoryManager()->PerformShopBuy(rewardSelect->rewardData[itRw].itemTblidx, rewardSelect->rewardData[itRw].amount, createdItem);
@@ -851,18 +855,20 @@ ResultCodes WorldSession::GivePlayerItemReward(sQUEST_REWARD_TBLDAT* rewardTbl, 
 			break; // cambiar por continue si causa bugs
 		}
 
-		sITEM_TBLDAT* itemTbl = (sITEM_TBLDAT*)sTBM.GetItemTable()->FindData(rewardTbl->rewardSelData[rw].rwdIdx);
-		if (itemTbl)
+		sITEM_TBLDAT* itemTblDefault = (sITEM_TBLDAT*)sTBM.GetItemTable()->FindData(rewardTbl->rewardSelData[rw].rwdIdx);
+		if (itemTblDefault)
 		{
 			sITEM_PROFILE createdItem;
-			WORD result = _player->GetInventoryManager()->PerformShopBuy(itemTbl->tblidx, rewardTbl->rewardSelData[rw].Amount, createdItem);
+			WORD result = _player->GetInventoryManager()->PerformShopBuy(itemTblDefault->tblidx, rewardTbl->rewardSelData[rw].Amount, createdItem);
 			if (result == GAME_SUCCESS && createdItem.tblidx != INVALID_TBLIDX)
 			{
-				sLog.outDetail("Item Reward Created %d", itemTbl->tblidx);
+				sLog.outDetail("Item Reward Created %d", itemTblDefault->tblidx);
 				SendItemCreate(&createdItem);
 			}
+			itemTblDefault = NULL;
 			continue;
 		}
+		itemTblDefault = NULL;
 
 		sQUEST_REWARD_SELECT_TBLDAT* rewardSelect = (sQUEST_REWARD_SELECT_TBLDAT*)sTBM.GetQuestRewardSelectTable()->FindData(rewardTbl->rewardSelData[rw].rwdIdx);
 
