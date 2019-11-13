@@ -1,0 +1,17 @@
+ir hablar con npc --- ts 21 desde 1992
+interactuar objeto popo/maquinapet -- ts 198 desde 1348
+usar habilidad ir a popo --- ts 17 desde 1805
+cumplir tarea usar teleport --- ts 14 desde 2157
+matar bichos ---- ts 15 desde 2340
+matar bichos ponen items en inventario de quest --- ts 2004 desde 2380
+matar super --- ts 13 desde 6023
+matar super deja item en inventario de quest --- ts 1914 desde 7321
+quest recoger --- ts 1915 desde 7389
+quest que da item recompensa ---- ts 2001 desde 7938
+quest en la que debes seleccionar item de recompensa --- ts 27 desde 8397
+
+unknown --- ts 33 desde 8414
+unknown --- ts 1916 desde 8456
+unknown --- ts 190 desde 8594
+unknown --- ts 1912 desde 8607
+unknown --- ts 28 desde 8692
