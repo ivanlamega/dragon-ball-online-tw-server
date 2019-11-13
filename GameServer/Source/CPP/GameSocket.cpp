@@ -91,7 +91,7 @@ bool GameSocket::HandleAuthSession(Packet& packet)
 	
 	m_session->SendUpdateSkillPassiveAtribute();
 	m_session->SendQuestCompleteInfo();
-	m_session->SendQuestProgressInfo();
+	m_session->SendQuestProgressInfo(1);
 	/* ADD OUR PLAYER TO THE ACCESSOR */
 	//sObjectAccessor.AddObject(pCurrChar);
 	return true;

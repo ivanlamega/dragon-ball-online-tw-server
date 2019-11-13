@@ -1135,7 +1135,7 @@ void WorldSession::SendQuestSVRevtStartNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId
     SendPacket((char*)&info, sizeof sGU_AVATAR_QUEST_COMPLETE_INFO);
 }
 
- void WorldSession::SendQuestProgressInfo(int test = 1)
+ void WorldSession::SendQuestProgressInfo(int test)
  {
 	 sGU_AVATAR_QUEST_PROGRESS_INFO info;
 	 memset(&info, 0, sizeof sGU_AVATAR_QUEST_PROGRESS_INFO);
