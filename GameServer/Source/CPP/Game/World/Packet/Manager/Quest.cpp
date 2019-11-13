@@ -1180,8 +1180,8 @@ void WorldSession::SendQuestSVRevtStartNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId
 	 // second quest
 	 info.progressInfo[1].byVer = 0;
 	 info.progressInfo[1].tId = 1256;
-	 info.progressInfo[1].uData.sQInfoV0.unknown = 1;
-	 info.progressInfo[1].uData.sQInfoV0.wQState = 32;
+	 info.progressInfo[1].uData.sQInfoV0.unknown = 0;//1;
+	 info.progressInfo[1].uData.sQInfoV0.wQState = 0;//32;
 	 info.progressInfo[1].uData.sQInfoV0.sMainTSP.tcCurId = 3;
 	 info.progressInfo[1].uData.sQInfoV0.sMainTSP.tcPreId = 2;
 	 info.progressInfo[1].uData.sQInfoV0.sSToCEvtData.tcId = 2;
