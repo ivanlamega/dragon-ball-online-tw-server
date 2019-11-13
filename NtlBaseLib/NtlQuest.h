@@ -212,6 +212,7 @@ struct sPROGRESS_QUEST_INFO
 	{
 		struct sEXTENDED_POSSIBLE_V0
 		{
+			BYTE							unknown;
 			unsigned short					wQState;			// 퀘스트 상태
 			sMAIN_TSP						sMainTSP;			// 퀘스트 진행 포인터
 			sEXCEPT_TIMER_SLOT				sETSlot;			// 예외 타이머의 저장 슬롯

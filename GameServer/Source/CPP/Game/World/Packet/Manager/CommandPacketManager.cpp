@@ -535,6 +535,17 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 			return;
 
 		}
+		else if (strToken == "@quest")
+		{
+			strToken = str.substr(pos + 1, std::string::npos);
+			unsigned int index = (unsigned int)atof(strToken.c_str());
+			strToken = str.substr(pos + 2, std::string::npos);
+			unsigned int value = (unsigned int)atof(strToken.c_str());
+
+			sLog.outError("Command: quest. Index %d, Value %d", index, value);
+
+			SendQuestProgressInfo();
+		}
 
 		else
 		{
