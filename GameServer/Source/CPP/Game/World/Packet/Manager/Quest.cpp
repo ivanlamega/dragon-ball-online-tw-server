@@ -1209,8 +1209,8 @@ void WorldSession::SendQuestSVRevtStartNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId
 		 info.progressInfo[1].uData.sQInfoV0.sETSlot.asExceptTimer[i].uiRemainTime = 0;
 	 }
 
-	 info.progressInfo[1].uData.sQInfoV0.sETSlot.asExceptTimer[0].taId = 2;
-	 info.progressInfo[1].uData.sQInfoV0.sETSlot.asExceptTimer[0].tcId = 4;
+	 info.progressInfo[1].uData.sQInfoV0.sETSlot.asExceptTimer[0].tcId = 2;
+	 info.progressInfo[1].uData.sQInfoV0.sETSlot.asExceptTimer[0].taId = 4;
 	 info.progressInfo[1].uData.sQInfoV0.sETSlot.asExceptTimer[0].uiRemainTime = 1795297;
 	 
 
