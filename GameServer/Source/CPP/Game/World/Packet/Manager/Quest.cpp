@@ -1140,7 +1140,7 @@ void WorldSession::SendQuestSVRevtStartNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId
 	 sGU_AVATAR_QUEST_PROGRESS_INFO info;
 	 memset(&info, 0, sizeof sGU_AVATAR_QUEST_PROGRESS_INFO);
 	 info.wOpCode = GU_AVATAR_QUEST_PROGRESS_INFO;
-	 info.wPacketSize = sizeof sGU_AVATAR_QUEST_PROGRESS_INFO;
+	 info.wPacketSize = sizeof sGU_AVATAR_QUEST_PROGRESS_INFO -2; 
 
 	 //int test[10];
 
