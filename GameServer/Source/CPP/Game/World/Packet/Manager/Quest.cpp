@@ -1135,7 +1135,7 @@ void WorldSession::SendQuestSVRevtStartNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId
     SendPacket((char*)&info, sizeof sGU_AVATAR_QUEST_COMPLETE_INFO);
 }
 
- void WorldSession::SendQuestProgressInfo(int test)
+ void WorldSession::SendQuestProgressInfo()
  {
 	 sGU_AVATAR_QUEST_PROGRESS_INFO info;
 	 memset(&info, 0, sizeof sGU_AVATAR_QUEST_PROGRESS_INFO);
@@ -1144,7 +1144,8 @@ void WorldSession::SendQuestSVRevtStartNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId
 
 	 //int test[10];
 
-	 info.byProgressCount = 1;
+	 info.byProgressCount = 2;
+
 	 info.progressInfo[0].byVer = 0;
 	 info.progressInfo[0].tId = 811;
 	 info.progressInfo[0].uData.sQInfoV0.unknown = 0;
@@ -1154,7 +1155,7 @@ void WorldSession::SendQuestSVRevtStartNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId
 	 info.progressInfo[0].uData.sQInfoV0.sSToCEvtData.tcId = 2;
 	 info.progressInfo[0].uData.sQInfoV0.sSToCEvtData.taId = 3;
 
-	 info.progressInfo[0].uData.sQInfoV0.sSToCEvtData.m_aUserData[0] = test;
+	 info.progressInfo[0].uData.sQInfoV0.sSToCEvtData.m_aUserData[0] = 1;
 	 info.progressInfo[0].uData.sQInfoV0.sSToCEvtData.m_aUserData[1] = 2;
 	 info.progressInfo[0].uData.sQInfoV0.sSToCEvtData.m_aUserData[2] = 3;
 	 info.progressInfo[0].uData.sQInfoV0.sSToCEvtData.m_aUserData[3] = 0;
@@ -1175,6 +1176,42 @@ void WorldSession::SendQuestSVRevtStartNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId
 		 info.progressInfo[0].uData.sQInfoV0.sETSlot.asExceptTimer[i].tcId = -1;
 		 info.progressInfo[0].uData.sQInfoV0.sETSlot.asExceptTimer[i].uiRemainTime = 0;
 	 }
+
+	 // second quest
+	 info.progressInfo[1].byVer = 0;
+	 info.progressInfo[1].tId = 1256;
+	 info.progressInfo[1].uData.sQInfoV0.unknown = 1;
+	 info.progressInfo[1].uData.sQInfoV0.wQState = 32;
+	 info.progressInfo[1].uData.sQInfoV0.sMainTSP.tcCurId = 3;
+	 info.progressInfo[1].uData.sQInfoV0.sMainTSP.tcPreId = 2;
+	 info.progressInfo[1].uData.sQInfoV0.sSToCEvtData.tcId = 2;
+	 info.progressInfo[1].uData.sQInfoV0.sSToCEvtData.taId = 3;
+
+	 info.progressInfo[1].uData.sQInfoV0.sSToCEvtData.m_aUserData[0] = 0;
+	 info.progressInfo[1].uData.sQInfoV0.sSToCEvtData.m_aUserData[1] = 0;
+	 info.progressInfo[1].uData.sQInfoV0.sSToCEvtData.m_aUserData[2] = 0;
+	 info.progressInfo[1].uData.sQInfoV0.sSToCEvtData.m_aUserData[3] = 0;
+
+	 info.progressInfo[1].uData.sQInfoV0.tgExcCGroup = 0;
+	 info.progressInfo[1].uData.sQInfoV0.tcQuestInfo = 2;
+	 info.progressInfo[1].uData.sQInfoV0.taQuestInfo = 1;
+
+	 for (int i = 0; i < info.progressInfo[1].uData.sQInfoV0.sSSM.eSTORAGE_SLOT_MEMORY_MAX; i++)
+	 {
+		 info.progressInfo[1].uData.sQInfoV0.sSSM.auiSSM[i] = -1;
+	 }
+
+
+	 for (int i = 0; i < info.progressInfo[1].uData.sQInfoV0.sETSlot.eTIMER_SLOT_MAX; i++)
+	 {
+		 info.progressInfo[1].uData.sQInfoV0.sETSlot.asExceptTimer[i].taId = -1;
+		 info.progressInfo[1].uData.sQInfoV0.sETSlot.asExceptTimer[i].tcId = -1;
+		 info.progressInfo[1].uData.sQInfoV0.sETSlot.asExceptTimer[i].uiRemainTime = 0;
+	 }
+
+	 info.progressInfo[1].uData.sQInfoV0.sETSlot.asExceptTimer[0].taId = 2;
+	 info.progressInfo[1].uData.sQInfoV0.sETSlot.asExceptTimer[0].tcId = 4;
+	 info.progressInfo[1].uData.sQInfoV0.sETSlot.asExceptTimer[0].uiRemainTime = 1795297;
 	 
 
 	 SendPacket((char*)&info, sizeof sGU_AVATAR_QUEST_PROGRESS_INFO);
