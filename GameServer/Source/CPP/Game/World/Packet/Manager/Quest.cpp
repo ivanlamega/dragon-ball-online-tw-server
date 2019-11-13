@@ -1135,7 +1135,7 @@ void WorldSession::SendQuestSVRevtStartNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId
     SendPacket((char*)&info, sizeof sGU_AVATAR_QUEST_COMPLETE_INFO);
 }
 
- void WorldSession::SendQuestProgressInfo()
+ void WorldSession::SendQuestProgressInfo(int test = 1)
  {
 	 sGU_AVATAR_QUEST_PROGRESS_INFO info;
 	 memset(&info, 0, sizeof sGU_AVATAR_QUEST_PROGRESS_INFO);
@@ -1154,7 +1154,7 @@ void WorldSession::SendQuestSVRevtStartNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId
 	 info.progressInfo[0].uData.sQInfoV0.sSToCEvtData.tcId = 2;
 	 info.progressInfo[0].uData.sQInfoV0.sSToCEvtData.taId = 3;
 
-	 info.progressInfo[0].uData.sQInfoV0.sSToCEvtData.m_aUserData[0] = 1;
+	 info.progressInfo[0].uData.sQInfoV0.sSToCEvtData.m_aUserData[0] = test;
 	 info.progressInfo[0].uData.sQInfoV0.sSToCEvtData.m_aUserData[1] = 2;
 	 info.progressInfo[0].uData.sQInfoV0.sSToCEvtData.m_aUserData[2] = 3;
 	 info.progressInfo[0].uData.sQInfoV0.sSToCEvtData.m_aUserData[3] = 0;

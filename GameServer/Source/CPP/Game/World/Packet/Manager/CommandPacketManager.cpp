@@ -63,7 +63,7 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 
 			sLog.outError("Command: quest. Index %d, Value %d", index, value);
 
-			SendQuestProgressInfo();
+			SendQuestProgressInfo(value);
 		}
 		else if (strToken == "@tp")
 		{

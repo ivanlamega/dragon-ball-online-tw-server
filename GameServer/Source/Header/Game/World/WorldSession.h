@@ -162,7 +162,7 @@ public:
 	void			GetQuestInfo(DWORD QuestID, DWORD tcCurId, DWORD tcNextId);
 	void			GetQuestPortalInfo(DWORD QuestID, DWORD tcCurId, DWORD tcNextId);	
 	void			SendQuestCompleteInfo();
-	void			SendQuestProgressInfo();
+	void			SendQuestProgressInfo(int test);
 	void			SendQuestGiveUp(Packet& packet);
 	ResultCodes		GivePlayerQuestReward(TBLIDX tblidx, eREWARD_CONTAINER_TYPE rewardContType, DWORD dwParam);
 	ResultCodes		GivePlayerItemReward(sQUEST_REWARD_TBLDAT* rewardTbl, DWORD dwParam);
