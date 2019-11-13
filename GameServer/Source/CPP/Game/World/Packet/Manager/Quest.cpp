@@ -310,7 +310,7 @@ void WorldSession::GetQuestInfo(DWORD QuestID, DWORD tcCurId, DWORD tcNextId)
 	}	*/
 	if (QuestID == 3 || QuestID == 1925)
 	{			
-		sGU_CHAR_TELEPORT_RES Teleport;
+		/*sGU_CHAR_TELEPORT_RES Teleport;
 		memset(&Teleport, 0, sizeof(sGU_CHAR_TELEPORT_RES));
 		Teleport.wOpCode = GU_CHAR_TELEPORT_RES;
 		Teleport.wPacketSize = sizeof(sGU_CHAR_TELEPORT_RES) - 2;
@@ -329,7 +329,7 @@ void WorldSession::GetQuestInfo(DWORD QuestID, DWORD tcCurId, DWORD tcNextId)
 		_player->SetWorldTableID(1);
 		_player->GetState()->sCharStateDetail.sCharStateTeleporting.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_NPC_PORTAL;
 		_player->SetState(eCHARSTATE::CHARSTATE_TELEPORTING);
-		SendPacket((char*)&Teleport, sizeof(sGU_CHAR_TELEPORT_RES));			
+		SendPacket((char*)&Teleport, sizeof(sGU_CHAR_TELEPORT_RES));	*/		
 	}
 	/*if (QuestID == 4)
 	{
@@ -674,6 +674,39 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct)
 				{
 					return RESULT_FAIL;
 				}
+				break;
+			}
+			case DBO_ACT_TYPE_ID_ACT_PORTAL:
+			{
+				CDboTSActPortal* sPortal = (CDboTSActPortal*)contGAct->GetChildEntity(i);
+				if (sPortal == NULL)
+				{
+					return RESULT_FAIL;
+				}
+
+				_player->SetState(eCHARSTATE::CHARSTATE_DESPAWNING);
+
+				/*sGU_CHAR_TELEPORT_RES Teleport;
+				memset(&Teleport, 0, sizeof(sGU_CHAR_TELEPORT_RES));
+				Teleport.wOpCode = GU_CHAR_TELEPORT_RES;
+				Teleport.wPacketSize = sizeof(sGU_CHAR_TELEPORT_RES) - 2;
+				Teleport.wResultCode = GAME_SUCCESS;
+				Teleport.vNewLoc.x = 4474.109863;
+				Teleport.vNewLoc.y = -42.000000;
+				Teleport.vNewLoc.z = 3958.379883;
+				Teleport.vNewDir.x = -0.751000;
+				Teleport.vNewDir.y = 0;
+				Teleport.vNewDir.z = -0.661000;
+				Teleport.unk = INVALID_TBLIDX;
+				Teleport.bIsToMoveAnotherServer = false;
+
+				_player->Relocate(Teleport.vNewLoc.x, Teleport.vNewLoc.y, Teleport.vNewLoc.z, Teleport.vNewDir.x, Teleport.vNewDir.y, Teleport.vNewDir.z);
+				_player->SetWorldID(1);
+				_player->SetWorldTableID(1);
+				_player->GetState()->sCharStateDetail.sCharStateTeleporting.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_NPC_PORTAL;
+				_player->SetState(eCHARSTATE::CHARSTATE_TELEPORTING);
+				SendPacket((char*)&Teleport, sizeof(sGU_CHAR_TELEPORT_RES));*/
+
 				break;
 			}
 			case DBO_ACT_TYPE_ID_ACT_OPEN_WINDOW:

@@ -1301,6 +1301,11 @@ void			WorldSession::PacketParser(Packet& packet)
 			_player->ClearListAndReference();*/
 			break;
 		}
+		case Opcodes::UG_CHAR_TELEPORT_REQ:
+		{
+			sLog.outDetail("----------------UG_CHAR_TELEPORT_REQ---------------");
+			break;
+		}
 		case Opcodes::UG_PARTY_CREATE_REQ: // Create party with name you want
 		{
 			sUG_PARTY_CREATE_REQ *req = (sUG_PARTY_CREATE_REQ*)packet.GetPacketBuffer();
