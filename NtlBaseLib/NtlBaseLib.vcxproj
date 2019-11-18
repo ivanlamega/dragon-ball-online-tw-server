@@ -222,6 +222,8 @@
     <ClInclude Include="LinkArray.h" />
     <ClInclude Include="LinkList.h" />
     <ClInclude Include="Logic.h" />
+    <ClInclude Include="MascotGradeTable.h" />
+    <ClInclude Include="MascotTable.h" />
     <ClInclude Include="MerchantTable.h" />
     <ClInclude Include="MerchantTable2.h" />
     <ClInclude Include="MobMovePatternTable.h" />
@@ -369,6 +371,8 @@
     <ClCompile Include="LandMarkTable.cpp" />
     <ClCompile Include="LegendaryDropTable.cpp" />
     <ClCompile Include="Logic.cpp" />
+    <ClCompile Include="MascotGradeTable.cpp" />
+    <ClCompile Include="MascotTable.cpp" />
     <ClCompile Include="MerchantTable.cpp" />
     <ClCompile Include="MerchantTable2.cpp" />
     <ClCompile Include="MobMovePatternTable.cpp" />
