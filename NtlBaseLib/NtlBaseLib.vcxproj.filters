@@ -464,6 +464,12 @@
     <ClInclude Include="QuestRewardSelectTable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MascotTable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MascotGradeTable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ActionTable.cpp">
@@ -806,6 +812,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="QuestRewardSelectTable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MascotTable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MascotGradeTable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
