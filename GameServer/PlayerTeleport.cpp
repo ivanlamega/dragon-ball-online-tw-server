@@ -32,7 +32,7 @@ void WorldSession::SendCharTeleportRes(Packet& packet)
 	{
 		_player->SetWorldID(worldTbl->tblidx);
 		_player->SetWorldTableID(worldTbl->tblidx);
-		_player->GetState()->sCharStateDetail.sCharStateTeleporting.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_NPC_PORTAL;
+		_player->GetState()->sCharStateDetail.sCharStateTeleporting.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_DEFAULT;//eTELEPORT_TYPE::TELEPORT_TYPE_NPC_PORTAL;
 		_player->SetState(eCHARSTATE::CHARSTATE_TELEPORTING);
 	}
 	else {
