@@ -999,6 +999,10 @@ void WorldSession::ProcessTsContEnd(CDboTSContEnd * contEnd)
 	{
 		sLog.outDetail("Cont: %s %d, %d", contEnd->GetChildEntity(i)->GetClassNameW(), contEnd->GetChildEntity(i)->GetEntityType(), DBO_EVENT_TYPE_ID_CLICK_NPC);
 		sLog.outDebug("End of quest");
+
+		CNtlTSTrigger* trigger = (CNtlTSTrigger*)contEnd->GetRoot();
+
+		sDB.SaveQuestStatus(_player->charid, trigger->GetID(), true);
 	}
 }
 
@@ -1190,7 +1194,8 @@ void WorldSession::SendQuestSVRevtStartNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId
 	memset(&info, 0, sizeof sGU_AVATAR_QUEST_COMPLETE_INFO);
     info.wOpCode = GU_AVATAR_QUEST_COMPLETE_INFO;
     info.wPacketSize = sizeof(sGU_AVATAR_QUEST_COMPLETE_INFO) -2;
-	info.completeInfo.abyQCInfo[0] = 0;
+	memcpy(&info.completeInfo, sDB.LoadQuestComplete(_player->charid), sizeof sQUEST_COMPLETE_INFO);
+	//info.completeInfo.abyQCInfo[0] = 0;
 
     SendPacket((char*)&info, sizeof sGU_AVATAR_QUEST_COMPLETE_INFO);
 }

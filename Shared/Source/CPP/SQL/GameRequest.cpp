@@ -191,3 +191,41 @@ void MySQLConnWrapper::AddAucionHouseSell(CHARACTERID characterID, int ItemHandl
 	if (result != NULL)
 		delete result;
 }
+
+void MySQLConnWrapper::SaveQuestStatus(CHARACTERID charid, NTL_TS_T_ID tid, bool isCompleted)
+{
+	sql::ResultSet* result = sDB.executes("INSERT INTO charquestlist (charId, tid, isCompleted) VALUES (%d, %d, %d);", charid, tid, isCompleted);
+	if (result != NULL)
+		delete result;
+}
+
+sCOMPLETE_QUEST_INFO * MySQLConnWrapper::LoadQuestComplete(CHARACTERID charid)
+{
+	sql::ResultSet* result = sDB.executes("SELECT * FROM charquestlist WHERE charId = %d;", charid);
+	if (result == NULL)
+		return NULL;
+	if (result->rowsCount() <= 0)
+	{
+		delete result;
+		return NULL;
+	}
+
+	sCOMPLETE_QUEST_INFO* completeInfo = new sCOMPLETE_QUEST_INFO;
+
+	for (int i = 0; i < result->rowsCount(); i++)
+	{
+		int questID = result->getInt("tid");
+		bool isCompleted = result->getBoolean("isCompleted");
+		if (isCompleted)
+		{
+			unsigned char& c = completeInfo->abyQCInfo[questID / eCOMPLETE_QUEST_QUEST_PER_BYTE];
+			int nShift = (questID % eCOMPLETE_QUEST_QUEST_PER_BYTE) * eCOMPLETE_QUEST_STATE_MAX;
+
+			c |= (eCOMPLETE_QUEST_STATE_CLEAR << nShift);
+		}
+
+		result->next();
+	}
+
+	return completeInfo;
+}

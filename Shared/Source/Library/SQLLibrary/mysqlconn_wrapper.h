@@ -13,6 +13,7 @@
 #include <ResultCode.h>
 #include "../../../NtlBaseLib/TableAll.h"
 #include <Singleton.h>
+#include <NtlTSCoreDefine.h> //quitar
 
 #include <cstdarg>
 
@@ -20,6 +21,7 @@ using namespace std;
 
 #define MAX_QUERY_LEN   (32*1024)
 struct sCU_CHARACTER_INFO;
+struct sCOMPLETE_QUEST_INFO;
 
 class MySQLConnWrapper
 {
@@ -87,6 +89,9 @@ public:
 	void SaveTitleMarket(int TitleMarket, CHARACTERID charid);
 	void SavePlayerWagguCoin(int WagguPoint, CHARACTERID charid);
 	void SavePlayerCashPoit(int Cash, CHARACTERID charid);
+	// Quest
+	void SaveQuestStatus(CHARACTERID charid, NTL_TS_T_ID tid, bool isCompleted);
+	sCOMPLETE_QUEST_INFO * LoadQuestComplete(CHARACTERID charid);
 	//Friend
 	/** Convert from wchar to char */
 	inline void wcharToChar(const wchar_t * src, char *dst, const unsigned int & srcSize) {
