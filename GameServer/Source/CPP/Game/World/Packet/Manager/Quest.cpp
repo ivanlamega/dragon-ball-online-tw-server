@@ -1000,10 +1000,10 @@ void WorldSession::ProcessTsContEnd(CDboTSContEnd * contEnd)
 		sLog.outDetail("Cont: %s %d, %d", contEnd->GetChildEntity(i)->GetClassNameW(), contEnd->GetChildEntity(i)->GetEntityType(), DBO_EVENT_TYPE_ID_CLICK_NPC);
 		sLog.outDebug("End of quest");
 
-		CNtlTSTrigger* trigger = (CNtlTSTrigger*)contEnd->GetRoot();
-
-		sDB.SaveQuestStatus(_player->charid, trigger->GetID(), true);
+		
 	}
+	CNtlTSTrigger* trigger = (CNtlTSTrigger*)contEnd->GetRoot();
+	sDB.SaveQuestStatus(_player->charid, trigger->GetID(), true);
 }
 
 ResultCodes WorldSession::FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req)
