@@ -1304,6 +1304,7 @@ void			WorldSession::PacketParser(Packet& packet)
 		case Opcodes::UG_CHAR_TELEPORT_REQ:
 		{
 			sLog.outDetail("----------------UG_CHAR_TELEPORT_REQ---------------");
+			SendCharTeleportRes(packet);
 			break;
 		}
 		case Opcodes::UG_PARTY_CREATE_REQ: // Create party with name you want

@@ -157,6 +157,8 @@ public:
 	void			ExecuteServerCommand(Packet& packet);
 	// social
 	void			SendSocialSkill(Packet& packet);
+	// teleport
+	void			SendCharTeleportRes(Packet& packet);
 	// Quest Handle
 	void			SendQuestAcept(Packet& packet);
 	void			GetQuestInfo(DWORD QuestID, DWORD tcCurId, DWORD tcNextId);

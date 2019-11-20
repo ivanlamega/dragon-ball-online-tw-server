@@ -254,6 +254,9 @@
     <ClCompile Include="Source\GameTriggerRecv.cpp">
       <Filter>Source Files\Game\Quest\Recv</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerTeleport.cpp">
+      <Filter>Source Files\Game\World\Packet\Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Header\GameServer.h">

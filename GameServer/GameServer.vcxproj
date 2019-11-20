@@ -183,6 +183,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="PlayerTeleport.cpp" />
     <ClCompile Include="Source\CPP\Game\World\Packet\Manager\AucionHouseManager.cpp" />
     <ClCompile Include="Source\CPP\Game\World\Packet\Manager\BossEvent.cpp" />
     <ClCompile Include="Source\CPP\Game\World\Packet\Manager\Budokay.cpp" />

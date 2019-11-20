@@ -684,6 +684,27 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct)
 					return RESULT_FAIL;
 				}
 
+				sPortal->GetPosition(_player->GetAttributesManager()->teleportInfo.position.x,
+					_player->GetAttributesManager()->teleportInfo.position.y,
+					_player->GetAttributesManager()->teleportInfo.position.z);
+
+				sPortal->GetDirection(_player->GetAttributesManager()->teleportInfo.rotation.x,
+					_player->GetAttributesManager()->teleportInfo.rotation.y, 
+					_player->GetAttributesManager()->teleportInfo.rotation.z);
+
+				_player->GetAttributesManager()->teleportInfo.worldTblidx = sPortal->GetWorldIdx();
+
+				sPortal->GetPotalType();
+
+				sLog.outDebug("Teleport: pos %f %f %f rot %f %f %f worldtblidx %d type %d", _player->GetAttributesManager()->teleportInfo.position.x,
+					_player->GetAttributesManager()->teleportInfo.position.y,
+					_player->GetAttributesManager()->teleportInfo.position.z,
+					_player->GetAttributesManager()->teleportInfo.rotation.x,
+					_player->GetAttributesManager()->teleportInfo.rotation.y,
+					_player->GetAttributesManager()->teleportInfo.rotation.z,
+					sPortal->GetWorldIdx(),
+					sPortal->GetPotalType());
+
 				_player->SetState(eCHARSTATE::CHARSTATE_DESPAWNING);
 
 				/*sGU_CHAR_TELEPORT_RES Teleport;

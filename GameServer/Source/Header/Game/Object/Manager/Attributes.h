@@ -29,6 +29,16 @@ public:
 		uSTOC_EVT_DATA uEvtData;
 	};
 	QuestData		QuestDat[30];
+
+	// Teleport
+	struct TeleportInfo
+	{
+		sVECTOR3	position;
+		sVECTOR3	rotation;
+		TBLIDX		worldTblidx;
+	};
+
+	TeleportInfo teleportInfo;
 	//CashShop Info
 	DWORD		cashpoit;
 	DWORD		WagguCoin;
