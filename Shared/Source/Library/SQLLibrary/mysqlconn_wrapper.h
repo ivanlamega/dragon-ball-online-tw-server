@@ -91,7 +91,7 @@ public:
 	void SavePlayerCashPoit(int Cash, CHARACTERID charid);
 	// Quest
 	void SaveQuestStatus(CHARACTERID charid, NTL_TS_T_ID tid, bool isCompleted);
-	sCOMPLETE_QUEST_INFO * LoadQuestComplete(CHARACTERID charid);
+	void LoadQuestComplete(CHARACTERID charid, sCOMPLETE_QUEST_INFO* completeInfo);
 	//Friend
 	/** Convert from wchar to char */
 	inline void wcharToChar(const wchar_t * src, char *dst, const unsigned int & srcSize) {

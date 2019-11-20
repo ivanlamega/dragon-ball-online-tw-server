@@ -199,18 +199,16 @@ void MySQLConnWrapper::SaveQuestStatus(CHARACTERID charid, NTL_TS_T_ID tid, bool
 		delete result;
 }
 
-sCOMPLETE_QUEST_INFO * MySQLConnWrapper::LoadQuestComplete(CHARACTERID charid)
+void MySQLConnWrapper::LoadQuestComplete(CHARACTERID charid, sCOMPLETE_QUEST_INFO* completeInfo)
 {
 	sql::ResultSet* result = sDB.executes("SELECT * FROM charquestlist WHERE charId = %d;", charid);
 	if (result == NULL)
-		return NULL;
+		return;
 	if (result->rowsCount() <= 0)
 	{
 		delete result;
-		return NULL;
+		return;
 	}
-
-	sCOMPLETE_QUEST_INFO* completeInfo = new sCOMPLETE_QUEST_INFO;
 
 	for (int i = 0; i < result->rowsCount(); i++)
 	{
@@ -226,6 +224,4 @@ sCOMPLETE_QUEST_INFO * MySQLConnWrapper::LoadQuestComplete(CHARACTERID charid)
 
 		result->next();
 	}
-
-	return completeInfo;
 }

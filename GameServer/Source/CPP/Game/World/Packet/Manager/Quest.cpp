@@ -1194,7 +1194,8 @@ void WorldSession::SendQuestSVRevtStartNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId
 	memset(&info, 0, sizeof sGU_AVATAR_QUEST_COMPLETE_INFO);
     info.wOpCode = GU_AVATAR_QUEST_COMPLETE_INFO;
     info.wPacketSize = sizeof(sGU_AVATAR_QUEST_COMPLETE_INFO) -2;
-	memcpy(&info.completeInfo, sDB.LoadQuestComplete(_player->charid), sizeof sQUEST_COMPLETE_INFO);
+
+	sDB.LoadQuestComplete(_player->charid, &info.completeInfo);
 	//info.completeInfo.abyQCInfo[0] = 0;
 
     SendPacket((char*)&info, sizeof sGU_AVATAR_QUEST_COMPLETE_INFO);
