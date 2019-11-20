@@ -684,28 +684,34 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct)
 					return RESULT_FAIL;
 				}
 
-				sPortal->GetPosition(_player->GetAttributesManager()->teleportInfo.position.x,
-					_player->GetAttributesManager()->teleportInfo.position.y,
-					_player->GetAttributesManager()->teleportInfo.position.z);
+				if (ePORTAL_TYPE_TELEPORT == sPortal->GetPotalType())
+				{
+					sPortal->GetPosition(_player->GetAttributesManager()->teleportInfo.position.x,
+						_player->GetAttributesManager()->teleportInfo.position.y,
+						_player->GetAttributesManager()->teleportInfo.position.z);
 
-				sPortal->GetDirection(_player->GetAttributesManager()->teleportInfo.rotation.x,
-					_player->GetAttributesManager()->teleportInfo.rotation.y, 
-					_player->GetAttributesManager()->teleportInfo.rotation.z);
+					sPortal->GetDirection(_player->GetAttributesManager()->teleportInfo.rotation.x,
+						_player->GetAttributesManager()->teleportInfo.rotation.y,
+						_player->GetAttributesManager()->teleportInfo.rotation.z);
 
-				_player->GetAttributesManager()->teleportInfo.worldTblidx = sPortal->GetWorldIdx();
+					_player->GetAttributesManager()->teleportInfo.worldTblidx = sPortal->GetWorldIdx();
 
-				sPortal->GetPotalType();
+					sLog.outDebug("Teleport: pos %f %f %f rot %f %f %f worldtblidx %d type %d", _player->GetAttributesManager()->teleportInfo.position.x,
+						_player->GetAttributesManager()->teleportInfo.position.y,
+						_player->GetAttributesManager()->teleportInfo.position.z,
+						_player->GetAttributesManager()->teleportInfo.rotation.x,
+						_player->GetAttributesManager()->teleportInfo.rotation.y,
+						_player->GetAttributesManager()->teleportInfo.rotation.z,
+						sPortal->GetWorldIdx(),
+						sPortal->GetPotalType());
 
-				sLog.outDebug("Teleport: pos %f %f %f rot %f %f %f worldtblidx %d type %d", _player->GetAttributesManager()->teleportInfo.position.x,
-					_player->GetAttributesManager()->teleportInfo.position.y,
-					_player->GetAttributesManager()->teleportInfo.position.z,
-					_player->GetAttributesManager()->teleportInfo.rotation.x,
-					_player->GetAttributesManager()->teleportInfo.rotation.y,
-					_player->GetAttributesManager()->teleportInfo.rotation.z,
-					sPortal->GetWorldIdx(),
-					sPortal->GetPotalType());
+					sWORLD_TBLDAT* worldTbl = (sWORLD_TBLDAT*)sTBM.GetWorldTable()->FindData(_player->GetAttributesManager()->teleportInfo.worldTblidx);
+					sLog.outDebug("WORLD TBLIDX: %d resourse id: %d", worldTbl->tblidx, worldTbl->dwWorldResourceID);
 
-				_player->SetState(eCHARSTATE::CHARSTATE_DESPAWNING);
+					_player->SetState(eCHARSTATE::CHARSTATE_DESPAWNING);
+				}
+
+				
 
 				/*sGU_CHAR_TELEPORT_RES Teleport;
 				memset(&Teleport, 0, sizeof(sGU_CHAR_TELEPORT_RES));
