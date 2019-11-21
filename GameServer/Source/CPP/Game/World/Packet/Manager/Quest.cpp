@@ -782,6 +782,22 @@ ResultCodes WorldSession::ProcessTsContGCond(CDboTSContGCond * contGCond)
 				}
 				break;
 			}
+			case DBO_EVENT_TYPE_ID_BIND_STONE:
+			{
+				CDboTSBindStone* bindStone = (CDboTSBindStone*)contGCond->GetChildEntity(i);
+				if (bindStone == NULL)
+				{
+					return RESULT_FAIL;
+				}
+				sOBJECT_TBLDAT* object = (sOBJECT_TBLDAT*)sTBM.GetObjectTable(_player->GetPcProfile()->bindObjectTblidx)->FindData(_player->GetPcProfile()->bindObjectTblidx);
+				if (object != NULL)
+				{
+					//Mob * MobInfo = static_cast<Mob*>(object)
+					sLog.outDebug("Object: handle %d", object->tblidx);
+				}
+				sLog.outDebug("Object: tblidx %d worldid %d typebind %d", _player->GetPcProfile()->bindObjectTblidx, _player->GetPcProfile()->bindWorldId, _player->GetPcProfile()->byBindType);
+				break;
+			}
 		}
 	}
 

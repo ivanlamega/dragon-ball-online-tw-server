@@ -70,6 +70,10 @@ void			WorldSession::PacketParser(Packet& packet)
 		res.bindObjectTblidx = req->bindObjectTblidx;
 		res.bindWorldId = _player->GetWorldID();
 
+		_player->GetPcProfile()->byBindType = res.byBindType;
+		_player->GetPcProfile()->bindObjectTblidx = res.bindObjectTblidx;
+		_player->GetPcProfile()->bindWorldId = res.bindWorldId;
+
 		SendPacket((char*)&res, sizeof(sGU_CHAR_BIND_RES));
 		break;
 	}
