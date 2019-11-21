@@ -30,54 +30,119 @@ void WorldSession::SendToggleAutoAttack(bool val)
 //----------------------------------------
 void WorldSession::SendTargetSelection(HOBJECT hTarget)
 {
-	Player* PlayerInfo = static_cast<Player*>(_player->GetFromList(hTarget));
-	if (PlayerInfo != NULL)
-	{
-		sGU_CHAR_TARGET_CHANGED res;
-		//sLog.outError("Target of target here ?");
-		res.wOpCode = GU_CHAR_TARGET_CHANGED;
-		res.wPacketSize = sizeof(sGU_CHAR_TARGET_CHANGED) - 2;
+	//Player* PlayerInfo = static_cast<Player*>(_player->GetFromList(hTarget));
+	Object * object = _player->GetFromList(hTarget);
 
-		_player->SetTarget(hTarget);
-		res.hSubject = hTarget;
-		try //temporal
-		{
-			res.unknow = PlayerInfo->GetTarget();
-		}
-		catch (int e)
-		{
-			sLog.outError("Error n: %d", e);
-			res.unknow = INVALID_TBLIDX;
-		}
-		
-		SendPacket((char*)&res, sizeof(sGU_CHAR_TARGET_CHANGED));
-	}	
-	Mob* MobInfo = static_cast<Mob*>(_player->GetFromList(hTarget));
-	if (MobInfo != NULL)
+	if (object == NULL)
 	{
-		sGU_CHAR_TARGET_CHANGED res;
-		//sLog.outError("Target of target here ?");
-		res.wOpCode = GU_CHAR_TARGET_CHANGED;
-		res.wPacketSize = sizeof(sGU_CHAR_TARGET_CHANGED) - 2;
-
-		_player->SetTarget(hTarget);
-		res.hSubject = hTarget;
-		res.unknow = MobInfo->GetMobData().target;
-		SendPacket((char*)&res, sizeof(sGU_CHAR_TARGET_CHANGED));
+		return;
 	}
-	Npc* NpcInfo = static_cast<Npc*>(_player->GetFromList(hTarget));
-	if (NpcInfo != NULL)
-	{
-		sGU_CHAR_TARGET_CHANGED res;
-		//sLog.outError("Target of target here ?");
-		res.wOpCode = GU_CHAR_TARGET_CHANGED;
-		res.wPacketSize = sizeof(sGU_CHAR_TARGET_CHANGED) - 2;
 
-		_player->SetTarget(hTarget);
-		res.hSubject = hTarget;
-		res.unknow = NpcInfo->GetNpcData().target;
-		SendPacket((char*)&res, sizeof(sGU_CHAR_TARGET_CHANGED));
+	sGU_CHAR_TARGET_CHANGED res;
+	//sLog.outError("Target of target here ?");
+	res.wOpCode = GU_CHAR_TARGET_CHANGED;
+	res.wPacketSize = sizeof(sGU_CHAR_TARGET_CHANGED) - 2;
+
+	_player->SetTarget(hTarget);
+	res.hSubject = hTarget;
+
+	sLog.outDebug("eOBJTYPE: %d", object->GetTypeId());
+
+	switch (object->GetTypeId())
+	{
+		case eOBJTYPE::OBJTYPE_PC:
+		{
+			Player* PlayerInfo = static_cast<Player*>(object);
+
+			if (PlayerInfo != NULL)
+			{
+				/*sGU_CHAR_TARGET_CHANGED res;
+				//sLog.outError("Target of target here ?");
+				res.wOpCode = GU_CHAR_TARGET_CHANGED;
+				res.wPacketSize = sizeof(sGU_CHAR_TARGET_CHANGED) - 2;
+
+				_player->SetTarget(hTarget);
+				res.hSubject = hTarget;*/
+				res.unknow = PlayerInfo->GetTarget();
+				sLog.outDebug("-----OBJTYPE_PC-----");
+				//SendPacket((char*)&res, sizeof(sGU_CHAR_TARGET_CHANGED));
+			}
+			break;
+		}
+		case eOBJTYPE::OBJTYPE_MOB:
+		{
+			Mob* MobInfo = static_cast<Mob*>(object);
+			if (MobInfo != NULL)
+			{
+				/*sGU_CHAR_TARGET_CHANGED res;
+				//sLog.outError("Target of target here ?");
+				res.wOpCode = GU_CHAR_TARGET_CHANGED;
+				res.wPacketSize = sizeof(sGU_CHAR_TARGET_CHANGED) - 2;
+
+				_player->SetTarget(hTarget);
+				res.hSubject = hTarget;*/
+				res.unknow = MobInfo->GetMobData().target;
+				sLog.outDebug("-----OBJTYPE_MOB-----");
+				//SendPacket((char*)&res, sizeof(sGU_CHAR_TARGET_CHANGED));
+			}
+			break;
+		}
+		case eOBJTYPE::OBJTYPE_NPC:
+		{
+			Npc* NpcInfo = static_cast<Npc*>(object);
+			if (NpcInfo != NULL)
+			{
+				/*sGU_CHAR_TARGET_CHANGED res;
+				//sLog.outError("Target of target here ?");
+				res.wOpCode = GU_CHAR_TARGET_CHANGED;
+				res.wPacketSize = sizeof(sGU_CHAR_TARGET_CHANGED) - 2;
+
+				_player->SetTarget(hTarget);
+				res.hSubject = hTarget;*/
+				res.unknow = NpcInfo->GetNpcData().target;
+				sLog.outDebug("-----OBJTYPE_NPC-----");
+				//SendPacket((char*)&res, sizeof(sGU_CHAR_TARGET_CHANGED));
+			}
+			break;
+		}
+		case eOBJTYPE::OBJTYPE_SUMMON_PET:
+		{
+			sLog.outDebug("-----OBJTYPE_SUMMON_PET-----");
+			break;
+		}
+		case eOBJTYPE::OBJTYPE_ITEM_PET:
+		{
+			sLog.outDebug("-----OBJTYPE_ITEM_PET-----");
+			break;
+		}
+		case eOBJTYPE::OBJTYPE_DROPMONEY:
+		{
+			sLog.outDebug("-----OBJTYPE_DROPMONEY-----");
+			break;
+		}
+		case eOBJTYPE::OBJTYPE_DROPITEM:
+		{
+			sLog.outDebug("-----OBJTYPE_DROPITEM-----");
+			break;
+		}
+		case eOBJTYPE::OBJTYPE_TOBJECT:
+		{
+			sLog.outDebug("-----OBJTYPE_TOBJECT-----");
+			break;
+		}
+		case eOBJTYPE::OBJTYPE_DYNAMIC:
+		{
+			sLog.outDebug("-----OBJTYPE_DYNAMIC-----");
+			break;
+		}
+		case eOBJTYPE::OBJTYPE_ITEM:
+		{
+			sLog.outDebug("-----OBJTYPE_ITEM-----");
+			break;
+		}
 	}
+
+	SendPacket((char*)&res, sizeof(sGU_CHAR_TARGET_CHANGED));
 }
 //----------------------------------------
 //Need Delet all that Shit and Remake
