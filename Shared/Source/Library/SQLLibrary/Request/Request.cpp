@@ -432,15 +432,9 @@ bool MySQLConnWrapper::HowMuchMail(CHARACTERID charID)
 ResultCodes MySQLConnWrapper::CreateGuild(char *guildName, int charId)
 {
 	ResultCodes retcode = GAME_FAIL;
-	/*SELECT * from Guilds WHERE GuildName = SuperNegros
-	# ERR: SQLException in Source\Library\SQLLibrary\mysqlconn_wrapper.cpp(MySQLConnWrapper::manageException) on line 24
-	# ERR: Unknown column 'SuperNegros' in 'where clause' (MySQL error code: 1054, SQLState: 42S22 )
-	[2018-09-18 20:09:28] [DEBUG]: Requested query:
-	INSERT INTO guilds(GuildName, GuildMasterName, GuildMaster) VALUES(SuperNegros, Blackarot, 317)
-	# ERR: SQLException in Source\Library\SQLLibrary\mysqlconn_wrapper.cpp(MySQLConnWrapper::manageException) on line 24
-	# ERR: Unknown column 'SuperNegros' in 'field list' (MySQL error code: 1054, SQLState: 42S22 )*/
+	
 	string charName;
-	sql::ResultSet* result = executes("SELECT Name, GuildID from Characters WHERE CharacterID = '%d' ", charId);
+	sql::ResultSet* result = executes("SELECT GuildID, Name from characters WHERE CharacterID = '%d' ", charId);
 
 	//There was no Character found in database. Fail
 	if (result && result->rowsCount() == 0)
@@ -451,7 +445,7 @@ ResultCodes MySQLConnWrapper::CreateGuild(char *guildName, int charId)
 	//Check for that character being in a guild now. If not continue on
 	else if (result && result->getInt("GuildID") == 0)
 	{
-		charName = result->getString("name");
+		charName = result->getString("Name");
 		sql::ResultSet* checkGuildRes = executes("SELECT * from Guilds WHERE GuildName = '%s' ", guildName);
 		//Guild exists with this username. Throw the code. 
 		if (checkGuildRes && checkGuildRes->rowsCount() != 0)
@@ -463,12 +457,12 @@ ResultCodes MySQLConnWrapper::CreateGuild(char *guildName, int charId)
 		else
 		{
 			sLog.outDebug("Guilds with the same name dont exist Continue and insert");
-			sql::ResultSet* createGuildRes = executes("INSERT INTO guilds(GuildName, GuildMasterName, GuildMaster) VALUES('%s', '%s', '%d')", guildName, charName, charId);
+			sql::ResultSet* createGuildRes = executes("INSERT INTO guilds (GuildName, GuildMasterName, GuildMaster) VALUES('%s', '%s', '%d')", guildName, charName, charId);
 			sLog.outDebug("Guild Created. Get the guild info now");
 			sql::ResultSet* res = executes("Select * from guilds where GuildMasterName = '%s'", charName);
 			int guildId = res->getInt("GuildID");
 			sql::ResultSet* setGuildRes = executes("UPDATE characters SET GuildID = %d WHERE CharacterID = %d", guildId, charId);
-			sql::ResultSet* setMembersRes = executes("INSERT INTO guild_members(GuildID, MemberID, MemberName, is_guildmaster) VALUES ('%d', '%d', '%s', '1')", guildId, charId, charName);
+			sql::ResultSet* setMembersRes = executes("INSERT INTO guild_members (GuildID, MemberID, MemberName, is_guildmaster) VALUES ('%d', '%d', '%s', '1')", guildId, charId, charName);
 			retcode = GAME_SUCCESS;
 			return retcode;
 		}
@@ -477,6 +471,14 @@ ResultCodes MySQLConnWrapper::CreateGuild(char *guildName, int charId)
 	else
 	{
 		return retcode;
+	}
+}
+bool MySQLConnWrapper::LoadAllMail(CHARACTERID charID)
+{
+	sql::ResultSet* result = executes("SELECT `*` FROM `mail` WHERE `CharacterID` = '%';", charID);
+	if (result && result->rowsCount() > 0)
+	{
+
 	}
 }
 #pragma endregion END_SANGAWKU

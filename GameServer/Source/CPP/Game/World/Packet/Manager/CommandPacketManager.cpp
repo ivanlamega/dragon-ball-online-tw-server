@@ -104,6 +104,7 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 		}
 		else if (strToken == "@expbonus")
 		{
+
 			strToken = str.substr(pos + 1, std::string::npos);
 			unsigned int Bonus = (unsigned int)atof(strToken.c_str());			
 			if (Bonus == 0)
@@ -119,7 +120,7 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 				sWorld.BonusActive = false;
 				sWorld.BonuxEXP = 0;
 			}
-			if (Bonus >= 1)
+			if (Bonus >= 1) /*	Use multipliers like 2, 3, 4. Big values can crash the server.*/
 			{
 				sGU_SYSTEM_DISPLAY_TEXT sNotice;
 				sNotice.wOpCode = GU_SYSTEM_DISPLAY_TEXT;

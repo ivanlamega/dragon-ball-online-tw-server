@@ -206,7 +206,7 @@ void WorldSession::SendGuildCreateReq(Packet& packet)
 		res3.wOpCode = TU_GUILD_INFO;		
 		sql::ResultSet* sql = sDB.executes("select * from Guilds where GuildMaster = %d", _player->GetCharacterID());
 
-		res3.guildId = sql->getInt("guildId");
+		res3.guildId = sql->getInt("GuildID");
 		res3.guildMaster = _player->GetCharacterID();
 		res3.guildSecondMaster[0] = INVALID_TBLIDX;
 		res3.guildSecondMaster[1] = INVALID_TBLIDX;
