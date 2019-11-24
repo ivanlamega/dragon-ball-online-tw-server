@@ -290,7 +290,7 @@ void Player::HandleItemUse(Packet pPacket)
 								}
 								break;
 						}
-					/*	case eSYSTEM_EFFECT_CODE::ACTIVE_VEHICLE:
+					/*	case eSYSTEM_EFFECT_CODE::ACTIVE_VEHICLE: // Gives a gameserver crash.
 						{
 							UseItem.wResultCode = GAME_SUCCESS;
 							Acionitem.handle = GetHandle();
@@ -369,8 +369,8 @@ void Player::HandleItemUse(Packet pPacket)
 							pBuffData.dwTimeRemaining = UseItemData->dwKeepTimeMs;//Time
 							pBuffData.isactive = true;
 							pBuffData.BuffType.BuffEffectType = 5;
-							pBuffData.BuffType.sBuffTypeLP_EP_AutoRecover.TbxCommonConfig = UseItemData->adwSystemEffect[i];
-							pBuffData.BuffType.sBuffTypeLP_EP_AutoRecover.dwRemainValue = UseItemData->adSystemEffectValue[i];
+							pBuffData.BuffType.sBuffTypeLP_EP_AutoRecover.TbxCommonConfig = UseItemData->adwSystemEffect[i]; // [i] error
+							pBuffData.BuffType.sBuffTypeLP_EP_AutoRecover.dwRemainValue = UseItemData->adSystemEffectValue[i]; // [i] error
 							pBuffData.BuffType.sBuffTypeLP_EP_AutoRecover.dwRemainTime = UseItemData->dwKeepTimeMs;
 							pBuffData.NeedDisplayMensage = false;
 							SendPacket((char*)&pBuffData, sizeof(sGU_BUFF_REGISTERED));
@@ -502,6 +502,40 @@ void Player::HandleItemUse(Packet pPacket)
 							UseItem.wResultCode = GAME_SUCCESS;
 							break;
 						}
+						/*case eSYSTEM_EFFECT_CODE::ACTIVE_MALE_FEMALE_TRANSFORM:// Gender Changer
+						{	
+							if (Item->byStackcount <= 1)
+							{
+								itmDelete.bySrcPlace = Item->byPlace;
+								itmDelete.bySrcPos = Item->byPos;
+								itmDelete.hSrcItem = Item->handle;
+								SendPacket((char*)&itmDelete, sizeof(sGU_ITEM_DELETE));
+								Item->byPlace = INVALID_TBLIDX;
+								Item->byPos = INVALID_TBLIDX;
+								Item->tblidx = INVALID_TBLIDX;
+							}
+							else
+							{
+								//UpdateStack
+								ItmStackUpdate.hItemHandle = Item->handle;
+								ItmStackUpdate.byStack = Item->byStackcount - 1;
+								ItmStackUpdate.bIsNew = false;
+								Item->byStackcount = ItmStackUpdate.byStack;
+								SendPacket((char*)&ItmStackUpdate, sizeof(sGU_ITEM_STACK_UPDATE));
+							}
+							if (GetPcProfile()->bGenderID == false)
+							{
+								ConvertFemale(true);
+								sql::ResultSet* result = sDB.executes("UPDATE characters SET GenderID = 1 WHERE CharacterID = '%d';", GetCharacterID()); // Saving Female to database
+							}
+							else
+							{
+								ConvertFemale(false);
+								sql::ResultSet* result = sDB.executes("UPDATE characters SET GenderID = 0 WHERE CharacterID = '%d';", GetCharacterID()); // Saving the reverse to database
+							}
+							UseItem.wResultCode = GAME_SUCCESS;
+							break;
+						}*/
 
 					}
 				}
