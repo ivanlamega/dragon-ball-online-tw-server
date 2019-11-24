@@ -691,5 +691,22 @@ int CharSocket::AddCharacters(sPC_SUMMARY data)
 		if (result != NULL)
 			delete result;
 	}
+
+	// Add Custom Initial Level For Each Server
+	if (ServerID == 0)
+	{
+		result = sDB.executes("UPDATE characters SET `CurrentLevel` = '70' WHERE `CharacterID` = '%d' LIMIT 1;",
+			 charid);
+		if (result != NULL)
+			delete result;
+	}
+
+	if (ServerID == 1)
+	{
+		result = sDB.executes("UPDATE characters SET `CurrentLevel` = '1' WHERE `CharacterID` = '%d' LIMIT 1;",
+			 charid);
+		if (result != NULL)
+			delete result;
+	}
 	return charid;
 }
