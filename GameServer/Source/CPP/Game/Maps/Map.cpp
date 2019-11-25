@@ -147,10 +147,10 @@ bool Map::Add(Player* player)
 	player->AddToWorld();
 
 	sGU_SYSTEM_DISPLAY_TEXT test;
-	memcpy(test.awchMessage, (L"Welcome To Dragon Ball Online !"), 257);
+	memcpy(test.awchMessage, (L"Welcome To DragonBall Online Emulator Server Test!"), 257);
 	memcpy(test.awGMChar, (L" GM "), 17);
 	test.byDisplayType = eSERVER_TEXT_TYPE::SERVER_TEXT_SYSTEM;
-	test.wMessageLengthInUnicode = strlen("Welcome To Dragon Ball Online  !");
+	test.wMessageLengthInUnicode = strlen("Welcome To DragonBall Online Emulator Server Test!");
 	test.wOpCode = GU_SYSTEM_DISPLAY_TEXT;
 	test.wPacketSize = sizeof(sGU_SYSTEM_DISPLAY_TEXT) - 2;
 	player->SendPacket((char*)&test, sizeof(sGU_SYSTEM_DISPLAY_TEXT));

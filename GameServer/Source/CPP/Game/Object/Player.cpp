@@ -1253,7 +1253,7 @@ void Player::ExecuteEffectCalculation(TBLIDX SkillID, bool isRemove)
 					{
 						GetAttributesManager()->SetLastFoc(skillDataOriginal->SkillValue[Effect]);
 						WORD LevelFoc = skillDataOriginal->SkillValue[Effect];
-						float EnergyCriticalByPoint = 0.2; // 1Focus = 1 pont critical 
+						float EnergyCriticalByPoint = 0.5; // 1Focus = 1 pont critical 
 						float EnergyAttackByPoint = 2; // 1Focus = 1 pont critical 
 						float HitRateByPoint = 10; // 1 point = 10 hit rate old tw
 						WORD EnergyCriticalRate = static_cast<WORD>(LevelFoc * EnergyCriticalByPoint);
@@ -1271,7 +1271,7 @@ void Player::ExecuteEffectCalculation(TBLIDX SkillID, bool isRemove)
 					{
 						GetAttributesManager()->SetLastDex(skillDataOriginal->SkillValue[Effect] * -1);
 						WORD LevelDex = skillDataOriginal->SkillValue[Effect];
-						float CriticalAttackByPoint = 0.2; // 1Dex = 1 critical old tw
+						float CriticalAttackByPoint = 0.5; // 1Dex = 1 critical old tw
 						float PhyAttackByPoint = 2; // 1Dex = 1 phyattack old tw
 						float DoggeByPoint = 5;
 						WORD PhysicalCriticalRate = static_cast<WORD>(LevelDex * CriticalAttackByPoint);
@@ -1295,7 +1295,7 @@ void Player::ExecuteEffectCalculation(TBLIDX SkillID, bool isRemove)
 					{
 						GetAttributesManager()->SetLastDex(skillDataOriginal->SkillValue[Effect]);
 						WORD LevelDex = skillDataOriginal->SkillValue[Effect];
-						float CriticalAttackByPoint = 0.2; // 1Dex = 1 critical old tw
+						float CriticalAttackByPoint = 0.5; // 1Dex = 1 critical old tw
 						float PhyAttackByPoint = 2; // 1Dex = 1 phyattack old tw
 						float DoggeByPoint = 5;
 						WORD PhysicalCriticalRate = static_cast<WORD>(LevelDex * CriticalAttackByPoint);
@@ -2955,13 +2955,15 @@ void	Player::RewardExpFromMob(MonsterData& data)
 	/*	int levelDiff = GetPcProfile()->byLevel - data.Level;
 		(levelDiff > 0) ? levelDiff *= 1 : levelDiff *= -1;*/
 		DWORD bonus = 0;
+		DWORD BonuxEXP = 5; //Value default for test svr porpouses.
 		sGU_UPDATE_CHAR_EXP expPacket;
 		// hard fix
 		//exp /= 10;
 		if (sWorld.BonusActive == true)
-			bonus = exp / 100 * sWorld.BonuxEXP;
+			bonus = exp * sWorld.BonuxEXP;
 		else
-			bonus = 0;
+		//	bonus = 0; //Original Value
+			bonus = exp * BonuxEXP; //Value default for test svr porpouses.
 		
 		expPacket.dwIncreasedExp = exp + bonus;
 		expPacket.dwAcquisitionExp = exp;
