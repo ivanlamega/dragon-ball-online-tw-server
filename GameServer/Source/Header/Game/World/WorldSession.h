@@ -172,11 +172,12 @@ public:
 	// TS Quest
 	ResultCodes		FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req);
 	ResultCodes		ProcessTSContStart(CDboTSContStart * contStart);
-	ResultCodes		ProcessTsContGAct(CDboTSContGAct * contGAct);
+	ResultCodes		ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, NTL_TS_TA_ID taId);
 	ResultCodes		ProcessTsContGCond(CDboTSContGCond * contGCond);
 	ResultCodes		ProcessTsContReward(CDboTSContReward * contReward, DWORD dwParam);
 	void			ProcessTsContEnd(CDboTSContEnd * contEnd);
 	void			SendQuestSVRevtStartNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, NTL_TS_TA_ID taId);
+	void			SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, NTL_TS_TA_ID taId);
 	//RankBatle
 	void			GetPlayerFromRankList();
 	

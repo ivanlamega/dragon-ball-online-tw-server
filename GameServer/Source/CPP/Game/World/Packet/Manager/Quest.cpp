@@ -624,7 +624,7 @@ ResultCodes WorldSession::ProcessTSContStart(CDboTSContStart * contStart)
 	return RESULT_SUCCESS;
 }
 
-ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct)
+ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, NTL_TS_TA_ID taId)
 {
 	for (int i = 0; i < contGAct->GetNumOfChildEntity(); i++)
 	{
@@ -670,6 +670,19 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct)
 					return RESULT_FAIL;
 				}
 				sLog.outDetail("Quest %d", sToCEvt->GetEvtDataType());
+
+				if (sToCEvt->GetEvtType() == eSTOC_EVT_TYPE::eSTOC_EVT_TYPE_START)
+				{
+					SendQuestSVRevtStartNotify(tid, tcId, sToCEvt->GetActionId());//req->tcNextId);
+					sLog.outDebug("--------START QUEST--------");
+				}
+				else if (sToCEvt->GetEvtType() == eSTOC_EVT_TYPE::eSTOC_EVT_TYPE_END)  
+				{
+					SendQuestSVRevtEndNotify(tid, tcId, sToCEvt->GetActionId());
+					sLog.outDebug("--------END QUEST--------");
+				}
+				
+
 				if (CheckEvtDataType(sToCEvt) == RESULT_FAIL)
 				{
 					return RESULT_FAIL;
@@ -1055,11 +1068,10 @@ ResultCodes WorldSession::FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req)
 			{
 				return RESULT_FAIL;
 			}
-			if (ProcessTsContGAct(contGAct) == RESULT_FAIL)
+			if (ProcessTsContGAct(contGAct, req->tId, req->tcCurId, 3) == RESULT_FAIL)
 			{
 				return RESULT_FAIL;
 			}
-			SendQuestSVRevtStartNotify(req->tId, req->tcCurId, req->tcNextId);
 			break;
 		}
 
@@ -1202,6 +1214,17 @@ void WorldSession::SendQuestSVRevtStartNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId
 	start.tcId = tcId;
 	start.taId = taId;
 	SendPacket((char*)&start, sizeof(sGU_QUEST_SVREVT_START_NFY));
+}
+
+void WorldSession::SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, NTL_TS_TA_ID taId)
+{
+	sGU_QUEST_SVREVT_END_NFY end;
+	end.wOpCode = GU_QUEST_SVREVT_END_NFY;
+	end.wPacketSize = sizeof(sGU_QUEST_SVREVT_END_NFY) - 2;
+	end.tId = tid;
+	end.tcId = tcId;
+	end.taId = taId;
+	SendPacket((char*)&end, sizeof(sGU_QUEST_SVREVT_END_NFY));
 }
 
  void WorldSession::SendQuestCompleteInfo()
