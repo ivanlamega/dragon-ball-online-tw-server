@@ -35,7 +35,7 @@ void			WorldSession::PacketParser(Packet& packet)
 		SendNetMarbleMemberShipNfy();
 		SendWorldEnter();
 		SendEnterWorldComplete();
-		_player->UpdateState(eCHARSTATE::CHARSTATE_STANDING);
+		_player->UpdateState(eCHARSTATE::CHARSTATE_SPAWNING);
 		break;
 	}
 	case Opcodes::UG_GAME_LEAVE_REQ:
