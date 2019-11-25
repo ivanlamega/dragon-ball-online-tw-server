@@ -671,15 +671,40 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 				}
 				sLog.outDetail("Quest %d", sToCEvt->GetEvtDataType());
 
-				if (sToCEvt->GetEvtType() == eSTOC_EVT_TYPE::eSTOC_EVT_TYPE_START)
+				switch (sToCEvt->GetEvtType())
 				{
-					SendQuestSVRevtStartNotify(tid, tcId, sToCEvt->GetActionId());//req->tcNextId);
-					sLog.outDebug("--------START QUEST--------");
+					case eSTOC_EVT_TYPE::eSTOC_EVT_TYPE_START:
+					{
+						SendQuestSVRevtStartNotify(tid, tcId, sToCEvt->GetActionId());//req->tcNextId);
+						sLog.outDebug("--------START QUEST--------");
+						break;
+					}
+					case eSTOC_EVT_TYPE::eSTOC_EVT_TYPE_END:
+					{
+						SendQuestSVRevtEndNotify(tid, tcId, sToCEvt->GetActionId());
+						sLog.outDebug("--------END QUEST--------");
+						break;
+					}
 				}
-				else if (sToCEvt->GetEvtType() == eSTOC_EVT_TYPE::eSTOC_EVT_TYPE_END)  
+
+				switch (sToCEvt->GetEvtCondDataType())
 				{
-					SendQuestSVRevtEndNotify(tid, tcId, sToCEvt->GetActionId());
-					sLog.outDebug("--------END QUEST--------");
+					case eSTOC_EVT_COND_DATA_TYPE::eSTOC_EVT_COND_DATA_TYPE_AUTO_EQUIP_ITEM:
+					{
+						break;
+					}
+					case eSTOC_EVT_COND_DATA_TYPE::eSTOC_EVT_COND_DATA_TYPE_EQUIP_ITEM:
+					{
+						break;
+					}
+					case eSTOC_EVT_COND_DATA_TYPE::eSTOC_EVT_COND_DATA_TYPE_HAVE_ITEM:
+					{
+						break;
+					}
+					case eSTOC_EVT_COND_DATA_TYPE::eSTOC_EVT_COND_DATA_TYPE_HAVE_QITEM:
+					{
+						break;
+					}
 				}
 				
 

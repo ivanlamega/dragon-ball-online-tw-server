@@ -630,8 +630,8 @@ void			WorldSession::PacketParser(Packet& packet)
 		case Opcodes::UG_TS_EXCUTE_TRIGGER_OBJECT:
 		{
 			sLog.outError("UG_TS_EXCUTE_TRIGGER_OBJECT");
-			sUG_TS_EXCUTE_TRIGGER_OBJECT *req = (sUG_TS_EXCUTE_TRIGGER_OBJECT*)packet.GetPacketBuffer();
-			Map *map = _player->GetMap();
+			sUG_TS_EXCUTE_TRIGGER_OBJECT* req = (sUG_TS_EXCUTE_TRIGGER_OBJECT*)packet.GetPacketBuffer();
+			Map* map = _player->GetMap();
 			//sLog.outDebug("Request handle interaction == %d", req->hTarget);
 			if (map)
 			{
@@ -645,6 +645,13 @@ void			WorldSession::PacketParser(Packet& packet)
 					}
 				}
 			}
+
+			sGU_TS_EXCUTE_TRIGGER_OBJECT_RES res;
+			res.wOpCode = GU_TS_EXCUTE_TRIGGER_OBJECT_RES;
+			res.wPacketSize = sizeof(sGU_TS_EXCUTE_TRIGGER_OBJECT_RES) - 2;
+			res.wResultCode = RESULT_SUCCESS;
+			res.hTriggerObject = req->hTarget;
+			SendPacket((char*)&res, sizeof(sGU_TS_EXCUTE_TRIGGER_OBJECT_RES));
 			break;
 		}
 		case Opcodes::UG_TS_CONFIRM_STEP_REQ:
