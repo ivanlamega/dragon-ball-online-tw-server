@@ -652,6 +652,7 @@ void			WorldSession::PacketParser(Packet& packet)
 			res.wResultCode = RESULT_SUCCESS;
 			res.hTriggerObject = req->hTarget;
 			SendPacket((char*)&res, sizeof(sGU_TS_EXCUTE_TRIGGER_OBJECT_RES));
+			sLog.outDebug("Item trigger: %d %d %d", res.hTriggerObject, req->hSource, req->hSource);
 			break;
 		}
 		case Opcodes::UG_TS_CONFIRM_STEP_REQ:
