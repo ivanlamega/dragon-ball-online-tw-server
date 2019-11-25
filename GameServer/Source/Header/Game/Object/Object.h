@@ -34,6 +34,7 @@ public:
 	Map*				GetMap();
 	eOBJTYPE			GetTypeId() const;
 	uint32				GetHandle() const;
+	TBLIDX				GetTblidx() const;
 	sCHARSTATE*			GetState() { return &State; }
 
 	void				Relocate(float x, float y, float z, float Ox, float Oy, float Oz);
@@ -49,6 +50,7 @@ protected:
 	Object();
 	eOBJTYPE			m_objectType;
 	uint32				handle;
+	TBLIDX				tblidx;
 	sVECTOR3			m_position;
 	sVECTOR3			m_rotation;
 	std::mutex			mutexObject;

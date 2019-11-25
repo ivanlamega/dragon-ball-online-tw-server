@@ -67,6 +67,13 @@ uint32 Object::GetHandle() const
 	return handle;
 }
 //----------------------------------------
+//	Get our object tblidx
+//----------------------------------------
+TBLIDX Object::GetTblidx() const
+{
+	return tblidx;
+}
+//----------------------------------------
 //	Relocate our object at position
 //	Pos - Dir
 //----------------------------------------
@@ -242,6 +249,7 @@ bool		WorldObject::Create(sOBJECT_TBLDAT& objRef)
 	Relocate(objRef.vLoc.x, objRef.vLoc.y, objRef.vLoc.z, objRef.vDir.x, objRef.vDir.y, objRef.vDir.z);
 	sequence = objRef.dwSequence;
 	handle = sequence + 100000;
+	tblidx = objRef.tblidx;
 	objRef.abyState;
 	objRef.achClickSound;
 	objRef.byBoundaryDistance;
