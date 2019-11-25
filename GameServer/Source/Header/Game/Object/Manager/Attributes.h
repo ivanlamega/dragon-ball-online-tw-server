@@ -35,7 +35,8 @@ public:
 	{
 		sVECTOR3	position;
 		sVECTOR3	rotation;
-		TBLIDX		worldTblidx;
+		bool		bIsToMoveAnotherServer;
+		sWORLD_INFO worldInfo;
 	};
 
 	TeleportInfo teleportInfo;

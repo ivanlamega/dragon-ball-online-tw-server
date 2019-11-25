@@ -732,7 +732,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 						_player->GetAttributesManager()->teleportInfo.rotation.y,
 						_player->GetAttributesManager()->teleportInfo.rotation.z);
 
-					_player->GetAttributesManager()->teleportInfo.worldTblidx = sPortal->GetWorldIdx();
+					_player->GetAttributesManager()->teleportInfo.worldInfo.tblidx = sPortal->GetWorldIdx();
 
 					sLog.outDebug("Teleport: pos %f %f %f rot %f %f %f worldtblidx %d type %d", _player->GetAttributesManager()->teleportInfo.position.x,
 						_player->GetAttributesManager()->teleportInfo.position.y,
@@ -743,7 +743,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 						sPortal->GetWorldIdx(),
 						sPortal->GetPotalType());
 
-					sWORLD_TBLDAT* worldTbl = (sWORLD_TBLDAT*)sTBM.GetWorldTable()->FindData(_player->GetAttributesManager()->teleportInfo.worldTblidx);
+					sWORLD_TBLDAT* worldTbl = (sWORLD_TBLDAT*)sTBM.GetWorldTable()->FindData(_player->GetAttributesManager()->teleportInfo.worldInfo.tblidx);
 					sLog.outDebug("WORLD TBLIDX: %d resourse id: %d", worldTbl->tblidx, worldTbl->dwWorldResourceID);
 					_player->GetState()->sCharStateDetail.sCharStateDespawning.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_DEFAULT;
 					_player->SetState(eCHARSTATE::CHARSTATE_DESPAWNING);

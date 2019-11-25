@@ -236,9 +236,12 @@ DWORD Npc::GetPowerLevel()
 void Npc::UpdateState(eCHARSTATE _state)
 {
 	sGU_UPDATE_CHAR_STATE res;
+	memset(&res, 0, sizeof sGU_UPDATE_CHAR_STATE);
 
 	res.wOpCode = GU_UPDATE_CHAR_STATE;
 	res.wPacketSize = sizeof(sGU_UPDATE_CHAR_STATE) - 2;
+
+	memcpy(&res.sCharState, GetState(), sizeof sCHARSTATE);
 
 	res.sCharState.sCharStateBase.byStateID = GetState()->sCharStateBase.byStateID = _state;
 	res.sCharState.sCharStateBase.vCurLoc = GetState()->sCharStateBase.vCurLoc;

@@ -9,17 +9,17 @@
 
 void WorldSession::SendCharTeleportRes(Packet& packet)
 {
+	sGU_CHAR_TELEPORT_RES Teleport;
+	memset(&Teleport, 0, sizeof(sGU_CHAR_TELEPORT_RES));
+	Teleport.wOpCode = GU_CHAR_TELEPORT_RES;
+	Teleport.wPacketSize = sizeof(sGU_CHAR_TELEPORT_RES) - 2;
+
 	_player->GetState()->sCharStateDetail.sCharStateDespawning.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_NPC_PORTAL;
 
 	switch (_player->GetState()->sCharStateDetail.sCharStateDespawning.byTeleportType)
 	{
 		case eTELEPORT_TYPE::TELEPORT_TYPE_DEFAULT:
 		{
-			sGU_CHAR_TELEPORT_RES Teleport;
-			memset(&Teleport, 0, sizeof(sGU_CHAR_TELEPORT_RES));
-
-			Teleport.wOpCode = GU_CHAR_TELEPORT_RES;
-			Teleport.wPacketSize = sizeof(sGU_CHAR_TELEPORT_RES) - 2;
 			Teleport.wResultCode = GAME_SUCCESS;
 			Teleport.vNewLoc.x = _player->GetAttributesManager()->teleportInfo.position.x;//4474.109863;
 			Teleport.vNewLoc.y = _player->GetAttributesManager()->teleportInfo.position.y;//-42.000000;
@@ -32,7 +32,7 @@ void WorldSession::SendCharTeleportRes(Packet& packet)
 
 			_player->Relocate(Teleport.vNewLoc.x, Teleport.vNewLoc.y, Teleport.vNewLoc.z, Teleport.vNewDir.x, Teleport.vNewDir.y, Teleport.vNewDir.z);
 
-			sWORLD_TBLDAT* worldTbl = (sWORLD_TBLDAT*)sTBM.GetWorldTable()->FindData(_player->GetAttributesManager()->teleportInfo.worldTblidx);
+			sWORLD_TBLDAT* worldTbl = (sWORLD_TBLDAT*)sTBM.GetWorldTable()->FindData(_player->GetAttributesManager()->teleportInfo.worldInfo.tblidx);
 
 			if (worldTbl != NULL)
 			{
@@ -45,18 +45,40 @@ void WorldSession::SendCharTeleportRes(Packet& packet)
 				Teleport.wResultCode = GAME_CAN_NOT_TELEPORT;
 				_player->SetState(eCHARSTATE::CHARSTATE_STANDING);
 			}
-
-
-			SendPacket((char*)&Teleport, sizeof(sGU_CHAR_TELEPORT_RES));
 			sLog.outDebug("--------TELEPORT DEFAULT--------");
 			break;
 		}
 		case eTELEPORT_TYPE::TELEPORT_TYPE_NPC_PORTAL:
 		{
+			Teleport.wResultCode = GAME_SUCCESS;
+			Teleport.vNewLoc.x = _player->GetAttributesManager()->teleportInfo.position.x;//4474.109863;
+			Teleport.vNewLoc.y = _player->GetAttributesManager()->teleportInfo.position.y;//-42.000000;
+			Teleport.vNewLoc.z = _player->GetAttributesManager()->teleportInfo.position.z; //3958.379883;
+			Teleport.vNewDir.x = _player->GetAttributesManager()->teleportInfo.rotation.x; //-0.751000;
+			Teleport.vNewDir.y = _player->GetAttributesManager()->teleportInfo.rotation.y;//0;
+			Teleport.vNewDir.z = _player->GetAttributesManager()->teleportInfo.rotation.z; //-0.661000;
+			Teleport.unk = INVALID_TBLIDX;
+			Teleport.bIsToMoveAnotherServer = _player->GetAttributesManager()->teleportInfo.bIsToMoveAnotherServer;
+			Teleport.sWorldInfo.worldID = _player->GetAttributesManager()->teleportInfo.worldInfo.worldID;
+			Teleport.sWorldInfo.tblidx = _player->GetAttributesManager()->teleportInfo.worldInfo.tblidx;
+			Teleport.sWorldInfo.sRuleInfo.byRuleType = _player->GetAttributesManager()->teleportInfo.worldInfo.sRuleInfo.byRuleType;
+
+			_player->Relocate(Teleport.vNewLoc.x, Teleport.vNewLoc.y, Teleport.vNewLoc.z, Teleport.vNewDir.x, Teleport.vNewDir.y, Teleport.vNewDir.z);
+			_player->SetWorldID(Teleport.sWorldInfo.worldID);
+			_player->SetWorldTableID(Teleport.sWorldInfo.tblidx);
+
+			memset(&(_player->GetAttributesManager()->teleportInfo), 0, sizeof _player->GetAttributesManager()->teleportInfo);
 			sLog.outDebug("--------TELEPORT NPC--------");
+			sLog.outDebug("Type teleport %d", _player->GetState()->sCharStateDetail.sCharStateDespawning.byTeleportType);
+
+			/*	   NOT SURE IF THIS IS A GOOD IDEA FOR NOW		*/
+			Map* map = _player->GetMap();
+			map->Remove(_player, false);
+			_player->ClearListAndReference();
 			break;
 		}
 	}
 
-	
+	SendPacket((char*)&Teleport, sizeof(sGU_CHAR_TELEPORT_RES));
+	memset(&(_player->GetAttributesManager()->teleportInfo), 0, sizeof _player->GetAttributesManager()->teleportInfo);
 }

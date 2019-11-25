@@ -38,7 +38,7 @@ void WorldSession::SendPortalTeleport(Packet& packet)
 {
 	sUG_PORTAL_REQ* req = (sUG_PORTAL_REQ *)packet.GetPacketBuffer();
 	sGU_PORTAL_RES res;
-	//sGU_CHAR_TELEPORT_RES teleport;
+	sGU_CHAR_TELEPORT_RES teleport;
 
 	/*	 NEED CHECK ZENNY HERE !!!	*/
 
@@ -69,6 +69,8 @@ void WorldSession::SendPortalTeleport(Packet& packet)
 
 		if (portalTbl->worldId != _player->GetWorldID())
 		{
+			_player->GetAttributesManager()->teleportInfo.bIsToMoveAnotherServer = true;
+			_player->GetAttributesManager()->teleportInfo.worldInfo.sRuleInfo.byRuleType = world->byWorldRuleType;
 			/*teleport.bIsToMoveAnotherServer = true;
 			teleport.sWorldInfo.worldID = portalTbl->worldId;
 			teleport.sWorldInfo.tblidx = world->tblidx;
@@ -77,6 +79,7 @@ void WorldSession::SendPortalTeleport(Packet& packet)
 		}
 		else
 		{
+			_player->GetAttributesManager()->teleportInfo.bIsToMoveAnotherServer = false;
 			//teleport.bIsToMoveAnotherServer = false;
 		}
 
@@ -91,6 +94,17 @@ void WorldSession::SendPortalTeleport(Packet& packet)
 		_player->SetWorldID(portalTbl->worldId);
 		_player->SetWorldTableID(world->tblidx);*/
 
+		_player->GetAttributesManager()->teleportInfo.worldInfo.tblidx = world->tblidx;
+		_player->GetAttributesManager()->teleportInfo.worldInfo.worldID = portalTbl->worldId;
+
+		_player->GetAttributesManager()->teleportInfo.position.x = portalTbl->vLoc.x;
+		_player->GetAttributesManager()->teleportInfo.position.y = portalTbl->vLoc.y;
+		_player->GetAttributesManager()->teleportInfo.position.z = portalTbl->vLoc.z;
+
+		_player->GetAttributesManager()->teleportInfo.rotation.x = portalTbl->vDir.x;
+		_player->GetAttributesManager()->teleportInfo.rotation.y = portalTbl->vDir.y;
+		_player->GetAttributesManager()->teleportInfo.rotation.z = portalTbl->vDir.z;
+
 		sGU_UPDATE_CHAR_CONDITION condition;
 		condition.wOpCode = GU_UPDATE_CHAR_CONDITION;
 		condition.wPacketSize = sizeof(sGU_UPDATE_CHAR_CONDITION) - 2;
@@ -101,12 +115,9 @@ void WorldSession::SendPortalTeleport(Packet& packet)
 
 		sWorld.SendToAll((char*)&condition, sizeof(sGU_UPDATE_CHAR_CONDITION));
 
-
-		_player->GetState()->sCharStateDetail.sCharStateDespawning.unk = eTELEPORT_TYPE::TELEPORT_TYPE_NPC_PORTAL;
+		_player->GetState()->sCharStateDetail.sCharStateDespawning.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_NPC_PORTAL;
 		_player->SetState(eCHARSTATE::CHARSTATE_DESPAWNING);
 
-		sLog.outDebug("--------TELEPORT NPC---------");
-		sLog.outDebug("Type teleport %d", _player->GetState()->sCharStateDetail.sCharStateDespawning.unk);
 		SendPacket((char*)&res, sizeof(sGU_PORTAL_RES));
 		//SendPacket((char*)&teleport, sizeof(sGU_CHAR_TELEPORT_RES));
 

@@ -348,8 +348,8 @@ struct sCHARSTATE_SPAWNING
 //-----------------------------------------------------------------------------------
 struct sCHARSTATE_DESPAWNING
 {
-	BYTE								unk;		//TODO: what is that value?
 	BYTE								byTeleportType;		// eTELEPORT_TYPE	
+	BYTE								unk;		//TODO: what is that value?
 };
 //-----------------------------------------------------------------------------------
 struct sCHARSTATE_STANDING
