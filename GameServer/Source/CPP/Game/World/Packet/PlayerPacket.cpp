@@ -103,7 +103,10 @@ void WorldSession::SendPortalTeleport(Packet& packet)
 
 
 		_player->GetState()->sCharStateDetail.sCharStateDespawning.unk = eTELEPORT_TYPE::TELEPORT_TYPE_NPC_PORTAL;
-		_player->SetState(eCHARSTATE::CHARSTATE_DESPAWNING); 
+		_player->SetState(eCHARSTATE::CHARSTATE_DESPAWNING);
+
+		sLog.outDebug("--------TELEPORT NPC---------");
+		sLog.outDebug("Type teleport %d", _player->GetState()->sCharStateDetail.sCharStateDespawning.unk);
 		SendPacket((char*)&res, sizeof(sGU_PORTAL_RES));
 		//SendPacket((char*)&teleport, sizeof(sGU_CHAR_TELEPORT_RES));
 

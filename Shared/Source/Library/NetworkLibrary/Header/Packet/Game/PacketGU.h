@@ -645,6 +645,7 @@ END_PROTOCOL()
 BEGIN_PROTOCOL(GU_UPDATE_CHAR_CONDITION)
 HOBJECT			handle;
 DWORD			dwConditionFlag;
+DWORD			unknown;
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(GU_UPDATE_CHAR_EXP)
