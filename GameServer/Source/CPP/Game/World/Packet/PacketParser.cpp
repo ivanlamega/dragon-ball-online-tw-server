@@ -52,7 +52,7 @@ void			WorldSession::PacketParser(Packet& packet)
 	case Opcodes::UG_GAME_EXIT_REQ:
 	{
 		sLog.outError("UG_GAME_EXIT_REQ");
-		SendGameLeave(packet, false);
+		SendGameExit(packet);//SendGameLeave(packet, false);
 		break;
 	}
 	case Opcodes::UG_CHAR_BIND_REQ:

@@ -520,6 +520,16 @@ void WorldSession::SendWorldEnter()
 	delete result;
 	SendPacket((char*)&res, sizeof(sGU_AVATAR_WORLD_INFO));
 }
+void WorldSession::SendGameExit(Packet& packet)
+{
+	sGU_GAME_EXIT_RES res;
+
+	res.wPacketSize = sizeof(sGU_GAME_EXIT_RES) - 2;
+	res.wOpCode = GU_GAME_EXIT_RES;
+
+	SendPacket((char*)&res, sizeof(sGU_GAME_EXIT_RES));
+
+}
 //----------------------------------------
 //	Process character logout on request leave game
 //----------------------------------------

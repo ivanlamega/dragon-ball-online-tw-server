@@ -79,6 +79,7 @@ public:
 	void			SendWorldEnter();
 	void			SendEnterWorldComplete();
 	void			SendGameLeave(Packet& packet, bool moveToChar = false);
+	void			SendGameExit(Packet& packet);
 	void			SendShopRequest(Packet& packet, bool enter);
 	void			SendTargetSelection(HOBJECT hTarget);
 	// move
