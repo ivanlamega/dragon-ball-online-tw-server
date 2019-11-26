@@ -660,6 +660,24 @@ void			WorldSession::PacketParser(Packet& packet)
 			_player->GetState()->sCharStateDetail.sCharStateOperating.directTblidx = 10003;
 			_player->UpdateState(eCHARSTATE::CHARSTATE_OPERATING);
 
+			sGU_QUEST_ITEM_CREATE_NFY itemQuest;
+			itemQuest.wOpCode = GU_QUEST_ITEM_CREATE_NFY;
+			itemQuest.wPacketSize = sizeof(sGU_QUEST_ITEM_CREATE_NFY) - 2;
+			itemQuest.byPos = 0;
+			itemQuest.qItemTblidx = 487;
+			SendPacket((char*)&itemQuest, sizeof(sGU_QUEST_ITEM_CREATE_NFY));
+
+			sGU_QUEST_SVREVT_UPDATE_NFY update;
+			update.wOpCode = GU_QUEST_SVREVT_UPDATE_NFY;
+			update.wPacketSize = sizeof(sGU_QUEST_SVREVT_UPDATE_NFY) - 2;
+			update.tId = 296;
+			update.tcId = 2;
+			update.taId = 3;
+			update.bySvrEvtType = eSTOC_EVT_DATA_TYPE_OBJECT_ITEM;
+			update.bySlot = 0;
+			update.uEvtData.sObjectItemCnt.nCurItemCnt = 1;
+			SendPacket((char*)&update, sizeof(sGU_QUEST_SVREVT_UPDATE_NFY));
+
 			break;
 		}
 		case Opcodes::UG_TS_CONFIRM_STEP_REQ:
