@@ -1384,9 +1384,9 @@ void WorldSession::SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, 
 	 res.wResultCode = GAME_SUCCESS;
 	 res.byDeletePos = req->byDeletePos;
 
-	 SendPacket((char*)&res, sizeof sGU_QUEST_ITEM_DELETE_RES);
+	 SendQuestItemDeleteNfy(req->byDeletePos);
 
-	 //SendQuestItemDeleteNfy(req->byDeletePos);
+	 SendPacket((char*)&res, sizeof sGU_QUEST_ITEM_DELETE_RES);
  }
 
  void WorldSession::SendQuestItemDeleteNfy(BYTE pos)
