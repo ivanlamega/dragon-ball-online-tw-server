@@ -624,7 +624,7 @@ ResultCodes WorldSession::ProcessTSContStart(CDboTSContStart * contStart)
 	return RESULT_SUCCESS;
 }
 
-ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, NTL_TS_TA_ID taId)
+ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_ID tid, NTL_TS_TC_ID tcId)
 {
 	for (int i = 0; i < contGAct->GetNumOfChildEntity(); i++)
 	{
@@ -708,7 +708,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 				}
 				
 
-				if (CheckEvtDataType(sToCEvt) == RESULT_FAIL)
+				if (CheckEvtDataType(sToCEvt, tcId) == RESULT_FAIL)
 				{
 					return RESULT_FAIL;
 				}
@@ -1103,7 +1103,7 @@ ResultCodes WorldSession::FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req)
 			{
 				return RESULT_FAIL;
 			}
-			if (ProcessTsContGAct(contGAct, req->tId, req->tcCurId, 3) == RESULT_FAIL)
+			if (ProcessTsContGAct(contGAct, req->tId, req->tcCurId) == RESULT_FAIL)
 			{
 				return RESULT_FAIL;
 			}
@@ -1166,7 +1166,7 @@ ResultCodes WorldSession::FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req)
 	return RESULT_SUCCESS;
 }
 
-ResultCodes	WorldSession::CheckEvtDataType(CDboTSActSToCEvt* sToCEvt)
+ResultCodes	WorldSession::CheckEvtDataType(CDboTSActSToCEvt* sToCEvt, NTL_TS_TC_ID tcId)
 {
 	switch (sToCEvt->GetEvtDataType())
 	{
@@ -1198,6 +1198,8 @@ ResultCodes	WorldSession::CheckEvtDataType(CDboTSActSToCEvt* sToCEvt)
 				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sMobKillCnt[i].uiMobIdx = mobTblidx;
 				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sMobKillCnt[i].nCurMobCnt = sToCEvt->GetEvtData().sMobKillCnt[i].nCurMobCnt;
 				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sMobKillCnt[i].nMobCnt = sToCEvt->GetEvtData().sMobKillCnt[i].nMobCnt;
+				_player->GetAttributesManager()->QuestDat[freeslot].tcId = tcId;
+				_player->GetAttributesManager()->QuestDat[freeslot].taId = sToCEvt->GetActionId();
 
 				sLog.outError("ROOT TS: %d", trigger->GetID());
 				sLog.outDetail("Mob kill: group tblidx: %d  mobTblidx: %d count: %d, curcout: %d", 

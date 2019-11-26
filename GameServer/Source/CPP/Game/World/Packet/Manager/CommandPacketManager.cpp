@@ -54,6 +54,17 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 			_player->LevelUpByComand(Level);
 			return;
 		}
+		else if (strToken == "@delete")
+		{
+			sLog.outDetail("Delete item quest");
+			strToken = str.substr(pos + 1, std::string::npos);
+			unsigned int Level = (unsigned int)atof(strToken.c_str());
+			sGU_QUEST_ITEM_DELETE_NFY delItm;
+			delItm.wOpCode = GU_QUEST_ITEM_DELETE_NFY;
+			delItm.wPacketSize = sizeof(sGU_QUEST_ITEM_DELETE_NFY) - 1;
+			delItm.byDeletePos = 0;
+			return;
+		}
 		else if (strToken == "@tp")
 		{
 			sLog.outDetail("GM Bot Check");

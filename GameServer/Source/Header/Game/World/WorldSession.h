@@ -171,11 +171,11 @@ public:
 	void			SendQuestGiveUp(Packet& packet);
 	ResultCodes		GivePlayerQuestReward(TBLIDX tblidx, eREWARD_CONTAINER_TYPE rewardContType, DWORD dwParam);
 	ResultCodes		GivePlayerItemReward(sQUEST_REWARD_TBLDAT* rewardTbl, DWORD dwParam);
-	ResultCodes		CheckEvtDataType(CDboTSActSToCEvt* sToCEvt);
+	ResultCodes		CheckEvtDataType(CDboTSActSToCEvt* sToCEvt, NTL_TS_TC_ID tcId);
 	// TS Quest
 	ResultCodes		FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req);
 	ResultCodes		ProcessTSContStart(CDboTSContStart * contStart);
-	ResultCodes		ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, NTL_TS_TA_ID taId);
+	ResultCodes		ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_ID tid, NTL_TS_TC_ID tcId);
 	ResultCodes		ProcessTsContGCond(CDboTSContGCond * contGCond);
 	ResultCodes		ProcessTsContReward(CDboTSContReward * contReward, DWORD dwParam);
 	void			ProcessTsContEnd(CDboTSContEnd * contEnd);

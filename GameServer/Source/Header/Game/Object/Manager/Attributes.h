@@ -21,12 +21,14 @@ public:
 	int KillerCount;
 	struct QuestData
 	{
-		int QuestID;
-		int RewardID;
+		int				QuestID;
+		int				RewardID;
+		NTL_TS_TC_ID	tcId;
+		NTL_TS_TA_ID	taId;
 		/*int MobID;
 		int count;
 		int Maxcount;*/
-		uSTOC_EVT_DATA uEvtData;
+		uSTOC_EVT_DATA	uEvtData;
 	};
 	QuestData		QuestDat[30];
 
