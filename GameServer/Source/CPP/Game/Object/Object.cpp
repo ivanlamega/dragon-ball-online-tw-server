@@ -69,7 +69,7 @@ uint32 Object::GetHandle() const
 //----------------------------------------
 //	Get our object tblidx
 //----------------------------------------
-uint32 Object::GetTblidx() const
+TBLIDX Object::GetTblidx() const
 {
 	return tblidx;
 }

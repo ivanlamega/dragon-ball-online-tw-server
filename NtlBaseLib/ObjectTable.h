@@ -22,7 +22,7 @@ public:
 
 public:
 	DWORD			dwName;
-	WORD			wFunction;
+	DWORD			wFunction;
 
 	CNtlVector		vMin;
 	CNtlVector		vMax;

@@ -654,6 +654,12 @@ void			WorldSession::PacketParser(Packet& packet)
 			res.hTriggerObject = req->hTarget;
 			SendPacket((char*)&res, sizeof(sGU_TS_EXCUTE_TRIGGER_OBJECT_RES));
 			sLog.outDebug("Item trigger: %d %d %d", res.hTriggerObject, req->hSource, req->hTarget);
+
+			_player->GetState()->sCharStateDetail.sCharStateOperating.hTargetObject = req->hTarget;
+			_player->GetState()->sCharStateDetail.sCharStateOperating.dwOperateTime = 3000;
+			_player->GetState()->sCharStateDetail.sCharStateOperating.dwOperateTime = 10003;
+			_player->UpdateState(eCHARSTATE::CHARSTATE_OPERATING);
+
 			break;
 		}
 		case Opcodes::UG_TS_CONFIRM_STEP_REQ:
