@@ -687,6 +687,16 @@ void			WorldSession::PacketParser(Packet& packet)
 			SendQuestAcept(packet);			
 			break;
 		}
+		case Opcodes::UG_QUEST_ITEM_DELETE_REQ:
+		{
+			SendQuestItemDelete(packet);
+			break;
+		}
+		case Opcodes::UG_QUEST_ITEM_MOVE_REQ:
+		{
+			SendQuestItemMove(packet);
+			break;
+		}
 		case Opcodes::UG_QUEST_GIVEUP_REQ:
 		{
 			sLog.outError("UG_QUEST_GIVEUP_REQ");

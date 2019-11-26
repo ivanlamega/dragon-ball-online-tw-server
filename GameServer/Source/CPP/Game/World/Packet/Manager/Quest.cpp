@@ -1384,9 +1384,9 @@ void WorldSession::SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, 
 	 res.wResultCode = GAME_SUCCESS;
 	 res.byDeletePos = req->byDeletePos;
 
-	 SendQuestItemDeleteNfy(res.byDeletePos);
-
 	 SendPacket((char*)&res, sizeof sGU_QUEST_ITEM_DELETE_RES);
+
+	 //SendQuestItemDeleteNfy(req->byDeletePos);
  }
 
  void WorldSession::SendQuestItemDeleteNfy(BYTE pos)
@@ -1396,4 +1396,48 @@ void WorldSession::SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, 
 	 nfy.wPacketSize = sizeof(sGU_QUEST_ITEM_DELETE_NFY) - 2;
 	 nfy.byDeletePos = pos;
 	 SendPacket((char*)&nfy, sizeof(sGU_QUEST_ITEM_DELETE_NFY));
+ }
+
+ void WorldSession::SendQuestItemUpdateNfy(BYTE pos, BYTE count)
+ {
+	 sGU_QUEST_ITEM_UPDATE_NFY nfy;
+	 nfy.wOpCode = GU_QUEST_ITEM_UPDATE_NFY;
+	 nfy.wPacketSize = sizeof(sGU_QUEST_ITEM_UPDATE_NFY) - 2;
+	 nfy.byPos = pos;
+	 nfy.byCurCount = count;
+	 SendPacket((char*)&nfy, sizeof(sGU_QUEST_ITEM_UPDATE_NFY));
+ }
+
+ void WorldSession::SendQuestItemMove(Packet& packet)
+ {
+	 sUG_QUEST_ITEM_MOVE_REQ* req = (sUG_QUEST_ITEM_MOVE_REQ*)packet.GetPacketBuffer();
+
+	 sGU_QUEST_ITEM_MOVE_RES res;
+	 res.wOpCode = GU_QUEST_ITEM_MOVE_RES;
+	 res.wPacketSize = sizeof(sGU_QUEST_ITEM_MOVE_RES) - 2;
+	 res.wResultCode = GAME_SUCCESS;
+
+	 res.bySrcPos = req->bySrcPos;
+	 res.dwSrcTblidx = 427;
+	 res.byDestPos = req->byDestPos;
+	 res.dwSrcTblidx = INVALID_TBLIDX;
+
+	 SendPacket((char*)&res, sizeof(sGU_QUEST_ITEM_MOVE_RES));
+ }
+
+ void WorldSession::SendQuestInventoryInfo()
+ {
+	 sGU_AVATAR_QUEST_INVENTORY_INFO info;
+	 info.wOpCode = GU_AVATAR_QUEST_INVENTORY_INFO;
+	 info.wPacketSize = sizeof(sGU_AVATAR_QUEST_INVENTORY_INFO) - 2;
+	 info.byItemCount = 2;
+	 info.aInventoryInfo[0].tblidx = 427;
+	 info.aInventoryInfo[0].byPos = 0;
+	 info.aInventoryInfo[0].byCurStackCount = 2;
+
+	 info.aInventoryInfo[1].tblidx = 1467;
+	 info.aInventoryInfo[1].byPos = 1;
+	 info.aInventoryInfo[1].byCurStackCount = 3;
+	 
+	 SendPacket((char*)&info, sizeof(sGU_AVATAR_QUEST_INVENTORY_INFO));
  }

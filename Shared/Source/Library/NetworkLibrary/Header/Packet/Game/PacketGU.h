@@ -109,7 +109,7 @@ END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(GU_AVATAR_QUEST_INVENTORY_INFO)
 BYTE					byItemCount;
-sQUEST_INVENTORY_INFO	aInventoryInfo[1];
+sQUEST_INVENTORY_INFO	aInventoryInfo[30];
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(GU_AVATAR_INFO_END)

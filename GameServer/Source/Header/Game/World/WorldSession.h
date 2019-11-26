@@ -168,9 +168,12 @@ public:
 	void			GetQuestPortalInfo(DWORD QuestID, DWORD tcCurId, DWORD tcNextId);	
 	void			SendQuestCompleteInfo();
 	void			SendQuestProgressInfo();
+	void			SendQuestInventoryInfo();
 	void			SendQuestGiveUp(Packet& packet);
 	void			SendQuestItemDelete(Packet& packet);
 	void			SendQuestItemDeleteNfy(BYTE pos);
+	void			SendQuestItemMove(Packet& packet);
+	void			SendQuestItemUpdateNfy(BYTE pos, BYTE count);
 	ResultCodes		GivePlayerQuestReward(TBLIDX tblidx, eREWARD_CONTAINER_TYPE rewardContType, DWORD dwParam);
 	ResultCodes		GivePlayerItemReward(sQUEST_REWARD_TBLDAT* rewardTbl, DWORD dwParam);
 	ResultCodes		CheckEvtDataType(CDboTSActSToCEvt* sToCEvt, NTL_TS_TC_ID tcId);
