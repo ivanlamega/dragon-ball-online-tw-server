@@ -1373,3 +1373,16 @@ void WorldSession::SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, 
 
 	 SendPacket((char*)&res, sizeof sGU_QUEST_GIVEUP_RES);
  }
+
+ void WorldSession::SendQuestItemDelete(Packet& packet)
+ {
+	 sUG_QUEST_ITEM_DELETE_REQ* req = (sUG_QUEST_ITEM_DELETE_REQ*)packet.GetPacketBuffer();
+
+	 sGU_QUEST_ITEM_DELETE_RES res;
+	 res.wOpCode = GU_QUEST_ITEM_DELETE_RES;
+	 res.wPacketSize = sizeof(sGU_QUEST_ITEM_DELETE_RES) - 2;
+	 res.wResultCode = GAME_SUCCESS;
+	 res.byDeletePos = 0;
+
+	 SendPacket((char*)&res, sizeof sGU_QUEST_ITEM_DELETE_RES);
+ }

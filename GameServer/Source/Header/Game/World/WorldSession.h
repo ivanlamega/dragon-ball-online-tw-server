@@ -169,6 +169,7 @@ public:
 	void			SendQuestCompleteInfo();
 	void			SendQuestProgressInfo();
 	void			SendQuestGiveUp(Packet& packet);
+	void			SendQuestItemDelete(Packet& packet);
 	ResultCodes		GivePlayerQuestReward(TBLIDX tblidx, eREWARD_CONTAINER_TYPE rewardContType, DWORD dwParam);
 	ResultCodes		GivePlayerItemReward(sQUEST_REWARD_TBLDAT* rewardTbl, DWORD dwParam);
 	ResultCodes		CheckEvtDataType(CDboTSActSToCEvt* sToCEvt, NTL_TS_TC_ID tcId);

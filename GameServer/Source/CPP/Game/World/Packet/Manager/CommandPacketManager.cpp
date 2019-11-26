@@ -63,6 +63,7 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 			delItm.wOpCode = GU_QUEST_ITEM_DELETE_NFY;
 			delItm.wPacketSize = sizeof(sGU_QUEST_ITEM_DELETE_NFY) - 1;
 			delItm.byDeletePos = 0;
+			SendPacket((char*)&delItm, sizeof(sGU_QUEST_ITEM_DELETE_NFY));
 			return;
 		}
 		else if (strToken == "@tp")
