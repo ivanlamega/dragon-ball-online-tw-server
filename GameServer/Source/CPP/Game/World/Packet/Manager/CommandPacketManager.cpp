@@ -59,11 +59,12 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 			sLog.outDetail("Delete item quest");
 			strToken = str.substr(pos + 1, std::string::npos);
 			unsigned int Level = (unsigned int)atof(strToken.c_str());
-			sGU_QUEST_ITEM_DELETE_NFY delItm;
+			/*sGU_QUEST_ITEM_DELETE_NFY delItm;
 			delItm.wOpCode = GU_QUEST_ITEM_DELETE_NFY;
-			delItm.wPacketSize = sizeof(sGU_QUEST_ITEM_DELETE_NFY) - 1;
+			delItm.wPacketSize = sizeof(sGU_QUEST_ITEM_DELETE_NFY) - 2;
 			delItm.byDeletePos = 0;
-			SendPacket((char*)&delItm, sizeof(sGU_QUEST_ITEM_DELETE_NFY));
+			SendPacket((char*)&delItm, sizeof(sGU_QUEST_ITEM_DELETE_NFY));*/
+			SendQuestItemDeleteNfy(0);
 			return;
 		}
 		else if (strToken == "@tp")
