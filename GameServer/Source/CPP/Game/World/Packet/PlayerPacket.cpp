@@ -105,7 +105,7 @@ void WorldSession::SendPortalTeleport(Packet& packet)
 		_player->GetAttributesManager()->teleportInfo.rotation.y = portalTbl->vDir.y;
 		_player->GetAttributesManager()->teleportInfo.rotation.z = portalTbl->vDir.z;
 
-		sGU_UPDATE_CHAR_CONDITION condition;
+		/*sGU_UPDATE_CHAR_CONDITION condition;
 		condition.wOpCode = GU_UPDATE_CHAR_CONDITION;
 		condition.wPacketSize = sizeof(sGU_UPDATE_CHAR_CONDITION) - 2;
 
@@ -113,7 +113,8 @@ void WorldSession::SendPortalTeleport(Packet& packet)
 		condition.dwConditionFlag = 80;
 		condition.unknown = 0;
 
-		sWorld.SendToAll((char*)&condition, sizeof(sGU_UPDATE_CHAR_CONDITION));
+		sWorld.SendToAll((char*)&condition, sizeof(sGU_UPDATE_CHAR_CONDITION));*/
+		SendUpdateCharCondition(80);
 
 		_player->GetState()->sCharStateDetail.sCharStateDespawning.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_NPC_PORTAL;
 		_player->SetState(eCHARSTATE::CHARSTATE_DESPAWNING);

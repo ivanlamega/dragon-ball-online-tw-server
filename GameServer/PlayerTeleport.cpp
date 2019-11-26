@@ -7,6 +7,19 @@
 #include <Logger.h>
 #include <World.h>
 
+void WorldSession::SendUpdateCharCondition(DWORD conditionFlag)
+{
+	sGU_UPDATE_CHAR_CONDITION condition;
+	condition.wOpCode = GU_UPDATE_CHAR_CONDITION;
+	condition.wPacketSize = sizeof(sGU_UPDATE_CHAR_CONDITION) - 2;
+
+	condition.handle = _player->GetHandle();
+	condition.dwConditionFlag = conditionFlag;
+	condition.unknown = 0;
+
+	sWorld.SendToAll((char*)&condition, sizeof(sGU_UPDATE_CHAR_CONDITION));
+}
+
 void WorldSession::SendCharTeleportRes(Packet& packet)
 {
 	sGU_CHAR_TELEPORT_RES Teleport;
@@ -67,9 +80,23 @@ void WorldSession::SendCharTeleportRes(Packet& packet)
 			_player->SetWorldID(Teleport.sWorldInfo.worldID);
 			_player->SetWorldTableID(Teleport.sWorldInfo.tblidx);
 
+			/*sGU_UPDATE_CHAR_CONDITION condition;
+			condition.wOpCode = GU_UPDATE_CHAR_CONDITION;
+			condition.wPacketSize = sizeof(sGU_UPDATE_CHAR_CONDITION) - 2;
+
+			condition.handle = _player->GetHandle();
+			condition.dwConditionFlag = 0;
+			condition.unknown = 0;
+
+			sWorld.SendToAll((char*)&condition, sizeof(sGU_UPDATE_CHAR_CONDITION));*/
+			SendUpdateCharCondition(0);
+
 			memset(&(_player->GetAttributesManager()->teleportInfo), 0, sizeof _player->GetAttributesManager()->teleportInfo);
 			sLog.outDebug("--------TELEPORT NPC--------");
 			sLog.outDebug("Type teleport %d", _player->GetState()->sCharStateDetail.sCharStateDespawning.byTeleportType);
+
+			_player->GetState()->sCharStateDetail.sCharStateTeleporting.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_NPC_PORTAL;
+			_player->UpdateState(eCHARSTATE::CHARSTATE_TELEPORTING);
 
 			/*	   NOT SURE IF THIS IS A GOOD IDEA FOR NOW		*/
 			Map* map = _player->GetMap();

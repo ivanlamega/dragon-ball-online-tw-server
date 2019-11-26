@@ -160,6 +160,8 @@ public:
 	void			SendSocialSkill(Packet& packet);
 	// teleport
 	void			SendCharTeleportRes(Packet& packet);
+	// condition
+	void			SendUpdateCharCondition(DWORD conditionFlag);
 	// Quest Handle
 	void			SendQuestAcept(Packet& packet);
 	void			GetQuestInfo(DWORD QuestID, DWORD tcCurId, DWORD tcNextId);
