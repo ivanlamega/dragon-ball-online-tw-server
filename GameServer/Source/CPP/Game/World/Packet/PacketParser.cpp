@@ -657,7 +657,7 @@ void			WorldSession::PacketParser(Packet& packet)
 
 			_player->GetState()->sCharStateDetail.sCharStateOperating.hTargetObject = req->hTarget;
 			_player->GetState()->sCharStateDetail.sCharStateOperating.dwOperateTime = 3000;
-			_player->GetState()->sCharStateDetail.sCharStateOperating.dwOperateTime = 10003;
+			_player->GetState()->sCharStateDetail.sCharStateOperating.directTblidx = 10003;
 			_player->UpdateState(eCHARSTATE::CHARSTATE_OPERATING);
 
 			break;

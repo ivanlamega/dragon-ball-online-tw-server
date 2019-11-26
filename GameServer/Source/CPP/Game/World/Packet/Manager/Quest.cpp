@@ -836,6 +836,16 @@ ResultCodes WorldSession::ProcessTsContGCond(CDboTSContGCond * contGCond)
 				sLog.outDebug("Object: tblidx %d worldid %d typebind %d", _player->GetPcProfile()->bindObjectTblidx, _player->GetPcProfile()->bindWorldId, _player->GetPcProfile()->byBindType);
 				break;
 			}
+			case DBO_EVENT_TYPE_ID_TELEPORT:
+			{
+				CDboTSTeleport* teleport = (CDboTSTeleport*)contGCond->GetChildEntity(i);
+				if (teleport == NULL)
+				{
+					return RESULT_FAIL;
+				}
+				sLog.outDebug("Teleport by npc quest");
+				break;
+			}
 		}
 	}
 
