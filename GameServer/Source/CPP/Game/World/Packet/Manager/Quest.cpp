@@ -1189,6 +1189,9 @@ ResultCodes	WorldSession::CheckEvtDataType(CDboTSActSToCEvt* sToCEvt, NTL_TS_TC_
 			}
 
 			_player->GetAttributesManager()->QuestDat[freeslot].QuestID = trigger->GetID();
+			_player->GetAttributesManager()->QuestDat[freeslot].evtDataType = sToCEvt->GetEvtDataType();
+			_player->GetAttributesManager()->QuestDat[freeslot].tcId = tcId;
+			_player->GetAttributesManager()->QuestDat[freeslot].taId = sToCEvt->GetActionId();
 
 			for (int i = 0; i < sToCEvt->GetEvtData().MAX_MOB_KILL; i++)
 			{
@@ -1198,8 +1201,7 @@ ResultCodes	WorldSession::CheckEvtDataType(CDboTSActSToCEvt* sToCEvt, NTL_TS_TC_
 				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sMobKillCnt[i].uiMobIdx = mobTblidx;
 				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sMobKillCnt[i].nCurMobCnt = sToCEvt->GetEvtData().sMobKillCnt[i].nCurMobCnt;
 				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sMobKillCnt[i].nMobCnt = sToCEvt->GetEvtData().sMobKillCnt[i].nMobCnt;
-				_player->GetAttributesManager()->QuestDat[freeslot].tcId = tcId;
-				_player->GetAttributesManager()->QuestDat[freeslot].taId = sToCEvt->GetActionId();
+				
 
 				sLog.outError("ROOT TS: %d", trigger->GetID());
 				sLog.outDetail("Mob kill: group tblidx: %d  mobTblidx: %d count: %d, curcout: %d", 
