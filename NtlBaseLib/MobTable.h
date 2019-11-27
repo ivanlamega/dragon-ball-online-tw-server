@@ -20,17 +20,51 @@ public:
 	// -----------------------  
 	//BYTE paidd[2];
 	// -----------------------  	
-	DWORD			fDrop_Zenny_Rate;
-	float			notknow;	
-	DWORD			fDrop_Exp_Rate;//fDrop_Exp_Rate
+	DWORD			dwDrop_Zenny;
+	float			fDrop_Zenny_Rate;
+	DWORD			dwDrop_Exp;//fDrop_Exp_Rate
 	
 	//BYTE unk;
+	BYTE byMob_Type;
+	DWORD unknown;
+	BYTE grade;
+
+	WORD unknown1;
+	DWORD dropQuestTblidx;
+	DWORD unknown2;
+	BYTE size;
+	BYTE tmqPoint;
+
+	DWORD bigBagDropItemTblidx;
+	BYTE dropTypeTblidx;
+	BYTE dropEachTblidx;
+
+	DWORD bigBagDropItemTblidx2;
+	BYTE byDropEachRateControl;
+	BYTE byDropNItemRateControl;
+
+	DWORD byDropSItemRateControl;
+	BYTE byDropEItemRateControl;
+	BYTE byDropLItemRateControl;
+	BYTE dropLItemRateControl;
+
+	WORD wSightAngle;
+
+	DWORD dword208;
+
+	BYTE showName;
+
+	DWORD dword209;
+	float float100;
+	float float101;
+	DWORD dword210;
+	float float102[11];
 
 	// -----------------------
 	//BYTE	Padding3[7];
 	// -----------------------
 
-	BYTE unk1;
+	/*BYTE unk1;
 
 	// -----------------------  
 	//BYTE padding;
@@ -119,7 +153,7 @@ public:
 	BYTE unk45;
 	BYTE unk47;
 	BYTE unk48;
-	BYTE unk49;
+	BYTE unk49;*/
 
 public:
 

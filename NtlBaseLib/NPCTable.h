@@ -52,8 +52,8 @@ public:
 
 	WORD			wAttackCoolTime;
 	float			fFly_Height;
-	DWORD 			unk[2];
-	CHAR			szNameText[32 + 1];
+	//DWORD 			unk[2];
+	CHAR			szNameText[DBO_MAX_LENGTH_BOT_NAME_TEXT + 1];
 	
 	bool			bSpawn_Animation;
 	DWORD			dwDialogGroup;

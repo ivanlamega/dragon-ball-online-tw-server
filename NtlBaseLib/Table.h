@@ -110,7 +110,7 @@ public:
 	static void CallErrorCallbackFunction(char* pszFormatString, ...);
 	static void CallErrorCallbackFunction(WCHAR* pwszFormatString, ...);
 	WCHAR* GetWszXmlFileName() { return m_wszXmlFileName; }
-
+	TABLE m_mapTableList;
 protected:
 	void Init();
 	virtual WCHAR** GetSheetListInWChar() = 0;
@@ -136,7 +136,7 @@ protected:
 	DWORD READ_BITFLAG(BSTR bstr, DWORD dwInvalidValue = 0) { return CheckInvalidValue(bstr) ? dwInvalidValue : HexToDec(bstr); }
 	void CheckNegativeInvalid(const wchar_t* pwszFormatString, BSTR bstr); // @가 있으면 안되는 필드로 Assert를 뿌려준다.
 
-	TABLE m_mapTableList;
+
 	DWORD m_dwCodePage;
 
 	// This is only for displaying a message, so it can't be used for the other purposes.

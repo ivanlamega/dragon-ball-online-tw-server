@@ -169,107 +169,147 @@ BYTE fill[2];
 struct sMOB_TBLDAT2
 {
   //_BYTE gap0[4];
-  DWORD dword4;
-  DWORD dword8;
-  WORD wordC;
-  WORD wordE;
-  WORD word10;
-  WORD word12;
-  WORD word14;
-  WORD word16;
-  WORD word18;
-  WORD word1A;
-  WORD word1C;
+DWORD tblidx;
+// CHAR TABLE
+  DWORD wBasic_LP;
+  WORD wBasic_EP;
+
+  WORD wBasic_Physical_Defence;
+  WORD wBasic_Energy_Defence;
+
+  WORD byStr;
+  WORD byCon;
+  WORD byFoc;
+  WORD byDex;
+  WORD bySol;
+  WORD byEng;
+
 BYTE fill[2];
-  float float20;
-  WORD word24;
-  BYTE byte26;
+  float fScale;
+  WORD wAttack_Speed_Rate;
+  BYTE byAttack_Type;
+
 BYTE fill[1];
-  float float28;
-  WORD word2C;
-  WORD word2E;
-  WORD word30;
-  WORD word32;
-  WORD word34;
-  BYTE gap36[6];
-  WORD word3C;
+  float fAttack_Range;
+  WORD wAttack_Rate;
+  WORD wDodge_Rate;
+  WORD wBlock_Rate;
+  WORD wCurse_Success_Rate;
+  WORD wCurse_Tolerance_Rate;
+
+  BYTE fill[2]; // float fRadius?
+float fRadius;
+  WORD wBasic_Aggro_Point;
+
+// BOT TABLE
+
 BYTE fill[2];
-  BYTE byte40;
+  bool bValidity_Able;
 BYTE fill[3];
-  DWORD dword44;
-  BYTE gap48[115];
-  BYTE byteBB;
-  BYTE byteBC;
+  DWORD Name;
+	WCHAR			wszNameText[40 + 1];
+	char			szModel[32 + 1];
+
+  //BYTE gap48[115];
+  BYTE byLevel;
+  BYTE byGrade;
+
 BYTE fill[3];
-  DWORD dwordC0;
-  WORD wordC4;
-  WORD wordC6;
-  BYTE byteC8;
-  BYTE byteC9;
-  WORD wordCA;
-  WORD wordCC;
+  DWORD dwAi_Bit_Flag;
+
+  WORD wLP_Regeneration;
+  WORD wEP_Regeneration;
+
+  BYTE byAttack_Animation_Quantity;
+  BYTE byBattle_Attribute;
+
+  WORD wBasicPhysicalOffence;
+  WORD wBasicEnergyOffence;
+
 BYTE fill[2];
-  float floatD0;
-  float floatD4;
-  float floatD8;
-  float floatDC;
-  float floatE0;
-  float floatE4;
-  WORD wordE8;
-  WORD wordEA;
-  BYTE gapEC[66];
-  BYTE byte12E;
-  BYTE gap12F[33];
-  WORD word150;
+  float fWalk_Speed_Origin;
+  float fWalk_Speed;
+  float fRun_Speed_Origin;
+  float fRun_Speed;
+  float fRadius_X;
+  float fRadius_Z;
+  WORD bySight_Range;
+  WORD byScan_Range;
+
+	WORD			wUse_Skill_Time[7];
 BYTE fill[2];
-  float float154;
-  BYTE gap158[41];
-  BYTE byte181;
-BYTE fill[2];
-  DWORD dword184;
-  BYTE gap188[36];
-  DWORD dword1AC;
-  WORD word1B0;
-BYTE fill[2];
-  DWORD dword1B4;
-  WORD word1B8;
-  WORD word1BA;
-  WORD word1BC;
-  WORD word1BE;
-  DWORD dword1C0;
-  WORD word1C4;
-BYTE fill[2];
-  DWORD dword1C8;
-  float float1CC;
-  DWORD dword1D0;
-  BYTE byte1D4;
-  DWORD dword1D8;
-BYTE fill[3];
-  BYTE byte1DC;
+	DWORD			use_Skill_Tblidx[7];
+	BYTE			byUse_Skill_Basis[7];
 BYTE fill[1];
-  WORD word1DE;
-  DWORD dword1E0;
-  DWORD dword1E4;
-  BYTE byte1E8;
-  BYTE byte1E9;
+	WORD			wUse_Skill_LP[7];
+
+  //BYTE gapEC[66];
+  BYTE byVisible_Sight_Range;
+  char szCamera_Bone_Name[33];
+
+  WORD wAttackCoolTime;
 BYTE fill[2];
-  DWORD dword1EC;
-  BYTE byte1F0;
-  BYTE byte1F1;
+
+  float fFly_Height;
+  char nameText2[41];
+
+  bool bSpawn_Animation;
+
 BYTE fill[2];
-  DWORD dword1F4;
-  BYTE byte1F8;
-  BYTE byte1F9;
+  DWORD dwDialogGroup;
+  char szILLust[33];
+BYTE fill[3];
+
+  DWORD dwAllianceIdx;
+  WORD wAggroMaxCount;
+
 BYTE fill[2];
-  DWORD dword1FC;
-  BYTE byte200;
-  BYTE byte201;
-  BYTE byte202;
+  DWORD dwAttributeBitFlag;
+  WORD stomachacheDefence;
+  WORD poisonDefense;
+  WORD bleedDefense;
+  WORD burnDefense;
+
+// MOB TABLE
+  DWORD Mob_Group;
+  WORD wMob_Kind;
+
+BYTE fill[2];
+  DWORD dwDrop_Zenny;
+  float fDrop_Zenny_Rate;
+  DWORD dwDrop_Exp;
+
+  BYTE byMob_Type;
+  DWORD unknown;
+
+BYTE fill[3];
+  BYTE grade;
 BYTE fill[1];
-  WORD word204;
+
+  WORD unknown;
+  DWORD dropQustTblidx;
+  DWORD unknown;
+  BYTE size;
+  BYTE tmqPoint;
+
+BYTE fill[2];
+  DWORD dropItemTblidx;
+  BYTE dropTypeTblidx;
+  BYTE dropEachTblidx;
+BYTE fill[2];
+  DWORD byDropTypeRateControl;
+  BYTE byDropEachRateControl;
+  BYTE byDropNItemRateControl;
+BYTE fill[2];
+  DWORD byDropSItemRateControl;
+  BYTE byDropEItemRateControl;
+  BYTE byDropLItemRateControl;
+  BYTE dropLItemRateControl;
+BYTE fill[1];
+  WORD unknown;
 BYTE fill[2];
   DWORD dword208;
-BYTE byte203;
+BYTE showName;
 BYTE fill[1];
   DWORD dword209;
 BYTE fill[2];

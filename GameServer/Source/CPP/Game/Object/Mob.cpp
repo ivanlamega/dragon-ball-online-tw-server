@@ -107,13 +107,13 @@ bool Mob::Create(sMOB_TBLDAT* mobTbl, SpawnMOB spawnInfo)
 	me.SpawnAnimation = true;
 
 	me.Grade = mobTbl->byGrade;
-	me.Property = mobTbl->byProperty;
+	me.Property;// = mobTbl->byProperty;
 	//me.Drop_each_id = mobTbl->dropEachTblidx;
 	//	me.Drop_quest_id = mobTbl->dropQuestTblidx;
 	//	me.Drop_type_id = mobTbl->dropTypeTblidx;
 	//	me.Drop_item_id = mobTbl->drop_Item_Tblidx;
 	//	me.Mob_group = mobTbl->dwMobGroup;
-	me.Exp = mobTbl->fDrop_Exp_Rate;
+	me.Exp = mobTbl->dwDrop_Exp;
 	me.Mob_Kind = mobTbl->wMob_Kind;
 	me.Sight_angle = mobTbl->wSightAngle;
 	//	me.TMQ_Point = mobTbl->wTMQPoint;
@@ -122,7 +122,7 @@ bool Mob::Create(sMOB_TBLDAT* mobTbl, SpawnMOB spawnInfo)
 	me.DropLItemRateControl = mobTbl->byDropLItemRateControl;
 	me.DropNItemRateControl = mobTbl->byDropNItemRateControl;
 	me.DropSItemRateControl = mobTbl->byDropSItemRateControl;
-	me.DropTypeRateControl = mobTbl->byDropTypeRateControl;
+	me.DropTypeRateControl;// = mobTbl->byDropTypeRateControl;
 	me.DisplayID;
 
 	me.target = INVALID_TBLIDX;
@@ -210,13 +210,13 @@ bool Mob::Create(sSPAWN_TBLDAT* spawnTbl, sMOB_TBLDAT* mobTbl)
 	me.SpawnAnimation = true;
 
 	me.Grade = mobTbl->byGrade;
-	me.Property = mobTbl->byProperty;
+	me.Property;// = mobTbl->byProperty;
 	//me.Drop_each_id = mobTbl->dropEachTblidx;
 //	me.Drop_quest_id = mobTbl->dropQuestTblidx;
 //	me.Drop_type_id = mobTbl->dropTypeTblidx;
 //	me.Drop_item_id = mobTbl->drop_Item_Tblidx;
 //	me.Mob_group = mobTbl->dwMobGroup;
-	me.Exp = mobTbl->fDrop_Exp_Rate;
+	me.Exp = mobTbl->dwDrop_Exp;
 	me.Mob_Kind = mobTbl->wMob_Kind;
 	me.Sight_angle = mobTbl->wSightAngle;
 //	me.TMQ_Point = mobTbl->wTMQPoint;
@@ -225,7 +225,7 @@ bool Mob::Create(sSPAWN_TBLDAT* spawnTbl, sMOB_TBLDAT* mobTbl)
 	me.DropLItemRateControl = mobTbl->byDropLItemRateControl;
 	me.DropNItemRateControl = mobTbl->byDropNItemRateControl;
 	me.DropSItemRateControl = mobTbl->byDropSItemRateControl;
-	me.DropTypeRateControl = mobTbl->byDropTypeRateControl;
+	me.DropTypeRateControl;// = mobTbl->byDropTypeRateControl;
 	me.DisplayID;
 
 	me.target = INVALID_TBLIDX;
