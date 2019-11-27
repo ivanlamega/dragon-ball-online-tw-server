@@ -1431,11 +1431,11 @@ void WorldSession::SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, 
 	 info.wOpCode = GU_AVATAR_QUEST_INVENTORY_INFO;
 	 info.wPacketSize = sizeof(sGU_AVATAR_QUEST_INVENTORY_INFO) - 2;
 	 info.byItemCount = 2;
-	 info.aInventoryInfo[0].tblidx = 427;
+	 info.aInventoryInfo[0].tblidx = 568;
 	 info.aInventoryInfo[0].byPos = 0;
 	 info.aInventoryInfo[0].byCurStackCount = 2;
 
-	 info.aInventoryInfo[1].tblidx = 1467;
+	 info.aInventoryInfo[1].tblidx = 1288;
 	 info.aInventoryInfo[1].byPos = 1;
 	 info.aInventoryInfo[1].byCurStackCount = 3;
 	 
