@@ -1,0 +1,117 @@
+/*****************************************************************************
+ * ico.hsl - Structure definitions for the .ico file formats
+ *  
+ * Copyright (c) 2009 BreakPoint Software, Inc.  All Rights Reserved
+ *
+ *****************************************************************************
+ * Revision History:
+ *  2009-01-15 - RJA - Rewritten
+ */
+
+#include "standard-types.hsl"
+
+#pragma displayname("Cursor (*.cur)") ;
+#pragma fileextensions(".cur") ;
+
+#pragma byteorder(little_endian) 
+
+#pragma enumsize(2)
+#pragma enumsign("unsigned")
+typedef enum BI_BITCOUNT
+{
+    BI_MONOCHROME     = 1,
+    BI_4_BIT          = 4,
+    BI_8_BIT          = 8,
+} BI_BITCOUNT;
+
+#pragma enumsize(4)
+#pragma enumsign("unsigned")
+typedef enum BI_COMPRESSION
+{
+    BI_RGB       = 0,
+    BI_RLE8      = 1,
+    BI_RLE4      = 2,
+    BI_BITFIELDS = 3,
+    BI_JPEG      = 4,
+    BI_PNG       = 5
+} BI_COMPRESSION;
+
+struct tagBITMAPINFOHEADER 
+{
+    DWORD          biSize;
+    LONG           biWidth;
+    LONG           biHeight;
+    WORD           biPlanes;
+    BI_BITCOUNT    biBitCount;
+    BI_COMPRESSION biCompression;
+    DWORD          biSizeImage;
+    LONG           biXPelsPerMeter;
+    LONG           biYPelsPerMeter;
+    DWORD          biClrUsed;
+    DWORD          biClrImportant;
+} BITMAPINFOHEADER ;
+
+typedef struct tagRGBQUAD 
+{
+    UBYTE    rgbBlue;
+    UBYTE    rgbGreen;
+    UBYTE    rgbRed;
+    UBYTE    rgbReserved;
+} RGBQUAD ;
+
+typedef struct tagIMAGEDATA
+{
+    BITMAPINFOHEADER infoHeader ;
+
+    switch (infoHeader.biBitCount)
+    {
+    case BI_MONOCHROME:
+        RGBQUAD   colors[2] ;
+        blob imageXOR[(infoHeader.biWidth * (infoHeader.biHeight / 2)) / 8] ;
+        blob imageAND[(infoHeader.biWidth * (infoHeader.biHeight / 2)) / 8] ;
+        break;
+    case BI_4_BIT: 
+        RGBQUAD   colors[16] ;
+        blob imageXOR[(infoHeader.biWidth * (infoHeader.biHeight / 2)) / 2] ;
+        blob imageAND[(infoHeader.biWidth * (infoHeader.biHeight / 2)) / 8] ;
+        break;
+    case BI_8_BIT: 
+        RGBQUAD   colors[256] ;
+        blob imageXOR[(infoHeader.biWidth * (infoHeader.biHeight / 2))] ;
+        blob imageAND[(infoHeader.biWidth * (infoHeader.biHeight / 2)) / 8] ;
+        break;
+    case 0:
+        blob imageXOR[(infoHeader.biWidth * (infoHeader.biHeight / 2)) * 4 ] ;
+        blob imageAND[(infoHeader.biWidth * (infoHeader.biHeight / 2)) / 8 ] ;
+        break ;
+    default:
+        blob imageXOR[(infoHeader.biWidth * (infoHeader.biHeight / 2)) * (infoHeader.biBitCount / 8) ] ;
+        blob imageAND[(infoHeader.biWidth * (infoHeader.biHeight / 2)) / 8] ;
+        break ;
+    }
+
+} IMAGEDATA ;
+
+typedef struct tagCURSORDIRENTRY
+{
+    BYTE  bWidth ;
+    BYTE  bHeight ;
+    BYTE  bColorCount ;
+    BYTE  bReserved ;
+    WORD  XHotspot ;
+    WORD  YHotspot ;
+    DWORD dwBytesInRes ;
+    IMAGEDATA* pImageData;
+
+} CURSORDIRENTRY ;
+
+typedef struct tagCURSORDIR
+{
+    WORD idReserved ;
+    WORD idType ;
+    WORD idCount ;
+    CURSORDIRENTRY entries[idCount] ;
+
+    __verify((idReserved == 0) && (idType == 2)) ;
+} CURSORDIR ;
+

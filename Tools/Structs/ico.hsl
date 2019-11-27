@@ -1,0 +1,145 @@
+/*****************************************************************************
+ * ico.hsl - Structure definitions for the .ico file formats
+ *  
+ * Copyright (c) 2009 BreakPoint Software, Inc.  All Rights Reserved
+ *
+ *****************************************************************************
+ * Revision History:
+ *  2009-01-15 - RJA - Rewritten
+ */
+
+#include "standard-types.hsl"
+
+#pragma displayname("Icon (*.ico)") ;
+#pragma fileextensions(".ico") ;
+
+#pragma byteorder(little_endian) 
+
+#pragma enumsize(2)
+#pragma enumsign("unsigned")
+typedef enum BI_BITCOUNT
+{
+    BI_IMPLIED        = 0, // PNG or JPEG
+    BI_MONOCHROME     = 1, // 2 colors with color table
+    BI_4_BIT          = 4, // 16 colors with color table
+    BI_8_BIT          = 8, // 256 colors with color table
+    BI_16_BIT         = 16, // 5 bits for each color, BSB unused 
+    BI_24_BIT         = 24, // 8 bits for each color
+    BI_32_BIT         = 32, // 8 bits for each color, high byte unused
+} BI_BITCOUNT;
+
+#pragma enumsize(4)
+#pragma enumsign("unsigned")
+typedef enum BI_COMPRESSION
+{
+    BI_RGB       = 0,
+    BI_RLE8      = 1,
+    BI_RLE4      = 2,
+    BI_BITFIELDS = 3,
+    BI_JPEG      = 4,
+    BI_PNG       = 5
+} BI_COMPRESSION;
+
+struct tagBITMAPINFOHEADER 
+{
+    DWORD          biSize;
+    LONG           biWidth;
+    LONG           biHeight;
+    WORD           biPlanes;
+    BI_BITCOUNT    biBitCount;
+    BI_COMPRESSION biCompression;
+    DWORD          biSizeImage;
+    LONG           biXPelsPerMeter;
+    LONG           biYPelsPerMeter;
+    DWORD          biClrUsed;
+    DWORD          biClrImportant;
+
+    // Verify bitcount
+    __verify(   (biBitCount == 0) ||
+                (biBitCount == 1) ||
+                (biBitCount == 4) ||
+                (biBitCount == 8) ||
+                (biBitCount == 16) ||
+                (biBitCount == 24) ||
+                (biBitCount == 32) ) ;
+
+    // Verify compression type
+    __verify( (biCompression >= 0) && (biCompression <= 5) ) ;
+} BITMAPINFOHEADER ;
+
+typedef struct tagRGBQUAD 
+{
+    UBYTE    rgbBlue;
+    UBYTE    rgbGreen;
+    UBYTE    rgbRed;
+    UBYTE    rgbReserved;
+} RGBQUAD ;
+
+typedef struct tagIMAGEDATA
+{
+    BITMAPINFOHEADER infoHeader ;
+
+    switch (infoHeader.biBitCount)
+    {
+    case BI_MONOCHROME:
+        RGBQUAD   colors[2] ;
+        blob imageXOR[(infoHeader.biWidth * (infoHeader.biHeight / 2)) / 8] ;
+        blob imageAND[(infoHeader.biWidth * (infoHeader.biHeight / 2)) / 8] ;
+        break;
+    case BI_4_BIT: 
+        RGBQUAD   colors[16] ;
+        blob imageXOR[(infoHeader.biWidth * (infoHeader.biHeight / 2)) / 2] ;
+        blob imageAND[(infoHeader.biWidth * (infoHeader.biHeight / 2)) / 8] ;
+        break;
+    case BI_8_BIT: 
+        RGBQUAD   colors[256] ;
+        blob imageXOR[(infoHeader.biWidth * (infoHeader.biHeight / 2))] ;
+        blob imageAND[(infoHeader.biWidth * (infoHeader.biHeight / 2)) / 8] ;
+        break;
+    case 0:
+        blob imageXOR[(infoHeader.biWidth * (infoHeader.biHeight / 2)) * 4 ] ;
+        blob imageAND[(infoHeader.biWidth * (infoHeader.biHeight / 2)) / 8 ] ;
+        break ;
+    default:
+        blob imageXOR[(infoHeader.biWidth * (infoHeader.biHeight / 2)) * (infoHeader.biBitCount / 8) ] ;
+        blob imageAND[(infoHeader.biWidth * (infoHeader.biHeight / 2)) / 8] ;
+        break ;
+    }
+
+} IMAGEDATA ;
+
+
+typedef struct tagICONDIRENTRY
+{
+    BYTE  bWidth ;
+    BYTE  bHeight ;
+    BYTE  bColorCount ;
+    BYTE  bReserved ;
+    WORD  wPlanes ;
+    WORD  wBitCount ;
+    DWORD dwBytesInRes ;
+    IMAGEDATA* pImageData;
+
+    __verify(bReserved == 0) ;
+
+} ICONDIRENTRY ;
+
+typedef struct tagICONDIR
+{
+    WORD idReserved ;
+    WORD idType ;
+    WORD idCount ;
+    ICONDIRENTRY entries[idCount] ;
+
+    __verify((idReserved == 0) && (idType == 1)) ;
+} ICONDIR ;
+
+function AutoAddFile
+{
+    __addStructureAt(0, "ICONDIR", "") ;
+} ;
+
+function AutoAddCaretPos
+{
+    __addStructureAt(__getCaretPos(), "ICONDIR", "") ;
+} ;

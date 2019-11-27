@@ -1,0 +1,160 @@
+/*****************************************************************************
+ * filesystems.hsl - Structure definitions for file system related entities.
+ *     This presently includes the MBR, and BOOTSECTORs for FAT16, FAT32, and
+ *     NTFS.
+ *  
+ * Copyright (c) 2003-2008 BreakPoint Software, Inc.  All Rights Reserved
+ *
+ *****************************************************************************
+ * Revision History:
+ *  05/01/03 - RJA - Original
+ *  10/16/07 - RJA - Formatting tweaks, use blob for ByteCode
+ *  12/16/09 - RJA - Added enumsign pragmas
+ */
+
+#include "standard-types.hsl"
+
+
+// PC
+struct sPC_TBLDAT
+{
+unsigned int tblidx;
+	DWORD			wBasic_LP;
+	WORD			wBasic_EP;
+
+	WORD			wBasic_Physical_Defence;
+	WORD			wBasic_Energy_Defence;
+
+	WORD			byStr;
+	WORD			byCon;
+	WORD			byFoc;
+	WORD			byDex;
+	WORD			bySol;
+	WORD			byEng;
+BYTE fill[2];
+
+	float			fScale;
+	WORD			wAttack_Speed_Rate;
+	BYTE			byAttack_Type;
+BYTE fill;
+
+	float			fAttack_Range;
+	WORD			wAttack_Rate;
+	WORD			wDodge_Rate;
+	WORD			wBlock_Rate;
+	WORD			wCurse_Success_Rate;
+	WORD			wCurse_Tolerance_Rate;
+BYTE fill[2];
+
+	float			fRadius;
+	WORD			wBasic_Aggro_Point;
+BYTE fill[2];
+
+
+	BYTE			byRace;
+	BYTE			byGender;
+	BYTE			byClass;
+BYTE fill;
+	unsigned int			prior_Class_Tblidx;
+	DWORD			dwClass_Bit_Flag;
+	char			szModel_Child[32 + 1];
+	char			szModel_Adult[32 + 1];
+BYTE fill[2];
+
+	float			fChild_Run_Speed_Origin;
+	float			fChild_Run_Speed;
+	float			fAdult_Run_Speed_Origin;
+	float			fAdult_Run_Speed;
+
+	float			unknown1[12];
+
+	WORD			wBasic_RP;
+	WORD			wBasic_Physical_Offence;
+	WORD			wBasic_Energy_Offence;
+BYTE fill[2];
+
+	unsigned int		unknown2;
+
+	BYTE			byLevel_Up_LP;
+	BYTE			byLevel_Up_EP;
+	BYTE			byLevel_Up_RP;
+	BYTE			byLevel_Up_Physical_Offence;
+	BYTE			byLevel_Up_Physical_Defence;
+	BYTE			byLevel_Up_Energy_Offence;
+	BYTE			byLevel_Up_Energy_Defence;
+BYTE fill;
+
+	float			fLevel_Up_Str;
+	float			fLevel_Up_Con;
+	float			fLevel_Up_Foc;
+	float			fLevel_Up_Dex;
+	float			fLevel_Up_Sol;
+	float			fLevel_Up_Eng;
+};
+
+
+struct sPC_TBLDAT2
+{
+  //BYTE gap0[4];
+  DWORD dword4;
+  DWORD dword8;
+  WORD wordC;
+  WORD wordE;
+  WORD word10;
+  WORD word12;
+  WORD word14;
+  WORD word16;
+  WORD word18;
+  WORD word1A;
+  WORD word1C;
+  float float20;
+  WORD word24;
+  BYTE byte26;
+  float float28;
+  WORD word2C;
+  WORD word2E;
+  WORD word30;
+  WORD word32;
+  WORD word34;
+  float float38;
+  WORD word3C;
+  BYTE byte40;
+  BYTE byte41;
+  BYTE byte42;
+  DWORD dword44;
+  DWORD dword48;
+  BYTE gap4C[68];
+  float float90;
+  float float94;
+  float float98;
+  float float9C;
+  float floatA0;
+  float floatA4;
+  float floatA8;
+  float floatAC;
+  float floatB0;
+  float floatB4;
+  float floatB8;
+  float floatBC;
+  float floatC0;
+  float floatC4;
+  float floatC8;
+  float floatCC;
+  WORD wordD0;
+  WORD wordD2;
+  WORD wordD4;
+  DWORD dwordD8;
+  BYTE byteDC;
+  BYTE byteDD;
+  BYTE byteDE;
+  BYTE byteDF;
+  BYTE byteE0;
+  BYTE byteE1;
+  BYTE byteE2;
+  float floatE4;
+  float floatE8;
+  float floatEC;
+  float floatF0;
+  float floatF4;
+  float floatF8;
+};

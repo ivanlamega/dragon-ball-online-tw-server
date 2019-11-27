@@ -1,0 +1,113 @@
+/*****************************************************************************
+ * filesystems.hsl - Structure definitions for file system related entities.
+ *     This presently includes the MBR, and BOOTSECTORs for FAT16, FAT32, and
+ *     NTFS.
+ *  
+ * Copyright (c) 2003-2008 BreakPoint Software, Inc.  All Rights Reserved
+ *
+ *****************************************************************************
+ * Revision History:
+ *  05/01/03 - RJA - Original
+ *  10/16/07 - RJA - Formatting tweaks, use blob for ByteCode
+ *  12/16/09 - RJA - Added enumsign pragmas
+ */
+
+#include "standard-types.hsl"
+
+
+
+struct worldtable
+{
+
+  DWORD dword4;
+  BYTE gap8[100];
+  BYTE byte6C;
+  DWORD dword70;
+  DWORD dword74;
+  BYTE byte78;
+  DWORD dword7C;
+  BYTE gap80[392];
+  float float208;
+  //__declspec(align(8)) float float210;
+float float210;
+  float float214;
+  BYTE gap218[4];
+  float float21C;
+  float float220;
+  //__declspec(align(8)) float float228;
+float float228;
+  float float22C;
+  BYTE gap230[4];
+  float float234;
+  float float238;
+  //__declspec(align(8)) float float240;
+float float240;
+  float float244;
+  BYTE gap248[4];
+  float float24C;
+  float float250;
+  float float254;
+  float float258;
+  float float25C;
+  BYTE gap260[4];
+  float float264;
+  float float268;
+ // __declspec(align(8)) float float270;
+float float270;
+  float float274;
+  BYTE gap278[4];
+  float float27C;
+  float float280;
+ // __declspec(align(8)) float float288;
+float float288;
+  float float28C;
+  float float290;
+  float float294;
+  float float298;
+  float float29C;
+  float float2A0;
+  float float2A4;
+  float float2A8;
+  float float2AC;
+  float float2B0;
+  //__declspec(align(8)) float float2B8;
+float float2B8;
+  float float2BC;
+  float float2C0;
+  float float2C4;
+  float float2C8;
+ // __declspec(align(8)) float float2D0;
+float float2D0;
+  float float2D4;
+  float float2D8;
+  float float2DC;
+  float float2E0;
+ //__declspec(align(8)) float float2E8;
+float float2E8;
+  float float2EC;
+  float float2F0;
+  float float2F4;
+  float float2F8;
+  //__declspec(align(8)) float float300;
+float float300;
+  float float304;
+  BYTE byte308;
+  BYTE byte309;
+  WORD word30A;
+  BYTE byte30C;
+  DWORD dword310;
+  DWORD dword314;
+  float float318;
+  float float31C;
+  float float320;
+  float float324;
+  BYTE gap328[140];
+  float float3B4;
+  DWORD dword3B8;
+  float float3BC;
+  BYTE gap3C0[132];
+  DWORD dword444;
+  BYTE byte448;
+  BYTE gap449[11];
+  DWORD dword454;
+};

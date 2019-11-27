@@ -1,0 +1,196 @@
+/*****************************************************************************
+ * bookmarks.hsl - Hex Workshop Bookmark structure definitions
+ *
+ * Copyright (c) 2008 BreakPoint Software, Inc.  All Rights Reserved.
+ *
+ *****************************************************************************
+ *
+ * The Hex Workshop Bookmark format is fairly simple.  It starts with a 
+ * fixed-length header (struct tagHEADER) and is followed by fixed length
+ * bookmark entries (struct tagENTRY).  Please see the structure definitions
+ * below for details.
+ *
+ */
+
+#include "standard-types.hsl"
+
+struct sCHARSTATE_OPERATING
+{
+	unsigned int				hTargetObject; // 타겟 오브젝트 핸들
+	DWORD				dwOperateTime; // 동작 시간
+	unsigned int				directTblidx; // 연출 TBLIDX
+}sCHARSTATE_OPERATING;
+
+struct sCHARSTATE_DESPAWNING
+{
+	BYTE								unk;		//TODO: what is that value?
+	BYTE								byTeleportType;		// eTELEPORT_TYPE	
+}sCHARSTATE_DESPAWNING;
+
+struct sCHARSTATE_TELEPORTING
+{
+	BYTE								byTeleportType;		// eTELEPORT_TYPE
+}sCHARSTATE_TELEPORTING;
+
+union sCHARSTATE_DETAIL
+{
+sCHARSTATE_DESPAWNING			sCharStateDespawning;
+sCHARSTATE_TELEPORTING			sCharStateTeleporting;
+sCHARSTATE_OPERATING			sCharStateOperating;
+}sCHARSTATE_DETAIL;
+
+enum eCHARSTATE
+{
+	CHARSTATE_SPAWNING,				// ½ºÆùÁß ( Ä³¸¯ÅÍ°¡ »ý¼º µÉ¶§ )
+	CHARSTATE_DESPAWNING,			// µð½ºÆùÁß ( Ä³¸¯ÅÍ°¡ »èÁ¦ µÉ¶§ )
+	CHARSTATE_STANDING,				// ¼­ÀÖÀ½
+	CHARSTATE_SITTING,				// ¾É¾Æ ÀÖÀ½
+	CHARSTATE_FAINTING,				// ±âÀýÇØ ÀÖÀ½
+	CHARSTATE_CAMPING,				// Á¾·á ´ë±âÁß
+	CHARSTATE_LEAVING,				// Á¾·á Áß
+
+	CHARSTATE_MOVING,				// ÀÏ¹ÝÀûÀÎ ÇÊµå ÀÌµ¿ ( RUNNING, WALKING, JUMPING, DASHING Æ÷ÇÔ )
+	CHARSTATE_DESTMOVE,				// ¸ñÀûÁö ÀÌµ¿
+	CHARSTATE_FOLLOWING,			// µû¶ó°¡±â ÀÌµ¿
+	CHARSTATE_FALLING,				// ¶³¾îÁö´Â Áß
+	CHARSTATE_DASH_PASSIVE,			// Passive dash ÀÌµ¿
+	CHARSTATE_TELEPORTING,			// ÅÚ·¹Æ÷Æ®Áß ( Ä³¸¯ÅÍ°¡ ¿öÇÁ µîÀ¸·Î ÀÌµ¿Áß )
+	CHARSTATE_SLIDING,				// ½½¶óÀÌµù µÇ°í ÀÖÀ½
+	CHARSTATE_KNOCKDOWN,			// ³Ë´Ù¿î µÇ°í ÀÖÀ½
+
+	CHARSTATE_FOCUSING,				// ÁýÁß »óÅÂ(RP º¸³Ê½º »ç¿ë ½Ã ÃÊ±â ´Ü°è)
+	CHARSTATE_CASTING,				// Ä³½ºÆÃÁß
+	CHARSTATE_SKILL_AFFECTING,		// ½ºÅ³ Àû¿ëÁß
+	CHARSTATE_KEEPING_EFFECT,		// ½ºÅ³/¾ÆÀÌÅÛ È¿°ú À¯Áö »óÅÂ
+	CHARSTATE_CASTING_ITEM,			// ¾ÆÀÌÅÛ Ä³½ºÆÃ Áß
+
+	CHARSTATE_STUNNED,				// Stun »óÅÂ
+	CHARSTATE_SLEEPING,				// ÀÚ°í ÀÖÀ½
+	CHARSTATE_PARALYZED,			// ¸¶ºñ »óÅÂ
+
+	CHARSTATE_HTB,					// HTB¸¦ ½ÇÇàÇÏ°í ÀÖÀ½
+	CHARSTATE_SANDBAG,				// HTB¸¦ ´çÇÏ°í ÀÖÀ½
+	CHARSTATE_CHARGING,				// ±â¸ðÀ¸´ÂÁß
+	CHARSTATE_GUARD,				// °¡µå ¸ðµå »óÅÂ
+
+	CHARSTATE_PRIVATESHOP,			// °³ÀÎ»óÁ¡ [7/16/2007 SGpro]
+	CHARSTATE_DIRECT_PLAY,			// Ä³¸¯ÅÍ ¿¬Ãâ »óÅÂ
+	CHARSTATE_OPERATING,			// ¿ÀºêÁ§Æ® µ¿ÀÛ »óÅÂ
+	CHARSTATE_RIDEON,				// Å»°Í¿¡ Å¸ÀÖ´Â »óÅÂ
+	CHARSTATE_TURNING,				// È¸ÀüÁß
+	CHARSTATE_AIR_JUMP,
+	CHARSTATE_AIR_DASH_ACCEL,
+	//CHARSTATE_CHASING,				// ÃßÀûÁß
+	//CHARSTATE_STONING,			// µ¹·Î µÇ¾î ÀÖÀ½
+	//CHARSTATE_SPRAWLING,			// ´©¿ö ÀÖÀ½
+	//CHARSTATE_FALLING,			// ¹Ì²ô·¯Áö°íÀÖÀ½
+	//CHARSTATE_SWIMMING,			// ¼ö¿µÇÏ°í ÀÖÀ½
+	//CHARSTATE_RUNNING,			// ´Þ¸®°í ÀÖÀ½
+	//CHARSTATE_WALKING,			// °È°í ÀÖÀ½
+	//CHARSTATE_JUMPING,			// Á¡ÇÁÇÏ°í ÀÖÀ½
+	//CHARSTATE_HOVERING,			// ºÎ¾çÇÏ°í ÀÖÀ½
+	//CHARSTATE_FLYING,				// ³¯°í ÀÖÀ½
+	//CHARSTATE_CANDYING,			// Äµµð·Î µÇ¾î ÀÖÀ½
+	//CHARSTATE_FIGHTING,				// ÀüÅõÁß
+
+	//CHARSTATE_CRAFTING,			// »ý»êÁß
+	//CHARSTATE_LOOTING,			// ·çÆÃÁß
+	//CHARSTATE_TRADING,			// ±â¸ðÀ¸´ÂÁß
+	//CHARSTATE_SHOPPING,			// ¼îÇÎÁß
+	
+	CHARSTATE_COUNT,
+	INVALID_CHARSTATE = 0xFF
+
+}eCHARSTATE;
+struct sASPECTSTATE_SUPER_SAIYAN
+{
+	BYTE				bySourceGrade;
+}sASPECTSTATE_SUPER_SAIYAN;
+//-----------------------------------------------------------------------------------
+struct sASPECTSTATE_PURE_MAJIN
+{
+	BYTE				bySourceGrade;
+}sASPECTSTATE_PURE_MAJIN;
+//-----------------------------------------------------------------------------------
+struct sASPECTSTATE_GREAT_NAMEK
+{
+	BYTE				bySourceGrade;
+}sASPECTSTATE_GREAT_NAMEK;
+//-----------------------------------------------------------------------------------
+struct sASPECTSTATE_KAIOKEN
+{
+	BYTE				bySourceGrade;
+	BYTE				byRepeatingCount;
+}sASPECTSTATE_KAIOKEN;
+//-----------------------------------------------------------------------------------
+struct sASPECTSTATE_SPINNING_ATTACK
+{
+}sASPECTSTATE_SPINNING_ATTACK;
+//-----------------------------------------------------------------------------------
+struct sASPECTSTATE_VEHICLE
+{
+	//HOBJECT	hVehicleItem;
+	unsigned int		idVehicleTblidx;
+	bool		bIsEngineOn;
+}sASPECTSTATE_VEHICLE;
+
+union sASPECTSTATE_DETAIL
+{
+	sASPECTSTATE_SUPER_SAIYAN		sSuperSaiyan;
+	sASPECTSTATE_PURE_MAJIN			sPureMajin;
+	sASPECTSTATE_GREAT_NAMEK		sGreatNamek;
+	sASPECTSTATE_KAIOKEN			sKaioken;
+	sASPECTSTATE_SPINNING_ATTACK	sSpinningAttack;
+	sASPECTSTATE_VEHICLE			sVehicle;
+unsigned char unknwn[8];
+}sASPECTSTATE_DETAIL;
+
+
+typedef struct vector3
+{
+float x;
+float y;
+float z;
+}vector3;
+
+typedef struct sASPECTSTATE_BASE
+{
+	unsigned char					aspectStateID;
+}sASPECTSTATE_BASE;
+
+typedef struct sASPECTSTATE
+{
+	sASPECTSTATE_BASE				aspectStateBase;
+	sASPECTSTATE_DETAIL				aspectStateDetail;
+}sASPECTSTATE;
+
+typedef struct sCHARSTATE_BASE
+{
+	unsigned char		stateID;
+	unsigned long		stateTime;
+	unsigned long		conditionFlag;
+	unsigned long		unknown;
+
+	sASPECTSTATE		aspectState;
+
+	bool				fightMode;
+unsigned char unknown2;
+	
+	vector3		currentPosition;
+	vector3		currentRotation;
+unsigned char unknown3;
+}sCHARSTATE_BASE;
+
+typedef struct sCHARSTATE
+{
+	sCHARSTATE_BASE				sCharStateBase;
+	sCHARSTATE_DETAIL			sCharStateDetail;
+}sCHARSTATE;
+
+struct sGU_UPDATE_CHAR_STATE
+{
+WORD size;
+WORD opcode;
+unsigned int handle; 
+sCHARSTATE avatarState;
+} ;

@@ -1,0 +1,95 @@
+/*****************************************************************************
+ * bookmarks.hsl - Hex Workshop Bookmark structure definitions
+ *
+ * Copyright (c) 2008 BreakPoint Software, Inc.  All Rights Reserved.
+ *
+ *****************************************************************************
+ *
+ * The Hex Workshop Bookmark format is fairly simple.  It starts with a 
+ * fixed-length header (struct tagHEADER) and is followed by fixed length
+ * bookmark entries (struct tagENTRY).  Please see the structure definitions
+ * below for details.
+ *
+ */
+
+#include "standard-types.hsl"
+
+struct sTIMEQUEST_STAGE
+{
+	BYTE					byStageNumber; // 스테이지 번호
+}sTIMEQUEST_STAGE;
+
+struct sTIMEQUEST_STATE
+{
+	BYTE					byGameState; // eTIMEQUEST_GAME_STATE
+	sTIMEQUEST_STAGE		sTimeQuestStage;
+}sTIMEQUEST_STATE;
+
+struct sTIMEQUEST_RULE_INFO
+{
+	unsigned int					timeQuestTblidx; // 해당 타임 퀘스트 테이블 인덱스
+	BYTE					byStartHour; // 시작시간 (시)
+	BYTE					byStartMin; // 시작시간 (분)
+	BYTE					byTimeQuestMode; // eTIMEQUEST_MODE
+	BYTE					byDifficulty; // eTIMEQUEST_DIFFICULTY
+	bool					bCountDown; // 카운트 다운 여부
+	DWORD					dwLimitTime; // 제한 시간
+	DWORD					dwBonusTime; // 보너스 시간
+	DWORD					dwDayRecord; // 해당 타임퀘스트의 DayRecord
+
+	sTIMEQUEST_STATE		sTimeQuestState;
+}sTIMEQUEST_RULE_INFO;
+
+union test
+{
+	sTIMEQUEST_RULE_INFO	sTimeQuestRuleInfo;
+	//sRANKBATTLE_RULE_INFO		sRankBattleRuleInfo;
+	//sBUDOKAI_RULE_INFO	sBudokaiRuleInfo;
+	//sDOJO_RULE_INFO		sDojoRuleInfo;
+}test;
+
+struct sGAME_RULE_INFO
+{
+	BYTE			byRuleType;	// eGAMERULE_TYPE
+	test test;
+}sGAME_RULE_INFO;
+
+struct sWORLD_INFO
+{
+	// World Base Info
+	unsigned int			worldID;	// 월드 인스턴스 핸들
+	unsigned int			tblidx;		// 월드 테이블 인덱스
+
+	// World Game Info
+	unsigned int			hTriggerObjectOffset; // 트리거 오브젝트 시작 핸들값 (트리거 오브젝트 테이블의 오브젝트를 생성시 테이블 번호 + 시작 핸들번호로 생성할 것 )
+
+	// World Rule Info
+	sGAME_RULE_INFO	sRuleInfo;
+}sWORLD_INFO;
+
+struct dVECTOR3
+{
+	unsigned int	x;
+	unsigned int	y;
+	unsigned int	z;
+}dVECTOR3;
+struct wVECTOR3
+{
+	SHORT	x;
+	SHORT	y;
+	SHORT	z;
+}wVECTOR3;
+
+struct sGU_UPDATE_CHAR_STATE
+{
+WORD size;
+WORD opcode;
+WORD			wResultCode;
+dVECTOR3		vNewLoc;
+wVECTOR3		vNewDir;
+DWORD			unk;
+bool			bIsToMoveAnotherServer;
+BYTE			unk1;
+// Data in 'sWorldInfo' will not be sent if the character moves within the current world.
+sWORLD_INFO		sWorldInfo;
+} ;

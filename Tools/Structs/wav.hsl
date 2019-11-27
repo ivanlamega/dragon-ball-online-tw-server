@@ -1,0 +1,317 @@
+/*****************************************************************************
+ * wav.hsl - Structure definitions for the .wav file format.
+ *  
+ * Copyright (c) 2007 BreakPoint Software, Inc.  All Rights Reserved
+ *
+ *****************************************************************************
+ * Revision History:
+ *  10/15/07 - RJA - Original
+ */
+
+#include "standard-types.hsl"
+
+#pragma displayname("wav structures")
+#pragma fileextensions(".wav")
+
+#pragma byteorder(little_endian)
+
+#pragma enumsize(4)
+typedef enum CHUNK_TYPE
+{
+    RIFF_CHUNK   = "RIFF",
+    FORMAT_CHUNK = "fmt ",
+    DATA_CHUNK   = "data",
+    FACT_CHUNK   = "fact",
+    WAVL_CHUNK   = "wavl",
+    SILENT_CHUNK = "slnt",
+    CUE_CHUNK    = "cue ",
+    PLIST_CHUNK  = "plst",
+    LIST_CHUNK   = "list",
+    LABEL_CHUNK  = "lbl ",
+    NOTE_CHUNK   = "note",
+    LTEXT_CHUNK  = "ltxt",
+    SAMPLE_CHUNK = "smpl",
+    INST_CHUNK   = "inst",
+
+} CHUNK_TYPE ;
+
+typedef enum RIFF_TYPE
+{
+    WAVE = "WAVE" 
+} RIFF_TYPE ;
+
+struct RIFFHEADER
+{
+    CHUNK_TYPE id ;
+    DWORD size ;
+    RIFF_TYPE type ;
+
+    __verify(id == CHUNK_TYPE.RIFF_CHUNK) ;
+    __verify(size == (__size__ - 8)) ;
+    __verify(type == RIFF_TYPE.WAVE) ;
+} ;
+
+#pragma enumsize(2)
+#pragma enumsign("unsigned")
+typedef enum tagFORMAT_TAG
+{
+    UNKNOWN      = 0,
+    PCM          = 1,
+    MS_ADPCM     = 1,
+    G711_alaw    = 6,
+    G711_ulaw    = 7,
+    IMA_ADPCM    = 17,
+    G723         = 20,
+    GSM          = 49,
+    G721         = 64,
+    MPEG         = 80,
+    EXPERIMENTAL = 0xFFFF
+} FORMAT_TAG ;
+
+struct FORMAT
+{
+    CHUNK_TYPE  id ;
+    DWORD       size ;
+    FORMAT_TAG  formatTag;
+    WORD        channels;
+    DWORD       samplesPerSec;
+    DWORD       avgBytesPerSec;
+    WORD        blockAlign;
+    WORD        bitsPerSample;
+    blob        extraData[size-16] ;
+    
+    __verify(id == CHUNK_TYPE.FORMAT_CHUNK) ;
+} ;
+
+struct DATA
+{
+    CHUNK_TYPE  id ;
+    DWORD       size ;
+    blob        data[size];
+    
+    __verify(id == CHUNK_TYPE.DATA_CHUNK) ;
+} ;
+
+struct FACT
+{
+    CHUNK_TYPE  id ;
+    DWORD       size ;
+    blob        data[size];
+    
+    __verify(id == CHUNK_TYPE.FACT_CHUNK) ;
+} ;
+
+struct WAVL
+{
+    CHUNK_TYPE  id ;
+    DWORD       size ;
+    blob        data[size];
+ 
+    // TODO parse embedded slnt/data chunks
+    
+    __verify(id == CHUNK_TYPE.WAVL_CHUNK) ;
+} ;
+
+struct SILENT
+{
+    CHUNK_TYPE  id ;
+    DWORD       size ;
+    DWORD       numSilenceSamples; 
+   
+    __verify(size == 4) ;
+    __verify(id == CHUNK_TYPE.SILENT_CHUNK) ;
+} ;
+
+#pragma hide()
+struct CUE_POINT
+{
+    DWORD id ;
+    DWORD position ;
+    CHUNK_TYPE chunkId ;
+    DWORD chunkStart ;
+    DWORD blockStart ;
+    DWORD sampleOffset ;
+} ;
+#pragma show()
+
+struct CUE
+{
+    CHUNK_TYPE  id ;
+    DWORD       size ;
+    DWORD       numCuePoints ;
+    struct CUE_POINT cuePoints[numCuePoints] ;
+
+    __verify(id == CHUNK_TYPE.CUE_CHUNK) ;
+} ;
+
+#pragma hide()
+struct SEGMENT 
+{
+    DWORD cuePoint ;
+    DWORD lengthInSamples ;
+    DWORD numRepeats ;
+} ;
+#pragma show()
+
+struct PLIST
+{
+    CHUNK_TYPE  id ;
+    DWORD       size ;
+    DWORD       numSegments;
+    struct SEGMENT segments[numSegments] ;
+
+    __verify(id == CHUNK_TYPE.PLIST_CHUNK) ;
+} ;
+
+struct LIST
+{
+    CHUNK_TYPE  id ;
+    DWORD       size ;
+    DWORD       typeID ;
+    blob        data[size-4];
+
+    // TODO: parse sub-data
+
+    __verify(id == CHUNK_TYPE.LIST_CHUNK) ;
+} ;
+
+struct LABEL
+{
+    CHUNK_TYPE  id ;
+    DWORD       size ;
+    DWORD       cuePointID;
+    char        label[size-4];
+
+    __verify(id == CHUNK_TYPE.LABEL_CHUNK) ;
+} ;
+
+struct NOTE
+{
+    CHUNK_TYPE  id ;
+    DWORD       size ;
+    DWORD       cuePointID;
+    char        label[size-4];
+
+    __verify(id == CHUNK_TYPE.NOTE_CHUNK) ;
+} ;
+
+struct LTEXT
+{
+    CHUNK_TYPE  id ;
+    DWORD       size ;
+    DWORD       cuePointID;
+    DWORD       sampleLength;
+    DWORD       purposeId ;
+    WORD        country;
+    WORD        language;
+    WORD        dialect;
+    WORD        codePage;
+    char        label[size-20];
+
+    __verify(id == CHUNK_TYPE.LTEXT_CHUNK) ;
+} ;
+
+struct SAMPLE
+{
+    CHUNK_TYPE  id ;
+    DWORD       size ;
+    DWORD       manufacture;
+    DWORD       product;
+    DWORD       samplePeriod;
+    DWORD       midiUnityNote;
+    DWORD       midiPitchFraction;
+    DWORD       smpteFormat;
+    DWORD       smpteOffset;
+    DWORD       numSampleLoops;
+    DWORD       samplerData;
+    DWORD       sampleLoops[size-36]; // TODO example data
+
+    __verify(id == CHUNK_TYPE.SAMPLE_CHUNK) ;
+} ;
+
+struct INST
+{
+    CHUNK_TYPE  id ;
+    DWORD       size ;
+    BYTE        unshiftedNote;
+    BYTE        fineTuneDb;
+    BYTE        gain;
+    BYTE        lowNote;
+    BYTE        highNote;
+    BYTE        lowVelocity;
+    BYTE        highVelocity;
+
+    __verify(size == 7) ;
+    __verify(id == CHUNK_TYPE.INST_CHUNK) ;
+} ;
+
+struct UNKNOWN
+{
+    CHUNK_TYPE id ;
+    DWORD      size ;
+    blob       data[size] ;
+} ;
+
+
+function AutoParseWavFile
+{
+    UQWord pos = 0 ;
+    UQWord end = __getDocSize() ;
+
+    pos += __addStructureAt(pos, "RIFFHEADER", "") ;
+
+    // Force word alignment
+    pos = (((pos + 1) >> 1) << 1) ;
+
+    while (pos < end)
+    {
+        switch (__getUDWordAt(pos))
+        {
+        case CHUNK_TYPE.FORMAT_CHUNK:
+            pos += __addStructureAt(pos, "FORMAT", "") ;
+            break ;
+        case CHUNK_TYPE.DATA_CHUNK:
+            pos += __addStructureAt(pos, "DATA", "") ;
+            break ;
+        case CHUNK_TYPE.FACT_CHUNK:
+            pos += __addStructureAt(pos, "FACT", "") ;
+            break ;
+        case CHUNK_TYPE.WAVL_CHUNK:
+            pos += __addStructureAt(pos, "WAVL", "") ;
+            break ;
+        case CHUNK_TYPE.SILENT_CHUNK:
+            pos += __addStructureAt(pos, "SILENT", "") ;
+            break ;
+        case CHUNK_TYPE.CUE_CHUNK:
+            pos += __addStructureAt(pos, "CUE", "") ;
+            break ;
+        case CHUNK_TYPE.PLIST_CHUNK:
+            pos += __addStructureAt(pos, "PLIST", "") ;
+            break ;
+        case CHUNK_TYPE.LIST_CHUNK:
+            pos += __addStructureAt(pos, "LIST", "") ;
+            break ;
+        case CHUNK_TYPE.LABEL_CHUNK:
+            pos += __addStructureAt(pos, "LABEL", "") ;
+            break ;
+        case CHUNK_TYPE.NOTE_CHUNK:
+            pos += __addStructureAt(pos, "NOTE", "") ;
+            break ;
+        case CHUNK_TYPE.LTEXT_CHUNK:
+            pos += __addStructureAt(pos, "LTEXT", "") ;
+            break ;
+        case CHUNK_TYPE.SAMPLE_CHUNK:
+            pos += __addStructureAt(pos, "SAMPLE", "") ;
+            break ;
+        case CHUNK_TYPE.INST_CHUNK:
+            pos += __addStructureAt(pos, "INST", "") ;
+            break ;
+        default:
+            pos += __addStructureAt(pos, "UNKNOWN", "") ;
+            break ;
+        } ;
+
+        // Force word alignment
+        pos = (((pos + 1) >> 1) << 1) ;
+    } ;
+}

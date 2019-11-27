@@ -1,0 +1,107 @@
+/*****************************************************************************
+ * filesystems.hsl - Structure definitions for file system related entities.
+ *     This presently includes the MBR, and BOOTSECTORs for FAT16, FAT32, and
+ *     NTFS.
+ *  
+ * Copyright (c) 2003-2008 BreakPoint Software, Inc.  All Rights Reserved
+ *
+ *****************************************************************************
+ * Revision History:
+ *  05/01/03 - RJA - Original
+ *  10/16/07 - RJA - Formatting tweaks, use blob for ByteCode
+ *  12/16/09 - RJA - Added enumsign pragmas
+ */
+
+#include "standard-types.hsl"
+
+struct sVECTOR3
+{
+	float x;
+	float y;
+	float z;
+}sVECTOR3;
+
+// 타임머신 퀘스트 게임 상태
+struct sTIMEQUEST_STAGE
+{
+	BYTE					byStageNumber; // 스테이지 번호
+}sTIMEQUEST_STAGE;
+
+struct sTIMEQUEST_STATE
+{
+	BYTE					byGameState; // eTIMEQUEST_GAME_STATE
+	sTIMEQUEST_STAGE		sTimeQuestStage;
+}sTIMEQUEST_STATE;
+
+
+// 타임퀘스트 게임 정보
+struct sTIMEQUEST_RULE_INFO
+{
+	unsigned int					timeQuestTblidx; // 해당 타임 퀘스트 테이블 인덱스
+	BYTE					byStartHour; // 시작시간 (시)
+	BYTE					byStartMin; // 시작시간 (분)
+	BYTE					byTimeQuestMode; // eTIMEQUEST_MODE
+	BYTE					byDifficulty; // eTIMEQUEST_DIFFICULTY
+	bool					bCountDown; // 카운트 다운 여부
+	DWORD					dwLimitTime; // 제한 시간
+	DWORD					dwBonusTime; // 보너스 시간
+	DWORD					dwDayRecord; // 해당 타임퀘스트의 DayRecord
+
+	sTIMEQUEST_STATE		sTimeQuestState;
+}sTIMEQUEST_RULE_INFO;
+
+union rule_info
+	{
+		sTIMEQUEST_RULE_INFO	sTimeQuestRuleInfo;
+		//sRANKBATTLE_RULE_INFO		sRankBattleRuleInfo;
+		//sBUDOKAI_RULE_INFO	sBudokaiRuleInfo;
+		//sDOJO_RULE_INFO		sDojoRuleInfo;
+	}rule_info;
+
+struct sGAME_RULE_INFO
+{
+	BYTE			byRuleType;	// eGAMERULE_TYPE
+}sGAME_RULE_INFO;
+
+struct sWORLD_INFO
+{
+	// World Base Info
+	unsigned int			worldID;	// 월드 인스턴스 핸들
+	unsigned int			tblidx;		// 월드 테이블 인덱스
+
+	// World Game Info
+	unsigned int			hTriggerObjectOffset; // 트리거 오브젝트 시작 핸들값 (트리거 오브젝트 테이블의 오브젝트를 생성시 테이블 번호 + 시작 핸들번호로 생성할 것 )
+
+	// World Rule Info
+	sGAME_RULE_INFO	sRuleInfo;
+}sWORLD_INFO;
+
+struct sDBO_GUILD_MARK
+{
+	BYTE					byMarkMain;
+	BYTE					byMarkMainColor;
+	BYTE					byMarkInLine;
+	BYTE					byMarkInColor;
+	BYTE					byMarkOutLine;
+	BYTE					byMarkOutColor;
+	
+}sDBO_GUILD_MARK;
+
+struct sDBO_DOJO_BRIEF
+{
+	unsigned int guildId;
+	unsigned int			dojoTblidx;
+	BYTE			byLevel;
+	sDBO_GUILD_MARK sMark;
+}sDBO_DOJO_BRIEF;
+
+struct GU_AVATAR_WORLD_INFO
+{
+WORD size;
+WORD opcode;
+sVECTOR3		vCurLoc;
+sVECTOR3		vCurDir;
+sWORLD_INFO		worldInfo;
+BYTE			byDojoCount;
+sDBO_DOJO_BRIEF sDojoData[8];
+};

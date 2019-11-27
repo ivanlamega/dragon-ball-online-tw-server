@@ -1,0 +1,159 @@
+/*****************************************************************************
+ * bmp.hsl - Structure definitions for the .bmp and .dib file formats
+ *  
+ * Copyright (c) 2009 BreakPoint Software, Inc.  All Rights Reserved
+ *
+ *****************************************************************************
+ * Revision History:
+ *  2009-01-14 - RJA - Rewritten to take advantage of the latest Hex Workshop
+ *      structure parser.
+ */
+
+#include "standard-types.hsl"
+
+#pragma displayname("Bitmap/DIB ") ;
+#pragma fileextensions(".bmp;.dib") ;
+
+#pragma byteorder(little_endian) 
+
+#pragma enumsize(2)
+#pragma enumsign("unsigned")
+typedef enum BI_BITCOUNT
+{
+    BI_FORMAT_IMPLIED = 0,
+    BI_MONOCHROME     = 1,
+    BI_4_BIT          = 4,
+    BI_8_BIT          = 8,
+    BI_16_BIT         = 16,
+    BI_24_BIT         = 24,
+    BI_32_BIT         = 32      
+} BI_BITCOUNT;
+
+#pragma enumsize(4)
+#pragma enumsign("unsigned")
+typedef enum BI_COMPRESSION
+{
+    BI_RGB       = 0,
+    BI_RLE8      = 1,
+    BI_RLE4      = 2,
+    BI_BITFIELDS = 3,
+    BI_JPEG      = 4,
+    BI_PNG       = 5
+} BI_COMPRESSION;
+
+typedef struct tagRGBQUAD 
+{
+    UBYTE    rgbBlue;
+    UBYTE    rgbGreen;
+    UBYTE    rgbRed;
+    UBYTE    rgbReserved;
+} RGBQUAD ;
+
+typedef struct tagBITMAPFILEHEADER 
+{
+    WORD    bfType; 
+    DWORD   bfSize; 
+    WORD    bfReserved1;
+    WORD    bfReserved2;    
+    DWORD   bfOffBits;
+
+    // Verify that file header looks sane
+    __verify( 
+            (bfType == 0x4D42)   &&  // Expected type: 'BM' 
+            (bfSize == __size__) &&  // header size matches file size
+            (bfOffBits < __size__)   // image offset within range
+        ) ;
+} BITMAPFILEHEADER ;
+
+typedef struct tagBITMAPINFOHEADER 
+{
+    DWORD          biSize;
+    if (biSize == 12)
+    {
+        // OS/2 Style Bitmap
+        WORD         bcWidth;
+        WORD         bcHeight;
+        WORD         bcPlanes;
+        BI_BITCOUNT  bcBitCount;
+    } 
+    else if (biSize >= 40) 
+    {
+        // Windows Style Bitmap
+        LONG           biWidth;
+        LONG           biHeight;
+        WORD           biPlanes;
+        BI_BITCOUNT    biBitCount;
+        BI_COMPRESSION biCompression;
+        DWORD          biSizeImage;
+        LONG           biXPelsPerMeter;
+        LONG           biYPelsPerMeter;
+        DWORD          biClrUsed;
+        DWORD          biClrImportant;
+        blob           extraHeaderData[biSize-40] ;
+    
+        // __verify((sizeof(__this__) + biSizeImage) == __size__) ;
+    }
+    else
+    {
+        // Likely not a BITMAP
+        BI_BITCOUNT biBitCount ;
+        DWORD       biSizeImage;
+        blob unknown[biSize-sizeof(biSize)-sizeof(biBitCount)-sizeof(biSizeImage)] ;
+    }
+
+} BITMAPINFOHEADER ;
+
+
+struct BITMAPFILE
+{
+    BITMAPFILEHEADER fileHeader ;
+    BITMAPINFOHEADER infoHeader ;
+
+    switch (infoHeader.biBitCount)
+    {
+    case BI_MONOCHROME:
+        RGBQUAD   colors[2] ;
+        break;
+    case BI_4_BIT: 
+        RGBQUAD   colors[16] ;
+        break;
+    case BI_8_BIT: 
+        RGBQUAD   colors[256] ;
+        break;
+    default:
+        break ;
+    }
+
+    blob imageData[fileHeader.bfSize - fileHeader.bfOffBits] ;
+
+    // Sanity Checking: imageData should match bfOffBits and biSizeImage
+    if (infoHeader.biSize != 12)
+    {
+        __verify(addrof(imageData) == fileHeader.bfOffBits) ;
+        __verify(sizeof(imageData) == infoHeader.biSizeImage) ;
+    }
+} ;
+
+struct BITMAPDIB
+{
+    BITMAPINFOHEADER infoHeader ;
+
+    switch (infoHeader.biBitCount)
+    {
+    case BI_MONOCHROME:
+        RGBQUAD   colors[2] ;
+        break;
+    case BI_4_BIT: 
+        RGBQUAD   colors[16] ;
+        break;
+    case BI_8_BIT: 
+        RGBQUAD   colors[256] ;
+        break;
+    default:
+        break ;
+    }
+
+    blob imageData[__size__ - sizeof(__this__)] ;
+
+    __verify(sizeof(imageData) == infoHeader.biSizeImage) ;
+} ;

@@ -1,0 +1,85 @@
+/*****************************************************************************
+ * filesystems.hsl - Structure definitions for file system related entities.
+ *     This presently includes the MBR, and BOOTSECTORs for FAT16, FAT32, and
+ *     NTFS.
+ *  
+ * Copyright (c) 2003-2008 BreakPoint Software, Inc.  All Rights Reserved
+ *
+ *****************************************************************************
+ * Revision History:
+ *  05/01/03 - RJA - Original
+ *  10/16/07 - RJA - Formatting tweaks, use blob for ByteCode
+ *  12/16/09 - RJA - Added enumsign pragmas
+ */
+
+#include "standard-types.hsl"
+struct sSTOC_EVT_DB_DATA
+{
+BYTE							tcId;
+	BYTE							taId;
+	unsigned int							m_aUserData[4];		// tcId, taIdїЎ АЗЗШ їµЗв№ЮґВ »зїлАЪ Б¤АЗ µҐАМЕН
+}sSTOC_EVT_DB_DATA;
+
+enum timer{ eTIMER_SLOT_MAX = 4 };
+struct sEXCEPT_TIMER
+{
+	BYTE							tcId;
+	BYTE							taId;
+
+	unsigned int							uiRemainTime;
+}sEXCEPT_TIMER;
+
+struct sMAIN_TSP
+{
+	BYTE							tcCurId;
+	BYTE							tcPreId;
+}sMAIN_TSP;
+
+struct sEXCEPT_TIMER_SLOT
+{
+	
+
+	sEXCEPT_TIMER							asExceptTimer[eTIMER_SLOT_MAX];
+}sEXCEPT_TIMER_SLOT;
+
+struct sSTORAGE_SLOT_MEMORY
+{
+
+	// №иї­АЗ АОµ¦Ѕє°Ў SSM АЗ ѕЖАМµр·О »зїлµК
+	unsigned int							auiSSM[8];
+}sSTORAGE_SLOT_MEMORY;
+
+struct sEXTENDED_POSSIBLE_V0
+{
+BYTE unknown;
+	unsigned short					wQState;			// ДщЅєЖ® »уЕВ
+
+	sMAIN_TSP						sMainTSP;			// ДщЅєЖ® БшЗа ЖчАОЕН
+	sEXCEPT_TIMER_SLOT				sETSlot;			// ї№їЬ ЕёАМёУАЗ АъАе ЅЅ·Ф
+	sSTORAGE_SLOT_MEMORY			sSSM;				// АъАе ЅЅ·Ф ёЮёрё®
+	sSTOC_EVT_DB_DATA				sSToCEvtData;		// ј­№ц АМєҐЖ® µҐАМЕН
+	BYTE					tgExcCGroup;		// ЅЗЗаЗТ Е¬¶уАМѕрЖ® ±Ч·м
+
+	BYTE					tcQuestInfo;		// ДщЅєЖ® Б¤єё ДБЕЧАМіК ѕЖАМµр
+	BYTE					taQuestInfo;		// ДщЅєЖ® Б¤єё ѕЧјЗ ѕЖАМµр
+}sEXTENDED_POSSIBLE_V0;
+
+union uDATA
+{
+	sEXTENDED_POSSIBLE_V0				sQInfoV0;
+}uDATA;
+
+struct sPROGRESS_QUEST_INFO
+{
+unsigned char							byVer;				// №цАь
+WORD								tId;				// ДщЅєЖ® ѕЖАМµр
+	uDATA									uData;
+}sPROGRESS_QUEST_INFO;
+
+struct GU_AVATAR_QUEST_PROGRESS_INFO
+{
+WORD size;
+WORD opcode;
+BYTE					byProgressCount; // ÇöÀç ÁøÇàÇÏ°í ÀÖ´Â Äù½ºÆ® °³¼ö
+sPROGRESS_QUEST_INFO	progressInfo[20]; // ÁøÇà Äù½ºÆ® µ¥ÀÌÅ¸
+};

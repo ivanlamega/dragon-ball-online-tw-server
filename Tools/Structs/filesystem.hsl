@@ -1,0 +1,196 @@
+/*****************************************************************************
+ * filesystems.hsl - Structure definitions for file system related entities.
+ *     This presently includes the MBR, and BOOTSECTORs for FAT16, FAT32, and
+ *     NTFS.
+ *  
+ * Copyright (c) 2003-2008 BreakPoint Software, Inc.  All Rights Reserved
+ *
+ *****************************************************************************
+ * Revision History:
+ *  05/01/03 - RJA - Original
+ *  10/16/07 - RJA - Formatting tweaks, use blob for ByteCode
+ *  12/16/09 - RJA - Added enumsign pragmas
+ */
+
+#include "standard-types.hsl"
+
+// FAT12 Boot Sector
+struct BOOTSECTOR_FAT12 
+{
+    BYTE   jmp[3] ;
+    CHAR   OemName[8] ;
+
+    struct BPB_FAT12
+    {
+        WORD BytesPerSector ;
+        BYTE SectorsPerCluster ;
+        WORD ReservedSectors ;
+        BYTE NumberOfFats ;
+        WORD RootEntries ;
+        WORD TotalSectors;
+        BYTE Media ;
+        WORD SectorsPerFAT ;
+        WORD SectorsPerTrack ;
+        WORD HeadsPerCylinder ;
+        DWORD HiddenSectors ;
+        DWORD TotalSectorsBig ;
+    } ;
+
+    BYTE   DriveNumber ;
+    BYTE   Unused ;
+    BYTE   extBootSignature ;
+    DWORD  SerialNumber ;
+    CHAR   VolumeLabel[11] ;
+    CHAR   FileSystem[8] ;
+    blob   ByteCode[450] ;
+} ;
+
+
+
+// FAT32 Boot Sector
+struct BOOTSECTOR_FAT32 
+{
+    BYTE   jmp[3] ;
+    CHAR   OemName[8] ;
+
+    struct BPB_FAT32 
+    {
+        WORD  BytesPerSector ;
+        BYTE  SectorsPerCluster ;
+        WORD  ReservedSectors ;
+        BYTE  NumberOfFATs ;
+        WORD  RootEntries ;
+        WORD  TotalSectors ;
+        BYTE  Media ;
+        WORD  SectorsPerFAT ;
+        WORD  SectorsPerTrack ;
+        WORD  HeadsPerCylinder ;
+        DWORD HiddenSectors ;
+        DWORD TotalSectorsBig ;
+        DWORD SectorsPerFAT ;
+        WORD  Flags ;
+        WORD  Version ;
+        DWORD RootCluster ;
+        WORD  InfoSector ;
+        WORD  BootBackupStart ;
+        BYTE  Reserved[12] ;
+    } ;
+
+    BYTE   DriveNumber ;
+    BYTE   Unused ;
+    BYTE   ExtBootSignature ;
+    DWORD  SerialNumber ;
+    CHAR   VolumeLabel[11] ;
+    CHAR   FileSystem[8] ;    
+    blob   BootCode[422] ;
+} ;
+
+
+// NTFS Boot Sector
+struct BOOTSECTOR_NTFS
+{
+    BYTE   jmp[3] ;         // Jump Instruction
+    CHAR   OEMName[8] ;     // OEM Identifier
+   
+    struct BPB_NTFS
+    {
+        WORD  BytesPerSector ;
+        BYTE  SectorsPerCluster ;
+        WORD  ReservedSectors ;
+        BYTE  Zero[3] ;
+        WORD  NotUsed ;
+        BYTE  MediaDescriptor ;
+        WORD  Zero ;
+        WORD  SectorsPerTrack ;
+        WORD  HeadsPerCylinder ;
+        DWORD HiddenSectors ;
+        DWORD NotUsed ;
+        DWORD NotUsed ;
+        UQUAD TotalSectors ;
+        UQUAD LogicalClusterMFT ;
+        UQUAD LogicalClusterMFTMiror ;
+        DWORD ClustersPerFileRecSegment ;
+        DWORD ClustersPerIndexBlock ;
+        UQUAD SerialNumber ;
+        DWORD Checksum ;
+    } ;
+    
+    blob   BootCode[426] ;
+    WORD   EndOfSectorMarker ;
+} ;
+
+// Partition Types
+#pragma enumsize(1)
+#pragma enumsign("unsigned")
+typedef enum tagSYSTEMID
+{
+    EMPTY           = 0,
+    FAT_12          = 1,
+    XENIX_ROOT      = 2,
+    XENIX_USR       = 3,
+    FAT_16          = 4,
+    EXTENDED        = 5,
+    FAT_BIGDOS      = 6,
+    NTFS_HPFS       = 7,
+    AIX             = 8,
+    AIX_INIT        = 9,
+    OS2_BOOT_MGR    = 10,
+    PRI_FAT32_INT13 = 11
+    EXT_FAT32_INT13 = 12
+    EXT_FAT16_INT13 = 14
+    PRI_FAT16_INT13 = 15
+    VENIX           = 64,
+    NOVEL           = 81,
+    MICROPORT       = 82,
+    GNU_HURD        = 99,
+    NOVEL           = 100,
+    PC_IX           = 117,
+    MINUX_OLD       = 128,
+    MINUX_LINUX     = 129,
+    LINUX_SWAP      = 130,
+    LINUX_NATIVE    = 131,
+    AMOEBA          = 147,
+    AMOEBA_BBT      = 148,
+    BSD_386         = 165, 
+    BSDI_FS         = 183,
+    BSDI_SWAP       = 184,
+    SYRINX          = 199,
+    CP_M            = 219,
+    ACCESS_DOS      = 225,
+    DOS_R_O         = 227,
+    DOS_SECONDARY   = 242,
+    BBT             = 255,
+} SYSTEMID ;
+
+// Boot Indicator Values
+#pragma enumsize(1)
+#pragma enumsign("unsigned")
+typedef enum tagBOOTINDICATOR
+{
+    NOBOOT           = 0,
+    SYSTEM_PARTITION = 128,
+} BOOTINDICATOR ;
+
+// Partition Entry
+#pragma hide()
+typedef struct PART_ENTRY
+{
+    BOOTINDICATOR BootIndicator ;
+    UBYTE         StartingHead ;
+    WORD          StartingSectCylinder ;   // Need Bit fields
+    SYSTEMID      SystemID ;
+    UBYTE         EndingHead ;
+    WORD          EndingSectCylinder ;     // Need Bit fields
+    DWORD         RelativeSector ;
+    DWORD         TotalSectors ;
+} PART_ENTRY ;
+#pragma show()
+
+
+// MBR
+struct MASTER_BOOT_RECORD
+{
+    blob       BootCode[446] ;
+    PART_ENTRY partitions[4] ;
+    WORD       EndOfSectorMarker ;
+} ;

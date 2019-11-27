@@ -1,0 +1,125 @@
+/*****************************************************************************
+ * pal.hsl - Structure definitions for the Microsoft(tm) PAL file format
+ *  
+ * Copyright (c) 2009 BreakPoint Software, Inc.  All Rights Reserved
+ *
+ *****************************************************************************
+ * Revision History:
+ *  2009-02-02 - RJA - Original
+ */
+
+#include "standard-types.hsl"
+
+#pragma displayname("pal structures")
+#pragma fileextensions(".pal")
+
+#pragma byteorder(little_endian)
+
+#pragma enumsize(4)
+typedef enum CHUNK_TYPE
+{
+    RIFF_CHUNK   = "RIFF",
+    DATA_CHUNK   = "data",
+} CHUNK_TYPE ;
+
+typedef enum PAL_TYPE
+{
+    PAL = "PAL " 
+} RIFF_TYPE ;
+
+struct RIFFHEADER
+{
+    CHUNK_TYPE id ;
+    DWORD size ;
+    RIFF_TYPE type ;
+
+    __verify(id == CHUNK_TYPE.RIFF_CHUNK) ;
+    __verify(size == (__size__ - 8)) ;
+    __verify(type == RIFF_TYPE.PAL) ;
+} ;
+
+
+struct PALDATA
+{
+    CHUNK_TYPE  id ;
+    DWORD       size ;
+    WORD        version;
+    WORD        entries;
+    DWORD       pal[entries] ;
+    blob        extra[size-((entries*4)+4)] ;
+
+    __verify(version == 0x0300) ;
+    __verify(id == CHUNK_TYPE.DATA_CHUNK) ;
+} ;
+
+struct UNKNOWN
+{
+    char       type[4] ;
+    DWORD      size ;
+    blob       data[size] ;
+} ;
+
+
+function AutoParsePalFile
+{
+    UQWord pos = 0 ;
+    UQWord end = __getDocSize() ;
+  
+    // Add initial RIFF header
+    pos += __addStructureAt(pos, "RIFFHEADER", "") ;
+
+    // Force word alignment
+    pos = (((pos + 1) >> 1) << 1) ;
+
+    while (pos < end)
+    {
+        switch (__getUDWordAt(pos))
+        {
+        case 0x00000000:
+            // Ignore NULL types
+            pos += 4 ;
+            break ;
+        case CHUNK_TYPE.DATA_CHUNK:
+            pos += __addStructureAt(pos, "PALDATA", "") ;
+            break ;
+        default:
+            pos += __addStructureAt(pos, "UNKNOWN", "") ;
+            break ;
+        } ;
+
+        // Force word alignment
+        pos = (((pos + 1) >> 1) << 1) ;
+    } ;
+}
+
+function AutoParsePalSelection
+{
+    UQWord pos = __getCaretPos() ;
+    UQWord end = pos + __getCaretSel() ;
+  
+    // Add initial RIFF header
+    pos += __addStructureAt(pos, "RIFFHEADER", "") ;
+
+    // Force word alignment
+    pos = (((pos + 1) >> 1) << 1) ;
+
+    while (pos < end)
+    {
+        switch (__getUDWordAt(pos))
+        {
+        case 0x00000000:
+            // Ignore NULL types
+            pos += 4 ;
+            break ;
+        case CHUNK_TYPE.DATA_CHUNK:
+            pos += __addStructureAt(pos, "PALDATA", "") ;
+            break ;
+        default:
+            pos += __addStructureAt(pos, "UNKNOWN", "") ;
+            break ;
+        } ;
+
+        // Force word alignment
+        pos = (((pos + 1) >> 1) << 1) ;
+    } ;
+} ;

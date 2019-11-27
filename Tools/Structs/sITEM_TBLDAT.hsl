@@ -1,0 +1,230 @@
+/*****************************************************************************
+ * filesystems.hsl - Structure definitions for file system related entities.
+ *     This presently includes the MBR, and BOOTSECTORs for FAT16, FAT32, and
+ *     NTFS.
+ *  
+ * Copyright (c) 2003-2008 BreakPoint Software, Inc.  All Rights Reserved
+ *
+ *****************************************************************************
+ * Revision History:
+ *  05/01/03 - RJA - Original
+ *  10/16/07 - RJA - Formatting tweaks, use blob for ByteCode
+ *  12/16/09 - RJA - Added enumsign pragmas
+ */
+
+#include "standard-types.hsl"
+
+
+
+
+struct sITEM_TBLDAT
+{
+	unsigned int          tblidx;
+bool			bValidity_Able;
+BYTE fill[3];
+	unsigned int          tbxName;
+	wchar           awcNameText[32 + 1];
+	CHAR            acIconName[32 + 1];
+
+	BYTE            byModelType;
+
+	CHAR            acModel[32 + 1];
+	CHAR            acSubWeaponActModel[32 + 1];
+
+	BYTE	        eItemType; // BYTE
+	BYTE			eEquipType; // BYTE
+
+	DWORD           dwEquipSlotTypeBitFlag;
+	WORD            wFunctionBitFlag;
+
+	BYTE            byMaxStack;
+	BYTE		    eRank; // BYTE
+
+	DWORD           dwWeight;
+
+	DWORD           dwCost;
+	unsigned int          tbxSellPrice;
+
+	BYTE            byDurability;
+	BYTE            byDurabilityCount;
+	BYTE			eBattleAttribute; // BYTE
+BYTE fill;
+	WORD            wPhysicalOffence;
+	WORD            wEnergyOffence;
+	WORD            wPhysicalDefence;
+	WORD            wEnergyDefence;
+
+	FLOAT           fAttackRangeBonus;
+	WORD            wAttackSpeedRate;
+
+	BYTE            byNeedLevel;
+	BYTE            byNeedMaxLevel;
+	DWORD           dwNeedClassBitFlag;
+	DWORD           dwNeedGenderBitFlag;
+
+	BYTE            byClassSpecial;
+	BYTE            byRaceSpecial;
+
+	WORD            wNeedStr;
+	WORD            wNeedCon;
+	WORD            wNeedFoc;
+	WORD            wNeedDex;
+	WORD            wNeedSol;
+	WORD            wNeedEng;
+
+	unsigned int          tbxSetItem;
+
+	unsigned int          tbxNote;
+
+	BYTE            byBagSize;
+
+	WORD            wScouterWatt;
+	DWORD           dwScouterMaxPower;
+	WORD            wScouterPartsType;
+	WORD            wScouterPartsValue;
+	unsigned int          tbxUseItem;
+	bool	        bCanHaveOption;
+
+	unsigned int          tbxItemOption;
+	BYTE            byItemGroup;//ticket upgrade here^^
+
+	unsigned int          tbxCharm;
+	WORD            wCostumeHideBitFlag;
+
+	unsigned int          tbxNeedItem;
+	DWORD           dwCommonPoint;
+	BYTE            byCommonPointType;
+
+	BYTE            byNeedFunction;
+
+	DWORD           dwUseDurationMax;
+	BYTE		    eDurationType; // BYTE
+
+	unsigned int          tbxContents;
+	DWORD           dwDurationGroup;
+	BYTE            byDropLevel;
+
+	DWORD           dwCreateEnchentRateID;
+	DWORD           dwExcellentID;
+	DWORD           dwRareID;
+	DWORD           dwLegendaryID;
+	bool			bCreateSuperiorAble;
+	bool			bCreateExcelentAble;
+	bool			bCreateRareAble;
+	bool			bCreateLegendaryAble;
+
+	BYTE			eRestrictType; // BYTE
+
+	FLOAT           fAttackPhysical;
+	FLOAT           fAttackEnergy;
+	FLOAT           fDefencePhysical;
+	FLOAT           fDefenceEnergy;
+
+	BYTE            byTmpCategoryType;
+	bool	        bCanRenewal;
+	WORD            wDisassembleBitFlag;
+
+	BYTE            byNormalMin;
+	BYTE            byNormalMax;
+	BYTE            byRankUpMin;
+	BYTE            byRankUpMax;
+
+	bool           bUseDisassemble;
+	bool           bDropVisual;
+};
+
+
+struct sITEM_TBLDAT2
+{
+  //DWORD gap0; // quitar posiblemente
+  DWORD dword4;
+  BYTE byte8;
+  BYTE gap9[3];
+  DWORD dwordC;
+  BYTE gap10[99];
+  BYTE byte73;
+  BYTE gap74[66];
+  BYTE byteB6;
+  BYTE byteB7;
+  DWORD dwordB8;
+  WORD wordBC;
+  BYTE byteBE;
+  BYTE byteBF;
+  DWORD dwordC0;
+  DWORD dwordC4;
+  DWORD dwordC8;
+  BYTE byteCC;
+  BYTE byteCD;
+  BYTE byteCE;
+BYTE fill;
+  WORD wordD0;
+  WORD wordD2;
+  WORD wordD4;
+  WORD wordD6;
+  float floatD8;
+  WORD wordDC;
+  BYTE byteDE;
+  BYTE byteDF;
+  DWORD dwordE0;
+  DWORD dwordE4;
+  BYTE byteE8;
+  BYTE byteE9;
+  WORD wordEA;
+  WORD wordEC;
+  WORD wordEE;
+  WORD wordF0;
+  WORD wordF2;
+  WORD wordF4;
+  BYTE gapF6[2];
+  DWORD dwordF8;
+  DWORD dwordFC;
+  BYTE byte100;
+BYTE fill;
+  WORD word102;
+  DWORD dword104;
+  BYTE gap108[4];
+  DWORD dword10C;
+  BYTE byte110;
+  BYTE gap111[3];
+  DWORD dword114;
+  BYTE byte118;
+  BYTE gap119[3];
+  DWORD dword11C;
+  WORD word120;
+  BYTE gap122[2];
+  DWORD dword124;
+  DWORD dword128;
+  BYTE byte12C;
+  BYTE byte12D;
+  BYTE gap12E[2];
+  DWORD dword130;
+  BYTE byte134;
+  BYTE gap135[3];
+  DWORD dword138;
+  DWORD dword13C;
+  BYTE byte140;
+  BYTE gap141[3];
+  DWORD dword144;
+  DWORD dword148;
+  DWORD dword14C;
+  DWORD dword150;
+  BYTE byte154;
+  BYTE byte155;
+  BYTE byte156;
+  BYTE byte157;
+  BYTE byte158;
+  BYTE gap159[3];
+  float float15C;
+  float float160;
+  float float164;
+  float float168;
+  BYTE byte16C;
+  BYTE byte16D;
+  BYTE gap16E[2];
+  BYTE byte170;
+  BYTE byte171;
+  BYTE byte172;
+  BYTE byte173;
+  BYTE byte174;
+  BYTE byte175;
+};

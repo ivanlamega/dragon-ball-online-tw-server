@@ -1,0 +1,85 @@
+/*****************************************************************************
+ * hwcharmaps.hsl - Hex Workshop Charmap definitions
+ *
+ * Copyright (c) 2012 BreakPoint Software, Inc.  All Rights Reserved.
+ *
+ *****************************************************************************
+ *
+ * Structure Definition for Hex Workshop character maps
+ */
+
+#include "standard-types.hsl"
+
+#pragma displayname("Hex Workshop Character Maps")
+#pragma fileextensions(".map")
+#pragma byteorder(little_endian)
+#pragma maxarray(65536)
+
+#pragma hide()
+
+typedef struct tagHEADERFLAGS {
+    DWORD fWideChars : 1 ;
+    DWORD fReadOnly : 1 ;
+    DWORD fCodePage : 1 ; 
+} HEADERFLAGS ;
+
+typedef struct CHARMAPENTRY
+{
+    unsigned char fIncludeColorDef : 1 ;
+    unsigned char reserved : 6 ;
+    unsigned char fNoReverse : 1 ;
+
+    char mapTo ;
+
+    if (fIncludeColorDef == 1)
+    {
+        DWORD rgbValue ;
+    } ;
+} CHARMAPENTRY ;
+
+typedef struct WCHARMAPENTRY
+{
+    unsigned char fIncludeColorDef : 1 ;
+    unsigned char reserved : 6 ;
+    unsigned char fNoReverse : 1 ;
+
+    wchar mapTo ;
+
+    if (fIncludeColorDef == 1)
+    {
+        DWORD rgbValue ;
+    } ;
+} WCHARMAPENTRY ;
+
+#pragma show()
+
+typedef struct tagMAPHEADER 
+{
+    DWORD       dwMagicMarker ;
+__verify(dwMagicMarker == __byteflip32(0x4857434D));
+    DWORD       dwVersion ;
+    HEADERFLAGS dwFlags ;
+    char        szName[32] ;
+    char        szDescription[128] ;
+    char        szAuthor[64] ;
+    DWORD       dwCodePage ;
+    DWORD       dwReserved[4] ;
+
+    if (__getDocSize() > sizeof(MAPHEADER))
+    {
+        if (dwFlags.fWideChars)
+        {
+            WCHARMAPENTRY mapping[65536] ;
+        }
+        else
+        {
+            CHARMAPENTRY mapping[256] ;
+        } ;
+    } ;
+} MAPHEADER ;
+
+
+function AutoParseFile
+{
+    __addStructureAt(0, "MAPHEADER", "header") ;
+} ;

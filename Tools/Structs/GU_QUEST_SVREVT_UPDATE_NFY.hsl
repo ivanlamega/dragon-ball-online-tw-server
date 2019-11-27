@@ -1,0 +1,83 @@
+/*****************************************************************************
+ * filesystems.hsl - Structure definitions for file system related entities.
+ *     This presently includes the MBR, and BOOTSECTORs for FAT16, FAT32, and
+ *     NTFS.
+ *  
+ * Copyright (c) 2003-2008 BreakPoint Software, Inc.  All Rights Reserved
+ *
+ *****************************************************************************
+ * Revision History:
+ *  05/01/03 - RJA - Original
+ *  10/16/07 - RJA - Formatting tweaks, use blob for ByteCode
+ *  12/16/09 - RJA - Added enumsign pragmas
+ */
+
+#include "standard-types.hsl"
+
+	// ёч БЧАМ±в
+	struct sMOB_KILL_CNT
+	{
+		int											nCurMobCnt;
+	}sMOB_KILL_CNT;
+
+	// ёч ѕЖАМЕЫ ·зЖГ ЗП±в
+	struct sMOB_KILL_ITEM_CNT
+	{
+		int											nCurMobLICnt;
+	}sMOB_KILL_ITEM_CNT;
+
+	// ѕЖАМЕЫ №иґЮЗП±в
+	struct sDELIVERY_ITEM
+	{
+		int											nCurItemCnt;
+	}sDELIVERY_ITEM;
+
+	// їАєкБ§Ж® ѕЖАМЕЫ
+	struct sOBJECT_ITEM
+	{
+		int											nCurItemCnt;
+	}sOBJECT_ITEM;
+
+	// public ёч ѕЖАМЕЫ ·зЖГ - ёч °шЕл µе¶ш АМєҐЖ®
+	struct sPUBLIC_MOB_ITEM_CNT
+	{
+		int											nCurItemCnt;
+	}sPUBLIC_MOB_ITEM_CNT;
+
+	// Custom event counter
+	struct sCUSTOM_EVT_CNT
+	{
+		int											nCurCnt;
+	}sCUSTOM_EVT_CNT;
+
+	struct sVISIT_EVT
+	{
+		bool										bCompleted;
+	}sVISIT_EVT;
+
+// Quest Server Event Update ЅГ »зїлЗПґВ ±ёБ¶
+union uSTOC_EVT_UPDATE_DATA
+{
+
+	sMOB_KILL_CNT				sMobKillCnt;
+	sMOB_KILL_ITEM_CNT			sMobKillItemCnt;
+	sDELIVERY_ITEM				sDeliveryItemCnt;
+	sOBJECT_ITEM				sObjectItemCnt;
+	sPUBLIC_MOB_ITEM_CNT		sPublicMobItemCnt;
+	sCUSTOM_EVT_CNT				sCustomEvtCnt;
+	sVISIT_EVT					sVisitEvt;
+}uSTOC_EVT_UPDATE_DATA;
+
+
+
+struct GU_QUEST_SVREVT_UPDATE_NFY
+{
+WORD size;
+WORD opcode;
+WORD				tId;
+BYTE			tcId;
+BYTE			taId;
+BYTE					bySvrEvtType;		// eSTOC_EVT_DATA_TYPE
+BYTE					bySlot;
+uSTOC_EVT_UPDATE_DATA	uEvtData;
+};

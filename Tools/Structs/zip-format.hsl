@@ -1,0 +1,284 @@
+/*****************************************************************************
+ * zip.hsl - Structure definitions for the .zip file format
+ *  
+ * Copyright (c) 2003-2009 BreakPoint Software, Inc.  All Rights Reserved
+ *
+ *****************************************************************************
+ * Revision History:
+ *  2003-05-01 - RJA - Original
+ *  2004-03-20 - RJA - Added #pragma verifies
+ *  2008-11-09 - RJA - Updated based on September 28, 2007 APPNOTE.TXT for PKZIP
+ *  2009-22-01 - RJA - Added AutoParse logic
+ */
+
+#include "standard-types.hsl"
+
+#pragma displayname("zip structures")
+#pragma fileextensions(".zip;.jar")
+
+#pragma byteorder(little_endian)
+
+// ZIP uses 2 bytes for their version field
+#pragma enumsize(2)
+#pragma enumsign("unsigned")
+typedef enum tagVERSION_MADE_BY
+{
+    DOS_OS2         = 0,
+    AMIGA           = 1,
+    OpenVMS         = 2,
+    UNIX            = 3,
+    VM_CMS          = 4,
+    ATARI_ST        = 5,
+    OS2_HPFS        = 6,
+    MACINTOSH       = 7,
+    Z_SYSTEM        = 8,
+    CPM             = 9
+    WINDOWS_NTFS    = 10,
+    MVS             = 11,
+    VSE             = 12,
+    ACORN_RISC      = 13,
+    VFAT            = 14,
+    ALTERNATIVE_MVS = 15,
+    BEOS            = 16,
+    TANDEM          = 17,
+    OS_400          = 18,
+    DARWIN          = 19
+} VERSION_MADE_BY ; 
+
+// Zip uses 2 bytes for their compression method field
+#pragma enumsize(2)
+#pragma enumsign("unsigned")
+typedef enum tagCOMPRESSION_METHOD
+{
+    STORED           = 0,
+    SHRUNK           = 1,
+    REDUCED_FACTOR_1 = 2,
+    REDUCED_FACTOR_2 = 3,
+    REDUCED_FACTOR_3 = 4,
+    REDUCED_FACTOR_4 = 5,
+    IMPLODED         = 6,
+    TOKENZIED        = 7,
+    DEFLATED         = 8,
+    DEFLATE64        = 9,
+    LIB_IMPLODE      = 10,
+    RESERVED         = 11,
+    BZIP2            = 12,
+    RESERVED         = 13,
+    LZMA             = 14,
+    RESERVED         = 15,
+    RESERVED         = 16,
+    RESERVED         = 17,
+    IBM_TERSE        = 18,
+    IBM_LZ77_PFS     = 19,
+    WAVPACK          = 97,
+    PPMD_VER_I_REV_1 = 98    
+} COMPRESSION_METHOD;
+
+#pragma enumsize(4)
+#pragma enumsign("unsigned")
+typedef enum tagSIGNATURE
+{
+    LocalFileHeader                    = 0x04034B50,
+    ArchiveExtraData                   = 0x08064B50,
+    EndOfCentralDirectory              = 0x06054B50,
+    DigitalSignature                   = 0x05054B50,
+    CentralDirectoryFileHeader         = 0x02014B50,
+    ZIP64EndOfCentralDirectory         = 0x06064B50,
+    ZIP64EndOfCentralDirectoryLocator  = 0x07064B50
+} SIGNATURE ;
+
+struct LocalFileHeader
+{
+    SIGNATURE Signature ;
+    WORD VersionNeededToExtract ;
+    WORD GeneralPurposeBitFlag ;
+    COMPRESSION_METHOD CompressionMethod ;
+    DOSTIME LastModFileTime ;
+    DOSDATE LastModFileDate ;
+    DWORD Crc32 ;
+    DWORD CompressedSize ;
+    DWORD UncompressedSize ;
+    WORD  FileNameLength ;
+    WORD  ExtraFieldLength ;
+    char  FileName[FileNameLength] ;
+    blob  ExtraField[ExtraFieldLength] ;
+    blob  FileData[CompressedSize] ;
+
+    __verify(Signature == SIGNATURE.LocalFileHeader) ;
+} ;
+
+struct DataDescriptor
+{
+    DWORD Crc32 ;
+    DWORD CompressedSize ;
+    DWORD UncompressedSize ;
+} ;
+
+struct ZIP64DataDescriptor
+{
+    DWORD Crc32 ;
+    QUAD CompressedSize ;
+    QUAD UncompressedSize ;
+} ;
+
+struct ArchiveExtraData
+{
+    SIGNATURE Signature ;
+    DWORD length ;
+    blob data[length] ;
+    
+    __verify(Signature == SIGNATURE.ArchiveExtraData) ;
+} ;
+
+struct EndOfCentralDirectory
+{
+    SIGNATURE Signature ;
+    WORD  DiskNumber ;
+    WORD  CentralDirectoryStartDisk ;
+    WORD  CentralDirectoryStartOffset ;
+    WORD  NumEntries ;
+    DWORD CentralDirectorySize ;
+    DWORD CentralDirectoryOffset ;
+    WORD  ZipCommentLength ;
+    char  ZipComment[ZipCommentLength] ;
+
+    __verify(Signature == SIGNATURE.EndOfCentralDirectory) ;
+} ;
+
+struct DigitalSignature
+{
+    SIGNATURE Signature ;
+    WORD SizeOfData ;
+    blob content[SizeOfData] ;
+
+    __verify(Signature == SIGNATURE.DigitalSignature) ;
+} ;
+
+struct CentralDirectoryFileHeader
+{
+    SIGNATURE Signature ;
+    VERSION_MADE_BY VersionMadeBy ;
+    WORD VersionNeededToExtract ;
+    WORD GeneralPurposeBitFlag ;
+    COMPRESSION_METHOD CompressionMethod ;
+    DOSTIME LastModFileTime ;
+    DOSDATE LastModFileDate ;
+    DWORD Crc32 ;
+    DWORD CompressedSize ;
+    DWORD UncompressedSize ;
+    WORD  FileNameLength ;
+    WORD  ExtraFieldLength ;
+    WORD  FileCommentLength ;
+    WORD  DiskNumberStart ;
+    WORD  InternalFileAttributes ;
+    DWORD ExternalFileAttributes ;
+    DWORD RelativeOffsetOfLocalHeader ;
+
+    char  FileName[FileNameLength] ;
+    blob  ExtraField[ExtraFieldLength] ;
+    char  FileComment[FileCommentLength] ;
+
+    __verify(Signature == SIGNATURE.CentralDirectoryFileHeader) ;
+} ;
+
+struct ZIP64EndOfCentralDirectory
+{
+    SIGNATURE Signature ;
+    QUAD SizeOfCentralDirRecord ;
+    VERSION_MADE_BY VersionMadeBy ;
+    WORD VersionNeededToExtract ;
+    DWORD DiskNumber ;
+    DWORD StartCentralDirectoryDiskNumber ;
+    QUAD CentralDirectoryEntriesOnDisk ;
+    QUAD CentralDirectoryTotalEntries ;
+    QUAD CentralDirectorySize ;
+    QUAD CentralDirectoryOffsetStartDisk ;   
+    // zip64 extensible data sector
+
+    __verify(Signature == SIGNATURE.ZIP64EndOfCentralDirectory) ;
+} ;
+
+struct ZIP64EndOfCentralDirectoryLocator
+{
+    SIGNATURE Signature ;
+    DWORD DiskNumber ;
+    QUAD ZIP64RelativeOffset ;
+    DWORD TotalNumDisks ;
+
+    __verify(Signature == SIGNATURE.ZIP64EndOfCentralDirectoryLocator) ;
+} ;
+
+function AutoParseZipFile
+{
+    UQWord pos = 0 ;
+    UQWord end = __getDocSize() ;
+
+    while (pos < end)
+    {
+        switch (__getUDWordAt(pos))
+        {
+        case SIGNATURE.LocalFileHeader:
+            pos += __addStructureAt(pos, "LocalFileHeader", "") ;
+            break ;
+        case SIGNATURE.ArchiveExtraData:
+            pos += __addStructureAt(pos, "ArchiveExtraData", "") ;
+            break ;
+        case SIGNATURE.EndOfCentralDirectory:
+            pos += __addStructureAt(pos, "EndOfCentralDirectory", "") ;
+            break ;
+        case SIGNATURE.DigitalSignature:
+            pos += __addStructureAt(pos, "DigitalSignature", "") ;
+            break ;
+        case SIGNATURE.CentralDirectoryFileHeader:
+            pos += __addStructureAt(pos, "CentralDirectoryFileHeader", "") ;
+            break ;
+        case SIGNATURE.ZIP64EndOfCentralDirectory:
+            pos += __addStructureAt(pos, "ZIP64EndOfCentralDirectory", "") ;
+            break ;
+        case SIGNATURE.ZIP64EndOfCentralDirectoryLocator:
+            pos += __addStructureAt(pos, "ZIP64EndOfCentralDirectoryLocator", "") ;
+            break ;
+        default:
+            pos += 4 ;
+            break ;
+        } ;
+    } ;
+} 
+
+
+function AutoParseZipSelection
+{
+    UQWord pos = __getCaretPos() ;
+    UQWord end = pos + __getCaretSel() ;
+
+    while (pos < end)
+    {
+        switch (__getUDWordAt(pos))
+        {
+        case SIGNATURE.LocalFileHeader:
+            pos += __addStructureAt(pos, "LocalFileHeader", "") ;
+            break ;
+        case SIGNATURE.ArchiveExtraData:
+            pos += __addStructureAt(pos, "ArchiveExtraData", "") ;
+            break ;
+        case SIGNATURE.EndOfCentralDirectory:
+            pos += __addStructureAt(pos, "EndOfCentralDirectory", "") ;
+            break ;
+        case SIGNATURE.DigitalSignature:
+            pos += __addStructureAt(pos, "DigitalSignature", "") ;
+            break ;
+        case SIGNATURE.CentralDirectoryFileHeader:
+            pos += __addStructureAt(pos, "CentralDirectoryFileHeader", "") ;
+            break ;
+        case SIGNATURE.ZIP64EndOfCentralDirectory:
+            pos += __addStructureAt(pos, "ZIP64EndOfCentralDirectory", "") ;
+            break ;
+        case SIGNATURE.ZIP64EndOfCentralDirectoryLocator:
+            pos += __addStructureAt(pos, "ZIP64EndOfCentralDirectoryLocator", "") ;
+            break ;
+        default:
+            pos += 4 ;
+            break ;
+        } ;
+    } ;
+}

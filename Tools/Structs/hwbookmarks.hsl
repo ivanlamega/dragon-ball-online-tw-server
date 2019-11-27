@@ -1,0 +1,119 @@
+/*****************************************************************************
+ * bookmarks.hsl - Hex Workshop Bookmark structure definitions
+ *
+ * Copyright (c) 2008 BreakPoint Software, Inc.  All Rights Reserved.
+ *
+ *****************************************************************************
+ *
+ * The Hex Workshop Bookmark format is fairly simple.  It starts with a 
+ * fixed-length header (struct tagHEADER) and is followed by fixed length
+ * bookmark entries (struct tagENTRY).  Please see the structure definitions
+ * below for details.
+ *
+ */
+
+#include "standard-types.hsl"
+
+#pragma displayname("Hex Workshop Bookmarks")
+#pragma fileextensions(".hsl")
+#pragma byteorder(little_endian)
+
+#pragma hide()
+
+typedef struct tagHEADERFLAGS
+{
+    DWORD bRegisteredVersionRequired : 1 ;  // Bookmark collection requires
+                                            // a non evaluation version of
+                                            // Hex Workshop.
+    DWORD reserved : 31 ;  
+} HEADERFLAGS ;
+
+typedef struct tagENTRYFLAGS
+{
+    DWORD bFixedLength : 1 ;                // Array Length is fixed -- do not
+                                            // recalculate for each bookmark.
+    DWORD bSequentialAddresses : 1 ;        // Start next array element after
+                                            // previous -- do not recalculate
+                                            // starting offset
+    DWORD reserved : 30 ;  
+} ENTRYFLAGS ;
+
+
+/**
+ * Bookmark value types -- not all of these are valid for bookmarks.
+ */
+#pragma enumsize(4)
+#pragma enumsign("unsigned")
+typedef enum tagDATATYPE
+{
+   DT_NONE           = 0,
+   DT_BYTE           = 1,
+   DT_WORD           = 2,
+   DT_DWORD          = 3,
+   DT_QWORD          = 4,
+   DT_FLOAT          = 5,
+   DT_DOUBLE         = 6,
+   DT_STRING         = 7,
+   DT_UNICODESTRING  = 8,
+   DT_MSDOS_DATE     = 9,
+   DT_MSDOS_TIME     = 10,
+   DT_FILETIME       = 11,
+   DT_UNIXTIME       = 12,
+   DT_OLEDATETIME    = 13,
+   DT_BINARY         = 14,
+   DT_STRUCTURE      = 15,
+   DT_ENUM           = 16,
+   DT_UNION          = 17,
+   DT_BITFIELD       = 18,
+   DT_BLOB           = 19,
+   DT_UNIXTIME64     = 20,
+   DT_FRAG           = 21,
+   DT_CHAR           = 22,
+   DT_WCHAR          = 23
+} DATATYPE ;
+
+/**
+ * Header for Bookmark File Formats files.  As of Hex Workshop v5.1.4, the
+ * checksum is not verified when opened.  The checksum is calculated as
+ * a standard CRC-32 of the header, with the "dwChecksum" field initialized
+ * as dwMagicID + dwMajorVersion + dwMinorVersion + flags.
+ */
+typedef struct tagHEADER {
+    DWORD   dwMagicID ;                   // Magic Identifer
+#pragma verify match_var_int("dwMagicID", "0x00FFB400") 
+    WORD    dwMajorVersion ;              // Major Bookmark File Format Version (2)
+    WORD    dwMinorVersion ;              // Minor Bookmark File Format Version (0)
+    char    szDescription[80] ;           // Bookmark File Description (UTF8)
+    char    szAuthor[80] ;                // Bookmark File Author (UTF8)
+    HEADERFLAGS flags;                    // Bookmark File Flags
+    DWORD   dwEntries ;                   // Number of Entries (tagENTRY)
+    char    szStructureCollection[256] ;  // Associated Structure Collection (UTF8)
+    char    cReserved[12] ;               // Reserved for future use
+    DWORD   dwChecksum ;                  // Checksum of the header
+} HEADER ;
+
+
+// Individual records for bookmark entries.
+typedef struct tagENTRY {
+    char       szDescription[80] ;           // Description of this Entry (UTF8)
+    char       szAddressRule[128] ;          // Address Rule (UTF8)
+    char       szLengthRule[128] ;           // Length Rule (UTF8)
+    char       szCountRule[128] ;            // Array Count Rule (UTF8)
+    DATATYPE   dataType;                     // Value Data Type
+    BYTE       bSign ;                       // Sign of the data (1=Unsigned, 0=Signed)
+    BYTE       bByteOrdering ;               // Byte Ordering (1=LE, 0=BE)
+    BYTE       bBase ;                       // Base (Hex/Dec) (0=Dec, 1=hex)
+    char       szStructure[128] ;            // Name of referenced structure
+    UQUAD      findPos ;                     // Offset if applied from find 
+    UQUAD      findLength ;                  // Length if applied from find
+    char       cReserved[37] ;               // Reserved for future use
+    ENTRYFLAGS flags ;
+} ENTRY ;
+
+#pragma show()
+
+struct BOOKMARKS
+{
+    HEADER header ;
+    ENTRY bookmarks[header.dwEntries] ;
+} ;

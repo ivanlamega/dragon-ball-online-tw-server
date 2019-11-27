@@ -1,0 +1,493 @@
+/*****************************************************************************
+ * bookmarks.hsl - Hex Workshop Bookmark structure definitions
+ *
+ * Copyright (c) 2008 BreakPoint Software, Inc.  All Rights Reserved.
+ *
+ *****************************************************************************
+ *
+ * The Hex Workshop Bookmark format is fairly simple.  It starts with a 
+ * fixed-length header (struct tagHEADER) and is followed by fixed length
+ * bookmark entries (struct tagENTRY).  Please see the structure definitions
+ * below for details.
+ *
+ */
+
+#include "standard-types.hsl"
+
+struct sMOB_TBLDAT3
+{
+unsigned int			tblidx;
+
+	unsigned int			basicLP;
+	unsigned short			basicEP;
+
+	unsigned short			basePhysicalDefense;
+	unsigned short			baseEnergyDefense;
+
+	unsigned short			strength;
+	unsigned short			constitution;
+	unsigned short			focus;
+	unsigned short			dextery;
+	unsigned short			soul;
+	unsigned short			energy;
+
+BYTE fill[2];
+
+	float					fScale;
+
+	unsigned short			attackSpeedRate;
+	unsigned char			attackType;
+
+BYTE fill[1];
+
+	float					attackRange;
+
+	unsigned short			attackRate;
+	unsigned short			dodgeRate;
+
+	unsigned short			blockRate;
+	unsigned short			curseSuccessRate;
+
+	unsigned short			curseToleranceRate;
+BYTE fill[2];
+	float					unknown; //unsigned int	basicAggroPoint;
+
+	unsigned short			basicAggroPoint; // No es seguro que esto sea el basicAggroPoint
+BYTE fill[2];
+	bool					validityable;
+BYTE fill[3];
+
+
+	unsigned int			nameTblidx;
+	
+	wchar					nameText[40 + 1];
+	char					modelName[32 + 1];
+
+	unsigned char			level;
+	unsigned char			unknown3;
+BYTE fill[3];
+	unsigned long			aiBitFlag;
+
+	unsigned short			lpRegeneration;
+	unsigned short			epRegeneration;
+
+	unsigned char			attackAnimationQuantity;
+	unsigned char			battleAttribute;
+
+	unsigned short			basicOffence;
+	unsigned short			unknown4;
+
+BYTE fill[2];
+
+	float					walkSpeedOrigin;
+	float					walkSpeed;
+	float					runSpeedOrigin;
+	float					runSpeed;
+	float					radiusX;
+	float					radiusZ;
+
+	unsigned short			sightRange;
+	unsigned short			scanRange;
+
+	unsigned short			useSkillTime[7];
+BYTE fill[2];
+	unsigned int			useSkillTblidx[7];
+	unsigned char			useSkillBasis[7];
+BYTE fill[1];
+	unsigned short			useSkillLP[7];
+
+	unsigned char			visibleSightRange;
+	char					cameraBoneName[32 + 1];
+
+	unsigned short			attackCoolTime;
+BYTE fill[2];
+	float					flyHeight;
+
+	char					nameText2[40 + 1];
+
+	bool					spawnAnimation;
+BYTE fill[2];
+	unsigned long			dialogGroup;
+
+	char					ilLust[32 + 1];
+BYTE fill[3];
+	unsigned long			allianceIDX;
+	unsigned short			aggroMaxCount;
+
+BYTE fill[2];
+
+	unsigned int			unknown5;
+	unsigned short			unknown6[4];
+
+	unsigned long		    mobGroup;
+	unsigned short			mobKind;
+
+BYTE fill[2];
+
+	unsigned int			dropZenny;
+	float					dropZennyRate;
+
+	//Apartir de aqu creo que estan mal los valores, luego tendriamos que analizarlos.
+
+	unsigned int			exp;
+
+	unsigned char			mobType;
+BYTE fill[7];
+	unsigned char			grade;
+BYTE fill[1];
+WORD unknown;
+
+	unsigned int			dropItemTblidx;
+
+	bool					size;
+	unsigned char			tmqPoint;
+
+	unsigned int			dropQustTblidx;
+BYTE fill[2];
+	unsigned int			dropTypeTblidx;
+	unsigned int			dropEachTblidx;
+							
+	unsigned char			dropTypeRateControl;
+	unsigned char			dropEachRateControl;
+							
+	unsigned char			dropNItemRateControl;
+	unsigned char			dropSItemRateControl;
+	unsigned char			dropEItemRateControl;
+	unsigned char			dropLItemRateControl;
+
+BYTE fill[2];
+
+	bool					showName;
+
+	unsigned char			property;
+	unsigned char			hitBlockRate;
+
+	unsigned short			sightAngle;
+	unsigned char			unknown8[75];
+};
+
+struct sMOB_TBLDAT2
+{
+  //_BYTE gap0[4];
+  DWORD dword4;
+  DWORD dword8;
+  WORD wordC;
+  WORD wordE;
+  WORD word10;
+  WORD word12;
+  WORD word14;
+  WORD word16;
+  WORD word18;
+  WORD word1A;
+  WORD word1C;
+BYTE fill[2];
+  float float20;
+  WORD word24;
+  BYTE byte26;
+BYTE fill[1];
+  float float28;
+  WORD word2C;
+  WORD word2E;
+  WORD word30;
+  WORD word32;
+  WORD word34;
+  BYTE gap36[6];
+  WORD word3C;
+BYTE fill[2];
+  BYTE byte40;
+BYTE fill[3];
+  DWORD dword44;
+  BYTE gap48[115];
+  BYTE byteBB;
+  BYTE byteBC;
+BYTE fill[3];
+  DWORD dwordC0;
+  WORD wordC4;
+  WORD wordC6;
+  BYTE byteC8;
+  BYTE byteC9;
+  WORD wordCA;
+  WORD wordCC;
+BYTE fill[2];
+  float floatD0;
+  float floatD4;
+  float floatD8;
+  float floatDC;
+  float floatE0;
+  float floatE4;
+  WORD wordE8;
+  WORD wordEA;
+  BYTE gapEC[66];
+  BYTE byte12E;
+  BYTE gap12F[33];
+  WORD word150;
+BYTE fill[2];
+  float float154;
+  BYTE gap158[41];
+  BYTE byte181;
+BYTE fill[2];
+  DWORD dword184;
+  BYTE gap188[36];
+  DWORD dword1AC;
+  WORD word1B0;
+BYTE fill[2];
+  DWORD dword1B4;
+  WORD word1B8;
+  WORD word1BA;
+  WORD word1BC;
+  WORD word1BE;
+  DWORD dword1C0;
+  WORD word1C4;
+BYTE fill[2];
+  DWORD dword1C8;
+  float float1CC;
+  DWORD dword1D0;
+  BYTE byte1D4;
+  DWORD dword1D8;
+BYTE fill[3];
+  BYTE byte1DC;
+BYTE fill[1];
+  WORD word1DE;
+  DWORD dword1E0;
+  DWORD dword1E4;
+  BYTE byte1E8;
+  BYTE byte1E9;
+BYTE fill[2];
+  DWORD dword1EC;
+  BYTE byte1F0;
+  BYTE byte1F1;
+BYTE fill[2];
+  DWORD dword1F4;
+  BYTE byte1F8;
+  BYTE byte1F9;
+BYTE fill[2];
+  DWORD dword1FC;
+  BYTE byte200;
+  BYTE byte201;
+  BYTE byte202;
+BYTE fill[1];
+  WORD word204;
+BYTE fill[2];
+  DWORD dword208;
+BYTE byte203;
+BYTE fill[1];
+  DWORD dword209;
+BYTE fill[2];
+  float float100;
+  float float101;
+  DWORD dword210;
+  float float102[11];
+};
+
+struct sMOB_TBLDAT
+{
+DWORD tblidx;
+DWORD			wBasic_LP;
+	WORD			wBasic_EP;
+
+	WORD			wBasic_Physical_Defence;
+	WORD			wBasic_Energy_Defence;
+
+	WORD			byStr;
+	WORD			byCon;
+	WORD			byFoc;
+	WORD			byDex;
+	WORD			bySol;
+	WORD			byEng;
+
+BYTE fill[2];
+
+	float			fScale;
+	WORD			wAttack_Speed_Rate;
+	BYTE			byAttack_Type;
+
+BYTE fill[1];
+
+	float			fAttack_Range;
+	WORD			wAttack_Rate;
+	WORD			wDodge_Rate;
+	WORD			wBlock_Rate;
+	WORD			wCurse_Success_Rate;
+	WORD			wCurse_Tolerance_Rate;
+
+BYTE fill[2];
+
+	float			fRadius;
+	WORD			wBasic_Aggro_Point;
+BYTE fill[2];
+	bool			bValidity_Able;
+BYTE fill[3];
+	DWORD			Name;
+
+	WCHAR			wszNameText[40 + 1];
+	char			szModel[32 + 1];
+
+	BYTE			byLevel;
+	BYTE			byGrade; //TW
+BYTE fill[3];
+	DWORD			dwAi_Bit_Flag;
+
+	WORD			wLP_Regeneration;
+	WORD			wEP_Regeneration;
+
+	BYTE			byAttack_Animation_Quantity;
+	BYTE			byBattle_Attribute;
+
+	WORD			wBasicPhysicalOffence;
+	WORD			wBasicEnergyOffence;
+
+BYTE fill[2];
+
+	float			fWalk_Speed_Origin;
+	float			fWalk_Speed;
+	float			fRun_Speed_Origin;
+	float			fRun_Speed;
+	float			fRadius_X;
+	float			fRadius_Z;
+	WORD			bySight_Range;
+	WORD			byScan_Range;
+
+	WORD			wUse_Skill_Time[7];
+BYTE fill[2];
+	DWORD			use_Skill_Tblidx[7];
+	BYTE			byUse_Skill_Basis[7];
+BYTE fill[1];
+	WORD			wUse_Skill_LP[7];
+
+	BYTE			byVisible_Sight_Range;
+	CHAR			szCamera_Bone_Name[32 + 1];
+
+	WORD			wAttackCoolTime;
+BYTE fill[2];
+	float			fFly_Height;
+	DWORD 			unk[2];
+	CHAR			szNameText[32 + 1];
+	
+	bool			bSpawn_Animation;
+BYTE fill[2];
+	DWORD			dwDialogGroup;
+
+	CHAR			szILLust[32 + 1];
+BYTE fill[3];
+	DWORD			dwAllianceIdx;
+	WORD			wAggroMaxCount;
+
+BYTE fill[2];
+
+	DWORD			dwAttributeBitFlag;
+	WORD			stomachacheDefence;
+	WORD			poisonDefense;
+	WORD			bleedDefense;
+	WORD			burnDefense;
+	DWORD			Mob_Group;//Mob_Group
+	WORD			wMob_Kind;//Mob_Kind
+
+BYTE fill[2];
+	// -----------------------  
+	//BYTE paidd[2];
+	// -----------------------  	
+	DWORD			fDrop_Zenny_Rate;
+	float			notknow;	
+	DWORD			fDrop_Exp_Rate;//fDrop_Exp_Rate
+	
+	//BYTE unk;
+
+	// -----------------------
+	//BYTE	Padding3[7];
+	// -----------------------
+
+	BYTE unk1;
+
+	// -----------------------  
+	//BYTE padding;
+	// -----------------------  
+	BYTE unk2[1];
+	WORD			dwDrop_Zenny[2];
+	DWORD			unk3;
+	WORD			wExp;
+	// -----------------------  
+	//BYTE    Padding[2];
+	// -----------------------  
+	DWORD			byMob_Type;
+	WORD			unk4;
+	//WORD			padding;
+	DWORD			unk5;
+BYTE fill[2];
+	WORD			unk6;
+
+	// -----------------------
+	//BYTE			padding5[2];
+	// -----------------------
+
+	DWORD			unk7;
+BYTE fill[2];
+	BYTE			unk8;
+	WORD unk9;
+
+	// -----------------------
+	//BYTE			padding6;
+	// -----------------------
+
+	BYTE			byDropTypeRateControl;
+	BYTE			byDropEachRateControl;
+	// -----------------------  
+//	BYTE padding[2];
+	// -----------------------  
+	BYTE			byDropNItemRateControl;
+BYTE fill[2];
+	BYTE			byDropSItemRateControl;
+	BYTE			byDropEItemRateControl;
+	BYTE			byDropLItemRateControl;
+	BYTE unk10;
+	// -----------------------  
+	//BYTE padding;
+	// -----------------------  
+	DWORD			unk11;
+	// -----------------------  
+	//BYTE padding[2];
+	// -----------------------  
+	BYTE			byProperty;//Correct
+	BYTE			size;
+	BYTE			unk29;
+	WORD			wSightAngle;
+	// -----------------------
+
+	DWORD			unk30;
+	BYTE			unk31;
+	WORD			unk32;
+	WORD			unk33;
+	BYTE			unk34;
+	BYTE			unk35;
+	BYTE			unk36;
+	WORD			unk37;
+	BYTE			unk38;
+	BYTE			unk39;
+	DWORD			unk40;
+	WORD			unk41;
+	BYTE			unk42a;
+	BYTE			unk43b;
+	WORD			unk44c;
+	BYTE			unk42d;
+	BYTE			unk43e;
+	WORD			unk44f;
+	BYTE			unk42g;
+	BYTE			unk43h;
+	WORD			unk44i;
+	BYTE			unk42j;
+	BYTE			unk43k;
+	WORD			unk44l;
+	BYTE			unk42m;
+	BYTE			unk43n;
+	WORD			unk44o;
+	BYTE			unk42p;
+	BYTE			unk43q;
+	WORD			unk44r;
+	BYTE			unk42pp;
+	BYTE			unk43qp;
+	WORD			unk44rp;
+	BYTE unk45;
+	BYTE unk47;
+	BYTE unk48;
+	BYTE unk49;
+
+};
