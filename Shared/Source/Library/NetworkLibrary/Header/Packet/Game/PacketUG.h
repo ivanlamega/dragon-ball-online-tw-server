@@ -567,6 +567,7 @@ HOBJECT				hSource;
 HOBJECT				hTarget;
 BYTE				byEvtGenType;
 unsigned int		uiParam;
+dVECTOR3			position;
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(UG_QUEST_ITEM_MOVE_REQ)
