@@ -1237,6 +1237,16 @@ ResultCodes	WorldSession::CheckEvtDataType(CDboTSActSToCEvt* sToCEvt, NTL_TS_TC_
 		}
 		case eSTOC_EVT_DATA_TYPE_OBJECT_ITEM:
 		{
+			for (int i = 0; i < sToCEvt->GetEvtData().MAX_OBJECT_ITEM; i++)
+			{
+				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sObjectItemCnt[i].uiItemIdx = sToCEvt->GetEvtData().sObjectItemCnt[i].uiItemIdx;
+				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sObjectItemCnt[i].nItemCnt = sToCEvt->GetEvtData().sObjectItemCnt[i].nItemCnt;
+				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sObjectItemCnt[i].nCurItemCnt = sToCEvt->GetEvtData().sObjectItemCnt[i].nCurItemCnt;
+				sLog.outDebug("Item tblidx: %d count %d curcount %d",
+					sToCEvt->GetEvtData().sObjectItemCnt[i].uiItemIdx,
+					sToCEvt->GetEvtData().sObjectItemCnt[i].nItemCnt,
+					sToCEvt->GetEvtData().sObjectItemCnt[i].nCurItemCnt);
+			}
 			sLog.outDetail("Quest: type eSTOC_EVT_DATA_TYPE_OBJECT_ITEM");
 			break;
 		}
@@ -1456,15 +1466,15 @@ void WorldSession::SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, 
 	 SendPacket((char*)&res, sizeof(sGU_QUEST_ITEM_MOVE_RES));
  }
 
- void WorldSession::SendQuestItemCreate()
+ void WorldSession::SendQuestItemCreate(BYTE pos, TBLIDX itemTblidx, BYTE count)
  {
 	 sGU_QUEST_ITEM_CREATE_NFY nfy;
 	 nfy.wOpCode = GU_QUEST_ITEM_CREATE_NFY;
 	 nfy.wPacketSize = sizeof(sGU_QUEST_ITEM_CREATE_NFY) - 2;
 
-	 nfy.byPos = 0;
-	 nfy.qItemTblidx = 568;
-	 nfy.byCurCount = 1;
+	 nfy.byPos = pos;
+	 nfy.qItemTblidx = itemTblidx;
+	 nfy.byCurCount = count;
 
 	 SendPacket((char*)&nfy, sizeof(sGU_QUEST_ITEM_CREATE_NFY));
  }

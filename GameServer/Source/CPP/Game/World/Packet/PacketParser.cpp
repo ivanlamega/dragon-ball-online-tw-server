@@ -642,41 +642,72 @@ void			WorldSession::PacketParser(Packet& packet)
 					if (reference->getSource()->GetHandle() == req->hTarget)
 					{
 						sLog.outString("FOUNDED %d", (WorldObject*)reference->getSource()->GetTblidx());
+
+						for (int i = 0; i <= 30; i++)
+						{
+							//--------------------------------
+							switch (_player->GetAttributesManager()->QuestDat[i].evtDataType)
+							{
+								case eSTOC_EVT_DATA_TYPE_OBJECT_ITEM:
+								{
+									for (int slot = 0; slot < _player->GetAttributesManager()->QuestDat[i].uEvtData.MAX_OBJECT_ITEM; slot++)
+									{
+										if (_player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].nCurItemCnt <
+											_player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].nItemCnt)
+										{
+											if (_player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].uiItemIdx == ((WorldObject*)reference->getSource())->GetTblidx())
+											{
+												sGU_TS_EXCUTE_TRIGGER_OBJECT_RES res;
+												res.wOpCode = GU_TS_EXCUTE_TRIGGER_OBJECT_RES;
+												res.wPacketSize = sizeof(sGU_TS_EXCUTE_TRIGGER_OBJECT_RES) - 2;
+												res.wResultCode = RESULT_SUCCESS;
+												res.hTriggerObject = req->hTarget;
+												SendPacket((char*)&res, sizeof(sGU_TS_EXCUTE_TRIGGER_OBJECT_RES));
+												sLog.outDebug("Item trigger: %d %d %d", res.hTriggerObject, req->hSource, req->hTarget);
+
+												_player->GetState()->sCharStateDetail.sCharStateOperating.hTargetObject = req->hTarget;
+												_player->GetState()->sCharStateDetail.sCharStateOperating.dwOperateTime = 3000;
+												_player->GetState()->sCharStateDetail.sCharStateOperating.directTblidx = 10003;
+												_player->UpdateState(eCHARSTATE::CHARSTATE_OPERATING);
+
+
+												_player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].nCurItemCnt += 1;
+
+												SendQuestItemCreate(0, 487, 1);
+
+												SendQuestSVRevtUpdateNotify(_player->GetAttributesManager()->QuestDat[i].QuestID,
+													_player->GetAttributesManager()->QuestDat[i].tcId,
+													_player->GetAttributesManager()->QuestDat[i].taId,
+													_player->GetAttributesManager()->QuestDat[i].evtDataType,
+													slot,
+													_player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].nCurItemCnt);
+
+												/*sGU_QUEST_SVREVT_UPDATE_NFY update;
+												update.wOpCode = GU_QUEST_SVREVT_UPDATE_NFY;
+												update.wPacketSize = sizeof(sGU_QUEST_SVREVT_UPDATE_NFY) - 2;
+												update.tId = 296;
+												update.tcId = 2;
+												update.taId = 3;
+												update.bySvrEvtType = eSTOC_EVT_DATA_TYPE_OBJECT_ITEM;
+												update.bySlot = 0;
+												update.uEvtData.sObjectItemCnt.nCurItemCnt = 1;
+												SendPacket((char*)&update, sizeof(sGU_QUEST_SVREVT_UPDATE_NFY));*/
+											}
+										}
+									}									
+									break;
+								}
+							}
+						}
+						
+						//--------------------------------
+
+
+
 						break;
 					}
 				}
 			}
-
-			sGU_TS_EXCUTE_TRIGGER_OBJECT_RES res;
-			res.wOpCode = GU_TS_EXCUTE_TRIGGER_OBJECT_RES;
-			res.wPacketSize = sizeof(sGU_TS_EXCUTE_TRIGGER_OBJECT_RES) - 2;
-			res.wResultCode = RESULT_SUCCESS;
-			res.hTriggerObject = req->hTarget;
-			SendPacket((char*)&res, sizeof(sGU_TS_EXCUTE_TRIGGER_OBJECT_RES));
-			sLog.outDebug("Item trigger: %d %d %d", res.hTriggerObject, req->hSource, req->hTarget);
-
-			_player->GetState()->sCharStateDetail.sCharStateOperating.hTargetObject = req->hTarget;
-			_player->GetState()->sCharStateDetail.sCharStateOperating.dwOperateTime = 3000;
-			_player->GetState()->sCharStateDetail.sCharStateOperating.directTblidx = 10003;
-			_player->UpdateState(eCHARSTATE::CHARSTATE_OPERATING);
-
-			sGU_QUEST_ITEM_CREATE_NFY itemQuest;
-			itemQuest.wOpCode = GU_QUEST_ITEM_CREATE_NFY;
-			itemQuest.wPacketSize = sizeof(sGU_QUEST_ITEM_CREATE_NFY) - 2;
-			itemQuest.byPos = 0;
-			itemQuest.qItemTblidx = 487;
-			SendPacket((char*)&itemQuest, sizeof(sGU_QUEST_ITEM_CREATE_NFY));
-
-			sGU_QUEST_SVREVT_UPDATE_NFY update;
-			update.wOpCode = GU_QUEST_SVREVT_UPDATE_NFY;
-			update.wPacketSize = sizeof(sGU_QUEST_SVREVT_UPDATE_NFY) - 2;
-			update.tId = 296;
-			update.tcId = 2;
-			update.taId = 3;
-			update.bySvrEvtType = eSTOC_EVT_DATA_TYPE_OBJECT_ITEM;
-			update.bySlot = 0;
-			update.uEvtData.sObjectItemCnt.nCurItemCnt = 1;
-			SendPacket((char*)&update, sizeof(sGU_QUEST_SVREVT_UPDATE_NFY));
 
 			break;
 		}

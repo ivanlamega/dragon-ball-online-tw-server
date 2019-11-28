@@ -170,7 +170,7 @@ public:
 	void			SendQuestProgressInfo();
 	void			SendQuestInventoryInfo();
 	void			SendQuestGiveUp(Packet& packet);
-	void			SendQuestItemCreate();
+	void			SendQuestItemCreate(BYTE pos, TBLIDX itemTblidx, BYTE count);
 	void			SendQuestItemDelete(Packet& packet);
 	void			SendQuestItemDeleteNfy(BYTE pos);
 	void			SendQuestItemMove(Packet& packet);
