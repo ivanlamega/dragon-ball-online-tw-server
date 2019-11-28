@@ -646,15 +646,19 @@ void			WorldSession::PacketParser(Packet& packet)
 						for (int i = 0; i <= 30; i++)
 						{
 							//--------------------------------
+							sLog.outDebug("EVT TYPE %d", _player->GetAttributesManager()->QuestDat[i].evtDataType);
 							switch (_player->GetAttributesManager()->QuestDat[i].evtDataType)
 							{
 								case eSTOC_EVT_DATA_TYPE_OBJECT_ITEM:
 								{
 									for (int slot = 0; slot < _player->GetAttributesManager()->QuestDat[i].uEvtData.MAX_OBJECT_ITEM; slot++)
 									{
+										sLog.outDebug("ITEM COUNT %d", _player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].nCurItemCnt);
 										if (_player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].nCurItemCnt <
 											_player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].nItemCnt)
 										{
+											sLog.outDebug("Item Tblidx %d %d", _player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].uiItemIdx,
+												((WorldObject*)reference->getSource())->GetTblidx());
 											if (_player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].uiItemIdx == ((WorldObject*)reference->getSource())->GetTblidx())
 											{
 												sGU_TS_EXCUTE_TRIGGER_OBJECT_RES res;
@@ -673,7 +677,7 @@ void			WorldSession::PacketParser(Packet& packet)
 
 												_player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].nCurItemCnt += 1;
 
-												SendQuestItemCreate(0, 487, 1);
+												SendQuestItemCreate(0, _player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].uiItemIdx, 1);
 
 												SendQuestSVRevtUpdateNotify(_player->GetAttributesManager()->QuestDat[i].QuestID,
 													_player->GetAttributesManager()->QuestDat[i].tcId,
