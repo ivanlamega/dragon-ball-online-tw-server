@@ -2986,30 +2986,76 @@ void Player::RewardDropFromMob(MonsterData& data)
 {
 	for (int i = 0; i <= 30; i++)
 	{
-		for (int slot = 0; slot < GetAttributesManager()->QuestDat[i].uEvtData.MAX_MOB_KILL; slot++)
+		switch (GetAttributesManager()->QuestDat[i].evtDataType)
 		{
-			if (GetAttributesManager()->QuestDat[i].uEvtData.sMobKillCnt[slot].nCurMobCnt < GetAttributesManager()->QuestDat[i].uEvtData.sMobKillCnt[slot].nMobCnt)
+			case eSTOC_EVT_DATA_TYPE_MOB_KILL_CNT:
 			{
-				if (GetAttributesManager()->QuestDat[i].uEvtData.sMobKillCnt[slot].uiMobIdx ==
-					data.MonsterID || GetAttributesManager()->QuestDat[i].uEvtData.sMobKillCnt[slot].uiMobIdx +1 == data.MonsterID)
+				for (int slot = 0; slot < GetAttributesManager()->QuestDat[i].uEvtData.MAX_MOB_KILL; slot++)
 				{
-					sLog.outDebug("Count Quest Mob");
-					GetAttributesManager()->KillerCount += 1;
-					GetAttributesManager()->QuestDat[i].uEvtData.sMobKillCnt[slot].nCurMobCnt += 1;
-					sGU_QUEST_SVREVT_UPDATE_NFY start;
-					start.wOpCode = GU_QUEST_SVREVT_UPDATE_NFY;
-					start.wPacketSize = sizeof(sGU_QUEST_SVREVT_UPDATE_NFY) - 2;
-					start.tId = GetAttributesManager()->QuestDat[i].QuestID;
-					start.tcId = 2;
-					start.taId = 3;
-					start.bySvrEvtType = 0;
-					start.bySlot = slot;
-					start.uEvtData.sMobKillCnt.nCurMobCnt = GetAttributesManager()->QuestDat[i].uEvtData.sMobKillCnt[slot].nCurMobCnt;
-					SendPacket((char*)&start, sizeof(sGU_QUEST_SVREVT_UPDATE_NFY));
+					if (GetAttributesManager()->QuestDat[i].uEvtData.sMobKillCnt[slot].nCurMobCnt < GetAttributesManager()->QuestDat[i].uEvtData.sMobKillCnt[slot].nMobCnt)
+					{
+						if (GetAttributesManager()->QuestDat[i].uEvtData.sMobKillCnt[slot].uiMobIdx == data.MonsterID ||
+							GetAttributesManager()->QuestDat[i].uEvtData.sMobKillCnt[slot].uiMobIdx + 1 == data.MonsterID)
+						{
+							sLog.outDebug("Count Quest Mob");
+							GetAttributesManager()->KillerCount += 1;
+							GetAttributesManager()->QuestDat[i].uEvtData.sMobKillCnt[slot].nCurMobCnt += 1;
+							m_session->SendQuestSVRevtUpdateNotify(GetAttributesManager()->QuestDat[i].QuestID,
+								GetAttributesManager()->QuestDat[i].tcId,
+								GetAttributesManager()->QuestDat[i].taId,
+								GetAttributesManager()->QuestDat[i].evtDataType,
+								slot,
+								GetAttributesManager()->QuestDat[i].uEvtData.sMobKillCnt[slot].nCurMobCnt);
+							/*sGU_QUEST_SVREVT_UPDATE_NFY start;
+							start.wOpCode = GU_QUEST_SVREVT_UPDATE_NFY;
+							start.wPacketSize = sizeof(sGU_QUEST_SVREVT_UPDATE_NFY) - 2;
+							start.tId = GetAttributesManager()->QuestDat[i].QuestID;
+							start.tcId = 2;
+							start.taId = 3;
+							start.bySvrEvtType = 0;
+							start.bySlot = slot;
+							start.uEvtData.sMobKillCnt.nCurMobCnt = GetAttributesManager()->QuestDat[i].uEvtData.sMobKillCnt[slot].nCurMobCnt;
+							SendPacket((char*)&start, sizeof(sGU_QUEST_SVREVT_UPDATE_NFY));*/
 
+						}
+					}
 				}
-			}	
+				break;
+			}
+			case eSTOC_EVT_DATA_TYPE_MOB_KILL_ITEM_CNT:
+			{
+				for (int slot = 0; slot < GetAttributesManager()->QuestDat[i].uEvtData.MAX_MOB_KILL_ITEM; slot++)
+				{
+					if (GetAttributesManager()->QuestDat[i].uEvtData.sMobKillItemCnt[slot].nCurMobLICnt < GetAttributesManager()->QuestDat[i].uEvtData.sMobKillItemCnt[slot].nMobLICnt)
+					{
+						sQUEST_DROP_TBLDAT* drop = (sQUEST_DROP_TBLDAT*)sTBM.GetQuestDropTable()->FindData(data.Drop_quest_id);
+						if (drop)
+						{
+							for (int itemIndex = 0; itemIndex < QUEST_ITEM_DROP_MAX_COUNT; itemIndex++)
+							{
+								if (drop->aQuestItemTblidx[itemIndex] == GetAttributesManager()->QuestDat[i].uEvtData.sMobKillItemCnt[slot].uiMobLIIdx)
+								{
+									sLog.outDebug("Count Quest Mob");
+									GetAttributesManager()->KillerCount += 1;
+									GetAttributesManager()->QuestDat[i].uEvtData.sMobKillItemCnt[slot].nCurMobLICnt += 1;
+									m_session->SendQuestItemCreate();
+									m_session->SendQuestSVRevtUpdateNotify(GetAttributesManager()->QuestDat[i].QuestID,
+										GetAttributesManager()->QuestDat[i].tcId,
+										GetAttributesManager()->QuestDat[i].taId,
+										GetAttributesManager()->QuestDat[i].evtDataType,
+										slot,
+										GetAttributesManager()->QuestDat[i].uEvtData.sMobKillItemCnt[slot].nCurMobLICnt);
+									
+								}
+								sLog.outDebug("Quest drop %d", data.Drop_quest_id, drop->aQuestItemTblidx[itemIndex]);
+							}
+						}
+					}
+				}
+				break;
+			}
 		}
+		
 	}	
 	DroppedObject *dropped;
 	sITEM_TBLDAT *itemSrc = NULL;

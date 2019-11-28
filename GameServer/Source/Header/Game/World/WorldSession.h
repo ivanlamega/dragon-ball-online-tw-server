@@ -170,6 +170,7 @@ public:
 	void			SendQuestProgressInfo();
 	void			SendQuestInventoryInfo();
 	void			SendQuestGiveUp(Packet& packet);
+	void			SendQuestItemCreate();
 	void			SendQuestItemDelete(Packet& packet);
 	void			SendQuestItemDeleteNfy(BYTE pos);
 	void			SendQuestItemMove(Packet& packet);
@@ -185,6 +186,7 @@ public:
 	ResultCodes		ProcessTsContReward(CDboTSContReward * contReward, DWORD dwParam);
 	void			ProcessTsContEnd(CDboTSContEnd * contEnd);
 	void			SendQuestSVRevtStartNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, NTL_TS_TA_ID taId);
+	void			SendQuestSVRevtUpdateNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, NTL_TS_TA_ID taId, BYTE svrEvtType, BYTE slot, int count);
 	void			SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, NTL_TS_TA_ID taId);
 	//RankBatle
 	void			GetPlayerFromRankList();

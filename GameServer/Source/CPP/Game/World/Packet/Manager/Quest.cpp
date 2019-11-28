@@ -1168,50 +1168,65 @@ ResultCodes WorldSession::FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req)
 
 ResultCodes	WorldSession::CheckEvtDataType(CDboTSActSToCEvt* sToCEvt, NTL_TS_TC_ID tcId)
 {
+	CNtlTSTrigger* trigger = (CNtlTSTrigger*)sToCEvt->GetRoot();
+
+	if (trigger == NULL)
+	{
+		return RESULT_FAIL;
+	}
+
+	int freeslot = 0;
+	for (int i = 0; i <= 30; i++)
+	{
+		if (_player->GetAttributesManager()->QuestDat[i].QuestID == 0 || _player->GetAttributesManager()->QuestDat[i].QuestID == INVALID_TBLIDX)
+		{
+			freeslot = i;
+		}
+	}
+
+	_player->GetAttributesManager()->QuestDat[freeslot].QuestID = trigger->GetID();
+	_player->GetAttributesManager()->QuestDat[freeslot].evtDataType = sToCEvt->GetEvtDataType();
+	_player->GetAttributesManager()->QuestDat[freeslot].tcId = tcId;
+	_player->GetAttributesManager()->QuestDat[freeslot].taId = sToCEvt->GetActionId();
+
 	switch (sToCEvt->GetEvtDataType())
 	{
 		case eSTOC_EVT_DATA_TYPE_MOB_KILL_CNT:
 		{
-			CNtlTSTrigger* trigger = (CNtlTSTrigger*)sToCEvt->GetRoot();
-
-			if (trigger == NULL)
-			{
-				return RESULT_FAIL;
-			}
-
-			int freeslot = 0;
-			for (int i = 0; i <= 30; i++)
-			{
-				if (_player->GetAttributesManager()->QuestDat[i].QuestID == 0 || _player->GetAttributesManager()->QuestDat[i].QuestID == INVALID_TBLIDX)
-				{
-					freeslot = i;
-				}
-			}
-
-			_player->GetAttributesManager()->QuestDat[freeslot].QuestID = trigger->GetID();
-			_player->GetAttributesManager()->QuestDat[freeslot].evtDataType = sToCEvt->GetEvtDataType();
-			_player->GetAttributesManager()->QuestDat[freeslot].tcId = tcId;
-			_player->GetAttributesManager()->QuestDat[freeslot].taId = sToCEvt->GetActionId();
 
 			for (int i = 0; i < sToCEvt->GetEvtData().MAX_MOB_KILL; i++)
 			{
 				TBLIDX groupTblidx = sToCEvt->GetEvtData().sMobKillCnt[i].uiMobIdx;
 				TBLIDX mobTblidx = sTBM.GetMobTable()->FindTblidxByGroup(groupTblidx);
 
-				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sMobKillCnt[i].uiMobIdx = mobTblidx;
-				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sMobKillCnt[i].nCurMobCnt = sToCEvt->GetEvtData().sMobKillCnt[i].nCurMobCnt;
-				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sMobKillCnt[i].nMobCnt = sToCEvt->GetEvtData().sMobKillCnt[i].nMobCnt;
-				
+				if (mobTblidx && mobTblidx != INVALID_TBLIDX)
+				{
+					_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sMobKillCnt[i].uiMobIdx = mobTblidx;
+					_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sMobKillCnt[i].nCurMobCnt = sToCEvt->GetEvtData().sMobKillCnt[i].nCurMobCnt;
+					_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sMobKillCnt[i].nMobCnt = sToCEvt->GetEvtData().sMobKillCnt[i].nMobCnt;
 
-				sLog.outError("ROOT TS: %d", trigger->GetID());
-				sLog.outDetail("Mob kill: group tblidx: %d  mobTblidx: %d count: %d, curcout: %d", 
-					groupTblidx, mobTblidx, sToCEvt->GetEvtData().sMobKillCnt[i].nMobCnt, sToCEvt->GetEvtData().sMobKillCnt[i].nCurMobCnt);
+
+					sLog.outError("ROOT TS: %d", trigger->GetID());
+					sLog.outDetail("Mob kill: group tblidx: %d  mobTblidx: %d count: %d, curcout: %d",
+						groupTblidx, mobTblidx, sToCEvt->GetEvtData().sMobKillCnt[i].nMobCnt, sToCEvt->GetEvtData().sMobKillCnt[i].nCurMobCnt);
+				}
 			}
 			sLog.outDetail("Quest: type eSTOC_EVT_DATA_TYPE_MOB_KILL_CNT");
 			break;
 		}
 		case eSTOC_EVT_DATA_TYPE_MOB_KILL_ITEM_CNT:
 		{
+			for (int i = 0; i < sToCEvt->GetEvtData().MAX_MOB_KILL_ITEM; i++)
+			{
+				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sMobKillItemCnt[i].uiMobLIIdx = sToCEvt->GetEvtData().sMobKillItemCnt[i].uiMobLIIdx;
+				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sMobKillItemCnt[i].nMobLICnt = sToCEvt->GetEvtData().sMobKillItemCnt[i].nMobLICnt;
+				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sMobKillItemCnt[i].nCurMobLICnt = sToCEvt->GetEvtData().sMobKillItemCnt[i].nCurMobLICnt;
+				sLog.outDebug("Item tblidx: %d count %d curcount %d", 
+					sToCEvt->GetEvtData().sMobKillItemCnt[i].uiMobLIIdx, 
+					sToCEvt->GetEvtData().sMobKillItemCnt[i].nMobLICnt,
+					sToCEvt->GetEvtData().sMobKillItemCnt[i].nCurMobLICnt);
+			}
+
 			sLog.outDetail("Quest: type eSTOC_EVT_DATA_TYPE_MOB_KILL_ITEM_CNT");
 			break;
 		}
@@ -1242,6 +1257,20 @@ ResultCodes	WorldSession::CheckEvtDataType(CDboTSActSToCEvt* sToCEvt, NTL_TS_TC_
 		}
 	}
 	return RESULT_SUCCESS;
+}
+
+void WorldSession::SendQuestSVRevtUpdateNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, NTL_TS_TA_ID taId, BYTE svrEvtType, BYTE slot, int count)
+{
+	sGU_QUEST_SVREVT_UPDATE_NFY update;
+	update.wOpCode = GU_QUEST_SVREVT_UPDATE_NFY;
+	update.wPacketSize = sizeof(sGU_QUEST_SVREVT_UPDATE_NFY) - 2;
+	update.tId = tid;
+	update.tcId = tcId;
+	update.taId = taId;
+	update.bySvrEvtType = svrEvtType;
+	update.bySlot = slot;
+	update.uEvtData.sMobKillCnt.nCurMobCnt = count;
+	SendPacket((char*)&update, sizeof(sGU_QUEST_SVREVT_UPDATE_NFY));
 }
 
 void WorldSession::SendQuestSVRevtStartNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, NTL_TS_TA_ID taId)
@@ -1425,6 +1454,19 @@ void WorldSession::SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, 
 	 res.dwSrcTblidx = INVALID_TBLIDX;
 
 	 SendPacket((char*)&res, sizeof(sGU_QUEST_ITEM_MOVE_RES));
+ }
+
+ void WorldSession::SendQuestItemCreate()
+ {
+	 sGU_QUEST_ITEM_CREATE_NFY nfy;
+	 nfy.wOpCode = GU_QUEST_ITEM_CREATE_NFY;
+	 nfy.wPacketSize = sizeof(sGU_QUEST_ITEM_CREATE_NFY) - 2;
+
+	 nfy.byPos = 0;
+	 nfy.qItemTblidx = 568;
+	 nfy.byCurCount = 1;
+
+	 SendPacket((char*)&nfy, sizeof(sGU_QUEST_ITEM_CREATE_NFY));
  }
 
  void WorldSession::SendQuestInventoryInfo()

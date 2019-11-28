@@ -124,6 +124,7 @@ bool Mob::Create(sMOB_TBLDAT* mobTbl, SpawnMOB spawnInfo)
 	me.DropSItemRateControl = mobTbl->byDropSItemRateControl;
 	me.DropTypeRateControl;// = mobTbl->byDropTypeRateControl;
 	me.DisplayID;
+	me.Drop_quest_id = mobTbl->dropQuestTblidx;
 
 	me.target = INVALID_TBLIDX;
 	me.StateID = eCHARSTATE::CHARSTATE_SPAWNING;
@@ -227,6 +228,7 @@ bool Mob::Create(sSPAWN_TBLDAT* spawnTbl, sMOB_TBLDAT* mobTbl)
 	me.DropSItemRateControl = mobTbl->byDropSItemRateControl;
 	me.DropTypeRateControl;// = mobTbl->byDropTypeRateControl;
 	me.DisplayID;
+	me.Drop_quest_id = mobTbl->dropQuestTblidx;
 
 	me.target = INVALID_TBLIDX;
 	me.StateID = eCHARSTATE::CHARSTATE_SPAWNING;
