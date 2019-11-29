@@ -28,6 +28,7 @@ enum eZENNY_CHANGE_TYPE;
 struct sITEM_PROFILE;
 struct sUG_TS_CONFIRM_STEP_REQ;
 struct sQUEST_REWARD_TBLDAT;
+struct sUG_TS_EXCUTE_TRIGGER_OBJECT;
 
 class Packet;
 class GameSocket;
@@ -188,6 +189,9 @@ public:
 	void			SendQuestSVRevtStartNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, NTL_TS_TA_ID taId);
 	void			SendQuestSVRevtUpdateNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, NTL_TS_TA_ID taId, BYTE svrEvtType, BYTE slot, int count);
 	void			SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, NTL_TS_TA_ID taId);
+	//Trigger
+	void			SendTsExcuteTriggerObject(Packet& packet);
+	ResultCodes		FindObjectTriggerInformation(NTL_TS_T_ID tid, HOBJECT hTarget, TBLIDX objTblidx);
 	//RankBatle
 	void			GetPlayerFromRankList();
 	
