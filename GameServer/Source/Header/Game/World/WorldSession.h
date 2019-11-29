@@ -29,6 +29,7 @@ struct sITEM_PROFILE;
 struct sUG_TS_CONFIRM_STEP_REQ;
 struct sQUEST_REWARD_TBLDAT;
 struct sUG_TS_EXCUTE_TRIGGER_OBJECT;
+struct QuestData;
 
 class Packet;
 class GameSocket;
@@ -191,7 +192,7 @@ public:
 	void			SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, NTL_TS_TA_ID taId);
 	//Trigger
 	void			SendTsExcuteTriggerObject(Packet& packet);
-	ResultCodes		FindObjectTriggerInformation(NTL_TS_T_ID tid, HOBJECT hTarget, TBLIDX objTblidx, int questIdx);
+	ResultCodes		FindObjectTriggerInformation(QuestData questData, HOBJECT hTarget, TBLIDX objTblidx);
 	//RankBatle
 	void			GetPlayerFromRankList();
 	
