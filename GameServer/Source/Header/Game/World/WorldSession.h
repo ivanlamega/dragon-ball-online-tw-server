@@ -192,7 +192,7 @@ public:
 	void			SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, NTL_TS_TA_ID taId);
 	//Trigger
 	void			SendTsExcuteTriggerObject(Packet& packet);
-	ResultCodes		FindObjectTriggerInformation(QuestData questData, HOBJECT hTarget, TBLIDX objTblidx);
+	ResultCodes		FindObjectTriggerInformation(QuestData* questData, HOBJECT hTarget, TBLIDX objTblidx);
 	//RankBatle
 	void			GetPlayerFromRankList();
 	

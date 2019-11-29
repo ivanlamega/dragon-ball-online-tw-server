@@ -1497,10 +1497,10 @@ void WorldSession::SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, 
 	 SendPacket((char*)&info, sizeof(sGU_AVATAR_QUEST_INVENTORY_INFO));
  }
 
- ResultCodes WorldSession::FindObjectTriggerInformation(QuestData questData, HOBJECT hTarget, TBLIDX objTblidx)
+ ResultCodes WorldSession::FindObjectTriggerInformation(QuestData* questData, HOBJECT hTarget, TBLIDX objTblidx)
  {
 	 NTL_TS_TC_ID nextLink = 0;
-	 CNtlTSGroup * groupTS = sTSM.FindObjectFromTS(questData.QuestID)->GetGroup(NTL_TS_MAIN_GROUP_ID);
+	 CNtlTSGroup * groupTS = sTSM.FindObjectFromTS(questData->QuestID)->GetGroup(NTL_TS_MAIN_GROUP_ID);
 	 int countSteps = groupTS->GetNumOfChildCont();
 	 sLog.outDebug("count %d", countSteps);
 	 for (int curEnt = 0; curEnt < countSteps; curEnt++)
@@ -1604,24 +1604,24 @@ void WorldSession::SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, 
 								 for (int slot = 0; slot < qItem->eMAX_TS_QITEM_COUNT; slot++)
 								 {
 									 sLog.outError("Init quest tblidx %d trigger tblidx %d",
-										 questData.uEvtData.sObjectItemCnt[slot].uiItemIdx, qItem->GetQItemInfo(slot).uiQItemIdx);
-									 if (questData.uEvtData.sObjectItemCnt[slot].uiItemIdx == INVALID_TBLIDX || qItem->GetQItemInfo(slot).uiQItemIdx == INVALID_TBLIDX)
+										 questData->uEvtData.sObjectItemCnt[slot].uiItemIdx, qItem->GetQItemInfo(slot).uiQItemIdx);
+									 if (questData->uEvtData.sObjectItemCnt[slot].uiItemIdx == INVALID_TBLIDX || qItem->GetQItemInfo(slot).uiQItemIdx == INVALID_TBLIDX)
 									 {
 										 continue;
 									 }
 
-									 if (questData.uEvtData.sObjectItemCnt[slot].uiItemIdx == qItem->GetQItemInfo(slot).uiQItemIdx)
+									 if (questData->uEvtData.sObjectItemCnt[slot].uiItemIdx == qItem->GetQItemInfo(slot).uiQItemIdx)
 									 {
-										 questData.uEvtData.sObjectItemCnt[slot].nCurItemCnt += qItem->GetQItemInfo(slot).nQItemCnt;
+										 questData->uEvtData.sObjectItemCnt[slot].nCurItemCnt += qItem->GetQItemInfo(slot).nQItemCnt;
 
-										 SendQuestItemCreate(0, questData.uEvtData.sObjectItemCnt[slot].uiItemIdx, qItem->GetQItemInfo(slot).nQItemCnt);
+										 SendQuestItemCreate(0, questData->uEvtData.sObjectItemCnt[slot].uiItemIdx, qItem->GetQItemInfo(slot).nQItemCnt);
 
-										 SendQuestSVRevtUpdateNotify(questData.QuestID,
-											 questData.tcId,
-											 questData.taId,
-											 questData.evtDataType,
+										 SendQuestSVRevtUpdateNotify(questData->QuestID,
+											 questData->tcId,
+											 questData->taId,
+											 questData->evtDataType,
 											 slot,
-											 questData.uEvtData.sObjectItemCnt[slot].nCurItemCnt);
+											 questData->uEvtData.sObjectItemCnt[slot].nCurItemCnt);
 										 sLog.outDebug("Type %d Itemidx %d count %d probability %f", qItem->GetQItemType(),
 											 qItem->GetQItemInfo(slot).uiQItemIdx, qItem->GetQItemInfo(slot).nQItemCnt, qItem->GetQItemInfo(slot).fProbability);
 									 }
@@ -1737,7 +1737,7 @@ void WorldSession::SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, 
 							 {
 								 sLog.outDebug("Item Tblidx %d %d", _player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].uiItemIdx,
 									 ((WorldObject*)reference->getSource())->GetTblidx());
-								 if (FindObjectTriggerInformation(_player->GetAttributesManager()->QuestDat[i], req->hTarget, objTblidx) == RESULT_SUCCESS)
+								 if (FindObjectTriggerInformation(&_player->GetAttributesManager()->QuestDat[i], req->hTarget, objTblidx) == RESULT_SUCCESS)
 								 {
 									 sGU_TS_EXCUTE_TRIGGER_OBJECT_RES res;
 									 res.wOpCode = GU_TS_EXCUTE_TRIGGER_OBJECT_RES;
