@@ -1174,6 +1174,7 @@ ResultCodes	WorldSession::CheckEvtDataType(CDboTSActSToCEvt* sToCEvt, NTL_TS_TC_
 	{
 		return RESULT_FAIL;
 	}
+	memset(_player->GetAttributesManager()->QuestDat, 0, sizeof _player->GetAttributesManager()->QuestDat);
 
 	int freeslot = 0;
 	for (int i = 0; i <= 30; i++)
@@ -1720,6 +1721,12 @@ void WorldSession::SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, 
 						 for (int slot = 0; slot < _player->GetAttributesManager()->QuestDat[i].uEvtData.MAX_OBJECT_ITEM; slot++)
 						 {
 							 sLog.outDebug("ITEM COUNT %d", _player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].nCurItemCnt);
+
+							 if (_player->GetAttributesManager()->QuestDat[i].QuestID == 0)
+							 {
+								 continue;
+							 }
+
 							 if (_player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].nCurItemCnt <
 								 _player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].nItemCnt)
 							 {
