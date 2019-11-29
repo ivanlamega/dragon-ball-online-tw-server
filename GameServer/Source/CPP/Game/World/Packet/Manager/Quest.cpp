@@ -1602,11 +1602,13 @@ void WorldSession::SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, 
 							 {
 								 for (int slot = 0; slot < qItem->eMAX_TS_QITEM_COUNT; slot++)
 								 {
+									 sLog.outError("Init quest tblidx %d trigger tblidx %d",
+										 _player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].uiItemIdx, qItem->GetQItemInfo(slot).uiQItemIdx);
 									 if (_player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].uiItemIdx == qItem->GetQItemInfo(slot).uiQItemIdx)
 									 {
 										 _player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].nCurItemCnt += qItem->GetQItemInfo(slot).nQItemCnt;
 
-										 //SendQuestItemCreate(0, _player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].uiItemIdx, qItem->GetQItemInfo(slot).nQItemCnt);
+										 SendQuestItemCreate(0, _player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].uiItemIdx, qItem->GetQItemInfo(slot).nQItemCnt);
 
 										 SendQuestSVRevtUpdateNotify(_player->GetAttributesManager()->QuestDat[i].QuestID,
 											 _player->GetAttributesManager()->QuestDat[i].tcId,
