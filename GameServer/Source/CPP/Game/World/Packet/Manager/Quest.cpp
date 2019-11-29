@@ -1636,6 +1636,22 @@ void WorldSession::SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, 
 							 if (PCConv)
 							 {
 								 sLog.outDebug("Tblidx %d", PCConv->GetConvTblIdx());
+								 sGU_TS_PC_DIALOG_NFY nfy;
+								 nfy.wOpCode = GU_TS_PC_DIALOG_NFY;
+								 nfy.wPacketSize = sizeof(sGU_TS_PC_DIALOG_NFY) - 2;
+								 nfy.textTblidx = PCConv->GetConvTblIdx();
+								 SendPacket((char*)&nfy, sizeof(sGU_TS_PC_DIALOG_NFY));
+
+								 sGU_TOBJECT_UPDATE_STATE state;
+								 state.wOpCode = GU_TOBJECT_UPDATE_STATE;
+								 state.wPacketSize = sizeof(sGU_TOBJECT_UPDATE_STATE) - 2;
+								 state.handle = hTarget;
+								 state.tobjectBrief.objectID = objTblidx;
+								 state.tobjectState.byState = 0;
+								 state.tobjectState.bySubStateFlag = 2;
+								 state.tobjectState.dwStateTime = 1832245140;
+								 SendPacket((char*)&nfy, sizeof(sGU_TOBJECT_UPDATE_STATE));
+
 							 }
 							 break;
 						 }
