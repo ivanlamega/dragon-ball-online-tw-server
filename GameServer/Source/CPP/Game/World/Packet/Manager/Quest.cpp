@@ -1652,18 +1652,6 @@ void WorldSession::SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, 
 								 state.tobjectState.dwStateTime = 1832245140;
 								 SendPacket((char*)&state, sizeof(sGU_TOBJECT_UPDATE_STATE));
 
-								 Sleep(5000);
-
-								 sGU_TOBJECT_UPDATE_STATE show;
-								 show.wOpCode = GU_TOBJECT_UPDATE_STATE;
-								 show.wPacketSize = sizeof(sGU_TOBJECT_UPDATE_STATE) - 2;
-								 show.handle = hTarget;
-								 show.tobjectBrief.objectID = objTblidx;
-								 show.tobjectState.byState = 0;
-								 show.tobjectState.bySubStateFlag = TOBJECT_SUBSTATE_FLAG_SHOW;
-								 show.tobjectState.dwStateTime = 3299123109;
-								 SendPacket((char*)&show, sizeof(sGU_TOBJECT_UPDATE_STATE));
-
 							 }
 							 break;
 						 }
@@ -1775,6 +1763,17 @@ void WorldSession::SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, 
 									 SendPacket((char*)&res, sizeof(sGU_TS_EXCUTE_TRIGGER_OBJECT_RES));
 									 sLog.outDebug("Item trigger: %d %d %d", res.hTriggerObject, req->hSource, req->hTarget);
 
+									 Sleep(5000);
+									 sGU_TOBJECT_UPDATE_STATE state;
+									 state.wOpCode = GU_TOBJECT_UPDATE_STATE;
+									 state.wPacketSize = sizeof(sGU_TOBJECT_UPDATE_STATE) - 2;
+									 state.handle = req->hTarget;
+									 state.tobjectBrief.objectID = objTblidx;
+									 state.tobjectState.byState = 0;
+									 state.tobjectState.bySubStateFlag = TOBJECT_SUBSTATE_FLAG_SHOW;
+									 state.tobjectState.dwStateTime = 3299123109;
+									 SendPacket((char*)&state, sizeof(sGU_TOBJECT_UPDATE_STATE));
+
 									 /*_player->GetState()->sCharStateDetail.sCharStateOperating.hTargetObject = req->hTarget;
 									 _player->GetState()->sCharStateDetail.sCharStateOperating.dwOperateTime = 3000;
 									 _player->GetState()->sCharStateDetail.sCharStateOperating.directTblidx = 10003;
@@ -1811,8 +1810,6 @@ void WorldSession::SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, 
 				 }
 
 				 //--------------------------------
-
-
 
 				 break;
 			 }
