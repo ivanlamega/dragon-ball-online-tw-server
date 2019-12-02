@@ -1642,19 +1642,6 @@ void WorldSession::SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, 
 								 nfy.textTblidx = PCConv->GetConvTblIdx();
 								 SendPacket((char*)&nfy, sizeof(sGU_TS_PC_DIALOG_NFY));
 
-								 sGU_TOBJECT_UPDATE_STATE state;
-								 state.wOpCode = GU_TOBJECT_UPDATE_STATE;
-								 state.wPacketSize = sizeof(sGU_TOBJECT_UPDATE_STATE) - 2;
-								 state.handle = hTarget;
-								 state.tobjectBrief.objectID = objTblidx;
-								 state.tobjectState.byState = 0;
-								 state.tobjectState.bySubStateFlag = TOBJECT_SUBSTATE_FLAG_UNSELECT;
-								 state.tobjectState.dwStateTime = 1832245140;
-								 SendPacket((char*)&state, sizeof(sGU_TOBJECT_UPDATE_STATE));
-
-								 _player->objectHandle = hTarget;
-								 _player->objectTblidx = objTblidx;
-
 							 }
 							 break;
 						 }
@@ -1675,6 +1662,19 @@ void WorldSession::SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, 
 								 sLog.outDebug("Check %d tblidx %d main state %d showHide %d world %d",
 									 objState->GetObjectCheckUncheck(), objState->GetObjectIdx(), objState->GetObjectMainState(), objState->GetObjectShowHide(),
 									 objState->GetWorldIdx());
+
+								 sGU_TOBJECT_UPDATE_STATE state;
+								 state.wOpCode = GU_TOBJECT_UPDATE_STATE;
+								 state.wPacketSize = sizeof(sGU_TOBJECT_UPDATE_STATE) - 2;
+								 state.handle = hTarget;
+								 state.tobjectBrief.objectID = objTblidx;
+								 state.tobjectState.byState = 0;
+								 state.tobjectState.bySubStateFlag = TOBJECT_SUBSTATE_FLAG_UNSELECT;
+								 state.tobjectState.dwStateTime = 1832245140;
+								 SendPacket((char*)&state, sizeof(sGU_TOBJECT_UPDATE_STATE));
+
+								 _player->objectHandle = hTarget;
+								 _player->objectTblidx = objTblidx;
 							 }
 							 break;
 						 }
