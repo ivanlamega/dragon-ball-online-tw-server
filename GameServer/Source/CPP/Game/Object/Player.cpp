@@ -388,10 +388,13 @@ void Player::Update(uint32 _update_diff, uint32 _time)
 		{
 			SavePlayer();
 		}
+
+		BossEventUpdate();
+
 		Playeronline = GetTickCount();//Set Time	
 		timeonline += 1;
 	}
-	BossEventUpdate();
+	
 	//HandleFreeBattleRange();	
 	PowerUpUpdate();
 	ExecuteBuffTimmer();	
