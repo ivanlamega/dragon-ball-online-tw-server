@@ -1648,9 +1648,21 @@ void WorldSession::SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, 
 								 state.handle = hTarget;
 								 state.tobjectBrief.objectID = objTblidx;
 								 state.tobjectState.byState = 0;
-								 state.tobjectState.bySubStateFlag = 2;
+								 state.tobjectState.bySubStateFlag = TOBJECT_SUBSTATE_FLAG_UNSELECT;
 								 state.tobjectState.dwStateTime = 1832245140;
 								 SendPacket((char*)&state, sizeof(sGU_TOBJECT_UPDATE_STATE));
+
+								 Sleep(5000);
+
+								 sGU_TOBJECT_UPDATE_STATE show;
+								 show.wOpCode = GU_TOBJECT_UPDATE_STATE;
+								 show.wPacketSize = sizeof(sGU_TOBJECT_UPDATE_STATE) - 2;
+								 show.handle = hTarget;
+								 show.tobjectBrief.objectID = objTblidx;
+								 show.tobjectState.byState = 0;
+								 show.tobjectState.bySubStateFlag = TOBJECT_SUBSTATE_FLAG_SHOW;
+								 show.tobjectState.dwStateTime = 3299123109;
+								 SendPacket((char*)&show, sizeof(sGU_TOBJECT_UPDATE_STATE));
 
 							 }
 							 break;
