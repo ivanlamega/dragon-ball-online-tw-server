@@ -54,30 +54,20 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 			_player->LevelUpByComand(Level);
 			return;
 		}
-		else if (strToken == "@delete")
+		else if (strToken == "@pickup")
 		{
-			sLog.outDetail("Delete item quest");
-			strToken = str.substr(pos + 1, std::string::npos);
-			unsigned int Level = (unsigned int)atof(strToken.c_str());
-			/*sGU_QUEST_ITEM_DELETE_NFY delItm;
-			delItm.wOpCode = GU_QUEST_ITEM_DELETE_NFY;
-			delItm.wPacketSize = sizeof(sGU_QUEST_ITEM_DELETE_NFY) - 2;
-			delItm.byDeletePos = 0;
-			SendPacket((char*)&delItm, sizeof(sGU_QUEST_ITEM_DELETE_NFY));*/
-			SendQuestItemDeleteNfy(0);
-			return;
-		}
-		else if (strToken == "@update")
-		{
-			sLog.outDetail("Update item quest");
+			sLog.outDetail("Respawn object quest");
 			strToken = str.substr(pos + 1, std::string::npos);
 			unsigned int count = (unsigned int)atof(strToken.c_str());
-			/*sGU_QUEST_ITEM_DELETE_NFY delItm;
-			delItm.wOpCode = GU_QUEST_ITEM_DELETE_NFY;
-			delItm.wPacketSize = sizeof(sGU_QUEST_ITEM_DELETE_NFY) - 2;
-			delItm.byDeletePos = 0;
-			SendPacket((char*)&delItm, sizeof(sGU_QUEST_ITEM_DELETE_NFY));*/
-			SendQuestItemUpdateNfy(0, count);
+			sGU_TOBJECT_UPDATE_STATE state;
+			state.wOpCode = GU_TOBJECT_UPDATE_STATE;
+			state.wPacketSize = sizeof(sGU_TOBJECT_UPDATE_STATE) - 2;
+			state.handle = _player->objectHandle;
+			state.tobjectBrief.objectID = _player->objectTblidx;
+			state.tobjectState.byState = 0;
+			state.tobjectState.bySubStateFlag = TOBJECT_SUBSTATE_FLAG_SHOW;
+			state.tobjectState.dwStateTime = 3299123109;
+			SendPacket((char*)&state, sizeof(sGU_TOBJECT_UPDATE_STATE));
 			return;
 		}
 		else if (strToken == "@tp")

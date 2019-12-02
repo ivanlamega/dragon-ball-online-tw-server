@@ -200,6 +200,10 @@ public:
 	void			AucionHouseSellCancel(Packet& packet);
 
 	void			SendEmailAucionHouse(int ItemID, int StackCount, int Grade, int EmailType, int Zenny);
+
+	// temporary
+	unsigned int objectHandle;
+	unsigned int objectTblidx;
 private:
 	//	------------------------------------------------------------------------
 	// SERVER
