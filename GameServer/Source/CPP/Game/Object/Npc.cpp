@@ -77,7 +77,7 @@ void Npc::BuildPacketForSpawn(SpawnNPC& spawnData)
 	spawnData.TblidxMovementActionPatern = 0;
 	spawnData.Name = me.Name;
 	spawnData.Size = 10;
-	GetState()->sCharStateBase.byStateID = eCHARSTATE::CHARSTATE_SPAWNING;
+	GetState()->sCharStateBase.byStateID = eCHARSTATE::CHARSTATE_STANDING;//eCHARSTATE::CHARSTATE_SPAWNING;
 	GetState()->sCharStateBase.vCurLoc.x = me.curPos.x;
 	GetState()->sCharStateBase.vCurLoc.y = me.curPos.y;
 	GetState()->sCharStateBase.vCurLoc.z = me.curPos.z;
@@ -87,10 +87,10 @@ void Npc::BuildPacketForSpawn(SpawnNPC& spawnData)
 	GetState()->sCharStateBase.aspectState.sAspectStateBase.byAspectStateId = 255;
 	GetState()->sCharStateBase.isFlying = false;
 	GetState()->sCharStateBase.isFighting = false;
-	GetState()->sCharStateDetail.sCharStateSpawning.byTeleportType = 1;
-	GetState()->sCharStateDetail.sCharStateSpawning.unk = 1;
+	//GetState()->sCharStateDetail.sCharStateSpawning.byTeleportType = 1;
+	//GetState()->sCharStateDetail.sCharStateSpawning.unk = 1;
 
-	printf("NPC tblidx(%d) pos: (x: %f y: %f z: %f) dir (x: %f y: %f z: %f)\n", 
+	printf("NPC tblidx(%d) pos: (x: %f y: %f z: %f) dir (x: %f y: %f z: %f) state %d\n", 
 		spawnData.Tblidx, me.curPos.x, me.curPos.y, me.curPos.z, me.Spawn_Dir.x, me.Spawn_Dir.y, me.Spawn_Dir.z);
 
 	memcpy(&spawnData.State.sCharStateBase, &GetState()->sCharStateBase, sizeof(sCHARSTATE_BASE));
