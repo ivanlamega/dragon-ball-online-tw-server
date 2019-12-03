@@ -774,6 +774,31 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 
 				break;
 			}
+			case DBO_ACT_TYPE_ID_ACT_ITEM:
+			{
+				CDboTSActItem* actItem = (CDboTSActItem*)contGAct->GetChildEntity(i);
+				if (actItem == NULL)
+				{
+					return RESULT_FAIL;
+				}
+				sLog.outDebug("Quest: Item type %d", actItem->GetItemType());
+				if (actItem->GetItemType() == eTSITEM_TYPE::eTSITEM_TYPE_CREATE)
+				{
+					for (int itemId = 0; itemId < actItem->eMAX_TS_ITEM_COUNT; itemId++)
+					{
+						sLog.outDebug("Quest: item tblidx %d slot type %d",
+							actItem->GetItemInfo(itemId).uiItemIdx, actItem->GetItemInfo(itemId).eItemSlotType);
+						sITEM_PROFILE createdItem;
+						WORD result = _player->GetInventoryManager()->PerformShopBuy(actItem->GetItemInfo(itemId).uiItemIdx, 1, createdItem);
+						if (result == GAME_SUCCESS && createdItem.tblidx != INVALID_TBLIDX)
+						{
+							sLog.outDetail("Item Created\n");
+							SendItemCreate(&createdItem);
+						}
+					}
+				}
+				break;
+			}
 			case DBO_ACT_TYPE_ID_ACT_OPEN_WINDOW:
 			{
 				CDboTSActOpenWindow* openWindow = (CDboTSActOpenWindow*)contGAct->GetChildEntity(i);
@@ -844,6 +869,15 @@ ResultCodes WorldSession::ProcessTsContGCond(CDboTSContGCond * contGCond)
 					return RESULT_FAIL;
 				}
 				sLog.outDebug("Teleport by npc quest");
+				break;
+			}
+			case DBO_EVENT_TYPE_ID_ITEM_UPGRADE:
+			{
+				CDboTSItemUpgrade* itemUpgrade = (CDboTSItemUpgrade*)contGCond->GetChildEntity(i);
+				if (itemUpgrade == NULL)
+				{
+					return RESULT_FAIL;
+				}
 				break;
 			}
 		}
@@ -1072,6 +1106,141 @@ void WorldSession::ProcessTsContEnd(CDboTSContEnd * contEnd)
 
 ResultCodes WorldSession::FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req)
 {
+	switch (req->byEventType)
+	{
+		case eEVENT_GEN_TYPE_CLICK_NPC:
+		{
+			sLog.outDebug("-----eEVENT_GEN_TYPE_CLICK_NPC------");
+			break;
+		}
+		case eEVENT_GEN_TYPE_CLICK_OBJECT:
+		{
+			sLog.outDebug("-----eEVENT_GEN_TYPE_CLICK_OBJECT------");
+			break;
+		}
+		case eEVENT_GEN_TYPE_COL_OBJECT:
+		{
+			sLog.outDebug("-----eEVENT_GEN_TYPE_COL_OBJECT------");
+			break;
+		}
+		case eEVENT_GEN_TYPE_ITEM_USE:
+		{
+			sLog.outDebug("-----eEVENT_GEN_TYPE_ITEM_USE------");
+			break;
+		}
+		case eEVENT_GEN_TYPE_ITEM_GET:
+		{
+			sLog.outDebug("-----eEVENT_GEN_TYPE_ITEM_GET------");
+			break;
+		}
+		case eEVENT_GEN_TYPE_ITEM_EQUIP:
+		{
+			sLog.outDebug("-----eEVENT_GEN_TYPE_ITEM_EQUIP------");
+			break;
+		}
+		case eEVENT_GEN_TYPE_SCOUT_USE:
+		{
+			sLog.outDebug("-----eEVENT_GEN_TYPE_SCOUT_USE------");
+			break;
+		}
+		case eEVENT_GEN_TYPE_RCV_SVR_EVT:
+		{
+			sLog.outDebug("-----eEVENT_GEN_TYPE_RCV_SVR_EVT------");
+			break;
+		}
+		case eEVENT_GEN_TYPE_SKILL_USE:
+		{
+			sLog.outDebug("-----eEVENT_GEN_TYPE_SKILL_USE------");
+			break;
+		}
+		case eEVENT_GEN_TYPE_COL_REGION:
+		{
+			sLog.outDebug("-----eEVENT_GEN_TYPE_COL_REGION------");
+			break;
+		}
+		case eEVENT_GEN_TYPE_RB:
+		{
+			sLog.outDebug("-----eEVENT_GEN_TYPE_RB------");
+			break;
+		}
+		case eEVENT_GEN_TYPE_CLICK_MOB:
+		{
+			sLog.outDebug("-----eEVENT_GEN_TYPE_CLICK_MOB------");
+			break;
+		}
+		case eEVENT_GEN_TYPE_SKIP_CONT:
+		{
+			sLog.outDebug("-----eEVENT_GEN_TYPE_SKIP_CONT------");
+			break;
+		}
+		case eEVENT_GEN_TYPE_BIND_STONE:
+		{
+			sLog.outDebug("-----eEVENT_GEN_TYPE_BIND_STONE------");
+			break;
+		}
+		case eEVENT_GEN_TYPE_SEARCH_QUEST:
+		{
+			sLog.outDebug("-----eEVENT_GEN_TYPE_SEARCH_QUEST------");
+			break;
+		}
+		case eEVENT_GEN_TYPE_ITEM_UPGRADE:
+		{
+			sLog.outDebug("-----eEVENT_GEN_TYPE_ITEM_UPGRADE------");
+			break;
+		}
+		case eEVENT_GEN_TYPE_TELEPORT:
+		{
+			sLog.outDebug("-----eEVENT_GEN_TYPE_TELEPORT------");
+			break;
+		}
+		case eEVENT_GEN_TYPE_BUDOKAI:
+		{
+			sLog.outDebug("-----eEVENT_GEN_TYPE_BUDOKAI------");
+			break;
+		}
+		case eEVENT_GEN_TYPE_SLOTMACHINE:
+		{
+			sLog.outDebug("-----eEVENT_GEN_TYPE_SLOTMACHINE------");
+			break;
+		}
+		case eEVENT_GEN_TYPE_HOIPOIMIX:
+		{
+			sLog.outDebug("-----eEVENT_GEN_TYPE_HOIPOIMIX------");
+			break;
+		}
+		case eEVENT_GEN_TYPE_PRIVATESHOP:
+		{
+			sLog.outDebug("-----eEVENT_GEN_TYPE_PRIVATESHOP------");
+			break;
+		}
+		case eEVENT_GEN_TYPE_FREEBATTLE:
+		{
+			sLog.outDebug("-----eEVENT_GEN_TYPE_FREEBATTLE------");
+			break;
+		}
+		case eEVENT_GEN_TYPE_ITEMIDENTITY:
+		{
+			sLog.outDebug("-----eEVENT_GEN_TYPE_ITEMIDENTITY------");
+			break;
+		}
+		case eEVENT_GEN_TYPE_USEMAIL:
+		{
+			sLog.outDebug("-----eEVENT_GEN_TYPE_USEMAIL------");
+			break;
+		}
+		case eEVENT_GEN_TYPE_PARTY:
+		{
+			sLog.outDebug("-----eEVENT_GEN_TYPE_PARTY------");
+			break;
+		}
+		case eEVENT_GEN_TYPE_INVALID:
+		{
+			sLog.outDebug("-----eEVENT_GEN_TYPE_INVALID------");
+			break;
+		}
+	}
+
+
 	// example tss
 	CNtlTSCont * contBase = sTSM.FindQuestFromTS(req->tId)->GetGroup(NTL_TS_MAIN_GROUP_ID)->GetChildCont(req->tcCurId);
 	if (contBase == NULL)

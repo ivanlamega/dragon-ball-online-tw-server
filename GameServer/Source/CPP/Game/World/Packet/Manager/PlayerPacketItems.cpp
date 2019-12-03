@@ -218,7 +218,7 @@ void WorldSession::SendItemCreate(sITEM_PROFILE *createdItem)
 
 	create.bIsNew = true;
 	create.sItemData.unknown = 0;
-	create.sItemData.unknown1 = 0;
+	//create.sItemData.unknown1 = 0;
 	create.sItemData.unk = 0;
 	//create.sItemData.handle = create.handle = createdItem->handle;
 

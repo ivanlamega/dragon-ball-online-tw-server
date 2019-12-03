@@ -1090,7 +1090,6 @@ struct sITEM_EXTRA_EFFECT
 struct sITEM_DATA
 {
 	DWORD						unknown;
-	DWORD						unknown1;
 	//HOBJECT					handle;
 	ITEMID					itemId;
 	TBLIDX					itemNo;

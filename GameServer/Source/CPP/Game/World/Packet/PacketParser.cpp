@@ -260,7 +260,7 @@ void			WorldSession::PacketParser(Packet& packet)
 		res.byPos = req->byPos;
 		sITEM_PROFILE * item = _player->GetInventoryManager()->GetItemAtPlaceAndPost(req->byPlace, req->byPos);
 		//res.sItemData.handle = item->handle;
-		res.sItemData.unknown1 = 0;
+		//res.sItemData.unknown1 = 0;
 		res.sItemData.unknown = 0;
 		res.sItemData.itemId = 0;
 		res.sItemData.itemNo = item->tblidx;
@@ -531,7 +531,7 @@ void			WorldSession::PacketParser(Packet& packet)
 		//DropInfo.ItemDropInfo.handle = req->handle;
 		DropInfo.ItemDropInfo.unk = 0;
 		DropInfo.ItemDropInfo.unknown = 0;
-		DropInfo.ItemDropInfo.unknown1 = 0;
+		//DropInfo.ItemDropInfo.unknown1 = 0;
 
 		SendPacket((char*)&DropInfo, sizeof(sGU_DROPITEM_INFO_RES));
 		break;
@@ -1663,7 +1663,7 @@ void			WorldSession::PacketParser(Packet& packet)
 							//create.sItemData.handle = create.handle = createdItem.handle;
 							create.sItemData.unk = 0;
 							create.sItemData.unknown = 0;
-							create.sItemData.unknown1 = 0;
+							//create.sItemData.unknown1 = 0;
 
 							for (int i = 0; i < 6; i++)
 							{
@@ -1733,7 +1733,7 @@ void			WorldSession::PacketParser(Packet& packet)
 							//create.sItemData.handle = create.handle = createdItem1.handle;
 							create.sItemData.unk = 0;
 							create.sItemData.unknown = 0;
-							create.sItemData.unknown1 = 0;
+							//create.sItemData.unknown1 = 0;
 
 							for (int i = 0; i < 6; i++)
 							{
