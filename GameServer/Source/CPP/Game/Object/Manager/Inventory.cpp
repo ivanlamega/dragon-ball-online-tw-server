@@ -97,7 +97,7 @@ bool InventoryManager::LoadCharInventoryFromDatabase()
 			ItemProfile[i].byCurDur = static_cast<BYTE>(result->getInt("durability"));
 			ItemProfile[i].byDurationType = eDURATIONTYPE::eDURATIONTYPE_NORMAL;
 			ItemProfile[i].byBattleAttribute = static_cast<BYTE>(result->getInt("battleAttribute"));
-			ItemProfile[i].bNeedToIdentify = true;
+			ItemProfile[i].bNeedToIdentify = false;
 			ItemProfile[i].nUseEndTime = 0;
 			ItemProfile[i].nUseStartTime = 0;
 
@@ -180,8 +180,7 @@ bool InventoryManager::LoadCharInventoryFromDatabase()
 				ItemBrief[ItemProfile[i].byPos].tblidx = result->getInt("tblidx");
 				ItemBrief[ItemProfile[i].byPos].byGrade = ItemProfile[i].byGrade;
 				ItemBrief[ItemProfile[i].byPos].byRank = ItemProfile[i].byRank;
-				ItemBrief[ItemProfile[i].byPos].byBattleAttribute = ItemProfile[i].byBattleAttribute;			
-				ItemProfile[i].bNeedToIdentify = false;
+				ItemBrief[ItemProfile[i].byPos].byBattleAttribute = ItemProfile[i].byBattleAttribute;
 			}
 			i++;
 			if (result->next())

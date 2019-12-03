@@ -259,7 +259,9 @@ void			WorldSession::PacketParser(Packet& packet)
 		res.byPlace = req->byPlace;
 		res.byPos = req->byPos;
 		sITEM_PROFILE * item = _player->GetInventoryManager()->GetItemAtPlaceAndPost(req->byPlace, req->byPos);
-		res.sItemData.handle = item->handle;
+		//res.sItemData.handle = item->handle;
+		res.sItemData.unknown1 = 0;
+		res.sItemData.unknown = 0;
 		res.sItemData.itemId = 0;
 		res.sItemData.itemNo = item->tblidx;
 		res.sItemData.charId = _player->GetCharacterID();
@@ -280,7 +282,7 @@ void			WorldSession::PacketParser(Packet& packet)
 		res.sItemData.byDurationType = item->byDurationType; //eDURATIONTYPE
 		res.sItemData.nUseStartTime = item->nUseStartTime;
 		res.sItemData.nUseEndTime = item->nUseEndTime;
-		res.sItemData.unk;
+		res.sItemData.unk = 0;
 		SendPacket((char*)&res, sizeof(sGU_SHOP_ITEM_IDENTIFY_RES));
 		break;
 	}
@@ -1593,7 +1595,7 @@ void			WorldSession::PacketParser(Packet& packet)
 				res1.wPacketSize = sizeof(sGU_TRADE_ADD_NFY) - 2;				
 				res1.hItem = req->hItem;	
 				res1.byCount = req->byCount;
-				res1.sItem.handle =  Item->handle;
+				//res1.sItem.handle =  Item->handle;
 				res1.sItem.itemId = 0;
 				res1.sItem.itemNo = Item->tblidx;
 				res1.sItem.charId = _player->charid;
