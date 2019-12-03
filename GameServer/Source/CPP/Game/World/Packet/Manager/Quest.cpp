@@ -1402,11 +1402,12 @@ ResultCodes	WorldSession::CheckEvtDataType(CDboTSActSToCEvt* sToCEvt, NTL_TS_TC_
 	//memset(_player->GetAttributesManager()->QuestDat, 0, sizeof _player->GetAttributesManager()->QuestDat);
 
 	int freeslot = 0;
-	for (int i = 0; i <= 30; i++)
+	for (int i = 0; i < 30; i++)
 	{
 		if (_player->GetAttributesManager()->QuestDat[i].QuestID == 0 || _player->GetAttributesManager()->QuestDat[i].QuestID == INVALID_TBLIDX)
 		{
 			freeslot = i;
+			break;
 		}
 	}
 
