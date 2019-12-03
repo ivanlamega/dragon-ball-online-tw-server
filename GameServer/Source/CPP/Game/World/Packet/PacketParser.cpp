@@ -252,13 +252,16 @@ void			WorldSession::PacketParser(Packet& packet)
 		sUG_SHOP_ITEM_IDENTIFY_REQ* req = (sUG_SHOP_ITEM_IDENTIFY_REQ*)packet.GetPacketBuffer();
 
 		sGU_SHOP_ITEM_IDENTIFY_RES res;
+
 		res.wOpCode = GU_SHOP_ITEM_IDENTIFY_RES;
 		res.wPacketSize = sizeof(sGU_SHOP_ITEM_IDENTIFY_RES) - 2;
 		res.wResultCode = GAME_SUCCESS;
 		res.hNpchandle = req->hNpchandle;
 		res.byPlace = req->byPlace;
 		res.byPos = req->byPos;
+		sLog.outDebug("BUSCANDO ITEM...");
 		sITEM_PROFILE * item = _player->GetInventoryManager()->GetItemAtPlaceAndPost(req->byPlace, req->byPos);
+		sLog.outDebug("ITEM ENCOTNRADO!");
 		//res.sItemData.handle = item->handle;
 		//res.sItemData.unknown1 = 0;
 		res.sItemData.unknown = 0;
@@ -283,7 +286,9 @@ void			WorldSession::PacketParser(Packet& packet)
 		res.sItemData.nUseStartTime = item->nUseStartTime;
 		res.sItemData.nUseEndTime = item->nUseEndTime;
 		res.sItemData.unk = 0;
+		sLog.outDebug("ENVIANDO PAQUETE...");
 		SendPacket((char*)&res, sizeof(sGU_SHOP_ITEM_IDENTIFY_RES));
+		sLog.outDebug("PAQUETE ENVIADO");
 		break;
 	}
 #pragma endregion END_ITEM
