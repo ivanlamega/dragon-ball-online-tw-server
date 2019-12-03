@@ -3008,7 +3008,7 @@ void Player::RewardDropFromMob(MonsterData& data)
 								GetAttributesManager()->QuestDat[i].taId,
 								GetAttributesManager()->QuestDat[i].evtDataType,
 								slot,
-								GetAttributesManager()->QuestDat[i].uEvtData.sMobKillCnt[slot].nCurMobCnt);
+								&GetAttributesManager()->QuestDat[i].uEvtData);
 							/*sGU_QUEST_SVREVT_UPDATE_NFY start;
 							start.wOpCode = GU_QUEST_SVREVT_UPDATE_NFY;
 							start.wPacketSize = sizeof(sGU_QUEST_SVREVT_UPDATE_NFY) - 2;
@@ -3047,7 +3047,7 @@ void Player::RewardDropFromMob(MonsterData& data)
 										GetAttributesManager()->QuestDat[i].taId,
 										GetAttributesManager()->QuestDat[i].evtDataType,
 										slot,
-										GetAttributesManager()->QuestDat[i].uEvtData.sMobKillItemCnt[slot].nCurMobLICnt);
+										&GetAttributesManager()->QuestDat[i].uEvtData);
 									
 								}
 								sLog.outDebug("Quest drop %d", data.Drop_quest_id, drop->aQuestItemTblidx[itemIndex]);

@@ -880,6 +880,51 @@ ResultCodes WorldSession::ProcessTsContGCond(CDboTSContGCond * contGCond)
 				}
 				break;
 			}
+			case DBO_EVENT_TYPE_ID_FREEBATTLE:
+			{
+				CDboTSFreeBattle* freeBattle = (CDboTSFreeBattle*)contGCond->GetChildEntity(i);
+				if (freeBattle == NULL)
+				{
+					return RESULT_FAIL;
+				}
+				break;
+			}
+			case DBO_EVENT_TYPE_ID_ITEMIDENTITY:
+			{
+				CDboTSItemIdentity* itemIdentify = (CDboTSItemIdentity*)contGCond->GetChildEntity(i);
+				if (itemIdentify == NULL)
+				{
+					return RESULT_FAIL;
+				}
+				break;
+			}
+			case DBO_EVENT_TYPE_ID_PARTY:
+			{
+				CDboTSParty* party = (CDboTSParty*)contGCond->GetChildEntity(i);
+				if (party == NULL)
+				{
+					return RESULT_FAIL;
+				}
+				break;
+			}
+			case DBO_EVENT_TYPE_ID_RB:
+			{
+				CDboTSRB* RB = (CDboTSRB*)contGCond->GetChildEntity(i);
+				if (RB == NULL)
+				{
+					return RESULT_FAIL;
+				}
+				break;
+			}
+			case DBO_EVENT_TYPE_ID_DIALOG_OPEN:
+			{
+				CDboTSDialogOpen* dialogOpen = (CDboTSDialogOpen*)contGCond->GetChildEntity(i);
+				if (dialogOpen == NULL)
+				{
+					return RESULT_FAIL;
+				}
+				break;
+			}
 		}
 	}
 
@@ -1432,6 +1477,21 @@ ResultCodes	WorldSession::CheckEvtDataType(CDboTSActSToCEvt* sToCEvt, NTL_TS_TC_
 		}
 		case eSTOC_EVT_DATA_TYPE_VISIT:
 		{
+			for (int i = 0; i < sToCEvt->GetEvtData().MAX_VISIT_EVT; i++)
+			{
+				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sVisitEvt[i].uiWorldTblIdx = sToCEvt->GetEvtData().sVisitEvt[i].uiWorldTblIdx;
+				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sVisitEvt[i].uiObjTblIdx = sToCEvt->GetEvtData().sVisitEvt[i].uiObjTblIdx;
+				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sVisitEvt[i].uiItemTblIdx = sToCEvt->GetEvtData().sVisitEvt[i].uiItemTblIdx;
+				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sVisitEvt[i].uiIndicatorQText = sToCEvt->GetEvtData().sVisitEvt[i].uiIndicatorQText;
+				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sVisitEvt[i].uiDialogText = sToCEvt->GetEvtData().sVisitEvt[i].uiDialogText;
+				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sVisitEvt[i].byObjType = sToCEvt->GetEvtData().sVisitEvt[i].byObjType;
+				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sVisitEvt[i].bCompleted = sToCEvt->GetEvtData().sVisitEvt[i].bCompleted;
+
+				sLog.outDebug("Quest: world %d objTblidx %d itemTblidx %d indictaroQtext %d dialogText %d objType %d completed %d", 
+					sToCEvt->GetEvtData().sVisitEvt[i].uiWorldTblIdx, sToCEvt->GetEvtData().sVisitEvt[i].uiObjTblIdx, sToCEvt->GetEvtData().sVisitEvt[i].uiItemTblIdx,
+					sToCEvt->GetEvtData().sVisitEvt[i].uiIndicatorQText, sToCEvt->GetEvtData().sVisitEvt[i].uiDialogText, sToCEvt->GetEvtData().sVisitEvt[i].byObjType,
+					sToCEvt->GetEvtData().sVisitEvt[i].bCompleted);
+			}
 			sLog.outDetail("Quest: type eSTOC_EVT_DATA_TYPE_VISIT");
 			break;
 		}
@@ -1439,7 +1499,7 @@ ResultCodes	WorldSession::CheckEvtDataType(CDboTSActSToCEvt* sToCEvt, NTL_TS_TC_
 	return RESULT_SUCCESS;
 }
 
-void WorldSession::SendQuestSVRevtUpdateNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, NTL_TS_TA_ID taId, BYTE svrEvtType, BYTE slot, int count)
+void WorldSession::SendQuestSVRevtUpdateNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, NTL_TS_TA_ID taId, BYTE svrEvtType, BYTE slot, uSTOC_EVT_DATA*evtData)
 {
 	sGU_QUEST_SVREVT_UPDATE_NFY update;
 	update.wOpCode = GU_QUEST_SVREVT_UPDATE_NFY;
@@ -1449,7 +1509,47 @@ void WorldSession::SendQuestSVRevtUpdateNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcI
 	update.taId = taId;
 	update.bySvrEvtType = svrEvtType;
 	update.bySlot = slot;
-	update.uEvtData.sMobKillCnt.nCurMobCnt = count;
+	
+	switch (svrEvtType)
+	{
+		case eSTOC_EVT_DATA_TYPE_MOB_KILL_CNT:
+		{
+			update.uEvtData.sMobKillCnt.nCurMobCnt = evtData->sMobKillCnt[slot].nCurMobCnt;
+			break;
+		}
+		case eSTOC_EVT_DATA_TYPE_MOB_KILL_ITEM_CNT:
+		{
+			update.uEvtData.sMobKillItemCnt.nCurMobLICnt = evtData->sMobKillItemCnt[slot].nCurMobLICnt;
+			break;
+		}
+		case eSTOC_EVT_DATA_TYPE_DELIVERY_ITEM:
+		{
+			update.uEvtData.sDeliveryItemCnt.nCurItemCnt = evtData->sDeliveryItemCnt[slot].nCurItemCnt;
+			break;
+		}
+		case eSTOC_EVT_DATA_TYPE_OBJECT_ITEM:
+		{
+			update.uEvtData.sObjectItemCnt.nCurItemCnt = evtData->sObjectItemCnt[slot].nCurItemCnt;
+			break;
+		}
+		case eSTOC_EVT_DATA_TYPE_PUBLIC_MOB_ITEM_CNT:
+		{
+			update.uEvtData.sPublicMobItemCnt.nCurItemCnt = evtData->sPublicMobItemCnt[slot].nCurItemCnt;
+			break;
+		}
+		case eSTOC_EVT_DATA_TYPE_CUSTOM_EVT_CNT:
+		{
+			update.uEvtData.sCustomEvtCnt.nCurCnt = evtData->sCustomEvtCnt[slot].nCurCnt;
+			break;
+		}
+		case eSTOC_EVT_DATA_TYPE_VISIT:
+		{
+			update.uEvtData.sVisitEvt.bCompleted = evtData->sVisitEvt[slot].bCompleted;
+			break;
+		}
+	}
+
+
 	SendPacket((char*)&update, sizeof(sGU_QUEST_SVREVT_UPDATE_NFY));
 }
 
@@ -1790,7 +1890,7 @@ void WorldSession::SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, 
 											 questData->taId,
 											 questData->evtDataType,
 											 slot,
-											 questData->uEvtData.sObjectItemCnt[slot].nCurItemCnt);
+											 &questData->uEvtData);
 										 sLog.outDebug("Type %d Itemidx %d count %d probability %f", qItem->GetQItemType(),
 											 qItem->GetQItemInfo(slot).uiQItemIdx, qItem->GetQItemInfo(slot).nQItemCnt, qItem->GetQItemInfo(slot).fProbability);
 									 }

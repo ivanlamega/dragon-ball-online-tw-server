@@ -25,6 +25,8 @@ enum ResultCodes;
 enum eREWARD_CONTAINER_TYPE;
 enum eZENNY_CHANGE_TYPE;
 
+union uSTOC_EVT_DATA;
+
 struct sITEM_PROFILE;
 struct sUG_TS_CONFIRM_STEP_REQ;
 struct sQUEST_REWARD_TBLDAT;
@@ -188,7 +190,7 @@ public:
 	ResultCodes		ProcessTsContReward(CDboTSContReward * contReward, DWORD dwParam);
 	void			ProcessTsContEnd(CDboTSContEnd * contEnd);
 	void			SendQuestSVRevtStartNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, NTL_TS_TA_ID taId);
-	void			SendQuestSVRevtUpdateNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, NTL_TS_TA_ID taId, BYTE svrEvtType, BYTE slot, int count);
+	void			SendQuestSVRevtUpdateNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, NTL_TS_TA_ID taId, BYTE svrEvtType, BYTE slot, uSTOC_EVT_DATA*evtData);
 	void			SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, NTL_TS_TA_ID taId);
 	//Trigger
 	void			SendTsExcuteTriggerObject(Packet& packet);

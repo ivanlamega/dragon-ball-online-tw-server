@@ -666,6 +666,7 @@ void			WorldSession::PacketParser(Packet& packet)
 			SendPacket((char*)&res, sizeof(sGU_SCOUTER_ACTIVATION_RES));
 			break;
 		}		
+// -------------- QUEST ----------
 		case Opcodes::UG_TS_CONFIRM_STEP_FOR_USE_ITEM_REQ:
 		{
 			sLog.outError("UG_TS_CONFIRM_STEP_FOR_USE_ITEM_REQ");
@@ -705,6 +706,50 @@ void			WorldSession::PacketParser(Packet& packet)
 			SendQuestGiveUp(packet);
 			break;
 		}
+		case Opcodes::UG_QUEST_OBJECT_VISIT_REQ:
+		{
+			sLog.outError("UG_QUEST_OBJECT_VISIT_REQ");
+			sUG_QUEST_OBJECT_VISIT_REQ* req = (sUG_QUEST_OBJECT_VISIT_REQ*)packet.GetPacketBuffer();
+
+			for (int i = 0; i < 30; i++)
+			{
+				if (_player->GetAttributesManager()->QuestDat[i].QuestID == req->qId)
+				{
+					for (int slot = 0; slot < _player->GetAttributesManager()->QuestDat[i].uEvtData.MAX_VISIT_EVT; slot++)
+					{
+						if (req->objectTblidx == _player->GetAttributesManager()->QuestDat[i].uEvtData.sVisitEvt[slot].uiObjTblIdx)
+						{
+							_player->GetAttributesManager()->QuestDat[i].uEvtData.sVisitEvt[slot].bCompleted = true;
+
+							SendQuestSVRevtUpdateNotify(req->qId,
+								_player->GetAttributesManager()->QuestDat[i].tcId,
+								_player->GetAttributesManager()->QuestDat[i].taId,
+								_player->GetAttributesManager()->QuestDat[i].evtDataType,
+								slot,
+								&_player->GetAttributesManager()->QuestDat[i].uEvtData);
+							break;
+						}
+						
+					}
+					
+					break;
+				}
+				
+			}
+			
+
+			sGU_QUEST_OBJECT_VISIT_RES res;
+			res.wOpCode = GU_QUEST_OBJECT_VISIT_RES;
+			res.wPacketSize = sizeof(sGU_QUEST_OBJECT_VISIT_RES) - 2;
+			res.wResultCode = GAME_SUCCESS;
+			res.qId = req->qId;
+			res.worldId = req->worldId;
+			res.byObjType = req->byObjType;
+			res.objectTblidx = req->objectTblidx;
+			SendPacket((char*)&res, sizeof(sGU_QUEST_OBJECT_VISIT_RES));
+			break;
+		}
+// -------------- QUEST ----------
 		case Opcodes::UG_SKILL_LEARN_REQ:
 		{
 			sLog.outError("UG_SKILL_LEARN_REQ");
