@@ -33,7 +33,7 @@ public:
 	int countstats;
 	//Quest
 	int KillerCount;
-	
+	bool sPawnMobQuest;
 	QuestData		QuestDat[30];
 
 	// Teleport

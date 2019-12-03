@@ -809,6 +809,17 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 				sLog.outDetail("Quest: tableidx %d, type %d", openWindow->GetTableIdx(), openWindow->GetWindowType());
 				break;
 			}
+			case DBO_ACT_TYPE_ID_ACT_WORLDPLAYSCRIPT:
+			{
+				CDboTSActWorldPlayScript* worldPlayScript = (CDboTSActWorldPlayScript*)contGAct->GetChildEntity(i);
+				if (worldPlayScript == NULL)
+				{
+					return RESULT_FAIL;
+				}
+				_player->GetAttributesManager()->sPawnMobQuest = worldPlayScript->IsStart();
+				sLog.outDebug("Quest: isStart %d", worldPlayScript->IsStart());
+				break;
+			}
 		}
 	}
 	return RESULT_SUCCESS;
@@ -1424,6 +1435,67 @@ ResultCodes	WorldSession::CheckEvtDataType(CDboTSActSToCEvt* sToCEvt, NTL_TS_TC_
 					sLog.outError("ROOT TS: %d", trigger->GetID());
 					sLog.outDetail("Mob kill: group tblidx: %d  mobTblidx: %d count: %d, curcout: %d",
 						groupTblidx, mobTblidx, sToCEvt->GetEvtData().sMobKillCnt[i].nMobCnt, sToCEvt->GetEvtData().sMobKillCnt[i].nCurMobCnt);
+
+
+					if (_player->GetAttributesManager()->sPawnMobQuest)
+					{
+						for (int count = 0; count < sToCEvt->GetEvtData().sMobKillCnt[i].nMobCnt; count++)
+						{
+							MobTable* MobTable = sTBM.GetMobTable();
+							sMOB_TBLDAT* pMOBTblData = reinterpret_cast<sMOB_TBLDAT*>(MobTable->FindData(MobTable->FindTblidxByGroup(mobTblidx)));
+							if (pMOBTblData != NULL)
+							{
+
+								SpawnMOB spawnData;
+								memset(&spawnData, 0, sizeof(SpawnMOB));
+
+								spawnData.wOpCode = GU_OBJECT_CREATE;
+								spawnData.wPacketSize = sizeof(SpawnMOB) - 2;
+
+
+								spawnData.curEP = pMOBTblData->wBasic_EP;
+								spawnData.curLP = pMOBTblData->wBasic_LP;
+								spawnData.Handle = sWorld.AcquireSerialId();
+								spawnData.Level = pMOBTblData->byLevel;
+								spawnData.maxEP = pMOBTblData->wBasic_EP;
+								spawnData.maxLP = pMOBTblData->wBasic_LP;
+								spawnData.Size = 10;
+								spawnData.Type = OBJTYPE_MOB;
+								spawnData.Tblidx = mobTblidx;
+
+								spawnData.fLastWalkingSpeed = 2;
+								spawnData.fLastRunningSpeed = 2;
+								spawnData.fLastAirgSpeed = 2;
+								spawnData.fLastAirgDashSpeed = 2;
+								spawnData.fLastAirgDashAccelSpeed = 2;
+
+								spawnData.State.sCharStateBase.aspectState.sAspectStateBase.byAspectStateId = 255;
+								spawnData.State.sCharStateBase.vCurLoc.x = _player->m_position.x + rand() % 5;
+								spawnData.State.sCharStateBase.vCurLoc.y = _player->m_position.y;
+								spawnData.State.sCharStateBase.vCurLoc.z = _player->m_position.z + rand() % 5;
+								spawnData.State.sCharStateBase.vCurDir.x = _player->m_rotation.x + rand() % 5;
+								spawnData.State.sCharStateBase.vCurDir.y = _player->m_rotation.y;
+								spawnData.State.sCharStateBase.vCurDir.z = _player->m_rotation.z + rand() % 5;
+								spawnData.State.sCharStateBase.byStateID = eCHARSTATE::CHARSTATE_SPAWNING;
+
+								//	sWorld.SendToAll((char*)&spawnData, sizeof(SpawnMOB));
+								//Need Insert In list
+								Mob* created_mob = new Mob;
+								if (pMOBTblData)
+								{
+									if (created_mob->Create(pMOBTblData, spawnData) == true)
+									{
+										created_mob->GetMapRef().link(this->_player->GetMap(), created_mob);
+										printf("Mob ID %d inserted into map", mobTblidx);
+										_player->GetAttributesManager()->sPawnMobQuest = false;
+									}
+									else
+										delete created_mob;
+								}
+
+							}
+						}
+					}
 				}
 			}
 			sLog.outDetail("Quest: type eSTOC_EVT_DATA_TYPE_MOB_KILL_CNT");
@@ -1491,6 +1563,7 @@ ResultCodes	WorldSession::CheckEvtDataType(CDboTSActSToCEvt* sToCEvt, NTL_TS_TC_
 					sToCEvt->GetEvtData().sVisitEvt[i].uiWorldTblIdx, sToCEvt->GetEvtData().sVisitEvt[i].uiObjTblIdx, sToCEvt->GetEvtData().sVisitEvt[i].uiItemTblIdx,
 					sToCEvt->GetEvtData().sVisitEvt[i].uiIndicatorQText, sToCEvt->GetEvtData().sVisitEvt[i].uiDialogText, sToCEvt->GetEvtData().sVisitEvt[i].byObjType,
 					sToCEvt->GetEvtData().sVisitEvt[i].bCompleted);
+				sLog.outDebug("Quest id %d", _player->GetAttributesManager()->QuestDat[freeslot].QuestID);
 			}
 			sLog.outDetail("Quest: type eSTOC_EVT_DATA_TYPE_VISIT");
 			break;

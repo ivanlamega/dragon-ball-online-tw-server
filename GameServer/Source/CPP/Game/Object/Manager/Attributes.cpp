@@ -12,6 +12,7 @@ AttributesManager::AttributesManager()
 {
 	RPCounter = 0;
 	RPFilledCounter = 0;
+	sPawnMobQuest = false;
 	plr = nullptr;
 	//memset(&PlayerProfile.avatarAttribute, 0, sizeof(sAVATAR_ATTRIBUTE));
 }
