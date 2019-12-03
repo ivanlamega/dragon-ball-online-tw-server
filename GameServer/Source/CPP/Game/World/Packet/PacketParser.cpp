@@ -528,7 +528,10 @@ void			WorldSession::PacketParser(Packet& packet)
 		DropInfo.wOpCode = GU_DROPITEM_INFO_RES;
 		DropInfo.wPacketSize = sizeof(sGU_DROPITEM_INFO_RES) - 2;
 
-		DropInfo.ItemDropInfo.handle = req->handle;
+		//DropInfo.ItemDropInfo.handle = req->handle;
+		DropInfo.ItemDropInfo.unk = 0;
+		DropInfo.ItemDropInfo.unknown = 0;
+		DropInfo.ItemDropInfo.unknown1 = 0;
 
 		SendPacket((char*)&DropInfo, sizeof(sGU_DROPITEM_INFO_RES));
 		break;
@@ -1657,7 +1660,10 @@ void			WorldSession::PacketParser(Packet& packet)
 							create.wPacketSize = sizeof(sGU_ITEM_CREATE) - 2;
 
 							create.bIsNew = true;
-							create.sItemData.handle = create.handle = createdItem.handle;
+							//create.sItemData.handle = create.handle = createdItem.handle;
+							create.sItemData.unk = 0;
+							create.sItemData.unknown = 0;
+							create.sItemData.unknown1 = 0;
 
 							for (int i = 0; i < 6; i++)
 							{
@@ -1700,7 +1706,7 @@ void			WorldSession::PacketParser(Packet& packet)
 
 								itmDelete.bySrcPlace = _player->GetAttributesManager()->Tradeinvent[i].byPlace;
 								itmDelete.bySrcPos = _player->GetAttributesManager()->Tradeinvent[i].byPosition;
-								itmDelete.hSrcItem = _player->GetAttributesManager()->Tradeinvent[i].handle;
+								//itmDelete.hSrcItem = _player->GetAttributesManager()->Tradeinvent[i].handle;
 								PlayerInfo->SendPacket((char*)&itmDelete, sizeof(sGU_ITEM_DELETE));
 								itm->byPlace = INVALID_TBLIDX;
 								itm->byPos = INVALID_TBLIDX;
@@ -1724,7 +1730,10 @@ void			WorldSession::PacketParser(Packet& packet)
 							create.wPacketSize = sizeof(sGU_ITEM_CREATE) - 2;
 
 							create.bIsNew = true;
-							create.sItemData.handle = create.handle = createdItem1.handle;
+							//create.sItemData.handle = create.handle = createdItem1.handle;
+							create.sItemData.unk = 0;
+							create.sItemData.unknown = 0;
+							create.sItemData.unknown1 = 0;
 
 							for (int i = 0; i < 6; i++)
 							{
@@ -1767,7 +1776,7 @@ void			WorldSession::PacketParser(Packet& packet)
 
 								itmDelete.bySrcPlace = PlayerInfo->GetAttributesManager()->Tradeinvent[i].byPlace;
 								itmDelete.bySrcPos = PlayerInfo->GetAttributesManager()->Tradeinvent[i].byPosition;
-								itmDelete.hSrcItem = PlayerInfo->GetAttributesManager()->Tradeinvent[i].handle;
+								//itmDelete.hSrcItem = PlayerInfo->GetAttributesManager()->Tradeinvent[i].handle;
 								SendPacket((char*)&itmDelete, sizeof(sGU_ITEM_DELETE));
 								itm->byPlace = INVALID_TBLIDX;
 								itm->byPos = INVALID_TBLIDX;
