@@ -195,6 +195,51 @@ void			WorldSession::PacketParser(Packet& packet)
 #pragma endregion END_SKILL_SLOT_BUFF_HTB
 
 #pragma region ITEM
+	case Opcodes::UG_SHOP_ITEM_IDENTIFY_REQ:
+	{
+		sLog.outDetail("UG_ITEM_IDENTIFY_REQ");
+		sUG_SHOP_ITEM_IDENTIFY_REQ* req = (sUG_SHOP_ITEM_IDENTIFY_REQ*)packet.GetPacketBuffer();
+
+		sGU_SHOP_ITEM_IDENTIFY_RES res;
+
+		res.wOpCode = GU_SHOP_ITEM_IDENTIFY_RES;
+		res.wPacketSize = sizeof(sGU_SHOP_ITEM_IDENTIFY_RES) - 2;
+		res.wResultCode = GAME_SUCCESS;
+		res.hNpchandle = req->hNpchandle;
+		res.byPlace = req->byPlace;
+		res.byPos = req->byPos;
+		sLog.outDebug("BUSCANDO ITEM...");
+		sITEM_PROFILE* item = _player->GetInventoryManager()->GetItemAtPlaceAndPost(req->byPlace, req->byPos);
+		sLog.outDebug("ITEM ENCOTNRADO!");
+		//res.sItemData.handle = item->handle;
+		//res.sItemData.unknown1 = 0;
+		res.sItemData.unknown = 0;
+		res.sItemData.itemId = 0;
+		res.sItemData.itemNo = item->tblidx;
+		res.sItemData.charId = _player->GetCharacterID();
+		res.sItemData.byPlace = item->byPlace; // eCONTAINER_TYPE
+		res.sItemData.byPosition = item->byPos;
+		res.sItemData.byStackcount = item->byStackcount;
+		res.sItemData.byRank = item->byRank;
+		res.sItemData.byCurrentDurability = item->byCurDur;
+		res.sItemData.bNeedToIdentify = false;//item->bNeedToIdentify;
+		res.sItemData.byGrade = item->byGrade;
+		res.sItemData.byBattleAttribute = item->byBattleAttribute; // eBATTLE_ATTRIBUTE
+		res.sItemData.byRestrictType = item->byRestrictType; // eITEM_RESTRICT_TYPE
+		memcpy(res.sItemData.awchMaker, item->awchMaker, sizeof item->awchMaker);
+		res.sItemData.aOptionTblidx = item->aOptionTblidx;
+		res.sItemData.aOptionTblidx1 = item->aOptionTblidx1;
+		memcpy(res.sItemData.aitemEffect, item->aitemEffect, sizeof item->aitemEffect); // by Szczeepan
+		memcpy(res.sItemData.aitemExtraEffect, item->aitemExtraEffect, sizeof item->aitemExtraEffect); // by Szczeepan
+		res.sItemData.byDurationType = item->byDurationType; //eDURATIONTYPE
+		res.sItemData.nUseStartTime = item->nUseStartTime;
+		res.sItemData.nUseEndTime = item->nUseEndTime;
+		res.sItemData.unk = 0;
+		sLog.outDebug("ENVIANDO PAQUETE...");
+		SendPacket((char*)&res, sizeof(sGU_SHOP_ITEM_IDENTIFY_RES));
+		sLog.outDebug("PAQUETE ENVIADO");
+		break;
+	}
 	/* is this working as it don't handle HLS & Event etc item ? */
 	case Opcodes::UG_ITEM_MOVE_REQ:
 	{
@@ -244,51 +289,6 @@ void			WorldSession::PacketParser(Packet& packet)
 	{
 		sLog.outError("UG_ITEM_EXCHANGE_REQ");
 		SendShopItemChange(packet);
-		break;
-	}
-	case Opcodes::UG_ITEM_IDENTIFY_REQ:
-	{
-		sLog.outError("UG_ITEM_IDENTIFY_REQ");
-		sUG_SHOP_ITEM_IDENTIFY_REQ* req = (sUG_SHOP_ITEM_IDENTIFY_REQ*)packet.GetPacketBuffer();
-
-		sGU_SHOP_ITEM_IDENTIFY_RES res;
-
-		res.wOpCode = GU_SHOP_ITEM_IDENTIFY_RES;
-		res.wPacketSize = sizeof(sGU_SHOP_ITEM_IDENTIFY_RES) - 2;
-		res.wResultCode = GAME_SUCCESS;
-		res.hNpchandle = req->hNpchandle;
-		res.byPlace = req->byPlace;
-		res.byPos = req->byPos;
-		sLog.outDebug("BUSCANDO ITEM...");
-		sITEM_PROFILE * item = _player->GetInventoryManager()->GetItemAtPlaceAndPost(req->byPlace, req->byPos);
-		sLog.outDebug("ITEM ENCOTNRADO!");
-		//res.sItemData.handle = item->handle;
-		//res.sItemData.unknown1 = 0;
-		res.sItemData.unknown = 0;
-		res.sItemData.itemId = 0;
-		res.sItemData.itemNo = item->tblidx;
-		res.sItemData.charId = _player->GetCharacterID();
-		res.sItemData.byPlace = item->byPlace; // eCONTAINER_TYPE
-		res.sItemData.byPosition = item->byPos;
-		res.sItemData.byStackcount = item->byStackcount;
-		res.sItemData.byRank = item->byRank;
-		res.sItemData.byCurrentDurability = item->byCurDur;
-		res.sItemData.bNeedToIdentify = item->bNeedToIdentify;
-		res.sItemData.byGrade = item->byGrade;
-		res.sItemData.byBattleAttribute = item->byBattleAttribute; // eBATTLE_ATTRIBUTE
-		res.sItemData.byRestrictType = item->byRestrictType; // eITEM_RESTRICT_TYPE
-		memcpy(res.sItemData.awchMaker, item->awchMaker, sizeof item->awchMaker);
-		res.sItemData.aOptionTblidx = item->aOptionTblidx;
-		res.sItemData.aOptionTblidx1 = item->aOptionTblidx1;
-		memcpy(res.sItemData.aitemEffect, item->aitemEffect,  sizeof item->aitemEffect); // by Szczeepan
-		memcpy(res.sItemData.aitemExtraEffect, item->aitemExtraEffect, sizeof item->aitemExtraEffect); // by Szczeepan
-		res.sItemData.byDurationType = item->byDurationType; //eDURATIONTYPE
-		res.sItemData.nUseStartTime = item->nUseStartTime;
-		res.sItemData.nUseEndTime = item->nUseEndTime;
-		res.sItemData.unk = 0;
-		sLog.outDebug("ENVIANDO PAQUETE...");
-		SendPacket((char*)&res, sizeof(sGU_SHOP_ITEM_IDENTIFY_RES));
-		sLog.outDebug("PAQUETE ENVIADO");
 		break;
 	}
 #pragma endregion END_ITEM
