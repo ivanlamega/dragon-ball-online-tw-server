@@ -713,10 +713,12 @@ void			WorldSession::PacketParser(Packet& packet)
 
 			for (int i = 0; i < 30; i++)
 			{
+				sLog.outDebug("QuestId %d req->qId %d", _player->GetAttributesManager()->QuestDat[i].QuestID, req->qId);
 				if (_player->GetAttributesManager()->QuestDat[i].QuestID == req->qId)
 				{
 					for (int slot = 0; slot < _player->GetAttributesManager()->QuestDat[i].uEvtData.MAX_VISIT_EVT; slot++)
 					{
+						sLog.outDebug("req->objectTblidx %d player ObjTblidx %d", req->objectTblidx, _player->GetAttributesManager()->QuestDat[i].uEvtData.sVisitEvt[slot].uiObjTblIdx);
 						if (req->objectTblidx == _player->GetAttributesManager()->QuestDat[i].uEvtData.sVisitEvt[slot].uiObjTblIdx)
 						{
 							_player->GetAttributesManager()->QuestDat[i].uEvtData.sVisitEvt[slot].bCompleted = true;
