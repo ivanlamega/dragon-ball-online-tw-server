@@ -1606,7 +1606,7 @@ ResultCodes	WorldSession::CheckEvtDataType(CDboTSActSToCEvt* sToCEvt, NTL_TS_TC_
 					sToCEvt->GetEvtData().sMobKillItemCnt[i].nMobLICnt,
 					sToCEvt->GetEvtData().sMobKillItemCnt[i].nCurMobLICnt);
 
-				if (_player->GetAttributesManager()->sPawnMobQuest)
+				/*if (_player->GetAttributesManager()->sPawnMobQuest)
 				{
 					sMOB_TBLDAT* mob = (sMOB_TBLDAT*)sTBM.GetMobTable()->FindData(0); //mobTblidx
 					if (mob)
@@ -1696,7 +1696,7 @@ ResultCodes	WorldSession::CheckEvtDataType(CDboTSActSToCEvt* sToCEvt, NTL_TS_TC_
 							}
 						}
 					}
-				}
+				}*/
 			}
 
 			sLog.outDetail("Quest: type eSTOC_EVT_DATA_TYPE_MOB_KILL_ITEM_CNT");

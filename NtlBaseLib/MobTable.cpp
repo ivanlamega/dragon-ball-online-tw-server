@@ -119,22 +119,25 @@ bool MobTable::AddTable(void * pvTable, bool bReload)
 	iter2 = m_mapMobTablesList.find(pTbldat->Mob_Group);
 	if (MobsEnd() == iter2)
 	{
-		printf("Add new tblidx %d\n", pTbldat->tblidx);
 		m_mapMobTablesList[pTbldat->Mob_Group] = std::vector<TBLIDX>();
 		m_mapMobTablesList[pTbldat->Mob_Group].push_back(pTbldat->tblidx);
-		
-		/*if (false == m_mapMobTablesList.insert(std::make_pair(pTbldat->Mob_Group, std::vector<TBLIDX>(pTbldat->tblidx))).second)
-		{
-			_ASSERTE(0);
-			return false;
-		}*/
 	}
 	else
 	{
-		m_mapMobTablesList[pTbldat->Mob_Group].push_back(pTbldat->tblidx);//->second.push_back(pTbldat->tblidx);
-		printf("Add tblidx %d\n", pTbldat->tblidx);
+		m_mapMobTablesList[pTbldat->Mob_Group].push_back(pTbldat->tblidx);
 	}
 
+	MOB_QITEMIT iterMobQItem;
+	iterMobQItem = m_mapMobQItemList.find(pTbldat->dropQuestTblidx);
+	if (MobsQItemBegin() == iterMobQItem)
+	{
+		m_mapMobQItemList[pTbldat->dropQuestTblidx] = std::vector<TBLIDX>();
+		m_mapMobQItemList[pTbldat->dropQuestTblidx].push_back(pTbldat->tblidx);
+	}
+	else
+	{
+		m_mapMobQItemList[pTbldat->dropQuestTblidx].push_back(pTbldat->tblidx);
+	}
 
 	return true;
 }
@@ -206,6 +209,22 @@ std::vector<TBLIDX>	MobTable::FindTblidxsByGroup(DWORD dwMobGroup)
 	}
 
 	return (std::vector<TBLIDX>)iter->second;
+}
+
+std::vector<TBLIDX>	MobTable::FindTblidxsByQuestDrop(TBLIDX questDropTblidx)
+{
+	if (INVALID_TBLIDX == questDropTblidx)
+	{
+		return {};
+	}
+
+	MOB_QITEMIT iter;
+	iter = m_mapMobQItemList.find(questDropTblidx);
+	if (MobsQItemEnd() == iter)
+	{
+		return {};
+	}
+	return iter->second;
 }
 
 bool MobTable::LoadFromBinary(Serializer& serializer, bool bReload)
