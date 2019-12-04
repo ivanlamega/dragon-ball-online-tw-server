@@ -1441,7 +1441,7 @@ ResultCodes	WorldSession::CheckEvtDataType(CDboTSActSToCEvt* sToCEvt, NTL_TS_TC_
 
 					if (_player->GetAttributesManager()->sPawnMobQuest)
 					{
-						sMOB_TBLDAT* mob = (sMOB_TBLDAT*)sTBM.GetMobTable()->FindData(sTBM.GetMobTable()->FindTblidxByGroup(mobTblidx));
+						sMOB_TBLDAT* mob = (sMOB_TBLDAT*)sTBM.GetMobTable()->FindData(mobTblidx);
 						if (mob)
 						{
 							sLog.outDebug("obj tblidx %d %d %s", mob->tblidx, mob->Mob_Group, mob->szNameText);
@@ -1467,7 +1467,7 @@ ResultCodes	WorldSession::CheckEvtDataType(CDboTSActSToCEvt* sToCEvt, NTL_TS_TC_
 										_player->RemoveFromList(*curr_Npc);
 
 										MobTable* MobTable = sTBM.GetMobTable();
-										sMOB_TBLDAT* pMOBTblData = reinterpret_cast<sMOB_TBLDAT*>(MobTable->FindData(MobTable->FindTblidxByGroup(mobTblidx)));
+										sMOB_TBLDAT* pMOBTblData = reinterpret_cast<sMOB_TBLDAT*>(MobTable->FindData(mobTblidx));
 										if (pMOBTblData != NULL)
 										{
 
