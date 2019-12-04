@@ -115,6 +115,26 @@ bool MobTable::AddTable(void * pvTable, bool bReload)
 		}
 	}
 
+	MOB_TABLESIT iter2;
+	iter2 = m_mapMobTablesList.find(pTbldat->Mob_Group);
+	if (MobsEnd() == iter2)
+	{
+		printf("Add new tblidx %d\n", pTbldat->tblidx);
+		m_mapMobTablesList[pTbldat->Mob_Group] = std::vector<TBLIDX>();
+		m_mapMobTablesList[pTbldat->Mob_Group].push_back(pTbldat->tblidx);
+		
+		/*if (false == m_mapMobTablesList.insert(std::make_pair(pTbldat->Mob_Group, std::vector<TBLIDX>(pTbldat->tblidx))).second)
+		{
+			_ASSERTE(0);
+			return false;
+		}*/
+	}
+	else
+	{
+		m_mapMobTablesList[pTbldat->Mob_Group].push_back(pTbldat->tblidx);//->second.push_back(pTbldat->tblidx);
+		printf("Add tblidx %d\n", pTbldat->tblidx);
+	}
+
 
 	return true;
 }
@@ -169,6 +189,23 @@ TBLIDX MobTable::FindTblidxByGroup(DWORD dwMobGroup)
 		return NULL;
 
 	return (TBLIDX)(iter->second);
+}
+
+std::vector<TBLIDX>	MobTable::FindTblidxsByGroup(DWORD dwMobGroup)
+{
+	if (INVALID_TBLIDX == dwMobGroup)
+	{
+		return {};
+	}
+
+	MOB_TABLESIT iter;
+	iter = m_mapMobTablesList.find(dwMobGroup);
+	if (MobsEnd() == iter)
+	{
+		return {};
+	}
+
+	return (std::vector<TBLIDX>)iter->second;
 }
 
 bool MobTable::LoadFromBinary(Serializer& serializer, bool bReload)

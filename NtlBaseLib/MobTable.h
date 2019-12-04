@@ -171,6 +171,10 @@ public:
 	typedef MOB_TABLE::iterator MOB_TABLEIT;
 	typedef MOB_TABLE::value_type MOB_TABLEVAL;
 
+	typedef std::unordered_map<DWORD, std::vector<TBLIDX>> MOB_TABLES;
+	typedef MOB_TABLES::iterator MOB_TABLESIT;
+	typedef MOB_TABLES::value_type MOB_TABLESVAL;
+
 public:
 	MobTable(void);
 public:
@@ -186,8 +190,12 @@ public:
 	MOB_TABLEIT	MobBegin() { return m_mapMobTableList.begin(); }
 	MOB_TABLEIT	MobEnd() { return m_mapMobTableList.end(); }
 
+	MOB_TABLESIT MobsBegin() { return m_mapMobTablesList.begin(); };
+	MOB_TABLESIT MobsEnd() { return m_mapMobTablesList.end(); }
+
 	sTBLDAT *			FindData(TBLIDX tblidx);
 	TBLIDX				FindTblidxByGroup(DWORD dwMobGroup);
+	std::vector<TBLIDX>	FindTblidxsByGroup(DWORD dwMobGroup);
 protected:
 	WCHAR** GetSheetListInWChar() { return &(MobTable::m_pwszSheetList[0]); }
 	void* AllocNewTable(WCHAR* pwszSheetName, DWORD dwCodePage);
@@ -205,4 +213,5 @@ public:
 private:
 	static WCHAR* m_pwszSheetList[];
 	MOB_TABLE			m_mapMobTableList;
+	MOB_TABLES			m_mapMobTablesList;
 };

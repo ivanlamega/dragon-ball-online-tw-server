@@ -8,6 +8,7 @@
 
 #include <comutil.h>
 #include <map>
+#include <unordered_map>
 
 #include "Base.h"
 #include "Def.h"
