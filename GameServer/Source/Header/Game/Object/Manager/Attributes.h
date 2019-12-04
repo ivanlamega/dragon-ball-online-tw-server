@@ -13,6 +13,7 @@ struct QuestData
 {
 	int					QuestID;
 	int					RewardID;
+	TBLIDX				npcClick;
 	NTL_TS_TC_ID		tcId;
 	NTL_TS_TA_ID		taId;
 	eSTOC_EVT_DATA_TYPE evtDataType;
@@ -34,6 +35,7 @@ public:
 	//Quest
 	int KillerCount;
 	bool sPawnMobQuest;
+	TBLIDX			lastNPCQuest;
 	QuestData		QuestDat[30];
 
 	// Teleport
