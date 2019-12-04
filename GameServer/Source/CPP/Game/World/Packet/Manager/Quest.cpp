@@ -1532,7 +1532,7 @@ ResultCodes	WorldSession::CheckEvtDataType(CDboTSActSToCEvt* sToCEvt, NTL_TS_TC_
 									for (int count = 0; count < sToCEvt->GetEvtData().sMobKillCnt[i].nMobCnt; count++)
 									{
 										MobTable* MobTable = sTBM.GetMobTable();
-										sMOB_TBLDAT* pMOBTblData = reinterpret_cast<sMOB_TBLDAT*>(MobTable->FindData(MobTable->FindTblidxByGroup(mobTblidx)));
+										sMOB_TBLDAT* pMOBTblData = reinterpret_cast<sMOB_TBLDAT*>(MobTable->FindData(mobTblidx));
 										if (pMOBTblData != NULL)
 										{
 
