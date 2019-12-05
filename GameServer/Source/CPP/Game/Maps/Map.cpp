@@ -19,8 +19,17 @@ Map::Map(uint32 id) :
 	sLog.outDebug("Map: %d created", id);
 	/// <li> Fill Map Data
 	sWORLD_TBLDAT* world = (sWORLD_TBLDAT*)sTBM.GetWorldTable()->FindData(id);
+	if (world == NULL)
+	{
+		return;
+	}
 	/// <li> Create the data for spawn NPC
 	SpawnTable *pNpcSpawnTbl = sTBM.GetNpcSpawnTable(world->tblidx);
+
+	if (pNpcSpawnTbl == NULL)
+	{
+		return;
+	}
 
 	for (Table::TABLEIT itNPCSpawn = pNpcSpawnTbl->Begin(); itNPCSpawn != pNpcSpawnTbl->End(); ++itNPCSpawn)
 	{
