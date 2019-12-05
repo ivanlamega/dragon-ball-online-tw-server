@@ -1450,7 +1450,7 @@ ResultCodes	WorldSession::CheckEvtDataType(CDboTSActSToCEvt* sToCEvt, NTL_TS_TC_
 							if (npc)
 							{
 								sLog.outDebug("npc tblidx %d %s %d %d", npc->tblidx, npc->szNameText, strcmp(npc->szModel, mob->szModel), npc->byNpcType == mob->byMob_Type);
-								if (strcmp(npc->szModel, mob->szModel) && (npc->byNpcType == mob->byMob_Type))
+								if (!strcmp(npc->szModel, mob->szModel) && (npc->byNpcType == mob->byMob_Type))
 								{
 									sLog.outDebug("Conver NPC to MOB");
 									Npc * curr_Npc = static_cast<Npc*>(_player->GetFromList(_player->GetTarget()));
@@ -1635,7 +1635,7 @@ ResultCodes	WorldSession::CheckEvtDataType(CDboTSActSToCEvt* sToCEvt, NTL_TS_TC_
 							if (npc)
 							{
 								sLog.outDebug("npc tblidx %d %s %d %d", npc->tblidx, npc->szNameText, strcmp(npc->szModel, mob->szModel), npc->byNpcType == mob->byMob_Type);
-								if (strcmp(npc->szModel, mob->szModel) && (npc->byNpcType == mob->byMob_Type))
+								if (!strcmp(npc->szModel, mob->szModel) && (npc->byNpcType == mob->byMob_Type))
 								{
 									sLog.outDebug("Conver NPC to MOB");
 									Npc* curr_Npc = static_cast<Npc*>(_player->GetFromList(_player->GetTarget()));
