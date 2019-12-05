@@ -1637,8 +1637,8 @@ ResultCodes	WorldSession::CheckEvtDataType(CDboTSActSToCEvt* sToCEvt, NTL_TS_TC_
 								sLog.outDebug("npc tblidx %d %s %d %d", npc->tblidx, npc->szNameText, strcmp(npc->szModel, mob->szModel), npc->byNpcType == mob->byMob_Type);
 								if (!strcmp(npc->szModel, mob->szModel) && (npc->byNpcType == mob->byMob_Type))
 								{
-									sLog.outDebug("Conver NPC to MOB");
 									Npc* curr_Npc = static_cast<Npc*>(_player->GetFromList(_player->GetTarget()));
+									sLog.outDebug("Conver NPC to MOB %d %d", curr_Npc->GetTblidx(), _player->GetAttributesManager()->lastNPCQuest);
 									if (curr_Npc->GetTblidx() == _player->GetAttributesManager()->lastNPCQuest)
 									{
 										sGU_OBJECT_DESTROY sPacket;
