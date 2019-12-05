@@ -46,7 +46,7 @@ void WorldSession::SendCharTeleportRes(Packet& packet)
 			_player->Relocate(Teleport.vNewLoc.x, Teleport.vNewLoc.y, Teleport.vNewLoc.z, Teleport.vNewDir.x, Teleport.vNewDir.y, Teleport.vNewDir.z);
 
 			sWORLD_TBLDAT* worldTbl = (sWORLD_TBLDAT*)sTBM.GetWorldTable()->FindData(_player->GetAttributesManager()->teleportInfo.worldInfo.tblidx);
-
+			sLog.outDebug("1------------WORLD TBLIDX %d-----------------", _player->GetAttributesManager()->teleportInfo.worldInfo.tblidx);
 			if (worldTbl != NULL)
 			{
 				_player->SetWorldID(worldTbl->tblidx);
