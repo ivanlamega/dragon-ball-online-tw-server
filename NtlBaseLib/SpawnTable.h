@@ -69,6 +69,7 @@ protected:
 
 public:
 	sTBLDAT *			FindData(TBLIDX tblidx);
+	std::vector<TBLIDX>	FindSpawnByObjectTblidx(TBLIDX objTblidx);
 
 protected:
 	WCHAR** GetSheetListInWChar() { return &(SpawnTable::m_pwszSheetList[0]); }
@@ -92,7 +93,6 @@ public:
 
 	DWORD						GetSpawnGroupCount(SPAWNGROUPID spawnGroupId) { return (DWORD)m_spawnGroup.count(spawnGroupId); }
 
-
 private:
 
 	static WCHAR* m_pwszSheetList[];
@@ -104,10 +104,20 @@ private:
 	typedef SPAWNGROUP::iterator SPAWNGROUP_IT;
 	typedef SPAWNGROUP::value_type SPAWNGROUP_VAL;
 
+	typedef std::unordered_map<TBLIDX, std::vector<TBLIDX>> SPAWNENTITY;
+	typedef SPAWNENTITY::iterator SPAWNENTITYIT;
+	typedef SPAWNENTITY::value_type SPAWNENTITYVAL;
+
 	SPAWNGROUP					m_spawnGroup;
+
+	SPAWNENTITY					m_mapSpawnEntityList;
 
 	SPAWNGROUP_IT				m_spawnGroupItBeg;
 
 	SPAWNGROUP_IT				m_spawnGroupItEnd;
+
+public:
+	SPAWNENTITYIT SpawnBegin() { return m_mapSpawnEntityList.begin(); };
+	SPAWNENTITYIT SpawnEnd() { return m_mapSpawnEntityList.end(); };
 
 };

@@ -115,6 +115,17 @@ bool SpawnTable::AddTable(void * pvTable, bool bReload)
 		}
 	}
 
+	SPAWNENTITYIT iterSpawnObject;
+	iterSpawnObject = m_mapSpawnEntityList.find(pTbldat->mob_Tblidx);
+	if (SpawnEnd() == iterSpawnObject)
+	{
+		m_mapSpawnEntityList[pTbldat->mob_Tblidx] = std::vector<TBLIDX>();
+		m_mapSpawnEntityList[pTbldat->mob_Tblidx].push_back(pTbldat->tblidx);
+	}
+	else
+	{
+		m_mapSpawnEntityList[pTbldat->mob_Tblidx].push_back(pTbldat->tblidx);
+	}
 
 	return true;
 }
@@ -321,6 +332,22 @@ sTBLDAT* SpawnTable::FindData(TBLIDX tblidx)
 		return NULL;
 
 	return (sTBLDAT*)(iter->second);
+}
+
+std::vector<TBLIDX>	SpawnTable::FindSpawnByObjectTblidx(TBLIDX objTblidx) 
+{
+	if (INVALID_TBLIDX == objTblidx)
+	{
+		return {};
+	}
+
+	SPAWNENTITYIT iter;
+	iter = m_mapSpawnEntityList.find(objTblidx);
+	if (SpawnEnd() == iter)
+	{
+		return {};
+	}
+	return iter->second;
 }
 
 bool SpawnTable::LoadFromBinary(Serializer& serializer, bool bReload)
