@@ -1606,9 +1606,18 @@ ResultCodes	WorldSession::CheckEvtDataType(CDboTSActSToCEvt* sToCEvt, NTL_TS_TC_
 					sToCEvt->GetEvtData().sMobKillItemCnt[i].nMobLICnt,
 					sToCEvt->GetEvtData().sMobKillItemCnt[i].nCurMobLICnt);
 
-				TBLIDX mobTblidx = sTBM.GetMobTable()->FindTblidxsByQuestDrop(sToCEvt->GetEvtData().sMobKillItemCnt[i].uiMobLIIdx)[0];
+				if (sToCEvt->GetEvtData().sMobKillItemCnt[i].uiMobLIIdx == INVALID_TBLIDX)
+				{
+					continue;
+				}
+				TBLIDX mobTblidx = INVALID_TBLIDX;
+				std::vector<TBLIDX> mobsTblidx = sTBM.GetMobTable()->FindTblidxsByQuestDrop(sToCEvt->GetEvtData().sMobKillItemCnt[i].uiMobLIIdx);
+				if (mobsTblidx.size() > 0)
+				{
+					mobTblidx = mobsTblidx[0];
+				}
 
-				if (_player->GetAttributesManager()->sPawnMobQuest)
+				if (!(mobTblidx == INVALID_TBLIDX) && _player->GetAttributesManager()->sPawnMobQuest)
 				{
 					sMOB_TBLDAT* mob = (sMOB_TBLDAT*)sTBM.GetMobTable()->FindData(mobTblidx);
 					if (mob)
