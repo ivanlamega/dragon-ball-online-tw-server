@@ -28,6 +28,13 @@ protected:
 class QuestDropTable : public Table
 {
 public:
+
+	typedef std::unordered_map<TBLIDX, std::vector<TBLIDX>> QUESTDROP;
+	typedef QUESTDROP::iterator QUESTDROPIT;
+	typedef QUESTDROP::value_type QUESTDROPVAL;
+
+	QUESTDROP					m_mapQuestDropList;
+
 	QuestDropTable(void);
 	virtual ~QuestDropTable(void);
 
@@ -35,6 +42,10 @@ public:
 	void Destroy();
 
 	sTBLDAT* FindData(TBLIDX tblidx);
+	std::vector<TBLIDX>	FindByItemTblidx(TBLIDX itemTblidx);
+
+	QUESTDROPIT QuestDropBegin() { return m_mapQuestDropList.begin(); };
+	QUESTDROPIT QuestDropEnd() { return m_mapQuestDropList.end(); };
 
 	virtual bool LoadFromBinary(Serializer& serializer, bool bReload);
 	virtual bool SaveToBinary(Serializer& serializer);

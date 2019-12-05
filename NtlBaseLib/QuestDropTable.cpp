@@ -83,6 +83,30 @@ bool QuestDropTable::AddTable(void * pvTable, bool bReload)
 		return false;
 	}
 
+	for (int i = 0; i < QUEST_ITEM_DROP_MAX_COUNT; i++)
+	{
+		TBLIDX itemTblidx = pTbldat->aQuestItemTblidx[i];
+
+		if (itemTblidx != INVALID_TBLIDX)
+		{
+			QUESTDROPIT iterQuestDrop;
+			iterQuestDrop = m_mapQuestDropList.find(itemTblidx);
+			if (QuestDropEnd() == iterQuestDrop)
+			{
+				m_mapQuestDropList[itemTblidx] = std::vector<TBLIDX>();
+				m_mapQuestDropList[itemTblidx].push_back(pTbldat->tblidx);
+			}
+			else
+			{
+				m_mapQuestDropList[itemTblidx].push_back(pTbldat->tblidx);
+			}
+		}
+	}
+
+	
+
+	
+
 	return true;
 }
 
@@ -174,6 +198,22 @@ sTBLDAT* QuestDropTable::FindData(TBLIDX tblidx)
 		return NULL;
 
 	return (sTBLDAT*)(iter->second);
+}
+
+std::vector<TBLIDX>	QuestDropTable::FindByItemTblidx(TBLIDX itemTblidx)
+{
+	if (INVALID_TBLIDX == itemTblidx)
+	{
+		return {};
+	}
+
+	QUESTDROPIT iter;
+	iter = m_mapQuestDropList.find(itemTblidx);
+	if (QuestDropEnd() == iter)
+	{
+		return {};
+	}
+	return iter->second;
 }
 
 bool QuestDropTable::LoadFromBinary(Serializer& serializer, bool bReload)
