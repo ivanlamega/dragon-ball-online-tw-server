@@ -1954,24 +1954,27 @@ void WorldSession::SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, 
 	 {
 		 if (_player->GetAttributesManager()->QuestDat[i].QuestID == req->tId)
 		 {
-			 if (_player->GetAttributesManager()->QuestDat[i].npcClick == _player->GetAttributesManager()->lastNPCQuest)
+			 if (_player->GetAttributesManager()->QuestDat[i].npcClick != INVALID_TBLIDX && _player->GetAttributesManager()->lastNPCQuest != INVALID_TBLIDX)
 			 {
-				 SpawnNPCForQuest(_player->GetAttributesManager()->QuestDat[i].npcClick);
+				 if (_player->GetAttributesManager()->QuestDat[i].npcClick == _player->GetAttributesManager()->lastNPCQuest)
+				 {
+					 SpawnNPCForQuest(_player->GetAttributesManager()->QuestDat[i].npcClick);
 
-				 Mob* curr_Mob = static_cast<Mob*>(_player->GetFromList(_player->GetAttributesManager()->QuestDat[i].mobHandle));
-				 sLog.outDebug("Conver MOB to NPC %d %d", curr_Mob->GetMobData().MonsterID, _player->GetAttributesManager()->lastNPCQuest);
-				 sGU_OBJECT_DESTROY sPacket;
+					 Mob* curr_Mob = static_cast<Mob*>(_player->GetFromList(_player->GetAttributesManager()->QuestDat[i].mobHandle));
+					 sLog.outDebug("Conver MOB to NPC %d %d", curr_Mob->GetMobData().MonsterID, _player->GetAttributesManager()->lastNPCQuest);
+					 sGU_OBJECT_DESTROY sPacket;
 
-				 sPacket.wOpCode = GU_OBJECT_DESTROY;
-				 sPacket.handle = curr_Mob->GetHandle();
-				 sPacket.wPacketSize = sizeof(sGU_OBJECT_DESTROY) - 2;
+					 sPacket.wOpCode = GU_OBJECT_DESTROY;
+					 sPacket.handle = curr_Mob->GetHandle();
+					 sPacket.wPacketSize = sizeof(sGU_OBJECT_DESTROY) - 2;
 
-				 _player->SendPacket((char*)&sPacket, sizeof(sGU_OBJECT_DESTROY));
-				 //curr_Npc->RemoveFromWorld();
-				 curr_Mob->RemoveFromWorld();
-				 _player->RemoveFromList(*curr_Mob);
-				 _player->GetAttributesManager()->lastNPCQuest = INVALID_TBLIDX;
-				 break;
+					 _player->SendPacket((char*)&sPacket, sizeof(sGU_OBJECT_DESTROY));
+					 //curr_Npc->RemoveFromWorld();
+					 curr_Mob->RemoveFromWorld();
+					 _player->RemoveFromList(*curr_Mob);
+					 _player->GetAttributesManager()->lastNPCQuest = INVALID_TBLIDX;
+					 break;
+				 }
 			 }
 		 }
 	 }
