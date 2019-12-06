@@ -27,8 +27,6 @@ void WorldSession::SendCharTeleportRes(Packet& packet)
 	Teleport.wOpCode = GU_CHAR_TELEPORT_RES;
 	Teleport.wPacketSize = sizeof(sGU_CHAR_TELEPORT_RES) - 2;
 
-	_player->GetState()->sCharStateDetail.sCharStateDespawning.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_NPC_PORTAL;
-
 	switch (_player->GetState()->sCharStateDetail.sCharStateDespawning.byTeleportType)
 	{
 		case eTELEPORT_TYPE::TELEPORT_TYPE_DEFAULT:
