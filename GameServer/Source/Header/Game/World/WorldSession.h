@@ -179,8 +179,8 @@ public:
 	void			SendQuestItemDeleteNfy(BYTE pos);
 	void			SendQuestItemMove(Packet& packet);
 	void			SendQuestItemUpdateNfy(BYTE pos, BYTE count);
-	HOBJECT			SpawnMobForQuest(TBLIDX mobTblidx);
-	HOBJECT			SpawnNPCForQuest(TBLIDX NPCTblidx);
+	HOBJECT			SpawnMobForQuest(TBLIDX mobTblidx, int index);
+	HOBJECT			SpawnNPCForQuest(TBLIDX NPCTblidx, int index);
 	ResultCodes		GivePlayerQuestReward(TBLIDX tblidx, eREWARD_CONTAINER_TYPE rewardContType, DWORD dwParam);
 	ResultCodes		GivePlayerItemReward(sQUEST_REWARD_TBLDAT* rewardTbl, DWORD dwParam);
 	ResultCodes		CheckEvtDataType(CDboTSActSToCEvt* sToCEvt, NTL_TS_TC_ID tcId);
