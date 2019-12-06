@@ -23,6 +23,10 @@ public:
 
 	void				BuildPacketForSpawn(SpawnNPC& spawn);
 	MonsterData			GetNpcData()const;
+
+	void				SetIsBecomeMob(bool val);
+	bool				GetIsBecomeMob();
+
 	NpcReference		&GetMapRef();
 
 	//	------------------------------------------------------------------------
@@ -35,5 +39,6 @@ public:
 private:
 	MonsterData			me;
 	NpcReference		m_NpcRef;
+	bool				isBecomeMob;
 };
 #endif

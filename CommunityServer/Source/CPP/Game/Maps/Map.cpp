@@ -345,7 +345,7 @@ void Map::CheckObjectInRange()
 				float distance = NtlGetDistance(owner.x, owner.z, curr_Npc->GetNpcData().curPos.x, curr_Npc->GetNpcData().curPos.z);
 				if (distance <= DEFAULT_VISIBILITY_DISTANCE)
 				{
-					if (plr->isInList(curr_Npc->GetHandle()) == false && curr_Npc->GetIsDead() == false)
+					if (plr->isInList(curr_Npc->GetHandle()) == false && curr_Npc->GetIsDead() == false && curr_Npc->GetIsBecomeMob() == false)
 					{
 						plr->FillList(*curr_Npc);
 						SpawnNPC spawn;

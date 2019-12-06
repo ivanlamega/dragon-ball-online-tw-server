@@ -495,7 +495,7 @@ void Player::SpawnNpcByID(TBLIDX NpcID, CNtlVector Loc, CNtlVector Dir)
 		spawnData.MaxLP = pNPCTblData->wBasic_LP;
 		spawnData.Size = 10;
 		spawnData.OBJType = OBJTYPE_NPC;
-		spawnData.Tblidx = NpcID;
+		spawnData.Tblidx = pNPCTblData->tblidx;
 
 		spawnData.fLastWalkingSpeed = 2;
 		spawnData.fLastRunningSpeed = 2;
@@ -3049,6 +3049,13 @@ void Player::RewardDropFromMob(MonsterData& data)
 										GetAttributesManager()->QuestDat[i].evtDataType,
 										slot,
 										&GetAttributesManager()->QuestDat[i].uEvtData);
+
+									if (GetAttributesManager()->QuestDat[i].uEvtData.sMobKillItemCnt[slot].nCurMobLICnt >=
+										GetAttributesManager()->QuestDat[i].uEvtData.sMobKillItemCnt[slot].nMobLICnt)
+									{
+										m_session->SpawnNPCForQuest(GetAttributesManager()->QuestDat[i].npcClick);
+										GetAttributesManager()->lastNPCQuest = INVALID_TBLIDX;
+									}
 									
 								}
 								sLog.outDebug("Quest drop %d", data.Drop_quest_id, drop->aQuestItemTblidx[itemIndex]);

@@ -14,6 +14,7 @@ struct QuestData
 	int					QuestID;
 	int					RewardID;
 	TBLIDX				npcClick;
+	HOBJECT				mobHandle;
 	NTL_TS_TC_ID		tcId;
 	NTL_TS_TA_ID		taId;
 	eSTOC_EVT_DATA_TYPE evtDataType;

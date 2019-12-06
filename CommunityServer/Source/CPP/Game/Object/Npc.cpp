@@ -92,6 +92,7 @@ bool Npc::Create(sSPAWN_TBLDAT* spawnTbl, sNPC_TBLDAT* npcTbl)
 {
 	me.MonsterID = npcTbl->tblidx;
 	SetIsDead(false);
+	SetIsBecomeMob(false);
 	SetIsFighting(false);
 	me.ShowName = true;
 	me.SpawnAnimation = true;
@@ -208,6 +209,20 @@ bool Npc::Create(sSPAWN_TBLDAT* spawnTbl, sNPC_TBLDAT* npcTbl)
 void Npc::Update(uint32 update_diff, uint32 time)
 {
 
+}
+//----------------------------------------
+//	Set if npc is become a mob
+//----------------------------------------
+void Npc::SetIsBecomeMob(bool val)
+{
+	isBecomeMob = val;
+}
+//----------------------------------------
+//	Get if npc is become a mob
+//----------------------------------------
+bool Npc::GetIsBecomeMob()
+{
+	return isBecomeMob;
 }
 //----------------------------------------
 //	Return the npc struct filled
