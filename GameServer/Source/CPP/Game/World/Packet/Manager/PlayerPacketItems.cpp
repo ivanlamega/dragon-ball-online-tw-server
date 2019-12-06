@@ -236,7 +236,7 @@ void WorldSession::SendItemCreate(sITEM_PROFILE *createdItem)
 	for (int i = 0; i < 17; i++)
 		create.sItemData.awchMaker[i] = createdItem->awchMaker[i];
 
-	create.sItemData.bNeedToIdentify = true;
+	create.sItemData.bNeedToIdentify = false;
 	create.sItemData.byBattleAttribute = createdItem->byBattleAttribute;
 	create.sItemData.byCurrentDurability = createdItem->byCurDur;
 	create.sItemData.byDurationType = createdItem->byDurationType;
