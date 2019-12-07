@@ -3010,6 +3010,13 @@ void Player::RewardDropFromMob(MonsterData& data)
 								GetAttributesManager()->QuestDat[i].evtDataType,
 								slot,
 								&GetAttributesManager()->QuestDat[i].uEvtData);
+
+							if (GetAttributesManager()->QuestDat[i].uEvtData.sMobKillCnt[slot].nCurMobCnt >=
+								GetAttributesManager()->QuestDat[i].uEvtData.sMobKillCnt[slot].nMobCnt)
+							{
+								m_session->SpawnNPCForQuest(GetAttributesManager()->QuestDat[i].npcClick, 0);
+								GetAttributesManager()->lastNPCQuest = INVALID_TBLIDX;
+							}
 							/*sGU_QUEST_SVREVT_UPDATE_NFY start;
 							start.wOpCode = GU_QUEST_SVREVT_UPDATE_NFY;
 							start.wPacketSize = sizeof(sGU_QUEST_SVREVT_UPDATE_NFY) - 2;
@@ -3053,7 +3060,7 @@ void Player::RewardDropFromMob(MonsterData& data)
 									if (GetAttributesManager()->QuestDat[i].uEvtData.sMobKillItemCnt[slot].nCurMobLICnt >=
 										GetAttributesManager()->QuestDat[i].uEvtData.sMobKillItemCnt[slot].nMobLICnt)
 									{
-										m_session->SpawnNPCForQuest(GetAttributesManager()->QuestDat[i].npcClick);
+										m_session->SpawnNPCForQuest(GetAttributesManager()->QuestDat[i].npcClick, 0);
 										GetAttributesManager()->lastNPCQuest = INVALID_TBLIDX;
 									}
 									
