@@ -1749,7 +1749,7 @@ HOBJECT WorldSession::SpawnMobForQuest(TBLIDX mobTblidx, TBLIDX NPCSpawnTblidx, 
 		}
 		else
 		{
-			spawnIdxs = sTBM.GetMobSpawnTable(_player->GetWorldID())->FindSpawnByObjectTblidx(mobTblidx);
+			//spawnIdxs = sTBM.GetMobSpawnTable(_player->GetWorldID())->FindSpawnByObjectTblidx(mobTblidx);
 		}
 
 		/*for (std::vector<TBLIDX>::size_type spI = 0; spI != spawnIdxs.size(); spI++)
@@ -1757,19 +1757,6 @@ HOBJECT WorldSession::SpawnMobForQuest(TBLIDX mobTblidx, TBLIDX NPCSpawnTblidx, 
 			sSPAWN_TBLDAT* spawnTblTest = (sSPAWN_TBLDAT*)sTBM.GetMobSpawnTable(_player->GetWorldID())->FindData(spawnIdxs[spI]);
 			sLog.outDebug("Spawn %d (%f %f %f)", spawnTblTest->tblidx, spawnTblTest->vSpawn_Loc.x, spawnTblTest->vSpawn_Loc.y, spawnTblTest->vSpawn_Loc.z);
 		}*/
-		
-
-		int newIndex = index;
-
-		if (spawnIdxs.size() <= 0)
-		{
-			sLog.outDebug("INVALID_TBLIDX MOB QUEST");
-			return INVALID_TBLIDX;
-		}
-		else if (newIndex > (spawnIdxs.size() - 1))
-		{
-			newIndex = spawnIdxs.size() - 1;
-		}
 
 		sSPAWN_TBLDAT* spawnTbl;
 		sVECTOR3 position;
@@ -1777,6 +1764,19 @@ HOBJECT WorldSession::SpawnMobForQuest(TBLIDX mobTblidx, TBLIDX NPCSpawnTblidx, 
 
 		if (NPCSpawnTblidx != 0)
 		{
+
+			int newIndex = index;
+
+			if (spawnIdxs.size() <= 0)
+			{
+				sLog.outDebug("INVALID_TBLIDX MOB SPAWN QUEST");
+				return INVALID_TBLIDX;
+			}
+			else if (newIndex > (spawnIdxs.size() - 1))
+			{
+				newIndex = spawnIdxs.size() - 1;
+			}
+
 			spawnTbl = (sSPAWN_TBLDAT*)sTBM.GetNpcSpawnTable(_player->GetWorldID())->FindData(spawnIdxs[newIndex]);
 			if (spawnTbl)
 			{
