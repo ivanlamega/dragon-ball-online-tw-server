@@ -3062,6 +3062,7 @@ void Player::RewardDropFromMob(MonsterData& data)
 									{
 										m_session->SpawnNPCForQuest(GetAttributesManager()->QuestDat[i].npcClick, 0);
 										GetAttributesManager()->lastNPCQuest = INVALID_TBLIDX;
+										break;
 									}
 									
 								}
