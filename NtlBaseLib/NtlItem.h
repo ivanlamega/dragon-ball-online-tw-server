@@ -1089,9 +1089,9 @@ struct sITEM_EXTRA_EFFECT
 // ������ DB ����
 struct sITEM_DATA
 {
-	DWORD						unknown1;
-	DWORD						unknown2;
-	//HOBJECT					handle;
+	//DWORD						unknown1;
+	//DWORD						unknown2;
+	HOBJECT					handle;
 	ITEMID					itemId;
 	TBLIDX					itemNo;
 	CHARACTERID				charId;
