@@ -1,6 +1,7 @@
 #include <Game\World\WorldSession.h>
 #include <Game\Object\Player.h>
 #include <Game\Object\Mob.h>
+#include <Game\Object\Npc.h>
 #include <Game\Object\Object.h>
 #include <Packet\Game\PacketGU.h>
 #include <Packet\Game\PacketUG.h>
@@ -23,6 +24,123 @@ void World::SendAnnounce(std::string message)
 	sNotice.wMessageLengthInUnicode = (WORD)wcslen(sNotice.awchMessage);
 
 	SendToAll((char*)&sNotice, sizeof(sGU_SYSTEM_DISPLAY_TEXT));
+}
+//----------------------------------------
+//	Spawn NPC by Tblidx
+//----------------------------------------
+void WorldSession::SpawnNPCByTblidx(TBLIDX NPCTblidx)
+{
+	NPCTable* NpcTable = sTBM.GetNpcTable();
+	sNPC_TBLDAT* pNPCTblData = reinterpret_cast<sNPC_TBLDAT*>(NpcTable->FindData(NPCTblidx));
+	if (pNPCTblData != NULL)
+	{
+		SpawnNPC spawnData;
+		memset(&spawnData, 0, sizeof(SpawnNPC));
+
+		spawnData.wOpCode = GU_OBJECT_CREATE;
+		spawnData.wPacketSize = sizeof(SpawnNPC) - 2;
+
+
+		spawnData.CurEP = pNPCTblData->wBasic_EP;
+		spawnData.CurLP = pNPCTblData->wBasic_LP;
+		HOBJECT handle = sWorld.AcquireSerialId();
+		spawnData.Handle = handle;
+
+		//spawnData.Level = pNPCTblData->byLevel;
+		spawnData.MaxEP = pNPCTblData->wBasic_EP;
+		spawnData.MaxLP = pNPCTblData->wBasic_LP;
+		spawnData.Size = 10;
+		spawnData.OBJType = OBJTYPE_NPC;
+		spawnData.Tblidx = NPCTblidx;
+
+		spawnData.fLastWalkingSpeed = 10;
+		spawnData.fLastRunningSpeed = 10;
+		spawnData.fLastAirSpeed = 10;
+		spawnData.fLastAirDashSpeed = 10;
+		spawnData.fLastAirDashAccelSpeed = 10;
+
+		spawnData.State.sCharStateBase.aspectState.sAspectStateBase.byAspectStateId = 255;
+		spawnData.State.sCharStateBase.vCurLoc.x = _player->m_position.x + rand() % 5;
+		spawnData.State.sCharStateBase.vCurLoc.y = _player->m_position.y;
+		spawnData.State.sCharStateBase.vCurLoc.z = _player->m_position.z + rand() % 5;
+		spawnData.State.sCharStateBase.vCurDir.x = _player->m_rotation.x + rand() % 5;
+		spawnData.State.sCharStateBase.vCurDir.y = _player->m_rotation.y;
+		spawnData.State.sCharStateBase.vCurDir.z = _player->m_rotation.z + rand() % 5;
+		spawnData.State.sCharStateBase.byStateID = eCHARSTATE::CHARSTATE_SPAWNING;
+
+		//	sWorld.SendToAll((char*)&spawnData, sizeof(SpawnMOB));
+		//Need Insert In list
+		Npc* created_Npc = new Npc;
+		if (pNPCTblData)
+		{
+			if (created_Npc->Create(pNPCTblData, spawnData) == true)
+			{
+				created_Npc->GetMapRef().link(this->_player->GetMap(), created_Npc);
+				printf("Npc ID %d inserted into map", NPCTblidx);
+				//_player->GetAttributesManager()->lastNPCQuest = INVALID_TBLIDX;
+			}
+			else
+				delete created_Npc;
+		}
+	}
+}
+//----------------------------------------
+//	Spawn Mob by Tblidx
+//----------------------------------------
+void WorldSession::SpawnMobByTblidx(TBLIDX mobTblidx)
+{
+	MobTable* MobTable = sTBM.GetMobTable();
+	sMOB_TBLDAT* pMOBTblData = reinterpret_cast<sMOB_TBLDAT*>(MobTable->FindData(mobTblidx));
+	if (pMOBTblData != NULL)
+	{
+
+		SpawnMOB spawnData;
+		memset(&spawnData, 0, sizeof(SpawnMOB));
+
+		spawnData.wOpCode = GU_OBJECT_CREATE;
+		spawnData.wPacketSize = sizeof(SpawnMOB) - 2;
+
+
+		spawnData.curEP = pMOBTblData->wBasic_EP;
+		spawnData.curLP = pMOBTblData->wBasic_LP;
+		spawnData.Handle = sWorld.AcquireSerialId();
+		spawnData.Level = pMOBTblData->byLevel;
+		spawnData.maxEP = pMOBTblData->wBasic_EP;
+		spawnData.maxLP = pMOBTblData->wBasic_LP;
+		spawnData.Size = 10;
+		spawnData.Type = OBJTYPE_MOB;
+		spawnData.Tblidx = mobTblidx;
+
+		spawnData.fLastWalkingSpeed = 2;
+		spawnData.fLastRunningSpeed = 2;
+		spawnData.fLastAirgSpeed = 2;
+		spawnData.fLastAirgDashSpeed = 2;
+		spawnData.fLastAirgDashAccelSpeed = 2;
+
+		spawnData.State.sCharStateBase.aspectState.sAspectStateBase.byAspectStateId = 255;
+		spawnData.State.sCharStateBase.vCurLoc.x = _player->m_position.x + rand() % 5;
+		spawnData.State.sCharStateBase.vCurLoc.y = _player->m_position.y;
+		spawnData.State.sCharStateBase.vCurLoc.z = _player->m_position.z + rand() % 5;
+		spawnData.State.sCharStateBase.vCurDir.x = _player->m_rotation.x + rand() % 5;
+		spawnData.State.sCharStateBase.vCurDir.y = _player->m_rotation.y;
+		spawnData.State.sCharStateBase.vCurDir.z = _player->m_rotation.z + rand() % 5;
+		spawnData.State.sCharStateBase.byStateID = eCHARSTATE::CHARSTATE_SPAWNING;
+
+		//	sWorld.SendToAll((char*)&spawnData, sizeof(SpawnMOB));
+		//Need Insert In list
+		Mob* created_mob = new Mob;
+		if (pMOBTblData)
+		{
+			if (created_mob->Create(pMOBTblData, spawnData) == true)
+			{
+				created_mob->GetMapRef().link(this->_player->GetMap(), created_mob);
+				printf("Mob ID %d inserted into map", mobTblidx);
+			}
+			else
+				delete created_mob;
+
+		}
+	}
 }
 //----------------------------------------
 //	Interpret GM command
@@ -179,13 +297,24 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 			//SendPacket((char*)&zoneinfo, sizeof(sGU_AVATAR_ZONE_INFO));
 			sWorld.SendToAll((char*)&zoneinfo, sizeof(sGU_AVATAR_ZONE_INFO));
 		}		
+		else if (strToken == "@addnpc")
+		{
+			strToken = str.substr(pos + 1, std::string::npos);
+			unsigned int NPCID = (unsigned int)atof(strToken.c_str());
+			printf("Executing NPC Func\n");
+
+			SpawnNPCByTblidx(NPCID);
+			printf("Executed\n");
+			return;
+		}
 		else if (strToken == "@addmob")
 		{
 			strToken = str.substr(pos + 1, std::string::npos);
 			unsigned int MobID = (unsigned int)atof(strToken.c_str());
 			printf("Executing Mob Func\n");
 
-			MobTable * MobTable = sTBM.GetMobTable();
+			SpawnMobByTblidx(MobID);
+			/*MobTable * MobTable = sTBM.GetMobTable();
 			sMOB_TBLDAT * pMOBTblData = reinterpret_cast<sMOB_TBLDAT*>(MobTable->FindData(MobID));
 			if (pMOBTblData != NULL)
 			{
@@ -236,7 +365,7 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 						delete created_mob;
 
 				}
-			}
+			}*/
 			printf("Executed\n");
 			return;
 		}

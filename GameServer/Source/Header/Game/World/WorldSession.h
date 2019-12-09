@@ -160,6 +160,9 @@ public:
 	void			SendGuildCreateReq(Packet& packet);
 	// command
 	void			ExecuteServerCommand(Packet& packet);
+	// Spawn
+	void			SpawnMobByTblidx(TBLIDX mobTblidx);
+	void			SpawnNPCByTblidx(TBLIDX mobTblidx);
 	// social
 	void			SendSocialSkill(Packet& packet);
 	// teleport
@@ -179,7 +182,7 @@ public:
 	void			SendQuestItemDeleteNfy(BYTE pos);
 	void			SendQuestItemMove(Packet& packet);
 	void			SendQuestItemUpdateNfy(BYTE pos, BYTE count);
-	HOBJECT			SpawnMobForQuest(TBLIDX mobTblidx, int index);
+	HOBJECT			SpawnMobForQuest(TBLIDX mobTblidx, TBLIDX NPCSpawnTblidx, int index);
 	HOBJECT			SpawnNPCForQuest(TBLIDX NPCTblidx, int index);
 	ResultCodes		GivePlayerQuestReward(TBLIDX tblidx, eREWARD_CONTAINER_TYPE rewardContType, DWORD dwParam);
 	ResultCodes		GivePlayerItemReward(sQUEST_REWARD_TBLDAT* rewardTbl, DWORD dwParam);
