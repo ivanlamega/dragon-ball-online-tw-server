@@ -1480,8 +1480,6 @@ ResultCodes	WorldSession::CheckEvtDataType(CDboTSActSToCEvt* sToCEvt, NTL_TS_TC_
 										_player->RemoveFromList(*curr_Npc);
 										_player->GetAttributesManager()->QuestDat[freeslot].mobHandle = SpawnMobForQuest(mobTblidx, 0);
 
-										_player->GetAttributesManager()->QuestDat[freeslot].mobHandle = SpawnMobForQuest(mobTblidx, 0);
-
 									}
 									else
 									{
@@ -1744,6 +1742,7 @@ HOBJECT WorldSession::SpawnMobForQuest(TBLIDX mobTblidx, int index)
 
 		if (spawnIdxs.size() <= 0)
 		{
+			sLog.outDebug("INVALID_TBLIDX MOB QUEST");
 			return INVALID_TBLIDX;
 		}
 		else if (newIndex > (spawnIdxs.size() - 1))
@@ -1804,9 +1803,10 @@ HOBJECT WorldSession::SpawnMobForQuest(TBLIDX mobTblidx, int index)
 			}
 			return handle;
 		}
-
+		sLog.outDebug("INVALID_TBLIDX SPAWN NOT FOUND");
 		return INVALID_TBLIDX;
 	}
+	sLog.outDebug("INVALID_TBLIDX MOB NOT FOUND");
 	return INVALID_TBLIDX;
 }
 

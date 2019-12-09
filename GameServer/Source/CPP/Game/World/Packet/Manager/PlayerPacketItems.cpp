@@ -217,8 +217,8 @@ void WorldSession::SendItemCreate(sITEM_PROFILE *createdItem)
 	create.wPacketSize = sizeof(sGU_ITEM_CREATE) - 2;
 
 	create.bIsNew = true;
-	create.sItemData.unknown = 0;
-	//create.sItemData.unknown1 = 0;
+	create.sItemData.unknown1 = 0;
+	create.sItemData.unknown2 = 0;
 	create.sItemData.unk = 0;
 	//create.sItemData.handle = create.handle = createdItem->handle;
 
