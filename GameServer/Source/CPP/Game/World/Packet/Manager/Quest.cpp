@@ -1764,7 +1764,17 @@ HOBJECT WorldSession::SpawnMobForQuest(TBLIDX mobTblidx, TBLIDX NPCSpawnTblidx, 
 		{
 			newIndex = spawnIdxs.size() - 1;
 		}
-		sSPAWN_TBLDAT* spawnTbl = (sSPAWN_TBLDAT*)sTBM.GetMobSpawnTable(_player->GetWorldID())->FindData(spawnIdxs[newIndex]);
+
+		sSPAWN_TBLDAT* spawnTbl;
+
+		if (NPCSpawnTblidx != 0)
+		{
+			spawnTbl = (sSPAWN_TBLDAT*)sTBM.GetNpcSpawnTable(_player->GetWorldID())->FindData(spawnIdxs[newIndex]);
+		}
+		else
+		{
+			spawnTbl = (sSPAWN_TBLDAT*)sTBM.GetMobSpawnTable(_player->GetWorldID())->FindData(spawnIdxs[newIndex]);
+		}
 
 		if (spawnTbl)
 		{
@@ -2018,20 +2028,23 @@ void WorldSession::SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, 
 				 {
 					 if (SpawnNPCForQuest(_player->GetAttributesManager()->QuestDat[i].npcClick, 0) != INVALID_TBLIDX)
 					 {
-						 Mob* curr_Mob = static_cast<Mob*>(_player->GetFromList(_player->GetAttributesManager()->QuestDat[i].mobHandle));
-						 sLog.outDebug("Conver MOB to NPC %d %d", curr_Mob->GetMobData().MonsterID, _player->GetAttributesManager()->lastNPCQuest);
-						 sGU_OBJECT_DESTROY sPacket;
+						 if (_player->GetAttributesManager()->QuestDat[i].mobHandle != INVALID_TBLIDX && _player->GetAttributesManager()->QuestDat[i].mobHandle != 0)
+						 {
+							 Mob* curr_Mob = static_cast<Mob*>(_player->GetFromList(_player->GetAttributesManager()->QuestDat[i].mobHandle));
+							 sLog.outDebug("Conver MOB to NPC %d %d", curr_Mob->GetMobData().MonsterID, _player->GetAttributesManager()->lastNPCQuest);
+							 sGU_OBJECT_DESTROY sPacket;
 
-						 sPacket.wOpCode = GU_OBJECT_DESTROY;
-						 sPacket.handle = curr_Mob->GetHandle();
-						 sPacket.wPacketSize = sizeof(sGU_OBJECT_DESTROY) - 2;
+							 sPacket.wOpCode = GU_OBJECT_DESTROY;
+							 sPacket.handle = curr_Mob->GetHandle();
+							 sPacket.wPacketSize = sizeof(sGU_OBJECT_DESTROY) - 2;
 
-						 _player->SendPacket((char*)&sPacket, sizeof(sGU_OBJECT_DESTROY));
-						 //curr_Npc->RemoveFromWorld();
-						 curr_Mob->RemoveFromWorld();
-						 _player->RemoveFromList(*curr_Mob);
-						 _player->GetAttributesManager()->lastNPCQuest = INVALID_TBLIDX;
-						 break;
+							 _player->SendPacket((char*)&sPacket, sizeof(sGU_OBJECT_DESTROY));
+							 //curr_Npc->RemoveFromWorld();
+							 curr_Mob->RemoveFromWorld();
+							 _player->RemoveFromList(*curr_Mob);
+							 _player->GetAttributesManager()->lastNPCQuest = INVALID_TBLIDX;
+							 break;
+						 }
 					 }
 				 }
 			 }
