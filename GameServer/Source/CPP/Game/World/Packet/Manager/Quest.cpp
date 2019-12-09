@@ -1629,6 +1629,17 @@ ResultCodes	WorldSession::CheckEvtDataType(CDboTSActSToCEvt* sToCEvt, NTL_TS_TC_
 		}
 		case eSTOC_EVT_DATA_TYPE_CUSTOM_EVT_CNT:
 		{
+			for (int i = 0; i < sToCEvt->GetEvtData().MAX_CUSTOM_EVT_CNT; i++)
+			{
+				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sCustomEvtCnt[i].nCurCnt = sToCEvt->GetEvtData().sCustomEvtCnt[i].nCurCnt;
+				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sCustomEvtCnt[i].nMaxCnt = sToCEvt->GetEvtData().sCustomEvtCnt[i].nMaxCnt;
+				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sCustomEvtCnt[i].uiCustomEvtID = sToCEvt->GetEvtData().sCustomEvtCnt[i].uiCustomEvtID;
+				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sCustomEvtCnt[i].uiQTextTblIdx = sToCEvt->GetEvtData().sCustomEvtCnt[i].uiQTextTblIdx;
+
+				sLog.outDebug("Quest: maxCount %d curCount %d evtId %d texttblidx %d", 
+					sToCEvt->GetEvtData().sCustomEvtCnt[i].nMaxCnt, sToCEvt->GetEvtData().sCustomEvtCnt[i].nCurCnt, sToCEvt->GetEvtData().sCustomEvtCnt[i].uiCustomEvtID,
+					sToCEvt->GetEvtData().sCustomEvtCnt[i].uiQTextTblIdx);
+			}
 			sLog.outDetail("Quest: type eSTOC_EVT_DATA_TYPE_CUSTOM_EVT_CNT");
 			break;
 		}
@@ -2233,6 +2244,42 @@ void WorldSession::SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, 
 							 }
 							 break;
 						 }
+						 case DBO_COND_TYPE_ID_CHECK_ATTACH_OBJ:
+						 {
+							 CDboTSCheckAttachObj* attachObj = ((CDboTSCheckAttachObj*)contStart->GetChildEntity(i));
+							 if (attachObj)
+							 {
+								 sLog.outDebug("Num obj %d world %d", attachObj->GetNumOfObjectIdx(), attachObj->GetWorldIdx(), attachObj->HasObjectIdx(objTblidx));
+
+								 if (attachObj->HasObjectIdx(objTblidx))
+								 {
+									 contStart->GetYesLinkID();
+								 }
+								 else
+								 {
+									 return RESULT_FAIL;
+								 }
+							 }
+							 break;
+						 }
+						 case DBO_COND_TYPE_ID_CHECK_CUSTOMEVENT:
+						 {
+							 CDboTSCheckCustomEvent* customEvent = ((CDboTSCheckCustomEvent*)contStart->GetChildEntity(i));
+							 if (customEvent)
+							 {
+								 sLog.outDebug("Quest idx %d", customEvent->GetQuestID());
+							 }
+							 break;
+						 }
+						 case DBO_COND_TYPE_ID_CHECK_ITEM:
+						 {
+							 CDboTSCheckItem* checkItem = ((CDboTSCheckItem*)contStart->GetChildEntity(i));
+							 if (checkItem)
+							 {
+								 sLog.outDebug("Item tblidx %d count %d", checkItem->GetItemIdx(), checkItem->GetItemCnt());
+							 }
+							 break;
+						 }
 					 }
 				 }
 				 break;
@@ -2264,6 +2311,34 @@ void WorldSession::SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, 
 									 sLog.outDebug("DirTblidx %d time %d", opObject->GetDirectionTableIndex(), opObject->GetOperateTime());
 								 }
 								 
+							 }
+							 break;
+						 }
+						 case DBO_ACT_TYPE_ID_ACT_CUSTOMEVT:
+						 {
+							 CDboTSActCustomEvt * customEvt = ((CDboTSActCustomEvt*)contAct->GetChildEntity(i));
+							 if (customEvt)
+							 {
+								 sLog.outDebug("EVT ID trigger %d quest EVT ID %d", customEvt->GetCustomEvtID(), questData->uEvtData.sCustomEvtCnt[i].uiCustomEvtID);
+								 for (int slot = 0; slot < questData->uEvtData.MAX_CUSTOM_EVT_CNT; slot++)
+								 {
+									 if (questData->uEvtData.sCustomEvtCnt[i].uiCustomEvtID == INVALID_TBLIDX || customEvt->GetCustomEvtID() == INVALID_TBLIDX)
+									 {
+										 continue;
+									 }
+
+									 if (questData->uEvtData.sCustomEvtCnt[i].uiCustomEvtID == customEvt->GetCustomEvtID())
+									 {
+										 questData->uEvtData.sCustomEvtCnt[i].nCurCnt += 1;
+										 SendQuestItemCreate(0, questData->uEvtData.sCustomEvtCnt[i].uiCustomEvtID, 1);
+										 SendQuestSVRevtUpdateNotify(questData->QuestID,
+											 questData->tcId,
+											 questData->taId,
+											 questData->evtDataType,
+											 slot,
+											 &questData->uEvtData);
+									 }
+								 }
 							 }
 							 break;
 						 }

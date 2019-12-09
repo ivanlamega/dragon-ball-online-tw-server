@@ -50,7 +50,7 @@ void Player::HandleItemUse(Packet pPacket)
 		}
 		if (UseItemData != NULL)
 		{
-			for (int Effect = 0; Effect <= 2; Effect++)
+			for (int Effect = 0; Effect < 2; Effect++)
 			{
 				sSYSTEM_EFFECT_TBLDAT * SystemEffectData = NULL;
 				SystemEffectData = (sSYSTEM_EFFECT_TBLDAT*)sTBM.GetSystemEffectTable()->FindData(UseItemData->adwSystemEffect[Effect]);
@@ -210,6 +210,68 @@ void Player::HandleItemUse(Packet pPacket)
 						}
 						case eSYSTEM_EFFECT_CODE::ACTIVE_RP_UP://RP Ball
 						{
+							break;
+						}
+						case eSYSTEM_EFFECT_CODE::ACTIVE_OBJECT_TRIGGER:
+						{
+							TBLIDX objTblidx = INVALID_TBLIDX;
+							Map* map = GetMap();
+							//sLog.outDebug("Request handle interaction == %d", req->hTarget);
+							if (map)
+							{
+								WorldObjectRefManager ref = map->GetWorldObject();
+								for (auto reference = ref.begin(); reference != ref.end(); ++reference)
+								{
+									if (reference->getSource()->GetHandle() == req->hTarget)
+									{
+										objTblidx = ((WorldObject*)reference->getSource())->GetTblidx();
+										sLog.outString("FOUNDED object tblidx %d hTarget %d", objTblidx, req->hTarget);
+
+										for (int i = 0; i <= 30; i++)
+										{
+											//--------------------------------
+											sLog.outDebug("EVT TYPE %d", GetAttributesManager()->QuestDat[i].evtDataType);
+											switch (GetAttributesManager()->QuestDat[i].evtDataType)
+											{
+												case eSTOC_EVT_DATA_TYPE_CUSTOM_EVT_CNT:
+												{
+													for (int slot = 0; slot < GetAttributesManager()->QuestDat[i].uEvtData.MAX_CUSTOM_EVT_CNT; slot++)
+													{
+														sLog.outDebug("EVT COUNT %d", GetAttributesManager()->QuestDat[i].uEvtData.sCustomEvtCnt[slot].nCurCnt);
+
+														if (GetAttributesManager()->QuestDat[i].QuestID == 0)
+														{
+															continue;
+														}
+
+														sLog.outError("QUEST ID: %d", GetAttributesManager()->QuestDat[i].QuestID);
+														if (GetAttributesManager()->QuestDat[i].uEvtData.sCustomEvtCnt[slot].nCurCnt <
+															GetAttributesManager()->QuestDat[i].uEvtData.sCustomEvtCnt[slot].nMaxCnt)
+														{
+															sLog.outDebug("Item Tblidx %d %d", GetAttributesManager()->QuestDat[i].uEvtData.sCustomEvtCnt[slot].uiCustomEvtID,
+																((WorldObject*)reference->getSource())->GetTblidx());
+
+															if (m_session->FindObjectTriggerInformation(&GetAttributesManager()->QuestDat[i], req->hTarget, objTblidx) == RESULT_SUCCESS)
+															{
+																sGU_ITEM_USE_RES res;
+																res.wOpCode = GU_ITEM_USE_RES;
+																res.wPacketSize = sizeof(sGU_ITEM_USE_RES) - 2;
+																res.wResultCode = RESULT_SUCCESS;
+																res.tblidxItem = Item->tblidx;
+																res.byPlace = req->byPlace;
+																res.byPos = req->byPos;
+																SendPacket((char*)&res, sizeof(sGU_ITEM_USE_RES));
+																sLog.outDebug("Item trigger: %d %d %d", res.tblidxItem, req->hTarget, objTblidx);
+															}
+
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
 							break;
 						}
 						case eSYSTEM_EFFECT_CODE::ACTIVE_GAMBLE_ITEM:
