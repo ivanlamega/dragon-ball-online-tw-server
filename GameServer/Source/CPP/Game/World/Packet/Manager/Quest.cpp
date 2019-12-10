@@ -145,13 +145,14 @@ ResultCodes	WorldSession::FindPCTriggerInformation(sUG_TS_CONFIRM_STEP_REQ* req)
 								{
 									return RESULT_FAIL;
 								}
-								_player->GetAttributesManager()->teleportInfo.rotation.x = worldData->vStart1Dir.x;
-								_player->GetAttributesManager()->teleportInfo.rotation.y = worldData->vStart1Dir.y;
-								_player->GetAttributesManager()->teleportInfo.rotation.z = worldData->vStart1Dir.z;
 
 								_player->GetAttributesManager()->teleportInfo.position.x = worldData->vStart1Loc.x;
 								_player->GetAttributesManager()->teleportInfo.position.y = worldData->vStart1Loc.y;
 								_player->GetAttributesManager()->teleportInfo.position.z = worldData->vStart1Loc.z;
+
+								_player->GetAttributesManager()->teleportInfo.rotation.x = worldData->vStart1Dir.x;
+								_player->GetAttributesManager()->teleportInfo.rotation.y = worldData->vStart1Dir.y;
+								_player->GetAttributesManager()->teleportInfo.rotation.z = worldData->vStart1Dir.z;
 
 								_player->GetAttributesManager()->teleportInfo.bIsToMoveAnotherServer = false;
 								_player->GetAttributesManager()->teleportInfo.worldInfo.worldID = worldData->tblidx;

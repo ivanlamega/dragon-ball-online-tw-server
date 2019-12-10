@@ -951,7 +951,7 @@ void			WorldSession::PacketParser(Packet& packet)
 			res.hSubject = _player->GetHandle();
 			res.bSynchronize = false;
 			res.byPlayMode = 1;
-			res.directTblidx = 1026;
+			res.directTblidx = 1000;
 
 			SendPacket((char*)&res, sizeof(sGU_CHAR_DIRECT_PLAY));
 			break;
