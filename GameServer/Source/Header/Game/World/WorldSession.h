@@ -200,6 +200,8 @@ public:
 	//Trigger
 	void			SendTsExcuteTriggerObject(Packet& packet);
 	ResultCodes		FindObjectTriggerInformation(QuestData* questData, HOBJECT hTarget, TBLIDX objTblidx);
+	// PC trigger
+	ResultCodes		FindPCTriggerInformation(sUG_TS_CONFIRM_STEP_REQ* req);
 	//RankBatle
 	void			GetPlayerFromRankList();
 	

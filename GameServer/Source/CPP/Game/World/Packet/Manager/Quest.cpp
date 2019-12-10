@@ -15,10 +15,111 @@
 #include <XmlParser2/XmlParser2.h>
 #include <TimerJs.h>
 
+ResultCodes	WorldSession::FindPCTriggerInformation(sUG_TS_CONFIRM_STEP_REQ* req)
+{
+	// example tss
+	CNtlTSCont* contBase = sTSM.FindTriggerFromTS(req->tId)->GetGroup(NTL_TS_MAIN_GROUP_ID)->GetChildCont(req->tcCurId);
+	if (contBase == NULL)
+	{
+		return RESULT_FAIL;
+	}
+
+	sLog.outError("type: %s %d", contBase->GetClassNameW(), contBase->GetEntityType());
+	switch (contBase->GetEntityType())
+	{
+		case DBO_CONT_TYPE_ID_CONT_START:
+		{
+			CDboTSContStart* contStart = ((CDboTSContStart*)contBase);
+			if (contStart == NULL)
+			{
+				return RESULT_FAIL;
+			}
+
+			for (int i = 0; i < contStart->GetNumOfChildEntity(); i++)
+			{
+				sLog.outDetail("Cont: %s %d", contStart->GetChildEntity(i)->GetClassNameW(), contStart->GetChildEntity(i)->GetEntityType());
+				switch (contStart->GetChildEntity(i)->GetEntityType())
+				{
+					case DBO_EVENT_TYPE_ID_COL_OBJECT:
+					{
+						CDboTSColObject* colObject = ((CDboTSColObject*)contStart->GetChildEntity(i));
+						if (colObject == NULL)
+						{
+							return RESULT_FAIL;
+						}
+						sLog.outDebug("Num objects %d, world %d object (%d) col obj? %d",
+							colObject->GetNumOfObjectIdx(), colObject->GetWorldIdx(), req->dwEventData, colObject->HasObjectIdx(req->dwEventData));
+						break;
+					}
+				}
+			}
+			break;
+		}
+		case DBO_CONT_TYPE_ID_CONT_GACT:
+		{
+			CDboTSContGAct* contAct = ((CDboTSContGAct*)contBase);
+			if (contAct == NULL)
+			{
+				return RESULT_FAIL;
+			}
+			for (int i = 0; i < contAct->GetNumOfChildEntity(); i++)
+			{
+				sLog.outDetail("Cont: %s %d", contAct->GetChildEntity(i)->GetClassNameW(), contAct->GetChildEntity(i)->GetEntityType());
+				switch (contAct->GetChildEntity(i)->GetEntityType())
+				{
+					case DBO_ACT_TYPE_ID_ACT_PORTAL:
+					{
+						CDboTSActPortal* actPortal = ((CDboTSActPortal*)contAct->GetChildEntity(i));
+						if (actPortal == NULL)
+						{
+							return RESULT_FAIL;
+						}
+						switch (actPortal->GetPotalType())
+						{
+							case ePORTAL_TYPE_GATEWAY:
+							{
+
+							}
+							case ePORTAL_TYPE_TELEPORT:
+							{
+								actPortal->GetPosition(_player->GetAttributesManager()->teleportInfo.position.x,
+									_player->GetAttributesManager()->teleportInfo.position.y,
+									_player->GetAttributesManager()->teleportInfo.position.z);
+
+								actPortal->GetDirection(_player->GetAttributesManager()->teleportInfo.rotation.x,
+									_player->GetAttributesManager()->teleportInfo.rotation.y,
+									_player->GetAttributesManager()->teleportInfo.rotation.z);
+
+								_player->GetAttributesManager()->teleportInfo.worldInfo.tblidx = actPortal->GetWorldIdx();
+
+								sLog.outDebug("Teleport: pos %f %f %f rot %f %f %f worldtblidx %d type %d", _player->GetAttributesManager()->teleportInfo.position.x,
+									_player->GetAttributesManager()->teleportInfo.position.y,
+									_player->GetAttributesManager()->teleportInfo.position.z,
+									_player->GetAttributesManager()->teleportInfo.rotation.x,
+									_player->GetAttributesManager()->teleportInfo.rotation.y,
+									_player->GetAttributesManager()->teleportInfo.rotation.z,
+									actPortal->GetWorldIdx(),
+									actPortal->GetPotalType());
+
+								sWORLD_TBLDAT* worldTbl = (sWORLD_TBLDAT*)sTBM.GetWorldTable()->FindData(_player->GetAttributesManager()->teleportInfo.worldInfo.tblidx);
+								sLog.outDebug("WORLD TBLIDX: %d resourse id: %d", worldTbl->tblidx, worldTbl->dwWorldResourceID);
+								_player->GetState()->sCharStateDetail.sCharStateDespawning.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_DEFAULT;
+								_player->SetState(eCHARSTATE::CHARSTATE_DESPAWNING);
+								break;
+							}
+						}
+						break;
+					}
+				}
+			}
+			break;
+		}
+	}
+}
 
 void WorldSession::GetQuestPortalInfo(DWORD QuestID, DWORD tcCurId, DWORD tcNextId)
 {
-	if (QuestID == 1 && tcCurId == 254)
+	/*if (QuestID == 1 && tcCurId == 254)
 	{
 		sGU_CHAR_TELEPORT_RES teleport;
 
@@ -122,7 +223,8 @@ void WorldSession::GetQuestPortalInfo(DWORD QuestID, DWORD tcCurId, DWORD tcNext
 		{
 			if (world->tblidx != _player->GetWorldID())
 			{
-				teleport.bIsToMoveAnotherServer = true;
+				teleport.bIsToMoveAnotherServer = false;
+				teleport.unk = 0;
 				teleport.sWorldInfo.worldID = world->tblidx;
 				teleport.sWorldInfo.tblidx = world->tblidx;
 				teleport.sWorldInfo.sRuleInfo.byRuleType = world->byWorldRuleType;
@@ -290,7 +392,7 @@ void WorldSession::GetQuestPortalInfo(DWORD QuestID, DWORD tcCurId, DWORD tcNext
 			map->Remove(_player, false);
 			_player->ClearListAndReference();
 		}
-	}
+	}*/
 }
 void WorldSession::GetQuestInfo(DWORD QuestID, DWORD tcCurId, DWORD tcNextId)
 {
@@ -454,6 +556,7 @@ void WorldSession::SendQuestAcept(Packet& packet)
 
 		if (req->byTsType == TS_TYPE_QUEST_CS)
 		{		
+			sLog.outDebug("TS_TYPE_QUEST_CS");
 			int result = FindQuestInformation(req);
 
 			if (req->tcCurId == 2)
@@ -474,15 +577,18 @@ void WorldSession::SendQuestAcept(Packet& packet)
 		}
 		if (req->byTsType == TS_TYPE_PC_TRIGGER_CS)
 		{
+			sLog.outDebug("TS_TYPE_PC_TRIGGER_CS");
+			FindPCTriggerInformation(req);
 			if (req->tcCurId == 254)
 			{
 				GetQuestPortalInfo(req->tId, req->tcCurId, req->tcNextId);
+				
 			}
 		}
 
 		if (req->byTsType == TS_TYPE_OBJECT_TRIGGER_S)
 		{
-
+			
 		}
 
 		//Need Find Logic to Complete Quest for Correct ID

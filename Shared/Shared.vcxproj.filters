@@ -1,12 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Source\CPP\Threading.cpp" />
-    <ClCompile Include="Source\CPP\TimerJs.cpp" />
-    <ClCompile Include="Source\CPP\XmlParser.cpp" />
-    <ClCompile Include="Source\CPP\XmlParser2\XmlParser2.cpp" />
-    <ClCompile Include="Source\Library\NetworkLibrary\CPP\Socket.cpp" />
-    <ClCompile Include="Source\Library\SQLLibrary\Request\Request.cpp" />
     <ClCompile Include="ChatRequest.cpp">
       <Filter>Source Files\SQL</Filter>
     </ClCompile>
@@ -34,20 +28,26 @@
     <ClCompile Include="Source\Library\NetworkLibrary\CPP\PacketBuffer.cpp">
       <Filter>Source Files\Network</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Library\SQLLibrary\Request\Request.cpp">
+      <Filter>Source Files\SQL</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Library\NetworkLibrary\CPP\Socket.cpp">
+      <Filter>Source Files\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\Threading.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\XmlParser.cpp">
+      <Filter>Source Files\XmlParser</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\XmlParser2\XmlParser2.cpp">
+      <Filter>Source Files\XmlParser2</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\TimerJs.cpp">
+      <Filter>Source Files\TimerJs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Header\ResultCode.h" />
-    <ClInclude Include="Source\Header\SharedDef.h" />
-    <ClInclude Include="Source\Header\SharedType.h" />
-    <ClInclude Include="Source\Header\Singleton.h" />
-    <ClInclude Include="Source\Header\Threading.h" />
-    <ClInclude Include="Source\Header\ThreadingModel.h" />
-    <ClInclude Include="Source\Header\TimerJs.h" />
-    <ClInclude Include="Source\Header\XmlParser.h" />
-    <ClInclude Include="Source\Header\XmlParser2\XmlParser2.h" />
-    <ClInclude Include="Source\Library\NetworkLibrary\Header\LinkedElement\Reference.h" />
-    <ClInclude Include="Source\Library\NetworkLibrary\Header\LinkedElement\RefManager.h" />
-    <ClInclude Include="Source\Library\NetworkLibrary\Header\Socket.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Source\Header\Logger.h">
       <Filter>Header Files</Filter>
@@ -103,6 +103,42 @@
     <ClInclude Include="Source\Library\NetworkLibrary\Header\PacketBuffer.h">
       <Filter>Header Files\Network</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Library\NetworkLibrary\Header\LinkedElement\Reference.h">
+      <Filter>Header Files\Network\LinkedElement</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Library\NetworkLibrary\Header\LinkedElement\RefManager.h">
+      <Filter>Header Files\Network\LinkedElement</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Header\ResultCode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Header\SharedDef.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Header\SharedType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Header\Singleton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Library\NetworkLibrary\Header\Socket.h">
+      <Filter>Header Files\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Header\Threading.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Header\ThreadingModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Header\XmlParser.h">
+      <Filter>Header Files\XmlParser</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Header\XmlParser2\XmlParser2.h">
+      <Filter>Header Files\XmlParser2</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Header\TimerJs.h">
+      <Filter>Header Files\TimerJs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -155,6 +191,12 @@
     </Filter>
     <Filter Include="Source Files\SQL">
       <UniqueIdentifier>{84e1b173-298f-444c-8938-c17f6b659291}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\TimerJs">
+      <UniqueIdentifier>{39e3ba79-ffce-4211-a6e1-b2a1f1d18e15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\TimerJs">
+      <UniqueIdentifier>{39f59471-7269-442f-8614-54dfae3a503d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
