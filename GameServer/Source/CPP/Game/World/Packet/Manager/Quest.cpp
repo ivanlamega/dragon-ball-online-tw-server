@@ -13,6 +13,7 @@
 #include <World.h>
 #include <QuestWrapper.h>
 #include <XmlParser2/XmlParser2.h>
+#include <TimerJs.h>
 
 
 void WorldSession::GetQuestPortalInfo(DWORD QuestID, DWORD tcCurId, DWORD tcNextId)
@@ -2309,6 +2310,12 @@ void WorldSession::SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, 
 									 _player->GetState()->sCharStateDetail.sCharStateOperating.directTblidx = opObject->GetDirectionTableIndex();
 									 _player->UpdateState(eCHARSTATE::CHARSTATE_OPERATING);
 									 sLog.outDebug("DirTblidx %d time %d", opObject->GetDirectionTableIndex(), opObject->GetOperateTime());
+
+									 // testing timer https://www.fluentcpp.com/2018/12/28/timer-cpp/
+
+									 Timer.setTimeout([&]() {
+										 _player->UpdateState(eCHARSTATE::CHARSTATE_STANDING);
+										 }, opObject->GetOperateTime());
 								 }
 								 
 							 }
