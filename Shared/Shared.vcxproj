@@ -181,6 +181,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Source\Header\ConsoleColor.h" />
     <ClInclude Include="Source\Header\CreationPolicy.h" />
     <ClInclude Include="Source\Header\Define.h" />
@@ -194,6 +195,7 @@
     <ClInclude Include="Source\Header\Singleton.h" />
     <ClInclude Include="Source\Header\Threading.h" />
     <ClInclude Include="Source\Header\ThreadingModel.h" />
+    <ClInclude Include="Source\Header\TimerJs.h" />
     <ClInclude Include="Source\Header\XmlParser.h" />
     <ClInclude Include="Source\Header\XmlParser2\XmlParser2.h" />
     <ClInclude Include="Source\Library\NetworkLibrary\Header\LinkedElement\LinkedList.h" />
@@ -218,6 +220,7 @@
     <ClCompile Include="Source\CPP\ObjectLifeTime.cpp" />
     <ClCompile Include="Source\CPP\SQL\GameRequest.cpp" />
     <ClCompile Include="Source\CPP\Threading.cpp" />
+    <ClCompile Include="Source\CPP\TimerJs.cpp" />
     <ClCompile Include="Source\CPP\XmlParser.cpp" />
     <ClCompile Include="Source\CPP\XmlParser2\XmlParser2.cpp" />
     <ClCompile Include="Source\Library\NetworkLibrary\CPP\Listener.cpp" />
@@ -234,6 +237,9 @@
     <ProjectReference Include="..\Libraries\NtlLib\Shared\NtlTrigger\NtlTrigger.vcxproj">
       <Project>{e18fb469-6ea5-4440-9c5d-99f62f45d7e4}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Shared.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
