@@ -323,8 +323,8 @@ END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(GU_CHAR_TELEPORT_RES)
 WORD			wResultCode;
-dVECTOR3		vNewLoc;
-wVECTOR3		vNewDir;
+sVECTOR3		vNewLoc;
+sVECTOR3		vNewDir;
 DWORD			unk;
 bool			bIsToMoveAnotherServer;
 BYTE			unk1;
