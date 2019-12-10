@@ -18,6 +18,7 @@ public:
 	DWORD			dwHonorPoint;
 	TBLIDX			wpsTblidx;
 	TBLIDX			openCine;
+	TBLIDX			unknown;
 
 protected:
 	virtual int GetDataSize()

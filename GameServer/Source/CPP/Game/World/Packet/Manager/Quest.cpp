@@ -91,6 +91,7 @@ ResultCodes	WorldSession::FindPCTriggerInformation(sUG_TS_CONFIRM_STEP_REQ* req)
 									_player->GetAttributesManager()->teleportInfo.rotation.z);
 
 								_player->GetAttributesManager()->teleportInfo.worldInfo.tblidx = actPortal->GetWorldIdx();
+								_player->GetAttributesManager()->teleportInfo.worldInfo.worldID = actPortal->GetWorldIdx();
 
 								sLog.outDebug("Teleport: pos %f %f %f rot %f %f %f worldtblidx %d type %d", _player->GetAttributesManager()->teleportInfo.position.x,
 									_player->GetAttributesManager()->teleportInfo.position.y,
@@ -110,7 +111,108 @@ ResultCodes	WorldSession::FindPCTriggerInformation(sUG_TS_CONFIRM_STEP_REQ* req)
 						}
 						break;
 					}
+					case DBO_ACT_TYPE_ID_ACT_TWAITTS:
+					{
+						CDboTSActTWaitTS* waitTs = (CDboTSActTWaitTS*)contAct->GetChildEntity(i);
+						if (waitTs == NULL)
+						{
+							return RESULT_FAIL;
+						}
+						sLog.outDebug("Wait time %d", waitTs->GetWaitTime());
+						break;
+					}
+					case DBO_ACT_TYPE_ID_ACT_TLQ:
+					{
+						CDboTSActTLQ* tlq = (CDboTSActTLQ*)contAct->GetChildEntity(i);
+						if (tlq == NULL)
+						{
+							return RESULT_FAIL;
+						}
+						sLog.outDebug("Dungeon tblidx %d type %d", tlq->GetDungeonTblIdx(), tlq->GetDungeonType());
+						switch (tlq->GetDungeonType())
+						{
+							case eTLQ_DUNGEON_TYPE_ENTER:
+							{
+								sDUNGEON_TBLDAT* dungeonData = (sDUNGEON_TBLDAT*)sTBM.GetDungeonTable()->FindData(tlq->GetDungeonTblIdx());
+								if (dungeonData == NULL)
+								{
+									return RESULT_FAIL;
+								}
+
+								sWORLD_TBLDAT* worldData = (sWORLD_TBLDAT*)sTBM.GetWorldTable()->FindData(dungeonData->linkWorld);
+
+								if (worldData == NULL)
+								{
+									return RESULT_FAIL;
+								}
+								_player->GetAttributesManager()->teleportInfo.rotation.x = worldData->vStart1Dir.x;
+								_player->GetAttributesManager()->teleportInfo.rotation.y = worldData->vStart1Dir.y;
+								_player->GetAttributesManager()->teleportInfo.rotation.z = worldData->vStart1Dir.z;
+
+								_player->GetAttributesManager()->teleportInfo.position.x = worldData->vStart1Loc.x;
+								_player->GetAttributesManager()->teleportInfo.position.y = worldData->vStart1Loc.y;
+								_player->GetAttributesManager()->teleportInfo.position.z = worldData->vStart1Loc.z;
+
+								_player->GetAttributesManager()->teleportInfo.bIsToMoveAnotherServer = false;
+								_player->GetAttributesManager()->teleportInfo.worldInfo.worldID = worldData->tblidx;
+								_player->GetAttributesManager()->teleportInfo.worldInfo.tblidx = worldData->tblidx;
+								_player->GetAttributesManager()->teleportInfo.worldInfo.hTriggerObjectOffset = 100000;
+								_player->GetAttributesManager()->teleportInfo.worldInfo.sRuleInfo.byRuleType = worldData->byWorldRuleType;
+
+								sLog.outDebug("Teleport: pos %f %f %f rot %f %f %f worldtblidx %d type %d ruleType %d", _player->GetAttributesManager()->teleportInfo.position.x,
+									_player->GetAttributesManager()->teleportInfo.position.y,
+									_player->GetAttributesManager()->teleportInfo.position.z,
+									_player->GetAttributesManager()->teleportInfo.rotation.x,
+									_player->GetAttributesManager()->teleportInfo.rotation.y,
+									_player->GetAttributesManager()->teleportInfo.rotation.z,
+									worldData->tblidx,
+									dungeonData->byDungeonType,
+									worldData->byWorldRuleType);
+
+								SendUpdateCharCondition(80);
+								_player->GetState()->sCharStateDetail.sCharStateDespawning.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_TIMEQUEST;
+								_player->SetState(eCHARSTATE::CHARSTATE_DESPAWNING);
+								break;
+							}
+						}
+						break;
+					}
 				}
+			}
+			break;
+		}
+		case DBO_CONT_TYPE_ID_CONT_GCOND:
+		{
+			CDboTSContGCond* contGCond = ((CDboTSContGCond*)contBase);
+			if (contGCond == NULL)
+			{
+				return RESULT_FAIL;
+			}
+			for (int i = 0; i < contGCond->GetNumOfChildEntity(); i++)
+			{
+				sLog.outDetail("Cont: %s %d", contGCond->GetChildEntity(i)->GetClassNameW(), contGCond->GetChildEntity(i)->GetEntityType());
+				switch (contGCond->GetChildEntity(i)->GetEntityType())
+				{
+					case DBO_COND_TYPE_ID_CHECK_PROG_QUEST:
+					{
+						CDboTSCheckProgQuest* progQuest = (CDboTSCheckProgQuest*)contGCond->GetChildEntity(i);
+						if (progQuest == NULL)
+						{
+							return RESULT_FAIL;
+						}
+						sLog.outDebug("QuestId %d", progQuest->GetQuestID());
+						break;
+					}
+				}
+			}
+			break;
+		}
+		case DBO_CONT_TYPE_ID_CONT_END:
+		{
+			CDboTSContEnd* end = (CDboTSContEnd*)contBase;
+			if (end == NULL)
+			{
+				return RESULT_FAIL;
 			}
 			break;
 		}
