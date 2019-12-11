@@ -74,14 +74,14 @@ void WorldSession::SendCharTeleportRes(Packet& packet)
 			Teleport.vNewDir.y = _player->GetAttributesManager()->teleportInfo.rotation.y;//0;
 			Teleport.vNewDir.z = _player->GetAttributesManager()->teleportInfo.rotation.z; //-0.661000;
 			Teleport.unk = INVALID_TBLIDX;
-			Teleport.bIsToMoveAnotherServer = _player->GetAttributesManager()->teleportInfo.bIsToMoveAnotherServer;
+			/*Teleport.bIsToMoveAnotherServer = _player->GetAttributesManager()->teleportInfo.bIsToMoveAnotherServer;
 			Teleport.sWorldInfo.worldID = _player->GetAttributesManager()->teleportInfo.worldInfo.worldID;
 			Teleport.sWorldInfo.tblidx = _player->GetAttributesManager()->teleportInfo.worldInfo.tblidx;
-			Teleport.sWorldInfo.sRuleInfo.byRuleType = _player->GetAttributesManager()->teleportInfo.worldInfo.sRuleInfo.byRuleType;
+			Teleport.sWorldInfo.sRuleInfo.byRuleType = _player->GetAttributesManager()->teleportInfo.worldInfo.sRuleInfo.byRuleType;*/
 
 			_player->Relocate(Teleport.vNewLoc.x, Teleport.vNewLoc.y, Teleport.vNewLoc.z, Teleport.vNewDir.x, Teleport.vNewDir.y, Teleport.vNewDir.z);
-			_player->SetWorldID(Teleport.sWorldInfo.worldID);
-			_player->SetWorldTableID(Teleport.sWorldInfo.tblidx);
+			_player->SetWorldID(_player->GetAttributesManager()->teleportInfo.worldInfo.worldID);
+			_player->SetWorldTableID(_player->GetAttributesManager()->teleportInfo.worldInfo.tblidx);
 
 			/*sGU_UPDATE_CHAR_CONDITION condition;
 			condition.wOpCode = GU_UPDATE_CHAR_CONDITION;
