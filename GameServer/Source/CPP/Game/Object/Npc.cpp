@@ -90,9 +90,6 @@ void Npc::BuildPacketForSpawn(SpawnNPC& spawnData)
 	//GetState()->sCharStateDetail.sCharStateSpawning.byTeleportType = 1;
 	//GetState()->sCharStateDetail.sCharStateSpawning.unk = 1;
 
-	printf("NPC tblidx(%d) pos: (x: %f y: %f z: %f) dir (x: %f y: %f z: %f) state %d\n", 
-		spawnData.Tblidx, me.curPos.x, me.curPos.y, me.curPos.z, me.Spawn_Dir.x, me.Spawn_Dir.y, me.Spawn_Dir.z);
-
 	memcpy(&spawnData.State.sCharStateBase, &GetState()->sCharStateBase, sizeof(sCHARSTATE_BASE));
 	memcpy(&spawnData.State.sCharStateDetail, &GetState()->sCharStateDetail, sizeof(sCHARSTATE_DETAIL));
 }
