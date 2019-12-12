@@ -146,6 +146,45 @@ void WorldSession::SendCharTeleportRes(Packet& packet)
 			_player->ClearListAndReference();
 			break;
 		}
+		case eTELEPORT_TYPE::TELEPORT_TYPE_COMMAND:
+		{
+			Teleport.wResultCode = GAME_SUCCESS;
+			Teleport.vNewLoc.x = _player->GetAttributesManager()->teleportInfo.position.x;//4474.109863;
+			Teleport.vNewLoc.y = _player->GetAttributesManager()->teleportInfo.position.y;//-42.000000;
+			Teleport.vNewLoc.z = _player->GetAttributesManager()->teleportInfo.position.z; //3958.379883;
+			Teleport.vNewDir.x = _player->m_rotation.x; //-0.751000;
+			Teleport.vNewDir.y = _player->m_rotation.y;//0;
+			Teleport.vNewDir.z = _player->m_rotation.z; //-0.661000
+			Teleport.unk = INVALID_TBLIDX;
+
+			_player->Relocate(Teleport.vNewLoc.x, Teleport.vNewLoc.y, Teleport.vNewLoc.z, Teleport.vNewDir.x, Teleport.vNewDir.y, Teleport.vNewDir.z);
+			_player->SetWorldID(_player->GetAttributesManager()->teleportInfo.worldInfo.worldID);
+			_player->SetWorldTableID(_player->GetAttributesManager()->teleportInfo.worldInfo.tblidx);
+
+			/*sGU_UPDATE_CHAR_CONDITION condition;
+			condition.wOpCode = GU_UPDATE_CHAR_CONDITION;
+			condition.wPacketSize = sizeof(sGU_UPDATE_CHAR_CONDITION) - 2;
+
+			condition.handle = _player->GetHandle();
+			condition.dwConditionFlag = 0;
+			condition.unknown = 0;
+
+			sWorld.SendToAll((char*)&condition, sizeof(sGU_UPDATE_CHAR_CONDITION));*/
+			SendUpdateCharCondition(0);
+
+			memset(&(_player->GetAttributesManager()->teleportInfo), 0, sizeof _player->GetAttributesManager()->teleportInfo);
+			sLog.outDebug("--------TELEPORT NPC--------");
+			sLog.outDebug("Type teleport %d", _player->GetState()->sCharStateDetail.sCharStateDespawning.byTeleportType);
+
+			_player->GetState()->sCharStateDetail.sCharStateTeleporting.byTeleportType = _player->GetState()->sCharStateDetail.sCharStateDespawning.byTeleportType;
+			_player->UpdateState(eCHARSTATE::CHARSTATE_TELEPORTING);
+
+			/*	   NOT SURE IF THIS IS A GOOD IDEA FOR NOW		*/
+			Map* map = _player->GetMap();
+			map->Remove(_player, false);
+			_player->ClearListAndReference();
+			break;
+		}
 	}
 
 	SendPacket((char*)&Teleport, sizeof(sGU_CHAR_TELEPORT_RES));

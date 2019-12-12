@@ -40,12 +40,20 @@ public:
 	QuestData		QuestDat[30];
 
 	// Teleport
+	struct OutWorld
+	{
+		sVECTOR3	position;
+		sVECTOR3	rotation;
+		TBLIDX		worldTblidx;
+	};
+
 	struct TeleportInfo
 	{
 		sVECTOR3	position;
 		sVECTOR3	rotation;
 		bool		bIsToMoveAnotherServer;
 		sWORLD_INFO worldInfo;
+		OutWorld	outWorld;
 	};
 
 	TeleportInfo teleportInfo;

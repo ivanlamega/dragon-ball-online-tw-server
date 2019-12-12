@@ -146,6 +146,16 @@ ResultCodes	WorldSession::FindPCTriggerInformation(sUG_TS_CONFIRM_STEP_REQ* req)
 									return RESULT_FAIL;
 								}
 
+								_player->GetAttributesManager()->teleportInfo.outWorld.position.x = worldData->outWorldLoc.x;
+								_player->GetAttributesManager()->teleportInfo.outWorld.position.y = worldData->outWorldLoc.y;
+								_player->GetAttributesManager()->teleportInfo.outWorld.position.z = worldData->outWorldLoc.z;
+
+								_player->GetAttributesManager()->teleportInfo.outWorld.rotation.x = worldData->outWorldDir.x;
+								_player->GetAttributesManager()->teleportInfo.outWorld.rotation.y = worldData->outWorldDir.y;
+								_player->GetAttributesManager()->teleportInfo.outWorld.rotation.z = worldData->outWorldDir.z;
+								_player->GetAttributesManager()->teleportInfo.outWorld.worldTblidx = worldData->outWorldTblidx;
+
+
 								_player->GetAttributesManager()->teleportInfo.position.x = worldData->vStart1Loc.x;
 								_player->GetAttributesManager()->teleportInfo.position.y = worldData->vStart1Loc.y;
 								_player->GetAttributesManager()->teleportInfo.position.z = worldData->vStart1Loc.z;

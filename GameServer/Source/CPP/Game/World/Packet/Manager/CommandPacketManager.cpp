@@ -172,6 +172,31 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 			_player->LevelUpByComand(Level);
 			return;
 		}
+		else if (strToken == "@quest")
+		{
+			sLog.outDetail("Respawn object quest");
+			strToken = str.substr(pos + 1, std::string::npos);
+			unsigned int teid = (unsigned int)atof(strToken.c_str());
+			sGU_TS_UPDATE_EVENT_NFY nfy;
+			nfy.wOpCode = GU_TS_UPDATE_EVENT_NFY;
+			nfy.wPacketSize = sizeof(sGU_TS_UPDATE_EVENT_NFY) - 2;
+			nfy.byTsType = 0;
+			nfy.teid = teid;
+			SendPacket((char*)&nfy, sizeof(sGU_TS_UPDATE_EVENT_NFY));
+		}
+		else if (strToken == "@zone")
+		{
+			sLog.outDetail("Respawn object quest");
+			strToken = str.substr(pos + 1, std::string::npos);
+			unsigned int teid = (unsigned int)atof(strToken.c_str());
+
+			sGU_AVATAR_ZONE_INFO info;
+			info.wOpCode = GU_AVATAR_ZONE_INFO;
+			info.wPacketSize = sizeof(sGU_AVATAR_ZONE_INFO) - 2;
+			info.zoneInfo.bIsDark = 0;
+			info.zoneInfo.zoneId = 200101;
+			SendPacket((char*)&info, sizeof(sGU_AVATAR_ZONE_INFO));
+		}
 		else if (strToken == "@pickup")
 		{
 			sLog.outDetail("Respawn object quest");
@@ -545,6 +570,40 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 
 				//SendUpdateSkillPassiveAtributeByID(skillID, false);
 			return;
+		}
+		else if (strToken == "@tlp")
+		{
+			strToken = str.substr(pos + 1, std::string::npos);
+			TBLIDX world = (unsigned int)atof(strToken.c_str());
+			strToken = str.substr(pos + 2, std::string::npos);
+			float posX = (unsigned int)atof(strToken.c_str());
+			strToken = str.substr(pos + 3, std::string::npos);
+			float posY = (unsigned int)atof(strToken.c_str());
+			strToken = str.substr(pos + 4, std::string::npos);
+			float posZ = (unsigned int)atof(strToken.c_str());
+
+			sLog.outDebug("Teleport world %d (%f %f %f)", world, posX, posY, posZ);
+
+			_player->GetAttributesManager()->teleportInfo.worldInfo.tblidx = world;
+			_player->GetAttributesManager()->teleportInfo.worldInfo.worldID = world;
+
+			_player->GetAttributesManager()->teleportInfo.position.x = posX;
+			_player->GetAttributesManager()->teleportInfo.position.y = posY;
+			_player->GetAttributesManager()->teleportInfo.position.z = posZ;
+
+			/*sGU_UPDATE_CHAR_CONDITION condition;
+			condition.wOpCode = GU_UPDATE_CHAR_CONDITION;
+			condition.wPacketSize = sizeof(sGU_UPDATE_CHAR_CONDITION) - 2;
+
+			condition.handle = _player->GetHandle();
+			condition.dwConditionFlag = 80;
+			condition.unknown = 0;
+
+			sWorld.SendToAll((char*)&condition, sizeof(sGU_UPDATE_CHAR_CONDITION));*/
+			SendUpdateCharCondition(80);
+
+			_player->GetState()->sCharStateDetail.sCharStateDespawning.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_COMMAND;
+			_player->SetState(eCHARSTATE::CHARSTATE_DESPAWNING);
 		}
 		else if (strToken == "@dbhuntstart")
 		{
