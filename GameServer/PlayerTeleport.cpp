@@ -122,7 +122,7 @@ void WorldSession::SendCharTeleportRes(Packet& packet)
 			Teleport.bIsToMoveAnotherServer = _player->GetAttributesManager()->teleportInfo.bIsToMoveAnotherServer;
 			Teleport.sWorldInfo.worldID = _player->GetAttributesManager()->teleportInfo.worldInfo.worldID;
 			Teleport.sWorldInfo.tblidx = _player->GetAttributesManager()->teleportInfo.worldInfo.tblidx;
-			Teleport.sWorldInfo.hTriggerObjectOffset = _player->GetAttributesManager()->teleportInfo.worldInfo.hTriggerObjectOffset = 100000;
+			Teleport.sWorldInfo.hTriggerObjectOffset = _player->GetAttributesManager()->teleportInfo.worldInfo.hTriggerObjectOffset;
 			Teleport.sWorldInfo.sRuleInfo.byRuleType = _player->GetAttributesManager()->teleportInfo.worldInfo.sRuleInfo.byRuleType;
 
 			_player->Relocate(Teleport.vNewLoc.x, Teleport.vNewLoc.y, Teleport.vNewLoc.z, Teleport.vNewDir.x, Teleport.vNewDir.y, Teleport.vNewDir.z);
@@ -131,6 +131,12 @@ void WorldSession::SendCharTeleportRes(Packet& packet)
 			_player->SetWorldTableID(Teleport.sWorldInfo.tblidx);
 			_player->GetState()->sCharStateDetail.sCharStateTeleporting.byTeleportType = _player->GetState()->sCharStateDetail.sCharStateDespawning.byTeleportType;
 			_player->SetState(eCHARSTATE::CHARSTATE_TELEPORTING);
+
+			if (_player->GetAttributesManager()->teleportInfo.outWorld.worldTblidx == 0 || _player->GetAttributesManager()->teleportInfo.outWorld.worldTblidx == INVALID_TBLIDX)
+			{
+				memset(&(_player->GetAttributesManager()->teleportInfo), 0, sizeof _player->GetAttributesManager()->teleportInfo);
+			}
+
 			sLog.outDebug("--------TELEPORT TIME QUEST--------");
 			sLog.outDebug("Teleport: pos %f %f %f rot %f %f %f worldtblidx %d ruleType %d", _player->GetAttributesManager()->teleportInfo.position.x,
 				_player->GetAttributesManager()->teleportInfo.position.y,
@@ -140,6 +146,11 @@ void WorldSession::SendCharTeleportRes(Packet& packet)
 				_player->GetAttributesManager()->teleportInfo.rotation.z,
 				_player->GetAttributesManager()->teleportInfo.worldInfo.tblidx,
 				_player->GetAttributesManager()->teleportInfo.worldInfo.sRuleInfo.byRuleType);
+			sLog.outDebug("OUT WORLD %d (%f %f %f)",
+				_player->GetAttributesManager()->teleportInfo.outWorld.worldTblidx,
+				_player->GetAttributesManager()->teleportInfo.outWorld.position.x,
+				_player->GetAttributesManager()->teleportInfo.outWorld.position.y,
+				_player->GetAttributesManager()->teleportInfo.outWorld.position.z);
 			/*	   NOT SURE IF THIS IS A GOOD IDEA FOR NOW		*/
 			Map* map = _player->GetMap();
 			map->Remove(_player, false);
@@ -173,7 +184,7 @@ void WorldSession::SendCharTeleportRes(Packet& packet)
 			SendUpdateCharCondition(0);
 
 			memset(&(_player->GetAttributesManager()->teleportInfo), 0, sizeof _player->GetAttributesManager()->teleportInfo);
-			sLog.outDebug("--------TELEPORT NPC--------");
+			sLog.outDebug("--------TELEPORT COMMAND--------");
 			sLog.outDebug("Type teleport %d", _player->GetState()->sCharStateDetail.sCharStateDespawning.byTeleportType);
 
 			_player->GetState()->sCharStateDetail.sCharStateTeleporting.byTeleportType = _player->GetState()->sCharStateDetail.sCharStateDespawning.byTeleportType;
@@ -188,5 +199,5 @@ void WorldSession::SendCharTeleportRes(Packet& packet)
 	}
 
 	SendPacket((char*)&Teleport, sizeof(sGU_CHAR_TELEPORT_RES));
-	memset(&(_player->GetAttributesManager()->teleportInfo), 0, sizeof _player->GetAttributesManager()->teleportInfo);
+	//memset(&(_player->GetAttributesManager()->teleportInfo), 0, sizeof _player->GetAttributesManager()->teleportInfo);
 }

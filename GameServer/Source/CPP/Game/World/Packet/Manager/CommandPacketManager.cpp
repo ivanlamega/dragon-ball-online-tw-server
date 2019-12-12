@@ -7,6 +7,7 @@
 #include <Packet\Game\PacketUG.h>
 #include <Logger.h>
 #include <World.h>
+#include <boost/algorithm/string.hpp>
 
 //----------------------------------------
 //	Send announce to all player
@@ -171,18 +172,6 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 			}
 			_player->LevelUpByComand(Level);
 			return;
-		}
-		else if (strToken == "@quest")
-		{
-			sLog.outDetail("Respawn object quest");
-			strToken = str.substr(pos + 1, std::string::npos);
-			unsigned int teid = (unsigned int)atof(strToken.c_str());
-			sGU_TS_UPDATE_EVENT_NFY nfy;
-			nfy.wOpCode = GU_TS_UPDATE_EVENT_NFY;
-			nfy.wPacketSize = sizeof(sGU_TS_UPDATE_EVENT_NFY) - 2;
-			nfy.byTsType = 0;
-			nfy.teid = teid;
-			SendPacket((char*)&nfy, sizeof(sGU_TS_UPDATE_EVENT_NFY));
 		}
 		else if (strToken == "@zone")
 		{
@@ -573,23 +562,13 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 		}
 		else if (strToken == "@tlp")
 		{
-			strToken = str.substr(pos + 1, std::string::npos);
-			TBLIDX world = (unsigned int)atof(strToken.c_str());
-			strToken = str.substr(pos + 2, std::string::npos);
-			float posX = (unsigned int)atof(strToken.c_str());
-			strToken = str.substr(pos + 3, std::string::npos);
-			float posY = (unsigned int)atof(strToken.c_str());
-			strToken = str.substr(pos + 4, std::string::npos);
-			float posZ = (unsigned int)atof(strToken.c_str());
 
-			sLog.outDebug("Teleport world %d (%f %f %f)", world, posX, posY, posZ);
+			_player->GetAttributesManager()->teleportInfo.worldInfo.tblidx = 1;
+			_player->GetAttributesManager()->teleportInfo.worldInfo.worldID = 1;
 
-			_player->GetAttributesManager()->teleportInfo.worldInfo.tblidx = world;
-			_player->GetAttributesManager()->teleportInfo.worldInfo.worldID = world;
-
-			_player->GetAttributesManager()->teleportInfo.position.x = posX;
-			_player->GetAttributesManager()->teleportInfo.position.y = posY;
-			_player->GetAttributesManager()->teleportInfo.position.z = posZ;
+			_player->GetAttributesManager()->teleportInfo.position.x = 5142.0;
+			_player->GetAttributesManager()->teleportInfo.position.y = 0.0;
+			_player->GetAttributesManager()->teleportInfo.position.z = 4240.0;
 
 			/*sGU_UPDATE_CHAR_CONDITION condition;
 			condition.wOpCode = GU_UPDATE_CHAR_CONDITION;

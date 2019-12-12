@@ -194,7 +194,7 @@ void MySQLConnWrapper::AddAucionHouseSell(CHARACTERID characterID, int ItemHandl
 
 void MySQLConnWrapper::SaveQuestStatus(CHARACTERID charid, NTL_TS_T_ID tid, bool isCompleted)
 {
-	sLog.outDebug("SaveQUEST: charid %d, tid %d,  iscompleted %d");
+	sLog.outDebug("Save QUEST: charid %d, tid %d,  iscompleted %d", charid, tid, isCompleted);
 	sql::ResultSet* result = sDB.executes("INSERT INTO charquestlist (charId, tid, isCompleted) VALUES (%d, %d, %d);", charid, tid, isCompleted);
 	if (result != NULL)
 		delete result;
