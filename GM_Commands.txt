@@ -1,25 +1,31 @@
  -- Gm Players Commands
  
 @level  (@level 70)
+@quest
+@zone
+@pickup
 @tp     (@tp 1)
-@KamiSama
+@kamisama
 @setspeed
 @addtitle  (@addtitle 1 to 50)
 @god
-@Exp_Bonus
+@expbonus
 @setclass  (@setclass 7) for fighter
 @setsize
 @setnight
+@addnpc
 @addmob  (@addmob 7011101) for examble Raditz
-@addmobgrup  (@addmobgrup 11261104) for boss event
-@GiveItem
+@addmobgroup  (@addmobgroup 11261104) for boss event
+@giveitem
 @additem  (@additem 200001) for dragonball
+@topapaya
 @addallskill
+@tlp
 @addhtb
 @dbhuntstart (@dbhuntstart 1 to stars or 0 to close)
-@Announce
-@Notice
-@Set_Attack_Speed
+@announce
+@speed
+@notice
 
 #Pets Commands
 
@@ -51,6 +57,7 @@ Puar
  
 @additem
 @unstuck
+@topapaya
 
 # Some ids for testing the server
 
