@@ -1730,6 +1730,7 @@ ResultCodes	WorldSession::CheckEvtDataType(CDboTSActSToCEvt* sToCEvt, NTL_TS_TC_
 			{
 				TBLIDX groupTblidx = sToCEvt->GetEvtData().sMobKillCnt[i].uiMobIdx;
 				TBLIDX mobTblidx = sTBM.GetMobTable()->FindTblidxByGroup(groupTblidx);
+		
 
 				if (mobTblidx && mobTblidx != INVALID_TBLIDX)
 				{
@@ -1788,10 +1789,18 @@ ResultCodes	WorldSession::CheckEvtDataType(CDboTSActSToCEvt* sToCEvt, NTL_TS_TC_
 								}
 								else
 								{
+
 									for (int count = 0; count < sToCEvt->GetEvtData().sMobKillCnt[i].nMobCnt; count++)
 									{
 										SpawnMobForQuest(mobTblidx, 0, count);
 									}
+								}
+							}
+							else
+							{
+								for (int count = 0; count < sToCEvt->GetEvtData().sMobKillCnt[i].nMobCnt; count++)
+								{
+									SpawnMobForQuest(mobTblidx, 0, count);
 								}
 							}
 						}
@@ -2056,7 +2065,7 @@ HOBJECT WorldSession::SpawnMobForQuest(TBLIDX mobTblidx, TBLIDX NPCSpawnTblidx, 
 		{
 			//spawnIdxs = sTBM.GetMobSpawnTable(_player->GetWorldID())->FindSpawnByObjectTblidx(mobTblidx);
 		}
-
+		sLog.outDebug("SPAWNING...");
 		/*for (std::vector<TBLIDX>::size_type spI = 0; spI != spawnIdxs.size(); spI++)
 		{
 			sSPAWN_TBLDAT* spawnTblTest = (sSPAWN_TBLDAT*)sTBM.GetMobSpawnTable(_player->GetWorldID())->FindData(spawnIdxs[spI]);
@@ -2110,6 +2119,8 @@ HOBJECT WorldSession::SpawnMobForQuest(TBLIDX mobTblidx, TBLIDX NPCSpawnTblidx, 
 			direction.x = _player->m_rotation.x + rand() % 5;
 			direction.y = _player->m_rotation.y;
 			direction.z = _player->m_rotation.z + rand() % 5;
+
+			sLog.outDebug("SPAWN IN RANGE OF PLAYER");
 		}
 
 		//if (spawnTbl)
@@ -2162,6 +2173,10 @@ HOBJECT WorldSession::SpawnMobForQuest(TBLIDX mobTblidx, TBLIDX NPCSpawnTblidx, 
 			}
 			else
 				delete created_mob;
+		}
+		else
+		{
+			sLog.outDebug("--------------MOB NOT FOUND----------------");
 		}
 		return handle;
 		//}
