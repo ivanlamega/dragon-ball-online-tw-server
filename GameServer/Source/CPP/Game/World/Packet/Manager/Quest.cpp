@@ -941,16 +941,45 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 				CDboTSActSendSvrEvt* sendSvrEvt = (CDboTSActSendSvrEvt*)contGAct->GetChildEntity(i);
 				if (sendSvrEvt)
 				{
-					sLog.outDebug("Quest: evtSendType %d radius %d evtType %d evtId %d trigger type %d tblidx %d", 
-						sendSvrEvt->GetEvtSendType(), sendSvrEvt->GetEvtSendType_Radius(), sendSvrEvt->GetSvrEvtType(), 
+					sLog.outDebug("Quest: evtSendType %d radius %d evtType %d evtId %d trigger type %d tblidx %d",
+						sendSvrEvt->GetEvtSendType(), sendSvrEvt->GetEvtSendType_Radius(), sendSvrEvt->GetSvrEvtType(),
 						sendSvrEvt->GetSvrEvtID(), sendSvrEvt->GetSvrEvtTriggerType(), sendSvrEvt->GetTblIdx());
 
-					sGU_TS_UPDATE_EVENT_NFY nfy;
-					nfy.wOpCode = GU_TS_UPDATE_EVENT_NFY;
-					nfy.wPacketSize = sizeof(sGU_TS_UPDATE_EVENT_NFY) - 2;
-					nfy.byTsType = 0;
-					nfy.teid = sendSvrEvt->GetSvrEvtID();
-					SendPacket((char*)&nfy, sizeof(sGU_TS_UPDATE_EVENT_NFY));
+					if (sendSvrEvt->GetSvrEvtID() == 16040)
+					{
+
+						sOBJECT_TBLDAT* obj = (sOBJECT_TBLDAT*)sTBM.GetObjectTable(120000)->FindData(8);
+						if (obj)
+						{
+							sLog.outDebug("Obj %d %d %s handle %d", obj->tblidx, obj->dwSequence, obj->szModelName, 100000 + obj->dwSequence);
+							SendTObjectUpdateState(100000 + obj->dwSequence,
+								obj->tblidx, 0, 0, 2775787718);
+						}
+
+						SendCharDirectPlay(true, 1, 1026);
+
+						
+						try {
+							Timer.setTimeout([&]() {
+								SendTSUpdateEventNfy(0, 16050);
+								sLog.outDebug("Event send %d", 16050);
+								}, 4000);
+						}
+						catch (int e)
+						{
+							sLog.outError("Ocurrio un error al enviar el evento.");
+						}
+					}
+					else
+					{
+						sGU_TS_UPDATE_EVENT_NFY nfy;
+						nfy.wOpCode = GU_TS_UPDATE_EVENT_NFY;
+						nfy.wPacketSize = sizeof(sGU_TS_UPDATE_EVENT_NFY) - 2;
+						nfy.byTsType = 0;
+						nfy.teid = sendSvrEvt->GetSvrEvtID();
+						SendPacket((char*)&nfy, sizeof(sGU_TS_UPDATE_EVENT_NFY));
+					}
+						
 				}
 				break;
 			}
@@ -2659,6 +2688,33 @@ void WorldSession::SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, 
 	 nfy.byTsType = byTsType;
 	 nfy.teid = evtId;
 	 SendPacket((char*)&nfy, sizeof(sGU_TS_UPDATE_EVENT_NFY));
+ }
+
+ void WorldSession::SendTObjectUpdateState(HOBJECT handle, TBLIDX objTblidx, BYTE state, BYTE substate, DWORD stateTime)
+ {
+	 sGU_TOBJECT_UPDATE_STATE stateObj;
+	 stateObj.wOpCode = GU_TOBJECT_UPDATE_STATE;
+	 stateObj.wPacketSize = sizeof(sGU_TOBJECT_UPDATE_STATE) - 2;
+	 stateObj.handle = handle;
+	 stateObj.tobjectBrief.objectID = objTblidx;
+	 stateObj.tobjectState.byState = state;
+	 stateObj.tobjectState.bySubStateFlag = substate;
+	 stateObj.tobjectState.dwStateTime = stateTime;
+	 SendPacket((char*)&stateObj, sizeof(sGU_TOBJECT_UPDATE_STATE));
+ }
+
+ void WorldSession::SendCharDirectPlay(bool bSynchronize, BYTE byPlayMode, TBLIDX directTblidx)
+ {
+	 sGU_CHAR_DIRECT_PLAY res;
+
+	 res.wOpCode = GU_CHAR_DIRECT_PLAY;
+	 res.wPacketSize = sizeof(sGU_CHAR_DIRECT_PLAY) - 2;
+	 res.hSubject = _player->GetHandle();
+	 res.bSynchronize = bSynchronize;
+	 res.byPlayMode = byPlayMode;
+	 res.directTblidx = directTblidx;
+
+	 SendPacket((char*)&res, sizeof(sGU_CHAR_DIRECT_PLAY));
  }
 
  void WorldSession::SendQuestInventoryInfo()
