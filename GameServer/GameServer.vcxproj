@@ -161,7 +161,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;_WIN32_WINNT=0x0501;CPPCONN_PUBLIC_FUNC=;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Libraries\NtlLib\Shared\NtlTrigger;$(SolutionDir)Libraries\NtlLib\Server\NtlSystem;$(SolutionDir)Libraries\NtlLib\Shared\Util;$(SolutionDir)Libraries\NtlLib\Shared\Zip\zlib123;$(SolutionDir)Libraries\DboShared\DboTrigger;$(SolutionDir)Shared\Source\Library\NetworkLibrary\Header\;$(SolutionDir)packages\boost.1.63.0.0\lib\native\include\boost;$(SolutionDir)packages\boost.1.63.0.0\lib\native\include\;$(SolutionDir)NtlBaseLib\;$(SolutionDir)GameServer\Source\Header\Game\World\;$(SolutionDir)GameServer\Source\Header\Game\Client\;$(SolutionDir)GameServer\Source\Header\Util\;$(SolutionDir)GameServer\Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)GameServer\Source\CPP\Game\Object;$(SolutionDir)GameServer\Source\Header\Game\Object;$(SolutionDir)Libraries\NtlLib\Shared\NtlTrigger;$(SolutionDir)Libraries\NtlLib\Server\NtlSystem;$(SolutionDir)Libraries\NtlLib\Shared\Util;$(SolutionDir)Libraries\NtlLib\Shared\Zip\zlib123;$(SolutionDir)Libraries\DboShared\DboTrigger;$(SolutionDir)Shared\Source\Library\NetworkLibrary\Header\;$(SolutionDir)packages\boost.1.63.0.0\lib\native\include\boost;$(SolutionDir)packages\boost.1.63.0.0\lib\native\include\;$(SolutionDir)NtlBaseLib\;$(SolutionDir)GameServer\Source\Header\Game\World\;$(SolutionDir)GameServer\Source\Header\Game\Client\;$(SolutionDir)GameServer\Source\Header\Util\;$(SolutionDir)GameServer\Source</AdditionalIncludeDirectories>
       <SDLCheck>true</SDLCheck>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -184,6 +184,7 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PlayerTeleport.cpp" />
+    <ClCompile Include="Source\CPP\Game\Object\Manager\Quests.cpp" />
     <ClCompile Include="Source\CPP\Game\World\Packet\Manager\AucionHouseManager.cpp" />
     <ClCompile Include="Source\CPP\Game\World\Packet\Manager\BossEvent.cpp" />
     <ClCompile Include="Source\CPP\Game\World\Packet\Manager\Budokay.cpp" />
@@ -258,6 +259,7 @@
     <ClInclude Include="Source\Header\Game\Object\Manager\Attributes.h" />
     <ClInclude Include="Source\Header\Game\Object\Manager\Fight.h" />
     <ClInclude Include="Source\Header\Game\Object\Manager\Inventory.h" />
+    <ClInclude Include="Source\Header\Game\Object\Manager\Quests.h" />
     <ClInclude Include="Source\Header\Game\Object\Manager\Skills.h" />
     <ClInclude Include="Source\Header\Game\Object\Mob.h" />
     <ClInclude Include="Source\Header\Game\Object\Npc.h" />

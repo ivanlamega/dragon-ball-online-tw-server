@@ -257,6 +257,9 @@
     <ClCompile Include="PlayerTeleport.cpp">
       <Filter>Source Files\Game\World\Packet\Manager</Filter>
     </ClCompile>
+    <ClCompile Include="Source\CPP\Game\Object\Manager\Quests.cpp">
+      <Filter>Source Files\Game\Object\Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Header\GameServer.h">
@@ -348,6 +351,9 @@
     </ClInclude>
     <ClInclude Include="Source\GameTriggerRecv.h">
       <Filter>Header Files\Game\Quest\Recv</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Header\Game\Object\Manager\Quests.h">
+      <Filter>Header Files\Game\Object\Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

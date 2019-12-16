@@ -212,6 +212,10 @@ AttributesManager *Player::GetAttributesManager()
 {
 	return &characterManager;
 }
+QuestManager* Player::GetQuestManager()
+{
+	return &questManager;
+}
 ePC_CLASS Player::GetMyClass() const
 {
 	return myClass;

@@ -8,6 +8,7 @@
 #include "Manager\Skills.h"
 #include "Manager\Attributes.h"
 #include "Manager\Inventory.h"
+#include "Manager\Quests.h"
 #include <WorldSession.h>
 #include <Packet.h>
 #include <Packet\Game\PacketGU.h>
@@ -78,6 +79,7 @@ public:
 	ePC_CLASS			GetMyClass() const;
 	AttributesManager	*GetAttributesManager();
 	InventoryManager	*GetInventoryManager();
+	QuestManager		*GetQuestManager();
 	sVECTOR3			GetMoveDestinationVector();
 	bool				GetIsEmergency();
 	bool                GetFlying();
@@ -237,6 +239,10 @@ private:
 	// ITEM
 	//	------------------------------------------------------------------------
 	InventoryManager	inventoryManager;
+	//	------------------------------------------------------------------------
+	// QUEST
+	//	------------------------------------------------------------------------
+	QuestManager		questManager;
 	//	------------------------------------------------------------------------
 	// SKILLS
 	//	------------------------------------------------------------------------
