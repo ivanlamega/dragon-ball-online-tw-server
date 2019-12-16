@@ -176,6 +176,7 @@ public:
 	void			SendQuestCompleteInfo();
 	void			SendQuestProgressInfo();
 	void			SendQuestInventoryInfo();
+	void			SendTSUpdateEventNfy(BYTE byTsType, NTL_TS_EVENT_ID evtId);
 	void			SendQuestGiveUp(Packet& packet);
 	void			SendQuestItemCreate(BYTE pos, TBLIDX itemTblidx, BYTE count);
 	void			SendQuestItemDelete(Packet& packet);
@@ -202,6 +203,9 @@ public:
 	ResultCodes		FindObjectTriggerInformation(QuestData* questData, HOBJECT hTarget, TBLIDX objTblidx);
 	// PC trigger
 	ResultCodes		FindPCTriggerInformation(sUG_TS_CONFIRM_STEP_REQ* req);
+	// TLQ 1
+	HOBJECT			CreateNPCGohanTLQ1();
+	HOBJECT			ConvertGohanMobNPC();
 	//RankBatle
 	void			GetPlayerFromRankList();
 	

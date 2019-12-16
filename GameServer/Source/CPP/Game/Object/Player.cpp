@@ -2988,6 +2988,11 @@ void	Player::RewardExpFromMob(MonsterData& data)
 }
 void Player::RewardDropFromMob(MonsterData& data)
 {
+	if (data.MonsterID == 7451101)
+	{
+		m_session->SendTSUpdateEventNfy(0, 16030);
+	}
+
 	for (int i = 0; i <= 30; i++)
 	{
 		switch (GetAttributesManager()->QuestDat[i].evtDataType)

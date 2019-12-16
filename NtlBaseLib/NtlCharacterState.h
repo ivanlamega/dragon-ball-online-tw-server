@@ -386,10 +386,10 @@ struct sCHARSTATE_DESTMOVE
 	DWORD		    dwTimeStamp;
 	BYTE            byMoveFlag;
 	bool            bHaveSecondDestLoc;
-	dVECTOR3	    vSecondDestLoc;
+	sVECTOR3	    vSecondDestLoc;
 	BYTE			unknown;
 	BYTE            byDestLocCount;
-	dVECTOR3		avDestLoc[DBO_MAX_NEXT_DEST_LOC_COUNT];
+	sVECTOR3		avDestLoc[DBO_MAX_NEXT_DEST_LOC_COUNT];
 };
 //-----------------------------------------------------------------------------------
 struct sCHARSTATE_FOLLOWING

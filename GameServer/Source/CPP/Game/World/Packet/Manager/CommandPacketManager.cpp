@@ -173,6 +173,18 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 			_player->LevelUpByComand(Level);
 			return;
 		}
+		else if (strToken == "@quest")
+		{
+			sLog.outDetail("Respawn object quest");
+			strToken = str.substr(pos + 1, std::string::npos);
+			unsigned int teid = (unsigned int)atof(strToken.c_str());
+			sGU_TS_UPDATE_EVENT_NFY nfy;
+			nfy.wOpCode = GU_TS_UPDATE_EVENT_NFY;
+			nfy.wPacketSize = sizeof(sGU_TS_UPDATE_EVENT_NFY) - 2;
+			nfy.byTsType = 0;
+			nfy.teid = teid;
+			SendPacket((char*)&nfy, sizeof(sGU_TS_UPDATE_EVENT_NFY));
+		}
 		else if (strToken == "@zone")
 		{
 			sLog.outDetail("Respawn object quest");
@@ -185,6 +197,46 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 			info.zoneInfo.bIsDark = 0;
 			info.zoneInfo.zoneId = 200101;
 			SendPacket((char*)&info, sizeof(sGU_AVATAR_ZONE_INFO));
+		}
+		else if (strToken == "@tlq1")
+		{
+			sLog.outDetail("Respawn object quest");
+			strToken = str.substr(pos + 1, std::string::npos);
+			unsigned int count = (unsigned int)atof(strToken.c_str());
+
+			sGU_CHAR_DIRECT_PLAY res;
+
+			res.wOpCode = GU_CHAR_DIRECT_PLAY;
+			res.wPacketSize = sizeof(sGU_CHAR_DIRECT_PLAY) - 2;
+			res.hSubject = _player->GetHandle();
+			res.bSynchronize = true;
+			res.byPlayMode = 1;
+			res.directTblidx = 1026;
+
+			SendPacket((char*)&res, sizeof(sGU_CHAR_DIRECT_PLAY));
+			return;
+		}
+		else if (strToken == "@pared")
+		{
+			sLog.outDetail("Respawn object quest");
+			strToken = str.substr(pos + 1, std::string::npos);
+			unsigned int count = (unsigned int)atof(strToken.c_str());
+
+			sOBJECT_TBLDAT* obj = (sOBJECT_TBLDAT*)sTBM.GetObjectTable(120000)->FindData(8);
+			if (obj)
+			{
+				sLog.outDebug("Obj %d %d %s handle %d", obj->tblidx, obj->dwSequence, obj->szModelName, 100000 + obj->dwSequence);
+				sGU_TOBJECT_UPDATE_STATE state;
+				state.wOpCode = GU_TOBJECT_UPDATE_STATE;
+				state.wPacketSize = sizeof(sGU_TOBJECT_UPDATE_STATE) - 2;
+				state.handle = 100000 + obj->dwSequence;
+				state.tobjectBrief.objectID = obj->tblidx;
+				state.tobjectState.byState = 0;
+				state.tobjectState.bySubStateFlag = 0;
+				state.tobjectState.dwStateTime = 2775787718;
+				SendPacket((char*)&state, sizeof(sGU_TOBJECT_UPDATE_STATE));
+			}
+			return;
 		}
 		else if (strToken == "@pickup")
 		{

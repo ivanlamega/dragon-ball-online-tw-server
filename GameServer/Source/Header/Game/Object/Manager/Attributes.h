@@ -39,6 +39,13 @@ public:
 	TBLIDX			lastNPCQuest;
 	QuestData		QuestDat[30];
 
+	//TLQ 1
+	struct TLQ1Info
+	{
+		HOBJECT handleNpc;
+	};
+	TLQ1Info tlq1Info;
+
 	// Teleport
 	struct OutWorld
 	{
