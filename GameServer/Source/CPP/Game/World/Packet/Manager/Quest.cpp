@@ -944,7 +944,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 					sLog.outDebug("Quest: evtSendType %d radius %d evtType %d evtId %d trigger type %d tblidx %d",
 						sendSvrEvt->GetEvtSendType(), sendSvrEvt->GetEvtSendType_Radius(), sendSvrEvt->GetSvrEvtType(),
 						sendSvrEvt->GetSvrEvtID(), sendSvrEvt->GetSvrEvtTriggerType(), sendSvrEvt->GetTblIdx());
-
+					// TLQ1 --------------------
 					if (sendSvrEvt->GetSvrEvtID() == 16130)
 					{
 						sOBJECT_TBLDAT* obj = (sOBJECT_TBLDAT*)sTBM.GetObjectTable(120000)->FindData(6);
@@ -995,7 +995,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 						nfy.teid = sendSvrEvt->GetSvrEvtID();
 						SendPacket((char*)&nfy, sizeof(sGU_TS_UPDATE_EVENT_NFY));*/
 					}
-						
+					// TLQ1 --------------------
 				}
 				break;
 			}
@@ -1155,6 +1155,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 				}
 				_player->GetAttributesManager()->sPawnMobQuest = worldPlayScript->IsStart();
 				sLog.outDebug("Quest: isStart %d script %d", worldPlayScript->IsStart(), worldPlayScript->GetScriptID());
+				// TLQ 1 -----------------------
 				if (worldPlayScript->GetScriptID() == 11604)
 				{
 					sLog.outDebug("NPC HANDLE %d", _player->GetAttributesManager()->tlq1Info.handleNpc);
@@ -1165,6 +1166,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 					_player->GetAttributesManager()->tlq1Info.handleNpc = CreateNPCGohanTLQ1();
 					sLog.outDebug("NPC HANDLE %d", _player->GetAttributesManager()->tlq1Info.handleNpc);
 				}
+				// TLQ 1 -----------------------
 				break;
 			}
 		}
@@ -1542,6 +1544,7 @@ void WorldSession::ProcessTsContEnd(CDboTSContEnd * contEnd)
 	{
 		sDB.SaveQuestStatus(_player->charid, trigger->GetID(), true);
 
+		// TLQ1 -------------------
 		if (trigger->GetID() == 11604)
 		{
 			SendTSUpdateEventNfy(0, 16100);
@@ -1550,6 +1553,7 @@ void WorldSession::ProcessTsContEnd(CDboTSContEnd * contEnd)
 		{
 			SendTSUpdateEventNfy(0, 16310);
 		}
+		// TLQ1 -------------------
 	}
 }
 
@@ -2047,7 +2051,7 @@ ResultCodes	WorldSession::CheckEvtDataType(CDboTSActSToCEvt* sToCEvt, NTL_TS_TC_
 							sLog.outDetail("Item Created\n");
 							SendItemCreate(&createdItem);
 						}
-
+						// TLQ1 -------------------
 						SendTSUpdateEventNfy(0, 16140);
 					}
 					

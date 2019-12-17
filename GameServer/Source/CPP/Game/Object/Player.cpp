@@ -2992,10 +2992,16 @@ void	Player::RewardExpFromMob(MonsterData& data)
 }
 void Player::RewardDropFromMob(MonsterData& data)
 {
+	// TLQ1-------------------
 	if (data.MonsterID == 7451101)
 	{
 		m_session->SendTSUpdateEventNfy(0, 16030);
 	}
+	else if (data.MonsterID == 7451107)
+	{
+		m_session->SendTSUpdateEventNfy(0, 16320);
+	}
+	// TLQ1-------------------
 
 	for (int i = 0; i <= 30; i++)
 	{
