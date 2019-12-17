@@ -945,6 +945,17 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 						sendSvrEvt->GetEvtSendType(), sendSvrEvt->GetEvtSendType_Radius(), sendSvrEvt->GetSvrEvtType(),
 						sendSvrEvt->GetSvrEvtID(), sendSvrEvt->GetSvrEvtTriggerType(), sendSvrEvt->GetTblIdx());
 
+					if (sendSvrEvt->GetSvrEvtID() == 16130)
+					{
+						sOBJECT_TBLDAT* obj = (sOBJECT_TBLDAT*)sTBM.GetObjectTable(120000)->FindData(6);
+						if (obj)
+						{
+							sLog.outDebug("Obj %d %d %s handle %d", obj->tblidx, obj->dwSequence, obj->szModelName, 100000 + obj->dwSequence);
+							SendTObjectUpdateState(100000 + obj->dwSequence,
+								obj->tblidx, 1, TOBJECT_SUBSTATE_FLAG_SHOW, 2775787718);
+						}
+					}
+
 					if (sendSvrEvt->GetSvrEvtID() == 16040)
 					{
 
@@ -972,12 +983,13 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 					}
 					else
 					{
-						sGU_TS_UPDATE_EVENT_NFY nfy;
+						SendTSUpdateEventNfy(0, sendSvrEvt->GetSvrEvtID());
+						/*sGU_TS_UPDATE_EVENT_NFY nfy;
 						nfy.wOpCode = GU_TS_UPDATE_EVENT_NFY;
 						nfy.wPacketSize = sizeof(sGU_TS_UPDATE_EVENT_NFY) - 2;
 						nfy.byTsType = 0;
 						nfy.teid = sendSvrEvt->GetSvrEvtID();
-						SendPacket((char*)&nfy, sizeof(sGU_TS_UPDATE_EVENT_NFY));
+						SendPacket((char*)&nfy, sizeof(sGU_TS_UPDATE_EVENT_NFY));*/
 					}
 						
 				}
@@ -1501,6 +1513,15 @@ void WorldSession::ProcessTsContEnd(CDboTSContEnd * contEnd)
 	if (contEnd->GetEndType() == eEND_TYPE::eEND_TYPE_COMPLETE)
 	{
 		sDB.SaveQuestStatus(_player->charid, trigger->GetID(), true);
+
+		if (trigger->GetID() == 11604)
+		{
+			SendTSUpdateEventNfy(0, 16100);
+		}
+		if (trigger->GetID() == 11610)
+		{
+			SendTSUpdateEventNfy(0, 16310);
+		}
 	}
 }
 
@@ -1982,6 +2003,43 @@ ResultCodes	WorldSession::CheckEvtDataType(CDboTSActSToCEvt* sToCEvt, NTL_TS_TC_
 					sToCEvt->GetEvtData().sCustomEvtCnt[i].nMaxCnt, sToCEvt->GetEvtData().sCustomEvtCnt[i].nCurCnt, sToCEvt->GetEvtData().sCustomEvtCnt[i].uiCustomEvtID,
 					sToCEvt->GetEvtData().sCustomEvtCnt[i].uiQTextTblIdx);
 			}
+
+			switch (sToCEvt->GetEvtCondDataType())
+			{
+				case eSTOC_EVT_COND_DATA_TYPE_AUTO_EQUIP_ITEM:
+				{
+					if (sToCEvt->GetEvtType() == eSTOC_EVT_TYPE_START)
+					{
+						sToCEvt->GetEvtCondData().sAutoEquipItem[0].uiItemTblIdx;
+						sLog.outDebug("Item %d", sToCEvt->GetEvtCondData().sAutoEquipItem[0].uiItemTblIdx);
+						sITEM_PROFILE createdItem;
+						WORD result = _player->GetInventoryManager()->PerformShopBuy(sToCEvt->GetEvtCondData().sAutoEquipItem[0].uiItemTblIdx, 1, createdItem);
+						if (result == GAME_SUCCESS && createdItem.tblidx != INVALID_TBLIDX)
+						{
+							sLog.outDetail("Item Created\n");
+							SendItemCreate(&createdItem);
+						}
+
+						SendTSUpdateEventNfy(0, 16140);
+					}
+					
+					sLog.outDebug("eSTOC_EVT_COND_DATA_TYPE_AUTO_EQUIP_ITEM");
+				}
+				break;
+				case eSTOC_EVT_COND_DATA_TYPE_EQUIP_ITEM:
+				{
+				}
+				break;
+				case eSTOC_EVT_COND_DATA_TYPE_HAVE_ITEM:
+				{
+				}
+				break;
+				case eSTOC_EVT_COND_DATA_TYPE_HAVE_QITEM:
+				{
+				}
+				break;
+			}
+
 			sLog.outDetail("Quest: type eSTOC_EVT_DATA_TYPE_CUSTOM_EVT_CNT");
 			break;
 		}
