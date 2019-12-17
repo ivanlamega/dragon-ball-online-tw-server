@@ -1407,6 +1407,30 @@ ResultCodes WorldSession::GivePlayerItemReward(sQUEST_REWARD_TBLDAT* rewardTbl, 
 							}
 							break;
 						}
+						case eREWARD_TYPE_SKILL:
+						{
+							sSKILL_TBLDAT* skillData = (sSKILL_TBLDAT*)sTBM.GetSkillTable()->FindData(rewardSelect1->rewardData[itRw].itemTblidx);
+							if (skillData != NULL)
+							{
+								if (_player->GetClassFlag(_player->GetMyClass(), ITEM_TYPE_UNKNOWN) == skillData->dwPC_Class_Bit_Flag)
+								{
+									if (skillData->bySkill_Grade == 1 && skillData->bySkill_Class != eSKILL_CLASS::SKILL_CLASS_HTB && _player->skillManager.isSkillLearned(skillData->tblidx) == false)
+									{
+										sLog.outDetail("Learn the skill \n");
+										LearnSkill(skillData->tblidx);
+									}
+									else
+									{
+										sLog.outDetail("ERROR to skill 1 \n");
+									}
+								}
+								else
+								{
+									sLog.outDetail("ERROR to skill 1 \n");
+								}
+							}
+							break;
+						}
 					}
 				}
 			}
