@@ -207,7 +207,7 @@ public:
 	ResultCodes		FindPCTriggerInformation(sUG_TS_CONFIRM_STEP_REQ* req);
 	// TLQ 1
 	HOBJECT			CreateNPCGohanTLQ1();
-	HOBJECT			ConvertGohanMobNPC();
+	HOBJECT			ConvertGohanMobNPC(TBLIDX mobTblidx);
 	//RankBatle
 	void			GetPlayerFromRankList();
 	

@@ -955,6 +955,10 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 								obj->tblidx, 1, TOBJECT_SUBSTATE_FLAG_SHOW, 2775787718);
 						}
 					}
+					else if (sendSvrEvt->GetSvrEvtID() == 16260)
+					{
+						ConvertGohanMobNPC(7451107);
+					}
 
 					if (sendSvrEvt->GetSvrEvtID() == 16040)
 					{
@@ -1154,7 +1158,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 				if (worldPlayScript->GetScriptID() == 11604)
 				{
 					sLog.outDebug("NPC HANDLE %d", _player->GetAttributesManager()->tlq1Info.handleNpc);
-					ConvertGohanMobNPC();
+					ConvertGohanMobNPC(7451101);
 				}
 				if (worldPlayScript->GetScriptID() == 11603)
 				{
@@ -2092,14 +2096,14 @@ ResultCodes	WorldSession::CheckEvtDataType(CDboTSActSToCEvt* sToCEvt, NTL_TS_TC_
 	return RESULT_SUCCESS;
 }
 
-HOBJECT WorldSession::ConvertGohanMobNPC()
+HOBJECT WorldSession::ConvertGohanMobNPC(TBLIDX mobTblidx)
 {
 	Npc* curr_Npc = static_cast<Npc*>(_player->GetFromList(_player->GetAttributesManager()->tlq1Info.handleNpc));
 	if (curr_Npc)
 	{
 
 		MobTable* MobTable = sTBM.GetMobTable();
-		sMOB_TBLDAT* pMOBTblData = reinterpret_cast<sMOB_TBLDAT*>(MobTable->FindData(7451101));
+		sMOB_TBLDAT* pMOBTblData = reinterpret_cast<sMOB_TBLDAT*>(MobTable->FindData(mobTblidx));
 		if (pMOBTblData != NULL)
 		{
 			sLog.outDebug("Converting...");
