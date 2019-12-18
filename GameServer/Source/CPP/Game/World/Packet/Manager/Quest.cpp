@@ -892,6 +892,20 @@ ResultCodes WorldSession::ProcessTSContStart(CDboTSContStart * contStart)
 				}
 				break;
 			}
+			case DBO_EVENT_TYPE_ID_RCV_SVR_EVT:
+			{
+				CDboTSRcvSvrEvt* rcvSvrEvt = (CDboTSRcvSvrEvt*)contStart->GetChildEntity(i);
+				if (rcvSvrEvt)
+				{
+					sLog.outDebug("Quest evt id%d", rcvSvrEvt->GetEvtID());
+
+					if (rcvSvrEvt->GetEvtID() == 16200)
+					{
+						CreateNPCTrunksTLQ1();
+					}
+				}
+				break;
+			}
 		}
 	}
 	return RESULT_SUCCESS;
@@ -1167,6 +1181,40 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 					sLog.outDebug("NPC HANDLE %d", _player->GetAttributesManager()->tlq1Info.handleNpc);
 				}
 				// TLQ 1 -----------------------
+				break;
+			}
+			case DBO_ACT_TYPE_ID_ACT_DIRINDICATOR:
+			{
+				CDboTSActDirIndicator* dirIndicator = (CDboTSActDirIndicator*)contGAct->GetChildEntity(i);
+				if (dirIndicator)
+				{
+					sLog.outDebug("Quest indicator type %d", dirIndicator->GetDirectionIndicatorType());
+					switch (dirIndicator->GetDirectionIndicatorType())
+					{
+						case DIRECTION_INDICATE_TYPE_TOBJECT:
+						{
+							sLog.outDebug("Object tblidx", dirIndicator->GetDirectionIndicatorData().sTObj.uiObjTblIdx);
+							sLog.outDebug("DIRECTION_INDICATE_TYPE_TOBJECT");
+							break;
+						}
+						case DIRECTION_INDICATE_TYPE_NPC:
+						{
+							sLog.outDebug("NPC tblidx", dirIndicator->GetDirectionIndicatorData().sNPC.uiNPCTblIdx);
+							sLog.outDebug("DIRECTION_INDICATE_TYPE_NPC");
+							break;
+						}
+						case DIRECTION_INDICATE_TYPE_POINT:
+						{
+							sLog.outDebug("Pos %f %f %f",
+								dirIndicator->GetDirectionIndicatorData().sPos.fX, dirIndicator->GetDirectionIndicatorData().sPos.fY, dirIndicator->GetDirectionIndicatorData().sPos.fZ);
+							SendDirectionIndicateNfy(dirIndicator->GetDirectionIndicatorData().sPos.fX,
+								dirIndicator->GetDirectionIndicatorData().sPos.fY,
+								dirIndicator->GetDirectionIndicatorData().sPos.fZ);
+							sLog.outDebug("DIRECTION_INDICATE_TYPE_POINT");
+							break;
+						}
+					}
+				}
 				break;
 			}
 		}
@@ -2195,6 +2243,81 @@ HOBJECT WorldSession::ConvertGohanMobNPC(TBLIDX mobTblidx)
 	return INVALID_TBLIDX;
 }
 
+HOBJECT WorldSession::CreateNPCTrunksTLQ1()
+{
+	NPCTable* NpcTable = sTBM.GetNpcTable();
+	sNPC_TBLDAT* pNPCTblData = reinterpret_cast<sNPC_TBLDAT*>(NpcTable->FindData(7511101));
+	if (pNPCTblData != NULL)
+	{
+		SpawnNPC spawnData;
+		memset(&spawnData, 0, sizeof(SpawnNPC));
+
+		spawnData.wOpCode = GU_OBJECT_CREATE;
+		spawnData.wPacketSize = sizeof(SpawnNPC) - 2;
+
+
+		spawnData.CurEP = pNPCTblData->wBasic_EP;
+		spawnData.CurLP = pNPCTblData->wBasic_LP;
+		HOBJECT handle = sWorld.AcquireSerialId();
+		spawnData.Handle = handle;
+
+		//spawnData.Level = pNPCTblData->byLevel;
+		spawnData.MaxEP = pNPCTblData->wBasic_EP;
+		spawnData.MaxLP = pNPCTblData->wBasic_LP;
+		spawnData.Size = 10;
+		spawnData.OBJType = OBJTYPE_NPC;
+		spawnData.Tblidx = pNPCTblData->tblidx;
+
+		spawnData.fLastWalkingSpeed = 0.89999998;
+		spawnData.fLastRunningSpeed = 10.0;
+		spawnData.fLastAirSpeed = 10.0;
+		spawnData.fLastAirDashSpeed = 0.89999998;
+		spawnData.fLastAirDashAccelSpeed = 0.89999998;
+		spawnData.AttackSpeedRate = 1000;
+		spawnData.SkillAnimationSpeedModifier = 100.0;
+
+		sLog.outDebug("WalkSpeed %f run %d runOrigin %f walkOrigin %f",
+			pNPCTblData->fWalk_Speed, pNPCTblData->fRun_Speed, pNPCTblData->fRun_Speed_Origin, pNPCTblData->fWalk_Speed_Origin);
+		spawnData.TblidxMovementActionPatern = 1;
+
+		spawnData.State.sCharStateBase.aspectState.sAspectStateBase.byAspectStateId = 255;
+		spawnData.State.sCharStateBase.vCurLoc.x = 896.77002;// _player->m_position.x + rand() % 5;
+		spawnData.State.sCharStateBase.vCurLoc.y = 7.0;//_player->m_position.y;
+		spawnData.State.sCharStateBase.vCurLoc.z = -981.52002;//_player->m_position.z + rand() % 5;
+		spawnData.State.sCharStateBase.vCurDir.x = 0.99000001;//_player->m_rotation.x + rand() % 5;
+		spawnData.State.sCharStateBase.vCurDir.y = 0.0;// _player->m_rotation.y;
+		spawnData.State.sCharStateBase.vCurDir.z = 0.16;//_player->m_rotation.z + rand() % 5;
+		spawnData.State.sCharStateBase.byStateID = eCHARSTATE::CHARSTATE_SPAWNING;
+
+		//	sWorld.SendToAll((char*)&spawnData, sizeof(SpawnMOB));
+		//Need Insert In list
+		Npc* created_Npc = new Npc;
+		if (pNPCTblData)
+		{
+			if (created_Npc->Create(pNPCTblData, spawnData) == true)
+			{
+				created_Npc->GetMapRef().link(this->_player->GetMap(), created_Npc);
+				printf("Npc ID %d inserted into map", pNPCTblData->tblidx);
+				return handle;
+				//_player->GetAttributesManager()->lastNPCQuest = INVALID_TBLIDX;
+				/*Timer.setTimeout([&]() {
+					created_Npc->GetState()->sCharStateDetail.sCharStateDestMove.byMoveFlag = 1;
+					created_Npc->GetState()->sCharStateDetail.sCharStateDestMove.byDestLocCount = 1;
+					created_Npc->GetState()->sCharStateDetail.sCharStateDestMove.avDestLoc[0].x = 881.15002;
+					created_Npc->GetState()->sCharStateDetail.sCharStateDestMove.avDestLoc[0].y = 0.0;
+					created_Npc->GetState()->sCharStateDetail.sCharStateDestMove.avDestLoc[0].z = -1002.0;
+					created_Npc->UpdateState(eCHARSTATE::CHARSTATE_DESTMOVE);
+					}, 2000);*/
+			}
+			else
+			{
+				delete created_Npc;
+			}
+		}
+	}
+	return INVALID_TBLIDX;
+}
+
 HOBJECT WorldSession::CreateNPCGohanTLQ1()
 {
 	NPCTable* NpcTable = sTBM.GetNpcTable();
@@ -2778,6 +2901,19 @@ void WorldSession::SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, 
 	 nfy.byTsType = byTsType;
 	 nfy.teid = evtId;
 	 SendPacket((char*)&nfy, sizeof(sGU_TS_UPDATE_EVENT_NFY));
+ }
+
+ void WorldSession::SendDirectionIndicateNfy(float x, float y, float z)
+ {
+	 sGU_DIRECTION_INDICATE_NFY nfy;
+	 nfy.wOpCode = GU_DIRECTION_INDICATE_NFY;
+	 nfy.wPacketSize = sizeof(sGU_DIRECTION_INDICATE_NFY) - 2;
+	 nfy.bIndicate = 1;
+	 nfy.unknown = 1;
+	 nfy.vLoc.x = x;
+	 nfy.vLoc.y = y;
+	 nfy.vLoc.z = z;
+	 SendPacket((char*)&nfy, sizeof(sGU_DIRECTION_INDICATE_NFY));
  }
 
  void WorldSession::SendTObjectUpdateState(HOBJECT handle, TBLIDX objTblidx, BYTE state, BYTE substate, DWORD stateTime)

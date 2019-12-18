@@ -1598,6 +1598,7 @@ END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(GU_DIRECTION_INDICATE_NFY)
 bool					bIndicate;				// true : Arrow On, false : Arrow Off
+BYTE					unknown;
 sVECTOR3				vLoc;					// ÁöÁ¤À§Ä¡ ( Off ÀÏ°æ¿ì AccessÇÏÁö ¸»°Í )
 END_PROTOCOL()
 //------------------------------------------------------------------
