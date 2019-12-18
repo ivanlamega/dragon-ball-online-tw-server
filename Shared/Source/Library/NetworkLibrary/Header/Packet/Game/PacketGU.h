@@ -1181,6 +1181,7 @@ END_PROTOCOL()
 BEGIN_PROTOCOL(GU_TS_EXCUTE_TRIGGER)
 BYTE			byTsType; // Æ®¸®°Å Å¸ÀÔ
 NTL_TS_T_ID			tId; // Æ®¸®°Å ¾ÆÀÌµð
+HOBJECT			hHandle;
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(GU_TS_EXCUTE_TRIGGER_OBJECT_RES)

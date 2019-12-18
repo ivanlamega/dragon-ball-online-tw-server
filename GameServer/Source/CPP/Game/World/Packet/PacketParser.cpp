@@ -669,6 +669,17 @@ void			WorldSession::PacketParser(Packet& packet)
 // -------------- QUEST ----------
 		case Opcodes::UG_TS_CONFIRM_STEP_FOR_USE_ITEM_REQ:
 		{
+			sUG_TS_CONFIRM_STEP_FOR_USE_ITEM_REQ* req = (sUG_TS_CONFIRM_STEP_FOR_USE_ITEM_REQ*)packet.GetPacketBuffer();
+			sGU_TS_CONFIRM_STEP_RES res;
+			res.wOpCode = GU_TS_CONFIRM_STEP_RES;
+			res.wPacketSize = sizeof(sGU_TS_CONFIRM_STEP_RES) - 2;
+			res.byTsType = req->byTsType;
+			res.wResultCode = RESULT_SUCCESS;
+			res.tId = req->tId;
+			res.tcCurId = req->tcCurId;
+			res.tcNextId = req->tcNextId;
+			res.dwParam = 0;
+			SendPacket((char*)&res, sizeof(sGU_TS_CONFIRM_STEP_RES));
 			sLog.outError("UG_TS_CONFIRM_STEP_FOR_USE_ITEM_REQ");
 			break;
 		}

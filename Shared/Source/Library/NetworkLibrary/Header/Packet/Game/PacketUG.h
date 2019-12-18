@@ -570,6 +570,16 @@ unsigned int		uiParam;
 dVECTOR3			position;
 END_PROTOCOL()
 //------------------------------------------------------------------
+BEGIN_PROTOCOL(UG_TS_CONFIRM_STEP_FOR_USE_ITEM_REQ)
+BYTE				byTsType; // Æ®¸®°Å Å¸ÀÔ
+NTL_TS_T_ID			tId;
+NTL_TS_TC_ID		tcCurId;
+NTL_TS_TC_ID		tcNextId;
+DWORD				unknown[5];
+BYTE				unknown2;
+HOBJECT				hHandle;
+END_PROTOCOL()
+//------------------------------------------------------------------
 BEGIN_PROTOCOL(UG_QUEST_ITEM_MOVE_REQ)
 BYTE				bySrcPos;
 BYTE				byDestPos;

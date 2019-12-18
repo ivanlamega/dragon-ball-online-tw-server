@@ -46,6 +46,15 @@ public:
 	};
 	TLQ1Info tlq1Info;
 
+	struct GrowUpInfo
+	{
+		TBLIDX	mobTblidx;
+		int		countKill;
+		int		maxKill;
+	};
+
+	GrowUpInfo growUpInfo;
+
 	// Teleport
 	struct OutWorld
 	{

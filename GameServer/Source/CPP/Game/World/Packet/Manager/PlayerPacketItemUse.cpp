@@ -212,6 +212,26 @@ void Player::HandleItemUse(Packet pPacket)
 						{
 							break;
 						}
+						case eSYSTEM_EFFECT_CODE::ACTIVE_SCRIPT_EXECUTE_WPS_LOC:
+						{
+							GetAttributesManager()->growUpInfo;
+							if (static_cast<NTL_TS_T_ID>(UseItemData->adSystemEffectValue[0]) == 6003)
+							{
+							//	m_session->SpawnMobForQuest();
+							}
+							break;
+						}
+						case eSYSTEM_EFFECT_CODE::ACTIVE_QUEST_TRIGGER:
+						{
+							sGU_TS_EXCUTE_TRIGGER trigger;
+							trigger.wOpCode = GU_TS_EXCUTE_TRIGGER;
+							trigger.wPacketSize = sizeof(sGU_TS_EXCUTE_TRIGGER) - 2;
+							trigger.tId = static_cast<NTL_TS_T_ID>(UseItemData->adSystemEffectValue[0]);
+							trigger.byTsType = TS_TYPE_QUEST_CS;
+							trigger.hHandle = Item->handle;
+							SendPacket((char*)&trigger, sizeof(sGU_TS_EXCUTE_TRIGGER));
+							break;
+						}
 						case eSYSTEM_EFFECT_CODE::ACTIVE_OBJECT_TRIGGER:
 						{
 							TBLIDX objTblidx = INVALID_TBLIDX;
