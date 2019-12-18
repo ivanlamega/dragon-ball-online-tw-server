@@ -959,6 +959,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 						sendSvrEvt->GetEvtSendType(), sendSvrEvt->GetEvtSendType_Radius(), sendSvrEvt->GetSvrEvtType(),
 						sendSvrEvt->GetSvrEvtID(), sendSvrEvt->GetSvrEvtTriggerType(), sendSvrEvt->GetTblIdx());
 					// TLQ1 --------------------
+
 					if (sendSvrEvt->GetSvrEvtID() == 16130)
 					{
 						sOBJECT_TBLDAT* obj = (sOBJECT_TBLDAT*)sTBM.GetObjectTable(120000)->FindData(6);
@@ -972,6 +973,16 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 					else if (sendSvrEvt->GetSvrEvtID() == 16260)
 					{
 						ConvertGohanMobNPC(7451107);
+					}
+					else if (sendSvrEvt->GetSvrEvtID() == 16210)
+					{
+						Npc* npcInfo = static_cast<Npc*>(_player->GetFromList(_player->GetTarget()));
+						if (npcInfo)
+						{
+							npcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.byDirectPlayType = 3;
+							npcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx = 50044;
+							npcInfo->UpdateState(eCHARSTATE::CHARSTATE_DIRECT_PLAY);
+						}
 					}
 
 					if (sendSvrEvt->GetSvrEvtID() == 16040)
@@ -2047,6 +2058,20 @@ ResultCodes	WorldSession::CheckEvtDataType(CDboTSActSToCEvt* sToCEvt, NTL_TS_TC_
 		}
 		case eSTOC_EVT_DATA_TYPE_DELIVERY_ITEM:
 		{
+			for (int i = 0; i < sToCEvt->GetEvtData().MAX_DELIVERY_ITEM; i++)
+			{
+				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sDeliveryItemCnt[i].uiItemIdx = sToCEvt->GetEvtData().sDeliveryItemCnt[i].uiItemIdx;
+				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sDeliveryItemCnt[i].nItemCnt = sToCEvt->GetEvtData().sDeliveryItemCnt[i].nItemCnt;
+				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sDeliveryItemCnt[i].nCurItemCnt = sToCEvt->GetEvtData().sDeliveryItemCnt[i].nCurItemCnt;
+				sLog.outDebug("Item tblidx: %d count %d curcount %d",
+					sToCEvt->GetEvtData().sDeliveryItemCnt[i].uiItemIdx,
+					sToCEvt->GetEvtData().sDeliveryItemCnt[i].nItemCnt,
+					sToCEvt->GetEvtData().sDeliveryItemCnt[i].nCurItemCnt);
+				if (sToCEvt->GetEvtData().sDeliveryItemCnt[i].uiItemIdx != INVALID_TBLIDX)
+				{
+					SendQuestItemCreate(0, sToCEvt->GetEvtData().sDeliveryItemCnt[i].uiItemIdx, 1);
+				}
+			}
 			sLog.outDetail("Quest: type eSTOC_EVT_DATA_TYPE_DELIVERY_ITEM");
 			break;
 		}
@@ -2150,7 +2175,8 @@ ResultCodes	WorldSession::CheckEvtDataType(CDboTSActSToCEvt* sToCEvt, NTL_TS_TC_
 
 HOBJECT WorldSession::ConvertGohanMobNPC(TBLIDX mobTblidx)
 {
-	Npc* curr_Npc = static_cast<Npc*>(_player->GetFromList(_player->GetAttributesManager()->tlq1Info.handleNpc));
+	sLog.outDebug("GOHAN NPC HANDLES 1: %d 2 %d", _player->GetAttributesManager()->tlq1Info.handleNpc, _player->GetTarget());
+	Npc* curr_Npc = static_cast<Npc*>(_player->GetFromList(_player->GetTarget()));
 	if (curr_Npc)
 	{
 
@@ -2216,7 +2242,7 @@ HOBJECT WorldSession::ConvertGohanMobNPC(TBLIDX mobTblidx)
 					sGU_OBJECT_DESTROY sPacket;
 
 					sPacket.wOpCode = GU_OBJECT_DESTROY;
-					sPacket.handle = _player->GetAttributesManager()->tlq1Info.handleNpc;
+					sPacket.handle = curr_Npc->GetHandle();//_player->GetAttributesManager()->tlq1Info.handleNpc;
 					sPacket.wPacketSize = sizeof(sGU_OBJECT_DESTROY) - 2;
 
 					_player->SendPacket((char*)&sPacket, sizeof(sGU_OBJECT_DESTROY));

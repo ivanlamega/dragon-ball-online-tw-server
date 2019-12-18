@@ -185,36 +185,16 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 			nfy.teid = teid;
 			SendPacket((char*)&nfy, sizeof(sGU_TS_UPDATE_EVENT_NFY));
 		}
-		else if (strToken == "@zone")
+		else if (strToken == "@testquest")
 		{
-			sLog.outDetail("Respawn object quest");
+			sLog.outDetail("Test quest 854");
 			strToken = str.substr(pos + 1, std::string::npos);
 			unsigned int teid = (unsigned int)atof(strToken.c_str());
 
-			sGU_AVATAR_ZONE_INFO info;
-			info.wOpCode = GU_AVATAR_ZONE_INFO;
-			info.wPacketSize = sizeof(sGU_AVATAR_ZONE_INFO) - 2;
-			info.zoneInfo.bIsDark = 0;
-			info.zoneInfo.zoneId = 200101;
-			SendPacket((char*)&info, sizeof(sGU_AVATAR_ZONE_INFO));
-		}
-		else if (strToken == "@tlq1")
-		{
-			sLog.outDetail("Respawn object quest");
-			strToken = str.substr(pos + 1, std::string::npos);
-			unsigned int count = (unsigned int)atof(strToken.c_str());
-
-			sGU_CHAR_DIRECT_PLAY res;
-
-			res.wOpCode = GU_CHAR_DIRECT_PLAY;
-			res.wPacketSize = sizeof(sGU_CHAR_DIRECT_PLAY) - 2;
-			res.hSubject = _player->GetHandle();
-			res.bSynchronize = true;
-			res.byPlayMode = 1;
-			res.directTblidx = 1026;
-
-			SendPacket((char*)&res, sizeof(sGU_CHAR_DIRECT_PLAY));
-			return;
+			SendQuestSVRevtEndNotify(854, 2, 3);
+			uSTOC_EVT_DATA test;
+			test.sDeliveryItemCnt[0].nCurItemCnt = 1;
+			SendQuestSVRevtUpdateNotify(854, 2, 3, eSTOC_EVT_DATA_TYPE_DELIVERY_ITEM, 0, &test);
 		}
 		else if (strToken == "@pared")
 		{
