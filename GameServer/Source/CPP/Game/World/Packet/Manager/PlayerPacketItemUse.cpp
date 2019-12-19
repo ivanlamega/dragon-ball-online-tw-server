@@ -214,10 +214,21 @@ void Player::HandleItemUse(Packet pPacket)
 						}
 						case eSYSTEM_EFFECT_CODE::ACTIVE_SCRIPT_EXECUTE_WPS_LOC:
 						{
-							GetAttributesManager()->growUpInfo;
+							
 							if (static_cast<NTL_TS_T_ID>(UseItemData->adSystemEffectValue[0]) == 6003)
 							{
-							//	m_session->SpawnMobForQuest();
+								std::vector<TBLIDX> spawns = sTBM.GetMobSpawnTable(800000)->FindSpawnByObjectTblidx(5011201);
+								for (std::vector<TBLIDX>::size_type i = 0; i != spawns.size(); i++)
+								{
+									sSPAWN_TBLDAT* spawn = (sSPAWN_TBLDAT*)sTBM.GetMobSpawnTable(800000)->FindData(spawns[i]);
+									if (spawn)
+									{
+										GetAttributesManager()->growUpInfo.mobTblidx = 5011201;
+										GetAttributesManager()->growUpInfo.maxKill = 4;
+										GetAttributesManager()->growUpInfo.countKill = 0;
+										m_session->SpawnMobForQuest(5011201, INVALID_TBLIDX, 0);
+									}
+								}
 							}
 							break;
 						}

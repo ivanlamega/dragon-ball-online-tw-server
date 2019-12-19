@@ -48,9 +48,10 @@ public:
 
 	struct GrowUpInfo
 	{
-		TBLIDX	mobTblidx;
-		int		countKill;
-		int		maxKill;
+		bool		inQuest;
+		TBLIDX		mobTblidx;
+		int			countKill;
+		int			maxKill;
 	};
 
 	GrowUpInfo growUpInfo;

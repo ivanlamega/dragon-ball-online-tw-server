@@ -181,7 +181,7 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 			sGU_TS_UPDATE_EVENT_NFY nfy;
 			nfy.wOpCode = GU_TS_UPDATE_EVENT_NFY;
 			nfy.wPacketSize = sizeof(sGU_TS_UPDATE_EVENT_NFY) - 2;
-			nfy.byTsType = 0;
+			nfy.byTsType = TS_TYPE_QUEST_CS;
 			nfy.teid = teid;
 			SendPacket((char*)&nfy, sizeof(sGU_TS_UPDATE_EVENT_NFY));
 		}

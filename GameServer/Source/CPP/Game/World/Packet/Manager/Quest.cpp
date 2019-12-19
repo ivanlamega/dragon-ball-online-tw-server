@@ -1001,7 +1001,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 						
 						try {
 							Timer.setTimeout([&]() {
-								SendTSUpdateEventNfy(0, 16050);
+								SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, 16050);
 								sLog.outDebug("Event send %d", 16050);
 								}, 4000);
 						}
@@ -1012,7 +1012,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 					}
 					else
 					{
-						SendTSUpdateEventNfy(0, sendSvrEvt->GetSvrEvtID());
+						SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, sendSvrEvt->GetSvrEvtID());
 						/*sGU_TS_UPDATE_EVENT_NFY nfy;
 						nfy.wOpCode = GU_TS_UPDATE_EVENT_NFY;
 						nfy.wPacketSize = sizeof(sGU_TS_UPDATE_EVENT_NFY) - 2;
@@ -1156,6 +1156,11 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 						{
 							sLog.outDetail("Item Created\n");
 							SendItemCreate(&createdItem);
+
+							if (createdItem.tblidx == 98011)
+							{
+								_player->GetAttributesManager()->growUpInfo.inQuest = true;
+							}
 						}
 					}
 				}
@@ -1606,11 +1611,11 @@ void WorldSession::ProcessTsContEnd(CDboTSContEnd * contEnd)
 		// TLQ1 -------------------
 		if (trigger->GetID() == 11604)
 		{
-			SendTSUpdateEventNfy(0, 16100);
+			SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, 16100);
 		}
 		if (trigger->GetID() == 11610)
 		{
-			SendTSUpdateEventNfy(0, 16310);
+			SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, 16310);
 		}
 		// TLQ1 -------------------
 	}
@@ -2125,7 +2130,7 @@ ResultCodes	WorldSession::CheckEvtDataType(CDboTSActSToCEvt* sToCEvt, NTL_TS_TC_
 							SendItemCreate(&createdItem);
 						}
 						// TLQ1 -------------------
-						SendTSUpdateEventNfy(0, 16140);
+						SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, 16140);
 					}
 					
 					sLog.outDebug("eSTOC_EVT_COND_DATA_TYPE_AUTO_EQUIP_ITEM");
@@ -2505,7 +2510,7 @@ HOBJECT WorldSession::SpawnMobForQuest(TBLIDX mobTblidx, TBLIDX NPCSpawnTblidx, 
 	if (pMOBTblData != NULL)
 	{
 		std::vector<TBLIDX> spawnIdxs;
-		if (NPCSpawnTblidx != 0)
+		if (NPCSpawnTblidx != 0 && NPCSpawnTblidx != INVALID_TBLIDX)
 		{
 			spawnIdxs = sTBM.GetNpcSpawnTable(_player->GetWorldID())->FindSpawnByObjectTblidx(NPCSpawnTblidx);
 		}
@@ -2524,7 +2529,7 @@ HOBJECT WorldSession::SpawnMobForQuest(TBLIDX mobTblidx, TBLIDX NPCSpawnTblidx, 
 		sVECTOR3 position;
 		sVECTOR3 direction;
 
-		if (NPCSpawnTblidx != 0)
+		if (NPCSpawnTblidx != 0 && NPCSpawnTblidx != INVALID_TBLIDX)
 		{
 
 			int newIndex = index;

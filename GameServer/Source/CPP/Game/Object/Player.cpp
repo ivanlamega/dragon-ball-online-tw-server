@@ -2992,14 +2992,34 @@ void	Player::RewardExpFromMob(MonsterData& data)
 }
 void Player::RewardDropFromMob(MonsterData& data)
 {
+	// GROW UP ---------------
+	if (GetAttributesManager()->growUpInfo.inQuest)
+	{
+		if (data.MonsterID == GetAttributesManager()->growUpInfo.mobTblidx)
+		{
+			// Killing it spawnea another equal until reaching 4
+			if (GetAttributesManager()->growUpInfo.countKill < GetAttributesManager()->growUpInfo.maxKill)
+			{
+				GetAttributesManager()->growUpInfo.countKill++;
+				m_session->SpawnMobForQuest(GetAttributesManager()->growUpInfo.mobTblidx, INVALID_TBLIDX, 0);
+			}
+			else
+			{
+				GetAttributesManager()->growUpInfo.inQuest = false;
+				m_session->SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, 194);
+			}
+		}
+	}
+	// GROW UP ---------------
+
 	// TLQ1-------------------
 	if (data.MonsterID == 7451101)
 	{
-		m_session->SendTSUpdateEventNfy(0, 16030);
+		m_session->SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, 16030);
 	}
 	else if (data.MonsterID == 7451107)
 	{
-		m_session->SendTSUpdateEventNfy(0, 16320);
+		m_session->SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, 16320);
 	}
 	// TLQ1-------------------
 
