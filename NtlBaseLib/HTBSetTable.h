@@ -63,6 +63,8 @@ public:
 
 	sTBLDAT* FindData(TBLIDX tblidx);
 
+	std::vector<TBLIDX>	GetAllHtbTblidx();
+
 	virtual bool LoadFromBinary(Serializer& serializer, bool bReload);
 	virtual bool SaveToBinary(Serializer& serializer);
 
@@ -77,4 +79,6 @@ protected:
 
 private:
 	static WCHAR* m_pwszSheetList[];
+
+	std::vector<TBLIDX> htbsTblidx;
 };

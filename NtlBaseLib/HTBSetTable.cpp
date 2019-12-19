@@ -90,6 +90,8 @@ bool HTBSetTable::AddTable(void * pvTable, bool bReload)
 		return false;
 	}
 
+	htbsTblidx.push_back(pTbldat->tblidx);
+
 	return true;
 }
 
@@ -231,6 +233,11 @@ bool HTBSetTable::SetTableData(void* pvTable, WCHAR* pwszSheetName, std::wstring
 	}
 
 	return true;
+}
+
+std::vector<TBLIDX>	HTBSetTable::GetAllHtbTblidx()
+{
+	return htbsTblidx;
 }
 
 

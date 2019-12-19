@@ -1395,6 +1395,20 @@ ResultCodes WorldSession::ProcessTsContReward(CDboTSContReward * contReward, DWO
 			}
 			case eREWARD_TYPE_SKILL:
 			{
+				sHTB_SET_TBLDAT* htb = (sHTB_SET_TBLDAT*)sTBM.GetHTBSetTable()->FindData(contReward->GetDefReward(i).m_uiIdx);
+				if (htb)
+				{
+					sLog.outDebug("Htb %d %d %d", htb->tblidx, htb->wNeed_EP, htb->dwPC_Class_Bit_Flag);
+					DWORD myFlag;
+					myFlag = MAKE_BIT_FLAG(static_cast<int>(_player->GetMyClass()));
+					sLog.outDetail("My flag: %d flag need %d my class: %d is same %d",
+						myFlag, htb->dwPC_Class_Bit_Flag, _player->GetMyClass(), (myFlag & htb->dwPC_Class_Bit_Flag));
+					if (myFlag & htb->dwPC_Class_Bit_Flag)// lo mismo que !(myFlag & itemTblSelect->dwNeedClassBitFlag)
+					{
+						LearnHtb(htb->tblidx, 0);
+					}
+
+				}
 				sLog.outDebug("eREWARD_TYPE_SKILL");
 				break;
 			}

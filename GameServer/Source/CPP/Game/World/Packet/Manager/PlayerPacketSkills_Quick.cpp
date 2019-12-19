@@ -1153,3 +1153,17 @@ void WorldSession::ResetSkill(Packet & packet)
 		}
 	}
 }
+
+
+void WorldSession::LearnHtb(TBLIDX htbIdx, BYTE slot)
+{
+	sGU_HTB_LEARN_RES res;
+	res.wOpCode = GU_HTB_LEARN_RES;
+	res.wPacketSize = sizeof(sGU_HTB_LEARN_RES) - 2;
+	res.wResultCode = GAME_SUCCESS;
+	res.skillId = htbIdx;
+	res.bySkillSlot = slot;// _player->skillManager.getSkillsCount() + 1;
+	res.unknown = 0;
+	_player->HTBID = res.skillId;
+	SendPacket((char*)&res, sizeof(sGU_HTB_LEARN_RES));
+}

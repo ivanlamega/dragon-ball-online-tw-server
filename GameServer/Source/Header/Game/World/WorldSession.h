@@ -151,6 +151,7 @@ public:
 	void			LearnMestrySkill(TBLIDX id);
 	void			UpgradeSkill(Packet& packet);
 	void			ResetSkill(Packet& packet);
+	void			LearnHtb(TBLIDX htbIdx, BYTE slot);
 	//Budokay
 
 	//Events
