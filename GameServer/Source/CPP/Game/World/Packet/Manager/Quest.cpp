@@ -1373,6 +1373,76 @@ ResultCodes WorldSession::ProcessTsContReward(CDboTSContReward * contReward, DWO
 
 		//sLog.outDebug("Reward: tblidx %d value %d type %d", rwdInfo.m_uiIdx, rwdInfo.m_nValue, rwdInfo.m_eType);
 		sLog.outDebug("Reward: tblidx %d zenny %d type %d experience %d", contReward->GetRewardTableIndex(), contReward->GetRewardZeny(), contReward->GetRewardContType(), contReward->GetRewardExp());
+		for (int i = 0; i < MAX_DEFAULT_REWARD; i++)
+		{
+			sLog.outDebug("rwdTbl %d value %d type %d", contReward->GetDefReward(i).m_uiIdx, contReward->GetDefReward(i).m_nValue, contReward->GetDefReward(i).m_eType);
+			switch (contReward->GetDefReward(i).m_eType)
+			{
+			case eREWARD_TYPE_NORMAL_ITEM:
+			{
+				sLog.outDebug("eREWARD_TYPE_NORMAL_ITEM");
+				break;
+			}
+			case eREWARD_TYPE_QUEST_ITEM:
+			{
+				sLog.outDebug("eREWARD_TYPE_QUEST_ITEM");
+				break;
+			}
+			case eREWARD_TYPE_EXP:
+			{
+				sLog.outDebug("eREWARD_TYPE_EXP");
+				break;
+			}
+			case eREWARD_TYPE_SKILL:
+			{
+				sLog.outDebug("eREWARD_TYPE_SKILL");
+				break;
+			}
+			case eREWARD_TYPE_ZENY:
+			{
+				sLog.outDebug("eREWARD_TYPE_ZENY");
+				break;
+			}
+			case eREWARD_TYPE_CHANGE_CLASS:
+			{
+				sLog.outDebug("eREWARD_TYPE_CHANGE_CLASS");
+				break;
+			}
+			case eREWARD_TYPE_BUFF:
+			{
+				sLog.outDebug("eREWARD_TYPE_BUFF");
+				break;
+			}
+			case eREWARD_TYPE_PROBABILITY:
+			{
+				sLog.outDebug("eREWARD_TYPE_PROBABILITY");
+				break;
+			}
+			case eREWARD_TYPE_REPUTATION:
+			{
+				sLog.outDebug("eREWARD_TYPE_REPUTATION");
+				break;
+			}
+			case eREWARD_TYPE_CHANGE_ADULT:
+			{
+				_player->ConvertAdult(true);
+				sLog.outDebug("eREWARD_TYPE_CHANGE_ADULT");
+				break;
+			}
+			case eREWARD_TYPE_GET_CONVERT_CLASS_RIGHT:
+			{
+				sLog.outDebug("eREWARD_TYPE_GET_CONVERT_CLASS_RIGHT");
+				break;
+			}
+			}
+		}
+
+		for (int i = 0; i < MAX_SELECTION_REWARD; i++)
+		{
+			sLog.outDebug("rwdTbl %d value %d type %d", contReward->GetSelReward(i).m_uiIdx, contReward->GetSelReward(i).m_nValue, contReward->GetSelReward(i).m_eType);
+		}
+
+
 		switch (contReward->GetChildEntity(i)->GetEntityType())
 		{
 			case DBO_EVENT_TYPE_ID_CLICK_NPC:

@@ -480,6 +480,7 @@ BEGIN_PROTOCOL(GU_HTB_LEARN_RES)
 WORD			wResultCode;
 TBLIDX			skillId;
 BYTE			bySkillSlot;
+BYTE			unknown;
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(GU_HTB_FORWARD_RES)

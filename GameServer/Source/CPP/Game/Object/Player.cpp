@@ -2997,17 +2997,19 @@ void Player::RewardDropFromMob(MonsterData& data)
 	{
 		if (data.MonsterID == GetAttributesManager()->growUpInfo.mobTblidx)
 		{
+			GetAttributesManager()->growUpInfo.countKill++;
 			// Killing it spawnea another equal until reaching 4
 			if (GetAttributesManager()->growUpInfo.countKill < GetAttributesManager()->growUpInfo.maxKill)
 			{
-				GetAttributesManager()->growUpInfo.countKill++;
 				m_session->SpawnMobForQuest(GetAttributesManager()->growUpInfo.mobTblidx, INVALID_TBLIDX, 0);
 			}
 			else
 			{
+				sLog.outDebug("Sending event finish quest karin");
 				GetAttributesManager()->growUpInfo.inQuest = false;
 				m_session->SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, 194);
 			}
+			sLog.outDebug("Curr count karin %d max %d", GetAttributesManager()->growUpInfo.countKill, GetAttributesManager()->growUpInfo.maxKill);
 		}
 	}
 	// GROW UP ---------------

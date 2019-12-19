@@ -580,7 +580,8 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 				res.wPacketSize = sizeof(sGU_HTB_LEARN_RES) - 2;
 				res.wResultCode = GAME_SUCCESS;
 				res.skillId = tblidx;
-				res.bySkillSlot = _player->skillManager.getSkillsCount() + 1;
+				res.bySkillSlot = 0;// _player->skillManager.getSkillsCount() + 1;
+				res.unknown = 0;
 				_player->HTBID = res.skillId;
 				SendPacket((char*)&res, sizeof(sGU_HTB_LEARN_RES));
 				

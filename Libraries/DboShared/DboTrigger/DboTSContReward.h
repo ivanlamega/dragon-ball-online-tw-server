@@ -85,6 +85,9 @@ public:
 	const sREWARD_INFO&					GetDefRewardInfo( int nIdx, QuestRewardTable* pRewardTbl );
 	const sREWARD_INFO&					GetSelRewardInfo( int nIdx, QuestRewardTable* pRewardTbl );
 
+	sREWARD_INFO						GetDefReward(int nIdx) const;
+	sREWARD_INFO						GetSelReward(int nIdx) const;
+
 // Implementations
 protected:
 	// 스크립트로 부터 컴포넌트 객체의 데이터를 로딩 및 입력 시키기 위한 함수
@@ -139,5 +142,14 @@ inline unsigned int CDboTSContReward::GetRewardTableIndex( void ) const
 	return m_uiRewardTblIdx;
 }
 
+inline sREWARD_INFO	CDboTSContReward::GetDefReward(int nIdx) const
+{
+	return m_asDefReward[nIdx];		// 기본 보상
+}
+
+inline sREWARD_INFO	CDboTSContReward::GetSelReward(int nIdx) const
+{
+	return m_asSelReward[nIdx];		// 기본 보상
+}
 
 #endif
