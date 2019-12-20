@@ -1194,7 +1194,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 				_player->GetAttributesManager()->sPawnMobQuest = worldPlayScript->IsStart();
 				sLog.outDebug("Quest: isStart %d script %d", worldPlayScript->IsStart(), worldPlayScript->GetScriptID());
 				// GROW UP ---------------------
-				if (worldPlayScript->GetScriptID() == 6055)
+				if (worldPlayScript->IsStart() && _player->GetWorldTableID() == 800000)// worldPlayScript->GetScriptID() == 6055)
 				{
 					TBLIDX objTblidx1 = INVALID_TBLIDX;
 					TBLIDX objTblidx2 = INVALID_TBLIDX;
