@@ -1240,21 +1240,29 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 							sLog.outDebug("PC_CLASS_WONDER_MAJIN");
 							break;
 						}
+					}
+					sOBJECT_TBLDAT* objData = (sOBJECT_TBLDAT*)sTBM.GetObjectTable(_player->GetWorldTableID())->FindData(objTblidx1);
+					if (objData)
+					{
+						sLog.outDebug("Object %d, %d %s", objData->tblidx, HANDLE_TRIGGER_OBJECT_OFFSET + objData->dwSequence, objData->szModelName);
+						SendTObjectUpdateState(HANDLE_TRIGGER_OBJECT_OFFSET + objData->dwSequence,
+							objTblidx1, 0, TOBJECT_SUBSTATE_FLAG_SHOW, 3909524734);
+					}
+					else
+					{
+						sLog.outDebug("OBJECT NOT FOUND %d", objTblidx1);
+					}
 
-						
-						sOBJECT_TBLDAT* objData = (sOBJECT_TBLDAT*)sTBM.GetObjectTable(_player->GetWorldTableID())->FindData(objTblidx1);
-						if (objData)
-						{
-							SendTObjectUpdateState(HANDLE_TRIGGER_OBJECT_OFFSET + objData->dwSequence,
-								objTblidx1, 0, TOBJECT_SUBSTATE_FLAG_SHOW, 3909524734);
-						}
-						
-						objData = (sOBJECT_TBLDAT*)sTBM.GetObjectTable(_player->GetWorldTableID())->FindData(objTblidx2);
-						if (objData)
-						{
-							SendTObjectUpdateState(HANDLE_TRIGGER_OBJECT_OFFSET + objData->dwSequence,
-								objTblidx2, 0, TOBJECT_SUBSTATE_FLAG_SHOW, 3909524843);
-						}
+					objData = (sOBJECT_TBLDAT*)sTBM.GetObjectTable(_player->GetWorldTableID())->FindData(objTblidx2);
+					if (objData)
+					{
+						sLog.outDebug("Object %d, %d %s", objData->tblidx, HANDLE_TRIGGER_OBJECT_OFFSET + objData->dwSequence, objData->szModelName);
+						SendTObjectUpdateState(HANDLE_TRIGGER_OBJECT_OFFSET + objData->dwSequence,
+							objTblidx2, 0, TOBJECT_SUBSTATE_FLAG_SHOW, 3909524843);
+					}
+					else
+					{
+						sLog.outDebug("OBJECT NOT FOUND %d", objTblidx2);
 					}
 				}
 
