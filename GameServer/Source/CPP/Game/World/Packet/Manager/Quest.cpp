@@ -1043,7 +1043,15 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 					}
 					case eSTOC_EVT_TYPE::eSTOC_EVT_TYPE_END:
 					{
-						SendQuestSVRevtEndNotify(tid, tcId, sToCEvt->GetActionId());
+						if (tid == 6002)
+						{
+							SendQuestSVRevtEndNotify(tid, 2, 2);
+						}
+						else
+						{
+							SendQuestSVRevtEndNotify(tid, tcId, sToCEvt->GetActionId());
+						}
+						
 						sLog.outDebug("--------END QUEST--------");
 						break;
 					}
