@@ -2275,7 +2275,7 @@ void			WorldSession::PacketParser(Packet& packet)
 			res1.vCurDir.z = world->vStart1Dir.z;
 			_player->SetWorldTableID(world->tblidx);
 			_player->Relocate(res1.vCurLoc.x, res1.vCurLoc.y, res1.vCurLoc.z, res1.vCurDir.x, res1.vCurDir.y, res1.vCurDir.z);
-			res1.worldInfo.hTriggerObjectOffset = 100000;
+			res1.worldInfo.hTriggerObjectOffset = HANDLE_TRIGGER_OBJECT_OFFSET;
 
 			SendPacket((char*)&res1, sizeof(sGU_AVATAR_WORLD_INFO));
 			break;
@@ -2378,7 +2378,7 @@ void			WorldSession::PacketParser(Packet& packet)
 						teleport.sWorldInfo.worldID = world->tblidx;
 						teleport.sWorldInfo.tblidx = world->tblidx;
 						teleport.sWorldInfo.sRuleInfo.byRuleType = world->byWorldRuleType;
-						teleport.sWorldInfo.hTriggerObjectOffset = 100000;
+						teleport.sWorldInfo.hTriggerObjectOffset = HANDLE_TRIGGER_OBJECT_OFFSET;
 						_player->GetState()->sCharStateDetail.sCharStateTeleporting.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_RANKBATTLE;
 					}
 					else

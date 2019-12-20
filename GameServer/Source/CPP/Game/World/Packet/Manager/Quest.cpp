@@ -175,7 +175,7 @@ ResultCodes	WorldSession::FindPCTriggerInformation(sUG_TS_CONFIRM_STEP_REQ* req)
 									_player->GetAttributesManager()->teleportInfo.bIsToMoveAnotherServer = false;
 									_player->GetAttributesManager()->teleportInfo.worldInfo.worldID = worldData->tblidx;
 									_player->GetAttributesManager()->teleportInfo.worldInfo.tblidx = worldData->tblidx;
-									_player->GetAttributesManager()->teleportInfo.worldInfo.hTriggerObjectOffset = 100000;
+									_player->GetAttributesManager()->teleportInfo.worldInfo.hTriggerObjectOffset = HANDLE_TRIGGER_OBJECT_OFFSET;
 									_player->GetAttributesManager()->teleportInfo.worldInfo.sRuleInfo.byRuleType = worldData->byWorldRuleType;
 
 									sLog.outDebug("Teleport: pos %f %f %f rot %f %f %f worldtblidx %d type %d ruleType %d", _player->GetAttributesManager()->teleportInfo.position.x,
@@ -214,7 +214,7 @@ ResultCodes	WorldSession::FindPCTriggerInformation(sUG_TS_CONFIRM_STEP_REQ* req)
 									_player->GetAttributesManager()->teleportInfo.bIsToMoveAnotherServer = false;
 									_player->GetAttributesManager()->teleportInfo.worldInfo.worldID = _player->GetAttributesManager()->teleportInfo.outWorld.worldTblidx;
 									_player->GetAttributesManager()->teleportInfo.worldInfo.tblidx = _player->GetAttributesManager()->teleportInfo.outWorld.worldTblidx;
-									_player->GetAttributesManager()->teleportInfo.worldInfo.hTriggerObjectOffset = 100000;
+									_player->GetAttributesManager()->teleportInfo.worldInfo.hTriggerObjectOffset = HANDLE_TRIGGER_OBJECT_OFFSET;
 									_player->GetAttributesManager()->teleportInfo.worldInfo.sRuleInfo.byRuleType = 0;
 
 									memset(&_player->GetAttributesManager()->teleportInfo.outWorld, 0, sizeof _player->GetAttributesManager()->teleportInfo.outWorld);
@@ -1185,6 +1185,79 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 				}
 				_player->GetAttributesManager()->sPawnMobQuest = worldPlayScript->IsStart();
 				sLog.outDebug("Quest: isStart %d script %d", worldPlayScript->IsStart(), worldPlayScript->GetScriptID());
+				// GROW UP ---------------------
+				if (worldPlayScript->GetScriptID() == 6055)
+				{
+					TBLIDX objTblidx1 = INVALID_TBLIDX;
+					TBLIDX objTblidx2 = INVALID_TBLIDX;
+					switch (_player->GetMyClass())
+					{
+						case ePC_CLASS::PC_CLASS_HUMAN_FIGHTER:
+						{
+							objTblidx1 = 2;
+							objTblidx2 = 3;
+							sLog.outDebug("PC_CLASS_HUMAN_FIGHTER");
+							break;
+						}
+						case ePC_CLASS::PC_CLASS_HUMAN_MYSTIC:
+						{
+							objTblidx1 = 4;
+							objTblidx2 = 5;
+							sLog.outDebug("PC_CLASS_HUMAN_MYSTIC");
+							break;
+						}
+						case ePC_CLASS::PC_CLASS_HUMAN_ENGINEER:
+						{
+							sLog.outDebug("PC_CLASS_HUMAN_ENGINEER");
+							break;
+						}
+						case ePC_CLASS::PC_CLASS_NAMEK_FIGHTER:
+						{
+							objTblidx1 = 6;
+							objTblidx2 = 7;
+							sLog.outDebug("PC_CLASS_NAMEK_FIGHTER");
+							break;
+						}
+						case ePC_CLASS::PC_CLASS_NAMEK_MYSTIC:
+						{
+							objTblidx1 = 8;
+							objTblidx2 = 9;
+							sLog.outDebug("PC_CLASS_NAMEK_MYSTIC");
+							break;
+						}
+						case ePC_CLASS::PC_CLASS_MIGHTY_MAJIN:
+						{
+							objTblidx1 = 10;
+							objTblidx2 = 11;
+							sLog.outDebug("PC_CLASS_MIGHTY_MAJIN");
+							break;
+						}
+						case ePC_CLASS::PC_CLASS_WONDER_MAJIN:
+						{
+							objTblidx1 = 12;
+							objTblidx2 = 13;
+							//SendTObjectUpdateState();
+							sLog.outDebug("PC_CLASS_WONDER_MAJIN");
+							break;
+						}
+
+						
+						sOBJECT_TBLDAT* objData = (sOBJECT_TBLDAT*)sTBM.GetObjectTable(_player->GetWorldTableID())->FindData(objTblidx1);
+						if (objData)
+						{
+							SendTObjectUpdateState(HANDLE_TRIGGER_OBJECT_OFFSET + objData->dwSequence,
+								objTblidx1, 0, TOBJECT_SUBSTATE_FLAG_SHOW, 3909524734);
+						}
+						
+						objData = (sOBJECT_TBLDAT*)sTBM.GetObjectTable(_player->GetWorldTableID())->FindData(objTblidx2);
+						if (objData)
+						{
+							SendTObjectUpdateState(HANDLE_TRIGGER_OBJECT_OFFSET + objData->dwSequence,
+								objTblidx2, 0, TOBJECT_SUBSTATE_FLAG_SHOW, 3909524843);
+						}
+					}
+				}
+
 				// TLQ 1 -----------------------
 				if (worldPlayScript->GetScriptID() == 11604)
 				{

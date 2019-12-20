@@ -17,6 +17,7 @@ uint8 World::m_ExitCode = SHUTDOWN_EXIT_CODE;
 
 static HOBJECT m_uiSerialId = 5;
 static HOBJECT m_iSerialId = 1000000;
+static HOBJECT m_iHandleObjectOffset = 100000;
 
 WORD byte_to_opcode(unsigned char val)
 {

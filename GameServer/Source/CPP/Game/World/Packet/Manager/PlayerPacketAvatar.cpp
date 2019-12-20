@@ -482,7 +482,7 @@ void WorldSession::SendWorldEnter()
 		}*/
 		res.worldInfo.tblidx = _player->GetWorldTableID();
 		res.worldInfo.worldID = _player->GetWorldID();
-		res.worldInfo.hTriggerObjectOffset = 100000;
+		res.worldInfo.hTriggerObjectOffset = HANDLE_TRIGGER_OBJECT_OFFSET;
 		res.worldInfo.sRuleInfo.byRuleType = world->byWorldRuleType;
 		_player->GetPosition(res.vCurLoc.x, res.vCurLoc.y, res.vCurLoc.z);
 		_player->GetOriantation(res.vCurDir.x, res.vCurDir.y, res.vCurDir.z);
@@ -502,7 +502,7 @@ void WorldSession::SendWorldEnter()
 		res.worldInfo.tblidx = pNewbieTbldat->tutorialWorld;
 		res.worldInfo.worldID = pNewbieTbldat->world_Id;
 
-		res.worldInfo.hTriggerObjectOffset = 100000;
+		res.worldInfo.hTriggerObjectOffset = HANDLE_TRIGGER_OBJECT_OFFSET;
 		res.worldInfo.sRuleInfo.byRuleType = GAMERULE_TUTORIAL;
 		//Hard Coded
 		res.vCurLoc.x = (-1)*78.90;
@@ -615,7 +615,7 @@ void WorldSession::SendEnterWorldTeleport()
 
 	res.worldInfo.tblidx = _player->GetWorldTableID();
 	res.worldInfo.worldID = _player->GetWorldID();
-	res.worldInfo.hTriggerObjectOffset = 100000;	//i don't know what the fuck i'm doing
+	res.worldInfo.hTriggerObjectOffset = HANDLE_TRIGGER_OBJECT_OFFSET;	//i don't know what the fuck i'm doing
 	res.worldInfo.sRuleInfo.byRuleType = world->byWorldRuleType;
 	res.vCurLoc = _player->GetVectorPosition();
 	res.vCurDir = _player->GetVectorOriantation();
@@ -758,7 +758,7 @@ void WorldSession::SendDangeonTeleport(HOBJECT handle, WORD Dificulty)
 		res1.vCurDir.z = world->vStart1Dir.z;
 		_player->SetWorldTableID(world->tblidx);
 		_player->Relocate(res1.vCurLoc.x, res1.vCurLoc.y, res1.vCurLoc.z, res1.vCurDir.x, res1.vCurDir.y, res1.vCurDir.z);
-		res1.worldInfo.hTriggerObjectOffset = 100000;
+		res1.worldInfo.hTriggerObjectOffset = HANDLE_TRIGGER_OBJECT_OFFSET;
 
 		SendPacket((char*)&res1, sizeof(sGU_AVATAR_WORLD_INFO));
 	}

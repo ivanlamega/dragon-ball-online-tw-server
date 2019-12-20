@@ -205,11 +205,11 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 			sOBJECT_TBLDAT* obj = (sOBJECT_TBLDAT*)sTBM.GetObjectTable(120000)->FindData(8);
 			if (obj)
 			{
-				sLog.outDebug("Obj %d %d %s handle %d", obj->tblidx, obj->dwSequence, obj->szModelName, 100000 + obj->dwSequence);
+				sLog.outDebug("Obj %d %d %s handle %d", obj->tblidx, obj->dwSequence, obj->szModelName, HANDLE_TRIGGER_OBJECT_OFFSET + obj->dwSequence);
 				sGU_TOBJECT_UPDATE_STATE state;
 				state.wOpCode = GU_TOBJECT_UPDATE_STATE;
 				state.wPacketSize = sizeof(sGU_TOBJECT_UPDATE_STATE) - 2;
-				state.handle = 100000 + obj->dwSequence;
+				state.handle = HANDLE_TRIGGER_OBJECT_OFFSET + obj->dwSequence;
 				state.tobjectBrief.objectID = obj->tblidx;
 				state.tobjectState.byState = 0;
 				state.tobjectState.bySubStateFlag = 0;
