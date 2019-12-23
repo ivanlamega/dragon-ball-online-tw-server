@@ -173,6 +173,12 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 			_player->LevelUpByComand(Level);
 			return;
 		}
+		else if (strToken == "@subclass")
+		{
+			sLog.outDetail("Respawn object quest");
+			strToken = str.substr(pos + 1, std::string::npos);
+			_player->GetAttributesManager()->questSubCls.inQuest = true;
+		}
 		else if (strToken == "@quest")
 		{
 			sLog.outDetail("Respawn object quest");

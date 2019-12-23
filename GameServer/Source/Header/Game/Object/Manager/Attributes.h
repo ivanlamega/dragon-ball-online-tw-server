@@ -47,11 +47,6 @@ public:
 	TLQ1Info tlq1Info;
 
 	// GROW UP
-	struct ObjectDataQuest
-	{
-		TBLIDX	objTblidx;
-		int		triggerId;
-	};
 
 	struct GrowUpInfo
 	{
@@ -59,10 +54,23 @@ public:
 		TBLIDX			mobTblidx;
 		int				countKill;
 		int				maxKill;
-		ObjectDataQuest	objData[2];
 	};
 
 	GrowUpInfo growUpInfo;
+
+	// SUB CLASS
+	struct ObjectDataQuest
+	{
+		TBLIDX	objTblidx;
+		int		triggerId;
+	};
+	struct SubClassInfoQuest
+	{
+		bool			inQuest;
+		ObjectDataQuest	objData[2];
+	};
+
+	SubClassInfoQuest questSubCls;
 
 	// Teleport
 	struct OutWorld

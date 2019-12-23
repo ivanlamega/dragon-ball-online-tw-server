@@ -1198,17 +1198,18 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 				{
 					TBLIDX objTblidx1 = INVALID_TBLIDX;
 					TBLIDX objTblidx2 = INVALID_TBLIDX;
+					_player->GetAttributesManager()->questSubCls.inQuest = true;
 					switch (_player->GetMyClass())
 					{
 						case ePC_CLASS::PC_CLASS_HUMAN_FIGHTER:
 						{
 							objTblidx1 = 2;
 							objTblidx2 = 3;
-							_player->GetAttributesManager()->growUpInfo.objData[0].objTblidx = objTblidx1;
-							_player->GetAttributesManager()->growUpInfo.objData[0].triggerId = 6005;
+							_player->GetAttributesManager()->questSubCls.objData[0].objTblidx = objTblidx1;
+							_player->GetAttributesManager()->questSubCls.objData[0].triggerId = 6005;
 
-							_player->GetAttributesManager()->growUpInfo.objData[1].objTblidx = objTblidx2;
-							_player->GetAttributesManager()->growUpInfo.objData[1].triggerId = 6001;
+							_player->GetAttributesManager()->questSubCls.objData[1].objTblidx = objTblidx2;
+							_player->GetAttributesManager()->questSubCls.objData[1].triggerId = 6001;
 							sLog.outDebug("PC_CLASS_HUMAN_FIGHTER");
 							break;
 						}
@@ -1216,11 +1217,11 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 						{
 							objTblidx1 = 4;
 							objTblidx2 = 5;
-							_player->GetAttributesManager()->growUpInfo.objData[0].objTblidx = objTblidx1;
-							_player->GetAttributesManager()->growUpInfo.objData[0].triggerId = 6002;
+							_player->GetAttributesManager()->questSubCls.objData[0].objTblidx = objTblidx1;
+							_player->GetAttributesManager()->questSubCls.objData[0].triggerId = 6002;
 
-							_player->GetAttributesManager()->growUpInfo.objData[1].objTblidx = objTblidx2;
-							_player->GetAttributesManager()->growUpInfo.objData[1].triggerId = 6003;
+							_player->GetAttributesManager()->questSubCls.objData[1].objTblidx = objTblidx2;
+							_player->GetAttributesManager()->questSubCls.objData[1].triggerId = 6003;
 							sLog.outDebug("PC_CLASS_HUMAN_MYSTIC");
 							break;
 						}
@@ -1233,11 +1234,11 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 						{
 							objTblidx1 = 6;
 							objTblidx2 = 7;
-							_player->GetAttributesManager()->growUpInfo.objData[0].objTblidx = objTblidx1;
-							_player->GetAttributesManager()->growUpInfo.objData[0].triggerId = 6006;
+							_player->GetAttributesManager()->questSubCls.objData[0].objTblidx = objTblidx1;
+							_player->GetAttributesManager()->questSubCls.objData[0].triggerId = 6006;
 
-							_player->GetAttributesManager()->growUpInfo.objData[1].objTblidx = objTblidx2;
-							_player->GetAttributesManager()->growUpInfo.objData[1].triggerId = 6004;
+							_player->GetAttributesManager()->questSubCls.objData[1].objTblidx = objTblidx2;
+							_player->GetAttributesManager()->questSubCls.objData[1].triggerId = 6004;
 							sLog.outDebug("PC_CLASS_NAMEK_FIGHTER");
 							break;
 						}
@@ -1245,11 +1246,11 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 						{
 							objTblidx1 = 8;
 							objTblidx2 = 9;
-							_player->GetAttributesManager()->growUpInfo.objData[0].objTblidx = objTblidx1;
-							_player->GetAttributesManager()->growUpInfo.objData[0].triggerId = 6007;
+							_player->GetAttributesManager()->questSubCls.objData[0].objTblidx = objTblidx1;
+							_player->GetAttributesManager()->questSubCls.objData[0].triggerId = 6007;
 
-							_player->GetAttributesManager()->growUpInfo.objData[1].objTblidx = objTblidx2;
-							_player->GetAttributesManager()->growUpInfo.objData[1].triggerId = 6008;
+							_player->GetAttributesManager()->questSubCls.objData[1].objTblidx = objTblidx2;
+							_player->GetAttributesManager()->questSubCls.objData[1].triggerId = 6008;
 							sLog.outDebug("PC_CLASS_NAMEK_MYSTIC");
 							break;
 						}
@@ -1257,11 +1258,11 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 						{
 							objTblidx1 = 10;
 							objTblidx2 = 11;
-							_player->GetAttributesManager()->growUpInfo.objData[0].objTblidx = objTblidx1;
-							_player->GetAttributesManager()->growUpInfo.objData[0].triggerId = 6010;
+							_player->GetAttributesManager()->questSubCls.objData[0].objTblidx = objTblidx1;
+							_player->GetAttributesManager()->questSubCls.objData[0].triggerId = 6010;
 
-							_player->GetAttributesManager()->growUpInfo.objData[1].objTblidx = objTblidx2;
-							_player->GetAttributesManager()->growUpInfo.objData[1].triggerId = 6009;
+							_player->GetAttributesManager()->questSubCls.objData[1].objTblidx = objTblidx2;
+							_player->GetAttributesManager()->questSubCls.objData[1].triggerId = 6009;
 							sLog.outDebug("PC_CLASS_MIGHTY_MAJIN");
 							break;
 						}
@@ -1269,11 +1270,11 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 						{
 							objTblidx1 = 12;
 							objTblidx2 = 13;
-							_player->GetAttributesManager()->growUpInfo.objData[0].objTblidx = objTblidx1;
-							_player->GetAttributesManager()->growUpInfo.objData[0].triggerId = 6012;
+							_player->GetAttributesManager()->questSubCls.objData[0].objTblidx = objTblidx1;
+							_player->GetAttributesManager()->questSubCls.objData[0].triggerId = 6012;
 
-							_player->GetAttributesManager()->growUpInfo.objData[1].objTblidx = objTblidx2;
-							_player->GetAttributesManager()->growUpInfo.objData[1].triggerId = 6011;
+							_player->GetAttributesManager()->questSubCls.objData[1].objTblidx = objTblidx2;
+							_player->GetAttributesManager()->questSubCls.objData[1].triggerId = 6011;
 							//SendTObjectUpdateState();
 							sLog.outDebug("PC_CLASS_WONDER_MAJIN");
 							break;
@@ -3194,327 +3195,361 @@ void WorldSession::SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, 
 	 SendPacket((char*)&info, sizeof(sGU_AVATAR_QUEST_INVENTORY_INFO));
  }
 
- ResultCodes WorldSession::FindObjectTriggerInformation(QuestData* questData, HOBJECT hTarget, TBLIDX objTblidx)
- {
-	 NTL_TS_TC_ID nextLink = 0;
-	 CNtlTSGroup * groupTS = sTSM.FindObjectFromTS(questData->QuestID)->GetGroup(NTL_TS_MAIN_GROUP_ID);
-	 int countSteps = groupTS->GetNumOfChildCont();
-	 sLog.outDebug("count %d", countSteps);
-	 for (int curEnt = 0; curEnt < countSteps; curEnt++)
-	 {
+ResultCodes WorldSession::FindObjectTriggerInformation(QuestData* questData, HOBJECT hTarget, TBLIDX objTblidx)
+{
+	NTL_TS_TC_ID nextLink = 0;
+	CNtlTSGroup * groupTS = sTSM.FindObjectFromTS(questData->QuestID)->GetGroup(NTL_TS_MAIN_GROUP_ID);
+	int countSteps = groupTS->GetNumOfChildCont();
+	sLog.outDebug("count %d", countSteps);
+	for (int curEnt = 0; curEnt < countSteps; curEnt++)
+	{
 
-		 if (nextLink == -1)
-		 {
-			 break;
-		 }
+		if (nextLink == -1)
+		{
+			break;
+		}
 
-		 CNtlTSCont* contBase = groupTS->GetChildCont(nextLink);
-		 if (contBase == NULL)
-		 {
-			 continue;
-		 }
+		CNtlTSCont* contBase = groupTS->GetChildCont(nextLink);
+		if (contBase == NULL)
+		{
+			continue;
+		}
 
-		 sLog.outDebug("Nombre %s cid %d", contBase->GetClassNameW(), nextLink);
+		sLog.outDebug("Nombre %s cid %d", contBase->GetClassNameW(), nextLink);
 
-		 switch (contBase->GetEntityType())
-		 {
-			 case DBO_CONT_TYPE_ID_CONT_START:
-			 {
-				 CDboTSContStart* contStart = ((CDboTSContStart*)contBase);
-				 nextLink = contStart->GetYesLinkID();
-				 if (contStart == NULL)
-				 {
-					 return RESULT_FAIL;
-				 }
-				 for (int i = 0; i < contStart->GetNumOfChildEntity(); i++)
-				 {
-					 sLog.outDetail("Cont: %s %d", contStart->GetChildEntity(i)->GetClassNameW(), contStart->GetChildEntity(i)->GetEntityType());
-					 switch (contStart->GetChildEntity(i)->GetEntityType())
-					 {
-						 case DBO_COND_TYPE_ID_CHECK_OBJITEM:
-						 {
-							 CDboTSCheckObjItem* checkObjItem = ((CDboTSCheckObjItem*)contStart->GetChildEntity(i));
-							 if (checkObjItem)
-							 {
-								 sLog.outDebug("QuestId %d", checkObjItem->GetQuestId());
-							 }
-							 break;
-						 }
-						 case DBO_EVENT_TYPE_ID_CLICK_OBJECT:
-						 {
-							 CDboTSClickObject* clickObject = ((CDboTSClickObject*)contStart->GetChildEntity(i));
-							 if (clickObject)
-							 {
-								 sLog.outDebug("WorldIdx %d num %d has(%d)? %d", 
-									 clickObject->GetWorldIdx(), clickObject->GetNumOfObjectIdx(), objTblidx, clickObject->HasObjectIdx(objTblidx));
+		switch (contBase->GetEntityType())
+		{
+			case DBO_CONT_TYPE_ID_CONT_START:
+			{
+				CDboTSContStart* contStart = ((CDboTSContStart*)contBase);
+				nextLink = contStart->GetYesLinkID();
+				if (contStart == NULL)
+				{
+					return RESULT_FAIL;
+				}
+				for (int i = 0; i < contStart->GetNumOfChildEntity(); i++)
+				{
+					sLog.outDetail("Cont: %s %d", contStart->GetChildEntity(i)->GetClassNameW(), contStart->GetChildEntity(i)->GetEntityType());
+					switch (contStart->GetChildEntity(i)->GetEntityType())
+					{
+						case DBO_COND_TYPE_ID_CHECK_OBJITEM:
+						{
+							CDboTSCheckObjItem* checkObjItem = ((CDboTSCheckObjItem*)contStart->GetChildEntity(i));
+							if (checkObjItem)
+							{
+								sLog.outDebug("QuestId %d", checkObjItem->GetQuestId());
+							}
+							break;
+						}
+						case DBO_EVENT_TYPE_ID_CLICK_OBJECT:
+						{
+							CDboTSClickObject* clickObject = ((CDboTSClickObject*)contStart->GetChildEntity(i));
+							if (clickObject)
+							{
+								sLog.outDebug("WorldIdx %d num %d has(%d)? %d", 
+									clickObject->GetWorldIdx(), clickObject->GetNumOfObjectIdx(), objTblidx, clickObject->HasObjectIdx(objTblidx));
 
-								 if (clickObject->HasObjectIdx(objTblidx))
-								 {
-									 contStart->GetYesLinkID();
-								 }
-								 else
-								 {
-									 return RESULT_FAIL;
-								 }
-							 }
-							 break;
-						 }
-						 case DBO_COND_TYPE_ID_CHECK_ATTACH_OBJ:
-						 {
-							 CDboTSCheckAttachObj* attachObj = ((CDboTSCheckAttachObj*)contStart->GetChildEntity(i));
-							 if (attachObj)
-							 {
-								 sLog.outDebug("Num obj %d world %d", attachObj->GetNumOfObjectIdx(), attachObj->GetWorldIdx(), attachObj->HasObjectIdx(objTblidx));
+								if (clickObject->HasObjectIdx(objTblidx))
+								{
+									contStart->GetYesLinkID();
+								}
+								else
+								{
+									return RESULT_FAIL;
+								}
+							}
+							break;
+						}
+						case DBO_COND_TYPE_ID_CHECK_ATTACH_OBJ:
+						{
+							CDboTSCheckAttachObj* attachObj = ((CDboTSCheckAttachObj*)contStart->GetChildEntity(i));
+							if (attachObj)
+							{
+								sLog.outDebug("Num obj %d world %d", attachObj->GetNumOfObjectIdx(), attachObj->GetWorldIdx(), attachObj->HasObjectIdx(objTblidx));
 
-								 if (attachObj->HasObjectIdx(objTblidx))
-								 {
-									 contStart->GetYesLinkID();
-								 }
-								 else
-								 {
-									 return RESULT_FAIL;
-								 }
-							 }
-							 break;
-						 }
-						 case DBO_COND_TYPE_ID_CHECK_CUSTOMEVENT:
-						 {
-							 CDboTSCheckCustomEvent* customEvent = ((CDboTSCheckCustomEvent*)contStart->GetChildEntity(i));
-							 if (customEvent)
-							 {
-								 sLog.outDebug("Quest idx %d", customEvent->GetQuestID());
-							 }
-							 break;
-						 }
-						 case DBO_COND_TYPE_ID_CHECK_ITEM:
-						 {
-							 CDboTSCheckItem* checkItem = ((CDboTSCheckItem*)contStart->GetChildEntity(i));
-							 if (checkItem)
-							 {
-								 sLog.outDebug("Item tblidx %d count %d", checkItem->GetItemIdx(), checkItem->GetItemCnt());
-							 }
-							 break;
-						 }
-						 case DBO_COND_TYPE_ID_CHECK_PROG_QUEST:
-						 {
-							 CDboTSCheckProgQuest* checkQuest = (CDboTSCheckProgQuest*)contStart->GetChildEntity(i);
-							 if (checkQuest)
-							 {
-								 sLog.outDebug("Quest id: %d", checkQuest->GetQuestID());
-							 }
-							 break;
-						 }
-					 }
-				 }
-				 break;
-			 }
-			 case DBO_CONT_TYPE_ID_CONT_GACT:
-			 {
-				 CDboTSContGAct* contAct = ((CDboTSContGAct*)contBase);
-				 nextLink = contAct->GetNextLinkID();
-				 if (contAct == NULL)
-				 {
-					 continue;
-				 }
-				 for (int i = 0; i < contAct->GetNumOfChildEntity(); i++)
-				 {
-					 sLog.outDetail("Cont: %s %d", contAct->GetChildEntity(i)->GetClassNameW(), contAct->GetChildEntity(i)->GetEntityType());
-					 switch (contAct->GetChildEntity(i)->GetEntityType())
-					 {
-						 case DBO_ACT_TYPE_ID_ACT_OPERATEOBJECT:
-						 {
-							 CDboTSActOPObject* opObject = ((CDboTSActOPObject*)contAct->GetChildEntity(i));
-							 if (opObject)
-							 {
-								 if (opObject->GetDirectionTableIndex() != INVALID_TBLIDX)
-								 {
-									 _player->GetState()->sCharStateDetail.sCharStateOperating.hTargetObject = hTarget;
-									 _player->GetState()->sCharStateDetail.sCharStateOperating.dwOperateTime = opObject->GetOperateTime();
-									 _player->GetState()->sCharStateDetail.sCharStateOperating.directTblidx = opObject->GetDirectionTableIndex();
-									 _player->UpdateState(eCHARSTATE::CHARSTATE_OPERATING);
-									 sLog.outDebug("DirTblidx %d time %d", opObject->GetDirectionTableIndex(), opObject->GetOperateTime());
+								if (attachObj->HasObjectIdx(objTblidx))
+								{
+									contStart->GetYesLinkID();
+								}
+								else
+								{
+									return RESULT_FAIL;
+								}
+							}
+							break;
+						}
+						case DBO_COND_TYPE_ID_CHECK_CUSTOMEVENT:
+						{
+							CDboTSCheckCustomEvent* customEvent = ((CDboTSCheckCustomEvent*)contStart->GetChildEntity(i));
+							if (customEvent)
+							{
+								sLog.outDebug("Quest idx %d", customEvent->GetQuestID());
+							}
+							break;
+						}
+						case DBO_COND_TYPE_ID_CHECK_ITEM:
+						{
+							CDboTSCheckItem* checkItem = ((CDboTSCheckItem*)contStart->GetChildEntity(i));
+							if (checkItem)
+							{
+								sLog.outDebug("Item tblidx %d count %d", checkItem->GetItemIdx(), checkItem->GetItemCnt());
+							}
+							break;
+						}
+						case DBO_COND_TYPE_ID_CHECK_PROG_QUEST:
+						{
+							CDboTSCheckProgQuest* checkQuest = (CDboTSCheckProgQuest*)contStart->GetChildEntity(i);
+							if (checkQuest)
+							{
+								sLog.outDebug("Quest id: %d", checkQuest->GetQuestID());
+							}
+							break;
+						}
+					}
+				}
+				break;
+			}
+			case DBO_CONT_TYPE_ID_CONT_GACT:
+			{
+				CDboTSContGAct* contAct = ((CDboTSContGAct*)contBase);
+				nextLink = contAct->GetNextLinkID();
+				if (contAct == NULL)
+				{
+					continue;
+				}
+				for (int i = 0; i < contAct->GetNumOfChildEntity(); i++)
+				{
+					sLog.outDetail("Cont: %s %d", contAct->GetChildEntity(i)->GetClassNameW(), contAct->GetChildEntity(i)->GetEntityType());
+					switch (contAct->GetChildEntity(i)->GetEntityType())
+					{
+						case DBO_ACT_TYPE_ID_ACT_OPERATEOBJECT:
+						{
+							CDboTSActOPObject* opObject = ((CDboTSActOPObject*)contAct->GetChildEntity(i));
+							if (opObject)
+							{
+								if (opObject->GetDirectionTableIndex() != INVALID_TBLIDX)
+								{
+									_player->GetState()->sCharStateDetail.sCharStateOperating.hTargetObject = hTarget;
+									_player->GetState()->sCharStateDetail.sCharStateOperating.dwOperateTime = opObject->GetOperateTime();
+									_player->GetState()->sCharStateDetail.sCharStateOperating.directTblidx = opObject->GetDirectionTableIndex();
+									_player->UpdateState(eCHARSTATE::CHARSTATE_OPERATING);
+									sLog.outDebug("DirTblidx %d time %d", opObject->GetDirectionTableIndex(), opObject->GetOperateTime());
 
-									 // testing timer https://www.fluentcpp.com/2018/12/28/timer-cpp/
+									// testing timer https://www.fluentcpp.com/2018/12/28/timer-cpp/
 
-									 Timer.setTimeout([&]() {
-										 _player->UpdateState(eCHARSTATE::CHARSTATE_STANDING);
-										 }, opObject->GetOperateTime());
-								 }
+									Timer.setTimeout([&]() {
+										_player->UpdateState(eCHARSTATE::CHARSTATE_STANDING);
+										}, opObject->GetOperateTime());
+								}
 								 
-							 }
-							 break;
-						 }
-						 case DBO_ACT_TYPE_ID_ACT_CUSTOMEVT:
-						 {
-							 CDboTSActCustomEvt * customEvt = ((CDboTSActCustomEvt*)contAct->GetChildEntity(i));
-							 if (customEvt)
-							 {
-								 sLog.outDebug("EVT ID trigger %d quest EVT ID %d", customEvt->GetCustomEvtID(), questData->uEvtData.sCustomEvtCnt[i].uiCustomEvtID);
-								 for (int slot = 0; slot < questData->uEvtData.MAX_CUSTOM_EVT_CNT; slot++)
-								 {
-									 if (questData->uEvtData.sCustomEvtCnt[i].uiCustomEvtID == INVALID_TBLIDX || customEvt->GetCustomEvtID() == INVALID_TBLIDX)
-									 {
-										 continue;
-									 }
+							}
+							break;
+						}
+						case DBO_ACT_TYPE_ID_ACT_CUSTOMEVT:
+						{
+							CDboTSActCustomEvt * customEvt = ((CDboTSActCustomEvt*)contAct->GetChildEntity(i));
+							if (customEvt)
+							{
+								sLog.outDebug("EVT ID trigger %d quest EVT ID %d", customEvt->GetCustomEvtID(), questData->uEvtData.sCustomEvtCnt[i].uiCustomEvtID);
+								for (int slot = 0; slot < questData->uEvtData.MAX_CUSTOM_EVT_CNT; slot++)
+								{
+									if (questData->uEvtData.sCustomEvtCnt[i].uiCustomEvtID == INVALID_TBLIDX || customEvt->GetCustomEvtID() == INVALID_TBLIDX)
+									{
+										continue;
+									}
 
-									 if (questData->uEvtData.sCustomEvtCnt[i].uiCustomEvtID == customEvt->GetCustomEvtID())
-									 {
-										 questData->uEvtData.sCustomEvtCnt[i].nCurCnt += 1;
-										 SendQuestItemCreate(0, questData->uEvtData.sCustomEvtCnt[i].uiCustomEvtID, 1);
-										 SendQuestSVRevtUpdateNotify(questData->QuestID,
-											 questData->tcId,
-											 questData->taId,
-											 questData->evtDataType,
-											 slot,
-											 &questData->uEvtData);
-									 }
-								 }
-							 }
-							 break;
-						 }
-						 case DBO_ACT_TYPE_ID_ACT_QITEM:
-						 {
-							 CDboTSActQItem* qItem = ((CDboTSActQItem*)contAct->GetChildEntity(i));
-							 if (qItem)
-							 {
-								 for (int slot = 0; slot < qItem->eMAX_TS_QITEM_COUNT; slot++)
-								 {
-									 sLog.outError("Init quest tblidx %d trigger tblidx %d",
-										 questData->uEvtData.sObjectItemCnt[slot].uiItemIdx, qItem->GetQItemInfo(slot).uiQItemIdx);
-									 if (questData->uEvtData.sObjectItemCnt[slot].uiItemIdx == INVALID_TBLIDX || qItem->GetQItemInfo(slot).uiQItemIdx == INVALID_TBLIDX)
-									 {
-										 continue;
-									 }
+									if (questData->uEvtData.sCustomEvtCnt[i].uiCustomEvtID == customEvt->GetCustomEvtID())
+									{
+										questData->uEvtData.sCustomEvtCnt[i].nCurCnt += 1;
+										SendQuestItemCreate(0, questData->uEvtData.sCustomEvtCnt[i].uiCustomEvtID, 1);
+										SendQuestSVRevtUpdateNotify(questData->QuestID,
+											questData->tcId,
+											questData->taId,
+											questData->evtDataType,
+											slot,
+											&questData->uEvtData);
+									}
+								}
+							}
+							break;
+						}
+						case DBO_ACT_TYPE_ID_ACT_QITEM:
+						{
+							CDboTSActQItem* qItem = ((CDboTSActQItem*)contAct->GetChildEntity(i));
+							if (qItem)
+							{
+								for (int slot = 0; slot < qItem->eMAX_TS_QITEM_COUNT; slot++)
+								{
+									sLog.outError("Init quest tblidx %d trigger tblidx %d",
+										questData->uEvtData.sObjectItemCnt[slot].uiItemIdx, qItem->GetQItemInfo(slot).uiQItemIdx);
+									if (questData->uEvtData.sObjectItemCnt[slot].uiItemIdx == INVALID_TBLIDX || qItem->GetQItemInfo(slot).uiQItemIdx == INVALID_TBLIDX)
+									{
+										continue;
+									}
 
-									 if (questData->uEvtData.sObjectItemCnt[slot].uiItemIdx == qItem->GetQItemInfo(slot).uiQItemIdx)
-									 {
-										 questData->uEvtData.sObjectItemCnt[slot].nCurItemCnt += qItem->GetQItemInfo(slot).nQItemCnt;
+									if (questData->uEvtData.sObjectItemCnt[slot].uiItemIdx == qItem->GetQItemInfo(slot).uiQItemIdx)
+									{
+										questData->uEvtData.sObjectItemCnt[slot].nCurItemCnt += qItem->GetQItemInfo(slot).nQItemCnt;
 
-										 SendQuestItemCreate(0, questData->uEvtData.sObjectItemCnt[slot].uiItemIdx, qItem->GetQItemInfo(slot).nQItemCnt);
+										SendQuestItemCreate(0, questData->uEvtData.sObjectItemCnt[slot].uiItemIdx, qItem->GetQItemInfo(slot).nQItemCnt);
 
-										 SendQuestSVRevtUpdateNotify(questData->QuestID,
-											 questData->tcId,
-											 questData->taId,
-											 questData->evtDataType,
-											 slot,
-											 &questData->uEvtData);
-										 sLog.outDebug("Type %d Itemidx %d count %d probability %f", qItem->GetQItemType(),
-											 qItem->GetQItemInfo(slot).uiQItemIdx, qItem->GetQItemInfo(slot).nQItemCnt, qItem->GetQItemInfo(slot).fProbability);
-									 }
+										SendQuestSVRevtUpdateNotify(questData->QuestID,
+											questData->tcId,
+											questData->taId,
+											questData->evtDataType,
+											slot,
+											&questData->uEvtData);
+										sLog.outDebug("Type %d Itemidx %d count %d probability %f", qItem->GetQItemType(),
+											qItem->GetQItemInfo(slot).uiQItemIdx, qItem->GetQItemInfo(slot).nQItemCnt, qItem->GetQItemInfo(slot).fProbability);
+									}
 									 
-								 }
-							 }
-							 break;
-						 }
-						 case DBO_ACT_TYPE_ID_ACT_PCCONV:
-						 {
-							 CDboTSActPCConv* PCConv = ((CDboTSActPCConv*)contAct->GetChildEntity(i));
-							 if (PCConv)
-							 {
-								 sLog.outDebug("Tblidx %d", PCConv->GetConvTblIdx());
-								 sGU_TS_PC_DIALOG_NFY nfy;
-								 nfy.wOpCode = GU_TS_PC_DIALOG_NFY;
-								 nfy.wPacketSize = sizeof(sGU_TS_PC_DIALOG_NFY) - 2;
-								 nfy.textTblidx = PCConv->GetConvTblIdx();
-								 SendPacket((char*)&nfy, sizeof(sGU_TS_PC_DIALOG_NFY));
+								}
+							}
+							break;
+						}
+						case DBO_ACT_TYPE_ID_ACT_PCCONV:
+						{
+							CDboTSActPCConv* PCConv = ((CDboTSActPCConv*)contAct->GetChildEntity(i));
+							if (PCConv)
+							{
+								sLog.outDebug("Tblidx %d", PCConv->GetConvTblIdx());
+								sGU_TS_PC_DIALOG_NFY nfy;
+								nfy.wOpCode = GU_TS_PC_DIALOG_NFY;
+								nfy.wPacketSize = sizeof(sGU_TS_PC_DIALOG_NFY) - 2;
+								nfy.textTblidx = PCConv->GetConvTblIdx();
+								SendPacket((char*)&nfy, sizeof(sGU_TS_PC_DIALOG_NFY));
 
-							 }
-							 break;
-						 }
-						 case DBO_ACT_TYPE_ID_ACT_TWAITTS:
-						 {
-							 CDboTSActTWaitTS* waitTs = ((CDboTSActTWaitTS*)contAct->GetChildEntity(i));
-							 if (waitTs)
-							 {
-								 sLog.outDebug("Time %d", waitTs->GetWaitTime());
-							 }
-							 break;
-						 }
-						 case DBO_ACT_TYPE_ID_ACT_OBJSTATE:
-						 {
-							 CDboTSActObjState* objState = ((CDboTSActObjState*)contAct->GetChildEntity(i));
-							 if (objState)
-							 {
-								 sLog.outDebug("Check %d tblidx %d main state %d showHide %d world %d",
-									 objState->GetObjectCheckUncheck(), objState->GetObjectIdx(), objState->GetObjectMainState(), objState->GetObjectShowHide(),
-									 objState->GetWorldIdx());
+							}
+							break;
+						}
+						case DBO_ACT_TYPE_ID_ACT_TWAITTS:
+						{
+							CDboTSActTWaitTS* waitTs = ((CDboTSActTWaitTS*)contAct->GetChildEntity(i));
+							if (waitTs)
+							{
+								sLog.outDebug("Time %d", waitTs->GetWaitTime());
+							}
+							break;
+						}
+						case DBO_ACT_TYPE_ID_ACT_OBJSTATE:
+						{
+							CDboTSActObjState* objState = ((CDboTSActObjState*)contAct->GetChildEntity(i));
+							if (objState)
+							{
+								sLog.outDebug("Check %d tblidx %d main state %d showHide %d world %d",
+									objState->GetObjectCheckUncheck(), objState->GetObjectIdx(), objState->GetObjectMainState(), objState->GetObjectShowHide(),
+									objState->GetWorldIdx());
 
-								 sGU_TOBJECT_UPDATE_STATE state;
-								 state.wOpCode = GU_TOBJECT_UPDATE_STATE;
-								 state.wPacketSize = sizeof(sGU_TOBJECT_UPDATE_STATE) - 2;
-								 state.handle = hTarget;
-								 state.tobjectBrief.objectID = objTblidx;
-								 state.tobjectState.byState = 0;
-								 state.tobjectState.bySubStateFlag = TOBJECT_SUBSTATE_FLAG_UNSELECT;
-								 state.tobjectState.dwStateTime = 1832245140;
-								 SendPacket((char*)&state, sizeof(sGU_TOBJECT_UPDATE_STATE));
+								if (_player->GetAttributesManager()->questSubCls.inQuest)
+								{
+									if (objState->GetObjectIdx() != INVALID_TBLIDX)
+									{
+										sOBJECT_TBLDAT* obj = (sOBJECT_TBLDAT*)sTBM.GetObjectTable(objState->GetWorldIdx())->FindData(objState->GetObjectIdx());
+										if (obj)
+										{
+											SendTObjectUpdateState(HANDLE_TRIGGER_OBJECT_OFFSET + obj->dwSequence,
+												objState->GetObjectIdx(), 0, TOBJECT_SUBSTATE_FLAG_UNSELECT, 3909615265);
+										}
+										 
+									}
+								}
+								else
+								{
+									/*sGU_TOBJECT_UPDATE_STATE state;
+									state.wOpCode = GU_TOBJECT_UPDATE_STATE;
+									state.wPacketSize = sizeof(sGU_TOBJECT_UPDATE_STATE) - 2;
+									state.handle = hTarget;
+									state.tobjectBrief.objectID = objTblidx;
+									state.tobjectState.byState = 0;
+									state.tobjectState.bySubStateFlag = TOBJECT_SUBSTATE_FLAG_UNSELECT;
+									state.tobjectState.dwStateTime = 1832245140;
+									SendPacket((char*)&state, sizeof(sGU_TOBJECT_UPDATE_STATE));*/
 
-								 _player->objectHandle = hTarget;
-								 _player->objectTblidx = objTblidx;
-							 }
-							 break;
-						 }
-						 case DBO_ACT_TYPE_ID_ACT_ITEM:
-						 {
-							 CDboTSActItem* actItem = (CDboTSActItem*)contAct->GetChildEntity(i);
-							 if (actItem)
-							 {
-								 for (int i = 0; i < actItem->eMAX_TS_ITEM_COUNT; i++)
-								 {
-									 sLog.outDebug("Type %d Item %d slot %d", actItem->GetItemType(), actItem->GetItemInfo(i).uiItemIdx, actItem->GetItemInfo(i).eItemSlotType);
-								 }
-							 }
-							 break;
-						 }
-						 case DBO_ACT_TYPE_ID_ACT_SEND_SVR_EVT:
-						 {
-							 CDboTSActSendSvrEvt* sendEvt = (CDboTSActSendSvrEvt*)contAct->GetChildEntity(i);
-							 if (sendEvt)
-							 {
-								 sLog.outDebug("Evt send type %d evtId %d evt trigger type %d tblidx %d evt type %d", sendEvt->GetEvtSendType(), sendEvt->GetSvrEvtID(),
-									 sendEvt->GetSvrEvtTriggerType(), sendEvt->GetTblIdx(), sendEvt->GetSvrEvtType());
-							 }
-							 break;
-						 }
-					 }
-				 }
-				 break;
-			 }
-			 case DBO_CONT_TYPE_ID_CONT_GCOND:
-			 {
-				 CDboTSContGCond* contCond = ((CDboTSContGCond*)contBase);
-				 if (contCond)
-				 {
-					 nextLink = contCond->GetYesLinkID();
-					 for (int i = 0; i < contCond->GetNumOfChildEntity(); i++)
-					 {
-						 sLog.outDetail("Cont: %s %d", contCond->GetChildEntity(i)->GetClassNameW(), contCond->GetChildEntity(i)->GetEntityType());
-						 switch (contCond->GetChildEntity(i)->GetEntityType())
-						 {
-							 case DBO_COND_TYPE_ID_CHECK_OPERATEOBJECT:
-							 {
-								 CDboTSCheckOPObject* checkOpObject = ((CDboTSCheckOPObject*)contCond->GetChildEntity(i));
-								 break;
-							 }
-						 }
-					 }
-				 }
-				 break;
-			 }
-			 case DBO_CONT_TYPE_ID_CONT_END:
-			 {
-				 CDboTSContEnd* contEnd = ((CDboTSContEnd*)contBase);
-				 if (contEnd)
-				 {
-					 nextLink = -1;
-					 sLog.outDebug("next link %d", contEnd->GetNextLinkID());
-				 }
-				 break;
-			 }
-		 }
-	 }
-	 return RESULT_SUCCESS;
- }
+									SendTObjectUpdateState(hTarget, objTblidx, 0, TOBJECT_SUBSTATE_FLAG_UNSELECT, 1832245140);
+
+									_player->objectHandle = hTarget;
+									_player->objectTblidx = objTblidx;
+								}
+							}
+							break;
+						}
+						case DBO_ACT_TYPE_ID_ACT_ITEM:
+						{
+							CDboTSActItem* actItem = (CDboTSActItem*)contAct->GetChildEntity(i);
+							if (actItem)
+							{
+								sLog.outDebug("Type %d Item %d slot %d", actItem->GetItemType(), actItem->GetItemInfo(i).uiItemIdx, actItem->GetItemInfo(i).eItemSlotType);
+								if (actItem->GetItemType() == eTSITEM_TYPE::eTSITEM_TYPE_CREATE)
+								{
+									for (int itemId = 0; itemId < actItem->eMAX_TS_ITEM_COUNT; itemId++)
+									{
+										sLog.outDebug("Quest: item tblidx %d slot type %d",
+											actItem->GetItemInfo(itemId).uiItemIdx, actItem->GetItemInfo(itemId).eItemSlotType);
+										if (actItem->GetItemInfo(itemId).uiItemIdx != INVALID_TBLIDX)
+										{
+											sITEM_PROFILE createdItem;
+											WORD result = _player->GetInventoryManager()->PerformShopBuy(actItem->GetItemInfo(itemId).uiItemIdx, 1, createdItem);
+											if (result == GAME_SUCCESS && createdItem.tblidx != INVALID_TBLIDX)
+											{
+												sLog.outDetail("Item Created\n");
+												SendItemCreate(&createdItem);
+											}
+										}
+									}
+								}
+							}
+							break;
+						}
+						case DBO_ACT_TYPE_ID_ACT_SEND_SVR_EVT:
+						{
+							CDboTSActSendSvrEvt* sendEvt = (CDboTSActSendSvrEvt*)contAct->GetChildEntity(i);
+							if (sendEvt)
+							{
+								sLog.outDebug("Evt send type %d evtId %d evt trigger type %d tblidx %d evt type %d", sendEvt->GetEvtSendType(), sendEvt->GetSvrEvtID(),
+									sendEvt->GetSvrEvtTriggerType(), sendEvt->GetTblIdx(), sendEvt->GetSvrEvtType());
+								SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, sendEvt->GetSvrEvtID());
+							}
+							break;
+						}
+					}
+				}
+				break;
+			}
+			case DBO_CONT_TYPE_ID_CONT_GCOND:
+			{
+				CDboTSContGCond* contCond = ((CDboTSContGCond*)contBase);
+				if (contCond)
+				{
+					nextLink = contCond->GetYesLinkID();
+					for (int i = 0; i < contCond->GetNumOfChildEntity(); i++)
+					{
+						sLog.outDetail("Cont: %s %d", contCond->GetChildEntity(i)->GetClassNameW(), contCond->GetChildEntity(i)->GetEntityType());
+						switch (contCond->GetChildEntity(i)->GetEntityType())
+						{
+							case DBO_COND_TYPE_ID_CHECK_OPERATEOBJECT:
+							{
+								CDboTSCheckOPObject* checkOpObject = ((CDboTSCheckOPObject*)contCond->GetChildEntity(i));
+								break;
+							}
+						}
+					}
+				}
+				break;
+			}
+			case DBO_CONT_TYPE_ID_CONT_END:
+			{
+				CDboTSContEnd* contEnd = ((CDboTSContEnd*)contBase);
+				if (contEnd)
+				{
+					nextLink = -1;
+					sLog.outDebug("next link %d", contEnd->GetNextLinkID());
+				}
+				break;
+			}
+		}
+	}
+	return RESULT_SUCCESS;
+}
 
 void WorldSession::SendTsExcuteTriggerObject(Packet& packet)
 {
@@ -3529,9 +3564,11 @@ void WorldSession::SendTsExcuteTriggerObject(Packet& packet)
 	}
 	TBLIDX objTblidx = INVALID_TBLIDX;
 	Map* map = _player->GetMap();
+	sLog.outDebug("Worldid player %d world object %d", _player->GetWorldID(), map);
 	//sLog.outDebug("Request handle interaction == %d", req->hTarget);
 	if (map)
 	{
+		sLog.outDebug("Worldid player %d world %d", _player->GetWorldID(), map->GetId());
 		WorldObjectRefManager ref = map->GetWorldObject();
 		for (auto reference = ref.begin(); reference != ref.end(); ++reference)
 		{
@@ -3540,71 +3577,89 @@ void WorldSession::SendTsExcuteTriggerObject(Packet& packet)
 				objTblidx = ((WorldObject*)reference->getSource())->GetTblidx();
 				sLog.outString("FOUNDED object tblidx %d hTarget %d", objTblidx, req->hTarget);
 
+				sLog.outDebug("Is in sub class quest or growup %d", _player->GetAttributesManager()->questSubCls.inQuest);
+				if (_player->GetAttributesManager()->questSubCls.inQuest)
+				{
+					for (int i = 0; i < 2; i++)
+					{
+						sLog.outDebug("Item %d trigger %d object founded %d", 
+							_player->GetAttributesManager()->questSubCls.objData[i].objTblidx, _player->GetAttributesManager()->questSubCls.objData[i].triggerId,
+							objTblidx);
+						if (_player->GetAttributesManager()->questSubCls.objData[i].objTblidx == objTblidx)
+						{
+							sLog.outDebug("Item chose %d", objTblidx);
+							QuestData questData;
+							questData.QuestID = _player->GetAttributesManager()->questSubCls.objData[i].triggerId;
+							FindObjectTriggerInformation(&questData, req->hTarget, objTblidx);
+						}
+					}
+				}
+
 				for (int i = 0; i <= 30; i++)
 				{
 					//--------------------------------
 					sLog.outDebug("EVT TYPE %d", _player->GetAttributesManager()->QuestDat[i].evtDataType);
 					switch (_player->GetAttributesManager()->QuestDat[i].evtDataType)
 					{
-					case eSTOC_EVT_DATA_TYPE_OBJECT_ITEM:
-					{
-						for (int slot = 0; slot < _player->GetAttributesManager()->QuestDat[i].uEvtData.MAX_OBJECT_ITEM; slot++)
+						case eSTOC_EVT_DATA_TYPE_OBJECT_ITEM:
 						{
-							sLog.outDebug("ITEM COUNT %d", _player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].nCurItemCnt);
+							for (int slot = 0; slot < _player->GetAttributesManager()->QuestDat[i].uEvtData.MAX_OBJECT_ITEM; slot++)
+							{
+								sLog.outDebug("ITEM COUNT %d", _player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].nCurItemCnt);
 
-							if (_player->GetAttributesManager()->QuestDat[i].QuestID == 0)
-							{
-								continue;
-							}
-							sLog.outError("QUEST ID: %d", _player->GetAttributesManager()->QuestDat[i].QuestID);
-							if (_player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].nCurItemCnt <
-								_player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].nItemCnt)
-							{
-								sLog.outDebug("Item Tblidx %d %d", _player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].uiItemIdx,
-									((WorldObject*)reference->getSource())->GetTblidx());
-								if (FindObjectTriggerInformation(&_player->GetAttributesManager()->QuestDat[i], req->hTarget, objTblidx) == RESULT_SUCCESS)
+								if (_player->GetAttributesManager()->QuestDat[i].QuestID == 0)
 								{
-									sGU_TS_EXCUTE_TRIGGER_OBJECT_RES res;
-									res.wOpCode = GU_TS_EXCUTE_TRIGGER_OBJECT_RES;
-									res.wPacketSize = sizeof(sGU_TS_EXCUTE_TRIGGER_OBJECT_RES) - 2;
-									res.wResultCode = RESULT_SUCCESS;
-									res.hTriggerObject = req->hTarget;
-									SendPacket((char*)&res, sizeof(sGU_TS_EXCUTE_TRIGGER_OBJECT_RES));
-									sLog.outDebug("Item trigger: %d %d %d", res.hTriggerObject, req->hSource, req->hTarget);
+									continue;
+								}
+								sLog.outError("QUEST ID: %d", _player->GetAttributesManager()->QuestDat[i].QuestID);
+								if (_player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].nCurItemCnt <
+									_player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].nItemCnt)
+								{
+									sLog.outDebug("Item Tblidx %d %d", _player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].uiItemIdx,
+										((WorldObject*)reference->getSource())->GetTblidx());
+									if (FindObjectTriggerInformation(&_player->GetAttributesManager()->QuestDat[i], req->hTarget, objTblidx) == RESULT_SUCCESS)
+									{
+										sGU_TS_EXCUTE_TRIGGER_OBJECT_RES res;
+										res.wOpCode = GU_TS_EXCUTE_TRIGGER_OBJECT_RES;
+										res.wPacketSize = sizeof(sGU_TS_EXCUTE_TRIGGER_OBJECT_RES) - 2;
+										res.wResultCode = RESULT_SUCCESS;
+										res.hTriggerObject = req->hTarget;
+										SendPacket((char*)&res, sizeof(sGU_TS_EXCUTE_TRIGGER_OBJECT_RES));
+										sLog.outDebug("Item trigger: %d %d %d", res.hTriggerObject, req->hSource, req->hTarget);
 									 
 
-									/*_player->GetState()->sCharStateDetail.sCharStateOperating.hTargetObject = req->hTarget;
-									_player->GetState()->sCharStateDetail.sCharStateOperating.dwOperateTime = 3000;
-									_player->GetState()->sCharStateDetail.sCharStateOperating.directTblidx = 10003;
-									_player->UpdateState(eCHARSTATE::CHARSTATE_OPERATING);*/
+										/*_player->GetState()->sCharStateDetail.sCharStateOperating.hTargetObject = req->hTarget;
+										_player->GetState()->sCharStateDetail.sCharStateOperating.dwOperateTime = 3000;
+										_player->GetState()->sCharStateDetail.sCharStateOperating.directTblidx = 10003;
+										_player->UpdateState(eCHARSTATE::CHARSTATE_OPERATING);*/
 
 
-									/*_player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].nCurItemCnt += 1;
+										/*_player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].nCurItemCnt += 1;
 
-									SendQuestItemCreate(0, _player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].uiItemIdx, 1);
+										SendQuestItemCreate(0, _player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].uiItemIdx, 1);
 
-									SendQuestSVRevtUpdateNotify(_player->GetAttributesManager()->QuestDat[i].QuestID,
-										_player->GetAttributesManager()->QuestDat[i].tcId,
-										_player->GetAttributesManager()->QuestDat[i].taId,
-										_player->GetAttributesManager()->QuestDat[i].evtDataType,
-										slot,
-										_player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].nCurItemCnt);*/
+										SendQuestSVRevtUpdateNotify(_player->GetAttributesManager()->QuestDat[i].QuestID,
+											_player->GetAttributesManager()->QuestDat[i].tcId,
+											_player->GetAttributesManager()->QuestDat[i].taId,
+											_player->GetAttributesManager()->QuestDat[i].evtDataType,
+											slot,
+											_player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].nCurItemCnt);*/
 
-									/*sGU_QUEST_SVREVT_UPDATE_NFY update;
-									update.wOpCode = GU_QUEST_SVREVT_UPDATE_NFY;
-									update.wPacketSize = sizeof(sGU_QUEST_SVREVT_UPDATE_NFY) - 2;
-									update.tId = 296;
-									update.tcId = 2;
-									update.taId = 3;
-									update.bySvrEvtType = eSTOC_EVT_DATA_TYPE_OBJECT_ITEM;
-									update.bySlot = 0;
-									update.uEvtData.sObjectItemCnt.nCurItemCnt = 1;
-									SendPacket((char*)&update, sizeof(sGU_QUEST_SVREVT_UPDATE_NFY));*/
+										/*sGU_QUEST_SVREVT_UPDATE_NFY update;
+										update.wOpCode = GU_QUEST_SVREVT_UPDATE_NFY;
+										update.wPacketSize = sizeof(sGU_QUEST_SVREVT_UPDATE_NFY) - 2;
+										update.tId = 296;
+										update.tcId = 2;
+										update.taId = 3;
+										update.bySvrEvtType = eSTOC_EVT_DATA_TYPE_OBJECT_ITEM;
+										update.bySlot = 0;
+										update.uEvtData.sObjectItemCnt.nCurItemCnt = 1;
+										SendPacket((char*)&update, sizeof(sGU_QUEST_SVREVT_UPDATE_NFY));*/
+									}
 								}
 							}
+							break;
 						}
-						break;
-					}
 					}
 				}
 
