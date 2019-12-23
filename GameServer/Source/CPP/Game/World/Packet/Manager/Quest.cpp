@@ -1204,6 +1204,11 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 						{
 							objTblidx1 = 2;
 							objTblidx2 = 3;
+							_player->GetAttributesManager()->growUpInfo.objData[0].objTblidx = objTblidx1;
+							_player->GetAttributesManager()->growUpInfo.objData[0].triggerId = 6005;
+
+							_player->GetAttributesManager()->growUpInfo.objData[1].objTblidx = objTblidx2;
+							_player->GetAttributesManager()->growUpInfo.objData[1].triggerId = 6001;
 							sLog.outDebug("PC_CLASS_HUMAN_FIGHTER");
 							break;
 						}
@@ -1211,6 +1216,11 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 						{
 							objTblidx1 = 4;
 							objTblidx2 = 5;
+							_player->GetAttributesManager()->growUpInfo.objData[0].objTblidx = objTblidx1;
+							_player->GetAttributesManager()->growUpInfo.objData[0].triggerId = 6002;
+
+							_player->GetAttributesManager()->growUpInfo.objData[1].objTblidx = objTblidx2;
+							_player->GetAttributesManager()->growUpInfo.objData[1].triggerId = 6003;
 							sLog.outDebug("PC_CLASS_HUMAN_MYSTIC");
 							break;
 						}
@@ -1223,6 +1233,11 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 						{
 							objTblidx1 = 6;
 							objTblidx2 = 7;
+							_player->GetAttributesManager()->growUpInfo.objData[0].objTblidx = objTblidx1;
+							_player->GetAttributesManager()->growUpInfo.objData[0].triggerId = 6006;
+
+							_player->GetAttributesManager()->growUpInfo.objData[1].objTblidx = objTblidx2;
+							_player->GetAttributesManager()->growUpInfo.objData[1].triggerId = 6004;
 							sLog.outDebug("PC_CLASS_NAMEK_FIGHTER");
 							break;
 						}
@@ -1230,6 +1245,11 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 						{
 							objTblidx1 = 8;
 							objTblidx2 = 9;
+							_player->GetAttributesManager()->growUpInfo.objData[0].objTblidx = objTblidx1;
+							_player->GetAttributesManager()->growUpInfo.objData[0].triggerId = 6007;
+
+							_player->GetAttributesManager()->growUpInfo.objData[1].objTblidx = objTblidx2;
+							_player->GetAttributesManager()->growUpInfo.objData[1].triggerId = 6008;
 							sLog.outDebug("PC_CLASS_NAMEK_MYSTIC");
 							break;
 						}
@@ -1237,6 +1257,11 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 						{
 							objTblidx1 = 10;
 							objTblidx2 = 11;
+							_player->GetAttributesManager()->growUpInfo.objData[0].objTblidx = objTblidx1;
+							_player->GetAttributesManager()->growUpInfo.objData[0].triggerId = 6010;
+
+							_player->GetAttributesManager()->growUpInfo.objData[1].objTblidx = objTblidx2;
+							_player->GetAttributesManager()->growUpInfo.objData[1].triggerId = 6009;
 							sLog.outDebug("PC_CLASS_MIGHTY_MAJIN");
 							break;
 						}
@@ -1244,6 +1269,11 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 						{
 							objTblidx1 = 12;
 							objTblidx2 = 13;
+							_player->GetAttributesManager()->growUpInfo.objData[0].objTblidx = objTblidx1;
+							_player->GetAttributesManager()->growUpInfo.objData[0].triggerId = 6012;
+
+							_player->GetAttributesManager()->growUpInfo.objData[1].objTblidx = objTblidx2;
+							_player->GetAttributesManager()->growUpInfo.objData[1].triggerId = 6011;
 							//SendTObjectUpdateState();
 							sLog.outDebug("PC_CLASS_WONDER_MAJIN");
 							break;
@@ -1273,7 +1303,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 						sLog.outDebug("OBJECT NOT FOUND %d", objTblidx2);
 					}
 				}
-
+				// GROW UP ---------------------
 				// TLQ 1 -----------------------
 				if (worldPlayScript->GetScriptID() == 11604)
 				{
@@ -3265,6 +3295,15 @@ void WorldSession::SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, 
 							 }
 							 break;
 						 }
+						 case DBO_COND_TYPE_ID_CHECK_PROG_QUEST:
+						 {
+							 CDboTSCheckProgQuest* checkQuest = (CDboTSCheckProgQuest*)contStart->GetChildEntity(i);
+							 if (checkQuest)
+							 {
+								 sLog.outDebug("Quest id: %d", checkQuest->GetQuestID());
+							 }
+							 break;
+						 }
 					 }
 				 }
 				 break;
@@ -3415,6 +3454,28 @@ void WorldSession::SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, 
 							 }
 							 break;
 						 }
+						 case DBO_ACT_TYPE_ID_ACT_ITEM:
+						 {
+							 CDboTSActItem* actItem = (CDboTSActItem*)contAct->GetChildEntity(i);
+							 if (actItem)
+							 {
+								 for (int i = 0; i < actItem->eMAX_TS_ITEM_COUNT; i++)
+								 {
+									 sLog.outDebug("Type %d Item %d slot %d", actItem->GetItemType(), actItem->GetItemInfo(i).uiItemIdx, actItem->GetItemInfo(i).eItemSlotType);
+								 }
+							 }
+							 break;
+						 }
+						 case DBO_ACT_TYPE_ID_ACT_SEND_SVR_EVT:
+						 {
+							 CDboTSActSendSvrEvt* sendEvt = (CDboTSActSendSvrEvt*)contAct->GetChildEntity(i);
+							 if (sendEvt)
+							 {
+								 sLog.outDebug("Evt send type %d evtId %d evt trigger type %d tblidx %d evt type %d", sendEvt->GetEvtSendType(), sendEvt->GetSvrEvtID(),
+									 sendEvt->GetSvrEvtTriggerType(), sendEvt->GetTblIdx(), sendEvt->GetSvrEvtType());
+							 }
+							 break;
+						 }
 					 }
 				 }
 				 break;
@@ -3455,94 +3516,102 @@ void WorldSession::SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, 
 	 return RESULT_SUCCESS;
  }
 
- void WorldSession::SendTsExcuteTriggerObject(Packet& packet)
- {
-	 sUG_TS_EXCUTE_TRIGGER_OBJECT* req = (sUG_TS_EXCUTE_TRIGGER_OBJECT*)packet.GetPacketBuffer();
-	 TBLIDX objTblidx = INVALID_TBLIDX;
-	 Map* map = _player->GetMap();
-	 //sLog.outDebug("Request handle interaction == %d", req->hTarget);
-	 if (map)
-	 {
-		 WorldObjectRefManager ref = map->GetWorldObject();
-		 for (auto reference = ref.begin(); reference != ref.end(); ++reference)
-		 {
-			 if (reference->getSource()->GetHandle() == req->hTarget)
-			 {
-				 objTblidx = ((WorldObject*)reference->getSource())->GetTblidx();
-				 sLog.outString("FOUNDED object tblidx %d hTarget %d", objTblidx, req->hTarget);
+void WorldSession::SendTsExcuteTriggerObject(Packet& packet)
+{
+	sUG_TS_EXCUTE_TRIGGER_OBJECT* req = (sUG_TS_EXCUTE_TRIGGER_OBJECT*)packet.GetPacketBuffer();
 
-				 for (int i = 0; i <= 30; i++)
-				 {
-					 //--------------------------------
-					 sLog.outDebug("EVT TYPE %d", _player->GetAttributesManager()->QuestDat[i].evtDataType);
-					 switch (_player->GetAttributesManager()->QuestDat[i].evtDataType)
-					 {
-					 case eSTOC_EVT_DATA_TYPE_OBJECT_ITEM:
-					 {
-						 for (int slot = 0; slot < _player->GetAttributesManager()->QuestDat[i].uEvtData.MAX_OBJECT_ITEM; slot++)
-						 {
-							 sLog.outDebug("ITEM COUNT %d", _player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].nCurItemCnt);
+	switch (req->byEvtGenType)
+	{
+		case eEVENT_GEN_TYPE_CLICK_OBJECT:
+		{
+			break;
+		}
+	}
+	TBLIDX objTblidx = INVALID_TBLIDX;
+	Map* map = _player->GetMap();
+	//sLog.outDebug("Request handle interaction == %d", req->hTarget);
+	if (map)
+	{
+		WorldObjectRefManager ref = map->GetWorldObject();
+		for (auto reference = ref.begin(); reference != ref.end(); ++reference)
+		{
+			if (reference->getSource()->GetHandle() == req->hTarget)
+			{
+				objTblidx = ((WorldObject*)reference->getSource())->GetTblidx();
+				sLog.outString("FOUNDED object tblidx %d hTarget %d", objTblidx, req->hTarget);
 
-							 if (_player->GetAttributesManager()->QuestDat[i].QuestID == 0)
-							 {
-								 continue;
-							 }
-							 sLog.outError("QUEST ID: %d", _player->GetAttributesManager()->QuestDat[i].QuestID);
-							 if (_player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].nCurItemCnt <
-								 _player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].nItemCnt)
-							 {
-								 sLog.outDebug("Item Tblidx %d %d", _player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].uiItemIdx,
-									 ((WorldObject*)reference->getSource())->GetTblidx());
-								 if (FindObjectTriggerInformation(&_player->GetAttributesManager()->QuestDat[i], req->hTarget, objTblidx) == RESULT_SUCCESS)
-								 {
-									 sGU_TS_EXCUTE_TRIGGER_OBJECT_RES res;
-									 res.wOpCode = GU_TS_EXCUTE_TRIGGER_OBJECT_RES;
-									 res.wPacketSize = sizeof(sGU_TS_EXCUTE_TRIGGER_OBJECT_RES) - 2;
-									 res.wResultCode = RESULT_SUCCESS;
-									 res.hTriggerObject = req->hTarget;
-									 SendPacket((char*)&res, sizeof(sGU_TS_EXCUTE_TRIGGER_OBJECT_RES));
-									 sLog.outDebug("Item trigger: %d %d %d", res.hTriggerObject, req->hSource, req->hTarget);
+				for (int i = 0; i <= 30; i++)
+				{
+					//--------------------------------
+					sLog.outDebug("EVT TYPE %d", _player->GetAttributesManager()->QuestDat[i].evtDataType);
+					switch (_player->GetAttributesManager()->QuestDat[i].evtDataType)
+					{
+					case eSTOC_EVT_DATA_TYPE_OBJECT_ITEM:
+					{
+						for (int slot = 0; slot < _player->GetAttributesManager()->QuestDat[i].uEvtData.MAX_OBJECT_ITEM; slot++)
+						{
+							sLog.outDebug("ITEM COUNT %d", _player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].nCurItemCnt);
+
+							if (_player->GetAttributesManager()->QuestDat[i].QuestID == 0)
+							{
+								continue;
+							}
+							sLog.outError("QUEST ID: %d", _player->GetAttributesManager()->QuestDat[i].QuestID);
+							if (_player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].nCurItemCnt <
+								_player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].nItemCnt)
+							{
+								sLog.outDebug("Item Tblidx %d %d", _player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].uiItemIdx,
+									((WorldObject*)reference->getSource())->GetTblidx());
+								if (FindObjectTriggerInformation(&_player->GetAttributesManager()->QuestDat[i], req->hTarget, objTblidx) == RESULT_SUCCESS)
+								{
+									sGU_TS_EXCUTE_TRIGGER_OBJECT_RES res;
+									res.wOpCode = GU_TS_EXCUTE_TRIGGER_OBJECT_RES;
+									res.wPacketSize = sizeof(sGU_TS_EXCUTE_TRIGGER_OBJECT_RES) - 2;
+									res.wResultCode = RESULT_SUCCESS;
+									res.hTriggerObject = req->hTarget;
+									SendPacket((char*)&res, sizeof(sGU_TS_EXCUTE_TRIGGER_OBJECT_RES));
+									sLog.outDebug("Item trigger: %d %d %d", res.hTriggerObject, req->hSource, req->hTarget);
 									 
 
-									 /*_player->GetState()->sCharStateDetail.sCharStateOperating.hTargetObject = req->hTarget;
-									 _player->GetState()->sCharStateDetail.sCharStateOperating.dwOperateTime = 3000;
-									 _player->GetState()->sCharStateDetail.sCharStateOperating.directTblidx = 10003;
-									 _player->UpdateState(eCHARSTATE::CHARSTATE_OPERATING);*/
+									/*_player->GetState()->sCharStateDetail.sCharStateOperating.hTargetObject = req->hTarget;
+									_player->GetState()->sCharStateDetail.sCharStateOperating.dwOperateTime = 3000;
+									_player->GetState()->sCharStateDetail.sCharStateOperating.directTblidx = 10003;
+									_player->UpdateState(eCHARSTATE::CHARSTATE_OPERATING);*/
 
 
-									 /*_player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].nCurItemCnt += 1;
+									/*_player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].nCurItemCnt += 1;
 
-									 SendQuestItemCreate(0, _player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].uiItemIdx, 1);
+									SendQuestItemCreate(0, _player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].uiItemIdx, 1);
 
-									 SendQuestSVRevtUpdateNotify(_player->GetAttributesManager()->QuestDat[i].QuestID,
-										 _player->GetAttributesManager()->QuestDat[i].tcId,
-										 _player->GetAttributesManager()->QuestDat[i].taId,
-										 _player->GetAttributesManager()->QuestDat[i].evtDataType,
-										 slot,
-										 _player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].nCurItemCnt);*/
+									SendQuestSVRevtUpdateNotify(_player->GetAttributesManager()->QuestDat[i].QuestID,
+										_player->GetAttributesManager()->QuestDat[i].tcId,
+										_player->GetAttributesManager()->QuestDat[i].taId,
+										_player->GetAttributesManager()->QuestDat[i].evtDataType,
+										slot,
+										_player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].nCurItemCnt);*/
 
-									 /*sGU_QUEST_SVREVT_UPDATE_NFY update;
-									 update.wOpCode = GU_QUEST_SVREVT_UPDATE_NFY;
-									 update.wPacketSize = sizeof(sGU_QUEST_SVREVT_UPDATE_NFY) - 2;
-									 update.tId = 296;
-									 update.tcId = 2;
-									 update.taId = 3;
-									 update.bySvrEvtType = eSTOC_EVT_DATA_TYPE_OBJECT_ITEM;
-									 update.bySlot = 0;
-									 update.uEvtData.sObjectItemCnt.nCurItemCnt = 1;
-									 SendPacket((char*)&update, sizeof(sGU_QUEST_SVREVT_UPDATE_NFY));*/
-								 }
-							 }
-						 }
-						 break;
-					 }
-					 }
-				 }
+									/*sGU_QUEST_SVREVT_UPDATE_NFY update;
+									update.wOpCode = GU_QUEST_SVREVT_UPDATE_NFY;
+									update.wPacketSize = sizeof(sGU_QUEST_SVREVT_UPDATE_NFY) - 2;
+									update.tId = 296;
+									update.tcId = 2;
+									update.taId = 3;
+									update.bySvrEvtType = eSTOC_EVT_DATA_TYPE_OBJECT_ITEM;
+									update.bySlot = 0;
+									update.uEvtData.sObjectItemCnt.nCurItemCnt = 1;
+									SendPacket((char*)&update, sizeof(sGU_QUEST_SVREVT_UPDATE_NFY));*/
+								}
+							}
+						}
+						break;
+					}
+					}
+				}
 
-				 //--------------------------------
+				//--------------------------------
 
-				 break;
-			 }
-		 }
-	 }
+				break;
+			}
+		}
+	}
  }

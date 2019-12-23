@@ -46,12 +46,20 @@ public:
 	};
 	TLQ1Info tlq1Info;
 
+	// GROW UP
+	struct ObjectDataQuest
+	{
+		TBLIDX	objTblidx;
+		int		triggerId;
+	};
+
 	struct GrowUpInfo
 	{
-		bool		inQuest;
-		TBLIDX		mobTblidx;
-		int			countKill;
-		int			maxKill;
+		bool			inQuest;
+		TBLIDX			mobTblidx;
+		int				countKill;
+		int				maxKill;
+		ObjectDataQuest	objData[2];
 	};
 
 	GrowUpInfo growUpInfo;
