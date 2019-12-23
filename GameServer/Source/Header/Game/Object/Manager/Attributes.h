@@ -67,6 +67,8 @@ public:
 	struct SubClassInfoQuest
 	{
 		bool			inQuest;
+		TBLIDX			useItemTblidx;
+		int				curQuestId;
 		ObjectDataQuest	objData[2];
 	};
 

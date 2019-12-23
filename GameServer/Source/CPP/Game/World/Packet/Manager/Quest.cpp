@@ -1169,6 +1169,11 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 							{
 								_player->GetAttributesManager()->growUpInfo.inQuest = true;
 							}
+							if (createdItem.tblidx == 99096)
+							{
+								_player->GetAttributesManager()->questSubCls.useItemTblidx = createdItem.tblidx;
+								_player->GetAttributesManager()->questSubCls.curQuestId = tid;
+							}
 						}
 					}
 				}
@@ -3378,6 +3383,22 @@ ResultCodes WorldSession::FindObjectTriggerInformation(QuestData* questData, HOB
 							CDboTSActQItem* qItem = ((CDboTSActQItem*)contAct->GetChildEntity(i));
 							if (qItem)
 							{
+								if (questData->QuestID == _player->GetAttributesManager()->questSubCls.curQuestId)
+								{
+									for (int slot = 0; slot < qItem->eMAX_TS_QITEM_COUNT; slot++)
+									{
+										sLog.outDebug("Type %d Itemidx %d count %d probability %f", qItem->GetQItemType(),
+											qItem->GetQItemInfo(slot).uiQItemIdx, qItem->GetQItemInfo(slot).nQItemCnt, qItem->GetQItemInfo(slot).fProbability);
+										if (qItem->GetQItemInfo(slot).uiQItemIdx != INVALID_TBLIDX)
+										{
+											SendQuestItemCreate(0, qItem->GetQItemInfo(slot).uiQItemIdx, qItem->GetQItemInfo(slot).nQItemCnt);
+										}
+										
+									}
+									break;
+								}
+
+								
 								for (int slot = 0; slot < qItem->eMAX_TS_QITEM_COUNT; slot++)
 								{
 									sLog.outError("Init quest tblidx %d trigger tblidx %d",
@@ -3598,6 +3619,10 @@ void WorldSession::SendTsExcuteTriggerObject(Packet& packet)
 				for (int i = 0; i <= 30; i++)
 				{
 					//--------------------------------
+					if (_player->GetAttributesManager()->QuestDat[i].QuestID == 0)
+					{
+						continue;
+					}
 					sLog.outDebug("EVT TYPE %d", _player->GetAttributesManager()->QuestDat[i].evtDataType);
 					switch (_player->GetAttributesManager()->QuestDat[i].evtDataType)
 					{
@@ -3607,10 +3632,7 @@ void WorldSession::SendTsExcuteTriggerObject(Packet& packet)
 							{
 								sLog.outDebug("ITEM COUNT %d", _player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].nCurItemCnt);
 
-								if (_player->GetAttributesManager()->QuestDat[i].QuestID == 0)
-								{
-									continue;
-								}
+								
 								sLog.outError("QUEST ID: %d", _player->GetAttributesManager()->QuestDat[i].QuestID);
 								if (_player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].nCurItemCnt <
 									_player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].nItemCnt)

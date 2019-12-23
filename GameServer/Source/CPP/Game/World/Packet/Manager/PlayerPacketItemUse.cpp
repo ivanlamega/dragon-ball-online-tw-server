@@ -258,9 +258,41 @@ void Player::HandleItemUse(Packet pPacket)
 										objTblidx = ((WorldObject*)reference->getSource())->GetTblidx();
 										sLog.outString("FOUNDED object tblidx %d hTarget %d", objTblidx, req->hTarget);
 
+										// SUB CLASS
+										
+										if (GetAttributesManager()->questSubCls.curQuestId != 0 && GetAttributesManager()->questSubCls.curQuestId != INVALID_TBLIDX)
+										{
+											sLog.outError("QUEST ID: %d", GetAttributesManager()->questSubCls.curQuestId);
+											sLog.outDebug("Item Tblidx %d %d", GetAttributesManager()->questSubCls.useItemTblidx == objTblidx,
+												((WorldObject*)reference->getSource())->GetTblidx());
+
+											QuestData questDat;
+											questDat.QuestID = GetAttributesManager()->questSubCls.curQuestId;
+											if (m_session->FindObjectTriggerInformation(&questDat, req->hTarget, objTblidx) == RESULT_SUCCESS)
+											{
+												sGU_ITEM_USE_RES res;
+												res.wOpCode = GU_ITEM_USE_RES;
+												res.wPacketSize = sizeof(sGU_ITEM_USE_RES) - 2;
+												res.wResultCode = RESULT_SUCCESS;
+												res.tblidxItem = Item->tblidx;
+												res.byPlace = req->byPlace;
+												res.byPos = req->byPos;
+												SendPacket((char*)&res, sizeof(sGU_ITEM_USE_RES));
+												sLog.outDebug("Item trigger: %d %d %d", res.tblidxItem, req->hTarget, objTblidx);
+
+												GetInventoryManager()->DeleteItem(Item->byPlace, Item->byPos, Item->handle);
+												break;
+											}
+										}
+										// SUB CLASS
+
 										for (int i = 0; i <= 30; i++)
 										{
 											//--------------------------------
+											if (GetAttributesManager()->QuestDat[i].QuestID == 0)
+											{
+												continue;
+											}
 											sLog.outDebug("EVT TYPE %d", GetAttributesManager()->QuestDat[i].evtDataType);
 											switch (GetAttributesManager()->QuestDat[i].evtDataType)
 											{
@@ -269,11 +301,6 @@ void Player::HandleItemUse(Packet pPacket)
 													for (int slot = 0; slot < GetAttributesManager()->QuestDat[i].uEvtData.MAX_CUSTOM_EVT_CNT; slot++)
 													{
 														sLog.outDebug("EVT COUNT %d", GetAttributesManager()->QuestDat[i].uEvtData.sCustomEvtCnt[slot].nCurCnt);
-
-														if (GetAttributesManager()->QuestDat[i].QuestID == 0)
-														{
-															continue;
-														}
 
 														sLog.outError("QUEST ID: %d", GetAttributesManager()->QuestDat[i].QuestID);
 														if (GetAttributesManager()->QuestDat[i].uEvtData.sCustomEvtCnt[slot].nCurCnt <
