@@ -129,7 +129,7 @@ bool MobTable::AddTable(void * pvTable, bool bReload)
 
 	MOB_QITEMIT iterMobQItem;
 	iterMobQItem = m_mapMobQItemList.find(pTbldat->dropQuestTblidx);
-	if (MobsQItemBegin() == iterMobQItem)
+	if (MobsQItemEnd() == iterMobQItem)
 	{
 		m_mapMobQItemList[pTbldat->dropQuestTblidx] = std::vector<TBLIDX>();
 		m_mapMobQItemList[pTbldat->dropQuestTblidx].push_back(pTbldat->tblidx);

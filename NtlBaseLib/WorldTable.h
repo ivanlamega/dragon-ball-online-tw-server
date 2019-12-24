@@ -99,6 +99,10 @@ class WorldTable : public Table
 {
 public:
 
+	typedef std::unordered_map<TBLIDX, TBLIDX> LINK_WORLD;
+	typedef LINK_WORLD::iterator LINK_WORLDIT;
+	typedef LINK_WORLD::value_type LINK_WORLDVAL;
+
 	WorldTable(void);
 	virtual ~WorldTable(void);
 
@@ -115,6 +119,11 @@ protected:
 
 public:
 	sTBLDAT *			FindData(TBLIDX tblidx);
+
+	LINK_WORLDIT LinkWorldBegin() { return m_mapLinkWorldList.begin(); };
+	LINK_WORLDIT LinkWorldEnd() { return m_mapLinkWorldList.end(); };
+
+	TBLIDX	FindWorldByLink(TBLIDX tid);
 
 protected:
 	WCHAR** GetSheetListInWChar() { return &(WorldTable::m_pwszSheetList[0]); }
@@ -133,4 +142,6 @@ public:
 
 private:
 	static WCHAR* m_pwszSheetList[];
+
+	LINK_WORLD			m_mapLinkWorldList;
 };

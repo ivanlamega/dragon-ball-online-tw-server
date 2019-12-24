@@ -1358,6 +1358,72 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 				}
 				break;
 			}
+			case DBO_ACT_TYPE_ID_ACT_EXCEPT_TIMER_S:
+			{
+				CDboTSActETimerS* timerS = (CDboTSActETimerS*)contGAct->GetChildEntity(i);
+				if (timerS)
+				{
+					sLog.outDebug("TGId %d time %d timerSort %d", timerS->GetTGId(), timerS->GetTime(), timerS->GetTimerSort());
+					if (tid == 6062)
+					{
+						Timer.setTimeout([&]() {
+							SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, 427);
+							}, timerS->GetTime());
+					}
+				}
+				break;
+			}
+			case DBO_ACT_TYPE_ID_ACT_AVATAR_DEAD:
+			{
+				CDboTSActAvatarDead* avatarDead = (CDboTSActAvatarDead*)contGAct->GetChildEntity(i);
+				if (avatarDead)
+				{
+					sLog.outDebug("Start %d", avatarDead->GetStart());
+					if (avatarDead->GetStart())
+					{
+						TBLIDX worldTblidx = sTBM.GetWorldTable()->FindWorldByLink(tid);
+						if (worldTblidx != INVALID_TBLIDX)
+						{
+							sGU_CHAR_TELEPORT_RES teleport;
+
+							sWORLD_TBLDAT* world = (sWORLD_TBLDAT*)sTBM.GetWorldTable()->FindData(worldTblidx);
+							if (world)
+							{
+								teleport.wResultCode = GAME_SUCCESS;
+								teleport.wOpCode = GU_CHAR_TELEPORT_RES;
+								teleport.wPacketSize = sizeof(sGU_CHAR_TELEPORT_RES) - 2;
+
+								teleport.bIsToMoveAnotherServer = false;
+								teleport.sWorldInfo.worldID = world->tblidx;
+								teleport.sWorldInfo.tblidx = world->tblidx;
+								teleport.sWorldInfo.sRuleInfo.byRuleType = world->byWorldRuleType;
+								_player->GetState()->sCharStateDetail.sCharStateTeleporting.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_WORLD_MOVE;
+								teleport.vNewLoc.x = world->vStart1Loc.x;
+								teleport.vNewLoc.y = world->vStart1Loc.y;
+								teleport.vNewLoc.z = world->vStart1Loc.z;
+								teleport.vNewDir.x = world->vStart1Dir.x;
+								teleport.vNewDir.y = world->vStart1Dir.y;
+								teleport.vNewDir.z = world->vStart1Dir.z;
+
+
+
+								_player->SetState(eCHARSTATE::CHARSTATE_TELEPORTING);
+
+
+								_player->SetWorldID(world->tblidx);
+								_player->SetWorldTableID(world->tblidx);
+								_player->Relocate(teleport.vNewLoc.x, teleport.vNewLoc.y, teleport.vNewLoc.z, teleport.vNewDir.x, teleport.vNewDir.y, teleport.vNewDir.z);
+
+								SendPacket((char*)&teleport, sizeof(sGU_CHAR_TELEPORT_RES));
+								Map* map = _player->GetMap();
+								map->Remove(_player, false);
+								_player->ClearListAndReference();
+							}
+						}
+					}
+				}
+				break;
+			}
 		}
 	}
 	return RESULT_SUCCESS;

@@ -136,6 +136,16 @@ bool WorldTable::AddTable(void * pvTable, bool bReload)
 		return false;
 	}
 
+	if (pTbldat->wpsLinkIndex != INVALID_TBLIDX)
+	{
+		LINK_WORLDIT iterQuestWorld;
+		iterQuestWorld = m_mapLinkWorldList.find(pTbldat->wpsLinkIndex);
+		if (LinkWorldEnd() == iterQuestWorld)
+		{
+			m_mapLinkWorldList[pTbldat->wpsLinkIndex] = pTbldat->tblidx;
+		}
+	}
+	
 	return true;
 }
 
@@ -441,6 +451,23 @@ sTBLDAT* WorldTable::FindData(TBLIDX tblidx)
 		return NULL;
 
 	return (sTBLDAT*)(iter->second);
+}
+
+TBLIDX WorldTable::FindWorldByLink(TBLIDX tid)
+{
+	if (INVALID_TBLIDX == tid)
+	{
+		return INVALID_TBLIDX;
+	}
+
+	LINK_WORLDIT iter;
+	iter = m_mapLinkWorldList.find(tid);
+	if (LinkWorldEnd() == iter)
+	{
+		return INVALID_TBLIDX;
+	}
+
+	return (TBLIDX)iter->second;
 }
 
 bool WorldTable::LoadFromBinary(Serializer& serializer, bool bReload)
