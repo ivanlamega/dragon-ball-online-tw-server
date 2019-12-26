@@ -21,7 +21,7 @@ public:
 	WCHAR		wszNameText[40 + 1];
 	bool		bValidity_Able;
 
-	BYTE			UnknownR;
+	//BYTE			UnknownR;
 	DWORD			dwPC_Class_Bit_Flag;		// ePC_CLASS_FLAG
 	BYTE			notknow;
 	BYTE			bySkill_Class;				// eSKILL_CLASS

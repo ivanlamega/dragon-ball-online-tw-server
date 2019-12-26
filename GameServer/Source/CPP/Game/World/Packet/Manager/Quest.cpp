@@ -1691,6 +1691,7 @@ ResultCodes WorldSession::ProcessTsContReward(CDboTSContReward * contReward, DWO
 			}
 			case eREWARD_TYPE_GET_CONVERT_CLASS_RIGHT:
 			{
+				_player->ConvertClass(14, _player->GetHandle());
 				sLog.outDebug("eREWARD_TYPE_GET_CONVERT_CLASS_RIGHT");
 				break;
 			}
@@ -1745,22 +1746,16 @@ ResultCodes WorldSession::GivePlayerItemReward(sQUEST_REWARD_TBLDAT* rewardTbl, 
 				sSKILL_TBLDAT* skillData = (sSKILL_TBLDAT*)sTBM.GetSkillTable()->FindData(rewardTbl->rewardDefData[0].rwdIdx);
 				if (skillData != NULL)
 				{
-					if (_player->GetClassFlag(_player->GetMyClass(), ITEM_TYPE_UNKNOWN) == skillData->dwPC_Class_Bit_Flag)
+					
+					if (skillData->bySkill_Grade == 1 && skillData->bySkill_Class != eSKILL_CLASS::SKILL_CLASS_HTB && _player->skillManager.isSkillLearned(skillData->tblidx) == false)
 					{
-						if (skillData->bySkill_Grade == 1 && skillData->bySkill_Class != eSKILL_CLASS::SKILL_CLASS_HTB && _player->skillManager.isSkillLearned(skillData->tblidx) == false)
+						sLog.outDetail("Learn the skill %d", rewardTbl->rewardDefData[0].rwdIdx);
+						//LearnSkill(skillData->tblidx);
+						// fix sub class reward
+						/*if (skillData->tblidx == 2029991)
 						{
-							sLog.outDetail("Learn the skill %d", rewardTbl->rewardDefData[0].rwdIdx);
-							//LearnSkill(skillData->tblidx);
-							// fix sub class reward
-							if (skillData->tblidx == 2029991)
-							{
-								_player->ConvertClass(14, _player->GetHandle());
-							}
-						}
-						else
-						{
-							sLog.outDetail("ERROR to skill %d", rewardTbl->rewardDefData[0].rwdIdx);
-						}
+							
+						}*/
 					}
 					else
 					{
