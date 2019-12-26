@@ -1624,77 +1624,77 @@ ResultCodes WorldSession::ProcessTsContReward(CDboTSContReward * contReward, DWO
 			sLog.outDebug("rwdTbl %d value %d type %d", contReward->GetDefReward(i).m_uiIdx, contReward->GetDefReward(i).m_nValue, contReward->GetDefReward(i).m_eType);
 			switch (contReward->GetDefReward(i).m_eType)
 			{
-			case eREWARD_TYPE_NORMAL_ITEM:
-			{
-				sLog.outDebug("eREWARD_TYPE_NORMAL_ITEM");
-				break;
-			}
-			case eREWARD_TYPE_QUEST_ITEM:
-			{
-				sLog.outDebug("eREWARD_TYPE_QUEST_ITEM");
-				break;
-			}
-			case eREWARD_TYPE_EXP:
-			{
-				sLog.outDebug("eREWARD_TYPE_EXP");
-				break;
-			}
-			case eREWARD_TYPE_SKILL:
-			{
-				sHTB_SET_TBLDAT* htb = (sHTB_SET_TBLDAT*)sTBM.GetHTBSetTable()->FindData(contReward->GetDefReward(i).m_uiIdx);
-				if (htb)
+				case eREWARD_TYPE_NORMAL_ITEM:
 				{
-					sLog.outDebug("Htb %d %d %d", htb->tblidx, htb->wNeed_EP, htb->dwPC_Class_Bit_Flag);
-					DWORD myFlag;
-					myFlag = MAKE_BIT_FLAG(static_cast<int>(_player->GetMyClass()));
-					sLog.outDetail("My flag: %d flag need %d my class: %d is same %d",
-						myFlag, htb->dwPC_Class_Bit_Flag, _player->GetMyClass(), (myFlag & htb->dwPC_Class_Bit_Flag));
-					if (myFlag & htb->dwPC_Class_Bit_Flag)// lo mismo que !(myFlag & itemTblSelect->dwNeedClassBitFlag)
-					{
-						LearnHtb(htb->tblidx, 0);
-					}
-
+					sLog.outDebug("eREWARD_TYPE_NORMAL_ITEM");
+					break;
 				}
-				sLog.outDebug("eREWARD_TYPE_SKILL");
-				break;
-			}
-			case eREWARD_TYPE_ZENY:
-			{
-				sLog.outDebug("eREWARD_TYPE_ZENY");
-				break;
-			}
-			case eREWARD_TYPE_CHANGE_CLASS:
-			{
-				sLog.outDebug("eREWARD_TYPE_CHANGE_CLASS");
-				break;
-			}
-			case eREWARD_TYPE_BUFF:
-			{
-				sLog.outDebug("eREWARD_TYPE_BUFF");
-				break;
-			}
-			case eREWARD_TYPE_PROBABILITY:
-			{
-				sLog.outDebug("eREWARD_TYPE_PROBABILITY");
-				break;
-			}
-			case eREWARD_TYPE_REPUTATION:
-			{
-				sLog.outDebug("eREWARD_TYPE_REPUTATION");
-				break;
-			}
-			case eREWARD_TYPE_CHANGE_ADULT:
-			{
-				_player->ConvertAdult(true);
-				sLog.outDebug("eREWARD_TYPE_CHANGE_ADULT");
-				break;
-			}
-			case eREWARD_TYPE_GET_CONVERT_CLASS_RIGHT:
-			{
-				_player->ConvertClass(14, _player->GetHandle());
-				sLog.outDebug("eREWARD_TYPE_GET_CONVERT_CLASS_RIGHT");
-				break;
-			}
+				case eREWARD_TYPE_QUEST_ITEM:
+				{
+					sLog.outDebug("eREWARD_TYPE_QUEST_ITEM");
+					break;
+				}
+				case eREWARD_TYPE_EXP:
+				{
+					sLog.outDebug("eREWARD_TYPE_EXP");
+					break;
+				}
+				case eREWARD_TYPE_SKILL:
+				{
+					sHTB_SET_TBLDAT* htb = (sHTB_SET_TBLDAT*)sTBM.GetHTBSetTable()->FindData(contReward->GetDefReward(i).m_uiIdx);
+					if (htb)
+					{
+						sLog.outDebug("Htb %d %d %d", htb->tblidx, htb->wNeed_EP, htb->dwPC_Class_Bit_Flag);
+						DWORD myFlag;
+						myFlag = MAKE_BIT_FLAG(static_cast<int>(_player->GetMyClass()));
+						sLog.outDetail("My flag: %d flag need %d my class: %d is same %d",
+							myFlag, htb->dwPC_Class_Bit_Flag, _player->GetMyClass(), (myFlag & htb->dwPC_Class_Bit_Flag));
+						if (myFlag & htb->dwPC_Class_Bit_Flag)// lo mismo que !(myFlag & itemTblSelect->dwNeedClassBitFlag)
+						{
+							LearnHtb(htb->tblidx, 0);
+						}
+
+					}
+					sLog.outDebug("eREWARD_TYPE_SKILL");
+					break;
+				}
+				case eREWARD_TYPE_ZENY:
+				{
+					sLog.outDebug("eREWARD_TYPE_ZENY");
+					break;
+				}
+				case eREWARD_TYPE_CHANGE_CLASS:
+				{
+					sLog.outDebug("eREWARD_TYPE_CHANGE_CLASS");
+					break;
+				}
+				case eREWARD_TYPE_BUFF:
+				{
+					sLog.outDebug("eREWARD_TYPE_BUFF");
+					break;
+				}
+				case eREWARD_TYPE_PROBABILITY:
+				{
+					sLog.outDebug("eREWARD_TYPE_PROBABILITY");
+					break;
+				}
+				case eREWARD_TYPE_REPUTATION:
+				{
+					sLog.outDebug("eREWARD_TYPE_REPUTATION");
+					break;
+				}
+				case eREWARD_TYPE_CHANGE_ADULT:
+				{
+					_player->ConvertAdult(true);
+					sLog.outDebug("eREWARD_TYPE_CHANGE_ADULT");
+					break;
+				}
+				case eREWARD_TYPE_GET_CONVERT_CLASS_RIGHT:
+				{
+					_player->ConvertClass(ePC_CLASS::PC_CLASS_KAR_MA, _player->GetHandle());
+					sLog.outDebug("eREWARD_TYPE_GET_CONVERT_CLASS_RIGHT");
+					break;
+				}
 			}
 		}
 
