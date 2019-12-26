@@ -863,7 +863,7 @@ void WorldSession::LearnMestrySkill(TBLIDX skillID)
 		int skillID = _player->skillManager.getSkillsInfos()[i].tblidx;
 		SendUpdateSkillPassiveAtributeByID(skillID, true);
 	}
-	sql::ResultSet* result = sDB.executes("DELETE FROM `skills` WHERE `owner_id` = '%d';", _player->charid);
+	/*sql::ResultSet* result = sDB.executes("DELETE FROM `skills` WHERE `owner_id` = '%d';", _player->charid);
 	if (result != NULL)
 		delete result;
 
@@ -888,7 +888,7 @@ void WorldSession::LearnMestrySkill(TBLIDX skillID)
 	_player->GetPcProfile()->dwSpPoint = sp.dwSpPoint;
 	SendPacket((char*)&sp, sizeof(sGU_UPDATE_CHAR_SP));
 
-	sDB.UpdateSPPoint(_player->GetPcProfile()->dwSpPoint, _player->charid);
+	sDB.UpdateSPPoint(_player->GetPcProfile()->dwSpPoint, _player->charid);*/
 	// Learn BASE SKILL
 	NewbieTable* pNewBieTable = sTBM.GetNewbieTable();
 	sNEWBIE_TBLDAT* pNewbieTbldat = reinterpret_cast<sNEWBIE_TBLDAT*>(pNewBieTable->GetNewbieTbldat(_player->GetAttributesManager()->PlayerRaceID, _player->GetAttributesManager()->PlayerClassID));
