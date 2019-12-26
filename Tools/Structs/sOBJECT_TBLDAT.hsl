@@ -21,9 +21,9 @@ struct CNtlVector
 	float z;
 }CNtlVector;
 
-struct sOBJECT_TBLDAT2
+struct sOBJECT_TBLDAT3
 {
-  //BYTE gap0[4];
+  //_BYTE gap0[4];
   DWORD dword4;
   DWORD dword8;
   DWORD dwordC;
@@ -46,9 +46,39 @@ struct sOBJECT_TBLDAT2
   DWORD dword350;
   DWORD dword354;
   BYTE byte358;
-BYTE fill;
   WORD word35A;
   WORD word35C;
+  WORD word35E;
+  DWORD dword360;
+  DWORD dword364;
+};
+
+struct sOBJECT_TBLDAT2
+{
+  //BYTE gap0[4];
+  DWORD tblidx;
+  DWORD dwName;
+  DWORD wFunction;
+  CNtlVector		vMin;
+  CNtlVector		vMax;
+  CNtlVector		vLoc;
+  CNtlVector		vDir;
+  BYTE byStateType;
+  BYTE byDefMainState;
+  BYTE byDefSubState;
+  //BYTE gap43[773];
+	BYTE			abyState[10][10];
+	char			achClickSound[10][64];
+	// 로딩 데이타
+	char			szModelName[32 + 1];
+	float			fRadius;
+	DWORD			dwSequence;
+  DWORD contentsTblidx;
+  DWORD objectDirectionIndex;
+  BYTE byBoundaryDistance;
+BYTE fill;
+  WORD minQuestId;
+  WORD maxQuestId;
   WORD word35E;
   DWORD dword360;
   DWORD dword364;

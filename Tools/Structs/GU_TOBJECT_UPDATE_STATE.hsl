@@ -1,0 +1,37 @@
+/*****************************************************************************
+ * bookmarks.hsl - Hex Workshop Bookmark structure definitions
+ *
+ * Copyright (c) 2008 BreakPoint Software, Inc.  All Rights Reserved.
+ *
+ *****************************************************************************
+ *
+ * The Hex Workshop Bookmark format is fairly simple.  It starts with a 
+ * fixed-length header (struct tagHEADER) and is followed by fixed length
+ * bookmark entries (struct tagENTRY).  Please see the structure definitions
+ * below for details.
+ *
+ */
+
+#include "standard-types.hsl"
+
+struct sTOBJECT_BRIEF
+{
+	DWORD		objectID; // = trigger object table index
+}sTOBJECT_BRIEF;
+
+struct sTOBJECT_STATE
+{
+	BYTE		byState; // Main State
+	BYTE		bySubStateFlag; // Sub State Flag
+	DWORD		dwStateTime; // ЗШґз State·О µйѕоїНј­ БціЄїВ ЅГ°Ј	
+}sTOBJECT_STATE;
+
+
+struct sGU_TOBJECT_UPDATE_STATE
+{
+WORD size;
+WORD opcode;
+DWORD				handle;
+sTOBJECT_BRIEF		tobjectBrief;
+sTOBJECT_STATE		tobjectState;
+} ;

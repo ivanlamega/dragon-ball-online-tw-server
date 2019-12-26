@@ -166,29 +166,24 @@ BYTE fill[2];
 	unsigned char			unknown8[75];
 };
 
-struct sMOB_TBLDAT2
+struct sNPC_TBLDAT2
 {
   //_BYTE gap0[4];
-DWORD tblidx;
-// CHAR TABLE
+  DWORD tblidx;
   DWORD wBasic_LP;
   WORD wBasic_EP;
-
   WORD wBasic_Physical_Defence;
   WORD wBasic_Energy_Defence;
-
   WORD byStr;
   WORD byCon;
   WORD byFoc;
   WORD byDex;
   WORD bySol;
   WORD byEng;
-
 BYTE fill[2];
   float fScale;
   WORD wAttack_Speed_Rate;
   BYTE byAttack_Type;
-
 BYTE fill[1];
   float fAttack_Range;
   WORD wAttack_Rate;
@@ -196,36 +191,25 @@ BYTE fill[1];
   WORD wBlock_Rate;
   WORD wCurse_Success_Rate;
   WORD wCurse_Tolerance_Rate;
-
-  BYTE fill[2]; // float fRadius?
-float fRadius;
+BYTE fill[2];
+  float fRadius;
   WORD wBasic_Aggro_Point;
-
-// BOT TABLE
-
 BYTE fill[2];
   bool bValidity_Able;
 BYTE fill[3];
   DWORD Name;
 	WCHAR			wszNameText[40 + 1];
 	char			szModel[32 + 1];
-
-  //BYTE gap48[115];
   BYTE byLevel;
   BYTE byGrade;
-
 BYTE fill[3];
   DWORD dwAi_Bit_Flag;
-
   WORD wLP_Regeneration;
   WORD wEP_Regeneration;
-
   BYTE byAttack_Animation_Quantity;
   BYTE byBattle_Attribute;
-
   WORD wBasicPhysicalOffence;
   WORD wBasicEnergyOffence;
-
 BYTE fill[2];
   float fWalk_Speed_Origin;
   float fWalk_Speed;
@@ -235,91 +219,47 @@ BYTE fill[2];
   float fRadius_Z;
   WORD bySight_Range;
   WORD byScan_Range;
-
 	WORD			wUse_Skill_Time[7];
 BYTE fill[2];
 	DWORD			use_Skill_Tblidx[7];
 	BYTE			byUse_Skill_Basis[7];
 BYTE fill[1];
 	WORD			wUse_Skill_LP[7];
-
-  //BYTE gapEC[66];
   BYTE byVisible_Sight_Range;
   char szCamera_Bone_Name[33];
-
   WORD wAttackCoolTime;
 BYTE fill[2];
-
   float fFly_Height;
-  char nameText2[41];
-
-  bool bSpawn_Animation;
-
+  BYTE nameText2[41];
+  BYTE bSpawn_Animation;
 BYTE fill[2];
   DWORD dwDialogGroup;
-  char szILLust[33];
+  BYTE dwDialogGroup[33];
 BYTE fill[3];
-
   DWORD dwAllianceIdx;
   WORD wAggroMaxCount;
-
 BYTE fill[2];
   DWORD dwAttributeBitFlag;
   WORD stomachacheDefence;
   WORD poisonDefense;
   WORD bleedDefense;
   WORD burnDefense;
-
-// MOB TABLE
-  DWORD Mob_Group;
-  WORD wMob_Kind;
-
+// NPC table
+  BYTE byNpcType;
+  BYTE byJob;
 BYTE fill[2];
-  DWORD dwDrop_Zenny;
-  float fDrop_Zenny_Rate;
-  DWORD dwDrop_Exp;
-
-  BYTE byMob_Type;
-  DWORD unknown;
-
-BYTE fill[3];
-  BYTE grade;
-BYTE fill[1];
-
-  WORD unknown;
-  DWORD dropQustTblidx;
-  DWORD unknown;
-  BYTE size;
-  BYTE tmqPoint;
-
+  DWORD dwFunc_Bit_Flag;
+  DWORD Dialog_Script_Index;
+	DWORD			amerchant_Tblidx[6];
+  DWORD statusTransformTblidx;
+  DWORD contentsTblidx;
+  WORD warFog;
 BYTE fill[2];
-  DWORD bigBagDropItemTblidx;
-  BYTE dropTypeTblidx;
-  BYTE dropEachTblidx;
-BYTE fill[2];
-  DWORD bigBagDropItemTblidx2;
-  BYTE byDropEachRateControl;
-  BYTE byDropNItemRateControl;
-BYTE fill[2];
-  DWORD byDropSItemRateControl;
-  BYTE byDropEItemRateControl;
-  BYTE byDropLItemRateControl;
-  BYTE dropLItemRateControl;
-BYTE fill[1];
-  WORD wSightAngle;
-BYTE fill[2];
-  DWORD dword208;
-BYTE showName;
-BYTE fill[1];
-  DWORD dword209;
-BYTE fill[2];
-  float float100;
-  float float101;
-  DWORD dword210;
-  float float102[11];
+  DWORD zoneID;
+  DWORD worldID;
 };
 
-struct sMOB_TBLDAT
+struct sNPC_TBLDAT
 {
 DWORD tblidx;
 DWORD			wBasic_LP;
@@ -419,115 +359,20 @@ BYTE fill[2];
 	WORD			poisonDefense;
 	WORD			bleedDefense;
 	WORD			burnDefense;
-	DWORD			Mob_Group;//Mob_Group
-	WORD			wMob_Kind;//Mob_Kind
 
-BYTE fill[2];
-	// -----------------------  
-	//BYTE paidd[2];
-	// -----------------------  	
-	DWORD			fDrop_Zenny_Rate;
-	float			notknow;	
-	DWORD			fDrop_Exp_Rate;//fDrop_Exp_Rate
-	
-	//BYTE unk;
 
-	// -----------------------
-	//BYTE	Padding3[7];
-	// -----------------------
-
-	BYTE unk1;
-
-	// -----------------------  
-	//BYTE padding;
-	// -----------------------  
-	BYTE unk2[1];
-	WORD			dwDrop_Zenny[2];
-	DWORD			unk3;
-	WORD			wExp;
-	// -----------------------  
-	//BYTE    Padding[2];
-	// -----------------------  
-	DWORD			byMob_Type;
-	WORD			unk4;
-	//WORD			padding;
-	DWORD			unk5;
-BYTE fill[2];
-	WORD			unk6;
-
-	// -----------------------
-	//BYTE			padding5[2];
-	// -----------------------
-
-	DWORD			unk7;
-BYTE fill[2];
-	BYTE			unk8;
-	WORD unk9;
-
-	// -----------------------
-	//BYTE			padding6;
-	// -----------------------
-
-	BYTE			byDropTypeRateControl;
-	BYTE			byDropEachRateControl;
-	// -----------------------  
-//	BYTE padding[2];
-	// -----------------------  
-	BYTE			byDropNItemRateControl;
-BYTE fill[2];
-	BYTE			byDropSItemRateControl;
-	BYTE			byDropEItemRateControl;
-	BYTE			byDropLItemRateControl;
-	BYTE unk10;
-	// -----------------------  
-	//BYTE padding;
-	// -----------------------  
-	DWORD			unk11;
-	// -----------------------  
+		BYTE			byNpcType;
+	BYTE			byJob;
 	//BYTE padding[2];
-	// -----------------------  
-	BYTE			byProperty;//Correct
-	BYTE			size;
-	BYTE			unk29;
-	WORD			wSightAngle;
-	// -----------------------
+	DWORD			dwFunc_Bit_Flag;
 
-	DWORD			unk30;
-	BYTE			unk31;
-	WORD			unk32;
-	WORD			unk33;
-	BYTE			unk34;
-	BYTE			unk35;
-	BYTE			unk36;
-	WORD			unk37;
-	BYTE			unk38;
-	BYTE			unk39;
-	DWORD			unk40;
-	WORD			unk41;
-	BYTE			unk42a;
-	BYTE			unk43b;
-	WORD			unk44c;
-	BYTE			unk42d;
-	BYTE			unk43e;
-	WORD			unk44f;
-	BYTE			unk42g;
-	BYTE			unk43h;
-	WORD			unk44i;
-	BYTE			unk42j;
-	BYTE			unk43k;
-	WORD			unk44l;
-	BYTE			unk42m;
-	BYTE			unk43n;
-	WORD			unk44o;
-	BYTE			unk42p;
-	BYTE			unk43q;
-	WORD			unk44r;
-	BYTE			unk42pp;
-	BYTE			unk43qp;
-	WORD			unk44rp;
-	BYTE unk45;
-	BYTE unk47;
-	BYTE unk48;
-	BYTE unk49;
+	DWORD			Dialog_Script_Index;
+	DWORD			amerchant_Tblidx[6];
+	DWORD			statusTransformTblidx;
+	DWORD			contentsTblidx;
+	WORD			warFog;
+	//BYTE Padding[2];
+	DWORD			zoneID;
+	DWORD			worldID;
 
 };

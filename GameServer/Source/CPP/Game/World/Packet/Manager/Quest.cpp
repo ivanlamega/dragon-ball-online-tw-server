@@ -926,6 +926,52 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 					return RESULT_FAIL;
 				}
 				_player->GetAttributesManager()->lastNPCQuest = NPCConv->GetNPCIdx();
+
+				if (tcId == 7 && NPCConv->GetNPCIdx() == 4261111)
+				{
+					TBLIDX worldTblidx = sTBM.GetWorldTable()->FindWorldByLink(tid);
+					//Exit of sub class quest world
+					if (worldTblidx != INVALID_TBLIDX)
+					{
+						sGU_CHAR_TELEPORT_RES teleport;
+
+						sWORLD_TBLDAT* world = (sWORLD_TBLDAT*)sTBM.GetWorldTable()->FindData(worldTblidx);
+						if (world)
+						{
+							teleport.wResultCode = GAME_SUCCESS;
+							teleport.wOpCode = GU_CHAR_TELEPORT_RES;
+							teleport.wPacketSize = sizeof(sGU_CHAR_TELEPORT_RES) - 2;
+
+							teleport.bIsToMoveAnotherServer = false;
+							teleport.sWorldInfo.worldID = world->outWorldTblidx;
+							teleport.sWorldInfo.tblidx = world->outWorldTblidx;
+							teleport.sWorldInfo.hTriggerObjectOffset = HANDLE_TRIGGER_OBJECT_OFFSET;
+							teleport.sWorldInfo.sRuleInfo.byRuleType = world->byWorldRuleType;
+							_player->GetState()->sCharStateDetail.sCharStateTeleporting.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_TIMEQUEST;
+							teleport.vNewLoc.x = world->outWorldLoc.x;
+							teleport.vNewLoc.y = world->outWorldLoc.y;
+							teleport.vNewLoc.z = world->outWorldLoc.z;
+							teleport.vNewDir.x = world->outWorldDir.x;
+							teleport.vNewDir.y = world->outWorldDir.y;
+							teleport.vNewDir.z = world->outWorldDir.z;
+
+
+
+							_player->SetState(eCHARSTATE::CHARSTATE_TELEPORTING);
+
+
+							_player->SetWorldID(teleport.sWorldInfo.worldID);
+							_player->SetWorldTableID(teleport.sWorldInfo.tblidx);
+							_player->Relocate(teleport.vNewLoc.x, teleport.vNewLoc.y, teleport.vNewLoc.z, teleport.vNewDir.x, teleport.vNewDir.y, teleport.vNewDir.z);
+
+							SendPacket((char*)&teleport, sizeof(sGU_CHAR_TELEPORT_RES));
+							Map* map = _player->GetMap();
+							map->Remove(_player, false);
+							_player->ClearListAndReference();
+						}
+					}
+				}
+
 				sLog.outDetail("Quest: npc tblidx %d", NPCConv->GetNPCIdx());
 				break;
 			}
@@ -1381,6 +1427,8 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 					sLog.outDebug("Start %d", avatarDead->GetStart());
 					if (avatarDead->GetStart())
 					{
+
+						// mejorar
 						TBLIDX worldTblidx = sTBM.GetWorldTable()->FindWorldByLink(tid);
 						if (worldTblidx != INVALID_TBLIDX)
 						{
@@ -1397,7 +1445,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 								teleport.sWorldInfo.worldID = world->tblidx;
 								teleport.sWorldInfo.tblidx = world->tblidx;
 								teleport.sWorldInfo.sRuleInfo.byRuleType = world->byWorldRuleType;
-								_player->GetState()->sCharStateDetail.sCharStateTeleporting.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_WORLD_MOVE;
+								_player->GetState()->sCharStateDetail.sCharStateTeleporting.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_TIMEQUEST;
 								teleport.vNewLoc.x = world->vStart1Loc.x;
 								teleport.vNewLoc.y = world->vStart1Loc.y;
 								teleport.vNewLoc.z = world->vStart1Loc.z;
@@ -1418,6 +1466,13 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 								Map* map = _player->GetMap();
 								map->Remove(_player, false);
 								_player->ClearListAndReference();
+
+								// Spawn mobs for sub class quest
+								Timer.setTimeout([&]() {
+									SpawnMobByTblidx(4131104);
+									SpawnMobByTblidx(4131104);
+									SpawnNPCByTblidx(4261113);
+									}, 10000);
 							}
 						}
 					}
@@ -1680,6 +1735,51 @@ ResultCodes WorldSession::GivePlayerItemReward(sQUEST_REWARD_TBLDAT* rewardTbl, 
 		if (rewardTbl->rewardDefData[rw].rwdIdx == INVALID_TBLIDX)
 		{
 			break; // cambiar por continue si causa bug
+		}
+
+		switch (rewardTbl->rewardDefData->unknown)
+		{
+			case eREWARD_TYPE_SKILL:
+			{
+				sLog.outDebug("eREWARD_TYPE_SKILL");
+				sSKILL_TBLDAT* skillData = (sSKILL_TBLDAT*)sTBM.GetSkillTable()->FindData(rewardTbl->rewardDefData[0].rwdIdx);
+				if (skillData != NULL)
+				{
+					if (_player->GetClassFlag(_player->GetMyClass(), ITEM_TYPE_UNKNOWN) == skillData->dwPC_Class_Bit_Flag)
+					{
+						if (skillData->bySkill_Grade == 1 && skillData->bySkill_Class != eSKILL_CLASS::SKILL_CLASS_HTB && _player->skillManager.isSkillLearned(skillData->tblidx) == false)
+						{
+							sLog.outDetail("Learn the skill %d", rewardTbl->rewardDefData[0].rwdIdx);
+							//LearnSkill(skillData->tblidx);
+							// fix sub class reward
+							if (skillData->tblidx == 2029991)
+							{
+								_player->ConvertClass(14, _player->GetHandle());
+							}
+						}
+						else
+						{
+							sLog.outDetail("ERROR to skill %d", rewardTbl->rewardDefData[0].rwdIdx);
+						}
+					}
+					else
+					{
+						sLog.outDetail("ERROR to skill %d", rewardTbl->rewardDefData[0].rwdIdx);
+					}
+				}
+				break;
+			}
+			case eREWARD_TYPE_NORMAL_ITEM:
+			{
+				sLog.outDebug("eREWARD_TYPE_NORMAL_ITEM");
+
+				break;
+			}
+			case eREWARD_TYPE_GET_QUEST_REWARD_SELECT:
+			{
+				sLog.outDebug("eREWARD_TYPE_GET_QUEST_REWARD_SELECT");
+				break;
+			}
 		}
 
 		sITEM_TBLDAT* itemTblDefault = (sITEM_TBLDAT*)sTBM.GetItemTable()->FindData(rewardTbl->rewardDefData[rw].rwdIdx);

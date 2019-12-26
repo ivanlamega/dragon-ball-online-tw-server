@@ -16,15 +16,15 @@
 
 
 
-struct UG_TS_EXCUTE_TRIGGER_OBJECT
+struct UG_TS_CONFIRM_STEP_FOR_USE_ITEM_REQ
 {
 WORD size;
 WORD opcode;
-unsigned int				hSource;
-unsigned int				hTarget;
-BYTE				byEvtGenType;
-unsigned int		uiParam;
-unsigned int x;
-unsigned int y;
-unsigned int z;
+BYTE			byTsType; // Æ®¸®°Å Å¸ÀÔ
+WORD			tId;
+BYTE		tcCurId;
+BYTE		tcNextId;
+DWORD unknown[5];
+BYTE unknown2;
+DWORD			hHandle;
 };

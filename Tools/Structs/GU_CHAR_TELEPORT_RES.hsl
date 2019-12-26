@@ -80,13 +80,21 @@ struct wVECTOR3
 	SHORT	z;
 }wVECTOR3;
 
-struct sGU_UPDATE_CHAR_STATE
+
+struct sVECTOR3
+{
+	float x;
+	float y;
+	float z;
+}sVECTOR3;
+
+struct sGU_CHAR_TELEPORT_RES
 {
 WORD size;
 WORD opcode;
 WORD			wResultCode;
-dVECTOR3		vNewLoc;
-wVECTOR3		vNewDir;
+sVECTOR3		vNewLoc;
+sVECTOR3		vNewDir;
 DWORD			unk;
 bool			bIsToMoveAnotherServer;
 BYTE			unk1;

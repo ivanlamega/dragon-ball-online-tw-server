@@ -15,16 +15,14 @@
 #include "standard-types.hsl"
 
 
-
-struct UG_TS_EXCUTE_TRIGGER_OBJECT
+struct sDROP_BAG_TBLDAT
 {
-WORD size;
-WORD opcode;
-unsigned int				hSource;
-unsigned int				hTarget;
-BYTE				byEvtGenType;
-unsigned int		uiParam;
-unsigned int x;
-unsigned int y;
-unsigned int z;
+unsigned int tblidx;
+	DWORD			unknown;
+	DWORD unknown1[3];
+WORD unknown2;
+BYTE fill[2];
+DWORD unknown3;
+DWORD unknown4;
+DWORD unknown5;
 };

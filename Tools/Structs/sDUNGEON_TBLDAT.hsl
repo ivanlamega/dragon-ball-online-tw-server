@@ -1,0 +1,50 @@
+/*****************************************************************************
+ * bookmarks.hsl - Hex Workshop Bookmark structure definitions
+ *
+ * Copyright (c) 2008 BreakPoint Software, Inc.  All Rights Reserved.
+ *
+ *****************************************************************************
+ *
+ * The Hex Workshop Bookmark format is fairly simple.  It starts with a 
+ * fixed-length header (struct tagHEADER) and is followed by fixed length
+ * bookmark entries (struct tagENTRY).  Please see the structure definitions
+ * below for details.
+ *
+ */
+
+#include "standard-types.hsl"
+
+struct sDUNGEON_TBLDAT2
+{
+  //_BYTE gap0[4];
+  DWORD dword4;
+  BYTE byte8;
+  BYTE byte9;
+BYTE fill[2];
+  DWORD dwordC;
+  BYTE byte10;
+  BYTE byte11;
+BYTE fill[2];
+  DWORD dword14;
+  DWORD dword18;
+  DWORD dword1C;
+  DWORD dword20;
+  DWORD dword24;
+};
+
+struct sDUNGEON_TBLDAT
+{
+DWORD tblidx;
+	BYTE			byDungeonType;			// 1:normal 2:hard
+	BYTE			byMaxMember;
+BYTE fill[2];
+	DWORD			linkWorld;
+	BYTE			byMinLevel;
+	BYTE			byMaxLevel;
+BYTE fill[2];
+	DWORD			needItemTblidx;
+	DWORD			dwHonorPoint;
+	DWORD			wpsTblidx;
+	DWORD			openCine;
+  DWORD dword24;
+} ;

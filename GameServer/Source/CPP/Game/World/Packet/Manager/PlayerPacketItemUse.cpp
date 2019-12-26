@@ -263,7 +263,7 @@ void Player::HandleItemUse(Packet pPacket)
 										if (GetAttributesManager()->questSubCls.curQuestId != 0 && GetAttributesManager()->questSubCls.curQuestId != INVALID_TBLIDX)
 										{
 											sLog.outError("QUEST ID: %d", GetAttributesManager()->questSubCls.curQuestId);
-											sLog.outDebug("Item Tblidx %d %d", GetAttributesManager()->questSubCls.useItemTblidx == objTblidx,
+											sLog.outDebug("Item Tblidx %d %d", GetAttributesManager()->questSubCls.useItemTblidx == Item->tblidx,
 												((WorldObject*)reference->getSource())->GetTblidx());
 
 											QuestData questDat;

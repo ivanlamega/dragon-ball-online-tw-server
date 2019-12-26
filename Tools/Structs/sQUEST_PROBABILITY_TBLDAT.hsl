@@ -14,17 +14,37 @@
 
 #include "standard-types.hsl"
 
-
-
-struct UG_TS_EXCUTE_TRIGGER_OBJECT
+struct sQUEST_PROBABILITY_TBLDAT2
 {
-WORD size;
-WORD opcode;
-unsigned int				hSource;
-unsigned int				hTarget;
-BYTE				byEvtGenType;
-unsigned int		uiParam;
-unsigned int x;
-unsigned int y;
-unsigned int z;
+  //_BYTE gap0[4];
+  DWORD dword4;
+  BYTE gap8[642];
+BYTE fill[2];
+  DWORD dword28C;
+  BYTE byte290;
+  BYTE byte291;
+};
+
+struct sQUEST_PROBABILITY_DATA
+{
+	BYTE byType; //REWARD_TYPE
+	BYTE unknown[3];//FFFFFF
+	DWORD tblidx;
+	DWORD dwMinValue;
+	DWORD dwMaxValue;
+	DWORD    fRate;
+}sQUEST_PROBABILITY_DATA;
+
+struct sQUEST_PROBABILITY_TBLDAT
+{
+DWORD tblidx;
+	WCHAR wszName[64 + 1];
+	WCHAR wszNote[255 + 1];
+BYTE fill[2];
+	//BYTE padding[2];
+	DWORD byProbabilityType;
+	WORD unknown;
+	BYTE unknown2;
+BYTE fill[1];
+	sQUEST_PROBABILITY_DATA    asProbabilityData[50];
 };

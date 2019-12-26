@@ -1,0 +1,83 @@
+/*****************************************************************************
+ * bookmarks.hsl - Hex Workshop Bookmark structure definitions
+ *
+ * Copyright (c) 2008 BreakPoint Software, Inc.  All Rights Reserved.
+ *
+ *****************************************************************************
+ *
+ * The Hex Workshop Bookmark format is fairly simple.  It starts with a 
+ * fixed-length header (struct tagHEADER) and is followed by fixed length
+ * bookmark entries (struct tagENTRY).  Please see the structure definitions
+ * below for details.
+ *
+ */
+
+#include "standard-types.hsl"
+
+struct sSPAWN_TBLDAT2
+{
+  //_BYTE gap0[4];
+  DWORD dword4;
+  DWORD dword8;
+  float floatC;
+  float float10;
+  float float14;
+  float float18;
+  float float20;
+  BYTE byte24;
+  BYTE byte25;
+  WORD word26;
+  BYTE byte28;
+  BYTE byte29;
+  BYTE byte2A;
+  BYTE byte2B;
+  DWORD dword2C;
+  float float30;
+  float float38;
+  DWORD dword3C;
+  DWORD dword40;
+  DWORD dword44;
+  DWORD dword48;
+  DWORD dword4C;
+  BYTE byte50;
+  DWORD dword54;
+};
+
+struct sVECTOR3
+{
+	float x;
+	float y;
+	float z;
+}sVECTOR3;
+
+struct sSPAWN_TBLDAT
+{
+DWORD tblidx;
+	DWORD			mob_Tblidx;
+
+	sVECTOR3		vSpawn_Loc;
+	sVECTOR3		vSpawn_Dir;
+
+	BYTE			bySpawn_Loc_Range;
+	BYTE			bySpawn_Quantity;
+	WORD			wSpawn_Cool_Time;
+	BYTE			bySpawn_Move_Type;
+
+	BYTE			byWander_Range;
+	BYTE			byMove_Range;
+	BYTE			byMove_DelayTime;
+
+	DWORD			path_Table_Index;
+	sVECTOR3		vFollowDistance;
+
+	DWORD			playScript;
+	DWORD			playScriptScene;
+
+	DWORD			aiScript;
+	DWORD			aiScriptScene;
+
+	DWORD			dwParty_Index;
+	bool			bParty_Leader;
+BYTE fill[3];
+	DWORD	spawnGroupId;
+};

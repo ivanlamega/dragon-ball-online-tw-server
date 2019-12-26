@@ -14,17 +14,12 @@
 
 #include "standard-types.hsl"
 
-
-
-struct UG_TS_EXCUTE_TRIGGER_OBJECT
+struct UG_QUEST_OBJECT_VISIT_REQ
 {
 WORD size;
 WORD opcode;
-unsigned int				hSource;
-unsigned int				hTarget;
-BYTE				byEvtGenType;
-unsigned int		uiParam;
-unsigned int x;
-unsigned int y;
-unsigned int z;
+WORD				qId;
+DWORD				worldId;
+BYTE				byObjType;			// eOBJTYPE
+DWORD				objectTblidx;
 };

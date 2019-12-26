@@ -39,7 +39,7 @@ sCHARSTATE_TELEPORTING			sCharStateTeleporting;
 sCHARSTATE_OPERATING			sCharStateOperating;
 }sCHARSTATE_DETAIL;
 
-enum eCHARSTATE
+/*enum eCHARSTATE
 {
 	CHARSTATE_SPAWNING,				// ½ºÆùÁß ( Ä³¸¯ÅÍ°¡ »ý¼º µÉ¶§ )
 	CHARSTATE_DESPAWNING,			// µð½ºÆùÁß ( Ä³¸¯ÅÍ°¡ »èÁ¦ µÉ¶§ )
@@ -101,7 +101,7 @@ enum eCHARSTATE
 	CHARSTATE_COUNT,
 	INVALID_CHARSTATE = 0xFF
 
-}eCHARSTATE;
+}eCHARSTATE;*/
 struct sASPECTSTATE_SUPER_SAIYAN
 {
 	BYTE				bySourceGrade;
@@ -194,3 +194,5 @@ WORD opcode;
 unsigned int handle; 
 sCHARSTATE avatarState;
 } ;
+
+

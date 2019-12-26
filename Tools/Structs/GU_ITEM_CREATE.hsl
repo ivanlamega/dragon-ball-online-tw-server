@@ -1,0 +1,66 @@
+/*****************************************************************************
+ * filesystems.hsl - Structure definitions for file system related entities.
+ *     This presently includes the MBR, and BOOTSECTORs for FAT16, FAT32, and
+ *     NTFS.
+ *  
+ * Copyright (c) 2003-2008 BreakPoint Software, Inc.  All Rights Reserved
+ *
+ *****************************************************************************
+ * Revision History:
+ *  05/01/03 - RJA - Original
+ *  10/16/07 - RJA - Formatting tweaks, use blob for ByteCode
+ *  12/16/09 - RJA - Added enumsign pragmas
+ */
+
+#include "standard-types.hsl"
+
+struct sITEM_EFFECT
+{
+	WORD            wType;
+	DWORD            dwValue;
+}sITEM_EFFECT;
+
+
+// by Szczeepan
+struct sITEM_EXTRA_EFFECT
+{
+	WORD            wType;
+	DWORD            dwValue;
+}sITEM_EXTRA_EFFECT;
+
+struct sITEM_DATA
+{
+	//DWORD						unknown;
+	DWORD						unknown1;
+	//HOBJECT					handle;
+	DWORD					itemId;
+	DWORD					itemNo;
+	DWORD				charId;
+	BYTE					byPlace; // eCONTAINER_TYPE
+	BYTE					byPosition;
+	BYTE					byStackcount;
+	BYTE					byRank;
+	BYTE					byCurrentDurability;
+	bool					bNeedToIdentify;
+	BYTE					byGrade;
+	BYTE					byBattleAttribute; // eBATTLE_ATTRIBUTE
+	BYTE					byRestrictType; // eITEM_RESTRICT_TYPE
+	wchar					awchMaker[16 + 1];
+	DWORD					aOptionTblidx;
+	DWORD					aOptionTblidx1;
+	sITEM_EFFECT			aitemEffect[6]; // by Szczeepan
+	sITEM_EXTRA_EFFECT		aitemExtraEffect[2];// by Szczeepan
+	BYTE					byDurationType; //eDURATIONTYPE
+	quad					nUseStartTime;
+	quad        			nUseEndTime;
+	DWORD                   unk;
+}sITEM_DATA;
+
+struct GU_ITEM_CREATE
+{
+WORD size;
+WORD opcode;
+DWORD			handle;
+sITEM_DATA      sItemData;
+bool			bIsNew;		// Effect Ãß°¡
+};

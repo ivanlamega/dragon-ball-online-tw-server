@@ -1,0 +1,91 @@
+/*****************************************************************************
+ * filesystems.hsl - Structure definitions for file system related entities.
+ *     This presently includes the MBR, and BOOTSECTORs for FAT16, FAT32, and
+ *     NTFS.
+ *  
+ * Copyright (c) 2003-2008 BreakPoint Software, Inc.  All Rights Reserved
+ *
+ *****************************************************************************
+ * Revision History:
+ *  05/01/03 - RJA - Original
+ *  10/16/07 - RJA - Formatting tweaks, use blob for ByteCode
+ *  12/16/09 - RJA - Added enumsign pragmas
+ */
+
+#include "standard-types.hsl"
+struct sUSE_ITEM_TBLDAT
+{
+DWORD tblidx;
+	BYTE    byUseItemActiveType;
+	BYTE    byBuffGroup;
+	BYTE    byBuffKeepType;
+
+BYTE fill[1];
+
+	DWORD   dwCoolDownBitFlag;
+	WORD    wFunctionBitFlag;
+BYTE fill[2];
+	DWORD   dwUseRestrictionRuleBitFlag;
+	DWORD   dwUseAllowRuleBitFlag;
+
+	BYTE    byAppointTarget;
+	BYTE    byApplyTarget;
+BYTE fill[2];
+	DWORD   dwApplyTargetIndex;
+
+	BYTE    byApplyTargetMax;
+	BYTE    byAapplyRange;
+	BYTE    byApplyAreaSize1;
+	BYTE    byApplyAreaSize2;
+
+	WORD    wNeedStateBitFlag;
+BYTE fill[2];
+	DWORD   adwSystemEffect[2];
+	BYTE    abySystemEffectType[2];
+BYTE fill[2];
+	DOUBLE  adSystemEffectValue[2];
+
+	DWORD   dwRequireLp;
+	WORD    wRequireEp;
+	BYTE    byRequireRpBall;
+BYTE fill[1];
+	DWORD   dwCastingTime;
+	DWORD   dwCastingTimeMs;
+
+	DWORD   dwCooldown;
+	DWORD   dwCooldownMs;
+
+	DWORD   dwKeepTime;
+	DWORD   dwKeepTimeMs;
+
+	bool     bKeepEffect;
+	BYTE        byUseRangeMin;
+BYTE fill[2];
+	FLOAT       fUseRangeMin;
+	BYTE        byUseRangeMax;
+BYTE fill[3];
+	FLOAT       fUseRangeMax;
+	DWORD      tbxUseInfoText;
+
+	CHAR    acCastingEffect[32 + 1];
+	CHAR    acActionEffect[32 + 1];
+
+	WORD    wCastingAnimationStart;
+	WORD    wCastingAnimationLoop;
+
+	WORD    wActionAnimationIndex;
+	WORD    wActionAnimationLoopIndex;
+	WORD    wActionEndAnimationIndex;
+
+	BYTE    byCastinfEffectPos;
+	BYTE    byActionEffectPos;
+BYTE fill[2];
+	DWORD  tbxUseWorldIndex;
+
+	FLOAT   fUseLocX;
+	FLOAT   fUseLocZ;
+	FLOAT   fUseLocRadius;
+
+	WORD    wRequiredQuestID;
+BYTE fill[2];
+};

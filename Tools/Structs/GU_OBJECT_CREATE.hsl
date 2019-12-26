@@ -1,19 +1,18 @@
 /*****************************************************************************
- * filesystems.hsl - Structure definitions for file system related entities.
- *     This presently includes the MBR, and BOOTSECTORs for FAT16, FAT32, and
- *     NTFS.
- *  
- * Copyright (c) 2003-2008 BreakPoint Software, Inc.  All Rights Reserved
+ * bookmarks.hsl - Hex Workshop Bookmark structure definitions
+ *
+ * Copyright (c) 2008 BreakPoint Software, Inc.  All Rights Reserved.
  *
  *****************************************************************************
- * Revision History:
- *  05/01/03 - RJA - Original
- *  10/16/07 - RJA - Formatting tweaks, use blob for ByteCode
- *  12/16/09 - RJA - Added enumsign pragmas
+ *
+ * The Hex Workshop Bookmark format is fairly simple.  It starts with a 
+ * fixed-length header (struct tagHEADER) and is followed by fixed length
+ * bookmark entries (struct tagENTRY).  Please see the structure definitions
+ * below for details.
+ *
  */
 
 #include "standard-types.hsl"
-
 struct sVECTOR3
 {
 	float x;
@@ -374,7 +373,33 @@ struct sCHARSTATE
 	sCHARSTATE_DETAIL			sCharStateDetail;
 }sCHARSTATE;
 
-
+struct SpawnMOB
+{
+	WORD				wPacketSize;
+	WORD				wOpCode;
+	//sBOT_Brief
+	DWORD				Handle;
+	BYTE				Type;
+	DWORD				Tblidx;
+	DWORD				curLP;
+	WORD				curEP;
+	DWORD				maxLP;
+	WORD				maxEP;
+	float				fLastWalkingSpeed;
+	float				fLastRunningSpeed;
+	float				fLastAirgSpeed;
+	float				fLastAirgDashSpeed;
+	float				fLastAirgDashAccelSpeed;
+	WORD				AttackSpeedRate;
+	float				SkillAnnimationSpeedModifier;
+	DWORD				TBLIDXMovementAcionPattern;
+	DWORD				Name;
+	BYTE				Size;
+	//sMOB_BRIEF
+	BYTE				Level;
+	BYTE				byBallType;
+	sCHARSTATE charstate;
+};
 
 struct SpawnNPC
 {
@@ -402,13 +427,4 @@ struct SpawnNPC
 	BYTE				Unk;
 	sCHARSTATE			State;
 
-};
-
-
-struct GU_UPDATE_CHAR_STATE
-{
-WORD size;
-WORD opcode;
-unsigned int			handle;
-sCHARSTATE		sCharState;
 };

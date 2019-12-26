@@ -13,18 +13,9 @@
  */
 
 #include "standard-types.hsl"
-
-
-
-struct UG_TS_EXCUTE_TRIGGER_OBJECT
+struct sTYPE_DROP_TBLDAT
 {
-WORD size;
-WORD opcode;
-unsigned int				hSource;
-unsigned int				hTarget;
-BYTE				byEvtGenType;
-unsigned int		uiParam;
-unsigned int x;
-unsigned int y;
-unsigned int z;
+DWORD tblidx;
+	DWORD		aItem_Tblidx[12];
+	float		afDrop_Rate[12];
 };
