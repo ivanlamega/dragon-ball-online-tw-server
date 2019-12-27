@@ -61,14 +61,17 @@ public:
 	// SUB CLASS
 	struct ObjectDataQuest
 	{
-		TBLIDX	objTblidx;
-		int		triggerId;
+		TBLIDX				objTblidx;
+		int					triggerId;
+		std::vector<TBLIDX> mobsTblidx;
+		std::vector<TBLIDX> NPCTblidx;
 	};
 	struct SubClassInfoQuest
 	{
 		bool			inQuest;
 		TBLIDX			useItemTblidx;
 		int				curQuestId;
+		BYTE			objChoseIndex;
 		ObjectDataQuest	objData[2];
 	};
 

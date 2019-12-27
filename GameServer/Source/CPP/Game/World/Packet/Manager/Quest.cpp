@@ -933,11 +933,38 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 					//Exit of sub class quest world
 					if (worldTblidx != INVALID_TBLIDX)
 					{
-						sGU_CHAR_TELEPORT_RES teleport;
-
-						sWORLD_TBLDAT* world = (sWORLD_TBLDAT*)sTBM.GetWorldTable()->FindData(worldTblidx);
-						if (world)
+						sWORLD_TBLDAT* worldData = (sWORLD_TBLDAT*)sTBM.GetWorldTable()->FindData(worldTblidx);
+						if (worldData)
 						{
+
+							_player->GetAttributesManager()->teleportInfo.position.x = worldData->outWorldLoc.x;
+							_player->GetAttributesManager()->teleportInfo.position.y = worldData->outWorldLoc.y;
+							_player->GetAttributesManager()->teleportInfo.position.z = worldData->outWorldLoc.z;
+
+							_player->GetAttributesManager()->teleportInfo.rotation.x = worldData->outWorldDir.x;
+							_player->GetAttributesManager()->teleportInfo.rotation.y = worldData->outWorldDir.y;
+							_player->GetAttributesManager()->teleportInfo.rotation.z = worldData->outWorldDir.z;
+
+							_player->GetAttributesManager()->teleportInfo.bIsToMoveAnotherServer = false;
+							_player->GetAttributesManager()->teleportInfo.worldInfo.worldID = worldData->outWorldTblidx;
+							_player->GetAttributesManager()->teleportInfo.worldInfo.tblidx = worldData->outWorldTblidx;
+							_player->GetAttributesManager()->teleportInfo.worldInfo.hTriggerObjectOffset = HANDLE_TRIGGER_OBJECT_OFFSET;
+							_player->GetAttributesManager()->teleportInfo.worldInfo.sRuleInfo.byRuleType = worldData->byWorldRuleType;
+
+							sLog.outDebug("Teleport: pos %f %f %f rot %f %f %f worldtblidx %d type %d ruleType %d", _player->GetAttributesManager()->teleportInfo.position.x,
+								_player->GetAttributesManager()->teleportInfo.position.y,
+								_player->GetAttributesManager()->teleportInfo.position.z,
+								_player->GetAttributesManager()->teleportInfo.rotation.x,
+								_player->GetAttributesManager()->teleportInfo.rotation.y,
+								_player->GetAttributesManager()->teleportInfo.rotation.z,
+								_player->GetAttributesManager()->teleportInfo.worldInfo.tblidx,
+								-1,
+								worldData->byWorldRuleType);
+							SendUpdateCharCondition(80);
+							_player->GetState()->sCharStateDetail.sCharStateDespawning.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_TIMEQUEST;
+							_player->SetState(eCHARSTATE::CHARSTATE_DESPAWNING);
+
+							/*sGU_CHAR_TELEPORT_RES teleport;
 							teleport.wResultCode = GAME_SUCCESS;
 							teleport.wOpCode = GU_CHAR_TELEPORT_RES;
 							teleport.wPacketSize = sizeof(sGU_CHAR_TELEPORT_RES) - 2;
@@ -967,7 +994,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 							SendPacket((char*)&teleport, sizeof(sGU_CHAR_TELEPORT_RES));
 							Map* map = _player->GetMap();
 							map->Remove(_player, false);
-							_player->ClearListAndReference();
+							_player->ClearListAndReference();*/
 						}
 					}
 				}
@@ -1321,6 +1348,9 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 						{
 							objTblidx1 = 12;
 							objTblidx2 = 13;
+							_player->GetAttributesManager()->questSubCls.objData[0].mobsTblidx.push_back(4131104);
+							_player->GetAttributesManager()->questSubCls.objData[0].mobsTblidx.push_back(4131104);
+							_player->GetAttributesManager()->questSubCls.objData[0].NPCTblidx.push_back(4261113);
 							_player->GetAttributesManager()->questSubCls.objData[0].objTblidx = objTblidx1;
 							_player->GetAttributesManager()->questSubCls.objData[0].triggerId = 6012;
 
@@ -1434,10 +1464,53 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 						{
 							sGU_CHAR_TELEPORT_RES teleport;
 
-							sWORLD_TBLDAT* world = (sWORLD_TBLDAT*)sTBM.GetWorldTable()->FindData(worldTblidx);
-							if (world)
+							sWORLD_TBLDAT* worldData = (sWORLD_TBLDAT*)sTBM.GetWorldTable()->FindData(worldTblidx);
+							if (worldData)
 							{
-								teleport.wResultCode = GAME_SUCCESS;
+
+								/*_player->GetAttributesManager()->teleportInfo.outWorld.position.x = worldData->outWorldLoc.x;
+								_player->GetAttributesManager()->teleportInfo.outWorld.position.y = worldData->outWorldLoc.y;
+								_player->GetAttributesManager()->teleportInfo.outWorld.position.z = worldData->outWorldLoc.z;
+
+								_player->GetAttributesManager()->teleportInfo.outWorld.rotation.x = worldData->outWorldDir.x;
+								_player->GetAttributesManager()->teleportInfo.outWorld.rotation.y = worldData->outWorldDir.y;
+								_player->GetAttributesManager()->teleportInfo.outWorld.rotation.z = worldData->outWorldDir.z;
+								_player->GetAttributesManager()->teleportInfo.outWorld.worldTblidx = worldData->outWorldTblidx;
+
+								sLog.outDebug("Sub Class out WORLD %d (%f %f %f)",
+									_player->GetAttributesManager()->teleportInfo.outWorld.worldTblidx,
+									_player->GetAttributesManager()->teleportInfo.outWorld.position.x,
+									_player->GetAttributesManager()->teleportInfo.outWorld.position.y,
+									_player->GetAttributesManager()->teleportInfo.outWorld.position.z);*/
+
+
+								_player->GetAttributesManager()->teleportInfo.position.x = worldData->vStart1Loc.x;
+								_player->GetAttributesManager()->teleportInfo.position.y = worldData->vStart1Loc.y;
+								_player->GetAttributesManager()->teleportInfo.position.z = worldData->vStart1Loc.z;
+
+								_player->GetAttributesManager()->teleportInfo.rotation.x = worldData->vStart1Dir.x;
+								_player->GetAttributesManager()->teleportInfo.rotation.y = worldData->vStart1Dir.y;
+								_player->GetAttributesManager()->teleportInfo.rotation.z = worldData->vStart1Dir.z;
+
+								_player->GetAttributesManager()->teleportInfo.bIsToMoveAnotherServer = false;
+								_player->GetAttributesManager()->teleportInfo.worldInfo.worldID = worldData->tblidx;
+								_player->GetAttributesManager()->teleportInfo.worldInfo.tblidx = worldData->tblidx;
+								_player->GetAttributesManager()->teleportInfo.worldInfo.hTriggerObjectOffset = HANDLE_TRIGGER_OBJECT_OFFSET;
+								_player->GetAttributesManager()->teleportInfo.worldInfo.sRuleInfo.byRuleType = worldData->byWorldRuleType;
+
+								sLog.outDebug("Teleport: pos %f %f %f rot %f %f %f worldtblidx %d type %d ruleType %d", _player->GetAttributesManager()->teleportInfo.position.x,
+									_player->GetAttributesManager()->teleportInfo.position.y,
+									_player->GetAttributesManager()->teleportInfo.position.z,
+									_player->GetAttributesManager()->teleportInfo.rotation.x,
+									_player->GetAttributesManager()->teleportInfo.rotation.y,
+									_player->GetAttributesManager()->teleportInfo.rotation.z,
+									worldData->tblidx,
+									-1,
+									worldData->byWorldRuleType);
+								SendUpdateCharCondition(80);
+								_player->GetState()->sCharStateDetail.sCharStateDespawning.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_TIMEQUEST;
+								_player->SetState(eCHARSTATE::CHARSTATE_DESPAWNING);
+								/*teleport.wResultCode = GAME_SUCCESS;
 								teleport.wOpCode = GU_CHAR_TELEPORT_RES;
 								teleport.wPacketSize = sizeof(sGU_CHAR_TELEPORT_RES) - 2;
 
@@ -1465,13 +1538,23 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 								SendPacket((char*)&teleport, sizeof(sGU_CHAR_TELEPORT_RES));
 								Map* map = _player->GetMap();
 								map->Remove(_player, false);
-								_player->ClearListAndReference();
+								_player->ClearListAndReference();*/
 
 								// Spawn mobs for sub class quest
 								Timer.setTimeout([&]() {
-									SpawnMobByTblidx(4131104);
-									SpawnMobByTblidx(4131104);
-									SpawnNPCByTblidx(4261113);
+									int index = _player->GetAttributesManager()->questSubCls.objChoseIndex;
+									std::vector<TBLIDX> mobs = _player->GetAttributesManager()->questSubCls.objData[index].mobsTblidx;
+									std::vector<TBLIDX> NPCs = _player->GetAttributesManager()->questSubCls.objData[index].NPCTblidx;
+									for (std::vector<TBLIDX>::size_type i = 0; i != mobs.size(); i++)
+									{
+										SpawnMobByTblidx(mobs[i]);
+									}
+									
+									for (std::vector<TBLIDX>::size_type i = 0; i != NPCs.size(); i++)
+									{
+										SpawnNPCByTblidx(NPCs[i]);
+									}
+									
 									}, 10000);
 							}
 						}
@@ -3774,7 +3857,9 @@ void WorldSession::SendTsExcuteTriggerObject(Packet& packet)
 							objTblidx);
 						if (_player->GetAttributesManager()->questSubCls.objData[i].objTblidx == objTblidx)
 						{
+							
 							sLog.outDebug("Item chose %d", objTblidx);
+							_player->GetAttributesManager()->questSubCls.objChoseIndex = i;
 							QuestData questData;
 							questData.QuestID = _player->GetAttributesManager()->questSubCls.objData[i].triggerId;
 							FindObjectTriggerInformation(&questData, req->hTarget, objTblidx);
