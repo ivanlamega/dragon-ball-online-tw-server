@@ -3522,6 +3522,65 @@ void Player::SetSpeed(int sppeed)
 	SendPacket((char*)&speed, sizeof(sGU_UPDATE_CHAR_SPEED));
 	SendToPlayerList((char*)&speed, sizeof(sGU_UPDATE_CHAR_SPEED));
 }
+
+ePC_CLASS Player::GetBaseClass(ePC_CLASS classId)
+{
+	switch (classId)
+	{
+		case PC_CLASS_STREET_FIGHTER:
+		case PC_CLASS_SWORD_MASTER:
+		{
+			return PC_CLASS_HUMAN_FIGHTER;
+		}
+		case PC_CLASS_CRANE_ROSHI:
+		case PC_CLASS_TURTLE_ROSHI:
+		{
+			return PC_CLASS_HUMAN_MYSTIC;
+		}
+		case PC_CLASS_GUN_MANIA:
+		case PC_CLASS_MECH_MANIA:
+		{
+			return PC_CLASS_HUMAN_ENGINEER;
+		}
+		case PC_CLASS_DARK_WARRIOR:
+		case PC_CLASS_SHADOW_KNIGHT:
+		{
+			return PC_CLASS_NAMEK_FIGHTER;
+		}
+		case PC_CLASS_DENDEN_HEALER:
+		case PC_CLASS_POCO_SUMMONER:
+		{
+			return PC_CLASS_NAMEK_MYSTIC;
+		}
+		case PC_CLASS_ULTI_MA:
+		case PC_CLASS_GRAND_MA:
+		{
+			return PC_CLASS_MIGHTY_MAJIN;
+		}
+		case PC_CLASS_PLAS_MA:
+		case PC_CLASS_KAR_MA:
+		{
+			return PC_CLASS_WONDER_MAJIN;
+		}
+	}
+}
+
+void Player::ChangeClass(ePC_CLASS classId)
+{
+	SetMyClass(classId);
+	sql::ResultSet* result = sDB.executes("UPDATE characters SET ClassID = %d WHERE CharacterID = '%d';", classId, GetCharacterID());
+
+	sGU_CHAR_CONVERT_CLASS clase;
+	clase.wOpCode = GU_CHAR_CONVERT_CLASS;
+	clase.wPacketSize = sizeof(sGU_CHAR_CONVERT_CLASS) - 2;
+
+	clase.hTarget = GetHandle();
+	clase.byClass = classId;
+
+	SendPacket((char*)&clase, sizeof(sGU_CHAR_CONVERT_CLASS));
+	SendToPlayerList((char*)&clase, sizeof(sGU_CHAR_CONVERT_CLASS));
+}
+
 //Comand
 void Player::ConvertClass(int Class, HOBJECT Target)
 {	

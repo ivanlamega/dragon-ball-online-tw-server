@@ -45,6 +45,8 @@ public:
 	void				LevelUpByComand(int Level);
 	void				SetSpeed(int sppeed);
 	void				ConvertClass(int ClassID , HOBJECT Target);
+	ePC_CLASS			GetBaseClass(ePC_CLASS classId);
+	void				ChangeClass(ePC_CLASS classId);
 	DWORD				GetClassFlag(int Class, int ItemType)const;
 	void				SetStatsByEquip(BYTE ItemType);
 	void				ConvertAdult(int Adult);

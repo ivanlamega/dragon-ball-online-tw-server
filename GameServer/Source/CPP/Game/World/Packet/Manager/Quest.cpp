@@ -1691,7 +1691,6 @@ ResultCodes WorldSession::ProcessTsContReward(CDboTSContReward * contReward, DWO
 				}
 				case eREWARD_TYPE_GET_CONVERT_CLASS_RIGHT:
 				{
-					_player->ConvertClass(ePC_CLASS::PC_CLASS_KAR_MA, _player->GetHandle());
 					sLog.outDebug("eREWARD_TYPE_GET_CONVERT_CLASS_RIGHT");
 					break;
 				}
@@ -1749,12 +1748,18 @@ ResultCodes WorldSession::GivePlayerItemReward(sQUEST_REWARD_TBLDAT* rewardTbl, 
 					
 					if (skillData->bySkill_Grade == 1 && skillData->bySkill_Class != eSKILL_CLASS::SKILL_CLASS_HTB && _player->skillManager.isSkillLearned(skillData->tblidx) == false)
 					{
-						sLog.outDetail("Learn the skill %d", rewardTbl->rewardDefData[0].rwdIdx);
-						//LearnSkill(skillData->tblidx);
+						
+						if (_player->GetMyClass() == _player->GetBaseClass((ePC_CLASS)skillData->byPC_Class_Change))
+						{
+							LearnSkill(skillData->tblidx);
+							_player->ChangeClass((ePC_CLASS)skillData->byPC_Class_Change);
+							sLog.outDetail("Learn the skill %d", rewardTbl->rewardDefData[0].rwdIdx);
+						}
+						
 						// fix sub class reward
 						/*if (skillData->tblidx == 2029991)
 						{
-							
+							_player->ConvertClass(ePC_CLASS::PC_CLASS_KAR_MA, _player->GetHandle());
 						}*/
 					}
 					else
