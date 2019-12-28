@@ -1166,4 +1166,6 @@ void WorldSession::LearnHtb(TBLIDX htbIdx, BYTE slot)
 	res.unknown = 0;
 	_player->HTBID = res.skillId;
 	SendPacket((char*)&res, sizeof(sGU_HTB_LEARN_RES));
+
+	sDB.addhtb(htbIdx, _player->GetCharacterID(), slot);
 }
