@@ -410,7 +410,7 @@ void Player::HandleItemUse(Packet pPacket)
 								}
 								break;
 						}
-					/*	case eSYSTEM_EFFECT_CODE::ACTIVE_VEHICLE: // Gives a gameserver crash.
+						case eSYSTEM_EFFECT_CODE::ACTIVE_VEHICLE: // Gives a gameserver crash.
 						{
 							UseItem.wResultCode = GAME_SUCCESS;
 							Acionitem.handle = GetHandle();
@@ -438,7 +438,7 @@ void Player::HandleItemUse(Packet pPacket)
 							SetState(eCHARSTATE::CHARSTATE_STANDING);
 							UpdateAspectState(eASPECTSTATE::ASPECTSTATE_VEHICLE);
 							break;
-						}*/
+						}
 						case eSYSTEM_EFFECT_CODE::ACTIVE_RECIPE_UPDATE://Regista a Receita de Craft
 						{
 							UseItem.wResultCode = GAME_SUCCESS;
