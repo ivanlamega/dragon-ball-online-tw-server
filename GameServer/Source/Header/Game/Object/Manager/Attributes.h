@@ -63,6 +63,7 @@ public:
 	{
 		TBLIDX				objTblidx;
 		int					triggerId;
+		int					evtId;
 		std::vector<TBLIDX> mobsTblidx;
 		std::vector<TBLIDX> NPCTblidx;
 	};
