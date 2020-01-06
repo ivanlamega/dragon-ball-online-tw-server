@@ -9,6 +9,7 @@
 #include <Game\Object\Npc.h>
 #include <Game\World\WorldSession.h>
 #include <ctime>
+#include <algorithm>
 //----------------------------------------
 //	Player Constructor, init all info
 //----------------------------------------
@@ -2992,6 +2993,28 @@ void	Player::RewardExpFromMob(MonsterData& data)
 }
 void Player::RewardDropFromMob(MonsterData& data)
 {
+
+	// SUBCLASS
+	int index = GetAttributesManager()->questSubCls.objChoseIndex;
+	std::vector<TBLIDX> mobs = GetAttributesManager()->questSubCls.objData[index].mobsTblidx;
+	std::vector <TBLIDX>::iterator it3;
+	std::vector<TBLIDX>::iterator position = std::find(mobs.begin(), mobs.end(), data.MonsterID);
+	if (position != mobs.end())
+	{
+		// == myVector.end() means the element was not found
+		mobs.erase(position);
+	}
+
+	if (GetAttributesManager()->questSubCls.inQuest)
+	{
+		if (mobs.size() <= 0)
+		{
+			GetAttributesManager()->questSubCls.inQuest = false;
+			m_session->SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, GetAttributesManager()->questSubCls.objData[index].evtId);
+		}
+	}
+	// SUBCLASS
+
 	// GROW UP ---------------
 	if (GetAttributesManager()->growUpInfo.inQuest)
 	{

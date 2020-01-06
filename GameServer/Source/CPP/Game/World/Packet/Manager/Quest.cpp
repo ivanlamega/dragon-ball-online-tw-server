@@ -1283,11 +1283,21 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 						{
 							objTblidx1 = 2;
 							objTblidx2 = 3;
+
 							_player->GetAttributesManager()->questSubCls.objData[0].objTblidx = objTblidx1;
 							_player->GetAttributesManager()->questSubCls.objData[0].triggerId = 6005;
 
+							_player->GetAttributesManager()->questSubCls.objData[1].mobsTblidx.push_back(3411210);
+							_player->GetAttributesManager()->questSubCls.objData[1].mobsTblidx.push_back(3411210);
+							_player->GetAttributesManager()->questSubCls.objData[1].mobsTblidx.push_back(8411110);
+							_player->GetAttributesManager()->questSubCls.objData[1].mobsTblidx.push_back(8411110);
+							_player->GetAttributesManager()->questSubCls.objData[1].mobsTblidx.push_back(8411110);
+							_player->GetAttributesManager()->questSubCls.objData[1].mobsTblidx.push_back(8411110);
+							_player->GetAttributesManager()->questSubCls.objData[1].NPCTblidx.push_back(1751108);
+
 							_player->GetAttributesManager()->questSubCls.objData[1].objTblidx = objTblidx2;
 							_player->GetAttributesManager()->questSubCls.objData[1].triggerId = 6001;
+							_player->GetAttributesManager()->questSubCls.objData[1].evtId = 416;
 							sLog.outDebug("PC_CLASS_HUMAN_FIGHTER");
 							break;
 						}
@@ -1356,6 +1366,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 
 							_player->GetAttributesManager()->questSubCls.objData[1].objTblidx = objTblidx2;
 							_player->GetAttributesManager()->questSubCls.objData[1].triggerId = 6011;
+							_player->GetAttributesManager()->questSubCls.objData[1].evtId = 427;
 							//SendTObjectUpdateState();
 							sLog.outDebug("PC_CLASS_WONDER_MAJIN");
 							break;
@@ -1439,6 +1450,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 				CDboTSActETimerS* timerS = (CDboTSActETimerS*)contGAct->GetChildEntity(i);
 				if (timerS)
 				{
+					// SUBCLASS
 					sLog.outDebug("TGId %d time %d timerSort %d", timerS->GetTGId(), timerS->GetTime(), timerS->GetTimerSort());
 					if (tid == 6062)
 					{
@@ -1446,6 +1458,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 							SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, 427);
 							}, timerS->GetTime());
 					}
+					// SUBCLASS
 				}
 				break;
 			}
@@ -1459,14 +1472,14 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 					{
 
 						// mejorar
-						TBLIDX worldTblidx = sTBM.GetWorldTable()->FindWorldByLink(tid);
+						/*TBLIDX worldTblidx = sTBM.GetWorldTable()->FindWorldByLink(tid);
 						if (worldTblidx != INVALID_TBLIDX)
 						{
 							sGU_CHAR_TELEPORT_RES teleport;
 
 							sWORLD_TBLDAT* worldData = (sWORLD_TBLDAT*)sTBM.GetWorldTable()->FindData(worldTblidx);
 							if (worldData)
-							{
+							{*/
 
 								/*_player->GetAttributesManager()->teleportInfo.outWorld.position.x = worldData->outWorldLoc.x;
 								_player->GetAttributesManager()->teleportInfo.outWorld.position.y = worldData->outWorldLoc.y;
@@ -1484,7 +1497,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 									_player->GetAttributesManager()->teleportInfo.outWorld.position.z);*/
 
 
-								_player->GetAttributesManager()->teleportInfo.position.x = worldData->vStart1Loc.x;
+								/*_player->GetAttributesManager()->teleportInfo.position.x = worldData->vStart1Loc.x;
 								_player->GetAttributesManager()->teleportInfo.position.y = worldData->vStart1Loc.y;
 								_player->GetAttributesManager()->teleportInfo.position.z = worldData->vStart1Loc.z;
 
@@ -1509,7 +1522,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 									worldData->byWorldRuleType);
 								SendUpdateCharCondition(80);
 								_player->GetState()->sCharStateDetail.sCharStateDespawning.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_TIMEQUEST;
-								_player->SetState(eCHARSTATE::CHARSTATE_DESPAWNING);
+								_player->SetState(eCHARSTATE::CHARSTATE_DESPAWNING);*/
 								/*teleport.wResultCode = GAME_SUCCESS;
 								teleport.wOpCode = GU_CHAR_TELEPORT_RES;
 								teleport.wPacketSize = sizeof(sGU_CHAR_TELEPORT_RES) - 2;
@@ -1538,26 +1551,148 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 								SendPacket((char*)&teleport, sizeof(sGU_CHAR_TELEPORT_RES));
 								Map* map = _player->GetMap();
 								map->Remove(_player, false);
-								_player->ClearListAndReference();*/
-
-								// Spawn mobs for sub class quest
-								Timer.setTimeout([&]() {
-									int index = _player->GetAttributesManager()->questSubCls.objChoseIndex;
-									std::vector<TBLIDX> mobs = _player->GetAttributesManager()->questSubCls.objData[index].mobsTblidx;
-									std::vector<TBLIDX> NPCs = _player->GetAttributesManager()->questSubCls.objData[index].NPCTblidx;
-									for (std::vector<TBLIDX>::size_type i = 0; i != mobs.size(); i++)
-									{
-										SpawnMobByTblidx(mobs[i]);
-									}
-									
-									for (std::vector<TBLIDX>::size_type i = 0; i != NPCs.size(); i++)
-									{
-										SpawnNPCByTblidx(NPCs[i]);
-									}
-									
-									}, 10000);
+								_player->ClearListAndReference();
+							//}
+						//}*/
+					}
+				}
+				break;
+			}
+			case DBO_ACT_TYPE_ID_ACT_TLQ:
+			{
+				CDboTSActTLQ* tlq = (CDboTSActTLQ*)contGAct->GetChildEntity(i);
+				if (tlq == NULL)
+				{
+					return RESULT_FAIL;
+				}
+				sLog.outDebug("Dungeon tblidx %d type %d", tlq->GetDungeonTblIdx(), tlq->GetDungeonType());
+				switch (tlq->GetDungeonType())
+				{
+					case eTLQ_DUNGEON_TYPE_ENTER:
+					{
+						if (tlq->GetDungeonTblIdx() != INVALID_TBLIDX)
+						{
+							sDUNGEON_TBLDAT* dungeonData = (sDUNGEON_TBLDAT*)sTBM.GetDungeonTable()->FindData(tlq->GetDungeonTblIdx());
+							if (dungeonData == NULL)
+							{
+								return RESULT_FAIL;
 							}
+
+							sWORLD_TBLDAT* worldData = (sWORLD_TBLDAT*)sTBM.GetWorldTable()->FindData(dungeonData->linkWorld);
+
+							if (worldData == NULL)
+							{
+								return RESULT_FAIL;
+							}
+
+							_player->GetAttributesManager()->teleportInfo.outWorld.position.x = worldData->outWorldLoc.x;
+							_player->GetAttributesManager()->teleportInfo.outWorld.position.y = worldData->outWorldLoc.y;
+							_player->GetAttributesManager()->teleportInfo.outWorld.position.z = worldData->outWorldLoc.z;
+
+							_player->GetAttributesManager()->teleportInfo.outWorld.rotation.x = worldData->outWorldDir.x;
+							_player->GetAttributesManager()->teleportInfo.outWorld.rotation.y = worldData->outWorldDir.y;
+							_player->GetAttributesManager()->teleportInfo.outWorld.rotation.z = worldData->outWorldDir.z;
+							_player->GetAttributesManager()->teleportInfo.outWorld.worldTblidx = worldData->outWorldTblidx;
+
+							sLog.outDebug("OUT WORLD %d (%f %f %f)",
+								_player->GetAttributesManager()->teleportInfo.outWorld.worldTblidx,
+								_player->GetAttributesManager()->teleportInfo.outWorld.position.x,
+								_player->GetAttributesManager()->teleportInfo.outWorld.position.y,
+								_player->GetAttributesManager()->teleportInfo.outWorld.position.z);
+
+
+							_player->GetAttributesManager()->teleportInfo.position.x = worldData->vStart1Loc.x;
+							_player->GetAttributesManager()->teleportInfo.position.y = worldData->vStart1Loc.y;
+							_player->GetAttributesManager()->teleportInfo.position.z = worldData->vStart1Loc.z;
+
+							_player->GetAttributesManager()->teleportInfo.rotation.x = worldData->vStart1Dir.x;
+							_player->GetAttributesManager()->teleportInfo.rotation.y = worldData->vStart1Dir.y;
+							_player->GetAttributesManager()->teleportInfo.rotation.z = worldData->vStart1Dir.z;
+
+							_player->GetAttributesManager()->teleportInfo.bIsToMoveAnotherServer = false;
+							_player->GetAttributesManager()->teleportInfo.worldInfo.worldID = worldData->tblidx;
+							_player->GetAttributesManager()->teleportInfo.worldInfo.tblidx = worldData->tblidx;
+							_player->GetAttributesManager()->teleportInfo.worldInfo.hTriggerObjectOffset = HANDLE_TRIGGER_OBJECT_OFFSET;
+							_player->GetAttributesManager()->teleportInfo.worldInfo.sRuleInfo.byRuleType = worldData->byWorldRuleType;
+
+							sLog.outDebug("Teleport: pos %f %f %f rot %f %f %f worldtblidx %d type %d ruleType %d", _player->GetAttributesManager()->teleportInfo.position.x,
+								_player->GetAttributesManager()->teleportInfo.position.y,
+								_player->GetAttributesManager()->teleportInfo.position.z,
+								_player->GetAttributesManager()->teleportInfo.rotation.x,
+								_player->GetAttributesManager()->teleportInfo.rotation.y,
+								_player->GetAttributesManager()->teleportInfo.rotation.z,
+								worldData->tblidx,
+								dungeonData->byDungeonType,
+								worldData->byWorldRuleType);
+							SendUpdateCharCondition(80);
+							_player->GetState()->sCharStateDetail.sCharStateDespawning.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_TIMEQUEST;
+							_player->SetState(eCHARSTATE::CHARSTATE_DESPAWNING);
+
+
+							// Spawn mobs for sub class quest
+							Timer.setTimeout([&]() {
+								int index = _player->GetAttributesManager()->questSubCls.objChoseIndex;
+								std::vector<TBLIDX> mobs = _player->GetAttributesManager()->questSubCls.objData[index].mobsTblidx;
+								std::vector<TBLIDX> NPCs = _player->GetAttributesManager()->questSubCls.objData[index].NPCTblidx;
+								sLog.outDebug("----------SPAWN MOBS FOR SUB CLASS HERE-----------------");
+								for (std::vector<TBLIDX>::size_type i = 0; i != mobs.size(); i++)
+								{
+									SpawnMobByTblidx(mobs[i]);
+								}
+
+								for (std::vector<TBLIDX>::size_type i = 0; i != NPCs.size(); i++)
+								{
+									SpawnNPCByTblidx(NPCs[i]);
+								}
+
+								}, 10000);
 						}
+						else
+						{
+							return RESULT_FAIL;
+						}
+						break;
+					}
+					case eTLQ_DUNGEON_TYPE_LEAVE:
+					{
+						sLog.outDebug("World %d", _player->GetAttributesManager()->teleportInfo.outWorld.worldTblidx);
+						if (_player->GetAttributesManager()->teleportInfo.outWorld.worldTblidx != 0 &&
+							_player->GetAttributesManager()->teleportInfo.outWorld.worldTblidx != INVALID_TBLIDX)
+						{
+							_player->GetAttributesManager()->teleportInfo.position.x = _player->GetAttributesManager()->teleportInfo.outWorld.position.x;
+							_player->GetAttributesManager()->teleportInfo.position.y = _player->GetAttributesManager()->teleportInfo.outWorld.position.y;
+							_player->GetAttributesManager()->teleportInfo.position.z = _player->GetAttributesManager()->teleportInfo.outWorld.position.z;
+
+							_player->GetAttributesManager()->teleportInfo.rotation.x = _player->GetAttributesManager()->teleportInfo.outWorld.rotation.x;
+							_player->GetAttributesManager()->teleportInfo.rotation.y = _player->GetAttributesManager()->teleportInfo.outWorld.rotation.y;
+							_player->GetAttributesManager()->teleportInfo.rotation.z = _player->GetAttributesManager()->teleportInfo.outWorld.rotation.z;
+
+							_player->GetAttributesManager()->teleportInfo.bIsToMoveAnotherServer = false;
+							_player->GetAttributesManager()->teleportInfo.worldInfo.worldID = _player->GetAttributesManager()->teleportInfo.outWorld.worldTblidx;
+							_player->GetAttributesManager()->teleportInfo.worldInfo.tblidx = _player->GetAttributesManager()->teleportInfo.outWorld.worldTblidx;
+							_player->GetAttributesManager()->teleportInfo.worldInfo.hTriggerObjectOffset = HANDLE_TRIGGER_OBJECT_OFFSET;
+							_player->GetAttributesManager()->teleportInfo.worldInfo.sRuleInfo.byRuleType = 0;
+
+							memset(&_player->GetAttributesManager()->teleportInfo.outWorld, 0, sizeof _player->GetAttributesManager()->teleportInfo.outWorld);
+
+							sLog.outDebug("Teleport: pos %f %f %f rot %f %f %f worldtblidx %d type %d ruleType %d", _player->GetAttributesManager()->teleportInfo.position.x,
+								_player->GetAttributesManager()->teleportInfo.position.y,
+								_player->GetAttributesManager()->teleportInfo.position.z,
+								_player->GetAttributesManager()->teleportInfo.rotation.x,
+								_player->GetAttributesManager()->teleportInfo.rotation.y,
+								_player->GetAttributesManager()->teleportInfo.rotation.z,
+								_player->GetAttributesManager()->teleportInfo.worldInfo.tblidx,
+								0,
+								_player->GetAttributesManager()->teleportInfo.worldInfo.sRuleInfo.byRuleType);
+							SendUpdateCharCondition(80);
+							_player->GetState()->sCharStateDetail.sCharStateDespawning.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_TIMEQUEST;
+							_player->SetState(eCHARSTATE::CHARSTATE_DESPAWNING);
+						}
+						else
+						{
+							return RESULT_FAIL;
+						}
+						break;
 					}
 				}
 				break;
