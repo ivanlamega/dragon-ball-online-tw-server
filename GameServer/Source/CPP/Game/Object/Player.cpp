@@ -2995,19 +2995,37 @@ void Player::RewardDropFromMob(MonsterData& data)
 {
 
 	// SUBCLASS
+	typedef std::vector<TBLIDX> MobsList;
+	typedef MobsList::const_iterator MobsListIt;
+
 	int index = GetAttributesManager()->questSubCls.objChoseIndex;
-	std::vector<TBLIDX> mobs = GetAttributesManager()->questSubCls.objData[index].mobsTblidx;
-	std::vector <TBLIDX>::iterator it3;
-	std::vector<TBLIDX>::iterator position = std::find(mobs.begin(), mobs.end(), data.MonsterID);
-	if (position != mobs.end())
+	std::vector<TBLIDX> *mobs = &(GetAttributesManager()->questSubCls.objData[index].mobsTblidx);
+	const TBLIDX * mob = nullptr;
+	for (MobsListIt iter = mobs->cbegin(); iter != mobs->cend(); ++iter)
 	{
-		// == myVector.end() means the element was not found
-		mobs.erase(position);
+		mob = &(*iter);
+
+		if (mob == nullptr)
+		{
+			continue;
+		}
+
+		sLog.outDebug("Value of mob %d %d", *mob, data.MonsterID);
+
+		if (*mob == data.MonsterID)
+		{
+			//GetAttributesManager()->questSubCls.objData[index].mobsTblidx.erase(iter);
+			mobs->erase(iter);
+			sLog.outDebug("Deleted");
+			break;
+		}
 	}
 
+	sLog.outDebug("In quest sub class %d", GetAttributesManager()->questSubCls.inQuest);
 	if (GetAttributesManager()->questSubCls.inQuest)
 	{
-		if (mobs.size() <= 0)
+		sLog.outDebug("Mobs size %d", mobs->size());
+		if (mobs->size() <= 0)
 		{
 			GetAttributesManager()->questSubCls.inQuest = false;
 			m_session->SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, GetAttributesManager()->questSubCls.objData[index].evtId);
