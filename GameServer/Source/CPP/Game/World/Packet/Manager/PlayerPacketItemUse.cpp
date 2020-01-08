@@ -268,7 +268,7 @@ void Player::HandleItemUse(Packet pPacket)
 
 											QuestData questDat;
 											questDat.QuestID = GetAttributesManager()->questSubCls.curQuestId;
-											if (m_session->FindObjectTriggerInformation(&questDat, req->hTarget, objTblidx) == RESULT_SUCCESS)
+											if (m_session->FindObjectTriggerInformation(questDat.QuestID, &questDat, req->hTarget, objTblidx) == RESULT_SUCCESS)
 											{
 												sGU_ITEM_USE_RES res;
 												res.wOpCode = GU_ITEM_USE_RES;
@@ -309,7 +309,8 @@ void Player::HandleItemUse(Packet pPacket)
 															sLog.outDebug("Item Tblidx %d %d", GetAttributesManager()->QuestDat[i].uEvtData.sCustomEvtCnt[slot].uiCustomEvtID,
 																((WorldObject*)reference->getSource())->GetTblidx());
 
-															if (m_session->FindObjectTriggerInformation(&GetAttributesManager()->QuestDat[i], req->hTarget, objTblidx) == RESULT_SUCCESS)
+															if (m_session->FindObjectTriggerInformation(GetAttributesManager()->QuestDat[i].QuestID,
+																&GetAttributesManager()->QuestDat[i], req->hTarget, objTblidx) == RESULT_SUCCESS)
 															{
 																sGU_ITEM_USE_RES res;
 																res.wOpCode = GU_ITEM_USE_RES;

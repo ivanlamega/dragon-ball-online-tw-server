@@ -204,7 +204,7 @@ public:
 	void			SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, NTL_TS_TA_ID taId);
 	//Trigger
 	void			SendTsExcuteTriggerObject(Packet& packet);
-	ResultCodes		FindObjectTriggerInformation(QuestData* questData, HOBJECT hTarget, TBLIDX objTblidx);
+	ResultCodes		FindObjectTriggerInformation(NTL_TS_T_ID tid, QuestData* questData, HOBJECT hTarget, TBLIDX objTblidx);
 	// PC trigger
 	ResultCodes		FindPCTriggerInformation(sUG_TS_CONFIRM_STEP_REQ* req);
 	// TLQ 1

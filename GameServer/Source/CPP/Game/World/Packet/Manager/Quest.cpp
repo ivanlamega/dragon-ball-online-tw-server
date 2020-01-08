@@ -1286,6 +1286,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 
 							_player->GetAttributesManager()->questSubCls.objData[0].objTblidx = objTblidx1;
 							_player->GetAttributesManager()->questSubCls.objData[0].triggerId = 6005;
+							_player->GetAttributesManager()->questSubCls.objData[0].triggerObject = 6013;
 
 							_player->GetAttributesManager()->questSubCls.objData[1].mobsTblidx.push_back(3411210);
 							_player->GetAttributesManager()->questSubCls.objData[1].mobsTblidx.push_back(3411210);
@@ -3594,10 +3595,10 @@ void WorldSession::SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, 
 	 SendPacket((char*)&info, sizeof(sGU_AVATAR_QUEST_INVENTORY_INFO));
  }
 
-ResultCodes WorldSession::FindObjectTriggerInformation(QuestData* questData, HOBJECT hTarget, TBLIDX objTblidx)
+ResultCodes WorldSession::FindObjectTriggerInformation(NTL_TS_T_ID tid, QuestData* questData, HOBJECT hTarget, TBLIDX objTblidx)
 {
 	NTL_TS_TC_ID nextLink = 0;
-	CNtlTSGroup * groupTS = sTSM.FindObjectFromTS(questData->QuestID)->GetGroup(NTL_TS_MAIN_GROUP_ID);
+	CNtlTSGroup * groupTS = sTSM.FindObjectFromTS(tid)->GetGroup(NTL_TS_MAIN_GROUP_ID);
 	int countSteps = groupTS->GetNumOfChildCont();
 	sLog.outDebug("count %d", countSteps);
 	for (int curEnt = 0; curEnt < countSteps; curEnt++)
@@ -4007,7 +4008,7 @@ void WorldSession::SendTsExcuteTriggerObject(Packet& packet)
 							_player->GetAttributesManager()->questSubCls.objChoseIndex = i;
 							QuestData questData;
 							questData.QuestID = _player->GetAttributesManager()->questSubCls.objData[i].triggerId;
-							FindObjectTriggerInformation(&questData, req->hTarget, objTblidx);
+							FindObjectTriggerInformation(questData.QuestID, &questData, req->hTarget, objTblidx);
 						}
 					}
 				}
@@ -4035,7 +4036,19 @@ void WorldSession::SendTsExcuteTriggerObject(Packet& packet)
 								{
 									sLog.outDebug("Item Tblidx %d %d", _player->GetAttributesManager()->QuestDat[i].uEvtData.sObjectItemCnt[slot].uiItemIdx,
 										((WorldObject*)reference->getSource())->GetTblidx());
-									if (FindObjectTriggerInformation(&_player->GetAttributesManager()->QuestDat[i], req->hTarget, objTblidx) == RESULT_SUCCESS)
+
+									NTL_TS_T_ID objTriggerId = _player->GetAttributesManager()->QuestDat[i].QuestID;
+
+									sLog.outDebug("Quest Id sub Class %d", _player->GetAttributesManager()->questSubCls.curQuestId);
+									if (_player->GetAttributesManager()->questSubCls.curQuestId == _player->GetAttributesManager()->QuestDat[i].QuestID) 
+									{
+										sLog.outDebug("USE Trigger subclass");
+										int index = _player->GetAttributesManager()->questSubCls.objChoseIndex;
+										NTL_TS_T_ID objTriggerId = _player->GetAttributesManager()->QuestDat[i].QuestID =
+											_player->GetAttributesManager()->questSubCls.objData[index].triggerObject;
+									}
+
+									if (FindObjectTriggerInformation(objTriggerId, &_player->GetAttributesManager()->QuestDat[i], req->hTarget, objTblidx) == RESULT_SUCCESS)
 									{
 										sGU_TS_EXCUTE_TRIGGER_OBJECT_RES res;
 										res.wOpCode = GU_TS_EXCUTE_TRIGGER_OBJECT_RES;
