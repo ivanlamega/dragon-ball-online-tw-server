@@ -1271,7 +1271,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 				}
 				_player->GetAttributesManager()->sPawnMobQuest = worldPlayScript->IsStart();
 				sLog.outDebug("Quest: isStart %d script %d", worldPlayScript->IsStart(), worldPlayScript->GetScriptID());
-				// GROW UP ---------------------
+				// SUB CLASS ---------------------
 				if (worldPlayScript->IsStart() && _player->GetWorldTableID() == 800000)// worldPlayScript->GetScriptID() == 6055)
 				{
 					TBLIDX objTblidx1 = INVALID_TBLIDX;
@@ -1372,6 +1372,9 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 							break;
 						}
 					}
+
+					sLog.outDebug("Mobs %d NPCs %d", _player->GetAttributesManager()->questSubCls.objData[1].mobsTblidx.size(),
+						_player->GetAttributesManager()->questSubCls.objData[1].NPCTblidx.size());
 					sOBJECT_TBLDAT* objData = (sOBJECT_TBLDAT*)sTBM.GetObjectTable(_player->GetWorldTableID())->FindData(objTblidx1);
 					if (objData)
 					{
@@ -1396,7 +1399,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 						sLog.outDebug("OBJECT NOT FOUND %d", objTblidx2);
 					}
 				}
-				// GROW UP ---------------------
+				// SUB CLASS ---------------------
 				// TLQ 1 -----------------------
 				if (worldPlayScript->GetScriptID() == 11604)
 				{
@@ -3995,7 +3998,7 @@ void WorldSession::SendTsExcuteTriggerObject(Packet& packet)
 						if (_player->GetAttributesManager()->questSubCls.objData[i].objTblidx == objTblidx)
 						{
 							
-							sLog.outDebug("Item chose %d", objTblidx);
+							sLog.outDebug("Item chose %d mobs %d", objTblidx, _player->GetAttributesManager()->questSubCls.objData[1].mobsTblidx.size());
 							_player->GetAttributesManager()->questSubCls.objChoseIndex = i;
 							QuestData questData;
 							questData.QuestID = _player->GetAttributesManager()->questSubCls.objData[i].triggerId;
