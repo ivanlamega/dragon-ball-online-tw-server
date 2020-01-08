@@ -1241,6 +1241,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 							if (createdItem.tblidx == 98011)
 							{
 								_player->GetAttributesManager()->growUpInfo.inQuest = true;
+								_player->GetAttributesManager()->questSubCls.curQuestId = tid;
 							}
 							if (createdItem.tblidx == 99096)
 							{
@@ -1277,6 +1278,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 					TBLIDX objTblidx1 = INVALID_TBLIDX;
 					TBLIDX objTblidx2 = INVALID_TBLIDX;
 					_player->GetAttributesManager()->questSubCls.inQuest = true;
+					_player->GetAttributesManager()->questSubCls.curQuestId = tid;
 					switch (_player->GetMyClass())
 					{
 						case ePC_CLASS::PC_CLASS_HUMAN_FIGHTER:
