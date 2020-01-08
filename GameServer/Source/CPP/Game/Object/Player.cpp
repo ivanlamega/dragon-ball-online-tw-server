@@ -3880,6 +3880,8 @@ void Player::ConvertAdult(int Adult)
 	SendToPlayerList((char*)&IsAdult, sizeof(sGU_CHILD_ADULT_SWITCHED_NFY));
 	GetPcProfile()->bIsAdult = Adult;
 
+	sql::ResultSet* result = sDB.executes("UPDATE characters SET IsAdult = 1 WHERE CharacterID = '%d';", GetCharacterID());
+
 }
 //Comand
 void Player::SendUpdateSize(int Size)

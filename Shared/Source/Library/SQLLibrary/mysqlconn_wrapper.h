@@ -62,6 +62,7 @@ public:
 	bool CheckIfItemCanGoHere(CHARACTERID CharID, BYTE Place, BYTE Pos);
 	void UpdateItemPosAndPlace(TBLIDX ItemID, BYTE Place, BYTE Pos);
 	void LearnSkill(TBLIDX skillID, CHARACTERID characterID, TBLIDX slotID);
+	void addhtb(TBLIDX htbIdx, CHARACTERID characterID, BYTE slot);
 	void AddItem(TBLIDX itemID, CHARACTERID characterID, int place, int pose, int count, int rank, int durability,int grade, int AtributeType1, int AtributeValue1, int AtributeType2, int AtributeValue2, int AtributeType3, int AtributeValue3, int AtributeType4, int AtributeValue4, int AtributeType5, int AtributeValue5, int AtributeType6, int AtributeValue6);
 	void SaveQuickTeleport(CHARACTERID characterID, BYTE TeleportID, DWORD WorldID, float Loc_x, float Loc_y, float Loc_z, WORD Year, BYTE Moch, BYTE Day, BYTE Hour, BYTE Minute, BYTE Secound, DWORD MapTBLIDX);
 	void AddAucionHouseSell(CHARACTERID characterID, int ItemHandle, char * SellerName, TBLIDX ItemID, DWORD SellAmount, BYTE StackCount, BYTE ItemLevel, BYTE ItemType, BYTE Grade, BYTE ItemRank, int AtributeType1, int AtributeValue1, int AtributeType2, int AtributeValue2, int AtributeType3, int AtributeValue3, int AtributeType4, int AtributeValue4, int AtributeType5, int AtributeValue5, int AtributeType6, int AtributeValue6);

@@ -117,7 +117,7 @@ void AttributesManager::UpdateLevelUpAtributes()
 		//Calculation Physical Critical Atack 
 		WORD BasicPhysicalCritical = 0;
 		WORD LevelDex = pTblData->byDex + static_cast<WORD>(pTblData->fLevel_Up_Dex * 1);
-		float DexByPoint = 0.2; // 1Dex = 1 critical old tw
+		float DexByPoint = 0.5; // 1Dex = 1 critical old tw
 		WORD PhysicalCriticalRate = BasicPhysicalCritical + static_cast<WORD>(LevelDex * DexByPoint);
 
 		plr->GetAttributesManager()->SetLastPhysicalOffence(PhysicalOffence);
@@ -130,7 +130,7 @@ void AttributesManager::UpdateLevelUpAtributes()
 		//Calculation Energy Critical Atack
 		WORD BasicEnergyCritical = 0;
 		WORD LevelFoc = pTblData->byFoc + static_cast<WORD>(pTblData->fLevel_Up_Foc * 1);
-		float FocByPoint = 0.2; // 1Focus = 1 pont critical 
+		float FocByPoint = 0.5; // 1Focus = 1 pont critical 
 		WORD EnergyCriticalRate = BasicEnergyCritical + static_cast<WORD>(LevelFoc * FocByPoint);
 
 		plr->GetAttributesManager()->SetLastEnergyOffence(EnergyOffence);
@@ -389,7 +389,7 @@ bool AttributesManager::LoadAttributeFromDB()
 	PlayerProfile.avatarAttribute.unknown_rate1 = 0;
 	PlayerProfile.avatarAttribute.unknown_rate2 = 0;
 	// SKILL SPEED
-	PlayerProfile.avatarAttribute.SkillSpeed = 75.0f;
+	PlayerProfile.avatarAttribute.SkillSpeed = 80.0f;
 	//LP Get up Reg
 	PlayerProfile.avatarAttribute.wBaseLpRegen = 70;
 	PlayerProfile.avatarAttribute.wLastLpRegen = 70;
@@ -1256,7 +1256,7 @@ void AttributesManager::UpdateExtraAttributesFromItem(sITEM_EFFECT aitemEffect[6
 					}
 					break;
 				}*/
-				/*case ACTIVE_ATTACK_SPEED_UP:
+				case ACTIVE_ATTACK_SPEED_UP:
 				{
 					if (isRemove == true)
 					{
@@ -1300,7 +1300,7 @@ void AttributesManager::UpdateExtraAttributesFromItem(sITEM_EFFECT aitemEffect[6
 						plr->SendToPlayerList((char*)&sAttackSpeed, sizeof(sGU_UPDATE_CHAR_ATTACK_SPEEDRATE));
 					}
 					break;
-				}*/
+				}
 				//Next Case
 
 				}

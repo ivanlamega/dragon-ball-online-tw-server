@@ -42,6 +42,13 @@ void MySQLConnWrapper::LearnSkill(TBLIDX skillID, CHARACTERID characterID, TBLID
 	if (result != NULL)
 		delete result;
 }
+void MySQLConnWrapper::addhtb(TBLIDX htbIdx, CHARACTERID characterID, BYTE slot)
+{
+	sql::ResultSet* result = sDB.executes("INSERT INTO skills (`skill_id`, `owner_id`, `SlotID`, `TimeRemaining`) VALUES('%d','%d','%d','0');",
+		htbIdx, characterID, slot);
+	if (result != NULL)
+		delete result;
+}
 void MySQLConnWrapper::AddItem(TBLIDX itemID, CHARACTERID characterID, int place, int pose, int count, int rank, int durability,int grade, int AtributeType1, int AtributeValue1, int AtributeType2, int AtributeValue2, int AtributeType3, int AtributeValue3, int AtributeType4, int AtributeValue4, int AtributeType5, int AtributeValue5, int AtributeType6, int AtributeValue6)
 {
 	sql::ResultSet* result = sDB.executes("INSERT INTO items (`owner_id`, `tblidx`, `place`, `pos`, `count`, `rank`, `durability`, `grade`, `AtributeType1`, `AtributeValue1`, `AtributeType2`, `AtributeValue2`, `AtributeType3`, `AtributeValue3`, `AtributeType4`, `AtributeValue4`, `AtributeType5`, `AtributeValue5`, `AtributeType6`, `AtributeValue6`) VALUES ('%d','%d','%d','%d','%d','%d','%d','%d','%d','%d','%d','%d','%d','%d','%d','%d','%d','%d','%d','%d');",

@@ -988,7 +988,7 @@ void Player::SkillAcion()
 							GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffSlot = 0;
 						}
 						//Area Buff
-						/*	for (int i = 0; i < skillDataOriginal->byApply_Target_Max; i++)
+							for (int i = 0; i < skillDataOriginal->byApply_Target_Max; i++)
 						{
 						if (ObjectType == OBJTYPE_PC)
 						{
@@ -1049,7 +1049,7 @@ void Player::SkillAcion()
 						PlayerInfo->GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffSlot = 0;
 						}
 						}
-						}*/
+						}
 
 						break;
 					}
