@@ -189,8 +189,8 @@ public:
 	void			SendQuestItemUpdateNfy(BYTE pos, BYTE count);
 	HOBJECT			SpawnMobForQuest(TBLIDX mobTblidx, TBLIDX NPCSpawnTblidx, int index);
 	HOBJECT			SpawnNPCForQuest(TBLIDX NPCTblidx, int index);
-	ResultCodes		GivePlayerQuestReward(TBLIDX tblidx, eREWARD_CONTAINER_TYPE rewardContType, DWORD dwParam);
-	ResultCodes		GivePlayerItemReward(sQUEST_REWARD_TBLDAT* rewardTbl, DWORD dwParam);
+	ResultCodes		GivePlayerQuestReward(TBLIDX tblidx, eREWARD_CONTAINER_TYPE rewardContType, DWORD dwParam, NTL_TS_TC_ID tcId);
+	ResultCodes		GivePlayerItemReward(sQUEST_REWARD_TBLDAT* rewardTbl, DWORD dwParam, NTL_TS_TC_ID tcId);
 	ResultCodes		CheckEvtDataType(CDboTSActSToCEvt* sToCEvt, NTL_TS_TC_ID tcId);
 	// TS Quest
 	ResultCodes		FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req);

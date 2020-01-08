@@ -1942,7 +1942,7 @@ ResultCodes WorldSession::ProcessTsContReward(CDboTSContReward * contReward, DWO
 		}
 	}
 
-	ResultCodes result = GivePlayerQuestReward(contReward->GetRewardTableIndex(), contReward->GetRewardContType(), dwParam);
+	ResultCodes result = GivePlayerQuestReward(contReward->GetRewardTableIndex(), contReward->GetRewardContType(), dwParam, contReward->GetID());
 	if (result == RESULT_FAIL)
 	{
 		return RESULT_FAIL;
@@ -1951,7 +1951,7 @@ ResultCodes WorldSession::ProcessTsContReward(CDboTSContReward * contReward, DWO
 	return RESULT_SUCCESS;
 }
 
-ResultCodes WorldSession::GivePlayerItemReward(sQUEST_REWARD_TBLDAT* rewardTbl, DWORD dwParam)
+ResultCodes WorldSession::GivePlayerItemReward(sQUEST_REWARD_TBLDAT* rewardTbl, DWORD dwParam, NTL_TS_TC_ID tcId)
 {
 	for (int rw = 0; rw < QUEST_REWARD_DEF_MAX_CNT; rw++)
 	{
@@ -1965,31 +1965,36 @@ ResultCodes WorldSession::GivePlayerItemReward(sQUEST_REWARD_TBLDAT* rewardTbl, 
 			case eREWARD_TYPE_SKILL:
 			{
 				sLog.outDebug("eREWARD_TYPE_SKILL");
-				sSKILL_TBLDAT* skillData = (sSKILL_TBLDAT*)sTBM.GetSkillTable()->FindData(rewardTbl->rewardDefData[0].rwdIdx);
-				if (skillData != NULL)
+				sLog.outDebug("Cid %d", tcId);
+				if (tcId != 101)
 				{
-					
-					if (skillData->bySkill_Grade == 1 && skillData->bySkill_Class != eSKILL_CLASS::SKILL_CLASS_HTB && _player->skillManager.isSkillLearned(skillData->tblidx) == false)
+					sSKILL_TBLDAT* skillData = (sSKILL_TBLDAT*)sTBM.GetSkillTable()->FindData(rewardTbl->rewardDefData[0].rwdIdx);
+					if (skillData != NULL)
 					{
-						
-						if (_player->GetMyClass() == _player->GetBaseClass((ePC_CLASS)skillData->byPC_Class_Change))
+
+						if (skillData->bySkill_Grade == 1 && skillData->bySkill_Class != eSKILL_CLASS::SKILL_CLASS_HTB && _player->skillManager.isSkillLearned(skillData->tblidx) == false)
 						{
-							LearnSkill(skillData->tblidx);
-							_player->ChangeClass((ePC_CLASS)skillData->byPC_Class_Change);
-							sLog.outDetail("Learn the skill %d", rewardTbl->rewardDefData[0].rwdIdx);
+
+							if (_player->GetMyClass() == _player->GetBaseClass((ePC_CLASS)skillData->byPC_Class_Change))
+							{
+								LearnSkill(skillData->tblidx);
+								_player->ChangeClass((ePC_CLASS)skillData->byPC_Class_Change);
+								sLog.outDetail("Learn the skill %d", rewardTbl->rewardDefData[0].rwdIdx);
+							}
+
+							// fix sub class reward
+							/*if (skillData->tblidx == 2029991)
+							{
+								_player->ConvertClass(ePC_CLASS::PC_CLASS_KAR_MA, _player->GetHandle());
+							}*/
 						}
-						
-						// fix sub class reward
-						/*if (skillData->tblidx == 2029991)
+						else
 						{
-							_player->ConvertClass(ePC_CLASS::PC_CLASS_KAR_MA, _player->GetHandle());
-						}*/
-					}
-					else
-					{
-						sLog.outDetail("ERROR to skill %d", rewardTbl->rewardDefData[0].rwdIdx);
+							sLog.outDetail("ERROR to skill %d", rewardTbl->rewardDefData[0].rwdIdx);
+						}
 					}
 				}
+				
 				break;
 			}
 			case eREWARD_TYPE_NORMAL_ITEM:
@@ -2165,7 +2170,7 @@ ResultCodes WorldSession::GivePlayerItemReward(sQUEST_REWARD_TBLDAT* rewardTbl, 
 	return RESULT_SUCCESS;
 }
 
-ResultCodes WorldSession::GivePlayerQuestReward(TBLIDX tblidx, eREWARD_CONTAINER_TYPE rewardContType, DWORD dwParam)
+ResultCodes WorldSession::GivePlayerQuestReward(TBLIDX tblidx, eREWARD_CONTAINER_TYPE rewardContType, DWORD dwParam, NTL_TS_TC_ID tcId)
 {
 	if (rewardContType == eREWARD_CONTAINER_TYPE_QUEST)
 	{
@@ -2179,7 +2184,7 @@ ResultCodes WorldSession::GivePlayerQuestReward(TBLIDX tblidx, eREWARD_CONTAINER
 
 		DWORD bonus = 0;
 
-		if (GivePlayerItemReward(rewardTbl, dwParam) != RESULT_SUCCESS)
+		if (GivePlayerItemReward(rewardTbl, dwParam, tcId) != RESULT_SUCCESS)
 		{
 			return RESULT_FAIL;
 		}
