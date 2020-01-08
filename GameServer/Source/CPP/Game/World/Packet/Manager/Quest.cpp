@@ -1455,7 +1455,8 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 					if (tid == 6062)
 					{
 						Timer.setTimeout([&]() {
-							SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, 427);
+							int index = _player->GetAttributesManager()->questSubCls.objChoseIndex;
+							SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, _player->GetAttributesManager()->questSubCls.objData[index].evtId);
 							}, timerS->GetTime());
 					}
 					// SUBCLASS
@@ -1635,6 +1636,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 								std::vector<TBLIDX> mobs = _player->GetAttributesManager()->questSubCls.objData[index].mobsTblidx;
 								std::vector<TBLIDX> NPCs = _player->GetAttributesManager()->questSubCls.objData[index].NPCTblidx;
 								sLog.outDebug("----------SPAWN MOBS FOR SUB CLASS HERE-----------------");
+								sLog.outDebug("mobs %d npcs %d", mobs.size(), NPCs.size());
 								for (std::vector<TBLIDX>::size_type i = 0; i != mobs.size(); i++)
 								{
 									SpawnMobByTblidx(mobs[i]);
