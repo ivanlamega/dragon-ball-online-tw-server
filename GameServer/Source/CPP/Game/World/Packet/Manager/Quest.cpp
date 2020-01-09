@@ -1286,10 +1286,19 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 							objTblidx1 = 2;
 							objTblidx2 = 3;
 
+							_player->GetAttributesManager()->questSubCls.objData[0].mobsTblidx.push_back(8471110);
+							_player->GetAttributesManager()->questSubCls.objData[0].mobsTblidx.push_back(8471110);
+							_player->GetAttributesManager()->questSubCls.objData[0].mobsTblidx.push_back(8471110);
+							_player->GetAttributesManager()->questSubCls.objData[0].mobsTblidx.push_back(8471110);
+							_player->GetAttributesManager()->questSubCls.objData[0].mobsTblidx.push_back(3604104);
+
+							_player->GetAttributesManager()->questSubCls.objData[0].NPCTblidx.push_back(2804129);
+
 							_player->GetAttributesManager()->questSubCls.objData[0].objTblidx = objTblidx1;
 							_player->GetAttributesManager()->questSubCls.objData[0].triggerId = 6005;
 							_player->GetAttributesManager()->questSubCls.objData[0].triggerObject = 6013;
 							_player->GetAttributesManager()->questSubCls.objData[0].specificQuestId = 6007;
+							_player->GetAttributesManager()->questSubCls.objData[0].evtId = 417;
 
 							_player->GetAttributesManager()->questSubCls.objData[1].mobsTblidx.push_back(3411210);
 							_player->GetAttributesManager()->questSubCls.objData[1].mobsTblidx.push_back(3411210);
@@ -3764,7 +3773,16 @@ ResultCodes WorldSession::FindObjectTriggerInformation(NTL_TS_T_ID tid, QuestDat
 									if (questData->uEvtData.sCustomEvtCnt[i].uiCustomEvtID == customEvt->GetCustomEvtID())
 									{
 										questData->uEvtData.sCustomEvtCnt[i].nCurCnt += 1;
-										SendQuestItemCreate(0, questData->uEvtData.sCustomEvtCnt[i].uiCustomEvtID, 1);
+										// Cambiar esto por el inventario de item de quest
+										if (questData->uEvtData.sCustomEvtCnt[i].nCurCnt <= 1)
+										{
+											SendQuestItemCreate(0, questData->uEvtData.sCustomEvtCnt[i].uiCustomEvtID, 1);
+										}
+										else
+										{
+											SendQuestItemUpdateNfy(0, questData->uEvtData.sCustomEvtCnt[i].nCurCnt);
+										}
+										
 										SendQuestSVRevtUpdateNotify(questData->QuestID,
 											questData->tcId,
 											questData->taId,
@@ -3810,7 +3828,15 @@ ResultCodes WorldSession::FindObjectTriggerInformation(NTL_TS_T_ID tid, QuestDat
 									{
 										questData->uEvtData.sObjectItemCnt[slot].nCurItemCnt += qItem->GetQItemInfo(slot).nQItemCnt;
 
-										SendQuestItemCreate(0, questData->uEvtData.sObjectItemCnt[slot].uiItemIdx, qItem->GetQItemInfo(slot).nQItemCnt);
+										if (questData->uEvtData.sObjectItemCnt[slot].nCurItemCnt <= 1)
+										{
+											SendQuestItemCreate(0, questData->uEvtData.sObjectItemCnt[slot].uiItemIdx, qItem->GetQItemInfo(slot).nQItemCnt);
+										}
+										else
+										{
+											SendQuestItemUpdateNfy(0, questData->uEvtData.sObjectItemCnt[slot].nCurItemCnt);
+										}
+										
 
 										SendQuestSVRevtUpdateNotify(questData->QuestID,
 											questData->tcId,
@@ -4042,14 +4068,15 @@ void WorldSession::SendTsExcuteTriggerObject(Packet& packet)
 
 									NTL_TS_T_ID objTriggerId = _player->GetAttributesManager()->QuestDat[i].QuestID;
 
-									sLog.outDebug("Quest Id sub Class %d", _player->GetAttributesManager()->questSubCls.curQuestId);
+									
 									int indexClass = _player->GetAttributesManager()->questSubCls.objChoseIndex;
+									sLog.outDebug("Quest Id sub Class %d", _player->GetAttributesManager()->questSubCls.objData[indexClass].specificQuestId);
 									if (_player->GetAttributesManager()->questSubCls.objData[indexClass].specificQuestId == _player->GetAttributesManager()->QuestDat[i].QuestID) 
 									{
 										sLog.outDebug("USE Trigger subclass");
 										int index = _player->GetAttributesManager()->questSubCls.objChoseIndex;
-										NTL_TS_T_ID objTriggerId = _player->GetAttributesManager()->QuestDat[i].QuestID =
-											_player->GetAttributesManager()->questSubCls.objData[index].triggerObject;
+										objTriggerId = _player->GetAttributesManager()->questSubCls.objData[index].triggerObject;
+										sLog.outDebug("Ts Trigger %d", objTriggerId);
 									}
 
 									if (FindObjectTriggerInformation(objTriggerId, &_player->GetAttributesManager()->QuestDat[i], req->hTarget, objTblidx) == RESULT_SUCCESS)

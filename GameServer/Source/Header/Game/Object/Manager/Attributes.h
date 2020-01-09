@@ -62,9 +62,9 @@ public:
 	struct ObjectDataQuest
 	{
 		TBLIDX				objTblidx;
-		NTL_TS_TC_ID		specificQuestId;
-		NTL_TS_TC_ID		triggerObject;
-		int					triggerId;
+		NTL_TS_T_ID			specificQuestId;
+		NTL_TS_T_ID			triggerObject;
+		NTL_TS_T_ID			triggerId;
 		int					evtId;
 		std::vector<TBLIDX> mobsTblidx;
 		std::vector<TBLIDX> NPCTblidx;
