@@ -1375,13 +1375,20 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 							objTblidx2 = 9;
 
 							// Dende
+							_player->GetAttributesManager()->questSubCls.objData[0].mobsTblidx.push_back(4883104);
+							_player->GetAttributesManager()->questSubCls.objData[0].NPCTblidx.push_back(4751109);
+
 							_player->GetAttributesManager()->questSubCls.objData[0].objTblidx = objTblidx1;
 							_player->GetAttributesManager()->questSubCls.objData[0].triggerId = 6007;
 
 							
 							// Poco priest
+							_player->GetAttributesManager()->questSubCls.objData[1].mobsTblidx.push_back(6651207);
+							_player->GetAttributesManager()->questSubCls.objData[1].NPCTblidx.push_back(4751408);
+
 							_player->GetAttributesManager()->questSubCls.objData[1].objTblidx = objTblidx2;
 							_player->GetAttributesManager()->questSubCls.objData[1].triggerId = 6008;
+							_player->GetAttributesManager()->questSubCls.objData[1].evtId = 423;
 							sLog.outDebug("PC_CLASS_NAMEK_MYSTIC");
 							break;
 						}
@@ -1390,12 +1397,20 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 							objTblidx1 = 10;
 							objTblidx2 = 11;
 							// Majin cheff
+							_player->GetAttributesManager()->questSubCls.objData[0].mobsTblidx.push_back(8112122);
+							_player->GetAttributesManager()->questSubCls.objData[0].NPCTblidx.push_back(4151110);
+
 							_player->GetAttributesManager()->questSubCls.objData[0].objTblidx = objTblidx1;
 							_player->GetAttributesManager()->questSubCls.objData[0].triggerId = 6010;
+							_player->GetAttributesManager()->questSubCls.objData[0].evtId = 425;
 
 							// Majin ultimate
+							_player->GetAttributesManager()->questSubCls.objData[1].mobsTblidx.push_back(8511113);
+							_player->GetAttributesManager()->questSubCls.objData[1].NPCTblidx.push_back(4141114);
+
 							_player->GetAttributesManager()->questSubCls.objData[1].objTblidx = objTblidx2;
 							_player->GetAttributesManager()->questSubCls.objData[1].triggerId = 6009;
+							_player->GetAttributesManager()->questSubCls.objData[1].evtId = 424;
 							sLog.outDebug("PC_CLASS_MIGHTY_MAJIN");
 							break;
 						}
@@ -1410,11 +1425,15 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 							_player->GetAttributesManager()->questSubCls.objData[0].NPCTblidx.push_back(4261113);
 							_player->GetAttributesManager()->questSubCls.objData[0].objTblidx = objTblidx1;
 							_player->GetAttributesManager()->questSubCls.objData[0].triggerId = 6012;
+							_player->GetAttributesManager()->questSubCls.objData[0].evtId = 427;
 
 							// Majin plasma
+							_player->GetAttributesManager()->questSubCls.objData[1].mobsTblidx.push_back(2671101);
+							_player->GetAttributesManager()->questSubCls.objData[1].NPCTblidx.push_back(4371315);
+
 							_player->GetAttributesManager()->questSubCls.objData[1].objTblidx = objTblidx2;
 							_player->GetAttributesManager()->questSubCls.objData[1].triggerId = 6011;
-							_player->GetAttributesManager()->questSubCls.objData[1].evtId = 427;
+							
 							//SendTObjectUpdateState();
 							sLog.outDebug("PC_CLASS_WONDER_MAJIN");
 							break;
