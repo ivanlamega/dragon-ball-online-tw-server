@@ -1360,8 +1360,12 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 							_player->GetAttributesManager()->questSubCls.objData[0].evtId = 420;
 
 							// shadow knight
+							_player->GetAttributesManager()->questSubCls.objData[0].mobsTblidx.push_back(5873104);
+							_player->GetAttributesManager()->questSubCls.objData[0].NPCTblidx.push_back(4511609);
+
 							_player->GetAttributesManager()->questSubCls.objData[1].objTblidx = objTblidx2;
 							_player->GetAttributesManager()->questSubCls.objData[1].triggerId = 6004;
+							_player->GetAttributesManager()->questSubCls.objData[1].evtId = 421;
 							sLog.outDebug("PC_CLASS_NAMEK_FIGHTER");
 							break;
 						}
