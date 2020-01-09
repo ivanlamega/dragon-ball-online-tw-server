@@ -62,6 +62,7 @@ public:
 	struct ObjectDataQuest
 	{
 		TBLIDX				objTblidx;
+		NTL_TS_TC_ID		specificQuestId;
 		NTL_TS_TC_ID		triggerObject;
 		int					triggerId;
 		int					evtId;

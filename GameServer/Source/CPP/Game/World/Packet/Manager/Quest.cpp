@@ -1289,6 +1289,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 							_player->GetAttributesManager()->questSubCls.objData[0].objTblidx = objTblidx1;
 							_player->GetAttributesManager()->questSubCls.objData[0].triggerId = 6005;
 							_player->GetAttributesManager()->questSubCls.objData[0].triggerObject = 6013;
+							_player->GetAttributesManager()->questSubCls.objData[0].specificQuestId = 6007;
 
 							_player->GetAttributesManager()->questSubCls.objData[1].mobsTblidx.push_back(3411210);
 							_player->GetAttributesManager()->questSubCls.objData[1].mobsTblidx.push_back(3411210);
@@ -4042,7 +4043,8 @@ void WorldSession::SendTsExcuteTriggerObject(Packet& packet)
 									NTL_TS_T_ID objTriggerId = _player->GetAttributesManager()->QuestDat[i].QuestID;
 
 									sLog.outDebug("Quest Id sub Class %d", _player->GetAttributesManager()->questSubCls.curQuestId);
-									if (_player->GetAttributesManager()->questSubCls.curQuestId == _player->GetAttributesManager()->QuestDat[i].QuestID) 
+									int indexClass = _player->GetAttributesManager()->questSubCls.objChoseIndex;
+									if (_player->GetAttributesManager()->questSubCls.objData[indexClass].specificQuestId == _player->GetAttributesManager()->QuestDat[i].QuestID) 
 									{
 										sLog.outDebug("USE Trigger subclass");
 										int index = _player->GetAttributesManager()->questSubCls.objChoseIndex;
