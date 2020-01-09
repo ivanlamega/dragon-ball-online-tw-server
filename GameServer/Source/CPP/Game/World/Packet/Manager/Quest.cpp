@@ -1352,8 +1352,12 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 							objTblidx2 = 7;
 
 							// Dark warrior
+							_player->GetAttributesManager()->questSubCls.objData[0].mobsTblidx.push_back(4511411);
+							_player->GetAttributesManager()->questSubCls.objData[0].NPCTblidx.push_back(5791104);
+
 							_player->GetAttributesManager()->questSubCls.objData[0].objTblidx = objTblidx1;
 							_player->GetAttributesManager()->questSubCls.objData[0].triggerId = 6006;
+							_player->GetAttributesManager()->questSubCls.objData[0].evtId = 420;
 
 							// shadow knight
 							_player->GetAttributesManager()->questSubCls.objData[1].objTblidx = objTblidx2;

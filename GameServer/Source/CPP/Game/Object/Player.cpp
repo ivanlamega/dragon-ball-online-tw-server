@@ -3127,7 +3127,18 @@ void Player::RewardDropFromMob(MonsterData& data)
 									sLog.outDebug("Count Quest Mob");
 									GetAttributesManager()->KillerCount += 1;
 									GetAttributesManager()->QuestDat[i].uEvtData.sMobKillItemCnt[slot].nCurMobLICnt += 1;
-									m_session->SendQuestItemCreate(0, drop->aQuestItemTblidx[itemIndex], 1);
+
+									if (GetAttributesManager()->QuestDat[i].uEvtData.sMobKillItemCnt[slot].nCurMobLICnt <= 1)
+									{
+										m_session->SendQuestItemCreate(0, drop->aQuestItemTblidx[itemIndex], 1);
+									}
+									else 
+									{
+										m_session->SendQuestItemUpdateNfy(0, GetAttributesManager()->QuestDat[i].uEvtData.sMobKillItemCnt[slot].nCurMobLICnt);
+									}
+									
+
+
 									m_session->SendQuestSVRevtUpdateNotify(GetAttributesManager()->QuestDat[i].QuestID,
 										GetAttributesManager()->QuestDat[i].tcId,
 										GetAttributesManager()->QuestDat[i].taId,
