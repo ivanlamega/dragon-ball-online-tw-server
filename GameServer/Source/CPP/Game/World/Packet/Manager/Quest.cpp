@@ -1318,8 +1318,13 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 						{
 							objTblidx1 = 4;
 							objTblidx2 = 5;
+
+							_player->GetAttributesManager()->questSubCls.objData[0].mobsTblidx.push_back(4311110);
+							_player->GetAttributesManager()->questSubCls.objData[0].NPCTblidx.push_back(3332303);
+
 							_player->GetAttributesManager()->questSubCls.objData[0].objTblidx = objTblidx1;
 							_player->GetAttributesManager()->questSubCls.objData[0].triggerId = 6002;
+							_player->GetAttributesManager()->questSubCls.objData[0].evtId = 419;
 
 							_player->GetAttributesManager()->questSubCls.objData[1].objTblidx = objTblidx2;
 							_player->GetAttributesManager()->questSubCls.objData[1].triggerId = 6003;
