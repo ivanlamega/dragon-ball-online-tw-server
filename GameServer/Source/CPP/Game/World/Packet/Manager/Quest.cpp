@@ -1286,6 +1286,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 							objTblidx1 = 2;
 							objTblidx2 = 3;
 
+							// Swordman
 							_player->GetAttributesManager()->questSubCls.objData[0].mobsTblidx.push_back(8471110);
 							_player->GetAttributesManager()->questSubCls.objData[0].mobsTblidx.push_back(8471110);
 							_player->GetAttributesManager()->questSubCls.objData[0].mobsTblidx.push_back(8471110);
@@ -1300,6 +1301,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 							_player->GetAttributesManager()->questSubCls.objData[0].specificQuestId = 6007;
 							_player->GetAttributesManager()->questSubCls.objData[0].evtId = 417;
 
+							// Figther
 							_player->GetAttributesManager()->questSubCls.objData[1].mobsTblidx.push_back(3411210);
 							_player->GetAttributesManager()->questSubCls.objData[1].mobsTblidx.push_back(3411210);
 							_player->GetAttributesManager()->questSubCls.objData[1].mobsTblidx.push_back(8411110);
@@ -1319,6 +1321,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 							objTblidx1 = 4;
 							objTblidx2 = 5;
 
+							// Crane
 							_player->GetAttributesManager()->questSubCls.objData[0].mobsTblidx.push_back(4311110);
 							_player->GetAttributesManager()->questSubCls.objData[0].NPCTblidx.push_back(3332303);
 
@@ -1326,8 +1329,14 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 							_player->GetAttributesManager()->questSubCls.objData[0].triggerId = 6002;
 							_player->GetAttributesManager()->questSubCls.objData[0].evtId = 419;
 
+							// Turtle
+							_player->GetAttributesManager()->questSubCls.objData[1].mobsTblidx.push_back(5761110);
+							_player->GetAttributesManager()->questSubCls.objData[1].NPCTblidx.push_back(3181304);
+
 							_player->GetAttributesManager()->questSubCls.objData[1].objTblidx = objTblidx2;
 							_player->GetAttributesManager()->questSubCls.objData[1].triggerId = 6003;
+							_player->GetAttributesManager()->questSubCls.objData[1].triggerObject = 6017;
+							_player->GetAttributesManager()->questSubCls.objData[1].specificQuestId = 6021;
 							sLog.outDebug("PC_CLASS_HUMAN_MYSTIC");
 							break;
 						}
@@ -1340,9 +1349,12 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 						{
 							objTblidx1 = 6;
 							objTblidx2 = 7;
+
+							// Dark warrior
 							_player->GetAttributesManager()->questSubCls.objData[0].objTblidx = objTblidx1;
 							_player->GetAttributesManager()->questSubCls.objData[0].triggerId = 6006;
 
+							// shadow knight
 							_player->GetAttributesManager()->questSubCls.objData[1].objTblidx = objTblidx2;
 							_player->GetAttributesManager()->questSubCls.objData[1].triggerId = 6004;
 							sLog.outDebug("PC_CLASS_NAMEK_FIGHTER");
@@ -1352,9 +1364,13 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 						{
 							objTblidx1 = 8;
 							objTblidx2 = 9;
+
+							// Dende
 							_player->GetAttributesManager()->questSubCls.objData[0].objTblidx = objTblidx1;
 							_player->GetAttributesManager()->questSubCls.objData[0].triggerId = 6007;
 
+							
+							// Poco priest
 							_player->GetAttributesManager()->questSubCls.objData[1].objTblidx = objTblidx2;
 							_player->GetAttributesManager()->questSubCls.objData[1].triggerId = 6008;
 							sLog.outDebug("PC_CLASS_NAMEK_MYSTIC");
@@ -1364,9 +1380,11 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 						{
 							objTblidx1 = 10;
 							objTblidx2 = 11;
+							// Majin cheff
 							_player->GetAttributesManager()->questSubCls.objData[0].objTblidx = objTblidx1;
 							_player->GetAttributesManager()->questSubCls.objData[0].triggerId = 6010;
 
+							// Majin ultimate
 							_player->GetAttributesManager()->questSubCls.objData[1].objTblidx = objTblidx2;
 							_player->GetAttributesManager()->questSubCls.objData[1].triggerId = 6009;
 							sLog.outDebug("PC_CLASS_MIGHTY_MAJIN");
@@ -1376,12 +1394,15 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 						{
 							objTblidx1 = 12;
 							objTblidx2 = 13;
+
+							// Majin Karma
 							_player->GetAttributesManager()->questSubCls.objData[0].mobsTblidx.push_back(4131104);
 							_player->GetAttributesManager()->questSubCls.objData[0].mobsTblidx.push_back(4131104);
 							_player->GetAttributesManager()->questSubCls.objData[0].NPCTblidx.push_back(4261113);
 							_player->GetAttributesManager()->questSubCls.objData[0].objTblidx = objTblidx1;
 							_player->GetAttributesManager()->questSubCls.objData[0].triggerId = 6012;
 
+							// Majin plasma
 							_player->GetAttributesManager()->questSubCls.objData[1].objTblidx = objTblidx2;
 							_player->GetAttributesManager()->questSubCls.objData[1].triggerId = 6011;
 							_player->GetAttributesManager()->questSubCls.objData[1].evtId = 427;
