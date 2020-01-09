@@ -1337,6 +1337,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 							_player->GetAttributesManager()->questSubCls.objData[1].triggerId = 6003;
 							_player->GetAttributesManager()->questSubCls.objData[1].triggerObject = 6017;
 							_player->GetAttributesManager()->questSubCls.objData[1].specificQuestId = 6021;
+							_player->GetAttributesManager()->questSubCls.objData[1].evtId = 418;
 							sLog.outDebug("PC_CLASS_HUMAN_MYSTIC");
 							break;
 						}
