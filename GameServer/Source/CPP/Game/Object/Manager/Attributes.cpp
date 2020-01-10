@@ -1256,7 +1256,7 @@ void AttributesManager::UpdateExtraAttributesFromItem(sITEM_EFFECT aitemEffect[6
 					}
 					break;
 				}*/
-				case ACTIVE_ATTACK_SPEED_UP:
+				/*case ACTIVE_ATTACK_SPEED_UP:
 				{
 					if (isRemove == true)
 					{
@@ -1300,7 +1300,7 @@ void AttributesManager::UpdateExtraAttributesFromItem(sITEM_EFFECT aitemEffect[6
 						plr->SendToPlayerList((char*)&sAttackSpeed, sizeof(sGU_UPDATE_CHAR_ATTACK_SPEEDRATE));
 					}
 					break;
-				}
+				}*/
 				//Next Case
 
 				}
