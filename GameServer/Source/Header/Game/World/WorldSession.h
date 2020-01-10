@@ -177,6 +177,7 @@ public:
 	void			SendQuestCompleteInfo();
 	void			SendQuestProgressInfo();
 	void			SendQuestInventoryInfo();
+	void			SendQuestForcedCompletionNfy(NTL_TS_T_ID tid);
 	void			SendTSUpdateEventNfy(BYTE byTsType, NTL_TS_EVENT_ID evtId);
 	void			SendCharDirectPlay(bool bSynchronize, BYTE byPlayMode, TBLIDX directTblidx);
 	void			SendTObjectUpdateState(HOBJECT handle, TBLIDX objTblidx, BYTE state, BYTE substate, DWORD stateTime);
