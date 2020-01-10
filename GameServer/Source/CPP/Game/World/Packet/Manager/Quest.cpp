@@ -577,9 +577,9 @@ void WorldSession::GetQuestInfo(DWORD QuestID, DWORD tcCurId, DWORD tcNextId)
 		_player->GetAttributesManager()->QuestDat[freeslot].count = 0;
 		_player->GetAttributesManager()->QuestDat[freeslot].Maxcount = 3;
 	}	*/
-	if (QuestID == 3 || QuestID == 1925)
+	/*if (QuestID == 3 || QuestID == 1925)
 	{			
-		/*sGU_CHAR_TELEPORT_RES Teleport;
+		sGU_CHAR_TELEPORT_RES Teleport;
 		memset(&Teleport, 0, sizeof(sGU_CHAR_TELEPORT_RES));
 		Teleport.wOpCode = GU_CHAR_TELEPORT_RES;
 		Teleport.wPacketSize = sizeof(sGU_CHAR_TELEPORT_RES) - 2;
@@ -598,8 +598,8 @@ void WorldSession::GetQuestInfo(DWORD QuestID, DWORD tcCurId, DWORD tcNextId)
 		_player->SetWorldTableID(1);
 		_player->GetState()->sCharStateDetail.sCharStateTeleporting.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_NPC_PORTAL;
 		_player->SetState(eCHARSTATE::CHARSTATE_TELEPORTING);
-		SendPacket((char*)&Teleport, sizeof(sGU_CHAR_TELEPORT_RES));	*/		
-	}
+		SendPacket((char*)&Teleport, sizeof(sGU_CHAR_TELEPORT_RES));		
+	}*/	
 	/*if (QuestID == 4)
 	{
 		for (int i = 0; i <= 30; i++)
@@ -707,8 +707,6 @@ void WorldSession::SendQuestAcept(Packet& packet)
 
 	if (req)
 	{
-
-
 		QuestRewardTable * dat = sTBM.GetQuestRewardTable();
 		sLog.outDebug("Event type: %u, TS Type: %u, DWData %d, DWParam: %d, tid: %u, CurID: %u, NextID: %u", req->byEventType, req->byTsType, req->dwEventData, req->dwParam, req->tId, req->tcCurId, req->tcNextId);
 		res.byTsType = req->byTsType;
@@ -1433,6 +1431,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 
 							_player->GetAttributesManager()->questSubCls.objData[1].objTblidx = objTblidx2;
 							_player->GetAttributesManager()->questSubCls.objData[1].triggerId = 6011;
+							_player->GetAttributesManager()->questSubCls.objData[0].evtId = 426;
 							
 							//SendTObjectUpdateState();
 							sLog.outDebug("PC_CLASS_WONDER_MAJIN");
@@ -1542,89 +1541,6 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 					if (avatarDead->GetStart())
 					{
 
-						// mejorar
-						/*TBLIDX worldTblidx = sTBM.GetWorldTable()->FindWorldByLink(tid);
-						if (worldTblidx != INVALID_TBLIDX)
-						{
-							sGU_CHAR_TELEPORT_RES teleport;
-
-							sWORLD_TBLDAT* worldData = (sWORLD_TBLDAT*)sTBM.GetWorldTable()->FindData(worldTblidx);
-							if (worldData)
-							{*/
-
-								/*_player->GetAttributesManager()->teleportInfo.outWorld.position.x = worldData->outWorldLoc.x;
-								_player->GetAttributesManager()->teleportInfo.outWorld.position.y = worldData->outWorldLoc.y;
-								_player->GetAttributesManager()->teleportInfo.outWorld.position.z = worldData->outWorldLoc.z;
-
-								_player->GetAttributesManager()->teleportInfo.outWorld.rotation.x = worldData->outWorldDir.x;
-								_player->GetAttributesManager()->teleportInfo.outWorld.rotation.y = worldData->outWorldDir.y;
-								_player->GetAttributesManager()->teleportInfo.outWorld.rotation.z = worldData->outWorldDir.z;
-								_player->GetAttributesManager()->teleportInfo.outWorld.worldTblidx = worldData->outWorldTblidx;
-
-								sLog.outDebug("Sub Class out WORLD %d (%f %f %f)",
-									_player->GetAttributesManager()->teleportInfo.outWorld.worldTblidx,
-									_player->GetAttributesManager()->teleportInfo.outWorld.position.x,
-									_player->GetAttributesManager()->teleportInfo.outWorld.position.y,
-									_player->GetAttributesManager()->teleportInfo.outWorld.position.z);*/
-
-
-								/*_player->GetAttributesManager()->teleportInfo.position.x = worldData->vStart1Loc.x;
-								_player->GetAttributesManager()->teleportInfo.position.y = worldData->vStart1Loc.y;
-								_player->GetAttributesManager()->teleportInfo.position.z = worldData->vStart1Loc.z;
-
-								_player->GetAttributesManager()->teleportInfo.rotation.x = worldData->vStart1Dir.x;
-								_player->GetAttributesManager()->teleportInfo.rotation.y = worldData->vStart1Dir.y;
-								_player->GetAttributesManager()->teleportInfo.rotation.z = worldData->vStart1Dir.z;
-
-								_player->GetAttributesManager()->teleportInfo.bIsToMoveAnotherServer = false;
-								_player->GetAttributesManager()->teleportInfo.worldInfo.worldID = worldData->tblidx;
-								_player->GetAttributesManager()->teleportInfo.worldInfo.tblidx = worldData->tblidx;
-								_player->GetAttributesManager()->teleportInfo.worldInfo.hTriggerObjectOffset = HANDLE_TRIGGER_OBJECT_OFFSET;
-								_player->GetAttributesManager()->teleportInfo.worldInfo.sRuleInfo.byRuleType = worldData->byWorldRuleType;
-
-								sLog.outDebug("Teleport: pos %f %f %f rot %f %f %f worldtblidx %d type %d ruleType %d", _player->GetAttributesManager()->teleportInfo.position.x,
-									_player->GetAttributesManager()->teleportInfo.position.y,
-									_player->GetAttributesManager()->teleportInfo.position.z,
-									_player->GetAttributesManager()->teleportInfo.rotation.x,
-									_player->GetAttributesManager()->teleportInfo.rotation.y,
-									_player->GetAttributesManager()->teleportInfo.rotation.z,
-									worldData->tblidx,
-									-1,
-									worldData->byWorldRuleType);
-								SendUpdateCharCondition(80);
-								_player->GetState()->sCharStateDetail.sCharStateDespawning.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_TIMEQUEST;
-								_player->SetState(eCHARSTATE::CHARSTATE_DESPAWNING);*/
-								/*teleport.wResultCode = GAME_SUCCESS;
-								teleport.wOpCode = GU_CHAR_TELEPORT_RES;
-								teleport.wPacketSize = sizeof(sGU_CHAR_TELEPORT_RES) - 2;
-
-								teleport.bIsToMoveAnotherServer = false;
-								teleport.sWorldInfo.worldID = world->tblidx;
-								teleport.sWorldInfo.tblidx = world->tblidx;
-								teleport.sWorldInfo.sRuleInfo.byRuleType = world->byWorldRuleType;
-								_player->GetState()->sCharStateDetail.sCharStateTeleporting.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_TIMEQUEST;
-								teleport.vNewLoc.x = world->vStart1Loc.x;
-								teleport.vNewLoc.y = world->vStart1Loc.y;
-								teleport.vNewLoc.z = world->vStart1Loc.z;
-								teleport.vNewDir.x = world->vStart1Dir.x;
-								teleport.vNewDir.y = world->vStart1Dir.y;
-								teleport.vNewDir.z = world->vStart1Dir.z;
-
-
-
-								_player->SetState(eCHARSTATE::CHARSTATE_TELEPORTING);
-
-
-								_player->SetWorldID(world->tblidx);
-								_player->SetWorldTableID(world->tblidx);
-								_player->Relocate(teleport.vNewLoc.x, teleport.vNewLoc.y, teleport.vNewLoc.z, teleport.vNewDir.x, teleport.vNewDir.y, teleport.vNewDir.z);
-
-								SendPacket((char*)&teleport, sizeof(sGU_CHAR_TELEPORT_RES));
-								Map* map = _player->GetMap();
-								map->Remove(_player, false);
-								_player->ClearListAndReference();
-							//}
-						//}*/
 					}
 				}
 				break;
@@ -1766,6 +1682,25 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 						}
 						break;
 					}
+				}
+				break;
+			}
+			case DBO_ACT_TYPE_ID_ACT_QITEM:
+			{
+				CDboTSActQItem* qItem = ((CDboTSActQItem*)contGAct->GetChildEntity(i));
+				if (qItem)
+				{
+					for (int slot = 0; slot < qItem->eMAX_TS_QITEM_COUNT; slot++)
+					{
+						sLog.outDebug("Type %d Itemidx %d count %d probability %f", qItem->GetQItemType(),
+							qItem->GetQItemInfo(slot).uiQItemIdx, qItem->GetQItemInfo(slot).nQItemCnt, qItem->GetQItemInfo(slot).fProbability);
+						if (qItem->GetQItemInfo(slot).uiQItemIdx != INVALID_TBLIDX)
+						{
+							SendQuestItemCreate(0, qItem->GetQItemInfo(slot).uiQItemIdx, qItem->GetQItemInfo(slot).nQItemCnt);
+						}
+
+					}
+					break;
 				}
 				break;
 			}
