@@ -2090,10 +2090,15 @@ ResultCodes WorldSession::GivePlayerItemReward(sQUEST_REWARD_TBLDAT* rewardTbl, 
 						}
 						case eREWARD_TYPE_SKILL:
 						{
+							sLog.outDebug("eREWARD_TYPE_SKILL");
 							sSKILL_TBLDAT* skillData = (sSKILL_TBLDAT*)sTBM.GetSkillTable()->FindData(rewardSelect1->rewardData[itRw].itemTblidx);
 							if (skillData != NULL)
 							{
-								if (_player->GetClassFlag(_player->GetMyClass(), ITEM_TYPE_UNKNOWN) == skillData->dwPC_Class_Bit_Flag)
+								DWORD myFlag;
+								myFlag = MAKE_BIT_FLAG(static_cast<int>(_player->GetBaseClass(_player->GetMyClass())));
+								sLog.outDetail("My flag: %d flag need %d my class: %d is same %d",
+									myFlag, skillData->dwPC_Class_Bit_Flag, _player->GetBaseClass(_player->GetMyClass()), (myFlag & skillData->dwPC_Class_Bit_Flag));
+								if (myFlag & skillData->dwPC_Class_Bit_Flag)// (_player->GetClassFlag(_player->GetMyClass(), ITEM_TYPE_UNKNOWN) == skillData->dwPC_Class_Bit_Flag)
 								{
 									if (skillData->bySkill_Grade == 1 && skillData->bySkill_Class != eSKILL_CLASS::SKILL_CLASS_HTB && _player->skillManager.isSkillLearned(skillData->tblidx) == false)
 									{
@@ -2102,12 +2107,13 @@ ResultCodes WorldSession::GivePlayerItemReward(sQUEST_REWARD_TBLDAT* rewardTbl, 
 									}
 									else
 									{
-										sLog.outDetail("ERROR to skill 1 \n");
+										sLog.outDetail("ERROR to skill 1 %d", skillData->tblidx);
 									}
 								}
 								else
 								{
-									sLog.outDetail("ERROR to skill 1 \n");
+									sLog.outDetail("ERROR to skill 2 %d %d %d %d", 
+										skillData->tblidx, skillData->dwPC_Class_Bit_Flag, _player->GetBaseClass(_player->GetMyClass()), _player->GetClassFlag(_player->GetMyClass(), ITEM_TYPE_UNKNOWN));
 								}
 							}
 							break;
