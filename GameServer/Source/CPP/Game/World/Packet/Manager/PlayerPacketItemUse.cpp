@@ -212,6 +212,27 @@ void Player::HandleItemUse(Packet pPacket)
 						{
 							break;
 						}
+						case eSYSTEM_EFFECT_CODE::ACTIVE_AIR_MOVE:
+						{
+							sGU_BUFF_REGISTERED pBuffData;
+							memset(&pBuffData, 0, sizeof(sGU_BUFF_REGISTERED));
+							//memset(&pBuffData, INVALID_TBLIDX, sizeof(sGU_BUFF_REGISTERED));
+							pBuffData.wOpCode = GU_BUFF_REGISTERED;
+							pBuffData.wPacketSize = sizeof(sGU_BUFF_REGISTERED) - 2;
+							pBuffData.tblidx = UseItemData->tblidx;
+							pBuffData.hHandle = GetHandle();
+							pBuffData.Slot = Item->byPlace;
+							pBuffData.bySourceType = 1;
+							pBuffData.dwInitialDuration = UseItemData->dwCooldownMs;
+							pBuffData.dwTimeRemaining = UseItemData->dwKeepTimeMs;//Time
+							pBuffData.isactive = true;
+							pBuffData.BuffType.BuffEffectType = 0;
+							pBuffData.BuffType.sBuffTypeDefault.fEffectValue = 430001.0;
+							pBuffData.BuffType.sBuffTypeDefault.fBonusValue = 0.0;
+							pBuffData.NeedDisplayMensage = false;
+							SendPacket((char*)&pBuffData, sizeof(sGU_BUFF_REGISTERED));
+							break;
+						}
 						case eSYSTEM_EFFECT_CODE::ACTIVE_SCRIPT_EXECUTE_WPS_LOC:
 						{
 							
