@@ -759,6 +759,14 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 
 		}
 		
+		else if (strToken == "@karin")
+		{
+			strToken = str.substr(pos + 1, std::string::npos);
+			unsigned int Point = (unsigned int)atof(strToken.c_str());
+			_player->TeleportByCommand(800000);
+			return;
+
+		}
 
 		else
 		{
