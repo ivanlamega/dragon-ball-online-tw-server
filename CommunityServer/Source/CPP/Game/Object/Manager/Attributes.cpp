@@ -320,7 +320,7 @@ bool AttributesManager::LoadAttributeFromDB()
 	PlayerProfile.avatarAttribute.unknown_rate1 = 0;
 	PlayerProfile.avatarAttribute.unknown_rate2 = 0;
 	// SKILL SPEED
-	PlayerProfile.avatarAttribute.SkillSpeed = 60.0f;
+	PlayerProfile.avatarAttribute.SkillSpeed = 100.0f;
 	//LP Get up Reg
 	PlayerProfile.avatarAttribute.wBaseLpRegen = 8 * (PlayerProfile.byLevel / 4);
 	PlayerProfile.avatarAttribute.wLastLpRegen = 9 * (PlayerProfile.byLevel / 4);
