@@ -1753,7 +1753,7 @@ ResultCodes WorldSession::ProcessTsContGCond(CDboTSContGCond * contGCond)
 				{
 					return RESULT_FAIL;
 				}
-				sOBJECT_TBLDAT* object = (sOBJECT_TBLDAT*)sTBM.GetObjectTable(_player->GetPcProfile()->bindObjectTblidx)->FindData(_player->GetPcProfile()->bindObjectTblidx);
+				sOBJECT_TBLDAT* object = (sOBJECT_TBLDAT*)sTBM.GetObjectTable(_player->GetPcProfile()->bindWorldId)->FindData(_player->GetPcProfile()->bindObjectTblidx);
 				if (object != NULL)
 				{
 					//Mob * MobInfo = static_cast<Mob*>(object)
