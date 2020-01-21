@@ -50,7 +50,7 @@ QuestItem* QuestInventoryManager::FindItemQuestByTblidx(TBLIDX tblidx)
 
 BYTE QuestInventoryManager::GetFreeSlot()
 {
-	for (int slot = 0; slot < NTL_QUEST_INVENTORY_SLOT_COUNT; slot++)
+	for (int slot = 0; slot < NTL_QUEST_INVENTORY_SLOT_COUNT-2; slot++)
 	{
 		if (FindItemQuestBySlot(slot) == NULL)
 		{
