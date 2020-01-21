@@ -54,6 +54,23 @@ void Log::outString(const char* str, ...)
 	printf("\n");
 	fflush(stdout);
 }
+void Log::outBasic(const char* str, ...)
+{
+	if (logLevel >= LOG_LVL_BASIC)
+	{
+		if (!str)
+			return;
+
+		va_list ap;
+		outTime();
+		std::cout << green << "[BASIC]: " << white;
+		va_start(ap, str);
+		vprintf(str, ap);
+		va_end(ap);
+		printf("\n");
+		fflush(stdout);
+	}
+}
 void Log::outError(const char* err, ...)
 {
 	if (!err)

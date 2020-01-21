@@ -3546,8 +3546,17 @@ void Player::TeleportToPopo()
 			GetState()->sCharStateDetail.sCharStateSpawning.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_POPOSTONE;
 			GetState()->sCharStateDetail.sCharStateSpawning.unk = eTELEPORT_TYPE::TELEPORT_TYPE_POPOSTONE;
 			SetState(eCHARSTATE::CHARSTATE_SPAWNING);
-			Map* map = GetMap();
-			map->Remove(this, false);
+			try
+			{
+				Map* map = GetMap();
+				map->Remove(this, false);
+			}
+			catch (int e)
+			{
+				sLog.outError("Error to remove player %d", e);
+				sLog.outBasic("");
+			}
+			
 			ClearListAndReference();
 		}
 
