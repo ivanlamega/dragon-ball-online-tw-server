@@ -20,7 +20,7 @@ void QuestManager::DeleteQuest(int questId)
 
 QuestData* QuestManager::FindQuestById(int questId)
 {
-	for (std::vector<TBLIDX>::size_type i = 0; i != QuestDat.size(); i++)
+	for (std::vector<QuestData>::size_type i = 0; i != QuestDat.size(); i++)
 	{
 		if (QuestDat[i].QuestID == questId)
 		{

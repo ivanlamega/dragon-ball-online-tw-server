@@ -184,6 +184,7 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PlayerTeleport.cpp" />
+    <ClCompile Include="Source\CPP\Game\Object\Manager\QuestInventory.cpp" />
     <ClCompile Include="Source\CPP\Game\Object\Manager\Quests.cpp" />
     <ClCompile Include="Source\CPP\Game\World\Packet\Manager\AucionHouseManager.cpp" />
     <ClCompile Include="Source\CPP\Game\World\Packet\Manager\BossEvent.cpp" />
@@ -259,6 +260,7 @@
     <ClInclude Include="Source\Header\Game\Object\Manager\Attributes.h" />
     <ClInclude Include="Source\Header\Game\Object\Manager\Fight.h" />
     <ClInclude Include="Source\Header\Game\Object\Manager\Inventory.h" />
+    <ClInclude Include="Source\Header\Game\Object\Manager\QuestInventory.h" />
     <ClInclude Include="Source\Header\Game\Object\Manager\Quests.h" />
     <ClInclude Include="Source\Header\Game\Object\Manager\Skills.h" />
     <ClInclude Include="Source\Header\Game\Object\Mob.h" />

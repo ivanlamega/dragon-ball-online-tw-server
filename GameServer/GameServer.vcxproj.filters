@@ -260,6 +260,9 @@
     <ClCompile Include="Source\CPP\Game\Object\Manager\Quests.cpp">
       <Filter>Source Files\Game\Object\Manager</Filter>
     </ClCompile>
+    <ClCompile Include="Source\CPP\Game\Object\Manager\QuestInventory.cpp">
+      <Filter>Source Files\Game\Object\Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Header\GameServer.h">
@@ -353,6 +356,9 @@
       <Filter>Header Files\Game\Quest\Recv</Filter>
     </ClInclude>
     <ClInclude Include="Source\Header\Game\Object\Manager\Quests.h">
+      <Filter>Header Files\Game\Object\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Header\Game\Object\Manager\QuestInventory.h">
       <Filter>Header Files\Game\Object\Manager</Filter>
     </ClInclude>
   </ItemGroup>

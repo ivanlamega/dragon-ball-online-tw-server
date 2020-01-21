@@ -9,6 +9,7 @@
 #include "Manager\Attributes.h"
 #include "Manager\Inventory.h"
 #include "Manager\Quests.h"
+#include "Manager\QuestInventory.h"
 #include <WorldSession.h>
 #include <Packet.h>
 #include <Packet\Game\PacketGU.h>
