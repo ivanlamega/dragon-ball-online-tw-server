@@ -21,6 +21,7 @@ public:
 	BYTE		AddItemQuest(QuestItem newItemQuest);
 	void		DeleteItemQuest(BYTE pos);
 	QuestItem*	FindItemQuestBySlot(BYTE pos);
+	QuestItem*	FindItemQuestByTblidx(TBLIDX tblidx);
 	BYTE		GetFreeSlot();
 
 private:

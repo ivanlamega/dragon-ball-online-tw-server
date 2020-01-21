@@ -36,6 +36,18 @@ QuestItem* QuestInventoryManager::FindItemQuestBySlot(BYTE pos)
 	return NULL;
 }
 
+QuestItem* QuestInventoryManager::FindItemQuestByTblidx(TBLIDX tblidx)
+{
+	for (std::vector<QuestItem>::size_type i = 0; i != QuestItems.size(); i++)
+	{
+		if (QuestItems[i].qItemTblidx == tblidx)
+		{
+			return &QuestItems[i];
+		}
+	}
+	return NULL;
+}
+
 BYTE QuestInventoryManager::GetFreeSlot()
 {
 	for (int slot = 0; slot < NTL_QUEST_INVENTORY_SLOT_COUNT; slot++)

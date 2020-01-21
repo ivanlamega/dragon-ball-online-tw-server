@@ -3782,9 +3782,25 @@ ResultCodes WorldSession::FindObjectTriggerInformation(NTL_TS_T_ID tid, QuestDat
 
 									if (questData->uEvtData.sCustomEvtCnt[i].uiCustomEvtID == customEvt->GetCustomEvtID())
 									{
-										questData->uEvtData.sCustomEvtCnt[i].nCurCnt += 1;
+										//questData->uEvtData.sCustomEvtCnt[i].nCurCnt += 1;
 										// Cambiar esto por el inventario de item de quest
-										if (questData->uEvtData.sCustomEvtCnt[i].nCurCnt <= 1)
+										QuestItem * questItem = _player->GetQuestInventoryManager()->FindItemQuestByTblidx(questData->uEvtData.sCustomEvtCnt[i].uiCustomEvtID);
+										if (questItem == NULL)
+										{
+											QuestItem newQuestItem;
+											newQuestItem.qItemTblidx = questData->uEvtData.sCustomEvtCnt[i].uiCustomEvtID;
+											newQuestItem.byCurCount = 1;
+											BYTE pos = _player->GetQuestInventoryManager()->AddItemQuest(newQuestItem);
+											questData->uEvtData.sCustomEvtCnt[i].nCurCnt = newQuestItem.byCurCount;
+											SendQuestItemCreate(pos, newQuestItem.qItemTblidx, newQuestItem.byCurCount);
+										}
+										else
+										{
+											questItem->byCurCount++;
+											questData->uEvtData.sCustomEvtCnt[i].nCurCnt = questItem->byCurCount;
+											SendQuestItemUpdateNfy(questItem->byPos, questItem->byCurCount);
+										}
+										/*if (questData->uEvtData.sCustomEvtCnt[i].nCurCnt <= 1)
 										{
 											QuestItem questItem;
 											questItem.qItemTblidx = questData->uEvtData.sCustomEvtCnt[i].uiCustomEvtID;
@@ -3795,7 +3811,7 @@ ResultCodes WorldSession::FindObjectTriggerInformation(NTL_TS_T_ID tid, QuestDat
 										else
 										{
 											SendQuestItemUpdateNfy(0, questData->uEvtData.sCustomEvtCnt[i].nCurCnt);
-										}
+										}*/
 										
 										SendQuestSVRevtUpdateNotify(questData->QuestID,
 											questData->tcId,
