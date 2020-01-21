@@ -3786,7 +3786,11 @@ ResultCodes WorldSession::FindObjectTriggerInformation(NTL_TS_T_ID tid, QuestDat
 										// Cambiar esto por el inventario de item de quest
 										if (questData->uEvtData.sCustomEvtCnt[i].nCurCnt <= 1)
 										{
-											SendQuestItemCreate(0, questData->uEvtData.sCustomEvtCnt[i].uiCustomEvtID, 1);
+											QuestItem questItem;
+											questItem.qItemTblidx = questData->uEvtData.sCustomEvtCnt[i].uiCustomEvtID;
+											questItem.byCurCount = 1;
+											BYTE pos = _player->GetQuestInventoryManager()->AddItemQuest(questItem);
+											SendQuestItemCreate(pos, questItem.qItemTblidx, questItem.byCurCount);
 										}
 										else
 										{

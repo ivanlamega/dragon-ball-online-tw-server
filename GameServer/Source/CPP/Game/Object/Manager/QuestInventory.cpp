@@ -1,8 +1,15 @@
 #include "Manager/QuestInventory.h"
 
-void QuestInventoryManager::AddItemQuest(QuestItem newItemQuest)
+BYTE QuestInventoryManager::AddItemQuest(QuestItem newItemQuest)
 {
-	QuestItems.push_back(newItemQuest);
+	BYTE slot = GetFreeSlot();
+	if (slot != -1)
+	{
+		newItemQuest.byPos = slot;
+		QuestItems.push_back(newItemQuest);
+		return slot;
+	}
+	return -1;
 }
 
 void QuestInventoryManager::DeleteItemQuest(BYTE pos)
@@ -27,4 +34,16 @@ QuestItem* QuestInventoryManager::FindItemQuestBySlot(BYTE pos)
 		}
 	}
 	return NULL;
+}
+
+BYTE QuestInventoryManager::GetFreeSlot()
+{
+	for (int slot = 0; slot < NTL_QUEST_INVENTORY_SLOT_COUNT; slot++)
+	{
+		if (FindItemQuestBySlot(slot) == NULL)
+		{
+			return slot;
+		}
+	}
+	return -1;
 }

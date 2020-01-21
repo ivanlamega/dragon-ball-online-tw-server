@@ -11,17 +11,18 @@ class Player;
 
 struct QuestData
 {
-	int					QuestID;
-	int					RewardID;
-	TBLIDX				npcClick;
-	HOBJECT				mobHandle;
-	NTL_TS_TC_ID		tcId;
-	NTL_TS_TA_ID		taId;
-	eSTOC_EVT_DATA_TYPE evtDataType;
+	int						QuestID;
+	int						RewardID;
+	TBLIDX					npcClick;
+	HOBJECT					mobHandle;
+	NTL_TS_TC_ID			tcId;
+	NTL_TS_TA_ID			taId;
+	eSTOC_EVT_DATA_TYPE		evtDataType;
 	/*int MobID;
 	int count;
 	int Maxcount;*/
-	uSTOC_EVT_DATA		uEvtData;
+	uSTOC_EVT_DATA			uEvtData;
+	sQUEST_PROGRESS_INFO	progressInfo;
 };
 
 class AttributesManager

@@ -18,9 +18,10 @@ public:
 	QuestInventoryManager() {};
 	~QuestInventoryManager() {};
 
-	void		AddItemQuest(QuestItem newItemQuest);
+	BYTE		AddItemQuest(QuestItem newItemQuest);
 	void		DeleteItemQuest(BYTE pos);
 	QuestItem*	FindItemQuestBySlot(BYTE pos);
+	BYTE		GetFreeSlot();
 
 private:
 	CHARACTERID			charid;

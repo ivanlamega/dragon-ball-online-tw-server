@@ -83,6 +83,7 @@ public:
 	AttributesManager	*GetAttributesManager();
 	InventoryManager	*GetInventoryManager();
 	QuestManager		*GetQuestManager();
+	QuestInventoryManager* GetQuestInventoryManager();
 	sVECTOR3			GetMoveDestinationVector();
 	bool				GetIsEmergency();
 	bool                GetFlying();
@@ -246,6 +247,7 @@ private:
 	// QUEST
 	//	------------------------------------------------------------------------
 	QuestManager		questManager;
+	QuestInventoryManager questInventoryManager;
 	//	------------------------------------------------------------------------
 	// SKILLS
 	//	------------------------------------------------------------------------

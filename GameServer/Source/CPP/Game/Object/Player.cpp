@@ -217,6 +217,10 @@ QuestManager* Player::GetQuestManager()
 {
 	return &questManager;
 }
+QuestInventoryManager* Player::GetQuestInventoryManager()
+{
+	return &questInventoryManager;
+}
 ePC_CLASS Player::GetMyClass() const
 {
 	return myClass;
