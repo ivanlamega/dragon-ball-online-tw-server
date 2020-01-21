@@ -1702,7 +1702,20 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 							qItem->GetQItemInfo(slot).uiQItemIdx, qItem->GetQItemInfo(slot).nQItemCnt, qItem->GetQItemInfo(slot).fProbability);
 						if (qItem->GetQItemInfo(slot).uiQItemIdx != INVALID_TBLIDX)
 						{
-							SendQuestItemCreate(0, qItem->GetQItemInfo(slot).uiQItemIdx, qItem->GetQItemInfo(slot).nQItemCnt);
+							
+							QuestItem newQuestItem;
+							newQuestItem.qItemTblidx = qItem->GetQItemInfo(slot).uiQItemIdx;
+							newQuestItem.byCurCount = qItem->GetQItemInfo(slot).nQItemCnt;
+							BYTE pos = _player->GetQuestInventoryManager()->AddItemQuest(newQuestItem);
+							if (pos != -1)
+							{
+								SendQuestItemCreate(pos, newQuestItem.qItemTblidx, newQuestItem.byCurCount);
+							}
+							else
+							{
+								sLog.outDebug("Inventory quest is full");
+							}
+							//SendQuestItemCreate(0, qItem->GetQItemInfo(slot).uiQItemIdx, qItem->GetQItemInfo(slot).nQItemCnt);
 						}
 
 					}
@@ -2691,7 +2704,19 @@ ResultCodes	WorldSession::CheckEvtDataType(CDboTSActSToCEvt* sToCEvt, NTL_TS_TC_
 					sToCEvt->GetEvtData().sDeliveryItemCnt[i].nCurItemCnt);
 				if (sToCEvt->GetEvtData().sDeliveryItemCnt[i].uiItemIdx != INVALID_TBLIDX)
 				{
-					SendQuestItemCreate(0, sToCEvt->GetEvtData().sDeliveryItemCnt[i].uiItemIdx, 1);
+					QuestItem newQuestItem;
+					newQuestItem.qItemTblidx = sToCEvt->GetEvtData().sDeliveryItemCnt[i].uiItemIdx;
+					newQuestItem.byCurCount = sToCEvt->GetEvtData().sDeliveryItemCnt[i].nItemCnt;
+					BYTE pos = _player->GetQuestInventoryManager()->AddItemQuest(newQuestItem);
+					if (pos != -1)
+					{
+						SendQuestItemCreate(pos, newQuestItem.qItemTblidx, newQuestItem.byCurCount);
+					}
+					else
+					{
+						sLog.outDebug("Inventory quest is full"); 
+					}
+					//SendQuestItemCreate(0, sToCEvt->GetEvtData().sDeliveryItemCnt[i].uiItemIdx, 1);
 				}
 			}
 			sLog.outDetail("Quest: type eSTOC_EVT_DATA_TYPE_DELIVERY_ITEM");
@@ -3791,8 +3816,11 @@ ResultCodes WorldSession::FindObjectTriggerInformation(NTL_TS_T_ID tid, QuestDat
 											newQuestItem.qItemTblidx = questData->uEvtData.sCustomEvtCnt[i].uiCustomEvtID;
 											newQuestItem.byCurCount = 1;
 											BYTE pos = _player->GetQuestInventoryManager()->AddItemQuest(newQuestItem);
-											questData->uEvtData.sCustomEvtCnt[i].nCurCnt = newQuestItem.byCurCount;
-											SendQuestItemCreate(pos, newQuestItem.qItemTblidx, newQuestItem.byCurCount);
+											if (pos != -1)
+											{
+												questData->uEvtData.sCustomEvtCnt[i].nCurCnt = newQuestItem.byCurCount;
+												SendQuestItemCreate(pos, newQuestItem.qItemTblidx, newQuestItem.byCurCount);
+											}
 										}
 										else
 										{
@@ -3837,7 +3865,21 @@ ResultCodes WorldSession::FindObjectTriggerInformation(NTL_TS_T_ID tid, QuestDat
 											qItem->GetQItemInfo(slot).uiQItemIdx, qItem->GetQItemInfo(slot).nQItemCnt, qItem->GetQItemInfo(slot).fProbability);
 										if (qItem->GetQItemInfo(slot).uiQItemIdx != INVALID_TBLIDX)
 										{
-											SendQuestItemCreate(0, qItem->GetQItemInfo(slot).uiQItemIdx, qItem->GetQItemInfo(slot).nQItemCnt);
+											
+											QuestItem newQuestItem;
+											newQuestItem.qItemTblidx = qItem->GetQItemInfo(slot).uiQItemIdx;
+											newQuestItem.byCurCount = qItem->GetQItemInfo(slot).nQItemCnt;
+											BYTE pos = _player->GetQuestInventoryManager()->AddItemQuest(newQuestItem);
+											if (pos != -1)
+											{
+												questData->uEvtData.sCustomEvtCnt[i].nCurCnt = newQuestItem.byCurCount;
+												SendQuestItemCreate(pos, newQuestItem.qItemTblidx, newQuestItem.byCurCount);
+											}
+											else
+											{
+												sLog.outDebug("Inventory is full");
+											}
+											//SendQuestItemCreate(0, qItem->GetQItemInfo(slot).uiQItemIdx, qItem->GetQItemInfo(slot).nQItemCnt);
 										}
 										
 									}
@@ -3856,7 +3898,30 @@ ResultCodes WorldSession::FindObjectTriggerInformation(NTL_TS_T_ID tid, QuestDat
 
 									if (questData->uEvtData.sObjectItemCnt[slot].uiItemIdx == qItem->GetQItemInfo(slot).uiQItemIdx)
 									{
-										questData->uEvtData.sObjectItemCnt[slot].nCurItemCnt += qItem->GetQItemInfo(slot).nQItemCnt;
+										QuestItem* questItem = _player->GetQuestInventoryManager()->FindItemQuestByTblidx(questData->uEvtData.sObjectItemCnt[slot].uiItemIdx);
+										if (questItem == NULL)
+										{
+											QuestItem newQuestItem;
+											newQuestItem.qItemTblidx = questData->uEvtData.sObjectItemCnt[slot].uiItemIdx;
+											newQuestItem.byCurCount = qItem->GetQItemInfo(slot).nQItemCnt;
+											BYTE pos = _player->GetQuestInventoryManager()->AddItemQuest(newQuestItem);
+											if (pos != -1)
+											{
+												questData->uEvtData.sObjectItemCnt[slot].nCurItemCnt = newQuestItem.byCurCount;
+												SendQuestItemCreate(pos, newQuestItem.qItemTblidx, newQuestItem.byCurCount);
+											}
+											else
+											{
+												sLog.outDebug("Inventory quest is full");
+											}
+										}
+										else
+										{
+											questItem->byCurCount++;
+											questData->uEvtData.sObjectItemCnt[slot].nCurItemCnt = questItem->byCurCount;
+											SendQuestItemUpdateNfy(questItem->byPos, questItem->byCurCount);
+										}
+										/*questData->uEvtData.sObjectItemCnt[slot].nCurItemCnt += qItem->GetQItemInfo(slot).nQItemCnt;
 
 										if (questData->uEvtData.sObjectItemCnt[slot].nCurItemCnt <= 1)
 										{
@@ -3865,7 +3930,7 @@ ResultCodes WorldSession::FindObjectTriggerInformation(NTL_TS_T_ID tid, QuestDat
 										else
 										{
 											SendQuestItemUpdateNfy(0, questData->uEvtData.sObjectItemCnt[slot].nCurItemCnt);
-										}
+										}*/
 										
 
 										SendQuestSVRevtUpdateNotify(questData->QuestID,
