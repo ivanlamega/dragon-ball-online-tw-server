@@ -3512,6 +3512,7 @@ void WorldSession::SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, 
 	 res.wResultCode = GAME_SUCCESS;
 	 res.byDeletePos = req->byDeletePos;
 
+	 _player->GetQuestInventoryManager()->DeleteItemQuest(req->byDeletePos);
 	 SendQuestItemDeleteNfy(req->byDeletePos);
 
 	 SendPacket((char*)&res, sizeof sGU_QUEST_ITEM_DELETE_RES);
@@ -3545,10 +3546,35 @@ void WorldSession::SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, 
 	 res.wPacketSize = sizeof(sGU_QUEST_ITEM_MOVE_RES) - 2;
 	 res.wResultCode = GAME_SUCCESS;
 
-	 res.bySrcPos = req->bySrcPos;
-	 res.dwSrcTblidx = 427;
-	 res.byDestPos = req->byDestPos;
-	 res.dwSrcTblidx = INVALID_TBLIDX;
+	 QuestItem* questItemSrc = _player->GetQuestInventoryManager()->FindItemQuestBySlot(req->bySrcPos);
+
+	 if (questItemSrc != NULL)
+	 {
+		 res.bySrcPos = req->bySrcPos;
+		 res.dwSrcTblidx = questItemSrc->qItemTblidx;
+
+		 //Change item pos
+		 questItemSrc->byPos = req->byDestPos;
+
+		 res.byDestPos = req->byDestPos;
+
+		 QuestItem* questItemDest = _player->GetQuestInventoryManager()->FindItemQuestBySlot(req->byDestPos);
+		 if (questItemDest != NULL)
+		 {
+			 //Change item pos
+			 questItemDest->byPos = req->bySrcPos;
+			 res.dwDestTblidx = questItemDest->qItemTblidx;
+		 }
+		 else
+		 {
+			 res.dwDestTblidx = INVALID_TBLIDX;
+		 }
+		 
+	 }
+	 else
+	 {
+		 res.wResultCode = GAME_TS_ERROR_CANNOT_FIND_ITEM_TBLIDX;
+	 }
 
 	 SendPacket((char*)&res, sizeof(sGU_QUEST_ITEM_MOVE_RES));
  }
