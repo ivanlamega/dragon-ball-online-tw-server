@@ -9,6 +9,54 @@
 
 class Player;
 
+struct OutWorld
+{
+	sVECTOR3	position;
+	sVECTOR3	rotation;
+	TBLIDX		worldTblidx;
+};
+
+struct TeleportInfo
+{
+	sVECTOR3	position;
+	sVECTOR3	rotation;
+	bool		bIsToMoveAnotherServer;
+	sWORLD_INFO worldInfo;
+	OutWorld	outWorld;
+};
+
+struct ObjectDataQuest
+{
+	TBLIDX				objTblidx;
+	NTL_TS_T_ID			specificQuestId;
+	NTL_TS_T_ID			triggerObject;
+	NTL_TS_T_ID			triggerId;
+	int					evtId;
+	std::vector<TBLIDX> mobsTblidx;
+	std::vector<TBLIDX> NPCTblidx;
+};
+struct SubClassInfoQuest
+{
+	bool			inQuest;
+	TBLIDX			useItemTblidx;
+	int				curQuestId;
+	BYTE			objChoseIndex;
+	ObjectDataQuest	objData[2];
+};
+
+struct TLQ1Info
+{
+	HOBJECT handleNpc;
+};
+
+struct GrowUpInfo
+{
+	bool			inQuest;
+	TBLIDX			mobTblidx;
+	int				countKill;
+	int				maxKill;
+};
+
 struct QuestData
 {
 	int						QuestID;
@@ -41,64 +89,18 @@ public:
 	QuestData		QuestDat[30];
 
 	//TLQ 1
-	struct TLQ1Info
-	{
-		HOBJECT handleNpc;
-	};
 	TLQ1Info tlq1Info;
 
 	// GROW UP
 
-	struct GrowUpInfo
-	{
-		bool			inQuest;
-		TBLIDX			mobTblidx;
-		int				countKill;
-		int				maxKill;
-	};
-
 	GrowUpInfo growUpInfo;
 
 	// SUB CLASS
-	struct ObjectDataQuest
-	{
-		TBLIDX				objTblidx;
-		NTL_TS_T_ID			specificQuestId;
-		NTL_TS_T_ID			triggerObject;
-		NTL_TS_T_ID			triggerId;
-		int					evtId;
-		std::vector<TBLIDX> mobsTblidx;
-		std::vector<TBLIDX> NPCTblidx;
-	};
-	struct SubClassInfoQuest
-	{
-		bool			inQuest;
-		TBLIDX			useItemTblidx;
-		int				curQuestId;
-		BYTE			objChoseIndex;
-		ObjectDataQuest	objData[2];
-	};
-
 	SubClassInfoQuest questSubCls;
 
 	// Teleport
-	struct OutWorld
-	{
-		sVECTOR3	position;
-		sVECTOR3	rotation;
-		TBLIDX		worldTblidx;
-	};
-
-	struct TeleportInfo
-	{
-		sVECTOR3	position;
-		sVECTOR3	rotation;
-		bool		bIsToMoveAnotherServer;
-		sWORLD_INFO worldInfo;
-		OutWorld	outWorld;
-	};
-
 	TeleportInfo teleportInfo;
+
 	//CashShop Info
 	DWORD		cashpoit;
 	DWORD		WagguCoin;

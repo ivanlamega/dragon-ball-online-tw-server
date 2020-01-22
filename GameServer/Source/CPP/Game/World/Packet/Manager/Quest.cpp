@@ -723,6 +723,8 @@ void WorldSession::SendQuestAcept(Packet& packet)
 			sLog.outDebug("TS_TYPE_QUEST_CS");
 			int result = FindQuestInformation(req);
 
+			res.wResultCode = result;
+
 			if (req->tcCurId == 2)
 			{
 				/*sGU_QUEST_SVREVT_START_NFY start;
@@ -1109,6 +1111,9 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 					case eSTOC_EVT_TYPE::eSTOC_EVT_TYPE_START:
 					{
 						SendQuestSVRevtStartNotify(tid, tcId, sToCEvt->GetActionId());//req->tcNextId);
+						QuestData newQuest;
+						newQuest.QuestID = tid;
+						_player->GetQuestManager()->AddQuest(newQuest);
 						sLog.outDebug("--------START QUEST--------");
 						break;
 					}
@@ -2236,6 +2241,7 @@ void WorldSession::ProcessTsContEnd(CDboTSContEnd * contEnd)
 	CNtlTSTrigger* trigger = (CNtlTSTrigger*)contEnd->GetRoot();
 	if (contEnd->GetEndType() == eEND_TYPE::eEND_TYPE_COMPLETE)
 	{
+		_player->GetQuestManager()->DeleteQuest(trigger->GetID());
 		sDB.SaveQuestStatus(_player->charid, trigger->GetID(), true);
 
 		// TLQ1 -------------------

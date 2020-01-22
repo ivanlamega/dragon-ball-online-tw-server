@@ -3,7 +3,10 @@
 
 void QuestManager::AddQuest(QuestData newQuest)
 {
-	QuestDat.push_back(newQuest);
+	if (QuestDat.size() < MAX_QUEST_SLOT)
+	{
+		QuestDat.push_back(newQuest);
+	}
 }
 
 void QuestManager::DeleteQuest(int questId)

@@ -3,6 +3,8 @@
 
 #include <vector>
 
+#define MAX_QUEST_SLOT 30
+
 class Player;
 class Npc;
 
