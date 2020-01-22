@@ -3130,7 +3130,32 @@ void Player::RewardDropFromMob(MonsterData& data)
 								{
 									sLog.outDebug("Count Quest Mob");
 									GetAttributesManager()->KillerCount += 1;
-									GetAttributesManager()->QuestDat[i].uEvtData.sMobKillItemCnt[slot].nCurMobLICnt += 1;
+
+									QuestItem* questItem = GetQuestInventoryManager()->FindItemQuestByTblidx(drop->aQuestItemTblidx[itemIndex]);
+									if (questItem == NULL)
+									{
+										QuestItem newQuestItem;
+										newQuestItem.qItemTblidx = drop->aQuestItemTblidx[itemIndex];
+										newQuestItem.byCurCount = 1;
+										BYTE pos = GetQuestInventoryManager()->AddItemQuest(newQuestItem);
+										if (pos != -1)
+										{
+											GetAttributesManager()->QuestDat[i].uEvtData.sMobKillItemCnt[slot].nCurMobLICnt = newQuestItem.byCurCount;
+											m_session->SendQuestItemCreate(pos, newQuestItem.qItemTblidx, newQuestItem.byCurCount);
+										}
+										else
+										{
+											sLog.outDebug("Inventory is full");
+										}
+									}
+									else
+									{
+										questItem->byCurCount++;
+										GetAttributesManager()->QuestDat[i].uEvtData.sMobKillItemCnt[slot].nCurMobLICnt = questItem->byCurCount;
+										m_session->SendQuestItemUpdateNfy(questItem->byPos, questItem->byCurCount);
+									}
+
+									/*GetAttributesManager()->QuestDat[i].uEvtData.sMobKillItemCnt[slot].nCurMobLICnt += 1;
 
 									if (GetAttributesManager()->QuestDat[i].uEvtData.sMobKillItemCnt[slot].nCurMobLICnt <= 1)
 									{
@@ -3139,7 +3164,7 @@ void Player::RewardDropFromMob(MonsterData& data)
 									else 
 									{
 										m_session->SendQuestItemUpdateNfy(0, GetAttributesManager()->QuestDat[i].uEvtData.sMobKillItemCnt[slot].nCurMobLICnt);
-									}
+									}*/
 									
 
 
