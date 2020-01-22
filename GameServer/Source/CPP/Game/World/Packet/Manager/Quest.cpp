@@ -3551,12 +3551,11 @@ void WorldSession::SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, 
 	 if (questItemSrc != NULL)
 	 {
 		 res.bySrcPos = req->bySrcPos;
+		 res.byDestPos = req->byDestPos;
 		 res.dwSrcTblidx = questItemSrc->qItemTblidx;
 
-		 //Change item pos
-		 questItemSrc->byPos = req->byDestPos;
-
-		 res.byDestPos = req->byDestPos;
+		 QuestItem* questItemSrcTest = _player->GetQuestInventoryManager()->FindItemQuestByTblidx(questItemSrc->qItemTblidx);
+		 sLog.outDebug("Actual real pos: %d, item pos %d dest pos %d", questItemSrcTest->byPos, questItemSrc->byPos, req->bySrcPos);
 
 		 QuestItem* questItemDest = _player->GetQuestInventoryManager()->FindItemQuestBySlot(req->byDestPos);
 		 if (questItemDest != NULL)
@@ -3569,6 +3568,9 @@ void WorldSession::SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, 
 		 {
 			 res.dwDestTblidx = INVALID_TBLIDX;
 		 }
+
+		 //Change item pos
+		 questItemSrc->byPos = req->byDestPos;
 		 
 	 }
 	 else
