@@ -193,6 +193,13 @@ public:
 	ResultCodes		GivePlayerQuestReward(TBLIDX tblidx, eREWARD_CONTAINER_TYPE rewardContType, DWORD dwParam, NTL_TS_TC_ID tcId);
 	ResultCodes		GivePlayerItemReward(sQUEST_REWARD_TBLDAT* rewardTbl, DWORD dwParam, NTL_TS_TC_ID tcId);
 	ResultCodes		CheckEvtDataType(CDboTSActSToCEvt* sToCEvt, NTL_TS_TC_ID tcId);
+	//Evt info
+	void			EvtMobKillCount(CDboTSActSToCEvt* sToCEvt, int freeslot, NTL_TS_T_ID tid);
+	void			EvtMobItemKillCount(CDboTSActSToCEvt* sToCEvt, int freeslot, NTL_TS_T_ID tid);
+	void			EvtDeliveryItem(CDboTSActSToCEvt* sToCEvt, int freeslot, NTL_TS_T_ID tid);
+	void			EvtObjectItem(CDboTSActSToCEvt* sToCEvt, int freeslot, NTL_TS_T_ID tid);
+	void			EvtCustomEventCount(CDboTSActSToCEvt* sToCEvt, int freeslot, NTL_TS_T_ID tid);
+	void			EvtVisit(CDboTSActSToCEvt* sToCEvt, int freeslot, NTL_TS_T_ID tid);
 	// TS Quest
 	ResultCodes		FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req);
 	ResultCodes		ProcessTSContStart(CDboTSContStart * contStart);

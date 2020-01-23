@@ -61,6 +61,7 @@ struct QuestData
 {
 	int						QuestID;
 	int						RewardID;
+	bool					sPawnMobQuest;
 	TBLIDX					npcClick;
 	HOBJECT					mobHandle;
 	NTL_TS_TC_ID			tcId;

@@ -2488,6 +2488,402 @@ ResultCodes WorldSession::FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req)
 	return RESULT_SUCCESS;
 }
 
+void WorldSession::EvtMobKillCount(CDboTSActSToCEvt* sToCEvt, int freeslot, NTL_TS_T_ID tid)
+{
+	//New system
+	for (int i = 0; i < sToCEvt->GetEvtData().MAX_MOB_KILL; i++)
+	{
+		TBLIDX groupTblidx = sToCEvt->GetEvtData().sMobKillCnt[i].uiMobIdx;
+		TBLIDX mobTblidx = sTBM.GetMobTable()->FindTblidxByGroup(groupTblidx);
+
+
+		if (mobTblidx && mobTblidx != INVALID_TBLIDX)
+		{
+			//New system
+			QuestData* quest = _player->GetQuestManager()->FindQuestById(tid);
+			if (quest != NULL)
+			{
+				quest->uEvtData.sMobKillCnt[i].uiMobIdx = mobTblidx;
+				quest->uEvtData.sMobKillCnt[i].nCurMobCnt = sToCEvt->GetEvtData().sMobKillCnt[i].nCurMobCnt;
+				quest->uEvtData.sMobKillCnt[i].nMobCnt = sToCEvt->GetEvtData().sMobKillCnt[i].nMobCnt;
+			}
+			//New system
+			_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sMobKillCnt[i].uiMobIdx = mobTblidx;
+			_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sMobKillCnt[i].nCurMobCnt = sToCEvt->GetEvtData().sMobKillCnt[i].nCurMobCnt;
+			_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sMobKillCnt[i].nMobCnt = sToCEvt->GetEvtData().sMobKillCnt[i].nMobCnt;
+
+
+			sLog.outError("ROOT TS: %d", tid);
+			sLog.outDetail("Mob kill: group tblidx: %d  mobTblidx: %d count: %d, curcout: %d",
+				groupTblidx, mobTblidx, sToCEvt->GetEvtData().sMobKillCnt[i].nMobCnt, sToCEvt->GetEvtData().sMobKillCnt[i].nCurMobCnt);
+
+			//New system
+			if (quest != NULL)
+			{
+				quest->sPawnMobQuest;
+			}
+			//New system
+			if (_player->GetAttributesManager()->sPawnMobQuest)
+			{
+				sMOB_TBLDAT* mob = (sMOB_TBLDAT*)sTBM.GetMobTable()->FindData(mobTblidx);
+				if (mob)
+				{
+					sLog.outDebug("obj tblidx %d %d %s", mob->tblidx, mob->Mob_Group, mob->szNameText);
+
+					sNPC_TBLDAT* npc = (sNPC_TBLDAT*)sTBM.GetNpcTable()->FindData(_player->GetAttributesManager()->lastNPCQuest);
+					if (npc)
+					{
+						sLog.outDebug("npc tblidx %d %s %d %d", npc->tblidx, npc->szNameText, strcmp(npc->szModel, mob->szModel), npc->byNpcType == mob->byMob_Type);
+						if (!strcmp(npc->szModel, mob->szModel)) //&& (npc->byNpcType == mob->byMob_Type))
+						{
+							Npc* curr_Npc = static_cast<Npc*>(_player->GetFromList(_player->GetTarget()));
+							sLog.outDebug("Conver NPC to MOB %d %d", curr_Npc->GetNpcData().MonsterID, _player->GetAttributesManager()->lastNPCQuest);
+							if (curr_Npc->GetNpcData().MonsterID == _player->GetAttributesManager()->lastNPCQuest)
+							{
+								//New system
+								if (quest != NULL)
+								{
+									quest->npcClick = curr_Npc->GetNpcData().MonsterID;
+								}
+								//New system
+								_player->GetAttributesManager()->QuestDat[freeslot].npcClick = curr_Npc->GetNpcData().MonsterID;
+
+								sLog.outDebug("Converting...");
+								sGU_OBJECT_DESTROY sPacket;
+
+								sPacket.wOpCode = GU_OBJECT_DESTROY;
+								sPacket.handle = curr_Npc->GetHandle();
+								sPacket.wPacketSize = sizeof(sGU_OBJECT_DESTROY) - 2;
+
+								_player->SendPacket((char*)&sPacket, sizeof(sGU_OBJECT_DESTROY));
+								curr_Npc->SetIsBecomeMob(true);
+								curr_Npc->RemoveFromWorld();
+								_player->RemoveFromList(*curr_Npc);
+								sLog.outDebug("NPC deleted");
+
+								HOBJECT mobHandle = SpawnMobForQuest(mobTblidx, curr_Npc->GetNpcData().MonsterID, 0);
+								//New System
+								if (quest != NULL)
+								{
+									quest->mobHandle = mobHandle;
+								}
+								//New system
+								_player->GetAttributesManager()->QuestDat[freeslot].mobHandle = mobHandle;//SpawnMobForQuest(mobTblidx, curr_Npc->GetNpcData().MonsterID, 0);
+								sLog.outDebug("MOB Created");
+
+							}
+							else
+							{
+								sLog.outDebug("NPC NOT FOUND");
+								//New system
+								if (quest != NULL)
+								{
+									quest->sPawnMobQuest = false;
+								}
+								//New system
+								_player->GetAttributesManager()->sPawnMobQuest = false;
+							}
+
+						}
+						else
+						{
+
+							for (int count = 0; count < sToCEvt->GetEvtData().sMobKillCnt[i].nMobCnt; count++)
+							{
+								SpawnMobForQuest(mobTblidx, 0, count);
+							}
+						}
+					}
+					else
+					{
+						for (int count = 0; count < sToCEvt->GetEvtData().sMobKillCnt[i].nMobCnt; count++)
+						{
+							SpawnMobForQuest(mobTblidx, 0, count);
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+void WorldSession::EvtMobItemKillCount(CDboTSActSToCEvt* sToCEvt, int freeslot, NTL_TS_T_ID tid)
+{
+	for (int i = 0; i < sToCEvt->GetEvtData().MAX_MOB_KILL_ITEM; i++)
+	{
+		//New system
+		QuestData* quest = _player->GetQuestManager()->FindQuestById(tid);
+		if (quest != NULL)
+		{
+			quest->uEvtData.sMobKillItemCnt[i].uiMobLIIdx = sToCEvt->GetEvtData().sMobKillItemCnt[i].uiMobLIIdx;
+			quest->uEvtData.sMobKillItemCnt[i].nMobLICnt = sToCEvt->GetEvtData().sMobKillItemCnt[i].nMobLICnt;
+			quest->uEvtData.sMobKillItemCnt[i].nCurMobLICnt = sToCEvt->GetEvtData().sMobKillItemCnt[i].nCurMobLICnt;
+		}
+		//New System
+		_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sMobKillItemCnt[i].uiMobLIIdx = sToCEvt->GetEvtData().sMobKillItemCnt[i].uiMobLIIdx;
+		_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sMobKillItemCnt[i].nMobLICnt = sToCEvt->GetEvtData().sMobKillItemCnt[i].nMobLICnt;
+		_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sMobKillItemCnt[i].nCurMobLICnt = sToCEvt->GetEvtData().sMobKillItemCnt[i].nCurMobLICnt;
+		sLog.outDebug("Item tblidx: %d count %d curcount %d",
+			sToCEvt->GetEvtData().sMobKillItemCnt[i].uiMobLIIdx,
+			sToCEvt->GetEvtData().sMobKillItemCnt[i].nMobLICnt,
+			sToCEvt->GetEvtData().sMobKillItemCnt[i].nCurMobLICnt);
+
+		if (sToCEvt->GetEvtData().sMobKillItemCnt[i].uiMobLIIdx == INVALID_TBLIDX)
+		{
+			continue;
+		}
+
+		std::vector<TBLIDX> dropTable = sTBM.GetQuestDropTable()->FindByItemTblidx(sToCEvt->GetEvtData().sMobKillItemCnt[i].uiMobLIIdx);
+		for (std::vector<TBLIDX>::size_type item = 0; item != dropTable.size(); item++)
+		{
+			/* std::cout << v[i]; ... */
+			sLog.outDebug("Drop Table %d", dropTable[item]);
+			//-----------------
+			TBLIDX mobTblidx = INVALID_TBLIDX;
+			std::vector<TBLIDX> mobsTblidx = sTBM.GetMobTable()->FindTblidxsByQuestDrop(dropTable[item]);
+			if (mobsTblidx.size() > 0)
+			{
+				mobTblidx = mobsTblidx[0];
+			}
+
+			//New system
+			if (quest != NULL)
+			{
+				quest->sPawnMobQuest;
+			}
+			//New system
+			if (!(mobTblidx == INVALID_TBLIDX) && _player->GetAttributesManager()->sPawnMobQuest)
+			{
+				sMOB_TBLDAT* mob = (sMOB_TBLDAT*)sTBM.GetMobTable()->FindData(mobTblidx);
+				if (mob)
+				{
+					sLog.outDebug("obj tblidx %d %d %s", mob->tblidx, mob->Mob_Group, mob->szNameText);
+
+					sNPC_TBLDAT* npc = (sNPC_TBLDAT*)sTBM.GetNpcTable()->FindData(_player->GetAttributesManager()->lastNPCQuest);
+					if (npc)
+					{
+						sLog.outDebug("npc tblidx %d %s %d %d", npc->tblidx, npc->szNameText, strcmp(npc->szModel, mob->szModel), npc->byNpcType == mob->byMob_Type);
+						if (!strcmp(npc->szModel, mob->szModel))// && (npc->byNpcType == mob->byMob_Type))
+						{
+							Npc* curr_Npc = static_cast<Npc*>(_player->GetFromList(_player->GetTarget()));
+							sLog.outDebug("Convert NPC to MOB %d %d", curr_Npc->GetNpcData().MonsterID, _player->GetAttributesManager()->lastNPCQuest);
+							if (curr_Npc->GetNpcData().MonsterID == _player->GetAttributesManager()->lastNPCQuest)
+							{
+								sLog.outDebug("Converting NPC to MOB...");
+								//New system
+								if (quest != NULL)
+								{
+									quest->npcClick = curr_Npc->GetNpcData().MonsterID;
+								}
+								//New system
+								_player->GetAttributesManager()->QuestDat[freeslot].npcClick = curr_Npc->GetNpcData().MonsterID;
+
+
+								sGU_OBJECT_DESTROY sPacket;
+
+								sPacket.wOpCode = GU_OBJECT_DESTROY;
+								sPacket.handle = curr_Npc->GetHandle();
+								sPacket.wPacketSize = sizeof(sGU_OBJECT_DESTROY) - 2;
+
+								_player->SendPacket((char*)&sPacket, sizeof(sGU_OBJECT_DESTROY));
+
+								_player->RemoveFromList(*curr_Npc);
+								curr_Npc->SetIsBecomeMob(true);
+								curr_Npc->RemoveFromWorld();
+								sLog.outDebug("NPC deleted");
+
+								//New system
+								if (quest != NULL)
+								{
+									quest->mobHandle = SpawnMobForQuest(mobTblidx, curr_Npc->GetNpcData().MonsterID, 0);
+								}
+								//New system
+								_player->GetAttributesManager()->QuestDat[freeslot].mobHandle = SpawnMobForQuest(mobTblidx, curr_Npc->GetNpcData().MonsterID, 0);
+								sLog.outDebug("MOB created");
+							}
+							else
+							{
+								sLog.outDebug("NPC NOT FOUND");
+								//New system
+								if (quest != NULL)
+								{
+									quest->sPawnMobQuest = false;
+								}
+								//New system
+								_player->GetAttributesManager()->sPawnMobQuest = false;
+							}
+
+						}
+						else
+						{
+							for (int count = 0; count < sToCEvt->GetEvtData().sMobKillCnt[i].nMobCnt; count++)
+							{
+								SpawnMobForQuest(mobTblidx, 0, count);
+							}
+						}
+					}
+				}
+			}
+			//-----------------
+		}
+	}
+}
+
+void WorldSession::EvtDeliveryItem(CDboTSActSToCEvt* sToCEvt, int freeslot, NTL_TS_T_ID tid)
+{
+	for (int i = 0; i < sToCEvt->GetEvtData().MAX_DELIVERY_ITEM; i++)
+	{
+		//New system
+		QuestData* quest = _player->GetQuestManager()->FindQuestById(tid);
+		if (quest != NULL)
+		{
+			quest->uEvtData.sDeliveryItemCnt[i].uiItemIdx = sToCEvt->GetEvtData().sDeliveryItemCnt[i].uiItemIdx;
+			quest->uEvtData.sDeliveryItemCnt[i].nItemCnt = sToCEvt->GetEvtData().sDeliveryItemCnt[i].nItemCnt;
+			quest->uEvtData.sDeliveryItemCnt[i].nCurItemCnt = sToCEvt->GetEvtData().sDeliveryItemCnt[i].nCurItemCnt;
+		}
+		//New System
+		_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sDeliveryItemCnt[i].uiItemIdx = sToCEvt->GetEvtData().sDeliveryItemCnt[i].uiItemIdx;
+		_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sDeliveryItemCnt[i].nItemCnt = sToCEvt->GetEvtData().sDeliveryItemCnt[i].nItemCnt;
+		_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sDeliveryItemCnt[i].nCurItemCnt = sToCEvt->GetEvtData().sDeliveryItemCnt[i].nCurItemCnt;
+		sLog.outDebug("Item tblidx: %d count %d curcount %d",
+			sToCEvt->GetEvtData().sDeliveryItemCnt[i].uiItemIdx,
+			sToCEvt->GetEvtData().sDeliveryItemCnt[i].nItemCnt,
+			sToCEvt->GetEvtData().sDeliveryItemCnt[i].nCurItemCnt);
+		if (sToCEvt->GetEvtData().sDeliveryItemCnt[i].uiItemIdx != INVALID_TBLIDX)
+		{
+			QuestItem newQuestItem;
+			newQuestItem.qItemTblidx = sToCEvt->GetEvtData().sDeliveryItemCnt[i].uiItemIdx;
+			newQuestItem.byCurCount = sToCEvt->GetEvtData().sDeliveryItemCnt[i].nItemCnt;
+			BYTE pos = _player->GetQuestInventoryManager()->AddItemQuest(newQuestItem);
+			if (pos != -1)
+			{
+				SendQuestItemCreate(pos, newQuestItem.qItemTblidx, newQuestItem.byCurCount);
+			}
+			else
+			{
+				sLog.outDebug("Inventory quest is full");
+			}
+			//SendQuestItemCreate(0, sToCEvt->GetEvtData().sDeliveryItemCnt[i].uiItemIdx, 1);
+		}
+	}
+}
+
+void WorldSession::EvtObjectItem(CDboTSActSToCEvt* sToCEvt, int freeslot, NTL_TS_T_ID tid)
+{
+	for (int i = 0; i < sToCEvt->GetEvtData().MAX_OBJECT_ITEM; i++)
+	{
+		//New system
+		QuestData* quest = _player->GetQuestManager()->FindQuestById(tid);
+		if (quest != NULL)
+		{
+			quest->uEvtData.sObjectItemCnt[i].uiItemIdx = sToCEvt->GetEvtData().sObjectItemCnt[i].uiItemIdx;
+			quest->uEvtData.sObjectItemCnt[i].nItemCnt = sToCEvt->GetEvtData().sObjectItemCnt[i].nItemCnt;
+			quest->uEvtData.sObjectItemCnt[i].nCurItemCnt = sToCEvt->GetEvtData().sObjectItemCnt[i].nCurItemCnt;
+		}
+		//New system
+		_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sObjectItemCnt[i].uiItemIdx = sToCEvt->GetEvtData().sObjectItemCnt[i].uiItemIdx;
+		_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sObjectItemCnt[i].nItemCnt = sToCEvt->GetEvtData().sObjectItemCnt[i].nItemCnt;
+		_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sObjectItemCnt[i].nCurItemCnt = sToCEvt->GetEvtData().sObjectItemCnt[i].nCurItemCnt;
+		sLog.outDebug("Item tblidx: %d count %d curcount %d",
+			sToCEvt->GetEvtData().sObjectItemCnt[i].uiItemIdx,
+			sToCEvt->GetEvtData().sObjectItemCnt[i].nItemCnt,
+			sToCEvt->GetEvtData().sObjectItemCnt[i].nCurItemCnt);
+	}
+}
+
+void WorldSession::EvtCustomEventCount(CDboTSActSToCEvt* sToCEvt, int freeslot, NTL_TS_T_ID tid)
+{
+	for (int i = 0; i < sToCEvt->GetEvtData().MAX_CUSTOM_EVT_CNT; i++)
+	{
+		//New system
+		QuestData* quest = _player->GetQuestManager()->FindQuestById(tid);
+		if (quest != NULL)
+		{
+			quest->uEvtData.sCustomEvtCnt[i].nCurCnt = sToCEvt->GetEvtData().sCustomEvtCnt[i].nCurCnt;
+			quest->uEvtData.sCustomEvtCnt[i].nMaxCnt = sToCEvt->GetEvtData().sCustomEvtCnt[i].nMaxCnt;
+			quest->uEvtData.sCustomEvtCnt[i].uiCustomEvtID = sToCEvt->GetEvtData().sCustomEvtCnt[i].uiCustomEvtID;
+			quest->uEvtData.sCustomEvtCnt[i].uiQTextTblIdx = sToCEvt->GetEvtData().sCustomEvtCnt[i].uiQTextTblIdx;
+		}
+		//New system
+		_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sCustomEvtCnt[i].nCurCnt = sToCEvt->GetEvtData().sCustomEvtCnt[i].nCurCnt;
+		_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sCustomEvtCnt[i].nMaxCnt = sToCEvt->GetEvtData().sCustomEvtCnt[i].nMaxCnt;
+		_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sCustomEvtCnt[i].uiCustomEvtID = sToCEvt->GetEvtData().sCustomEvtCnt[i].uiCustomEvtID;
+		_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sCustomEvtCnt[i].uiQTextTblIdx = sToCEvt->GetEvtData().sCustomEvtCnt[i].uiQTextTblIdx;
+
+		sLog.outDebug("Quest: maxCount %d curCount %d evtId %d texttblidx %d",
+			sToCEvt->GetEvtData().sCustomEvtCnt[i].nMaxCnt, sToCEvt->GetEvtData().sCustomEvtCnt[i].nCurCnt, sToCEvt->GetEvtData().sCustomEvtCnt[i].uiCustomEvtID,
+			sToCEvt->GetEvtData().sCustomEvtCnt[i].uiQTextTblIdx);
+	}
+
+	switch (sToCEvt->GetEvtCondDataType())
+	{
+		case eSTOC_EVT_COND_DATA_TYPE_AUTO_EQUIP_ITEM:
+		{
+			if (sToCEvt->GetEvtType() == eSTOC_EVT_TYPE_START)
+			{
+				sLog.outDebug("Item %d", sToCEvt->GetEvtCondData().sAutoEquipItem[0].uiItemTblIdx);
+				sITEM_PROFILE createdItem;
+				WORD result = _player->GetInventoryManager()->PerformShopBuy(sToCEvt->GetEvtCondData().sAutoEquipItem[0].uiItemTblIdx, 1, createdItem);
+				if (result == GAME_SUCCESS && createdItem.tblidx != INVALID_TBLIDX)
+				{
+					sLog.outDetail("Item Created\n");
+					SendItemCreate(&createdItem);
+				}
+				// TLQ1 -------------------
+				SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, 16140);
+			}
+
+			sLog.outDebug("eSTOC_EVT_COND_DATA_TYPE_AUTO_EQUIP_ITEM");
+		}
+		break;
+		case eSTOC_EVT_COND_DATA_TYPE_EQUIP_ITEM:
+		{
+		}
+		break;
+		case eSTOC_EVT_COND_DATA_TYPE_HAVE_ITEM:
+		{
+		}
+		break;
+		case eSTOC_EVT_COND_DATA_TYPE_HAVE_QITEM:
+		{
+		}
+		break;
+	}
+}
+
+void WorldSession::EvtVisit(CDboTSActSToCEvt* sToCEvt, int freeslot, NTL_TS_T_ID tid)
+{
+	for (int i = 0; i < sToCEvt->GetEvtData().MAX_VISIT_EVT; i++)
+	{
+		//New system
+		QuestData* quest = _player->GetQuestManager()->FindQuestById(tid);
+		if (quest != NULL)
+		{
+			quest->uEvtData.sVisitEvt[i].uiWorldTblIdx = sToCEvt->GetEvtData().sVisitEvt[i].uiWorldTblIdx;
+			quest->uEvtData.sVisitEvt[i].uiObjTblIdx = sToCEvt->GetEvtData().sVisitEvt[i].uiObjTblIdx;
+			quest->uEvtData.sVisitEvt[i].uiItemTblIdx = sToCEvt->GetEvtData().sVisitEvt[i].uiItemTblIdx;
+			quest->uEvtData.sVisitEvt[i].uiIndicatorQText = sToCEvt->GetEvtData().sVisitEvt[i].uiIndicatorQText;
+			quest->uEvtData.sVisitEvt[i].uiDialogText = sToCEvt->GetEvtData().sVisitEvt[i].uiDialogText;
+			quest->uEvtData.sVisitEvt[i].byObjType = sToCEvt->GetEvtData().sVisitEvt[i].byObjType;
+			quest->uEvtData.sVisitEvt[i].bCompleted = sToCEvt->GetEvtData().sVisitEvt[i].bCompleted;
+		}
+		//New system
+		_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sVisitEvt[i].uiWorldTblIdx = sToCEvt->GetEvtData().sVisitEvt[i].uiWorldTblIdx;
+		_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sVisitEvt[i].uiObjTblIdx = sToCEvt->GetEvtData().sVisitEvt[i].uiObjTblIdx;
+		_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sVisitEvt[i].uiItemTblIdx = sToCEvt->GetEvtData().sVisitEvt[i].uiItemTblIdx;
+		_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sVisitEvt[i].uiIndicatorQText = sToCEvt->GetEvtData().sVisitEvt[i].uiIndicatorQText;
+		_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sVisitEvt[i].uiDialogText = sToCEvt->GetEvtData().sVisitEvt[i].uiDialogText;
+		_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sVisitEvt[i].byObjType = sToCEvt->GetEvtData().sVisitEvt[i].byObjType;
+		_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sVisitEvt[i].bCompleted = sToCEvt->GetEvtData().sVisitEvt[i].bCompleted;
+
+		sLog.outDebug("Quest: world %d objTblidx %d itemTblidx %d indictaroQtext %d dialogText %d objType %d completed %d",
+			sToCEvt->GetEvtData().sVisitEvt[i].uiWorldTblIdx, sToCEvt->GetEvtData().sVisitEvt[i].uiObjTblIdx, sToCEvt->GetEvtData().sVisitEvt[i].uiItemTblIdx,
+			sToCEvt->GetEvtData().sVisitEvt[i].uiIndicatorQText, sToCEvt->GetEvtData().sVisitEvt[i].uiDialogText, sToCEvt->GetEvtData().sVisitEvt[i].byObjType,
+			sToCEvt->GetEvtData().sVisitEvt[i].bCompleted);
+		sLog.outDebug("Quest id %d", _player->GetAttributesManager()->QuestDat[freeslot].QuestID);
+	}
+}
+
 ResultCodes	WorldSession::CheckEvtDataType(CDboTSActSToCEvt* sToCEvt, NTL_TS_TC_ID tcId)
 {
 	CNtlTSTrigger* trigger = (CNtlTSTrigger*)sToCEvt->GetRoot();
@@ -2508,6 +2904,24 @@ ResultCodes	WorldSession::CheckEvtDataType(CDboTSActSToCEvt* sToCEvt, NTL_TS_TC_
 		}
 	}
 
+	// new system
+	QuestData* quest = _player->GetQuestManager()->FindQuestById(trigger->GetID());
+	if (quest != NULL)
+	{
+		quest->evtDataType = sToCEvt->GetEvtDataType();
+		quest->tcId = tcId;
+		quest->taId = sToCEvt->GetActionId();
+
+		quest->progressInfo.byVer = 0;
+		quest->progressInfo.tId = trigger->GetID();
+		quest->progressInfo.uData.sQInfoV0.wQState = 0;
+		quest->progressInfo.uData.sQInfoV0.sMainTSP.tcCurId = tcId;
+		quest->progressInfo.uData.sQInfoV0.sMainTSP.tcPreId = -1;
+		quest->progressInfo.uData.sQInfoV0.sSToCEvtData.tcId = tcId;
+		quest->progressInfo.uData.sQInfoV0.sSToCEvtData.taId = sToCEvt->GetActionId();
+	}
+	// new system
+
 	_player->GetAttributesManager()->QuestDat[freeslot].QuestID = trigger->GetID();
 	_player->GetAttributesManager()->QuestDat[freeslot].evtDataType = sToCEvt->GetEvtDataType();
 	_player->GetAttributesManager()->QuestDat[freeslot].tcId = tcId;
@@ -2517,229 +2931,25 @@ ResultCodes	WorldSession::CheckEvtDataType(CDboTSActSToCEvt* sToCEvt, NTL_TS_TC_
 	{
 		case eSTOC_EVT_DATA_TYPE_MOB_KILL_CNT:
 		{
-
-			for (int i = 0; i < sToCEvt->GetEvtData().MAX_MOB_KILL; i++)
-			{
-				TBLIDX groupTblidx = sToCEvt->GetEvtData().sMobKillCnt[i].uiMobIdx;
-				TBLIDX mobTblidx = sTBM.GetMobTable()->FindTblidxByGroup(groupTblidx);
-		
-
-				if (mobTblidx && mobTblidx != INVALID_TBLIDX)
-				{
-					_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sMobKillCnt[i].uiMobIdx = mobTblidx;
-					_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sMobKillCnt[i].nCurMobCnt = sToCEvt->GetEvtData().sMobKillCnt[i].nCurMobCnt;
-					_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sMobKillCnt[i].nMobCnt = sToCEvt->GetEvtData().sMobKillCnt[i].nMobCnt;
-
-
-					sLog.outError("ROOT TS: %d", trigger->GetID());
-					sLog.outDetail("Mob kill: group tblidx: %d  mobTblidx: %d count: %d, curcout: %d",
-						groupTblidx, mobTblidx, sToCEvt->GetEvtData().sMobKillCnt[i].nMobCnt, sToCEvt->GetEvtData().sMobKillCnt[i].nCurMobCnt);
-
-
-					if (_player->GetAttributesManager()->sPawnMobQuest)
-					{
-						sMOB_TBLDAT* mob = (sMOB_TBLDAT*)sTBM.GetMobTable()->FindData(mobTblidx);
-						if (mob)
-						{
-							sLog.outDebug("obj tblidx %d %d %s", mob->tblidx, mob->Mob_Group, mob->szNameText);
-
-							sNPC_TBLDAT* npc = (sNPC_TBLDAT*)sTBM.GetNpcTable()->FindData(_player->GetAttributesManager()->lastNPCQuest);
-							if (npc)
-							{
-								sLog.outDebug("npc tblidx %d %s %d %d", npc->tblidx, npc->szNameText, strcmp(npc->szModel, mob->szModel), npc->byNpcType == mob->byMob_Type);
-								if (!strcmp(npc->szModel, mob->szModel)) //&& (npc->byNpcType == mob->byMob_Type))
-								{
-									Npc * curr_Npc = static_cast<Npc*>(_player->GetFromList(_player->GetTarget()));
-									sLog.outDebug("Conver NPC to MOB %d %d", curr_Npc->GetNpcData().MonsterID, _player->GetAttributesManager()->lastNPCQuest);
-									if (curr_Npc->GetNpcData().MonsterID == _player->GetAttributesManager()->lastNPCQuest)
-									{
-										_player->GetAttributesManager()->QuestDat[freeslot].npcClick = curr_Npc->GetNpcData().MonsterID;
-
-										sLog.outDebug("Converting...");
-										sGU_OBJECT_DESTROY sPacket;
-
-										sPacket.wOpCode = GU_OBJECT_DESTROY;
-										sPacket.handle = curr_Npc->GetHandle();
-										sPacket.wPacketSize = sizeof(sGU_OBJECT_DESTROY) - 2;
-
-										_player->SendPacket((char*)&sPacket, sizeof(sGU_OBJECT_DESTROY));
-										curr_Npc->SetIsBecomeMob(true);
-										curr_Npc->RemoveFromWorld();
-										_player->RemoveFromList(*curr_Npc);
-										sLog.outDebug("NPC deleted");
-
-										_player->GetAttributesManager()->QuestDat[freeslot].mobHandle = SpawnMobForQuest(mobTblidx, curr_Npc->GetNpcData().MonsterID, 0);
-										sLog.outDebug("MOB Created");
-
-									}
-									else
-									{
-										sLog.outDebug("NPC NOT FOUND");
-										_player->GetAttributesManager()->sPawnMobQuest = false;
-									}
-									
-								}
-								else
-								{
-
-									for (int count = 0; count < sToCEvt->GetEvtData().sMobKillCnt[i].nMobCnt; count++)
-									{
-										SpawnMobForQuest(mobTblidx, 0, count);
-									}
-								}
-							}
-							else
-							{
-								for (int count = 0; count < sToCEvt->GetEvtData().sMobKillCnt[i].nMobCnt; count++)
-								{
-									SpawnMobForQuest(mobTblidx, 0, count);
-								}
-							}
-						}
-					}
-				}
-			}
+			EvtMobKillCount(sToCEvt, freeslot, trigger->GetID());
 			sLog.outDetail("Quest: type eSTOC_EVT_DATA_TYPE_MOB_KILL_CNT");
 			break;
 		}
 		case eSTOC_EVT_DATA_TYPE_MOB_KILL_ITEM_CNT:
 		{
-			for (int i = 0; i < sToCEvt->GetEvtData().MAX_MOB_KILL_ITEM; i++)
-			{
-				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sMobKillItemCnt[i].uiMobLIIdx = sToCEvt->GetEvtData().sMobKillItemCnt[i].uiMobLIIdx;
-				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sMobKillItemCnt[i].nMobLICnt = sToCEvt->GetEvtData().sMobKillItemCnt[i].nMobLICnt;
-				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sMobKillItemCnt[i].nCurMobLICnt = sToCEvt->GetEvtData().sMobKillItemCnt[i].nCurMobLICnt;
-				sLog.outDebug("Item tblidx: %d count %d curcount %d", 
-					sToCEvt->GetEvtData().sMobKillItemCnt[i].uiMobLIIdx, 
-					sToCEvt->GetEvtData().sMobKillItemCnt[i].nMobLICnt,
-					sToCEvt->GetEvtData().sMobKillItemCnt[i].nCurMobLICnt);
-
-				if (sToCEvt->GetEvtData().sMobKillItemCnt[i].uiMobLIIdx == INVALID_TBLIDX)
-				{
-					continue;
-				}
-
-				std::vector<TBLIDX> dropTable = sTBM.GetQuestDropTable()->FindByItemTblidx(sToCEvt->GetEvtData().sMobKillItemCnt[i].uiMobLIIdx);
-				for (std::vector<TBLIDX>::size_type item = 0; item != dropTable.size(); item++)
-				{
-					/* std::cout << v[i]; ... */
-					sLog.outDebug("Drop Table %d", dropTable[item]);
-					//-----------------
-					TBLIDX mobTblidx = INVALID_TBLIDX;
-					std::vector<TBLIDX> mobsTblidx = sTBM.GetMobTable()->FindTblidxsByQuestDrop(dropTable[item]);
-					if (mobsTblidx.size() > 0)
-					{
-						mobTblidx = mobsTblidx[0];
-					}
-
-					if (!(mobTblidx == INVALID_TBLIDX) && _player->GetAttributesManager()->sPawnMobQuest)
-					{
-						sMOB_TBLDAT* mob = (sMOB_TBLDAT*)sTBM.GetMobTable()->FindData(mobTblidx);
-						if (mob)
-						{
-							sLog.outDebug("obj tblidx %d %d %s", mob->tblidx, mob->Mob_Group, mob->szNameText);
-
-							sNPC_TBLDAT* npc = (sNPC_TBLDAT*)sTBM.GetNpcTable()->FindData(_player->GetAttributesManager()->lastNPCQuest);
-							if (npc)
-							{
-								sLog.outDebug("npc tblidx %d %s %d %d", npc->tblidx, npc->szNameText, strcmp(npc->szModel, mob->szModel), npc->byNpcType == mob->byMob_Type);
-								if (!strcmp(npc->szModel, mob->szModel))// && (npc->byNpcType == mob->byMob_Type))
-								{
-									Npc* curr_Npc = static_cast<Npc*>(_player->GetFromList(_player->GetTarget()));
-									sLog.outDebug("Convert NPC to MOB %d %d", curr_Npc->GetNpcData().MonsterID, _player->GetAttributesManager()->lastNPCQuest);
-									if (curr_Npc->GetNpcData().MonsterID == _player->GetAttributesManager()->lastNPCQuest)
-									{
-										sLog.outDebug("Converting NPC to MOB...");
-										_player->GetAttributesManager()->QuestDat[freeslot].npcClick = curr_Npc->GetNpcData().MonsterID;
-
-
-										sGU_OBJECT_DESTROY sPacket;
-
-										sPacket.wOpCode = GU_OBJECT_DESTROY;
-										sPacket.handle = curr_Npc->GetHandle();
-										sPacket.wPacketSize = sizeof(sGU_OBJECT_DESTROY) - 2;
-
-										_player->SendPacket((char*)&sPacket, sizeof(sGU_OBJECT_DESTROY));
-
-										_player->RemoveFromList(*curr_Npc);
-										curr_Npc->SetIsBecomeMob(true);
-										curr_Npc->RemoveFromWorld();
-										sLog.outDebug("NPC deleted");
-										
-										_player->GetAttributesManager()->QuestDat[freeslot].mobHandle = SpawnMobForQuest(mobTblidx, curr_Npc->GetNpcData().MonsterID, 0);
-										sLog.outDebug("MOB created");
-									}
-									else
-									{
-										sLog.outDebug("NPC NOT FOUND");
-										_player->GetAttributesManager()->sPawnMobQuest = false;
-									}
-
-								}
-								else
-								{
-									for (int count = 0; count < sToCEvt->GetEvtData().sMobKillCnt[i].nMobCnt; count++)
-									{
-										SpawnMobForQuest(mobTblidx, 0, count);
-									}
-								}
-							}
-						}
-					}
-
-					//-----------------
-
-				}
-
-				
-			}
-
+			EvtMobItemKillCount(sToCEvt, freeslot, trigger->GetID());
 			sLog.outDetail("Quest: type eSTOC_EVT_DATA_TYPE_MOB_KILL_ITEM_CNT");
 			break;
 		}
 		case eSTOC_EVT_DATA_TYPE_DELIVERY_ITEM:
 		{
-			for (int i = 0; i < sToCEvt->GetEvtData().MAX_DELIVERY_ITEM; i++)
-			{
-				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sDeliveryItemCnt[i].uiItemIdx = sToCEvt->GetEvtData().sDeliveryItemCnt[i].uiItemIdx;
-				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sDeliveryItemCnt[i].nItemCnt = sToCEvt->GetEvtData().sDeliveryItemCnt[i].nItemCnt;
-				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sDeliveryItemCnt[i].nCurItemCnt = sToCEvt->GetEvtData().sDeliveryItemCnt[i].nCurItemCnt;
-				sLog.outDebug("Item tblidx: %d count %d curcount %d",
-					sToCEvt->GetEvtData().sDeliveryItemCnt[i].uiItemIdx,
-					sToCEvt->GetEvtData().sDeliveryItemCnt[i].nItemCnt,
-					sToCEvt->GetEvtData().sDeliveryItemCnt[i].nCurItemCnt);
-				if (sToCEvt->GetEvtData().sDeliveryItemCnt[i].uiItemIdx != INVALID_TBLIDX)
-				{
-					QuestItem newQuestItem;
-					newQuestItem.qItemTblidx = sToCEvt->GetEvtData().sDeliveryItemCnt[i].uiItemIdx;
-					newQuestItem.byCurCount = sToCEvt->GetEvtData().sDeliveryItemCnt[i].nItemCnt;
-					BYTE pos = _player->GetQuestInventoryManager()->AddItemQuest(newQuestItem);
-					if (pos != -1)
-					{
-						SendQuestItemCreate(pos, newQuestItem.qItemTblidx, newQuestItem.byCurCount);
-					}
-					else
-					{
-						sLog.outDebug("Inventory quest is full"); 
-					}
-					//SendQuestItemCreate(0, sToCEvt->GetEvtData().sDeliveryItemCnt[i].uiItemIdx, 1);
-				}
-			}
+			EvtDeliveryItem(sToCEvt, freeslot, trigger->GetID());
 			sLog.outDetail("Quest: type eSTOC_EVT_DATA_TYPE_DELIVERY_ITEM");
 			break;
 		}
 		case eSTOC_EVT_DATA_TYPE_OBJECT_ITEM:
 		{
-			for (int i = 0; i < sToCEvt->GetEvtData().MAX_OBJECT_ITEM; i++)
-			{
-				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sObjectItemCnt[i].uiItemIdx = sToCEvt->GetEvtData().sObjectItemCnt[i].uiItemIdx;
-				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sObjectItemCnt[i].nItemCnt = sToCEvt->GetEvtData().sObjectItemCnt[i].nItemCnt;
-				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sObjectItemCnt[i].nCurItemCnt = sToCEvt->GetEvtData().sObjectItemCnt[i].nCurItemCnt;
-				sLog.outDebug("Item tblidx: %d count %d curcount %d",
-					sToCEvt->GetEvtData().sObjectItemCnt[i].uiItemIdx,
-					sToCEvt->GetEvtData().sObjectItemCnt[i].nItemCnt,
-					sToCEvt->GetEvtData().sObjectItemCnt[i].nCurItemCnt);
-			}
+			EvtObjectItem(sToCEvt, freeslot, trigger->GetID());
 			sLog.outDetail("Quest: type eSTOC_EVT_DATA_TYPE_OBJECT_ITEM");
 			break;
 		}
@@ -2750,75 +2960,13 @@ ResultCodes	WorldSession::CheckEvtDataType(CDboTSActSToCEvt* sToCEvt, NTL_TS_TC_
 		}
 		case eSTOC_EVT_DATA_TYPE_CUSTOM_EVT_CNT:
 		{
-			for (int i = 0; i < sToCEvt->GetEvtData().MAX_CUSTOM_EVT_CNT; i++)
-			{
-				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sCustomEvtCnt[i].nCurCnt = sToCEvt->GetEvtData().sCustomEvtCnt[i].nCurCnt;
-				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sCustomEvtCnt[i].nMaxCnt = sToCEvt->GetEvtData().sCustomEvtCnt[i].nMaxCnt;
-				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sCustomEvtCnt[i].uiCustomEvtID = sToCEvt->GetEvtData().sCustomEvtCnt[i].uiCustomEvtID;
-				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sCustomEvtCnt[i].uiQTextTblIdx = sToCEvt->GetEvtData().sCustomEvtCnt[i].uiQTextTblIdx;
-
-				sLog.outDebug("Quest: maxCount %d curCount %d evtId %d texttblidx %d", 
-					sToCEvt->GetEvtData().sCustomEvtCnt[i].nMaxCnt, sToCEvt->GetEvtData().sCustomEvtCnt[i].nCurCnt, sToCEvt->GetEvtData().sCustomEvtCnt[i].uiCustomEvtID,
-					sToCEvt->GetEvtData().sCustomEvtCnt[i].uiQTextTblIdx);
-			}
-
-			switch (sToCEvt->GetEvtCondDataType())
-			{
-				case eSTOC_EVT_COND_DATA_TYPE_AUTO_EQUIP_ITEM:
-				{
-					if (sToCEvt->GetEvtType() == eSTOC_EVT_TYPE_START)
-					{
-						sToCEvt->GetEvtCondData().sAutoEquipItem[0].uiItemTblIdx;
-						sLog.outDebug("Item %d", sToCEvt->GetEvtCondData().sAutoEquipItem[0].uiItemTblIdx);
-						sITEM_PROFILE createdItem;
-						WORD result = _player->GetInventoryManager()->PerformShopBuy(sToCEvt->GetEvtCondData().sAutoEquipItem[0].uiItemTblIdx, 1, createdItem);
-						if (result == GAME_SUCCESS && createdItem.tblidx != INVALID_TBLIDX)
-						{
-							sLog.outDetail("Item Created\n");
-							SendItemCreate(&createdItem);
-						}
-						// TLQ1 -------------------
-						SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, 16140);
-					}
-					
-					sLog.outDebug("eSTOC_EVT_COND_DATA_TYPE_AUTO_EQUIP_ITEM");
-				}
-				break;
-				case eSTOC_EVT_COND_DATA_TYPE_EQUIP_ITEM:
-				{
-				}
-				break;
-				case eSTOC_EVT_COND_DATA_TYPE_HAVE_ITEM:
-				{
-				}
-				break;
-				case eSTOC_EVT_COND_DATA_TYPE_HAVE_QITEM:
-				{
-				}
-				break;
-			}
-
+			EvtCustomEventCount(sToCEvt, freeslot, trigger->GetID());
 			sLog.outDetail("Quest: type eSTOC_EVT_DATA_TYPE_CUSTOM_EVT_CNT");
 			break;
 		}
 		case eSTOC_EVT_DATA_TYPE_VISIT:
 		{
-			for (int i = 0; i < sToCEvt->GetEvtData().MAX_VISIT_EVT; i++)
-			{
-				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sVisitEvt[i].uiWorldTblIdx = sToCEvt->GetEvtData().sVisitEvt[i].uiWorldTblIdx;
-				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sVisitEvt[i].uiObjTblIdx = sToCEvt->GetEvtData().sVisitEvt[i].uiObjTblIdx;
-				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sVisitEvt[i].uiItemTblIdx = sToCEvt->GetEvtData().sVisitEvt[i].uiItemTblIdx;
-				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sVisitEvt[i].uiIndicatorQText = sToCEvt->GetEvtData().sVisitEvt[i].uiIndicatorQText;
-				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sVisitEvt[i].uiDialogText = sToCEvt->GetEvtData().sVisitEvt[i].uiDialogText;
-				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sVisitEvt[i].byObjType = sToCEvt->GetEvtData().sVisitEvt[i].byObjType;
-				_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sVisitEvt[i].bCompleted = sToCEvt->GetEvtData().sVisitEvt[i].bCompleted;
-
-				sLog.outDebug("Quest: world %d objTblidx %d itemTblidx %d indictaroQtext %d dialogText %d objType %d completed %d", 
-					sToCEvt->GetEvtData().sVisitEvt[i].uiWorldTblIdx, sToCEvt->GetEvtData().sVisitEvt[i].uiObjTblIdx, sToCEvt->GetEvtData().sVisitEvt[i].uiItemTblIdx,
-					sToCEvt->GetEvtData().sVisitEvt[i].uiIndicatorQText, sToCEvt->GetEvtData().sVisitEvt[i].uiDialogText, sToCEvt->GetEvtData().sVisitEvt[i].byObjType,
-					sToCEvt->GetEvtData().sVisitEvt[i].bCompleted);
-				sLog.outDebug("Quest id %d", _player->GetAttributesManager()->QuestDat[freeslot].QuestID);
-			}
+			EvtVisit(sToCEvt, freeslot, trigger->GetID());
 			sLog.outDetail("Quest: type eSTOC_EVT_DATA_TYPE_VISIT");
 			break;
 		}
