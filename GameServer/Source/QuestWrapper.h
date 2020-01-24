@@ -1,5 +1,6 @@
 #pragma once
 #include "DboTSCore.h"
+#include <unordered_map>
 struct sUZ_FILEINFO;
 class CNPCTable;
 class CObjectTable;
@@ -69,6 +70,13 @@ public:
 
 	// Implementations
 protected:
+	typedef std::unordered_map<NTL_TS_T_ID, NTL_TS_T_ID> QUESTTRIGG;
+	typedef QUESTTRIGG::iterator QUESTTRIGGIT;
+	typedef QUESTTRIGG::value_type QUESTTRIGGVAL;
+
+	QUESTTRIGG							m_pTriggQuestList;
+
+
 	bool								m_bCreated;
 	// Path
 	std::string							m_strQuestPath;
@@ -121,6 +129,13 @@ protected:
 	bool								HasEventMapperFromFile(void);
 	bool								LoadEventMapperFromFile(void);
 	bool								LoadEventMapperFromRunTime(void);
+
+public:
+	void								MakeListTriggerIdQuestId();
+	QUESTTRIGGIT						QuestTriggerBegin() { return m_pTriggQuestList.begin(); };
+	QUESTTRIGGIT						QuestTriggerEnd() { return m_pTriggQuestList.end(); };
+
+	NTL_TS_T_ID							FindTriggerByQuest(NTL_TS_T_ID questId);
 
 };
 

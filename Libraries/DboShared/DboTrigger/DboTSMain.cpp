@@ -183,7 +183,6 @@ bool CDboTSMain::LoadTSPath( std::string strPath, mapdef_TLIST& defTList )
 			 '.' != FindFileData.cFileName[0] )
 		{
 			LoadTriggerObject( strPath, FindFileData.cFileName, defTList );
-			printf("load file: %s %d\n", FindFileData.cFileName, defTList.size());
 		}
 	}
 	while ( FindNextFile( hFind, &FindFileData ) != 0 );

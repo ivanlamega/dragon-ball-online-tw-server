@@ -17,7 +17,7 @@ public:
 	~QuestManager() {};
 
 	void		AddQuest(QuestData newQuest);
-	void		DeleteQuest(int questId);
+	bool		DeleteQuest(int questId);
 	QuestData*	FindQuestById(int questId);
 
 private:

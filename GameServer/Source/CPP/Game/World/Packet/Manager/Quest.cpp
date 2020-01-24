@@ -3619,6 +3619,8 @@ void WorldSession::SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, 
 	 res.tId = req->tId;
 	 res.wResultCode = RESULT_SUCCESS;
 
+	 _player->GetQuestManager()->DeleteQuest(req->tId);
+
 	 for (int i = 0; i < 30; i++)
 	 {
 		 if (_player->GetAttributesManager()->QuestDat[i].QuestID == req->tId)

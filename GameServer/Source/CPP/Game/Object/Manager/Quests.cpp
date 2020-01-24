@@ -9,16 +9,17 @@ void QuestManager::AddQuest(QuestData newQuest)
 	}
 }
 
-void QuestManager::DeleteQuest(int questId)
+bool QuestManager::DeleteQuest(int questId)
 {
 	for (std::vector<QuestData>::iterator iter = QuestDat.begin(); iter != QuestDat.end(); ++iter)
 	{
 		if (iter->QuestID == questId)
 		{
 			QuestDat.erase(iter);
-			break;
+			return true;
 		}
 	}
+	return false;
 }
 
 QuestData* QuestManager::FindQuestById(int questId)
