@@ -33,3 +33,26 @@ QuestData* QuestManager::FindQuestById(int questId)
 	}
 	return NULL;
 }
+
+void QuestManager::AddMobQuest(TBLIDX mobTblidx, NTL_TS_T_ID questId)
+{
+	m_pMobQuestList.insert(std::pair<TBLIDX, NTL_TS_T_ID>(mobTblidx, questId));
+
+}
+
+NTL_TS_T_ID	QuestManager::FindQuestByMob(TBLIDX mobTblidx)
+{
+	if (INVALID_TBLIDX == mobTblidx)
+	{
+		return INVALID_TBLIDX;
+	}
+
+	MOBQUESTIT iter;
+	iter = m_pMobQuestList.find(mobTblidx);
+	if (MobQuestEnd() == iter)
+	{
+		return INVALID_TBLIDX;
+	}
+
+	return (NTL_TS_T_ID)iter->second;
+}

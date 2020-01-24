@@ -3070,6 +3070,41 @@ void Player::RewardDropFromMob(MonsterData& data)
 	}
 	// TLQ1-------------------
 
+	//New System
+	NTL_TS_T_ID questId = GetQuestManager()->FindQuestByMob(data.MonsterID);
+	QuestData* quest = GetQuestManager()->FindQuestById(questId);
+	sLog.outDebug("NEW QUEST SYSTEM: mob %d, quest %d", data.MonsterID, questId);
+	switch (quest->evtDataType)
+	{
+		case eSTOC_EVT_DATA_TYPE_MOB_KILL_CNT:
+		{
+			for (int slot = 0; slot < quest->uEvtData.MAX_MOB_KILL; slot++)
+			{
+				if (quest->uEvtData.sMobKillCnt[slot].nCurMobCnt < quest->uEvtData.sMobKillCnt[slot].nMobCnt)
+				{
+					if (quest->uEvtData.sMobKillCnt[slot].uiMobIdx == data.MonsterID ||
+						quest->uEvtData.sMobKillCnt[slot].uiMobIdx + 1 == data.MonsterID)
+					{
+						sLog.outDebug("Count Quest Mob");
+						//GetAttributesManager()->KillerCount += 1;
+						quest->uEvtData.sMobKillCnt[slot].nCurMobCnt += 1;
+						//m_session->SendQuestSVRevtUpdateNotify(quest->QuestID, quest->tcId, quest->taId, quest->evtDataType, slot, &quest->uEvtData);
+
+						if (quest->uEvtData.sMobKillCnt[slot].nCurMobCnt >=
+							quest->uEvtData.sMobKillCnt[slot].nMobCnt)
+						{
+							//m_session->SpawnNPCForQuest(quest->npcClick, 0);
+							//GetAttributesManager()->lastNPCQuest = INVALID_TBLIDX;
+						}
+
+					}
+				}
+			}
+			break;
+		}
+	}
+	//New System
+
 	for (int i = 0; i <= 30; i++)
 	{
 		switch (GetAttributesManager()->QuestDat[i].evtDataType)

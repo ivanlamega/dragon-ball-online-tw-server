@@ -2506,6 +2506,8 @@ void WorldSession::EvtMobKillCount(CDboTSActSToCEvt* sToCEvt, int freeslot, NTL_
 				quest->uEvtData.sMobKillCnt[i].uiMobIdx = mobTblidx;
 				quest->uEvtData.sMobKillCnt[i].nCurMobCnt = sToCEvt->GetEvtData().sMobKillCnt[i].nCurMobCnt;
 				quest->uEvtData.sMobKillCnt[i].nMobCnt = sToCEvt->GetEvtData().sMobKillCnt[i].nMobCnt;
+
+				_player->GetQuestManager()->AddMobQuest(mobTblidx, tid);
 			}
 			//New system
 			_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sMobKillCnt[i].uiMobIdx = mobTblidx;
