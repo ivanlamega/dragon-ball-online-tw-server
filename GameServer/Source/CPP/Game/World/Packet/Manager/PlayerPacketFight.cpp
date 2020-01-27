@@ -173,7 +173,7 @@ void WorldSession::UseSkill(Packet& packet)
 				state.handle = _player->GetHandle();
 				state.sCharState.sCharStateBase.byStateID = eCHARSTATE::CHARSTATE_CASTING;
 				_player->GetState()->sCharStateBase.byStateID = eCHARSTATE::CHARSTATE_CASTING;
-				state.sCharState.sCharStateDetail.sCharStateCasting.hTarget = _player->GetHandle();
+				state.sCharState.sCharStateDetail.sCharStateCasting.hTarget = _player->GetTarget();// _player->GetHandle();
 				state.sCharState.sCharStateDetail.sCharStateCasting.skillId = skillDataOriginal->tblidx;
 				state.sCharState.sCharStateDetail.sCharStateCasting.dwCastingTime = skillDataOriginal->dwCastingTimeInMilliSecs;
 				state.sCharState.sCharStateDetail.sCharStateCasting.dwCastingTimeRemaining = skillDataOriginal->dwCastingTimeInMilliSecs;

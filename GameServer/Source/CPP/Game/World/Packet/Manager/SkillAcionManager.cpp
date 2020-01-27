@@ -726,7 +726,7 @@ void Player::SkillAcion()
 					{
 						sLog.outDebug("Skill: ACTIVE_DIRECT_HEAL");
 
-						Npc* NpcInfo = static_cast<Npc*>(GetFromList(GetAttributesManager()->questSubCls.npcHandle));
+						/*Npc* NpcInfo = static_cast<Npc*>(GetFromList(GetAttributesManager()->questSubCls.npcHandle));
 						if (NpcInfo)
 						{
 							sLog.outDebug("Mob found!");
@@ -737,27 +737,27 @@ void Player::SkillAcion()
 								
 								NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx = 60002;
 								NpcInfo->UpdateState(eCHARSTATE::CHARSTATE_DIRECT_PLAY);
-
-								Timer.setTimeout([&]() {
-
-									NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx = 60003;
-									NpcInfo->UpdateState(eCHARSTATE::CHARSTATE_DIRECT_PLAY);
-
-									Timer.setTimeout([&]() {
-
-										NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx = 60004;
-										NpcInfo->UpdateState(eCHARSTATE::CHARSTATE_DIRECT_PLAY);
-
-										}, 5000);
-
-									}, 5000);
-
+								sLog.outDebug("DIRECT_PLAY_NORMAL %d", NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx);
 								}, 5000);
+
+							Timer.setTimeout([&]() {
+
+								NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx = 60004;
+								NpcInfo->UpdateState(eCHARSTATE::CHARSTATE_DIRECT_PLAY);
+								sLog.outDebug("DIRECT_PLAY_NORMAL %d", NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx);
+								}, 10000);
+
+							Timer.setTimeout([&]() {
+
+								NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx = 60003;
+								NpcInfo->UpdateState(eCHARSTATE::CHARSTATE_DIRECT_PLAY);
+								sLog.outDebug("DIRECT_PLAY_NORMAL %d", NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx);
+								}, 15000);
 						}
 						else 
 						{
 							sLog.outDebug("Mob not found!");
-						}
+						}*/
 
 						sSkil.wResultCode = GAME_SUCCESS;
 
