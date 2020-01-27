@@ -162,8 +162,8 @@ public:
 	// command
 	void			ExecuteServerCommand(Packet& packet);
 	// Spawn
-	void			SpawnMobByTblidx(TBLIDX mobTblidx);
-	void			SpawnNPCByTblidx(TBLIDX mobTblidx);
+	HOBJECT			SpawnMobByTblidx(TBLIDX mobTblidx);
+	HOBJECT			SpawnNPCByTblidx(TBLIDX mobTblidx);
 	// social
 	void			SendSocialSkill(Packet& packet);
 	// teleport
@@ -190,6 +190,7 @@ public:
 	void			SendQuestItemUpdateNfy(BYTE pos, BYTE count);
 	HOBJECT			SpawnMobForQuest(TBLIDX mobTblidx, TBLIDX NPCSpawnTblidx, int index);
 	HOBJECT			SpawnNPCForQuest(TBLIDX NPCTblidx, int index);
+	HOBJECT			SpawnNPCByTblidxQuestDende(TBLIDX NpcTblidx);
 	ResultCodes		GivePlayerQuestReward(TBLIDX tblidx, eREWARD_CONTAINER_TYPE rewardContType, DWORD dwParam, NTL_TS_TC_ID tcId);
 	ResultCodes		GivePlayerItemReward(sQUEST_REWARD_TBLDAT* rewardTbl, DWORD dwParam, NTL_TS_TC_ID tcId);
 	ResultCodes		CheckEvtDataType(CDboTSActSToCEvt* sToCEvt, NTL_TS_TC_ID tcId);

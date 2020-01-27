@@ -38,6 +38,7 @@ struct ObjectDataQuest
 struct SubClassInfoQuest
 {
 	bool			inQuest;
+	HOBJECT			npcHandle;
 	TBLIDX			useItemTblidx;
 	int				curQuestId;
 	BYTE			objChoseIndex;

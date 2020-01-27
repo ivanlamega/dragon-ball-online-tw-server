@@ -12,6 +12,7 @@
 #include <Logger.h>
 #include <World.h>
 #include <XmlParser2/XmlParser2.h>
+#include <TimerJs.h>
 
 
 
@@ -723,6 +724,41 @@ void Player::SkillAcion()
 					}
 					case ACTIVE_DIRECT_HEAL:
 					{
+						sLog.outDebug("Skill: ACTIVE_DIRECT_HEAL");
+
+						Npc* NpcInfo = static_cast<Npc*>(GetFromList(GetAttributesManager()->questSubCls.npcHandle));
+						if (NpcInfo)
+						{
+							sLog.outDebug("Mob found!");
+							
+							NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.byDirectPlayType = DIRECT_PLAY_NORMAL;
+
+							Timer.setTimeout([&]() {
+								
+								NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx = 60002;
+								NpcInfo->UpdateState(eCHARSTATE::CHARSTATE_DIRECT_PLAY);
+
+								Timer.setTimeout([&]() {
+
+									NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx = 60003;
+									NpcInfo->UpdateState(eCHARSTATE::CHARSTATE_DIRECT_PLAY);
+
+									Timer.setTimeout([&]() {
+
+										NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx = 60004;
+										NpcInfo->UpdateState(eCHARSTATE::CHARSTATE_DIRECT_PLAY);
+
+										}, 5000);
+
+									}, 5000);
+
+								}, 5000);
+						}
+						else 
+						{
+							sLog.outDebug("Mob not found!");
+						}
+
 						sSkil.wResultCode = GAME_SUCCESS;
 
 						skillRes.wResultCode = GAME_SUCCESS;

@@ -77,7 +77,11 @@ void Npc::BuildPacketForSpawn(SpawnNPC& spawnData)
 	spawnData.TblidxMovementActionPatern = 0;
 	spawnData.Name = me.Name;
 	spawnData.Size = 10;
-	GetState()->sCharStateBase.byStateID = eCHARSTATE::CHARSTATE_STANDING;//eCHARSTATE::CHARSTATE_SPAWNING;
+	if (GetState()->sCharStateBase.byStateID == eCHARSTATE::INVALID_CHARSTATE)
+	{
+		GetState()->sCharStateBase.byStateID = eCHARSTATE::CHARSTATE_STANDING;//eCHARSTATE::CHARSTATE_SPAWNING;
+	}
+	
 	GetState()->sCharStateBase.vCurLoc.x = me.curPos.x;
 	GetState()->sCharStateBase.vCurLoc.y = me.curPos.y;
 	GetState()->sCharStateBase.vCurLoc.z = me.curPos.z;
@@ -205,6 +209,11 @@ bool Npc::Create(sNPC_TBLDAT* npcTbl, SpawnNPC spawnInfo)
 	for (int i = 0; i < 6; i++)
 		me.amerchant_Tblidx[i] = npcTbl->amerchant_Tblidx[i]; // hard fix
 	handle = me.UniqueID = spawnInfo.Handle;
+
+	if (spawnInfo.State.sCharStateBase.byStateID != eCHARSTATE::INVALID_CHARSTATE)
+	{
+		memcpy(GetState(), &spawnInfo.State, sizeof sCHARSTATE);
+	}
 
 	Relocate(me.curPos.x, me.curPos.y, me.curPos.z, me.Spawn_Dir.x, me.Spawn_Dir.y, me.Spawn_Dir.z);
 	AddToWorld();

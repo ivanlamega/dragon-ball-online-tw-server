@@ -29,7 +29,7 @@ void World::SendAnnounce(std::string message)
 //----------------------------------------
 //	Spawn NPC by Tblidx
 //----------------------------------------
-void WorldSession::SpawnNPCByTblidx(TBLIDX NPCTblidx)
+HOBJECT WorldSession::SpawnNPCByTblidx(TBLIDX NPCTblidx)
 {
 	NPCTable* NpcTable = sTBM.GetNpcTable();
 	sNPC_TBLDAT* pNPCTblData = reinterpret_cast<sNPC_TBLDAT*>(NpcTable->FindData(NPCTblidx));
@@ -78,6 +78,7 @@ void WorldSession::SpawnNPCByTblidx(TBLIDX NPCTblidx)
 			{
 				created_Npc->GetMapRef().link(this->_player->GetMap(), created_Npc);
 				printf("Npc ID %d inserted into map", NPCTblidx);
+				return handle;
 				//_player->GetAttributesManager()->lastNPCQuest = INVALID_TBLIDX;
 			}
 			else
@@ -88,7 +89,7 @@ void WorldSession::SpawnNPCByTblidx(TBLIDX NPCTblidx)
 //----------------------------------------
 //	Spawn Mob by Tblidx
 //----------------------------------------
-void WorldSession::SpawnMobByTblidx(TBLIDX mobTblidx)
+HOBJECT WorldSession::SpawnMobByTblidx(TBLIDX mobTblidx)
 {
 	MobTable* MobTable = sTBM.GetMobTable();
 	sMOB_TBLDAT* pMOBTblData = reinterpret_cast<sMOB_TBLDAT*>(MobTable->FindData(mobTblidx));
@@ -136,6 +137,7 @@ void WorldSession::SpawnMobByTblidx(TBLIDX mobTblidx)
 			{
 				created_mob->GetMapRef().link(this->_player->GetMap(), created_mob);
 				printf("Mob ID %d inserted into map", mobTblidx);
+				return spawnData.Handle;
 			}
 			else
 				delete created_mob;
@@ -190,6 +192,17 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 			nfy.byTsType = TS_TYPE_QUEST_CS;
 			nfy.teid = teid;
 			SendPacket((char*)&nfy, sizeof(sGU_TS_UPDATE_EVENT_NFY));
+		}
+		else if (strToken == "@gettarget")
+		{
+			strToken = str.substr(pos + 1, std::string::npos);
+			unsigned int teid = (unsigned int)atof(strToken.c_str());
+
+			sGU_SKILL_TARGET_LIST_REQ req;
+			req.wOpCode = GU_SKILL_TARGET_LIST_REQ;
+			req.wPacketSize = sizeof(sGU_SKILL_TARGET_LIST_REQ) - 2;
+			req.byAvatarType = 0;
+			SendPacket((char*)&req, sizeof(sGU_SKILL_TARGET_LIST_REQ));
 		}
 		else if (strToken == "@testquest")
 		{
