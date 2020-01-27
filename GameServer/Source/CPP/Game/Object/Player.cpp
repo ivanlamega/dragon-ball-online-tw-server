@@ -3073,34 +3073,37 @@ void Player::RewardDropFromMob(MonsterData& data)
 	//New System
 	NTL_TS_T_ID questId = GetQuestManager()->FindQuestByMob(data.MonsterID);
 	QuestData* quest = GetQuestManager()->FindQuestById(questId);
-	sLog.outDebug("NEW QUEST SYSTEM: mob %d, quest %d", data.MonsterID, questId);
-	switch (quest->evtDataType)
+	if (quest != NULL)
 	{
-		case eSTOC_EVT_DATA_TYPE_MOB_KILL_CNT:
+		sLog.outDebug("NEW QUEST SYSTEM: mob %d, quest %d", data.MonsterID, questId);
+		switch (quest->evtDataType)
 		{
-			for (int slot = 0; slot < quest->uEvtData.MAX_MOB_KILL; slot++)
+			case eSTOC_EVT_DATA_TYPE_MOB_KILL_CNT:
 			{
-				if (quest->uEvtData.sMobKillCnt[slot].nCurMobCnt < quest->uEvtData.sMobKillCnt[slot].nMobCnt)
+				for (int slot = 0; slot < quest->uEvtData.MAX_MOB_KILL; slot++)
 				{
-					if (quest->uEvtData.sMobKillCnt[slot].uiMobIdx == data.MonsterID ||
-						quest->uEvtData.sMobKillCnt[slot].uiMobIdx + 1 == data.MonsterID)
+					if (quest->uEvtData.sMobKillCnt[slot].nCurMobCnt < quest->uEvtData.sMobKillCnt[slot].nMobCnt)
 					{
-						sLog.outDebug("Count Quest Mob");
-						//GetAttributesManager()->KillerCount += 1;
-						quest->uEvtData.sMobKillCnt[slot].nCurMobCnt += 1;
-						//m_session->SendQuestSVRevtUpdateNotify(quest->QuestID, quest->tcId, quest->taId, quest->evtDataType, slot, &quest->uEvtData);
-
-						if (quest->uEvtData.sMobKillCnt[slot].nCurMobCnt >=
-							quest->uEvtData.sMobKillCnt[slot].nMobCnt)
+						if (quest->uEvtData.sMobKillCnt[slot].uiMobIdx == data.MonsterID ||
+							quest->uEvtData.sMobKillCnt[slot].uiMobIdx + 1 == data.MonsterID)
 						{
-							//m_session->SpawnNPCForQuest(quest->npcClick, 0);
-							//GetAttributesManager()->lastNPCQuest = INVALID_TBLIDX;
-						}
+							sLog.outDebug("Count Quest Mob");
+							//GetAttributesManager()->KillerCount += 1;
+							quest->uEvtData.sMobKillCnt[slot].nCurMobCnt += 1;
+							//m_session->SendQuestSVRevtUpdateNotify(quest->QuestID, quest->tcId, quest->taId, quest->evtDataType, slot, &quest->uEvtData);
 
+							if (quest->uEvtData.sMobKillCnt[slot].nCurMobCnt >=
+								quest->uEvtData.sMobKillCnt[slot].nMobCnt)
+							{
+								//m_session->SpawnNPCForQuest(quest->npcClick, 0);
+								//GetAttributesManager()->lastNPCQuest = INVALID_TBLIDX;
+							}
+
+						}
 					}
 				}
+				break;
 			}
-			break;
 		}
 	}
 	//New System
