@@ -281,6 +281,7 @@ ResultCodes	WorldSession::FindPCTriggerInformation(sUG_TS_CONFIRM_STEP_REQ* req)
 			break;
 		}
 	}
+	return RESULT_SUCCESS;
 }
 
 void WorldSession::GetQuestPortalInfo(DWORD QuestID, DWORD tcCurId, DWORD tcNextId)
@@ -723,7 +724,7 @@ void WorldSession::SendQuestAcept(Packet& packet)
 			sLog.outDebug("TS_TYPE_QUEST_CS");
 			int result = FindQuestInformation(req);
 
-			res.wResultCode = result;
+			//res.wResultCode = result;
 
 			if (req->tcCurId == 2)
 			{
