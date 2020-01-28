@@ -726,7 +726,8 @@ void Player::SkillAcion()
 					{
 						sLog.outDebug("Skill: ACTIVE_DIRECT_HEAL");
 
-						/*Npc* NpcInfo = static_cast<Npc*>(GetFromList(GetAttributesManager()->questSubCls.npcHandle));
+						// Sub class dende
+						Npc* NpcInfo = static_cast<Npc*>(GetFromList(GetAttributesManager()->questSubCls.npcHandle));
 						if (NpcInfo)
 						{
 							sLog.outDebug("Mob found!");
@@ -753,11 +754,31 @@ void Player::SkillAcion()
 								NpcInfo->UpdateState(eCHARSTATE::CHARSTATE_DIRECT_PLAY);
 								sLog.outDebug("DIRECT_PLAY_NORMAL %d", NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx);
 								}, 15000);
+
+							Timer.setTimeout([&]() {
+
+								NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.dwTimeStamp = 0;
+								NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.byMoveFlag = 1;
+								NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.bHaveSecondDestLoc = false;
+								NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.unknown = 0;
+								NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.byDestLocCount = 1;
+								NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.avDestLoc[0].x = 5779.3789;
+								NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.avDestLoc[0].y = -90.417999;
+								NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.avDestLoc[0].z = 3999.4399;
+								NpcInfo->UpdateState(eCHARSTATE::CHARSTATE_DESTMOVE);
+								sLog.outDebug("DIRECT_PLAY_NORMAL %d", NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx);
+								}, 20000);
+
+							Timer.setTimeout([&]() {
+
+								NpcInfo->RemoveFromWorld();
+								}, 30000);
 						}
 						else 
 						{
 							sLog.outDebug("Mob not found!");
-						}*/
+						}
+						// Sub class dende
 
 						sSkil.wResultCode = GAME_SUCCESS;
 
