@@ -14,6 +14,8 @@
 #include <Packet.h>
 #include <Packet\Game\PacketGU.h>
 #include <Packet\Game\PacketUG.h>
+#include <TimerJs.h>
+
 
 class WorldSession;
 class Map;
@@ -84,6 +86,8 @@ public:
 	InventoryManager	*GetInventoryManager();
 	QuestManager		*GetQuestManager();
 	QuestInventoryManager* GetQuestInventoryManager();
+	// Sub class dende
+	void				RunScriptDendeQuest();
 	sVECTOR3			GetMoveDestinationVector();
 	bool				GetIsEmergency();
 	bool                GetFlying();

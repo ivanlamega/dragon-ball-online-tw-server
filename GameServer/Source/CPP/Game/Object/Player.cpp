@@ -201,6 +201,70 @@ bool Player::GetIsEmergency()
 
 	return (percent <= 0.25f) ? true : false;
 }
+void Player::RunScriptDendeQuest()
+{
+	Npc* NpcInfo = static_cast<Npc*>(GetFromList(GetAttributesManager()->questSubCls.npcHandle));
+	if (NpcInfo)
+	{
+		sLog.outDebug("Mob found!");
+
+		NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.byDirectPlayType = DIRECT_PLAY_NORMAL;
+
+		Timer.setTimeout([&]() {
+
+			NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx = 60002;
+			NpcInfo->UpdateState(eCHARSTATE::CHARSTATE_DIRECT_PLAY);
+			sLog.outDebug("DIRECT_PLAY_NORMAL %d", NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx);
+			}, 5000);
+
+		Timer.setTimeout([&]() {
+
+			NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx = 60004;
+			NpcInfo->UpdateState(eCHARSTATE::CHARSTATE_DIRECT_PLAY);
+			sLog.outDebug("DIRECT_PLAY_NORMAL %d", NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx);
+			}, 10000);
+
+		Timer.setTimeout([&]() {
+
+			NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx = 60003;
+			NpcInfo->UpdateState(eCHARSTATE::CHARSTATE_DIRECT_PLAY);
+			sLog.outDebug("DIRECT_PLAY_NORMAL %d", NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx);
+			}, 15000);
+
+		Timer.setTimeout([&]() {
+
+			NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.dwTimeStamp = 0;
+			NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.byMoveFlag = 1;
+			NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.bHaveSecondDestLoc = false;
+			NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.unknown = 0;
+			NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.byDestLocCount = 1;
+			NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.avDestLoc[0].x = 5779.3789;
+			NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.avDestLoc[0].y = -90.417999;
+			NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.avDestLoc[0].z = 3999.4399;
+			NpcInfo->UpdateState(eCHARSTATE::CHARSTATE_DESTMOVE);
+			}, 20000);
+
+		Timer.setTimeout([&]() {
+
+			sGU_OBJECT_DESTROY sPacket;
+
+			sPacket.wOpCode = GU_OBJECT_DESTROY;
+			sPacket.handle = NpcInfo->GetHandle();
+			sPacket.wPacketSize = sizeof(sGU_OBJECT_DESTROY) - 2;
+
+			SendPacket((char*)&sPacket, sizeof(sGU_OBJECT_DESTROY));
+			NpcInfo->SetIsBecomeMob(true);
+			NpcInfo->RemoveFromWorld();
+			RemoveFromList(*NpcInfo);
+			sLog.outDebug("NPC deleted");
+
+			}, 30000);
+	}
+	else
+	{
+		sLog.outDebug("Mob not found!");
+	}
+}
 sVECTOR3 Player::GetMoveDestinationVector()
 {
 	return m_destination_pos;
