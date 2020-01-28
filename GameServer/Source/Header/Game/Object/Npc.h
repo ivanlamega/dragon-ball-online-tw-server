@@ -24,6 +24,7 @@ public:
 
 	void				BuildPacketForSpawn(SpawnNPC& spawn);
 	MonsterData			GetNpcData()const;
+	MonsterData*		GetNpcData2();
 
 	void				SetIsBecomeMob(bool val);
 	bool				GetIsBecomeMob();

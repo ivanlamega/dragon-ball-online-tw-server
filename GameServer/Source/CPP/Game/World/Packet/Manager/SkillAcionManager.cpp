@@ -848,6 +848,49 @@ void Player::SkillAcion()
 									count = 1;
 								}
 							}
+							else if (ObjectType == OBJTYPE_NPC)
+							{
+								Npc* NpcInfo = static_cast<Npc*>(GetFromList(pCharSkillReq->ahApplyTarget[i]));
+								if (NpcInfo != NULL)
+								{
+									skillRes.aSkillResult[count].hTarget = NpcInfo->GetHandle();
+									skillRes.aSkillResult[count].byAttackResult = eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_HIT;
+									float HealPercent = GetPcProfile()->avatarAttribute.wLastEnergyOffence / 100 * 35;
+									skillRes.aSkillResult[count].effectResult[Effect].eResultType = DBO_SYSTEM_EFFECT_RESULT_TYPE_DH_HOT;
+									skillRes.aSkillResult[count].effectResult[Effect].Value1 = skillDataOriginal->SkillValue[Effect] + HealPercent;
+									skillRes.aSkillResult[count].effectResult[Effect].Value2 = 0;
+									skillRes.aSkillResult[count].effectResult[Effect].Value3 = 0;
+									skillRes.aSkillResult[count].effectResult[Effect].Value4 = 0;
+									skillRes.aSkillResult[count].effectResult[Effect].Value5 = 0;
+									skillRes.aSkillResult[count].effectResult[Effect].Value6 = 0;
+									skillRes.aSkillResult[count].byBlockedAction = 255;
+									skillRes.aSkillResult[count].vShift = NpcInfo->GetVectorPosition();
+									skillRes.aSkillResult[count].vShift1 = NpcInfo->GetVectorOriantation();
+									skillRes.bySkillResultCount = count + 1;
+									int newlp = NpcInfo->GetNpcData().CurLP;
+									if (newlp <= NpcInfo->GetNpcData().MaxLP)
+									{
+										newlp += skillRes.aSkillResult[count].effectResult[Effect].Value1;
+									}
+									if (newlp >= NpcInfo->GetNpcData().MaxLP)
+									{
+										newlp = NpcInfo->GetNpcData().MaxLP;
+									}
+									sGU_UPDATE_CHAR_LP LPs;
+									LPs.wOpCode = GU_UPDATE_CHAR_LP;
+									LPs.wPacketSize = sizeof(sGU_UPDATE_CHAR_LP) - 2;
+									NpcInfo->GetNpcData2()->CurLP = newlp;
+									LPs.dwLpEpEventId = 0;
+									LPs.handle = NpcInfo->GetHandle();
+									LPs.wCurLP = NpcInfo->GetNpcData().CurLP;
+									LPs.wMaxLP = NpcInfo->GetNpcData().MaxLP;;
+
+									SendPacket((char*)&LPs, sizeof(sGU_UPDATE_CHAR_LP));
+									SendToPlayerList((char*)&LPs, sizeof(sGU_UPDATE_CHAR_LP));
+									
+									count = 1;
+								}
+							}
 						}
 						break;
 					}

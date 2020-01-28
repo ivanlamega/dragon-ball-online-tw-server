@@ -364,6 +364,10 @@ MonsterData Npc::GetNpcData() const
 {
 	return me;
 }
+MonsterData* Npc::GetNpcData2()
+{
+	return &me;
+}
 void Npc::TakeDamage(uint32 amount)
 {
 }

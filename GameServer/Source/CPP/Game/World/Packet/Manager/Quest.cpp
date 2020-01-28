@@ -3342,12 +3342,12 @@ HOBJECT	WorldSession::SpawnNPCByTblidxQuestDende(TBLIDX npcTblidx)
 		
 		spawnData.State.sCharStateBase.dwStateTime = 48344;
 		spawnData.State.sCharStateBase.aspectState.sAspectStateBase.byAspectStateId = 255;
-		spawnData.State.sCharStateBase.vCurLoc.x = _player->m_position.x + rand() % 5;
-		spawnData.State.sCharStateBase.vCurLoc.y = _player->m_position.y;
-		spawnData.State.sCharStateBase.vCurLoc.z = _player->m_position.z + rand() % 5;
-		spawnData.State.sCharStateBase.vCurDir.x = _player->m_rotation.x + rand() % 5;
-		spawnData.State.sCharStateBase.vCurDir.y = _player->m_rotation.y;
-		spawnData.State.sCharStateBase.vCurDir.z = _player->m_rotation.z + rand() % 5;
+		spawnData.State.sCharStateBase.vCurLoc.x = 5731.9302;//_player->m_position.x + rand() % 5;
+		spawnData.State.sCharStateBase.vCurLoc.y = -88.579002;//_player->m_position.y;
+		spawnData.State.sCharStateBase.vCurLoc.z = 3947.2209;//_player->m_position.z + rand() % 5;
+		spawnData.State.sCharStateBase.vCurDir.x = 0.616;//_player->m_rotation.x + rand() % 5;
+		spawnData.State.sCharStateBase.vCurDir.y = 0.78799999;//_player->m_rotation.y;
+		spawnData.State.sCharStateBase.vCurDir.z = 0;//_player->m_rotation.z + rand() % 5;
 		spawnData.State.sCharStateBase.byStateID = eCHARSTATE::CHARSTATE_DIRECT_PLAY;
 		//spawnData.State.sCharStateBase.byStateID = eCHARSTATE::CHARSTATE_SPAWNING;
 
