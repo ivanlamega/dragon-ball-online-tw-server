@@ -206,7 +206,7 @@ void Player::RunScriptDendeQuest()
 	Npc* NpcInfo = static_cast<Npc*>(GetFromList(GetAttributesManager()->questSubCls.npcHandle));
 	if (NpcInfo)
 	{
-		sLog.outDebug("Mob found!");
+		sLog.outDebug("Npc found! %d %d", NpcInfo->GetHandle(), GetAttributesManager()->questSubCls.npcHandle);
 
 		NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.byDirectPlayType = DIRECT_PLAY_NORMAL;
 
@@ -219,14 +219,14 @@ void Player::RunScriptDendeQuest()
 
 		Timer.setTimeout([&]() {
 
-			NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx = 60004;
+			NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx = 60003;
 			NpcInfo->UpdateState(eCHARSTATE::CHARSTATE_DIRECT_PLAY);
 			sLog.outDebug("DIRECT_PLAY_NORMAL %d", NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx);
 			}, 10000);
 
 		Timer.setTimeout([&]() {
 
-			NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx = 60003;
+			NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx = 60004;
 			NpcInfo->UpdateState(eCHARSTATE::CHARSTATE_DIRECT_PLAY);
 			sLog.outDebug("DIRECT_PLAY_NORMAL %d", NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx);
 			}, 15000);
@@ -262,7 +262,7 @@ void Player::RunScriptDendeQuest()
 	}
 	else
 	{
-		sLog.outDebug("Mob not found!");
+		sLog.outDebug("Npc not found!");
 	}
 }
 sVECTOR3 Player::GetMoveDestinationVector()

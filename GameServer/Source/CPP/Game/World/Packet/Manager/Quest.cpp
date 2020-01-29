@@ -1479,6 +1479,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 				{
 					//SendQuestForcedCompletionNfy(tid);
 					_player->GetAttributesManager()->questSubCls.npcHandle = SpawnNPCByTblidxQuestDende(3174103);
+					sLog.outDebug("Player handle %d npc handle %d", _player->GetHandle(), _player->GetAttributesManager()->questSubCls.npcHandle);
 				}
 				// SUB CLASS ---------------------
 				// TLQ 1 -----------------------

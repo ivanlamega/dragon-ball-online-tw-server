@@ -12,13 +12,15 @@
 #include <Logger.h>
 #include <World.h>
 #include <XmlParser2/XmlParser2.h>
+//#include <TimerJs.h>
+
 
 
 void Player::GetAtributesCalculation(HOBJECT Target[32], BYTE MaxApplyTarget, BYTE bySkillType, BYTE SkillType[2], double SkillValueDemage[2], BYTE byRPBonus)
-{	
+{
 	int TargetCount = 0;
 	for (int D = 0; D < MaxApplyTarget; D++)
-	{		
+	{
 		Object* ObjectInfo = static_cast<Object*>(GetFromList(Target[D]));
 		if (ObjectInfo != NULL)
 		{
@@ -65,7 +67,7 @@ void Player::GetAtributesCalculation(HOBJECT Target[32], BYTE MaxApplyTarget, BY
 					{
 						CriticalRate = GetPcProfile()->avatarAttribute.wLastPhysicalCriticalRate;
 						attack = GetPcProfile()->avatarAttribute.wLastPhysicalOffence / 100 * SkillValueDemage[0];
-						Defense = PlayerInfo->GetPcProfile()->avatarAttribute.wLastPhysicalDefence;						
+						Defense = PlayerInfo->GetPcProfile()->avatarAttribute.wLastPhysicalDefence;
 						CriticalDemage[TargetCount] = attack / 100 * GetPcProfile()->avatarAttribute.fPhysicalCriticalDamageBonusRate;
 					}
 					if (bySkillType == eSKILL_TYPE::SKILL_TYPE_ENERGY)
@@ -206,7 +208,7 @@ void Player::GetAtributesCalculation(HOBJECT Target[32], BYTE MaxApplyTarget, BY
 				}
 
 
-				
+
 				TargetCount += 1;
 			}
 			//
@@ -318,7 +320,7 @@ void Player::GetAtributesCalculation(HOBJECT Target[32], BYTE MaxApplyTarget, BY
 					{
 						AttackType[TargetCount] = eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_CRITICAL_HIT;
 						SkillDemage[TargetCount] *= 2;
-						SkillDemage[TargetCount] +=  CriticalDemage[TargetCount];
+						SkillDemage[TargetCount] += CriticalDemage[TargetCount];
 					}
 					else
 					{
@@ -334,7 +336,7 @@ void Player::GetAtributesCalculation(HOBJECT Target[32], BYTE MaxApplyTarget, BY
 				{
 					SkillDemage[TargetCount] = 60;
 				}
-				
+
 				TargetCount += 1;
 			}
 		}
@@ -345,20 +347,20 @@ void Player::GetAtributesCalculation(HOBJECT Target[32], BYTE MaxApplyTarget, BY
 
 void Player::SkillAcion()
 {
-	
-	sUG_CHAR_SKILL_REQ *pCharSkillReq = (sUG_CHAR_SKILL_REQ*)packets.GetPacketBuffer();
-	
+
+	sUG_CHAR_SKILL_REQ* pCharSkillReq = (sUG_CHAR_SKILL_REQ*)packets.GetPacketBuffer();
+
 	sGU_CHAR_SKILL_RES sSkil;
 	sSkil.wPacketSize = sizeof(sGU_CHAR_SKILL_RES) - 2;
 	sSkil.wOpCode = GU_CHAR_SKILL_RES;
 	sSkil.wResultCode = GAME_SKILL_CANT_CAST_NOW;
-	
+
 	bool bleed = false;
 	int skillID = skillManager.getIdAtPos(pCharSkillReq->bySlotIndex);
-	SkillTable * skillTable = sTBM.GetSkillTable();
-	sSKILL_TBLDAT * skillDataOriginal = reinterpret_cast<sSKILL_TBLDAT*>(skillTable->FindData(skillID));
+	SkillTable* skillTable = sTBM.GetSkillTable();
+	sSKILL_TBLDAT* skillDataOriginal = reinterpret_cast<sSKILL_TBLDAT*>(skillTable->FindData(skillID));
 	if (skillDataOriginal != NULL)
-	{		
+	{
 		if (GetIsDead() == false)
 		{
 			sGU_CHAR_ACTION_SKILL skillRes;
@@ -370,13 +372,13 @@ void Player::SkillAcion()
 			memset(&pBuffData, 0, sizeof(BuffTypeSkill));
 			pBuffData.OpCode = GU_BUFF_REGISTERED;
 			pBuffData.size = sizeof(BuffTypeSkill) - 2;
-			pBuffData.tblidx = INVALID_TBLIDX;					
+			pBuffData.tblidx = INVALID_TBLIDX;
 
 			for (int Effect = 0; Effect <= 2; Effect++)
 			{
 				////Skill Handle
 				int count = 0;
-				sSYSTEM_EFFECT_TBLDAT * SystemEffectData = NULL;
+				sSYSTEM_EFFECT_TBLDAT* SystemEffectData = NULL;
 				SystemEffectData = (sSYSTEM_EFFECT_TBLDAT*)sTBM.GetSystemEffectTable()->FindData(skillDataOriginal->skill_Effect[Effect]);
 
 				if (SystemEffectData != NULL)
@@ -404,7 +406,7 @@ void Player::SkillAcion()
 							if (ObjectType == OBJTYPE_PC)
 							{
 								Player* PlayerInfo = static_cast<Player*>(GetFromList(pCharSkillReq->ahApplyTarget[i]));
-								if (PlayerInfo != NULL  && PlayerInfo->GetIsDead() == false)
+								if (PlayerInfo != NULL && PlayerInfo->GetIsDead() == false)
 								{
 									if (PlayerInfo->GetAttributesManager()->IsinPVP == true || PlayerInfo->GetAttributesManager()->PlayerInFreeBatle == true)
 									{
@@ -476,7 +478,7 @@ void Player::SkillAcion()
 							if (ObjectType == OBJTYPE_PC)
 							{
 								Player* PlayerInfo = static_cast<Player*>(GetFromList(pCharSkillReq->ahApplyTarget[i]));
-								if (PlayerInfo != NULL  && PlayerInfo->GetIsDead() == false)
+								if (PlayerInfo != NULL && PlayerInfo->GetIsDead() == false)
 								{
 									if (PlayerInfo->GetAttributesManager()->IsinPVP == true || PlayerInfo->GetAttributesManager()->PlayerInFreeBatle == true)
 									{
@@ -608,7 +610,7 @@ void Player::SkillAcion()
 							if (ObjectType == OBJTYPE_PC)
 							{
 								Player* PlayerInfo = static_cast<Player*>(GetFromList(pCharSkillReq->ahApplyTarget[i]));
-								if (PlayerInfo != NULL  && PlayerInfo->GetIsDead() == false)
+								if (PlayerInfo != NULL && PlayerInfo->GetIsDead() == false)
 								{
 									if (PlayerInfo->GetAttributesManager()->IsinPVP == true || PlayerInfo->GetAttributesManager()->PlayerInFreeBatle == true)
 									{
@@ -725,7 +727,76 @@ void Player::SkillAcion()
 						sLog.outDebug("Skill: ACTIVE_DIRECT_HEAL");
 
 						// Sub class dende
-						RunScriptDendeQuest();
+						Npc* NpcInfo = static_cast<Npc*>(GetFromList(GetAttributesManager()->questSubCls.npcHandle));
+						if (NpcInfo)
+						{
+							sLog.outDebug("Npc found! %d %d", NpcInfo->GetHandle(), GetAttributesManager()->questSubCls.npcHandle);
+
+							NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.byDirectPlayType = DIRECT_PLAY_NORMAL;
+
+							Timer.setTimeout([&]() {
+
+								if (NpcInfo)
+								{
+									NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx = 60002;
+									NpcInfo->UpdateState(eCHARSTATE::CHARSTATE_DIRECT_PLAY);
+									sLog.outDebug("DIRECT_PLAY_NORMAL %d", NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx);
+								}
+								}, 5000);
+
+							Timer.setTimeout([&]() {
+								if (NpcInfo)
+								{ 
+									NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx = 60003;
+									NpcInfo->UpdateState(eCHARSTATE::CHARSTATE_DIRECT_PLAY);
+									sLog.outDebug("DIRECT_PLAY_NORMAL %d", NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx);
+								}
+								}, 10000);
+
+							Timer.setTimeout([&]() {
+
+								NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx = 60004;
+								NpcInfo->UpdateState(eCHARSTATE::CHARSTATE_DIRECT_PLAY);
+								sLog.outDebug("DIRECT_PLAY_NORMAL %d", NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx);
+								}, 15000);
+
+							Timer.setTimeout([&]() {
+								if (NpcInfo)
+								{
+									NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.dwTimeStamp = 0;
+									NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.byMoveFlag = 1;
+									NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.bHaveSecondDestLoc = false;
+									NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.unknown = 0;
+									NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.byDestLocCount = 1;
+									NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.avDestLoc[0].x = 5779.3789;
+									NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.avDestLoc[0].y = -90.417999;
+									NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.avDestLoc[0].z = 3999.4399;
+									NpcInfo->UpdateState(eCHARSTATE::CHARSTATE_DESTMOVE);
+									sLog.outDebug("DIRECT_PLAY_NORMAL %d", NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx);
+								}
+								}, 20000);
+
+							Timer.setTimeout([&]() {
+								if (NpcInfo)
+								{
+									sGU_OBJECT_DESTROY sPacket;
+
+									sPacket.wOpCode = GU_OBJECT_DESTROY;
+									sPacket.handle = NpcInfo->GetHandle();
+									sPacket.wPacketSize = sizeof(sGU_OBJECT_DESTROY) - 2;
+
+									SendPacket((char*)&sPacket, sizeof(sGU_OBJECT_DESTROY));
+									NpcInfo->SetIsBecomeMob(true);
+									NpcInfo->RemoveFromWorld();
+									RemoveFromList(*NpcInfo);
+									sLog.outDebug("NPC deleted");
+								}
+								}, 30000);
+						}
+						else
+						{
+							sLog.outDebug("Npc not found!");
+						}
 						// Sub class dende
 
 						sSkil.wResultCode = GAME_SUCCESS;
@@ -779,7 +850,7 @@ void Player::SkillAcion()
 							if (ObjectType == OBJTYPE_PC)
 							{
 								Player* PlayerInfo = static_cast<Player*>(GetFromList(pCharSkillReq->ahApplyTarget[i]));
-								if (PlayerInfo != NULL &&  GetAttributesManager()->PlayerInFreeBatle == false)
+								if (PlayerInfo != NULL && GetAttributesManager()->PlayerInFreeBatle == false)
 								{
 									skillRes.aSkillResult[count].hTarget = PlayerInfo->GetHandle();
 									skillRes.aSkillResult[count].byAttackResult = eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_HIT;
@@ -856,7 +927,7 @@ void Player::SkillAcion()
 
 									SendPacket((char*)&LPs, sizeof(sGU_UPDATE_CHAR_LP));
 									SendToPlayerList((char*)&LPs, sizeof(sGU_UPDATE_CHAR_LP));
-									
+
 									count = 1;
 								}
 							}
@@ -1029,74 +1100,74 @@ void Player::SkillAcion()
 							ExecuteEffectCalculation(pBuffData.tblidx, false);
 
 							GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffID = pBuffData.tblidx;
-							GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffTime = GetTickCount();							
+							GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffTime = GetTickCount();
 							GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffEndTime = pBuffData.dwInitialDuration;
 							GetAttributesManager()->sBuffTimeInfo[FreePlace].PlayerHandle = pBuffData.hHandle;
 							GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffIsActive = true;
 							GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffSlot = 0;
 						}
 						//Area Buff
-							for (int i = 0; i < skillDataOriginal->byApply_Target_Max; i++)
+						for (int i = 0; i < skillDataOriginal->byApply_Target_Max; i++)
 						{
-						if (ObjectType == OBJTYPE_PC)
-						{
-						Player* PlayerInfo = static_cast<Player*>( GetFromList(pCharSkillReq->ahApplyTarget[i]));
-						if (PlayerInfo != NULL)
-						{
-						pBuffData.hHandle = PlayerInfo->GetHandle();
-						//pBuffData.slot = 1;
-						pBuffData.tblidx = skillDataOriginal->tblidx;
-						pBuffData.bySourceType = 0;
-						pBuffData.dwInitialDuration = skillDataOriginal->dwKeepTimeInMilliSecs;
-						pBuffData.dwTimeRemaining = skillDataOriginal->dwKeepTimeInMilliSecs;//Time
+							if (ObjectType == OBJTYPE_PC)
+							{
+								Player* PlayerInfo = static_cast<Player*>(GetFromList(pCharSkillReq->ahApplyTarget[i]));
+								if (PlayerInfo != NULL)
+								{
+									pBuffData.hHandle = PlayerInfo->GetHandle();
+									//pBuffData.slot = 1;
+									pBuffData.tblidx = skillDataOriginal->tblidx;
+									pBuffData.bySourceType = 0;
+									pBuffData.dwInitialDuration = skillDataOriginal->dwKeepTimeInMilliSecs;
+									pBuffData.dwTimeRemaining = skillDataOriginal->dwKeepTimeInMilliSecs;//Time
 
-						pBuffData.isactive = 1;
-						pBuffData.Type = 0;
-						pBuffData.BuffInfo[Effect].SystemEffectValue = skillDataOriginal->SkillValue[Effect];
-						pBuffData.BuffInfo[Effect].SystemEffectTime = skillDataOriginal->dwKeepTimeInMilliSecs;
-						pBuffData.BuffInfo[Effect].dwSystemEffectValue = skillDataOriginal->SkillValue[Effect];
-						//Handle Buff Time List
-						int FreePlace = 0;
-						for (int i = 0; i <= 32; i++)
-						{
-						if (PlayerInfo->GetAttributesManager()->sBuffTimeInfo[i].BuffID == pBuffData.tblidx)
-						{
-						sGU_BUFF_DROPPED dropbuff;
-						dropbuff.wOpCode = GU_BUFF_DROPPED;
-						dropbuff.wPacketSize = sizeof(sGU_BUFF_DROPPED) - 2;
-						dropbuff.hHandle = PlayerInfo->GetHandle();
-						dropbuff.bySourceType = eDBO_OBJECT_SOURCE::DBO_OBJECT_SOURCE_SKILL;
-						dropbuff.Slot = 0;
-						dropbuff.tblidx = pBuffData.tblidx;
-						dropbuff.unk1 = 0;
-						PlayerInfo->SendPacket((char*)&dropbuff, sizeof(sGU_BUFF_DROPPED));
-						PlayerInfo->SendToPlayerList((char*)&dropbuff, sizeof(sGU_BUFF_DROPPED));
-						PlayerInfo->GetAttributesManager()->sBuffTimeInfo[i].BuffIsActive = false;
-						PlayerInfo->GetAttributesManager()->sBuffTimeInfo[i].BuffEndTime = INVALID_TBLIDX;
-						PlayerInfo->GetAttributesManager()->sBuffTimeInfo[i].BuffTime = INVALID_TBLIDX;
-						PlayerInfo->GetAttributesManager()->sBuffTimeInfo[i].BuffID = INVALID_TBLIDX;
-						PlayerInfo->ExecuteEffectCalculation(pBuffData.tblidx, true);
-						printf("Alardy got that buff \n");
-						FreePlace = i;
-						}
-						//GetFreeSlot
-						else if (PlayerInfo->GetAttributesManager()->sBuffTimeInfo[i].BuffID == 0 || PlayerInfo->GetAttributesManager()->sBuffTimeInfo[i].BuffID == INVALID_TBLIDX)
-						{
-						printf("Regist new buff \n");
-						FreePlace = i;
-						}
+									pBuffData.isactive = 1;
+									pBuffData.Type = 0;
+									pBuffData.BuffInfo[Effect].SystemEffectValue = skillDataOriginal->SkillValue[Effect];
+									pBuffData.BuffInfo[Effect].SystemEffectTime = skillDataOriginal->dwKeepTimeInMilliSecs;
+									pBuffData.BuffInfo[Effect].dwSystemEffectValue = skillDataOriginal->SkillValue[Effect];
+									//Handle Buff Time List
+									int FreePlace = 0;
+									for (int i = 0; i <= 32; i++)
+									{
+										if (PlayerInfo->GetAttributesManager()->sBuffTimeInfo[i].BuffID == pBuffData.tblidx)
+										{
+											sGU_BUFF_DROPPED dropbuff;
+											dropbuff.wOpCode = GU_BUFF_DROPPED;
+											dropbuff.wPacketSize = sizeof(sGU_BUFF_DROPPED) - 2;
+											dropbuff.hHandle = PlayerInfo->GetHandle();
+											dropbuff.bySourceType = eDBO_OBJECT_SOURCE::DBO_OBJECT_SOURCE_SKILL;
+											dropbuff.Slot = 0;
+											dropbuff.tblidx = pBuffData.tblidx;
+											dropbuff.unk1 = 0;
+											PlayerInfo->SendPacket((char*)&dropbuff, sizeof(sGU_BUFF_DROPPED));
+											PlayerInfo->SendToPlayerList((char*)&dropbuff, sizeof(sGU_BUFF_DROPPED));
+											PlayerInfo->GetAttributesManager()->sBuffTimeInfo[i].BuffIsActive = false;
+											PlayerInfo->GetAttributesManager()->sBuffTimeInfo[i].BuffEndTime = INVALID_TBLIDX;
+											PlayerInfo->GetAttributesManager()->sBuffTimeInfo[i].BuffTime = INVALID_TBLIDX;
+											PlayerInfo->GetAttributesManager()->sBuffTimeInfo[i].BuffID = INVALID_TBLIDX;
+											PlayerInfo->ExecuteEffectCalculation(pBuffData.tblidx, true);
+											printf("Alardy got that buff \n");
+											FreePlace = i;
+										}
+										//GetFreeSlot
+										else if (PlayerInfo->GetAttributesManager()->sBuffTimeInfo[i].BuffID == 0 || PlayerInfo->GetAttributesManager()->sBuffTimeInfo[i].BuffID == INVALID_TBLIDX)
+										{
+											printf("Regist new buff \n");
+											FreePlace = i;
+										}
 
-						}
-						PlayerInfo->ExecuteEffectCalculation(pBuffData.tblidx, false);
+									}
+									PlayerInfo->ExecuteEffectCalculation(pBuffData.tblidx, false);
 
-						PlayerInfo->GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffID = pBuffData.tblidx;
-						PlayerInfo->GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffTime = GetTickCount();
-						PlayerInfo->GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffEndTime = pBuffData.dwInitialDuration;
-						PlayerInfo->GetAttributesManager()->sBuffTimeInfo[FreePlace].PlayerHandle = pBuffData.hHandle;
-						PlayerInfo->GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffIsActive = true;
-						PlayerInfo->GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffSlot = 0;
-						}
-						}
+									PlayerInfo->GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffID = pBuffData.tblidx;
+									PlayerInfo->GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffTime = GetTickCount();
+									PlayerInfo->GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffEndTime = pBuffData.dwInitialDuration;
+									PlayerInfo->GetAttributesManager()->sBuffTimeInfo[FreePlace].PlayerHandle = pBuffData.hHandle;
+									PlayerInfo->GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffIsActive = true;
+									PlayerInfo->GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffSlot = 0;
+								}
+							}
 						}
 
 						break;
@@ -1118,7 +1189,7 @@ void Player::SkillAcion()
 							if (ObjectType == OBJTYPE_PC)
 							{
 								Player* PlayerInfo = static_cast<Player*>(GetFromList(pCharSkillReq->ahApplyTarget[i]));
-								if (PlayerInfo != NULL  && PlayerInfo->GetIsDead() == false)
+								if (PlayerInfo != NULL && PlayerInfo->GetIsDead() == false)
 								{
 									if (PlayerInfo->GetAttributesManager()->IsinPVP == true || PlayerInfo->GetAttributesManager()->PlayerInFreeBatle == true)
 									{
@@ -1169,7 +1240,7 @@ void Player::SkillAcion()
 											state.sCharState.sCharStateBase.dwConditionFlag = 0;
 											//	res.sCharState.sCharStateBase.bFightMode = false;
 											state.sCharState.sCharStateBase.dwStateTime = 2;
-											
+
 											PlayerInfo->SendPacket((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
 											PlayerInfo->SendToPlayerList((char*)&state, sizeof(sGU_UPDATE_CHAR_STATE));
 										}
@@ -1262,7 +1333,7 @@ void Player::SkillAcion()
 							if (ObjectType == OBJTYPE_PC)
 							{
 								Player* PlayerInfo = static_cast<Player*>(GetFromList(pCharSkillReq->ahApplyTarget[i]));
-								if (PlayerInfo != NULL  && PlayerInfo->GetIsDead() == false)
+								if (PlayerInfo != NULL && PlayerInfo->GetIsDead() == false)
 								{
 									if (PlayerInfo->GetAttributesManager()->IsinPVP == true || PlayerInfo->GetAttributesManager()->PlayerInFreeBatle == true)
 									{
@@ -1406,7 +1477,7 @@ void Player::SkillAcion()
 							if (ObjectType == OBJTYPE_PC)
 							{
 								Player* PlayerInfo = static_cast<Player*>(GetFromList(pCharSkillReq->ahApplyTarget[i]));
-								if (PlayerInfo != NULL  && PlayerInfo->GetIsDead() == false)
+								if (PlayerInfo != NULL && PlayerInfo->GetIsDead() == false)
 								{
 									if (PlayerInfo->GetAttributesManager()->IsinPVP == true || PlayerInfo->GetAttributesManager()->PlayerInFreeBatle == true)
 									{
@@ -1549,7 +1620,7 @@ void Player::SkillAcion()
 							if (ObjectType == OBJTYPE_PC)
 							{
 								Player* PlayerInfo = static_cast<Player*>(GetFromList(pCharSkillReq->ahApplyTarget[i]));
-								if (PlayerInfo != NULL  && PlayerInfo->GetIsDead() == false)
+								if (PlayerInfo != NULL && PlayerInfo->GetIsDead() == false)
 								{
 									if (PlayerInfo->GetAttributesManager()->IsinPVP == true || PlayerInfo->GetAttributesManager()->PlayerInFreeBatle == true)
 									{
@@ -1693,7 +1764,7 @@ void Player::SkillAcion()
 							if (ObjectType == OBJTYPE_PC)
 							{
 								Player* PlayerInfo = static_cast<Player*>(GetFromList(pCharSkillReq->ahApplyTarget[i]));
-								if (PlayerInfo != NULL  && PlayerInfo->GetIsDead() == false)
+								if (PlayerInfo != NULL && PlayerInfo->GetIsDead() == false)
 								{
 									if (PlayerInfo->GetAttributesManager()->IsinPVP == true || PlayerInfo->GetAttributesManager()->PlayerInFreeBatle == true)
 									{
@@ -1844,7 +1915,7 @@ void Player::SkillAcion()
 							if (ObjectType == OBJTYPE_PC)
 							{
 								Player* PlayerInfo = static_cast<Player*>(GetFromList(pCharSkillReq->ahApplyTarget[i]));
-								if (PlayerInfo != NULL  && PlayerInfo->GetIsDead() == false)
+								if (PlayerInfo != NULL && PlayerInfo->GetIsDead() == false)
 								{
 									if (PlayerInfo->GetAttributesManager()->IsinPVP == true || PlayerInfo->GetAttributesManager()->PlayerInFreeBatle == true)
 									{
@@ -2002,7 +2073,7 @@ void Player::SkillAcion()
 							if (ObjectType == OBJTYPE_PC)
 							{
 								Player* PlayerInfo = static_cast<Player*>(GetFromList(pCharSkillReq->ahApplyTarget[i]));
-								if (PlayerInfo != NULL  && PlayerInfo->GetIsDead() == false)
+								if (PlayerInfo != NULL && PlayerInfo->GetIsDead() == false)
 								{
 									if (PlayerInfo->GetAttributesManager()->IsinPVP == true || PlayerInfo->GetAttributesManager()->PlayerInFreeBatle == true)
 									{
@@ -2154,7 +2225,7 @@ void Player::SkillAcion()
 						skillRes.byRpBonusType = 0;//Untested
 						skillRes.wOpCode = GU_CHAR_ACTION_SKILL;
 						skillRes.handle = GetHandle();//My Handle
-						skillRes.hAppointedTarget = GetHandle();					
+						skillRes.hAppointedTarget = GetHandle();
 						TeleportToPopo();
 						break;
 					}
@@ -2162,10 +2233,10 @@ void Player::SkillAcion()
 					}
 				}
 			}
-			
+
 			SendPacket((char*)&sSkil, sizeof(sGU_CHAR_SKILL_RES));
 			SendPacket((char*)&skillRes, sizeof(sGU_CHAR_ACTION_SKILL));
-			SendToPlayerList((char*)&skillRes, sizeof(sGU_CHAR_ACTION_SKILL));	
+			SendToPlayerList((char*)&skillRes, sizeof(sGU_CHAR_ACTION_SKILL));
 			DelayTime = GetTickCount();
 			if (pBuffData.hHandle != 0 && bleed == false || pBuffData.hHandle != INVALID_TBLIDX && bleed == false)
 			{
