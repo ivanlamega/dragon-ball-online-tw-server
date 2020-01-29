@@ -1382,6 +1382,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 						// Dende
 						_player->GetAttributesManager()->questSubCls.objData[0].mobsTblidx.push_back(4883104);
 						_player->GetAttributesManager()->questSubCls.objData[0].NPCTblidx.push_back(4751109);
+						_player->GetAttributesManager()->questSubCls.objData[0].NPCTblidx.push_back(4511515);
 
 						_player->GetAttributesManager()->questSubCls.objData[0].objTblidx = objTblidx1;
 						_player->GetAttributesManager()->questSubCls.objData[0].triggerId = 6007;
