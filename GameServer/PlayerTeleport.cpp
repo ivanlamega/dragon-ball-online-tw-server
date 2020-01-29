@@ -28,6 +28,8 @@ void WorldSession::SendCharTeleportRes(Packet& packet)
 	Teleport.wPacketSize = sizeof(sGU_CHAR_TELEPORT_RES) - 2;
 	Teleport.wResultCode = GAME_CAN_NOT_TELEPORT;
 
+	sLog.outDetail("teleport Type: %d", _player->GetState()->sCharStateDetail.sCharStateDespawning.byTeleportType);
+
 	switch (_player->GetState()->sCharStateDetail.sCharStateDespawning.byTeleportType)
 	{
 		case eTELEPORT_TYPE::TELEPORT_TYPE_DEFAULT:

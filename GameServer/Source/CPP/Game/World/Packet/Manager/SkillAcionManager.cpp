@@ -725,9 +725,9 @@ void Player::SkillAcion()
 					case ACTIVE_DIRECT_HEAL:
 					{
 						sLog.outDebug("Skill: ACTIVE_DIRECT_HEAL");
-
+						RunScriptDendeQuest();
 						// Sub class dende
-						Npc* NpcInfo = static_cast<Npc*>(GetFromList(GetAttributesManager()->questSubCls.npcHandle));
+						/*Npc* NpcInfo = static_cast<Npc*>(GetFromList(GetAttributesManager()->questSubCls.npcHandle));
 						if (NpcInfo)
 						{
 							sLog.outDebug("Npc found! %d %d", NpcInfo->GetHandle(), GetAttributesManager()->questSubCls.npcHandle);
@@ -796,7 +796,7 @@ void Player::SkillAcion()
 						else
 						{
 							sLog.outDebug("Npc not found!");
-						}
+						}*/
 						// Sub class dende
 
 						sSkil.wResultCode = GAME_SUCCESS;
