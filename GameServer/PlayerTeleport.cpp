@@ -50,6 +50,8 @@ void WorldSession::SendCharTeleportRes(Packet& packet)
 			sLog.outDebug("1------------WORLD TBLIDX %d-----------------", _player->GetAttributesManager()->teleportInfo.worldInfo.tblidx);
 			if (worldTbl != NULL)
 			{
+				_player->GetState()->sCharStateBase.isFlying = false;
+				_player->SetFlying(false);
 				_player->SetWorldID(worldTbl->tblidx);
 				_player->SetWorldTableID(worldTbl->tblidx);
 				_player->GetState()->sCharStateDetail.sCharStateTeleporting.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_DEFAULT;//eTELEPORT_TYPE::TELEPORT_TYPE_NPC_PORTAL;

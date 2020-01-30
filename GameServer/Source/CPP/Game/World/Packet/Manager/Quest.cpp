@@ -79,6 +79,7 @@ ResultCodes	WorldSession::FindPCTriggerInformation(sUG_TS_CONFIRM_STEP_REQ* req)
 							case ePORTAL_TYPE_GATEWAY:
 							{
 								sLog.outDebug("ePORTAL_TYPE_GATEWAY");
+
 							}
 							case ePORTAL_TYPE_TELEPORT:
 							{
