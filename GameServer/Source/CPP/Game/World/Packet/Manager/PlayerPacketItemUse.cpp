@@ -307,6 +307,46 @@ void Player::HandleItemUse(Packet pPacket)
 										}
 										// SUB CLASS
 
+										//New System
+										NTL_TS_T_ID questId = GetQuestManager()->FindQuestByObject(objTblidx);
+										if (questId != NTL_TS_T_ID_INVALID)
+										{
+											QuestData* quest = GetQuestManager()->FindQuestById(questId);
+											switch (quest->evtDataType)
+											{
+												case eSTOC_EVT_DATA_TYPE_CUSTOM_EVT_CNT:
+												{
+													for (int slot = 0; slot < quest->uEvtData.MAX_CUSTOM_EVT_CNT; slot++)
+													{
+														sLog.outDebug("EVT COUNT %d", quest->uEvtData.sCustomEvtCnt[slot].nCurCnt);
+
+														sLog.outError("QUEST ID: %d", quest->QuestID);
+														if (quest->uEvtData.sCustomEvtCnt[slot].nCurCnt < quest->uEvtData.sCustomEvtCnt[slot].nMaxCnt)
+														{
+															sLog.outDebug("Item Tblidx %d %d", quest->uEvtData.sCustomEvtCnt[slot].uiCustomEvtID,
+																((WorldObject*)reference->getSource())->GetTblidx());
+
+															if (m_session->FindObjectTriggerInformation(quest->QuestID,
+																quest, req->hTarget, objTblidx) == RESULT_SUCCESS)
+															{
+																sGU_ITEM_USE_RES res;
+																res.wOpCode = GU_ITEM_USE_RES;
+																res.wPacketSize = sizeof(sGU_ITEM_USE_RES) - 2;
+																res.wResultCode = RESULT_SUCCESS;
+																res.tblidxItem = Item->tblidx;
+																res.byPlace = req->byPlace;
+																res.byPos = req->byPos;
+																//SendPacket((char*)&res, sizeof(sGU_ITEM_USE_RES));
+																sLog.outDebug("Item trigger: %d %d %d", res.tblidxItem, req->hTarget, objTblidx);
+															}
+
+														}
+													}
+												}
+											}
+										}
+										//NEw System
+
 										for (int i = 0; i <= 30; i++)
 										{
 											//--------------------------------

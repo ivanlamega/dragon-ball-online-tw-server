@@ -214,6 +214,7 @@ public:
 	//Trigger
 	void			SendTsExcuteTriggerObject(Packet& packet);
 	ResultCodes		FindObjectTriggerInformation(NTL_TS_T_ID tid, QuestData* questData, HOBJECT hTarget, TBLIDX objTblidx);
+	void			LoadObjectsTriggersForQuest(NTL_TS_T_ID triggerId, NTL_TS_T_ID questId);
 	// PC trigger
 	ResultCodes		FindPCTriggerInformation(sUG_TS_CONFIRM_STEP_REQ* req);
 	// TLQ 1

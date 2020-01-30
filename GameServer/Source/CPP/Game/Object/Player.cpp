@@ -3168,6 +3168,65 @@ void Player::RewardDropFromMob(MonsterData& data)
 				}
 				break;
 			}
+			case eSTOC_EVT_DATA_TYPE_MOB_KILL_ITEM_CNT:
+			{
+				for (int slot = 0; slot < quest->uEvtData.MAX_MOB_KILL_ITEM; slot++)
+				{
+					if (quest->uEvtData.sMobKillItemCnt[slot].nCurMobLICnt < quest->uEvtData.sMobKillItemCnt[slot].nMobLICnt)
+					{
+						sQUEST_DROP_TBLDAT* drop = (sQUEST_DROP_TBLDAT*)sTBM.GetQuestDropTable()->FindData(data.Drop_quest_id);
+						if (drop)
+						{
+							for (int itemIndex = 0; itemIndex < QUEST_ITEM_DROP_MAX_COUNT; itemIndex++)
+							{
+								if (drop->aQuestItemTblidx[itemIndex] == quest->uEvtData.sMobKillItemCnt[slot].uiMobLIIdx)
+								{
+									sLog.outDebug("Count Quest Mob");
+									GetAttributesManager()->KillerCount += 1;
+
+									QuestItem* questItem = GetQuestInventoryManager()->FindItemQuestByTblidx(drop->aQuestItemTblidx[itemIndex]);
+									if (questItem == NULL)
+									{
+										QuestItem newQuestItem;
+										newQuestItem.qItemTblidx = drop->aQuestItemTblidx[itemIndex];
+										newQuestItem.byCurCount = 1;
+										/*BYTE pos = GetQuestInventoryManager()->AddItemQuest(newQuestItem);
+										if (pos != -1)
+										{
+											quest->uEvtData.sMobKillItemCnt[slot].nCurMobLICnt = newQuestItem.byCurCount;
+											m_session->SendQuestItemCreate(pos, newQuestItem.qItemTblidx, newQuestItem.byCurCount);
+										}
+										else
+										{
+											sLog.outDebug("Inventory is full");
+										}*/
+									}
+									else
+									{
+										questItem->byCurCount++;
+										quest->uEvtData.sMobKillItemCnt[slot].nCurMobLICnt = questItem->byCurCount;
+										//m_session->SendQuestItemUpdateNfy(questItem->byPos, questItem->byCurCount);
+									}
+
+
+
+									//m_session->SendQuestSVRevtUpdateNotify(quest->QuestID,quest->tcId,quest->taId,quest->evtDataType,slot, &quest->uEvtData);
+
+									if (quest->uEvtData.sMobKillItemCnt[slot].nCurMobLICnt >= quest->uEvtData.sMobKillItemCnt[slot].nMobLICnt)
+									{
+										//m_session->SpawnNPCForQuest(quest->npcClick, 0);
+										//GetAttributesManager()->lastNPCQuest = INVALID_TBLIDX;
+										break;
+									}
+
+								}
+								sLog.outDebug("Quest drop %d", data.Drop_quest_id, drop->aQuestItemTblidx[itemIndex]);
+							}
+						}
+					}
+				}
+				break;
+			}
 		}
 	}
 	//New System

@@ -722,6 +722,31 @@ void			WorldSession::PacketParser(Packet& packet)
 			sLog.outError("UG_QUEST_OBJECT_VISIT_REQ");
 			sUG_QUEST_OBJECT_VISIT_REQ* req = (sUG_QUEST_OBJECT_VISIT_REQ*)packet.GetPacketBuffer();
 
+			//New system
+			QuestData* quest = _player->GetQuestManager()->FindQuestById(req->qId);
+			if (quest)
+			{
+				sLog.outDebug("QuestId %d req->qId %d", quest->QuestID, req->qId);
+				if (quest->QuestID == req->qId)
+				{
+					for (int slot = 0; slot < quest->uEvtData.MAX_VISIT_EVT; slot++)
+					{
+						sLog.outDebug("req->objectTblidx %d player ObjTblidx %d", req->objectTblidx, quest->uEvtData.sVisitEvt[slot].uiObjTblIdx);
+						if (req->objectTblidx == quest->uEvtData.sVisitEvt[slot].uiObjTblIdx)
+						{
+							quest->uEvtData.sVisitEvt[slot].bCompleted = true;
+
+							//SendQuestSVRevtUpdateNotify(req->qId, quest->tcId, quest->taId, quest->evtDataType, slot, &quest->uEvtData);
+							break;
+						}
+
+					}
+
+					break;
+				}
+			}
+			//NEw System
+
 			for (int i = 0; i < 30; i++)
 			{
 				sLog.outDebug("QuestId %d req->qId %d", _player->GetAttributesManager()->QuestDat[i].QuestID, req->qId);

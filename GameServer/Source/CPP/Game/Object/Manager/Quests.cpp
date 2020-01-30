@@ -42,16 +42,38 @@ void QuestManager::AddMobQuest(TBLIDX mobTblidx, NTL_TS_T_ID questId)
 
 NTL_TS_T_ID	QuestManager::FindQuestByMob(TBLIDX mobTblidx)
 {
-	if (INVALID_TBLIDX == mobTblidx)
+	if (NTL_TS_T_ID_INVALID == mobTblidx)
 	{
-		return INVALID_TBLIDX;
+		return NTL_TS_T_ID_INVALID;
 	}
 
 	MOBQUESTIT iter;
 	iter = m_pMobQuestList.find(mobTblidx);
 	if (MobQuestEnd() == iter)
 	{
-		return INVALID_TBLIDX;
+		return NTL_TS_T_ID_INVALID;
+	}
+
+	return (NTL_TS_T_ID)iter->second;
+}
+
+void QuestManager::AddObjectQuest(TBLIDX objTblidx, NTL_TS_T_ID questId)
+{
+	m_pObjectQuestList.insert(std::pair<TBLIDX, NTL_TS_T_ID>(objTblidx, questId));
+}
+
+NTL_TS_T_ID	QuestManager::FindQuestByObject(TBLIDX objTblidx)
+{
+	if (NTL_TS_T_ID_INVALID == objTblidx)
+	{
+		return NTL_TS_T_ID_INVALID;
+	}
+
+	OBJECTQUESTIT iter;
+	iter = m_pObjectQuestList.find(objTblidx);
+	if (ObjectQuestEnd() == iter)
+	{
+		return NTL_TS_T_ID_INVALID;
 	}
 
 	return (NTL_TS_T_ID)iter->second;
