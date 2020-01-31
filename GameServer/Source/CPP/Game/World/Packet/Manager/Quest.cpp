@@ -1076,8 +1076,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 
 						
 						try {
-							TimerJs timer = TimerJs();
-							timer.setTimeout([&]() {
+							Timer.setTimeout([&]() {
 								SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, 16050);
 								sLog.outDebug("Event send %d", 16050);
 								}, 4000);
@@ -1541,8 +1540,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 					sLog.outDebug("TGId %d time %d timerSort %d", timerS->GetTGId(), timerS->GetTime(), timerS->GetTimerSort());
 					if (tid == 6062)
 					{
-						TimerJs timer = TimerJs();
-						timer.setTimeout([&]() {
+						Timer.setTimeout([&]() {
 							int index = _player->GetAttributesManager()->questSubCls.objChoseIndex;
 							SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, _player->GetAttributesManager()->questSubCls.objData[index].evtId);
 							}, timerS->GetTime());
@@ -1636,8 +1634,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 
 
 							// Spawn mobs for sub class quest
-							TimerJs timer = TimerJs();
-							timer.setTimeout([&]() {
+							Timer.setTimeout([&]() {
 								int index = _player->GetAttributesManager()->questSubCls.objChoseIndex;
 								std::vector<TBLIDX> mobs = _player->GetAttributesManager()->questSubCls.objData[index].mobsTblidx;
 								std::vector<TBLIDX> NPCs = _player->GetAttributesManager()->questSubCls.objData[index].NPCTblidx;
@@ -4128,8 +4125,8 @@ ResultCodes WorldSession::FindObjectTriggerInformation(NTL_TS_T_ID tid, QuestDat
 									sLog.outDebug("DirTblidx %d time %d", opObject->GetDirectionTableIndex(), opObject->GetOperateTime());
 
 									// testing timer https://www.fluentcpp.com/2018/12/28/timer-cpp/
-									TimerJs timer = TimerJs();
-									timer.setTimeout([&]() {
+
+									Timer.setTimeout([&]() {
 										_player->UpdateState(eCHARSTATE::CHARSTATE_STANDING);
 										}, opObject->GetOperateTime());
 								}
