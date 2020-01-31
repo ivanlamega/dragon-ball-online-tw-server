@@ -209,29 +209,29 @@ void Player::RunScriptDendeQuest()
 		sLog.outDebug("Npc found! %d %d", NpcInfo->GetHandle(), GetAttributesManager()->questSubCls.npcHandle);
 
 		NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.byDirectPlayType = DIRECT_PLAY_NORMAL;
-
-		Timer.setTimeout([&]() {
+		TimerJs timer = TimerJs();
+		timer.setTimeout([&]() {
 
 			NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx = 60002;
 			NpcInfo->UpdateState(eCHARSTATE::CHARSTATE_DIRECT_PLAY);
 			sLog.outDebug("DIRECT_PLAY_NORMAL %d", NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx);
 			}, 5000);
 
-		Timer.setTimeout([&]() {
+		timer.setTimeout([&]() {
 
 			NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx = 60003;
 			NpcInfo->UpdateState(eCHARSTATE::CHARSTATE_DIRECT_PLAY);
 			sLog.outDebug("DIRECT_PLAY_NORMAL %d", NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx);
 			}, 10000);
 
-		Timer.setTimeout([&]() {
+		timer.setTimeout([&]() {
 
 			NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx = 60004;
 			NpcInfo->UpdateState(eCHARSTATE::CHARSTATE_DIRECT_PLAY);
 			sLog.outDebug("DIRECT_PLAY_NORMAL %d", NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx);
 			}, 15000);
 
-		Timer.setTimeout([&]() {
+		timer.setTimeout([&]() {
 
 			NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.dwTimeStamp = 0;
 			NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.byMoveFlag = 1;
@@ -244,7 +244,7 @@ void Player::RunScriptDendeQuest()
 			NpcInfo->UpdateState(eCHARSTATE::CHARSTATE_DESTMOVE);
 			}, 20000);
 
-		Timer.setTimeout([&]() {
+		timer.setTimeout([&]() {
 
 			sGU_OBJECT_DESTROY sPacket;
 
