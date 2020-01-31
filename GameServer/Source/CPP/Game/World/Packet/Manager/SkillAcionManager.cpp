@@ -725,9 +725,9 @@ void Player::SkillAcion()
 					case ACTIVE_DIRECT_HEAL:
 					{
 						sLog.outDebug("Skill: ACTIVE_DIRECT_HEAL");
-						RunScriptDendeQuest();
+
 						// Sub class dende
-						/*Npc* NpcInfo = static_cast<Npc*>(GetFromList(GetAttributesManager()->questSubCls.npcHandle));
+						Npc* NpcInfo = static_cast<Npc*>(GetFromList(GetAttributesManager()->questSubCls.npcHandle));
 						if (NpcInfo)
 						{
 							sLog.outDebug("Npc found! %d %d", NpcInfo->GetHandle(), GetAttributesManager()->questSubCls.npcHandle);
@@ -740,15 +740,33 @@ void Player::SkillAcion()
 								{
 									NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx = 60002;
 									NpcInfo->UpdateState(eCHARSTATE::CHARSTATE_DIRECT_PLAY);
+
+									sGU_CHAR_DIALOG dialog;
+									memset(&dialog, 0, sizeof sGU_CHAR_DIALOG);
+									dialog.wPacketSize = sizeof(sGU_CHAR_DIALOG) - 2;
+									dialog.wOpCode = GU_CHAR_DIALOG;
+									dialog.hSubject = NpcInfo->GetHandle();
+									dialog.byDialogType = eCHAR_DIALOG_TYPE::CHAR_DIALOG_SAY;
+									dialog.textTblidx = 3313;
+									SendPacket((char*)&dialog, sizeof(sGU_CHAR_DIALOG));
 									sLog.outDebug("DIRECT_PLAY_NORMAL %d", NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx);
 								}
 								}, 5000);
 
 							Timer.setTimeout([&]() {
 								if (NpcInfo)
-								{ 
+								{
 									NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx = 60003;
 									NpcInfo->UpdateState(eCHARSTATE::CHARSTATE_DIRECT_PLAY);
+
+									sGU_CHAR_DIALOG dialog;
+									memset(&dialog, 0, sizeof sGU_CHAR_DIALOG);
+									dialog.wPacketSize = sizeof(sGU_CHAR_DIALOG) - 2;
+									dialog.wOpCode = GU_CHAR_DIALOG;
+									dialog.hSubject = NpcInfo->GetHandle();
+									dialog.byDialogType = eCHAR_DIALOG_TYPE::CHAR_DIALOG_SAY;
+									dialog.textTblidx = 3314;
+									SendPacket((char*)&dialog, sizeof(sGU_CHAR_DIALOG));
 									sLog.outDebug("DIRECT_PLAY_NORMAL %d", NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx);
 								}
 								}, 10000);
@@ -796,7 +814,7 @@ void Player::SkillAcion()
 						else
 						{
 							sLog.outDebug("Npc not found!");
-						}*/
+						}
 						// Sub class dende
 
 						sSkil.wResultCode = GAME_SUCCESS;
