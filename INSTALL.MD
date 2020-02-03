@@ -21,7 +21,7 @@
         
     - LAZY:
       - extract on root directory:
-      - https://mega.nz/#!uRZUzK6Y!GCLQhPPK3c1ZDouH6FlofLLbD-IIDpFjOkeXEiJJsMg
+      - https://mega.nz/#!Ux9zWKaR!PvX7xkzdFpGCSHITBwtxJyZyKEidvxC0dLkPEnIWB_g
         - https://puu.sh/w8Kxz/3fef68c584.png
         
     - COMPILING
