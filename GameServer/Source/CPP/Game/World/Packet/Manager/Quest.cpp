@@ -2636,9 +2636,11 @@ void WorldSession::EvtMobItemKillCount(CDboTSActSToCEvt* sToCEvt, int freeslot, 
 			quest->uEvtData.sMobKillItemCnt[i].nCurMobLICnt = sToCEvt->GetEvtData().sMobKillItemCnt[i].nCurMobLICnt;
 
 			std::vector<TBLIDX> mobsTblidx = sTBM.GetMobTable()->FindTblidxsByQuestDrop(sToCEvt->GetEvtData().sMobKillItemCnt[i].uiMobLIIdx);
+			sLog.outDetail("Mobs count new system %d", mobsTblidx.size(), tid);
 			for (std::vector<TBLIDX>::size_type i = 0; i != mobsTblidx.size(); i++)
 			{
 				_player->GetQuestManager()->AddMobQuest(mobsTblidx[i], tid);
+				sLog.outDetail("Mob found %d item %d quest %d", mobsTblidx[i], sToCEvt->GetEvtData().sMobKillItemCnt[i].uiMobLIIdx, tid);
 			}
 		}
 		//New System

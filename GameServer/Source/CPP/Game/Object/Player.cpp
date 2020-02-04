@@ -3289,7 +3289,7 @@ void Player::RewardDropFromMob(MonsterData& data)
 							{
 								if (drop->aQuestItemTblidx[itemIndex] == GetAttributesManager()->QuestDat[i].uEvtData.sMobKillItemCnt[slot].uiMobLIIdx)
 								{
-									sLog.outDebug("Count Quest Mob old");
+									sLog.outDebug("Count Quest Mob old %d", data.MonsterID);
 									GetAttributesManager()->KillerCount += 1;
 
 									QuestItem* questItem = GetQuestInventoryManager()->FindItemQuestByTblidx(drop->aQuestItemTblidx[itemIndex]);
