@@ -790,7 +790,6 @@ void Player::SkillAcion()
 									NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.avDestLoc[0].y = -90.417999;
 									NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.avDestLoc[0].z = 3999.4399;
 									NpcInfo->UpdateState(eCHARSTATE::CHARSTATE_DESTMOVE);
-									sLog.outDebug("DIRECT_PLAY_NORMAL %d", NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx);
 								}
 								}, 20000);
 
