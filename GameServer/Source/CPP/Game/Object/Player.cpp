@@ -3171,7 +3171,7 @@ void Player::RewardDropFromMob(MonsterData& data)
 			{
 				for (int slot = 0; slot < quest->uEvtData.MAX_MOB_KILL_ITEM; slot++)
 				{
-					if (quest->uEvtData.sMobKillItemCnt[slot].uiMobLIIdx)
+					if (quest->uEvtData.sMobKillItemCnt[slot].uiMobLIIdx == INVALID_TBLIDX)
 					{
 						sLog.outDetail("Continue not found item mob");
 						continue;
