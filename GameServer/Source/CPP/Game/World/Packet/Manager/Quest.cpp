@@ -2516,9 +2516,12 @@ void WorldSession::EvtMobKillCount(CDboTSActSToCEvt* sToCEvt, int freeslot, NTL_
 				_player->GetQuestManager()->AddMobQuest(mobTblidx, tid);
 			}
 			//New system
+			/*
+			//old system
 			_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sMobKillCnt[i].uiMobIdx = mobTblidx;
 			_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sMobKillCnt[i].nCurMobCnt = sToCEvt->GetEvtData().sMobKillCnt[i].nCurMobCnt;
 			_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sMobKillCnt[i].nMobCnt = sToCEvt->GetEvtData().sMobKillCnt[i].nMobCnt;
+			*/
 
 
 			sLog.outError("ROOT TS: %d", tid);
@@ -2554,7 +2557,9 @@ void WorldSession::EvtMobKillCount(CDboTSActSToCEvt* sToCEvt, int freeslot, NTL_
 									quest->npcClick = curr_Npc->GetNpcData().MonsterID;
 								}
 								//New system
-								_player->GetAttributesManager()->QuestDat[freeslot].npcClick = curr_Npc->GetNpcData().MonsterID;
+								/*
+								//old system
+								_player->GetAttributesManager()->QuestDat[freeslot].npcClick = curr_Npc->GetNpcData().MonsterID;*/
 
 								sLog.outDebug("Converting...");
 								sGU_OBJECT_DESTROY sPacket;
@@ -2576,7 +2581,10 @@ void WorldSession::EvtMobKillCount(CDboTSActSToCEvt* sToCEvt, int freeslot, NTL_
 									quest->mobHandle = mobHandle;
 								}
 								//New system
+								/*
+								//Old system
 								_player->GetAttributesManager()->QuestDat[freeslot].mobHandle = mobHandle;//SpawnMobForQuest(mobTblidx, curr_Npc->GetNpcData().MonsterID, 0);
+								*/
 								sLog.outDebug("MOB Created");
 
 							}
@@ -2626,6 +2634,12 @@ void WorldSession::EvtMobItemKillCount(CDboTSActSToCEvt* sToCEvt, int freeslot, 
 			quest->uEvtData.sMobKillItemCnt[i].uiMobLIIdx = sToCEvt->GetEvtData().sMobKillItemCnt[i].uiMobLIIdx;
 			quest->uEvtData.sMobKillItemCnt[i].nMobLICnt = sToCEvt->GetEvtData().sMobKillItemCnt[i].nMobLICnt;
 			quest->uEvtData.sMobKillItemCnt[i].nCurMobLICnt = sToCEvt->GetEvtData().sMobKillItemCnt[i].nCurMobLICnt;
+
+			std::vector<TBLIDX> mobsTblidx = sTBM.GetMobTable()->FindTblidxsByQuestDrop(sToCEvt->GetEvtData().sMobKillItemCnt[i].uiMobLIIdx);
+			for (std::vector<TBLIDX>::size_type i = 0; i != mobsTblidx.size(); i++)
+			{
+				_player->GetQuestManager()->AddMobQuest(mobsTblidx[i], tid);
+			}
 		}
 		//New System
 		_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sMobKillItemCnt[i].uiMobLIIdx = sToCEvt->GetEvtData().sMobKillItemCnt[i].uiMobLIIdx;
