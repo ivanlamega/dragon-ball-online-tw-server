@@ -3171,13 +3171,20 @@ void Player::RewardDropFromMob(MonsterData& data)
 			{
 				for (int slot = 0; slot < quest->uEvtData.MAX_MOB_KILL_ITEM; slot++)
 				{
+					if (quest->uEvtData.sMobKillItemCnt[slot].uiMobLIIdx)
+					{
+						continue;
+					}
+					sLog.outDetail("curCount %d max %d", quest->uEvtData.sMobKillItemCnt[slot].nCurMobLICnt, quest->uEvtData.sMobKillItemCnt[slot].nMobLICnt);
 					if (quest->uEvtData.sMobKillItemCnt[slot].nCurMobLICnt < quest->uEvtData.sMobKillItemCnt[slot].nMobLICnt)
 					{
 						sQUEST_DROP_TBLDAT* drop = (sQUEST_DROP_TBLDAT*)sTBM.GetQuestDropTable()->FindData(data.Drop_quest_id);
 						if (drop)
 						{
+							sLog.outDetail("drop %d", drop->tblidx);
 							for (int itemIndex = 0; itemIndex < QUEST_ITEM_DROP_MAX_COUNT; itemIndex++)
 							{
+								sLog.outDetail("item table %d item quest %d", drop->aQuestItemTblidx[itemIndex], quest->uEvtData.sMobKillItemCnt[slot].uiMobLIIdx);
 								if (drop->aQuestItemTblidx[itemIndex] == quest->uEvtData.sMobKillItemCnt[slot].uiMobLIIdx)
 								{
 									sLog.outDetail("Count Quest Mob item");
@@ -3203,8 +3210,11 @@ void Player::RewardDropFromMob(MonsterData& data)
 									}
 									else
 									{
+										sLog.outDetail("a");
 										questItem->byCurCount++;
+										sLog.outDetail("b");
 										quest->uEvtData.sMobKillItemCnt[slot].nCurMobLICnt = questItem->byCurCount;
+										sLog.outDetail("c");
 										//m_session->SendQuestItemUpdateNfy(questItem->byPos, questItem->byCurCount);
 									}
 
