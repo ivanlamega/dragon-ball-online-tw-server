@@ -3139,7 +3139,7 @@ void Player::RewardDropFromMob(MonsterData& data)
 	QuestData* quest = GetQuestManager()->FindQuestById(questId);
 	if (quest != NULL)
 	{
-		sLog.outDetail("NEW QUEST SYSTEM: mob %d, quest %d", data.MonsterID, questId);
+		sLog.outDetail("NEW QUEST SYSTEM: mob %d, quest %d evttype %d", data.MonsterID, questId, quest->evtDataType);
 		switch (quest->evtDataType)
 		{
 			case eSTOC_EVT_DATA_TYPE_MOB_KILL_CNT:
@@ -3173,6 +3173,7 @@ void Player::RewardDropFromMob(MonsterData& data)
 				{
 					if (quest->uEvtData.sMobKillItemCnt[slot].uiMobLIIdx)
 					{
+						sLog.outDetail("Continue not found item mob");
 						continue;
 					}
 					sLog.outDetail("curCount %d max %d", quest->uEvtData.sMobKillItemCnt[slot].nCurMobLICnt, quest->uEvtData.sMobKillItemCnt[slot].nMobLICnt);
