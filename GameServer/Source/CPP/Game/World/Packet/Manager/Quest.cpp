@@ -2635,13 +2635,19 @@ void WorldSession::EvtMobItemKillCount(CDboTSActSToCEvt* sToCEvt, int freeslot, 
 			quest->uEvtData.sMobKillItemCnt[i].nMobLICnt = sToCEvt->GetEvtData().sMobKillItemCnt[i].nMobLICnt;
 			quest->uEvtData.sMobKillItemCnt[i].nCurMobLICnt = sToCEvt->GetEvtData().sMobKillItemCnt[i].nCurMobLICnt;
 
-			std::vector<TBLIDX> mobsTblidx = sTBM.GetMobTable()->FindTblidxsByQuestDrop(sToCEvt->GetEvtData().sMobKillItemCnt[i].uiMobLIIdx);
-			sLog.outDetail("Mobs count new system %d", mobsTblidx.size(), tid);
-			for (std::vector<TBLIDX>::size_type i = 0; i != mobsTblidx.size(); i++)
+			std::vector<TBLIDX> dropTable = sTBM.GetQuestDropTable()->FindByItemTblidx(sToCEvt->GetEvtData().sMobKillItemCnt[i].uiMobLIIdx);
+			for (std::vector<TBLIDX>::size_type item = 0; item != dropTable.size(); item++)
 			{
-				_player->GetQuestManager()->AddMobQuest(mobsTblidx[i], tid);
-				sLog.outDetail("Mob found %d item %d quest %d", mobsTblidx[i], sToCEvt->GetEvtData().sMobKillItemCnt[i].uiMobLIIdx, tid);
+				std::vector<TBLIDX> mobsTblidx = sTBM.GetMobTable()->FindTblidxsByQuestDrop(dropTable[item]);
+
+				sLog.outDetail("Mobs count new system %d quest %d drop %d", mobsTblidx.size(), tid, dropTable[item]);
+				for (std::vector<TBLIDX>::size_type i = 0; i != mobsTblidx.size(); i++)
+				{
+					_player->GetQuestManager()->AddMobQuest(mobsTblidx[i], tid);
+					sLog.outDetail("Mob found %d item %d quest %d", mobsTblidx[i], sToCEvt->GetEvtData().sMobKillItemCnt[i].uiMobLIIdx, tid);
+				}
 			}
+			
 		}
 		//New System
 		_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sMobKillItemCnt[i].uiMobLIIdx = sToCEvt->GetEvtData().sMobKillItemCnt[i].uiMobLIIdx;
