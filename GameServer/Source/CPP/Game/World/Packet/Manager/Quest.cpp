@@ -2811,6 +2811,12 @@ void WorldSession::EvtObjectItem(CDboTSActSToCEvt* sToCEvt, int freeslot, NTL_TS
 			quest->uEvtData.sObjectItemCnt[i].uiItemIdx = sToCEvt->GetEvtData().sObjectItemCnt[i].uiItemIdx;
 			quest->uEvtData.sObjectItemCnt[i].nItemCnt = sToCEvt->GetEvtData().sObjectItemCnt[i].nItemCnt;
 			quest->uEvtData.sObjectItemCnt[i].nCurItemCnt = sToCEvt->GetEvtData().sObjectItemCnt[i].nCurItemCnt;
+
+			NTL_TS_T_ID triggerId = sTSM.FindTriggerByQuest(tid);
+			if (triggerId != NTL_TS_T_ID_INVALID)
+			{
+				LoadObjectsTriggersForQuest(triggerId, tid);
+			}
 		}
 		//New system
 		_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sObjectItemCnt[i].uiItemIdx = sToCEvt->GetEvtData().sObjectItemCnt[i].uiItemIdx;
@@ -4507,36 +4513,37 @@ void WorldSession::SendTsExcuteTriggerObject(Packet& packet)
 				NTL_TS_T_ID questId = _player->GetQuestManager()->FindQuestByObject(objTblidx);
 				if (questId != NTL_TS_T_ID_INVALID)
 				{
+					sLog.outDetail("Quest found %d", questId);
 					QuestData* quest = _player->GetQuestManager()->FindQuestById(questId);
 					if (quest)
 					{
-						sLog.outDebug("EVT TYPE %d", quest->evtDataType);
+						sLog.outDetail("New EVT TYPE %d", quest->evtDataType);
 						switch (quest->evtDataType)
 						{
 						case eSTOC_EVT_DATA_TYPE_OBJECT_ITEM:
 						{
 							for (int slot = 0; slot < quest->uEvtData.MAX_OBJECT_ITEM; slot++)
 							{
-								sLog.outDebug("ITEM COUNT %d", quest->uEvtData.sObjectItemCnt[slot].nCurItemCnt);
+								sLog.outDetail("New ITEM COUNT %d", quest->uEvtData.sObjectItemCnt[slot].nCurItemCnt);
 
 
-								sLog.outError("QUEST ID: %d", quest->QuestID);
+								sLog.outError("New QUEST ID: %d", quest->QuestID);
 								if (quest->uEvtData.sObjectItemCnt[slot].nCurItemCnt < quest->uEvtData.sObjectItemCnt[slot].nItemCnt)
 								{
-									sLog.outDebug("Item Tblidx %d %d", quest->uEvtData.sObjectItemCnt[slot].uiItemIdx,
+									sLog.outDetail("New Item Tblidx %d %d", quest->uEvtData.sObjectItemCnt[slot].uiItemIdx,
 										((WorldObject*)reference->getSource())->GetTblidx());
 
 									NTL_TS_T_ID objTriggerId = quest->QuestID;
 
 
 									int indexClass = _player->GetAttributesManager()->questSubCls.objChoseIndex;
-									sLog.outDebug("Quest Id sub Class %d", _player->GetAttributesManager()->questSubCls.objData[indexClass].specificQuestId);
+									sLog.outDetail("New Quest Id sub Class %d", _player->GetAttributesManager()->questSubCls.objData[indexClass].specificQuestId);
 									if (_player->GetAttributesManager()->questSubCls.objData[indexClass].specificQuestId == quest->QuestID)
 									{
-										sLog.outDebug("USE Trigger subclass");
+										sLog.outDetail("New USE Trigger subclass");
 										int index = _player->GetAttributesManager()->questSubCls.objChoseIndex;
 										objTriggerId = _player->GetAttributesManager()->questSubCls.objData[index].triggerObject;
-										sLog.outDebug("Ts Trigger %d", objTriggerId);
+										sLog.outDetail("New Ts Trigger %d", objTriggerId);
 									}
 
 									if (FindObjectTriggerInformation(objTriggerId, quest, req->hTarget, objTblidx) == RESULT_SUCCESS)
@@ -4547,7 +4554,7 @@ void WorldSession::SendTsExcuteTriggerObject(Packet& packet)
 										res.wResultCode = RESULT_SUCCESS;
 										res.hTriggerObject = req->hTarget;
 										//SendPacket((char*)&res, sizeof(sGU_TS_EXCUTE_TRIGGER_OBJECT_RES));
-										sLog.outDebug("Item trigger: %d %d %d", res.hTriggerObject, req->hSource, req->hTarget);
+										sLog.outDetail("New Item trigger: %d %d %d", res.hTriggerObject, req->hSource, req->hTarget);
 									}
 								}
 							}

@@ -3186,7 +3186,7 @@ void Player::RewardDropFromMob(MonsterData& data)
 							sLog.outDetail("drop %d", drop->tblidx);
 							for (int itemIndex = 0; itemIndex < QUEST_ITEM_DROP_MAX_COUNT; itemIndex++)
 							{
-								sLog.outDetail("item table %d item quest %d", drop->aQuestItemTblidx[itemIndex], quest->uEvtData.sMobKillItemCnt[slot].uiMobLIIdx);
+								//sLog.outDetail("item table %d item quest %d", drop->aQuestItemTblidx[itemIndex], quest->uEvtData.sMobKillItemCnt[slot].uiMobLIIdx);
 								if (drop->aQuestItemTblidx[itemIndex] == quest->uEvtData.sMobKillItemCnt[slot].uiMobLIIdx)
 								{
 									GetAttributesManager()->KillerCount += 1;
