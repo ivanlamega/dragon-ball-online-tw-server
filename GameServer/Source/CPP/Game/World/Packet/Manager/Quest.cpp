@@ -2650,9 +2650,10 @@ void WorldSession::EvtMobItemKillCount(CDboTSActSToCEvt* sToCEvt, int freeslot, 
 			
 		}
 		//New System
+		/* old system
 		_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sMobKillItemCnt[i].uiMobLIIdx = sToCEvt->GetEvtData().sMobKillItemCnt[i].uiMobLIIdx;
 		_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sMobKillItemCnt[i].nMobLICnt = sToCEvt->GetEvtData().sMobKillItemCnt[i].nMobLICnt;
-		_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sMobKillItemCnt[i].nCurMobLICnt = sToCEvt->GetEvtData().sMobKillItemCnt[i].nCurMobLICnt;
+		_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sMobKillItemCnt[i].nCurMobLICnt = sToCEvt->GetEvtData().sMobKillItemCnt[i].nCurMobLICnt;*/
 		sLog.outDebug("Item tblidx: %d count %d curcount %d",
 			sToCEvt->GetEvtData().sMobKillItemCnt[i].uiMobLIIdx,
 			sToCEvt->GetEvtData().sMobKillItemCnt[i].nMobLICnt,
@@ -2706,7 +2707,7 @@ void WorldSession::EvtMobItemKillCount(CDboTSActSToCEvt* sToCEvt, int freeslot, 
 									quest->npcClick = curr_Npc->GetNpcData().MonsterID;
 								}
 								//New system
-								_player->GetAttributesManager()->QuestDat[freeslot].npcClick = curr_Npc->GetNpcData().MonsterID;
+								// old system _player->GetAttributesManager()->QuestDat[freeslot].npcClick = curr_Npc->GetNpcData().MonsterID;
 
 
 								sGU_OBJECT_DESTROY sPacket;
@@ -2728,7 +2729,8 @@ void WorldSession::EvtMobItemKillCount(CDboTSActSToCEvt* sToCEvt, int freeslot, 
 									quest->mobHandle = SpawnMobForQuest(mobTblidx, curr_Npc->GetNpcData().MonsterID, 0);
 								}
 								//New system
-								_player->GetAttributesManager()->QuestDat[freeslot].mobHandle = SpawnMobForQuest(mobTblidx, curr_Npc->GetNpcData().MonsterID, 0);
+								/*Old system
+								_player->GetAttributesManager()->QuestDat[freeslot].mobHandle = SpawnMobForQuest(mobTblidx, curr_Npc->GetNpcData().MonsterID, 0);*/
 								sLog.outDebug("MOB created");
 							}
 							else
