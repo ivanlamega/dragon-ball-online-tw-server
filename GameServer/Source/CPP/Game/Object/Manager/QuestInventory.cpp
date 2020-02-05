@@ -42,7 +42,7 @@ QuestItem* QuestInventoryManager::FindItemQuestByTblidx(TBLIDX tblidx)
 	{
 		if (QuestItems[i].qItemTblidx == tblidx)
 		{
-			return &QuestItems[i];
+			return &QuestItems[i];;
 		}
 	}
 	return NULL;

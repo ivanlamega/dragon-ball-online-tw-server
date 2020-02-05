@@ -2,6 +2,7 @@
 #define __QUEST_INVENTORY_H
 
 #include <TableAll.h>
+#include <Logger.h>
 
 class Player;
 

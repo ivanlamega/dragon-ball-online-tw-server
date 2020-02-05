@@ -3716,7 +3716,7 @@ void WorldSession::SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, 
 
 	 info.byProgressCount = 2;
 
-	 info.progressInfo[0].byVer = 0;
+	 info.progressInfo[0].byVer = info.progressInfo[0].eCUR_VERSION;
 	 info.progressInfo[0].tId = 811;
 	 info.progressInfo[0].uData.sQInfoV0.unknown = 0;
 	 info.progressInfo[0].uData.sQInfoV0.wQState = 0;
@@ -3748,7 +3748,7 @@ void WorldSession::SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, 
 	 }
 
 	 // second quest
-	 info.progressInfo[1].byVer = 0;
+	 info.progressInfo[1].byVer = info.progressInfo[0].eCUR_VERSION;
 	 info.progressInfo[1].tId = 1256;
 	 info.progressInfo[1].uData.sQInfoV0.unknown = 0;//1;
 	 info.progressInfo[1].uData.sQInfoV0.wQState = 0;//32;

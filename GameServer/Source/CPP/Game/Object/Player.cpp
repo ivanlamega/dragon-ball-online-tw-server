@@ -3155,8 +3155,9 @@ void Player::RewardDropFromMob(MonsterData& data)
 							quest->uEvtData.sMobKillCnt[slot].nCurMobCnt += 1;
 							m_session->SendQuestSVRevtUpdateNotify(quest->QuestID, quest->tcId, quest->taId, quest->evtDataType, slot, &quest->uEvtData);
 
-							if (quest->uEvtData.sMobKillCnt[slot].nCurMobCnt >=
-								quest->uEvtData.sMobKillCnt[slot].nMobCnt)
+							quest->progressInfo.uData.sQInfoV0.sSToCEvtData.m_aUserData[slot] = quest->uEvtData.sMobKillCnt[slot].nCurMobCnt;
+
+							if (quest->uEvtData.sMobKillCnt[slot].nCurMobCnt >= quest->uEvtData.sMobKillCnt[slot].nMobCnt)
 							{
 								m_session->SpawnNPCForQuest(quest->npcClick, 0);
 								GetAttributesManager()->lastNPCQuest = INVALID_TBLIDX;
@@ -3188,50 +3189,51 @@ void Player::RewardDropFromMob(MonsterData& data)
 								sLog.outDetail("item table %d item quest %d", drop->aQuestItemTblidx[itemIndex], quest->uEvtData.sMobKillItemCnt[slot].uiMobLIIdx);
 								if (drop->aQuestItemTblidx[itemIndex] == quest->uEvtData.sMobKillItemCnt[slot].uiMobLIIdx)
 								{
-									sLog.outDetail("Count Quest Mob item");
 									GetAttributesManager()->KillerCount += 1;
-
+									
 									QuestItem* questItem = GetQuestInventoryManager()->FindItemQuestByTblidx(drop->aQuestItemTblidx[itemIndex]);
 									if (questItem == NULL)
 									{
-										sLog.outDetail("Item quest founded %d", questItem->qItemTblidx);
 										QuestItem newQuestItem;
 										newQuestItem.qItemTblidx = drop->aQuestItemTblidx[itemIndex];
 										newQuestItem.byCurCount = 1;
-										/*BYTE pos = GetQuestInventoryManager()->AddItemQuest(newQuestItem);
+										sLog.outDebug("Quest Item created");
+										BYTE pos = GetQuestInventoryManager()->AddItemQuest(newQuestItem);
 										if (pos != -1)
 										{
 											quest->uEvtData.sMobKillItemCnt[slot].nCurMobLICnt = newQuestItem.byCurCount;
 											m_session->SendQuestItemCreate(pos, newQuestItem.qItemTblidx, newQuestItem.byCurCount);
+
+											quest->progressInfo.uData.sQInfoV0.sSToCEvtData.m_aUserData[slot] = quest->uEvtData.sMobKillItemCnt[slot].nCurMobLICnt;
 										}
 										else
 										{
 											sLog.outDebug("Inventory is full");
-										}*/
+										}
 									}
 									else
 									{
-										sLog.outDetail("a");
+										sLog.outDetail("Item quest founded %d", questItem->qItemTblidx);
 										questItem->byCurCount++;
-										sLog.outDetail("b");
 										quest->uEvtData.sMobKillItemCnt[slot].nCurMobLICnt = questItem->byCurCount;
-										sLog.outDetail("c");
-										//m_session->SendQuestItemUpdateNfy(questItem->byPos, questItem->byCurCount);
+										m_session->SendQuestItemUpdateNfy(questItem->byPos, questItem->byCurCount);
+
+										quest->progressInfo.uData.sQInfoV0.sSToCEvtData.m_aUserData[slot] = quest->uEvtData.sMobKillItemCnt[slot].nCurMobLICnt;
 									}
 
 
 
-									//m_session->SendQuestSVRevtUpdateNotify(quest->QuestID,quest->tcId,quest->taId,quest->evtDataType,slot, &quest->uEvtData);
+									m_session->SendQuestSVRevtUpdateNotify(quest->QuestID,quest->tcId,quest->taId,quest->evtDataType,slot, &quest->uEvtData);
 
 									if (quest->uEvtData.sMobKillItemCnt[slot].nCurMobLICnt >= quest->uEvtData.sMobKillItemCnt[slot].nMobLICnt)
 									{
-										//m_session->SpawnNPCForQuest(quest->npcClick, 0);
-										//GetAttributesManager()->lastNPCQuest = INVALID_TBLIDX;
+										m_session->SpawnNPCForQuest(quest->npcClick, 0);
+										GetAttributesManager()->lastNPCQuest = INVALID_TBLIDX;
 										break;
 									}
-
+									sLog.outDetail("Quest drop %d", data.Drop_quest_id, drop->aQuestItemTblidx[itemIndex]);
 								}
-								sLog.outDetail("Quest drop %d", data.Drop_quest_id, drop->aQuestItemTblidx[itemIndex]);
+								
 							}
 						}
 					}
@@ -3287,7 +3289,7 @@ void Player::RewardDropFromMob(MonsterData& data)
 				}
 				break;
 			}*/
-			case eSTOC_EVT_DATA_TYPE_MOB_KILL_ITEM_CNT:
+			/*case eSTOC_EVT_DATA_TYPE_MOB_KILL_ITEM_CNT:
 			{
 				for (int slot = 0; slot < GetAttributesManager()->QuestDat[i].uEvtData.MAX_MOB_KILL_ITEM; slot++)
 				{
@@ -3340,7 +3342,7 @@ void Player::RewardDropFromMob(MonsterData& data)
 									
 
 
-									m_session->SendQuestSVRevtUpdateNotify(GetAttributesManager()->QuestDat[i].QuestID,
+									/*m_session->SendQuestSVRevtUpdateNotify(GetAttributesManager()->QuestDat[i].QuestID,
 										GetAttributesManager()->QuestDat[i].tcId,
 										GetAttributesManager()->QuestDat[i].taId,
 										GetAttributesManager()->QuestDat[i].evtDataType,
@@ -3362,7 +3364,7 @@ void Player::RewardDropFromMob(MonsterData& data)
 					}
 				}
 				break;
-			}
+			}*/
 		}
 		
 	}	
