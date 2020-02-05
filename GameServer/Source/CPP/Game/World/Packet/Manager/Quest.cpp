@@ -2802,9 +2802,28 @@ void WorldSession::EvtDeliveryItem(CDboTSActSToCEvt* sToCEvt, int freeslot, NTL_
 
 void WorldSession::EvtObjectItem(CDboTSActSToCEvt* sToCEvt, int freeslot, NTL_TS_T_ID tid)
 {
-	for (int i = 0; i < sToCEvt->GetEvtData().MAX_OBJECT_ITEM; i++)
+
+	//New system
+	QuestData* quest = _player->GetQuestManager()->FindQuestById(tid);
+	if (quest != NULL)
 	{
-		//New system
+		NTL_TS_T_ID triggerId = sTSM.FindTriggerByQuest(tid);
+		if (triggerId != NTL_TS_T_ID_INVALID)
+		{
+			LoadObjectsTriggersForQuest(triggerId, tid);
+		}
+
+		for (int i = 0; i < sToCEvt->GetEvtData().MAX_OBJECT_ITEM; i++)
+		{
+			quest->uEvtData.sObjectItemCnt[i].uiItemIdx = sToCEvt->GetEvtData().sObjectItemCnt[i].uiItemIdx;
+			quest->uEvtData.sObjectItemCnt[i].nItemCnt = sToCEvt->GetEvtData().sObjectItemCnt[i].nItemCnt;
+			quest->uEvtData.sObjectItemCnt[i].nCurItemCnt = sToCEvt->GetEvtData().sObjectItemCnt[i].nCurItemCnt;
+		}
+	}
+
+	/*for (int i = 0; i < sToCEvt->GetEvtData().MAX_OBJECT_ITEM; i++)
+	{
+		/* //New system
 		QuestData* quest = _player->GetQuestManager()->FindQuestById(tid);
 		if (quest != NULL)
 		{
@@ -2818,15 +2837,15 @@ void WorldSession::EvtObjectItem(CDboTSActSToCEvt* sToCEvt, int freeslot, NTL_TS
 				LoadObjectsTriggersForQuest(triggerId, tid);
 			}
 		}
-		//New system
-		_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sObjectItemCnt[i].uiItemIdx = sToCEvt->GetEvtData().sObjectItemCnt[i].uiItemIdx;
+		//New system*/
+		/*_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sObjectItemCnt[i].uiItemIdx = sToCEvt->GetEvtData().sObjectItemCnt[i].uiItemIdx;
 		_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sObjectItemCnt[i].nItemCnt = sToCEvt->GetEvtData().sObjectItemCnt[i].nItemCnt;
 		_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sObjectItemCnt[i].nCurItemCnt = sToCEvt->GetEvtData().sObjectItemCnt[i].nCurItemCnt;
 		sLog.outDebug("Item tblidx: %d count %d curcount %d",
 			sToCEvt->GetEvtData().sObjectItemCnt[i].uiItemIdx,
 			sToCEvt->GetEvtData().sObjectItemCnt[i].nItemCnt,
 			sToCEvt->GetEvtData().sObjectItemCnt[i].nCurItemCnt);
-	}
+	}*/
 }
 
 void WorldSession::EvtCustomEventCount(CDboTSActSToCEvt* sToCEvt, int freeslot, NTL_TS_T_ID tid)
@@ -3650,6 +3669,7 @@ void WorldSession::LoadObjectsTriggersForQuest(NTL_TS_T_ID triggerId, NTL_TS_T_I
 						{
 							bool first = true;
 							TBLIDX objTblidx = INVALID_TBLIDX;
+							sLog.outDetail("Count of objecs %d", clickObject->GetNumOfObjectIdx());
 							for (int i = 0; i < clickObject->GetNumOfObjectIdx() - 1; i++)
 							{
 								if (first)
@@ -3660,8 +3680,9 @@ void WorldSession::LoadObjectsTriggersForQuest(NTL_TS_T_ID triggerId, NTL_TS_T_I
 								}
 								else
 								{
-									sLog.outDebug("obj idx %d", clickObject->NextObjectIdx());
 									objTblidx = clickObject->NextObjectIdx();
+									sLog.outDebug("obj idx %d", objTblidx);
+									
 								}
 
 								_player->GetQuestManager()->AddObjectQuest(objTblidx, questId);
@@ -4565,7 +4586,7 @@ void WorldSession::SendTsExcuteTriggerObject(Packet& packet)
 				}
 				//New System
 
-				for (int i = 0; i <= 30; i++)
+				/*for (int i = 0; i <= 30; i++)
 				{
 					//--------------------------------
 					if (_player->GetAttributesManager()->QuestDat[i].QuestID == 0)
@@ -4640,13 +4661,13 @@ void WorldSession::SendTsExcuteTriggerObject(Packet& packet)
 										update.bySlot = 0;
 										update.uEvtData.sObjectItemCnt.nCurItemCnt = 1;
 										SendPacket((char*)&update, sizeof(sGU_QUEST_SVREVT_UPDATE_NFY));*/
-									}
+									/*}
 								}
 							}
 							break;
 						}
 					}
-				}
+				}*/
 
 				//--------------------------------
 
