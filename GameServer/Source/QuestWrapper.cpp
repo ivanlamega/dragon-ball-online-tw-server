@@ -124,6 +124,7 @@ void CQuestWrapper::MakeListTriggerIdQuestId()
 {
 	/* Arguments:
 	 @Questid @Triggerid */
+	/*CDboTSCheckObjItem*/
 	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(2925, 1));
 	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(2925, 10));
 	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(1026, 1026));
@@ -383,6 +384,43 @@ void CQuestWrapper::MakeListTriggerIdQuestId()
 	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(957, 957));
 	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(975, 975));
 	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(981, 981));
+	/*CDboTSCheckCustomEvent*/
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(1090, 1090));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(1280, 1280));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(1290, 1290));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(1291, 1291));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(1294, 1294));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(1295, 1295));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(1372, 1372));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(1380, 1380));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(1457, 1457));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(1696, 1696));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(1708, 1708));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(1732, 1732));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(1768, 1768));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(1775, 1775));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(2441, 2441));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(2494, 2494));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(2521, 2521));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(2554, 2554));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(2654, 2654));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(2902, 2902));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(2967, 2967));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(2974, 2974));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(2991, 2991));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(2999, 2999));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(3003, 3003));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(3015, 3015));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(3017, 3017));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(3021, 3021));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(3021, 3022));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(3021, 3023));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(3021, 3024));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(3021, 3025));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(3021, 3027));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(3021, 3028));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(3767, 3767));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(997, 997));
 }
 
 NTL_TS_T_ID CQuestWrapper::FindTriggerByQuest(NTL_TS_T_ID questId)

@@ -3653,44 +3653,82 @@ void WorldSession::LoadObjectsTriggersForQuest(NTL_TS_T_ID triggerId, NTL_TS_T_I
 					sLog.outDetail("Cont: %s %d", contStart->GetChildEntity(i)->GetClassNameW(), contStart->GetChildEntity(i)->GetEntityType());
 					switch (contStart->GetChildEntity(i)->GetEntityType())
 					{
-					case DBO_COND_TYPE_ID_CHECK_OBJITEM:
-					{
-						CDboTSCheckObjItem* checkObjItem = ((CDboTSCheckObjItem*)contStart->GetChildEntity(i));
-						if (checkObjItem)
+						case DBO_COND_TYPE_ID_CHECK_OBJITEM:
 						{
-							sLog.outDebug("QuestId %d", checkObjItem->GetQuestId());
-						}
-						break;
-					}
-					case DBO_EVENT_TYPE_ID_CLICK_OBJECT:
-					{
-						CDboTSClickObject* clickObject = ((CDboTSClickObject*)contStart->GetChildEntity(i));
-						if (clickObject)
-						{
-							bool first = true;
-							TBLIDX objTblidx = INVALID_TBLIDX;
-							sLog.outDetail("Count of objecs %d", clickObject->GetNumOfObjectIdx());
-							for (int i = 0; i < clickObject->GetNumOfObjectIdx() - 1; i++)
+							CDboTSCheckObjItem* checkObjItem = ((CDboTSCheckObjItem*)contStart->GetChildEntity(i));
+							if (checkObjItem)
 							{
-								if (first)
-								{
-									sLog.outDebug("obj idx %d", clickObject->BeginObjectIdx());
-									first = false;
-									objTblidx = clickObject->BeginObjectIdx();
-								}
-								else
-								{
-									objTblidx = clickObject->NextObjectIdx();
-									sLog.outDebug("obj idx %d", objTblidx);
-									
-								}
-
-								_player->GetQuestManager()->AddObjectQuest(objTblidx, questId);
+								sLog.outDebug("QuestId %d", checkObjItem->GetQuestId());
 							}
-							return;
+							break;
 						}
-						break;
-					}
+						case DBO_EVENT_TYPE_ID_CLICK_OBJECT:
+						{
+							CDboTSClickObject* clickObject = ((CDboTSClickObject*)contStart->GetChildEntity(i));
+							if (clickObject)
+							{
+								bool first = true;
+								TBLIDX objTblidx = INVALID_TBLIDX;
+								sLog.outDetail("Count of objecs %d", clickObject->GetNumOfObjectIdx());
+								for (int i = 0; i < clickObject->GetNumOfObjectIdx() - 1; i++)
+								{
+									if (first)
+									{
+										sLog.outDebug("obj idx %d", clickObject->BeginObjectIdx());
+										first = false;
+										objTblidx = clickObject->BeginObjectIdx();
+									}
+									else
+									{
+										objTblidx = clickObject->NextObjectIdx();
+										sLog.outDebug("obj idx %d", objTblidx);
+									
+									}
+
+									_player->GetQuestManager()->AddObjectQuest(objTblidx, questId);
+								}
+								return;
+							}
+							break;
+						}
+						case DBO_COND_TYPE_ID_CHECK_CUSTOMEVENT:
+						{
+							CDboTSCheckCustomEvent* customEvent = ((CDboTSCheckCustomEvent*)contStart->GetChildEntity(i));
+							if (customEvent)
+							{
+								sLog.outDebug("Quest idx %d", customEvent->GetQuestID());
+							}
+							break;
+						}
+						case DBO_COND_TYPE_ID_CHECK_ATTACH_OBJ:
+						{
+							CDboTSCheckAttachObj* attachObj = ((CDboTSCheckAttachObj*)contStart->GetChildEntity(i));
+							if (attachObj)
+							{
+								bool first = true;
+								TBLIDX objTblidx = INVALID_TBLIDX;
+								sLog.outDebug("Atach Num obj %d world %d", attachObj->GetNumOfObjectIdx(), attachObj->GetWorldIdx(), attachObj->HasObjectIdx(objTblidx));
+								for (int i = 0; i < attachObj->GetNumOfObjectIdx() - 1; i++)
+								{
+									if (first)
+									{
+										sLog.outDebug("obj idx %d", attachObj->BeginObjectIdx());
+										first = false;
+										objTblidx = attachObj->BeginObjectIdx();
+									}
+									else
+									{
+										objTblidx = attachObj->NextObjectIdx();
+										sLog.outDebug("obj idx %d", objTblidx);
+
+									}
+
+									_player->GetQuestManager()->AddObjectQuest(objTblidx, questId);
+								}
+								return;
+							}
+							break;
+						}
 					}
 				}
 				break;

@@ -277,14 +277,14 @@ void Player::HandleItemUse(Packet pPacket)
 									if (reference->getSource()->GetHandle() == req->hTarget)
 									{
 										objTblidx = ((WorldObject*)reference->getSource())->GetTblidx();
-										sLog.outString("FOUNDED object tblidx %d hTarget %d", objTblidx, req->hTarget);
+										sLog.outString("New FOUNDED object tblidx %d hTarget %d", objTblidx, req->hTarget);
 
 										// SUB CLASS
 										
 										if (GetAttributesManager()->questSubCls.curQuestId != 0 && GetAttributesManager()->questSubCls.curQuestId != INVALID_TBLIDX)
 										{
-											sLog.outError("QUEST ID: %d", GetAttributesManager()->questSubCls.curQuestId);
-											sLog.outDebug("Item Tblidx %d %d", GetAttributesManager()->questSubCls.useItemTblidx == Item->tblidx,
+											sLog.outError("New QUEST ID: %d", GetAttributesManager()->questSubCls.curQuestId);
+											sLog.outDebug("New Item Tblidx %d %d", GetAttributesManager()->questSubCls.useItemTblidx == Item->tblidx,
 												((WorldObject*)reference->getSource())->GetTblidx());
 
 											QuestData questDat;
@@ -299,7 +299,7 @@ void Player::HandleItemUse(Packet pPacket)
 												res.byPlace = req->byPlace;
 												res.byPos = req->byPos;
 												SendPacket((char*)&res, sizeof(sGU_ITEM_USE_RES));
-												sLog.outDebug("Item trigger: %d %d %d", res.tblidxItem, req->hTarget, objTblidx);
+												sLog.outDebug("New Item trigger: %d %d %d", res.tblidxItem, req->hTarget, objTblidx);
 
 												GetInventoryManager()->DeleteItem(Item->byPlace, Item->byPos, Item->handle);
 												break;
@@ -318,12 +318,12 @@ void Player::HandleItemUse(Packet pPacket)
 												{
 													for (int slot = 0; slot < quest->uEvtData.MAX_CUSTOM_EVT_CNT; slot++)
 													{
-														sLog.outDebug("EVT COUNT %d", quest->uEvtData.sCustomEvtCnt[slot].nCurCnt);
+														sLog.outDebug("New EVT COUNT %d", quest->uEvtData.sCustomEvtCnt[slot].nCurCnt);
 
-														sLog.outError("QUEST ID: %d", quest->QuestID);
+														sLog.outError("New QUEST ID: %d", quest->QuestID);
 														if (quest->uEvtData.sCustomEvtCnt[slot].nCurCnt < quest->uEvtData.sCustomEvtCnt[slot].nMaxCnt)
 														{
-															sLog.outDebug("Item Tblidx %d %d", quest->uEvtData.sCustomEvtCnt[slot].uiCustomEvtID,
+															sLog.outDebug("New Item Tblidx %d %d", quest->uEvtData.sCustomEvtCnt[slot].uiCustomEvtID,
 																((WorldObject*)reference->getSource())->GetTblidx());
 
 															if (m_session->FindObjectTriggerInformation(quest->QuestID,
@@ -337,7 +337,7 @@ void Player::HandleItemUse(Packet pPacket)
 																res.byPlace = req->byPlace;
 																res.byPos = req->byPos;
 																//SendPacket((char*)&res, sizeof(sGU_ITEM_USE_RES));
-																sLog.outDebug("Item trigger: %d %d %d", res.tblidxItem, req->hTarget, objTblidx);
+																sLog.outDebug("New Item trigger: %d %d %d", res.tblidxItem, req->hTarget, objTblidx);
 															}
 
 														}
