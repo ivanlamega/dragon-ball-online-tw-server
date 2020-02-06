@@ -347,6 +347,7 @@ void Player::HandleItemUse(Packet pPacket)
 										}
 										//NEw System
 
+										/* old system
 										for (int i = 0; i <= 30; i++)
 										{
 											//--------------------------------
@@ -388,7 +389,7 @@ void Player::HandleItemUse(Packet pPacket)
 													}
 												}
 											}
-										}
+										}*/
 									}
 								}
 							}
