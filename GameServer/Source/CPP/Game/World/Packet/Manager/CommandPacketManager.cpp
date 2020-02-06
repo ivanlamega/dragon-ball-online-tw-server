@@ -181,17 +181,18 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 			strToken = str.substr(pos + 1, std::string::npos);
 			_player->GetAttributesManager()->questSubCls.inQuest = true;
 		}
-		else if (strToken == "@quest")
+		else if (strToken == "@getquest")
 		{
-			sLog.outDetail("Respawn object quest");
+			sLog.outDetail("Getting a quest...");
 			strToken = str.substr(pos + 1, std::string::npos);
-			unsigned int teid = (unsigned int)atof(strToken.c_str());
-			sGU_TS_UPDATE_EVENT_NFY nfy;
-			nfy.wOpCode = GU_TS_UPDATE_EVENT_NFY;
-			nfy.wPacketSize = sizeof(sGU_TS_UPDATE_EVENT_NFY) - 2;
-			nfy.byTsType = TS_TYPE_QUEST_CS;
-			nfy.teid = teid;
-			SendPacket((char*)&nfy, sizeof(sGU_TS_UPDATE_EVENT_NFY));
+			unsigned int tid = (unsigned int)atof(strToken.c_str());
+			sGU_QUEST_SHARE_NFY nfy;
+			nfy.wOpCode = GU_QUEST_SHARE_NFY;
+			nfy.wPacketSize = sizeof(sGU_QUEST_SHARE_NFY) - 2;
+			nfy.hActor = _player->GetHandle();
+			nfy.wResultCode = RESULT_SUCCESS;
+			nfy.tId = tid;
+			SendPacket((char*)&nfy, sizeof(sGU_QUEST_SHARE_NFY));
 		}
 		else if (strToken == "@gettarget")
 		{

@@ -2938,7 +2938,30 @@ void WorldSession::EvtCustomEventCount(CDboTSActSToCEvt* sToCEvt, int freeslot, 
 
 void WorldSession::EvtVisit(CDboTSActSToCEvt* sToCEvt, int freeslot, NTL_TS_T_ID tid)
 {
-	for (int i = 0; i < sToCEvt->GetEvtData().MAX_VISIT_EVT; i++)
+	//New system
+	QuestData* quest = _player->GetQuestManager()->FindQuestById(tid);
+	if (quest != NULL)
+	{
+		for (int i = 0; i < sToCEvt->GetEvtData().MAX_VISIT_EVT; i++)
+		{
+			quest->uEvtData.sVisitEvt[i].uiWorldTblIdx = sToCEvt->GetEvtData().sVisitEvt[i].uiWorldTblIdx;
+			quest->uEvtData.sVisitEvt[i].uiObjTblIdx = sToCEvt->GetEvtData().sVisitEvt[i].uiObjTblIdx;
+			quest->uEvtData.sVisitEvt[i].uiItemTblIdx = sToCEvt->GetEvtData().sVisitEvt[i].uiItemTblIdx;
+			quest->uEvtData.sVisitEvt[i].uiIndicatorQText = sToCEvt->GetEvtData().sVisitEvt[i].uiIndicatorQText;
+			quest->uEvtData.sVisitEvt[i].uiDialogText = sToCEvt->GetEvtData().sVisitEvt[i].uiDialogText;
+			quest->uEvtData.sVisitEvt[i].byObjType = sToCEvt->GetEvtData().sVisitEvt[i].byObjType;
+			quest->uEvtData.sVisitEvt[i].bCompleted = sToCEvt->GetEvtData().sVisitEvt[i].bCompleted;
+
+			sLog.outDebug("Quest: world %d objTblidx %d itemTblidx %d indictaroQtext %d dialogText %d objType %d completed %d",
+				sToCEvt->GetEvtData().sVisitEvt[i].uiWorldTblIdx, sToCEvt->GetEvtData().sVisitEvt[i].uiObjTblIdx, sToCEvt->GetEvtData().sVisitEvt[i].uiItemTblIdx,
+				sToCEvt->GetEvtData().sVisitEvt[i].uiIndicatorQText, sToCEvt->GetEvtData().sVisitEvt[i].uiDialogText, sToCEvt->GetEvtData().sVisitEvt[i].byObjType,
+				sToCEvt->GetEvtData().sVisitEvt[i].bCompleted);
+			sLog.outDebug("Quest id %d", quest->QuestID);
+		}
+	}
+	//New system
+
+	/*for (int i = 0; i < sToCEvt->GetEvtData().MAX_VISIT_EVT; i++)
 	{
 		//New system
 		QuestData* quest = _player->GetQuestManager()->FindQuestById(tid);
@@ -2966,7 +2989,7 @@ void WorldSession::EvtVisit(CDboTSActSToCEvt* sToCEvt, int freeslot, NTL_TS_T_ID
 			sToCEvt->GetEvtData().sVisitEvt[i].uiIndicatorQText, sToCEvt->GetEvtData().sVisitEvt[i].uiDialogText, sToCEvt->GetEvtData().sVisitEvt[i].byObjType,
 			sToCEvt->GetEvtData().sVisitEvt[i].bCompleted);
 		sLog.outDebug("Quest id %d", _player->GetAttributesManager()->QuestDat[freeslot].QuestID);
-	}
+	}*/
 }
 
 ResultCodes	WorldSession::CheckEvtDataType(CDboTSActSToCEvt* sToCEvt, NTL_TS_TC_ID tcId)
