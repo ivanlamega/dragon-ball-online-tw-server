@@ -2850,9 +2850,49 @@ void WorldSession::EvtObjectItem(CDboTSActSToCEvt* sToCEvt, int freeslot, NTL_TS
 
 void WorldSession::EvtCustomEventCount(CDboTSActSToCEvt* sToCEvt, int freeslot, NTL_TS_T_ID tid)
 {
+
+	/*QuestData* quest = _player->GetQuestManager()->FindQuestById(tid);
+	if (quest != NULL)
+	{
+		NTL_TS_T_ID triggerId = sTSM.FindTriggerByQuest(tid);
+		if (triggerId != NTL_TS_T_ID_INVALID)
+		{
+			LoadObjectsTriggersForQuest(triggerId, tid);
+		}
+
+		for (int i = 0; i < sToCEvt->GetEvtData().MAX_OBJECT_ITEM; i++)
+		{
+			quest->uEvtData.sObjectItemCnt[i].uiItemIdx = sToCEvt->GetEvtData().sObjectItemCnt[i].uiItemIdx;
+			quest->uEvtData.sObjectItemCnt[i].nItemCnt = sToCEvt->GetEvtData().sObjectItemCnt[i].nItemCnt;
+			quest->uEvtData.sObjectItemCnt[i].nCurItemCnt = sToCEvt->GetEvtData().sObjectItemCnt[i].nCurItemCnt;
+		}
+	}*/
+
+	//New system
+	QuestData* quest = _player->GetQuestManager()->FindQuestById(tid);
+	if (quest != NULL)
+	{
+		NTL_TS_T_ID triggerId = sTSM.FindTriggerByQuest(tid);
+		if (triggerId != NTL_TS_T_ID_INVALID)
+		{
+			LoadObjectsTriggersForQuest(triggerId, tid);
+		}
+
+		for (int i = 0; i < sToCEvt->GetEvtData().MAX_CUSTOM_EVT_CNT; i++)
+		{
+			quest->uEvtData.sCustomEvtCnt[i].nCurCnt = sToCEvt->GetEvtData().sCustomEvtCnt[i].nCurCnt;
+			quest->uEvtData.sCustomEvtCnt[i].nMaxCnt = sToCEvt->GetEvtData().sCustomEvtCnt[i].nMaxCnt;
+			quest->uEvtData.sCustomEvtCnt[i].uiCustomEvtID = sToCEvt->GetEvtData().sCustomEvtCnt[i].uiCustomEvtID;
+			quest->uEvtData.sCustomEvtCnt[i].uiQTextTblIdx = sToCEvt->GetEvtData().sCustomEvtCnt[i].uiQTextTblIdx;
+		}
+
+		
+	}
+	//New system
+
 	for (int i = 0; i < sToCEvt->GetEvtData().MAX_CUSTOM_EVT_CNT; i++)
 	{
-		//New system
+		/* //New system
 		QuestData* quest = _player->GetQuestManager()->FindQuestById(tid);
 		if (quest != NULL)
 		{
@@ -2867,7 +2907,7 @@ void WorldSession::EvtCustomEventCount(CDboTSActSToCEvt* sToCEvt, int freeslot, 
 				LoadObjectsTriggersForQuest(triggerId, tid);
 			}
 		}
-		//New system
+		//New system*/
 		_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sCustomEvtCnt[i].nCurCnt = sToCEvt->GetEvtData().sCustomEvtCnt[i].nCurCnt;
 		_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sCustomEvtCnt[i].nMaxCnt = sToCEvt->GetEvtData().sCustomEvtCnt[i].nMaxCnt;
 		_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sCustomEvtCnt[i].uiCustomEvtID = sToCEvt->GetEvtData().sCustomEvtCnt[i].uiCustomEvtID;
