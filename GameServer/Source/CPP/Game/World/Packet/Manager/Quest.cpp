@@ -2762,40 +2762,41 @@ void WorldSession::EvtMobItemKillCount(CDboTSActSToCEvt* sToCEvt, int freeslot, 
 }
 
 void WorldSession::EvtDeliveryItem(CDboTSActSToCEvt* sToCEvt, int freeslot, NTL_TS_T_ID tid)
-{
-	for (int i = 0; i < sToCEvt->GetEvtData().MAX_DELIVERY_ITEM; i++)
+{//New system
+	QuestData* quest = _player->GetQuestManager()->FindQuestById(tid);
+	if (quest != NULL)
 	{
-		//New system
-		QuestData* quest = _player->GetQuestManager()->FindQuestById(tid);
-		if (quest != NULL)
+		for (int i = 0; i < sToCEvt->GetEvtData().MAX_DELIVERY_ITEM; i++)
 		{
+
 			quest->uEvtData.sDeliveryItemCnt[i].uiItemIdx = sToCEvt->GetEvtData().sDeliveryItemCnt[i].uiItemIdx;
 			quest->uEvtData.sDeliveryItemCnt[i].nItemCnt = sToCEvt->GetEvtData().sDeliveryItemCnt[i].nItemCnt;
 			quest->uEvtData.sDeliveryItemCnt[i].nCurItemCnt = sToCEvt->GetEvtData().sDeliveryItemCnt[i].nCurItemCnt;
-		}
-		//New System
-		_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sDeliveryItemCnt[i].uiItemIdx = sToCEvt->GetEvtData().sDeliveryItemCnt[i].uiItemIdx;
-		_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sDeliveryItemCnt[i].nItemCnt = sToCEvt->GetEvtData().sDeliveryItemCnt[i].nItemCnt;
-		_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sDeliveryItemCnt[i].nCurItemCnt = sToCEvt->GetEvtData().sDeliveryItemCnt[i].nCurItemCnt;
-		sLog.outDebug("Item tblidx: %d count %d curcount %d",
-			sToCEvt->GetEvtData().sDeliveryItemCnt[i].uiItemIdx,
-			sToCEvt->GetEvtData().sDeliveryItemCnt[i].nItemCnt,
-			sToCEvt->GetEvtData().sDeliveryItemCnt[i].nCurItemCnt);
-		if (sToCEvt->GetEvtData().sDeliveryItemCnt[i].uiItemIdx != INVALID_TBLIDX)
-		{
-			QuestItem newQuestItem;
-			newQuestItem.qItemTblidx = sToCEvt->GetEvtData().sDeliveryItemCnt[i].uiItemIdx;
-			newQuestItem.byCurCount = sToCEvt->GetEvtData().sDeliveryItemCnt[i].nItemCnt;
-			BYTE pos = _player->GetQuestInventoryManager()->AddItemQuest(newQuestItem);
-			if (pos != -1)
+
+			//New System
+			/*_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sDeliveryItemCnt[i].uiItemIdx = sToCEvt->GetEvtData().sDeliveryItemCnt[i].uiItemIdx;
+			_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sDeliveryItemCnt[i].nItemCnt = sToCEvt->GetEvtData().sDeliveryItemCnt[i].nItemCnt;
+			_player->GetAttributesManager()->QuestDat[freeslot].uEvtData.sDeliveryItemCnt[i].nCurItemCnt = sToCEvt->GetEvtData().sDeliveryItemCnt[i].nCurItemCnt;*/
+			sLog.outDebug("Item tblidx: %d count %d curcount %d",
+				sToCEvt->GetEvtData().sDeliveryItemCnt[i].uiItemIdx,
+				sToCEvt->GetEvtData().sDeliveryItemCnt[i].nItemCnt,
+				sToCEvt->GetEvtData().sDeliveryItemCnt[i].nCurItemCnt);
+			if (sToCEvt->GetEvtData().sDeliveryItemCnt[i].uiItemIdx != INVALID_TBLIDX)
 			{
-				SendQuestItemCreate(pos, newQuestItem.qItemTblidx, newQuestItem.byCurCount);
+				QuestItem newQuestItem;
+				newQuestItem.qItemTblidx = sToCEvt->GetEvtData().sDeliveryItemCnt[i].uiItemIdx;
+				newQuestItem.byCurCount = sToCEvt->GetEvtData().sDeliveryItemCnt[i].nItemCnt;
+				BYTE pos = _player->GetQuestInventoryManager()->AddItemQuest(newQuestItem);
+				if (pos != -1)
+				{
+					SendQuestItemCreate(pos, newQuestItem.qItemTblidx, newQuestItem.byCurCount);
+				}
+				else
+				{
+					sLog.outDebug("Inventory quest is full");
+				}
+				//SendQuestItemCreate(0, sToCEvt->GetEvtData().sDeliveryItemCnt[i].uiItemIdx, 1);
 			}
-			else
-			{
-				sLog.outDebug("Inventory quest is full");
-			}
-			//SendQuestItemCreate(0, sToCEvt->GetEvtData().sDeliveryItemCnt[i].uiItemIdx, 1);
 		}
 	}
 }
