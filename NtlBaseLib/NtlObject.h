@@ -308,6 +308,7 @@ struct MonsterData
 	WORD			MapID;
 	DWORD			KilledTime;
 	bool			isSpawned;
+	bool			initialSpawn;
 	bool			isAggro;
 
 	DWORD			DisplayID;

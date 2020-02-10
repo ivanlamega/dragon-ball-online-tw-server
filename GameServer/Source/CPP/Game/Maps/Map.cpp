@@ -437,7 +437,7 @@ void Map::CheckObjectInRange()
 					plr->GetPosition(owner.x, owner.y, owner.z);
 
 					float distance = NtlGetDistance(owner.x, owner.z, curr_Mob->GetMobData().curPos.x, curr_Mob->GetMobData().curPos.z);
-					if (distance <= DEFAULT_VISIBILITY_DISTANCE && curr_Mob->GetIsSpawn() == true)
+					if (distance <= DEFAULT_VISIBILITY_DISTANCE && curr_Mob->GetIsSpawn() == true && curr_Mob->GetInitialSpawn())
 					{
 						if (plr->isInList(curr_Mob->GetHandle()) == false)
 						{

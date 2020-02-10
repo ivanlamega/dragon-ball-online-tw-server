@@ -3244,11 +3244,11 @@ void Player::RewardDropFromMob(MonsterData& data)
 	}
 	//New System
 
-	for (int i = 0; i <= 30; i++)
+	/*for (int i = 0; i <= 30; i++)
 	{
 		switch (GetAttributesManager()->QuestDat[i].evtDataType)
 		{
-			/*case eSTOC_EVT_DATA_TYPE_MOB_KILL_CNT:
+			case eSTOC_EVT_DATA_TYPE_MOB_KILL_CNT:
 			{
 				for (int slot = 0; slot < GetAttributesManager()->QuestDat[i].uEvtData.MAX_MOB_KILL; slot++)
 				{
@@ -3364,10 +3364,10 @@ void Player::RewardDropFromMob(MonsterData& data)
 					}
 				}
 				break;
-			}*/
+			}
 		}
 		
-	}	
+	}	*/
 	DroppedObject *dropped;
 	sITEM_TBLDAT *itemSrc = NULL;
 	sITEM_PROFILE *Item = NULL;

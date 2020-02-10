@@ -220,7 +220,7 @@ bool Mob::Create(sSPAWN_TBLDAT* spawnTbl, sMOB_TBLDAT* mobTbl)
 	me.Exp = mobTbl->dwDrop_Exp;
 	me.Mob_Kind = mobTbl->wMob_Kind;
 	me.Sight_angle = mobTbl->wSightAngle;
-//	me.TMQ_Point = mobTbl->wTMQPoint;
+	//	me.TMQ_Point = mobTbl->wTMQPoint;
 	me.DropEachRateControl = mobTbl->byDropEachRateControl;
 	me.DropEItemRateControl = mobTbl->byDropEItemRateControl;
 	me.DropLItemRateControl = mobTbl->byDropLItemRateControl;
@@ -305,6 +305,7 @@ bool Mob::Create(sSPAWN_TBLDAT* spawnTbl, sMOB_TBLDAT* mobTbl)
 	SetIsDead(false);
 	me.KilledTime = 0;
 	me.isAggro = false;
+	me.initialSpawn = true;
 	me.curPos = spawnTbl->vSpawn_Loc;
 	me.chainAttackCount = 0;
 	me.MaxchainAttackCount = 0;
@@ -317,6 +318,11 @@ bool Mob::Create(sSPAWN_TBLDAT* spawnTbl, sMOB_TBLDAT* mobTbl)
 	}
 
 	Relocate(me.curPos.x, me.curPos.y, me.curPos.z, me.Spawn_Dir.x, me.Spawn_Dir.y, me.Spawn_Dir.z);
+
+	if (spawnTbl->spawnGroupId != INVALID_TBLIDX)
+	{
+		me.initialSpawn = false;
+	}
 
 
 	AddToWorld();

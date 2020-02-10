@@ -36,6 +36,9 @@ public:
 
 	bool				GetIsSpawn() { return GetMobData().isSpawned; }
 	void				SetIsSpawn(bool val) { me.isSpawned = val; }
+
+	bool				GetInitialSpawn() { return GetMobData().initialSpawn; }
+	void				SetInitialSpawn(bool val) { me.initialSpawn = val; }
 	//	------------------------------------------------------------------------
 	// LIST
 	//	------------------------------------------------------------------------
