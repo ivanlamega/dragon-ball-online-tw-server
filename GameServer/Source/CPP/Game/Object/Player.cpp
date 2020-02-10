@@ -3827,6 +3827,7 @@ ePC_CLASS Player::GetBaseClass(ePC_CLASS classId)
 			return PC_CLASS_WONDER_MAJIN;
 		}
 	}
+	return PC_CLASS_UNKNOWN;
 }
 
 void Player::ChangeClass(ePC_CLASS classId)

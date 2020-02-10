@@ -2119,7 +2119,15 @@ ResultCodes WorldSession::GivePlayerItemReward(sQUEST_REWARD_TBLDAT* rewardTbl, 
 							if (skillData != NULL)
 							{
 								DWORD myFlag;
-								myFlag = MAKE_BIT_FLAG(static_cast<int>(_player->GetBaseClass(_player->GetMyClass())));
+								if (_player->GetMyClass() <= PC_CLASS_WONDER_MAJIN)
+								{
+									myFlag = MAKE_BIT_FLAG(static_cast<int>(_player->GetMyClass()));
+								}
+								else
+								{
+									myFlag = MAKE_BIT_FLAG(static_cast<int>(_player->GetBaseClass(_player->GetMyClass())));
+								}
+								
 								sLog.outDetail("My flag: %d flag need %d my class: %d is same %d",
 									myFlag, skillData->dwPC_Class_Bit_Flag, _player->GetBaseClass(_player->GetMyClass()), (myFlag & skillData->dwPC_Class_Bit_Flag));
 								if (myFlag & skillData->dwPC_Class_Bit_Flag)// (_player->GetClassFlag(_player->GetMyClass(), ITEM_TYPE_UNKNOWN) == skillData->dwPC_Class_Bit_Flag)
