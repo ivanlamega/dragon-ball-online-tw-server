@@ -64,6 +64,7 @@ struct QuestData
 	int						RewardID;
 	bool					sPawnMobQuest;
 	TBLIDX					npcClick;
+	TBLIDX					lastNPCQuest;
 	HOBJECT					mobHandle;
 	NTL_TS_TC_ID			tcId;
 	NTL_TS_TA_ID			taId;
@@ -88,7 +89,7 @@ public:
 	int KillerCount;
 	bool sPawnMobQuest;
 	TBLIDX			lastNPCQuest;
-	QuestData		QuestDat[30];
+	//QuestData		QuestDat[30];
 
 	//TLQ 1
 	TLQ1Info tlq1Info;

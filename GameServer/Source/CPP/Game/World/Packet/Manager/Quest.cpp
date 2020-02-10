@@ -766,7 +766,7 @@ void WorldSession::SendQuestAcept(Packet& packet)
 		
 		int RWquestID = req->tId * 100;	
 		RWquestID += 1;
-		if (req->tcCurId == 100)//Reward
+		/*if (req->tcCurId == 100)//Reward
 		{
 			for (int i = 0; i <= 30; i++)
 			{
@@ -785,39 +785,7 @@ void WorldSession::SendQuestAcept(Packet& packet)
 				}
 
 			}
-			//sLog.outDebug("RWquestID %d", RWquestID);
-			/*sQUEST_REWARD_TBLDAT * tbldat = reinterpret_cast<sQUEST_REWARD_TBLDAT*>(dat->FindData(RWquestID));
-			if (tbldat != NULL)
-			{							
-				if (_player->GetPcProfile()->byLevel < 70)
-				{
-					DWORD exp = tbldat->EXP;
-					DWORD bonus = 0;*/
-
-					/*sGU_UPDATE_CHAR_EXP expPacket;				
-					
-
-					expPacket.dwIncreasedExp = exp + bonus;
-					expPacket.dwAcquisitionExp = exp;
-					expPacket.dwBonusExp = bonus;
-					expPacket.wOpCode = GU_UPDATE_CHAR_EXP;
-					expPacket.wPacketSize = sizeof(sGU_UPDATE_CHAR_EXP) - 2;
-					expPacket.handle = _player->GetHandle();
-					_player->GetPcProfile()->dwCurExp += (exp + bonus);
-					expPacket.dwCurExp = _player->GetPcProfile()->dwCurExp;*/
-
-					/*_player->UpdateZennyAmount(tbldat->Zenny, eZENNY_CHANGE_TYPE::ZENNY_CHANGE_TYPE_DB_REWARD);
-					_player->UpdateExperienceAmount(exp, bonus);
-					/*if (_player->GetPcProfile()->dwCurExp >= _player->GetPcProfile()->dwMaxExpInThisLevel)
-					{
-						expPacket.dwCurExp = _player->GetPcProfile()->dwCurExp -= _player->GetPcProfile()->dwMaxExpInThisLevel;
-						_player->LevelUp();
-					}					
-
-					SendPacket((char*)&expPacket, sizeof(sGU_UPDATE_CHAR_EXP));*/
-				/*}
-			}*/
-		}
+		}*/
 		SendPacket((char*)&res, sizeof(sGU_TS_CONFIRM_STEP_RES));
 	}
 }
@@ -2502,7 +2470,7 @@ ResultCodes WorldSession::FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req)
 	return RESULT_SUCCESS;
 }
 
-void WorldSession::EvtMobKillCount(CDboTSActSToCEvt* sToCEvt, int freeslot, NTL_TS_T_ID tid)
+void WorldSession::EvtMobKillCount(CDboTSActSToCEvt* sToCEvt, NTL_TS_T_ID tid)
 {
 	//New system
 	for (int i = 0; i < sToCEvt->GetEvtData().MAX_MOB_KILL; i++)
@@ -2631,7 +2599,7 @@ void WorldSession::EvtMobKillCount(CDboTSActSToCEvt* sToCEvt, int freeslot, NTL_
 	}
 }
 
-void WorldSession::EvtMobItemKillCount(CDboTSActSToCEvt* sToCEvt, int freeslot, NTL_TS_T_ID tid)
+void WorldSession::EvtMobItemKillCount(CDboTSActSToCEvt* sToCEvt, NTL_TS_T_ID tid)
 {
 	for (int i = 0; i < sToCEvt->GetEvtData().MAX_MOB_KILL_ITEM; i++)
 	{
@@ -2769,7 +2737,7 @@ void WorldSession::EvtMobItemKillCount(CDboTSActSToCEvt* sToCEvt, int freeslot, 
 	}
 }
 
-void WorldSession::EvtDeliveryItem(CDboTSActSToCEvt* sToCEvt, int freeslot, NTL_TS_T_ID tid)
+void WorldSession::EvtDeliveryItem(CDboTSActSToCEvt* sToCEvt, NTL_TS_T_ID tid)
 {//New system
 	QuestData* quest = _player->GetQuestManager()->FindQuestById(tid);
 	if (quest != NULL)
@@ -2809,7 +2777,7 @@ void WorldSession::EvtDeliveryItem(CDboTSActSToCEvt* sToCEvt, int freeslot, NTL_
 	}
 }
 
-void WorldSession::EvtObjectItem(CDboTSActSToCEvt* sToCEvt, int freeslot, NTL_TS_T_ID tid)
+void WorldSession::EvtObjectItem(CDboTSActSToCEvt* sToCEvt, NTL_TS_T_ID tid)
 {
 
 	//New system
@@ -2857,7 +2825,7 @@ void WorldSession::EvtObjectItem(CDboTSActSToCEvt* sToCEvt, int freeslot, NTL_TS
 	}*/
 }
 
-void WorldSession::EvtCustomEventCount(CDboTSActSToCEvt* sToCEvt, int freeslot, NTL_TS_T_ID tid)
+void WorldSession::EvtCustomEventCount(CDboTSActSToCEvt* sToCEvt, NTL_TS_T_ID tid)
 {
 	//New system
 	QuestData* quest = _player->GetQuestManager()->FindQuestById(tid);
@@ -2945,7 +2913,7 @@ void WorldSession::EvtCustomEventCount(CDboTSActSToCEvt* sToCEvt, int freeslot, 
 	}
 }
 
-void WorldSession::EvtVisit(CDboTSActSToCEvt* sToCEvt, int freeslot, NTL_TS_T_ID tid)
+void WorldSession::EvtVisit(CDboTSActSToCEvt* sToCEvt, NTL_TS_T_ID tid)
 {
 	//New system
 	QuestData* quest = _player->GetQuestManager()->FindQuestById(tid);
@@ -3011,7 +2979,7 @@ ResultCodes	WorldSession::CheckEvtDataType(CDboTSActSToCEvt* sToCEvt, NTL_TS_TC_
 	}
 	//memset(_player->GetAttributesManager()->QuestDat, 0, sizeof _player->GetAttributesManager()->QuestDat);
 
-	int freeslot = 0;
+	/*int freeslot = 0;
 	for (int i = 0; i < 30; i++)
 	{
 		if (_player->GetAttributesManager()->QuestDat[i].QuestID == 0 || _player->GetAttributesManager()->QuestDat[i].QuestID == INVALID_TBLIDX)
@@ -3019,7 +2987,7 @@ ResultCodes	WorldSession::CheckEvtDataType(CDboTSActSToCEvt* sToCEvt, NTL_TS_TC_
 			freeslot = i;
 			break;
 		}
-	}
+	}*/
 
 	// new system
 	QuestData* quest = _player->GetQuestManager()->FindQuestById(trigger->GetID());
@@ -3039,34 +3007,34 @@ ResultCodes	WorldSession::CheckEvtDataType(CDboTSActSToCEvt* sToCEvt, NTL_TS_TC_
 	}
 	// new system
 
-	_player->GetAttributesManager()->QuestDat[freeslot].QuestID = trigger->GetID();
+	/*_player->GetAttributesManager()->QuestDat[freeslot].QuestID = trigger->GetID();
 	_player->GetAttributesManager()->QuestDat[freeslot].evtDataType = sToCEvt->GetEvtDataType();
 	_player->GetAttributesManager()->QuestDat[freeslot].tcId = tcId;
-	_player->GetAttributesManager()->QuestDat[freeslot].taId = sToCEvt->GetActionId();
+	_player->GetAttributesManager()->QuestDat[freeslot].taId = sToCEvt->GetActionId();*/
 
 	switch (sToCEvt->GetEvtDataType())
 	{
 		case eSTOC_EVT_DATA_TYPE_MOB_KILL_CNT:
 		{
-			EvtMobKillCount(sToCEvt, freeslot, trigger->GetID());
+			EvtMobKillCount(sToCEvt, trigger->GetID());
 			sLog.outDetail("Quest: type eSTOC_EVT_DATA_TYPE_MOB_KILL_CNT");
 			break;
 		}
 		case eSTOC_EVT_DATA_TYPE_MOB_KILL_ITEM_CNT:
 		{
-			EvtMobItemKillCount(sToCEvt, freeslot, trigger->GetID());
+			EvtMobItemKillCount(sToCEvt, trigger->GetID());
 			sLog.outDetail("Quest: type eSTOC_EVT_DATA_TYPE_MOB_KILL_ITEM_CNT");
 			break;
 		}
 		case eSTOC_EVT_DATA_TYPE_DELIVERY_ITEM:
 		{
-			EvtDeliveryItem(sToCEvt, freeslot, trigger->GetID());
+			EvtDeliveryItem(sToCEvt, trigger->GetID());
 			sLog.outDetail("Quest: type eSTOC_EVT_DATA_TYPE_DELIVERY_ITEM");
 			break;
 		}
 		case eSTOC_EVT_DATA_TYPE_OBJECT_ITEM:
 		{
-			EvtObjectItem(sToCEvt, freeslot, trigger->GetID());
+			EvtObjectItem(sToCEvt, trigger->GetID());
 			sLog.outDetail("Quest: type eSTOC_EVT_DATA_TYPE_OBJECT_ITEM");
 			break;
 		}
@@ -3077,13 +3045,13 @@ ResultCodes	WorldSession::CheckEvtDataType(CDboTSActSToCEvt* sToCEvt, NTL_TS_TC_
 		}
 		case eSTOC_EVT_DATA_TYPE_CUSTOM_EVT_CNT:
 		{
-			EvtCustomEventCount(sToCEvt, freeslot, trigger->GetID());
+			EvtCustomEventCount(sToCEvt, trigger->GetID());
 			sLog.outDetail("Quest: type eSTOC_EVT_DATA_TYPE_CUSTOM_EVT_CNT");
 			break;
 		}
 		case eSTOC_EVT_DATA_TYPE_VISIT:
 		{
-			EvtVisit(sToCEvt, freeslot, trigger->GetID());
+			EvtVisit(sToCEvt, trigger->GetID());
 			sLog.outDetail("Quest: type eSTOC_EVT_DATA_TYPE_VISIT");
 			break;
 		}

@@ -16,7 +16,7 @@ AttributesManager::AttributesManager()
 	plr = nullptr;
 	memset(&growUpInfo, 0, sizeof(growUpInfo));
 	memset(&tlq1Info, 0, sizeof(tlq1Info));
-	memset(&QuestDat, 0, sizeof(QuestDat));
+	//memset(&QuestDat, 0, sizeof(QuestDat));
 	//memset(&PlayerProfile.avatarAttribute, 0, sizeof(sAVATAR_ATTRIBUTE));
 }
 //----------------------------------------
