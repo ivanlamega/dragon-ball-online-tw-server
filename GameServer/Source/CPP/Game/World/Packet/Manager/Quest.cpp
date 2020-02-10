@@ -2119,7 +2119,7 @@ ResultCodes WorldSession::GivePlayerItemReward(sQUEST_REWARD_TBLDAT* rewardTbl, 
 							if (skillData != NULL)
 							{
 								DWORD myFlag;
-								if (_player->GetMyClass() <= PC_CLASS_WONDER_MAJIN)
+								if (_player->GetMyClass() <= PC_CLASS_1_LAST)
 								{
 									myFlag = MAKE_BIT_FLAG(static_cast<int>(_player->GetMyClass()));
 								}
