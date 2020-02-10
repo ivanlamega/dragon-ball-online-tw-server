@@ -136,6 +136,7 @@ HOBJECT WorldSession::SpawnMobByTblidx(TBLIDX mobTblidx)
 			if (created_mob->Create(pMOBTblData, spawnData) == true)
 			{
 				created_mob->GetMapRef().link(this->_player->GetMap(), created_mob);
+				created_mob->SetInitialSpawn(true);
 				printf("Mob ID %d inserted into map", mobTblidx);
 				return spawnData.Handle;
 			}
