@@ -190,6 +190,7 @@ bool Mob::Create(sMOB_TBLDAT* mobTbl, SpawnMOB spawnInfo)
 	SetIsDead(false);
 	me.KilledTime = 0;
 	me.isAggro = false;
+	me.initialSpawn = true;
 	me.curPos = spawnInfo.State.sCharStateBase.vCurLoc; //For spawning individual Mobs
 	me.chainAttackCount = 0;
 	me.MaxchainAttackCount = 0;

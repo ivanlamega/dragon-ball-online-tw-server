@@ -979,6 +979,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 				{
 					return RESULT_FAIL;
 				}
+				// Add quest new system
 				sLog.outDetail("Quest: reward %d world tblidx %d tooltip tblidx %d pos: (%f, %f, %f)", regQInfo->GetReward(), regQInfo->GetQuestMarkInfo(0).uiWorldTblIdx,
 					regQInfo->GetQuestMarkInfo(0).uiTooltipIdx, regQInfo->GetQuestMarkInfo(0).fX, regQInfo->GetQuestMarkInfo(0).fY, regQInfo->GetQuestMarkInfo(0).fZ);
 				break;
@@ -1082,9 +1083,6 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 					case eSTOC_EVT_TYPE::eSTOC_EVT_TYPE_START:
 					{
 						SendQuestSVRevtStartNotify(tid, tcId, sToCEvt->GetActionId());//req->tcNextId);
-						QuestData newQuest;
-						newQuest.QuestID = tid;
-						_player->GetQuestManager()->AddQuest(newQuest);
 						sLog.outDebug("--------START QUEST--------");
 						break;
 					}
@@ -1244,6 +1242,14 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 				{
 					return RESULT_FAIL;
 				}
+				//New system
+				QuestData* quest = _player->GetQuestManager()->FindQuestById(tid);
+				if (quest)
+				{
+					quest->sPawnMobQuest = worldPlayScript->IsStart();
+					sLog.outBasic("Newy system spawn mob quest: %d", quest->sPawnMobQuest);
+				}
+				//New system
 				_player->GetAttributesManager()->sPawnMobQuest = worldPlayScript->IsStart();
 				sLog.outDebug("Quest: isStart %d script %d", worldPlayScript->IsStart(), worldPlayScript->GetScriptID());
 				// SUB CLASS ---------------------
@@ -1618,7 +1624,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 									SpawnNPCByTblidx(NPCs[i]);
 								}
 
-								}, 10000);
+								}, 20000);
 						}
 						else
 						{
@@ -2421,6 +2427,13 @@ ResultCodes WorldSession::FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req)
 			{
 				return RESULT_FAIL;
 			}
+
+			// Add quest new system
+			QuestData newQuest;
+			memset(&newQuest, 0, sizeof QuestData);
+			newQuest.QuestID = req->tId;
+			_player->GetQuestManager()->AddQuest(newQuest);
+			sLog.outBasic("New quest added");
 			break;
 		}
 
@@ -2507,7 +2520,7 @@ void WorldSession::EvtMobKillCount(CDboTSActSToCEvt* sToCEvt, NTL_TS_T_ID tid)
 			//New system
 			if (quest != NULL)
 			{
-				quest->sPawnMobQuest;
+				sLog.outBasic("New system spawn mob quest: %d", quest->sPawnMobQuest);
 			}
 			//New system
 			if (_player->GetAttributesManager()->sPawnMobQuest)
@@ -2571,6 +2584,7 @@ void WorldSession::EvtMobKillCount(CDboTSActSToCEvt* sToCEvt, NTL_TS_T_ID tid)
 								if (quest != NULL)
 								{
 									quest->sPawnMobQuest = false;
+									sLog.outBasic("New system spawn mob quest: %d", quest->sPawnMobQuest);
 								}
 								//New system
 								_player->GetAttributesManager()->sPawnMobQuest = false;
@@ -2656,7 +2670,7 @@ void WorldSession::EvtMobItemKillCount(CDboTSActSToCEvt* sToCEvt, NTL_TS_T_ID ti
 			//New system
 			if (quest != NULL)
 			{
-				quest->sPawnMobQuest;
+				sLog.outBasic("New system spawn mob quest: %d", quest->sPawnMobQuest);
 			}
 			//New system
 			if (!(mobTblidx == INVALID_TBLIDX) && _player->GetAttributesManager()->sPawnMobQuest)
@@ -2716,6 +2730,7 @@ void WorldSession::EvtMobItemKillCount(CDboTSActSToCEvt* sToCEvt, NTL_TS_T_ID ti
 								if (quest != NULL)
 								{
 									quest->sPawnMobQuest = false;
+									sLog.outBasic("New system spawn mob quest: %d", quest->sPawnMobQuest);
 								}
 								//New system
 								_player->GetAttributesManager()->sPawnMobQuest = false;
@@ -2781,12 +2796,16 @@ void WorldSession::EvtObjectItem(CDboTSActSToCEvt* sToCEvt, NTL_TS_T_ID tid)
 {
 
 	//New system
+	sLog.outBasic("Search for quest %d...", tid);
 	QuestData* quest = _player->GetQuestManager()->FindQuestById(tid);
 	if (quest != NULL)
 	{
+		sLog.outBasic("Quest found!");
+		sLog.outBasic("Search trigger...");
 		NTL_TS_T_ID triggerId = sTSM.FindTriggerByQuest(tid);
 		if (triggerId != NTL_TS_T_ID_INVALID)
 		{
+			sLog.outBasic("Trigger %d found!", triggerId);
 			LoadObjectsTriggersForQuest(triggerId, tid);
 		}
 
@@ -3123,6 +3142,14 @@ HOBJECT WorldSession::ConvertGohanMobNPC(TBLIDX mobTblidx)
 					created_mob->SetInitialSpawn(true);
 					sLog.outDebug("--------------MOB QUEST ----------------");
 					sLog.outDebug("Mob ID %d inserted into map", pMOBTblData->tblidx);
+					NTL_TS_T_ID questId = _player->GetQuestManager()->FindQuestByMob(mobTblidx);
+					QuestData* quest = _player->GetQuestManager()->FindQuestById(questId);
+					if (quest)
+					{
+						quest->sPawnMobQuest = false;
+						sLog.outBasic("New system spawn mob quest: %d", quest->sPawnMobQuest);
+					}
+					
 					_player->GetAttributesManager()->sPawnMobQuest = false;
 
 					
@@ -3574,6 +3601,13 @@ HOBJECT WorldSession::SpawnMobForQuest(TBLIDX mobTblidx, TBLIDX NPCSpawnTblidx, 
 				created_mob->SetInitialSpawn(true);
 				sLog.outDebug("--------------MOB QUEST ----------------");
 				sLog.outDebug("Mob ID %d inserted into map", mobTblidx);
+				NTL_TS_T_ID questId = _player->GetQuestManager()->FindQuestByMob(mobTblidx);
+				QuestData* quest = _player->GetQuestManager()->FindQuestById(questId);
+				if (quest)
+				{
+					quest->sPawnMobQuest = false;
+					sLog.outBasic("New system spawn mob quest: %d", quest->sPawnMobQuest);
+				}
 				_player->GetAttributesManager()->sPawnMobQuest = false;
 			}
 			else
@@ -3694,7 +3728,7 @@ void WorldSession::LoadObjectsTriggersForQuest(NTL_TS_T_ID triggerId, NTL_TS_T_I
 								bool first = true;
 								TBLIDX objTblidx = INVALID_TBLIDX;
 								sLog.outDetail("Count of objecs %d", clickObject->GetNumOfObjectIdx());
-								for (int i = 0; i < clickObject->GetNumOfObjectIdx() - 1; i++)
+								for (int i = 0; i < clickObject->GetNumOfObjectIdx(); i++)
 								{
 									if (first)
 									{
@@ -4615,7 +4649,7 @@ void WorldSession::SendTsExcuteTriggerObject(Packet& packet)
 						if (_player->GetAttributesManager()->questSubCls.objData[i].objTblidx == objTblidx)
 						{
 							
-							sLog.outDebug("Item chose %d mobs %d", objTblidx, _player->GetAttributesManager()->questSubCls.objData[1].mobsTblidx.size());
+							sLog.outDebug("Item chose %d mobs %d", objTblidx, _player->GetAttributesManager()->questSubCls.objData[i].mobsTblidx.size());
 							_player->GetAttributesManager()->questSubCls.objChoseIndex = i;
 							QuestData questData;
 							questData.QuestID = _player->GetAttributesManager()->questSubCls.objData[i].triggerId;
