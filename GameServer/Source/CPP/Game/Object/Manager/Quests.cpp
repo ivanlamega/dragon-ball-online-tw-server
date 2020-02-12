@@ -78,3 +78,25 @@ NTL_TS_T_ID	QuestManager::FindQuestByObject(TBLIDX objTblidx)
 
 	return (NTL_TS_T_ID)iter->second;
 }
+
+void QuestManager::AddItemGiveQuest(TBLIDX itemTblidx, NTL_TS_T_ID questId)
+{
+	m_pItemGiveQuestList.insert(std::pair<TBLIDX, NTL_TS_T_ID>(itemTblidx, questId));
+}
+
+NTL_TS_T_ID QuestManager::FindQuestByItemGive(TBLIDX itemTblidx)
+{
+	if (NTL_TS_T_ID_INVALID == itemTblidx)
+	{
+		return NTL_TS_T_ID_INVALID;
+	}
+
+	ITEMGIVEQUESTIT iter;
+	iter = m_pItemGiveQuestList.find(itemTblidx);
+	if (ItemGiveQuestEnd() == iter)
+	{
+		return NTL_TS_T_ID_INVALID;
+	}
+
+	return (NTL_TS_T_ID)iter->second;
+}

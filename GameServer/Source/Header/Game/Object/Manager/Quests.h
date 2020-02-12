@@ -35,6 +35,12 @@ private:
 
 	OBJECTQUEST							m_pObjectQuestList;
 
+	typedef std::unordered_map<TBLIDX, NTL_TS_T_ID> ITEMGIVEQUEST;
+	typedef ITEMGIVEQUEST::iterator ITEMGIVEQUESTIT;
+	typedef ITEMGIVEQUEST::value_type ITEMGIVEQUESTVAL;
+
+	ITEMGIVEQUEST							m_pItemGiveQuestList;
+
 	std::vector<QuestData> QuestDat;
 
 public:
@@ -47,6 +53,11 @@ public:
 	NTL_TS_T_ID						FindQuestByObject(TBLIDX objTblidx);
 	OBJECTQUESTIT					ObjectQuestBegin() { return m_pObjectQuestList.begin(); };
 	OBJECTQUESTIT					ObjectQuestEnd() { return m_pObjectQuestList.end(); };
+
+	void							AddItemGiveQuest(TBLIDX itemTblidx, NTL_TS_T_ID questId);
+	NTL_TS_T_ID						FindQuestByItemGive(TBLIDX itemTblidx);
+	ITEMGIVEQUESTIT					ItemGiveQuestBegin() { return m_pItemGiveQuestList.begin(); };
+	ITEMGIVEQUESTIT					ItemGiveQuestEnd() { return m_pItemGiveQuestList.end(); };
 };
 
 #endif

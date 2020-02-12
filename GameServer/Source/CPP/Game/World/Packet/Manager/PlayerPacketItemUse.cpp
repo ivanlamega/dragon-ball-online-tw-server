@@ -238,6 +238,12 @@ void Player::HandleItemUse(Packet pPacket)
 							
 							if (static_cast<NTL_TS_T_ID>(UseItemData->adSystemEffectValue[0]) == 6003)
 							{
+								NTL_TS_T_ID questId = GetQuestManager()->FindQuestByItemGive(Item->tblidx);
+								QuestData* quest = GetQuestManager()->FindQuestById(questId);
+								if (quest)
+								{
+									sLog.outBasic("Quest found %d", quest->QuestID);
+								}
 								std::vector<TBLIDX> spawns = sTBM.GetMobSpawnTable(800000)->FindSpawnByObjectTblidx(5011201);
 								for (std::vector<TBLIDX>::size_type i = 0; i != spawns.size(); i++)
 								{
@@ -247,7 +253,16 @@ void Player::HandleItemUse(Packet pPacket)
 										GetAttributesManager()->growUpInfo.mobTblidx = 5011201;
 										GetAttributesManager()->growUpInfo.maxKill = 4;
 										GetAttributesManager()->growUpInfo.countKill = 0;
-										m_session->SpawnMobForQuest(5011201, INVALID_TBLIDX, 0);
+
+										m_session->SpawnMobForQuest(GetAttributesManager()->growUpInfo.mobTblidx, INVALID_TBLIDX, 0);
+
+										if (quest)
+										{
+											quest->growUpInfo.mobTblidx = 5011201;
+											quest->growUpInfo.maxKill = 4;
+											quest->growUpInfo.countKill = 0;
+											GetQuestManager()->AddMobQuest(GetAttributesManager()->growUpInfo.mobTblidx, quest->QuestID);
+										}
 									}
 								}
 							}

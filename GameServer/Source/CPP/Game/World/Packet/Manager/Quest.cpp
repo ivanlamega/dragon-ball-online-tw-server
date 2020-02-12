@@ -1214,11 +1214,17 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 						{
 							sLog.outDetail("Item Created\n");
 							SendItemCreate(&createdItem);
+							_player->GetQuestManager()->AddItemGiveQuest(createdItem.tblidx, tid);
 
 							if (createdItem.tblidx == 98011)
 							{
 								_player->GetAttributesManager()->growUpInfo.inQuest = true;
 								_player->GetAttributesManager()->questSubCls.curQuestId = tid;
+								QuestData* quest = _player->GetQuestManager()->FindQuestById(tid);
+								if (quest)
+								{
+									quest->growUpInfo.inQuest = true;
+								}
 							}
 							if (createdItem.tblidx == 99096)
 							{
@@ -2459,6 +2465,7 @@ ResultCodes WorldSession::FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req)
 			QuestData newQuest;
 			memset(&newQuest, 0, sizeof QuestData);
 			newQuest.QuestID = req->tId;
+			newQuest.evtDataType = eSTOC_EVT_DATA_TYPE_INVALID;
 			_player->GetQuestManager()->AddQuest(newQuest);
 			sLog.outBasic("New quest added");
 			break;
@@ -2942,6 +2949,7 @@ void WorldSession::EvtCustomEventCount(CDboTSActSToCEvt* sToCEvt, NTL_TS_T_ID ti
 				{
 					sLog.outDetail("Item Created\n");
 					SendItemCreate(&createdItem);
+					_player->GetQuestManager()->AddItemGiveQuest(createdItem.tblidx, tid);
 				}
 				// TLQ1 -------------------
 				SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, 16140);

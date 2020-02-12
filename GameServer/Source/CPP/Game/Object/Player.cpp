@@ -3241,6 +3241,32 @@ void Player::RewardDropFromMob(MonsterData& data)
 				}
 				break;
 			}
+			case eSTOC_EVT_DATA_TYPE_INVALID:
+			{
+				// GROW UP ---------------
+				if (quest->growUpInfo.inQuest)
+				{
+					if (data.MonsterID == quest->growUpInfo.mobTblidx)
+					{
+						quest->growUpInfo.countKill++;
+						// Killing it spawnea another equal until reaching 4
+						if (quest->growUpInfo.countKill < quest->growUpInfo.maxKill)
+						{
+							sLog.outDetail("New system: kill karin %d/%d", quest->growUpInfo.countKill, quest->growUpInfo.maxKill);
+							//m_session->SpawnMobForQuest(quest->growUpInfo.mobTblidx, INVALID_TBLIDX, 0);
+						}
+						else
+						{
+							sLog.outDetail("New system: Sending event finish quest karin");
+							quest->growUpInfo.inQuest = false;
+							//m_session->SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, 194);
+						}
+						sLog.outDetail("New system: Curr count karin %d max %d", quest->growUpInfo.countKill, quest->growUpInfo.maxKill);
+					}
+				}
+				// GROW UP ---------------
+				break;
+			}
 		}
 	}
 	//New System
