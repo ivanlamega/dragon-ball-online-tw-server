@@ -38,7 +38,7 @@ void WorldSession::SendPortalTeleport(Packet& packet)
 {
 	sUG_PORTAL_REQ* req = (sUG_PORTAL_REQ *)packet.GetPacketBuffer();
 	sGU_PORTAL_RES res;
-	sGU_CHAR_TELEPORT_RES teleport;
+	//sGU_CHAR_TELEPORT_RES teleport;
 
 	/*	 NEED CHECK ZENNY HERE !!!	*/
 

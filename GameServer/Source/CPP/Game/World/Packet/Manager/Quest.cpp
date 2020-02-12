@@ -895,7 +895,12 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 				{
 					return RESULT_FAIL;
 				}
-				_player->GetAttributesManager()->lastNPCQuest = NPCConv->GetNPCIdx();
+				QuestData* quest = _player->GetQuestManager()->FindQuestById(tid);
+				if (quest)
+				{
+					quest->lastNPCQuest = NPCConv->GetNPCIdx();
+				}
+				//_player->GetAttributesManager()->lastNPCQuest = NPCConv->GetNPCIdx();
 
 				if (tcId == 7 && NPCConv->GetNPCIdx() == 4261111)
 				{
@@ -1250,7 +1255,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 					sLog.outBasic("Newy system spawn mob quest: %d", quest->sPawnMobQuest);
 				}
 				//New system
-				_player->GetAttributesManager()->sPawnMobQuest = worldPlayScript->IsStart();
+				//_player->GetAttributesManager()->sPawnMobQuest = worldPlayScript->IsStart();
 				sLog.outDebug("Quest: isStart %d script %d", worldPlayScript->IsStart(), worldPlayScript->GetScriptID());
 				// SUB CLASS ---------------------
 				if (worldPlayScript->IsStart() && _player->GetWorldTableID() == 800000)// worldPlayScript->GetScriptID() == 6055)
@@ -1608,7 +1613,29 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 
 
 							// Spawn mobs for sub class quest
-							Timer.setTimeout([&]() {
+							Timer.setInterval([&]() {
+									sLog.outBasic("Check if player is ready");
+									if (_player->GetIsReady())
+									{
+										int index = _player->GetAttributesManager()->questSubCls.objChoseIndex;
+										std::vector<TBLIDX> mobs = _player->GetAttributesManager()->questSubCls.objData[index].mobsTblidx;
+										std::vector<TBLIDX> NPCs = _player->GetAttributesManager()->questSubCls.objData[index].NPCTblidx;
+										sLog.outDebug("----------SPAWN MOBS FOR SUB CLASS HERE-----------------");
+										sLog.outDebug("mobs %d npcs %d", mobs.size(), NPCs.size());
+										for (std::vector<TBLIDX>::size_type i = 0; i != mobs.size(); i++)
+										{
+											SpawnMobByTblidx(mobs[i]);
+										}
+
+										for (std::vector<TBLIDX>::size_type i = 0; i != NPCs.size(); i++)
+										{
+											SpawnNPCByTblidx(NPCs[i]);
+										}
+										_player->SetIsReady(false);
+										Timer.stop();
+									}
+								}, 1000);
+							/*Timer.setTimeout([&]() {
 								int index = _player->GetAttributesManager()->questSubCls.objChoseIndex;
 								std::vector<TBLIDX> mobs = _player->GetAttributesManager()->questSubCls.objData[index].mobsTblidx;
 								std::vector<TBLIDX> NPCs = _player->GetAttributesManager()->questSubCls.objData[index].NPCTblidx;
@@ -1624,7 +1651,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 									SpawnNPCByTblidx(NPCs[i]);
 								}
 
-								}, 20000);
+								}, 10000);*/
 						}
 						else
 						{
@@ -2521,90 +2548,94 @@ void WorldSession::EvtMobKillCount(CDboTSActSToCEvt* sToCEvt, NTL_TS_T_ID tid)
 			if (quest != NULL)
 			{
 				sLog.outBasic("New system spawn mob quest: %d", quest->sPawnMobQuest);
-			}
-			//New system
-			if (_player->GetAttributesManager()->sPawnMobQuest)
-			{
-				sMOB_TBLDAT* mob = (sMOB_TBLDAT*)sTBM.GetMobTable()->FindData(mobTblidx);
-				if (mob)
+
+				//New system
+				if (quest->sPawnMobQuest)//(_player->GetAttributesManager()->sPawnMobQuest)
 				{
-					sLog.outDebug("obj tblidx %d %d %s", mob->tblidx, mob->Mob_Group, mob->szNameText);
-
-					sNPC_TBLDAT* npc = (sNPC_TBLDAT*)sTBM.GetNpcTable()->FindData(_player->GetAttributesManager()->lastNPCQuest);
-					if (npc)
+					sMOB_TBLDAT* mob = (sMOB_TBLDAT*)sTBM.GetMobTable()->FindData(mobTblidx);
+					if (mob)
 					{
-						sLog.outDebug("npc tblidx %d %s %d %d", npc->tblidx, npc->szNameText, strcmp(npc->szModel, mob->szModel), npc->byNpcType == mob->byMob_Type);
-						if (!strcmp(npc->szModel, mob->szModel)) //&& (npc->byNpcType == mob->byMob_Type))
+						sLog.outDebug("obj tblidx %d %d %s", mob->tblidx, mob->Mob_Group, mob->szNameText);
+
+						sLog.outBasic("Last NPC Quest %d", quest->lastNPCQuest);
+
+						sNPC_TBLDAT* npc = (sNPC_TBLDAT*)sTBM.GetNpcTable()->FindData(quest->lastNPCQuest);//_player->GetAttributesManager()->lastNPCQuest);
+						if (npc)
 						{
-							Npc* curr_Npc = static_cast<Npc*>(_player->GetFromList(_player->GetTarget()));
-							sLog.outDebug("Conver NPC to MOB %d %d", curr_Npc->GetNpcData().MonsterID, _player->GetAttributesManager()->lastNPCQuest);
-							if (curr_Npc->GetNpcData().MonsterID == _player->GetAttributesManager()->lastNPCQuest)
+							sLog.outDebug("npc tblidx %d %s %d %d", npc->tblidx, npc->szNameText, strcmp(npc->szModel, mob->szModel), npc->byNpcType == mob->byMob_Type);
+							if (!strcmp(npc->szModel, mob->szModel)) //&& (npc->byNpcType == mob->byMob_Type))
 							{
-								//New system
-								if (quest != NULL)
+								Npc* curr_Npc = static_cast<Npc*>(_player->GetFromList(_player->GetTarget()));
+								//sLog.outDebug("Conver NPC to MOB %d %d", curr_Npc->GetNpcData().MonsterID, _player->GetAttributesManager()->lastNPCQuest);
+								sLog.outBasic("Conver NPC to MOB %d %d", curr_Npc->GetNpcData().MonsterID, quest->lastNPCQuest);
+								if (curr_Npc->GetNpcData().MonsterID == quest->lastNPCQuest)//_player->GetAttributesManager()->lastNPCQuest)
 								{
-									quest->npcClick = curr_Npc->GetNpcData().MonsterID;
+									//New system
+									if (quest != NULL)
+									{
+										quest->npcClick = curr_Npc->GetNpcData().MonsterID;
+									}
+									//New system
+									/*
+									//old system
+									_player->GetAttributesManager()->QuestDat[freeslot].npcClick = curr_Npc->GetNpcData().MonsterID;*/
+
+									sLog.outDebug("Converting...");
+									sGU_OBJECT_DESTROY sPacket;
+
+									sPacket.wOpCode = GU_OBJECT_DESTROY;
+									sPacket.handle = curr_Npc->GetHandle();
+									sPacket.wPacketSize = sizeof(sGU_OBJECT_DESTROY) - 2;
+
+									_player->SendPacket((char*)&sPacket, sizeof(sGU_OBJECT_DESTROY));
+									curr_Npc->SetIsBecomeMob(true);
+									curr_Npc->RemoveFromWorld();
+									_player->RemoveFromList(*curr_Npc);
+									sLog.outDebug("NPC deleted");
+
+									HOBJECT mobHandle = SpawnMobForQuest(mobTblidx, curr_Npc->GetNpcData().MonsterID, 0);
+									//New System
+									if (quest != NULL)
+									{
+										quest->mobHandle = mobHandle;
+									}
+									//New system
+									/*
+									//Old system
+									_player->GetAttributesManager()->QuestDat[freeslot].mobHandle = mobHandle;//SpawnMobForQuest(mobTblidx, curr_Npc->GetNpcData().MonsterID, 0);
+									*/
+									sLog.outDebug("MOB Created");
+
 								}
-								//New system
-								/*
-								//old system
-								_player->GetAttributesManager()->QuestDat[freeslot].npcClick = curr_Npc->GetNpcData().MonsterID;*/
-
-								sLog.outDebug("Converting...");
-								sGU_OBJECT_DESTROY sPacket;
-
-								sPacket.wOpCode = GU_OBJECT_DESTROY;
-								sPacket.handle = curr_Npc->GetHandle();
-								sPacket.wPacketSize = sizeof(sGU_OBJECT_DESTROY) - 2;
-
-								_player->SendPacket((char*)&sPacket, sizeof(sGU_OBJECT_DESTROY));
-								curr_Npc->SetIsBecomeMob(true);
-								curr_Npc->RemoveFromWorld();
-								_player->RemoveFromList(*curr_Npc);
-								sLog.outDebug("NPC deleted");
-
-								HOBJECT mobHandle = SpawnMobForQuest(mobTblidx, curr_Npc->GetNpcData().MonsterID, 0);
-								//New System
-								if (quest != NULL)
+								else
 								{
-									quest->mobHandle = mobHandle;
+									sLog.outDebug("NPC NOT FOUND");
+									//New system
+									if (quest != NULL)
+									{
+										quest->sPawnMobQuest = false;
+										sLog.outBasic("New system spawn mob quest: %d", quest->sPawnMobQuest);
+									}
+									//New system
+									//_player->GetAttributesManager()->sPawnMobQuest = false;
 								}
-								//New system
-								/*
-								//Old system
-								_player->GetAttributesManager()->QuestDat[freeslot].mobHandle = mobHandle;//SpawnMobForQuest(mobTblidx, curr_Npc->GetNpcData().MonsterID, 0);
-								*/
-								sLog.outDebug("MOB Created");
 
 							}
 							else
 							{
-								sLog.outDebug("NPC NOT FOUND");
-								//New system
-								if (quest != NULL)
-								{
-									quest->sPawnMobQuest = false;
-									sLog.outBasic("New system spawn mob quest: %d", quest->sPawnMobQuest);
-								}
-								//New system
-								_player->GetAttributesManager()->sPawnMobQuest = false;
-							}
 
+								for (int count = 0; count < sToCEvt->GetEvtData().sMobKillCnt[i].nMobCnt; count++)
+								{
+									SpawnMobForQuest(mobTblidx, 0, count);
+								}
+							}
 						}
 						else
 						{
-
 							for (int count = 0; count < sToCEvt->GetEvtData().sMobKillCnt[i].nMobCnt; count++)
 							{
 								SpawnMobForQuest(mobTblidx, 0, count);
 							}
-						}
-					}
-					else
-					{
-						for (int count = 0; count < sToCEvt->GetEvtData().sMobKillCnt[i].nMobCnt; count++)
-						{
-							SpawnMobForQuest(mobTblidx, 0, count);
 						}
 					}
 				}
@@ -2671,83 +2702,85 @@ void WorldSession::EvtMobItemKillCount(CDboTSActSToCEvt* sToCEvt, NTL_TS_T_ID ti
 			if (quest != NULL)
 			{
 				sLog.outBasic("New system spawn mob quest: %d", quest->sPawnMobQuest);
-			}
-			//New system
-			if (!(mobTblidx == INVALID_TBLIDX) && _player->GetAttributesManager()->sPawnMobQuest)
-			{
-				sMOB_TBLDAT* mob = (sMOB_TBLDAT*)sTBM.GetMobTable()->FindData(mobTblidx);
-				if (mob)
+
+				//New system
+				if (!(mobTblidx == INVALID_TBLIDX) && quest->sPawnMobQuest)//_player->GetAttributesManager()->sPawnMobQuest)
 				{
-					sLog.outDebug("obj tblidx %d %d %s", mob->tblidx, mob->Mob_Group, mob->szNameText);
-
-					sNPC_TBLDAT* npc = (sNPC_TBLDAT*)sTBM.GetNpcTable()->FindData(_player->GetAttributesManager()->lastNPCQuest);
-					if (npc)
+					sMOB_TBLDAT* mob = (sMOB_TBLDAT*)sTBM.GetMobTable()->FindData(mobTblidx);
+					if (mob)
 					{
-						sLog.outDebug("npc tblidx %d %s %d %d", npc->tblidx, npc->szNameText, strcmp(npc->szModel, mob->szModel), npc->byNpcType == mob->byMob_Type);
-						if (!strcmp(npc->szModel, mob->szModel))// && (npc->byNpcType == mob->byMob_Type))
+						sLog.outDebug("obj tblidx %d %d %s", mob->tblidx, mob->Mob_Group, mob->szNameText);
+						sLog.outBasic("Last NPC Quest %d", quest->lastNPCQuest);
+						sNPC_TBLDAT* npc = (sNPC_TBLDAT*)sTBM.GetNpcTable()->FindData(quest->lastNPCQuest);//_player->GetAttributesManager()->lastNPCQuest);
+						if (npc)
 						{
-							Npc* curr_Npc = static_cast<Npc*>(_player->GetFromList(_player->GetTarget()));
-							sLog.outDebug("Convert NPC to MOB %d %d", curr_Npc->GetNpcData().MonsterID, _player->GetAttributesManager()->lastNPCQuest);
-							if (curr_Npc->GetNpcData().MonsterID == _player->GetAttributesManager()->lastNPCQuest)
+							sLog.outDebug("npc tblidx %d %s %d %d", npc->tblidx, npc->szNameText, strcmp(npc->szModel, mob->szModel), npc->byNpcType == mob->byMob_Type);
+							if (!strcmp(npc->szModel, mob->szModel))// && (npc->byNpcType == mob->byMob_Type))
 							{
-								sLog.outDebug("Converting NPC to MOB...");
-								//New system
-								if (quest != NULL)
+								Npc* curr_Npc = static_cast<Npc*>(_player->GetFromList(_player->GetTarget()));
+								//sLog.outDebug("Convert NPC to MOB %d %d", curr_Npc->GetNpcData().MonsterID, _player->GetAttributesManager()->lastNPCQuest);
+								sLog.outBasic("Convert NPC to MOB %d %d", curr_Npc->GetNpcData().MonsterID, quest->lastNPCQuest);
+								if (curr_Npc->GetNpcData().MonsterID == quest->lastNPCQuest)//_player->GetAttributesManager()->lastNPCQuest)
 								{
-									quest->npcClick = curr_Npc->GetNpcData().MonsterID;
+									sLog.outDebug("Converting NPC to MOB...");
+									//New system
+									if (quest != NULL)
+									{
+										quest->npcClick = curr_Npc->GetNpcData().MonsterID;
+									}
+									//New system
+									// old system _player->GetAttributesManager()->QuestDat[freeslot].npcClick = curr_Npc->GetNpcData().MonsterID;
+
+
+									sGU_OBJECT_DESTROY sPacket;
+
+									sPacket.wOpCode = GU_OBJECT_DESTROY;
+									sPacket.handle = curr_Npc->GetHandle();
+									sPacket.wPacketSize = sizeof(sGU_OBJECT_DESTROY) - 2;
+
+									_player->SendPacket((char*)&sPacket, sizeof(sGU_OBJECT_DESTROY));
+
+									_player->RemoveFromList(*curr_Npc);
+									curr_Npc->SetIsBecomeMob(true);
+									curr_Npc->RemoveFromWorld();
+									sLog.outDebug("NPC deleted");
+
+									//New system
+									if (quest != NULL)
+									{
+										quest->mobHandle = SpawnMobForQuest(mobTblidx, curr_Npc->GetNpcData().MonsterID, 0);
+									}
+									//New system
+									/*Old system
+									_player->GetAttributesManager()->QuestDat[freeslot].mobHandle = SpawnMobForQuest(mobTblidx, curr_Npc->GetNpcData().MonsterID, 0);*/
+									sLog.outDebug("MOB created");
 								}
-								//New system
-								// old system _player->GetAttributesManager()->QuestDat[freeslot].npcClick = curr_Npc->GetNpcData().MonsterID;
-
-
-								sGU_OBJECT_DESTROY sPacket;
-
-								sPacket.wOpCode = GU_OBJECT_DESTROY;
-								sPacket.handle = curr_Npc->GetHandle();
-								sPacket.wPacketSize = sizeof(sGU_OBJECT_DESTROY) - 2;
-
-								_player->SendPacket((char*)&sPacket, sizeof(sGU_OBJECT_DESTROY));
-
-								_player->RemoveFromList(*curr_Npc);
-								curr_Npc->SetIsBecomeMob(true);
-								curr_Npc->RemoveFromWorld();
-								sLog.outDebug("NPC deleted");
-
-								//New system
-								if (quest != NULL)
+								else
 								{
-									quest->mobHandle = SpawnMobForQuest(mobTblidx, curr_Npc->GetNpcData().MonsterID, 0);
+									sLog.outDebug("NPC NOT FOUND");
+									//New system
+									if (quest != NULL)
+									{
+										quest->sPawnMobQuest = false;
+										sLog.outBasic("New system spawn mob quest: %d", quest->sPawnMobQuest);
+									}
+									//New system
+									//_player->GetAttributesManager()->sPawnMobQuest = false;
 								}
-								//New system
-								/*Old system
-								_player->GetAttributesManager()->QuestDat[freeslot].mobHandle = SpawnMobForQuest(mobTblidx, curr_Npc->GetNpcData().MonsterID, 0);*/
-								sLog.outDebug("MOB created");
+
 							}
 							else
 							{
-								sLog.outDebug("NPC NOT FOUND");
-								//New system
-								if (quest != NULL)
+								for (int count = 0; count < sToCEvt->GetEvtData().sMobKillCnt[i].nMobCnt; count++)
 								{
-									quest->sPawnMobQuest = false;
-									sLog.outBasic("New system spawn mob quest: %d", quest->sPawnMobQuest);
+									SpawnMobForQuest(mobTblidx, 0, count);
 								}
-								//New system
-								_player->GetAttributesManager()->sPawnMobQuest = false;
-							}
-
-						}
-						else
-						{
-							for (int count = 0; count < sToCEvt->GetEvtData().sMobKillCnt[i].nMobCnt; count++)
-							{
-								SpawnMobForQuest(mobTblidx, 0, count);
 							}
 						}
 					}
 				}
+				//-----------------
 			}
-			//-----------------
 		}
 	}
 }
@@ -3150,7 +3183,7 @@ HOBJECT WorldSession::ConvertGohanMobNPC(TBLIDX mobTblidx)
 						sLog.outBasic("New system spawn mob quest: %d", quest->sPawnMobQuest);
 					}
 					
-					_player->GetAttributesManager()->sPawnMobQuest = false;
+					//_player->GetAttributesManager()->sPawnMobQuest = false;
 
 					
 					sGU_OBJECT_DESTROY sPacket;
@@ -3608,7 +3641,7 @@ HOBJECT WorldSession::SpawnMobForQuest(TBLIDX mobTblidx, TBLIDX NPCSpawnTblidx, 
 					quest->sPawnMobQuest = false;
 					sLog.outBasic("New system spawn mob quest: %d", quest->sPawnMobQuest);
 				}
-				_player->GetAttributesManager()->sPawnMobQuest = false;
+				//_player->GetAttributesManager()->sPawnMobQuest = false;
 			}
 			else
 				delete created_mob;
@@ -3928,17 +3961,19 @@ void WorldSession::SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, 
 	 if (quest)
 	 {
 		 sLog.outDetail("Quest found %d", quest->QuestID);
-		 if (quest->npcClick != INVALID_TBLIDX && _player->GetAttributesManager()->lastNPCQuest != INVALID_TBLIDX)
+		 if (quest->npcClick != INVALID_TBLIDX && quest->lastNPCQuest/*_player->GetAttributesManager()->lastNPCQuest*/ != INVALID_TBLIDX)
 		 {
 			 sLog.outDetail("npcClickl %d", quest->npcClick);
-			 if (quest->npcClick == _player->GetAttributesManager()->lastNPCQuest)
+			 sLog.outDetail("Last NPC Quest %d", quest->lastNPCQuest);
+			 if (quest->npcClick == quest->lastNPCQuest)//_player->GetAttributesManager()->lastNPCQuest)
 			 {
 				 if (SpawnNPCForQuest(quest->npcClick, 0) != INVALID_TBLIDX)
 				 {
 					 if (quest->mobHandle != INVALID_TBLIDX && quest->mobHandle != 0)
 					 {
 						 Mob* curr_Mob = static_cast<Mob*>(_player->GetFromList(quest->mobHandle));
-						 sLog.outDebug("Conver MOB to NPC %d %d", curr_Mob->GetMobData().MonsterID, _player->GetAttributesManager()->lastNPCQuest);
+						 //sLog.outDebug("Conver MOB to NPC %d %d", curr_Mob->GetMobData().MonsterID, _player->GetAttributesManager()->lastNPCQuest);
+						 sLog.outDetail("Conver MOB to NPC %d %d", curr_Mob->GetMobData().MonsterID, quest->lastNPCQuest);
 						 sGU_OBJECT_DESTROY sPacket;
 
 						 sPacket.wOpCode = GU_OBJECT_DESTROY;
@@ -3949,7 +3984,8 @@ void WorldSession::SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, 
 						 //curr_Npc->RemoveFromWorld();
 						 curr_Mob->RemoveFromWorld();
 						 _player->RemoveFromList(*curr_Mob);
-						 _player->GetAttributesManager()->lastNPCQuest = INVALID_TBLIDX;
+						 //_player->GetAttributesManager()->lastNPCQuest = INVALID_TBLIDX;
+						 quest->lastNPCQuest = INVALID_TBLIDX;
 
 					 }
 				 }

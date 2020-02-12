@@ -91,6 +91,7 @@ public:
 	sVECTOR3			GetMoveDestinationVector();
 	bool				GetIsEmergency();
 	bool                GetFlying();
+	bool				GetIsReady() { return playerIsReady; }
 	virtual DWORD		GetPowerLevel() override;
 	//	------------------------------------------------------------------------
 	// SETTER
@@ -108,6 +109,7 @@ public:
 	void				SetTarget(HOBJECT hSerial);
 	void				SetMyClass(ePC_CLASS _class);
 	virtual void		UpdateState(eCHARSTATE _state) override;
+	void				SetIsReady(bool isReady) { playerIsReady = isReady; sLog.outBasic("Player ready? %d", playerIsReady); }
 	//	------------------------------------------------------------------------
 	// PACKET
 	//	------------------------------------------------------------------------
@@ -241,6 +243,7 @@ private:
 	HOBJECT				cur_target;
 	Object*				cur_obj_tagert;
 	bool				isLowLifeSend;
+	bool				playerIsReady;
 	ePC_CLASS			myClass;
 	bool				isMovingToCharServer;
 	//	------------------------------------------------------------------------

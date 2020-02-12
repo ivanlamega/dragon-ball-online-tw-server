@@ -87,8 +87,8 @@ public:
 	int countstats;
 	//Quest
 	int KillerCount;
-	bool sPawnMobQuest;
-	TBLIDX			lastNPCQuest;
+	//bool sPawnMobQuest;
+	//TBLIDX			lastNPCQuest;
 	//QuestData		QuestDat[30];
 
 	//TLQ 1

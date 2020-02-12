@@ -30,6 +30,8 @@ void WorldSession::SendCharTeleportRes(Packet& packet)
 
 	sLog.outDetail("teleport Type: %d", _player->GetState()->sCharStateDetail.sCharStateDespawning.byTeleportType);
 
+	_player->SetIsReady(false);
+
 	switch (_player->GetState()->sCharStateDetail.sCharStateDespawning.byTeleportType)
 	{
 		case eTELEPORT_TYPE::TELEPORT_TYPE_DEFAULT:

@@ -3160,7 +3160,8 @@ void Player::RewardDropFromMob(MonsterData& data)
 							if (quest->uEvtData.sMobKillCnt[slot].nCurMobCnt >= quest->uEvtData.sMobKillCnt[slot].nMobCnt)
 							{
 								m_session->SpawnNPCForQuest(quest->npcClick, 0);
-								GetAttributesManager()->lastNPCQuest = INVALID_TBLIDX;
+								quest->lastNPCQuest = INVALID_TBLIDX;
+								//GetAttributesManager()->lastNPCQuest = INVALID_TBLIDX;
 							}
 
 						}
@@ -3174,7 +3175,6 @@ void Player::RewardDropFromMob(MonsterData& data)
 				{
 					if (quest->uEvtData.sMobKillItemCnt[slot].uiMobLIIdx == INVALID_TBLIDX)
 					{
-						sLog.outDetail("Continue not found item mob");
 						continue;
 					}
 					sLog.outDetail("curCount %d max %d", quest->uEvtData.sMobKillItemCnt[slot].nCurMobLICnt, quest->uEvtData.sMobKillItemCnt[slot].nMobLICnt);
@@ -3228,7 +3228,8 @@ void Player::RewardDropFromMob(MonsterData& data)
 									if (quest->uEvtData.sMobKillItemCnt[slot].nCurMobLICnt >= quest->uEvtData.sMobKillItemCnt[slot].nMobLICnt)
 									{
 										m_session->SpawnNPCForQuest(quest->npcClick, 0);
-										GetAttributesManager()->lastNPCQuest = INVALID_TBLIDX;
+										quest->lastNPCQuest = INVALID_TBLIDX;
+										//GetAttributesManager()->lastNPCQuest = INVALID_TBLIDX;
 										break;
 									}
 									sLog.outDetail("Quest drop %d", data.Drop_quest_id, drop->aQuestItemTblidx[itemIndex]);
@@ -3711,6 +3712,8 @@ void Player::TeleportToPopo()
 		teleport.wOpCode = GU_CHAR_TELEPORT_RES;
 		teleport.wPacketSize = sizeof(sGU_CHAR_TELEPORT_RES) - 2;
 
+		SetIsReady(false);
+
 		sWORLD_TBLDAT *world = (sWORLD_TBLDAT*)sTBM.GetWorldTable()->FindData(worldID);
 		if (world != NULL)
 		{
@@ -3743,6 +3746,7 @@ void Player::TeleportToPopo()
 			SetWorldID(world->tblidx);
 			SetWorldTableID(world->tblidx);
 			Relocate(teleport.vNewLoc.x, teleport.vNewLoc.y, teleport.vNewLoc.z, teleport.vNewDir.x, teleport.vNewDir.y, teleport.vNewDir.z);
+			SetIsReady(false);
 
 
 			SendPacket((char*)&teleport, sizeof(sGU_CHAR_TELEPORT_RES));			
@@ -4131,6 +4135,7 @@ void Player::TeleportByCommand(TBLIDX WorldID)
 	teleport.wResultCode = GAME_SUCCESS;
 	teleport.wOpCode = GU_CHAR_TELEPORT_RES;
 	teleport.wPacketSize = sizeof(sGU_CHAR_TELEPORT_RES) - 2;
+	SetIsReady(false);
 
 	if (world != NULL)
 	{

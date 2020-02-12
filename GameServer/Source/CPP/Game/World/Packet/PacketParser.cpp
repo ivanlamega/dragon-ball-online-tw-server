@@ -120,6 +120,7 @@ void			WorldSession::PacketParser(Packet& packet)
 		}
 		//sLog.outDebug("Map created / loaded: %d", m->GetId());
 		m->Add(_player);
+		_player->SetIsReady(true);
 		_player->SetState(eCHARSTATE::CHARSTATE_STANDING);
 		break;
 	}
@@ -1406,6 +1407,8 @@ void			WorldSession::PacketParser(Packet& packet)
 			res.wResultCode = GAME_SUCCESS;
 			SendPacket((char*)&res, sizeof(sGU_QUICK_TELEPORT_USE_RES));
 
+			_player->SetIsReady(false);
+
 			sGU_CHAR_TELEPORT_RES Teleport;
 			memset(&Teleport, 0, sizeof(sGU_CHAR_TELEPORT_RES));
 			Teleport.wOpCode = GU_CHAR_TELEPORT_RES;
@@ -2387,6 +2390,7 @@ void			WorldSession::PacketParser(Packet& packet)
 			if (req->bTeleport == true)
 			{
 				sGU_CHAR_TELEPORT_RES teleport;
+				_player->SetIsReady(false);
 
 				sWORLD_TBLDAT *world = (sWORLD_TBLDAT*)sTBM.GetWorldTable()->FindData(12000);
 				teleport.wResultCode = GAME_SUCCESS;

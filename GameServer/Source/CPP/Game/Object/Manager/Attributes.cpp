@@ -12,7 +12,7 @@ AttributesManager::AttributesManager()
 {
 	RPCounter = 0;
 	RPFilledCounter = 0;
-	sPawnMobQuest = false;
+	//sPawnMobQuest = false;
 	plr = nullptr;
 	memset(&growUpInfo, 0, sizeof(growUpInfo));
 	memset(&tlq1Info, 0, sizeof(tlq1Info));
