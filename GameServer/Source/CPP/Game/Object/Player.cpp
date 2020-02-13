@@ -3102,7 +3102,7 @@ void Player::RewardDropFromMob(MonsterData& data)
 	// SUBCLASS
 
 	// GROW UP ---------------
-	if (GetAttributesManager()->growUpInfo.inQuest)
+	/*if (GetAttributesManager()->growUpInfo.inQuest)
 	{
 		if (data.MonsterID == GetAttributesManager()->growUpInfo.mobTblidx)
 		{
@@ -3120,7 +3120,7 @@ void Player::RewardDropFromMob(MonsterData& data)
 			}
 			sLog.outDebug("Curr count karin %d max %d", GetAttributesManager()->growUpInfo.countKill, GetAttributesManager()->growUpInfo.maxKill);
 		}
-	}
+	}*/
 	// GROW UP ---------------
 
 	// TLQ1-------------------
@@ -3253,13 +3253,13 @@ void Player::RewardDropFromMob(MonsterData& data)
 						if (quest->growUpInfo.countKill < quest->growUpInfo.maxKill)
 						{
 							sLog.outDetail("New system: kill karin %d/%d", quest->growUpInfo.countKill, quest->growUpInfo.maxKill);
-							//m_session->SpawnMobForQuest(quest->growUpInfo.mobTblidx, INVALID_TBLIDX, 0);
+							m_session->SpawnMobForQuest(quest->growUpInfo.mobTblidx, INVALID_TBLIDX, 0);
 						}
 						else
 						{
 							sLog.outDetail("New system: Sending event finish quest karin");
 							quest->growUpInfo.inQuest = false;
-							//m_session->SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, 194);
+							m_session->SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, 194);
 						}
 						sLog.outDetail("New system: Curr count karin %d max %d", quest->growUpInfo.countKill, quest->growUpInfo.maxKill);
 					}

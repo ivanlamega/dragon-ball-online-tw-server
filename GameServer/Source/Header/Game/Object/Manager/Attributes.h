@@ -97,7 +97,7 @@ public:
 
 	// GROW UP
 
-	GrowUpInfo growUpInfo;
+	//GrowUpInfo growUpInfo;
 
 	// SUB CLASS
 	SubClassInfoQuest questSubCls;

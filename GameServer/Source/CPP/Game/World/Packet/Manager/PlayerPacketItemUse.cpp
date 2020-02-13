@@ -250,18 +250,19 @@ void Player::HandleItemUse(Packet pPacket)
 									sSPAWN_TBLDAT* spawn = (sSPAWN_TBLDAT*)sTBM.GetMobSpawnTable(800000)->FindData(spawns[i]);
 									if (spawn)
 									{
-										GetAttributesManager()->growUpInfo.mobTblidx = 5011201;
+										/*GetAttributesManager()->growUpInfo.mobTblidx = 5011201;
 										GetAttributesManager()->growUpInfo.maxKill = 4;
 										GetAttributesManager()->growUpInfo.countKill = 0;
 
-										m_session->SpawnMobForQuest(GetAttributesManager()->growUpInfo.mobTblidx, INVALID_TBLIDX, 0);
+										m_session->SpawnMobForQuest(GetAttributesManager()->growUpInfo.mobTblidx, INVALID_TBLIDX, 0);*/
 
 										if (quest)
 										{
 											quest->growUpInfo.mobTblidx = 5011201;
 											quest->growUpInfo.maxKill = 4;
 											quest->growUpInfo.countKill = 0;
-											GetQuestManager()->AddMobQuest(GetAttributesManager()->growUpInfo.mobTblidx, quest->QuestID);
+											GetQuestManager()->AddMobQuest(quest->growUpInfo.mobTblidx, quest->QuestID);
+											m_session->SpawnMobForQuest(quest->growUpInfo.mobTblidx, INVALID_TBLIDX, 0);
 										}
 									}
 								}

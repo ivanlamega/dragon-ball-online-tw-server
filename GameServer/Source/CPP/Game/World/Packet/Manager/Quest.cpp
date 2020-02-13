@@ -1218,7 +1218,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 
 							if (createdItem.tblidx == 98011)
 							{
-								_player->GetAttributesManager()->growUpInfo.inQuest = true;
+								/*_player->GetAttributesManager()->growUpInfo.inQuest = true;*/
 								_player->GetAttributesManager()->questSubCls.curQuestId = tid;
 								QuestData* quest = _player->GetQuestManager()->FindQuestById(tid);
 								if (quest)
