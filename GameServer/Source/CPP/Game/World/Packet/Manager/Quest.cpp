@@ -790,8 +790,16 @@ void WorldSession::SendQuestAcept(Packet& packet)
 	}
 }
 
-ResultCodes WorldSession::ProcessTSContStart(CDboTSContStart * contStart)
+ResultCodes WorldSession::ProcessTSContStart(CDboTSContStart * contStart, NTL_TS_T_ID tid)
 {
+	// Add quest new system
+	QuestData newQuest;
+	memset(&newQuest, 0, sizeof QuestData);
+	newQuest.QuestID = tid;
+	newQuest.evtDataType = eSTOC_EVT_DATA_TYPE_INVALID;
+	_player->GetQuestManager()->AddQuest(newQuest);
+	sLog.outBasic("New quest added");
+
 	for (int i = 0; i < contStart->GetNumOfChildEntity(); i++)
 	{
 		sLog.outDetail("Cont: %s %d", contStart->GetChildEntity(i)->GetClassNameW(), contStart->GetChildEntity(i)->GetEntityType());
@@ -867,7 +875,7 @@ ResultCodes WorldSession::ProcessTSContStart(CDboTSContStart * contStart)
 				CDboTSRcvSvrEvt* rcvSvrEvt = (CDboTSRcvSvrEvt*)contStart->GetChildEntity(i);
 				if (rcvSvrEvt)
 				{
-					sLog.outDebug("Quest evt id%d", rcvSvrEvt->GetEvtID());
+					sLog.outDebug("Quest evt id %d", rcvSvrEvt->GetEvtID());
 
 					if (rcvSvrEvt->GetEvtID() == 16200)
 					{
@@ -1266,6 +1274,13 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 				// SUB CLASS ---------------------
 				if (worldPlayScript->IsStart() && _player->GetWorldTableID() == 800000)// worldPlayScript->GetScriptID() == 6055)
 				{
+					QuestData* quest = _player->GetQuestManager()->FindQuestById(tid);
+					if (quest)
+					{
+						quest->questSubCls.inQuest = true;
+						quest->questSubCls.curQuestId = tid;
+					}
+
 					TBLIDX objTblidx1 = INVALID_TBLIDX;
 					TBLIDX objTblidx2 = INVALID_TBLIDX;
 					_player->GetAttributesManager()->questSubCls.inQuest = true;
@@ -2260,9 +2275,10 @@ void WorldSession::ProcessTsContEnd(CDboTSContEnd * contEnd)
 		
 	}
 	CNtlTSTrigger* trigger = (CNtlTSTrigger*)contEnd->GetRoot();
+	_player->GetQuestManager()->DeleteQuest(trigger->GetID());
+	sLog.outBasic("Quest delete from list");
 	if (contEnd->GetEndType() == eEND_TYPE::eEND_TYPE_COMPLETE)
 	{
-		_player->GetQuestManager()->DeleteQuest(trigger->GetID());
 		sDB.SaveQuestStatus(_player->charid, trigger->GetID(), true);
 
 		// TLQ1 -------------------
@@ -2432,7 +2448,7 @@ ResultCodes WorldSession::FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req)
 			{
 				return RESULT_FAIL;
 			}
-			if (ProcessTSContStart(contStart) == RESULT_FAIL);
+			if (ProcessTSContStart(contStart, req->tId) == RESULT_FAIL);
 			{
 				return RESULT_FAIL;
 			}
@@ -2460,14 +2476,6 @@ ResultCodes WorldSession::FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req)
 			{
 				return RESULT_FAIL;
 			}
-
-			// Add quest new system
-			QuestData newQuest;
-			memset(&newQuest, 0, sizeof QuestData);
-			newQuest.QuestID = req->tId;
-			newQuest.evtDataType = eSTOC_EVT_DATA_TYPE_INVALID;
-			_player->GetQuestManager()->AddQuest(newQuest);
-			sLog.outBasic("New quest added");
 			break;
 		}
 

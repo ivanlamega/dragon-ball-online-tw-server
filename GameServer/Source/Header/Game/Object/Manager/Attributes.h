@@ -75,6 +75,7 @@ struct QuestData
 	uSTOC_EVT_DATA			uEvtData;
 	sQUEST_PROGRESS_INFO	progressInfo;
 	GrowUpInfo				growUpInfo;
+	SubClassInfoQuest		questSubCls;
 };
 
 class AttributesManager
