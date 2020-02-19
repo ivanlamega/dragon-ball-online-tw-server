@@ -70,7 +70,7 @@ public:
 
 	// Implementations
 protected:
-	typedef std::unordered_map<NTL_TS_T_ID, NTL_TS_T_ID> QUESTTRIGG;
+	typedef std::unordered_map<NTL_TS_T_ID, std::vector<NTL_TS_T_ID>> QUESTTRIGG;
 	typedef QUESTTRIGG::iterator QUESTTRIGGIT;
 	typedef QUESTTRIGG::value_type QUESTTRIGGVAL;
 
@@ -135,7 +135,7 @@ public:
 	QUESTTRIGGIT						QuestTriggerBegin() { return m_pTriggQuestList.begin(); };
 	QUESTTRIGGIT						QuestTriggerEnd() { return m_pTriggQuestList.end(); };
 
-	NTL_TS_T_ID							FindTriggerByQuest(NTL_TS_T_ID questId);
+	std::vector<NTL_TS_T_ID>			FindTriggerByQuest(NTL_TS_T_ID questId);
 
 };
 

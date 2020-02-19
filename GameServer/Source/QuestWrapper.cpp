@@ -125,7 +125,7 @@ void CQuestWrapper::MakeListTriggerIdQuestId()
 	/* Arguments:
 	 @Questid @Triggerid */
 	/*CDboTSCheckObjItem*/
-	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(2925, 1));
+	/*m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(2925, 1));
 	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(2925, 10));
 	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(1026, 1026));
 	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(1030, 1030));
@@ -384,7 +384,7 @@ void CQuestWrapper::MakeListTriggerIdQuestId()
 	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(957, 957));
 	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(975, 975));
 	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(981, 981));
-	/*CDboTSCheckCustomEvent*/
+	//CDboTSCheckCustomEvent
 	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(1090, 1090));
 	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(1280, 1280));
 	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(1290, 1290));
@@ -421,23 +421,166 @@ void CQuestWrapper::MakeListTriggerIdQuestId()
 	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(3021, 3028));
 	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(3767, 3767));
 	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(997, 997));
+	//CDboTSCheckProgQuest
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(1061, 1061));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(1061, 1062));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(1061, 1063));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(1066, 1066));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(1071, 1071));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(1072, 1072));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(1075, 1075));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(1086, 1086));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(1091, 1091));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(1092, 1092));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(1092, 1093));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(1092, 1094));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(1092, 1095));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(12106, 11532));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(12106, 11533));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(12106, 11534));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(12106, 11535));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(12106, 11536));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(12136, 11542));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(12136, 11543));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(12136, 11544));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(12136, 11545));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(12136, 11546));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(1158, 1158));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(1220, 1220));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(13102, 13100));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(13102, 13101));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(13108, 13102));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(1327, 1327));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(1417, 1417));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(1420, 1420));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(1442, 1442));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(1442, 1443));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(1442, 1444));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(1602, 1602));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(1603, 1603));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(1637, 1637));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(164, 164));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(2925, 20));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(215, 215));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(2457, 2457));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(2458, 2458));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(2459, 2459));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(2550, 2550));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(2924, 2924));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(2928, 2928));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(2941, 2941));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(2958, 2958));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(2963, 2963));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(2982, 2982));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(348, 348));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(3743, 3743));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(3743, 3744));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(3743, 3745));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(3758, 3758));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(467, 467));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(565, 565));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(6005, 6001));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(6015, 6002));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(6015, 6003));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(6025, 6004));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(6005, 6005));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(6025, 6006));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(6035, 6007));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(6035, 6008));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(6045, 6009));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(6045, 6010));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(6055, 6011));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(6055, 6012));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(659, 659));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(6896, 6896));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(726, 726));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(747, 747));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(752, 752));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(753, 753));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(762, 762));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(6281, 8115));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(6282, 8117));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(822, 822));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(839, 839));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(842, 842));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(843, 843));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(86, 86));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(871, 871));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(872, 872));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(873, 873));
+	m_pTriggQuestList.insert(std::pair<NTL_TS_T_ID, NTL_TS_T_ID>(874, 874));*/
+
+    int questIds[] = { 2925, 2925, 1026, 1030, 1036, 1036, 2925, 1104, 1108, 1108, 1132, 1149, 1159, 1161, 1163, 117, 1171, 2925, 1208, 1211, 122, 1225, 1238, 1242, 1266, 1281,
+						2925, 1334, 1340, 1341, 1360, 1374, 2925, 142, 1425, 1466, 2925, 1502, 1520, 1522, 1537, 1555, 1555, 1593, 1594, 2925, 1600, 1612, 162, 1626, 1627, 1632,
+						1675, 1679, 1682, 1688, 1691, 1695, 2925, 1707, 1731, 1734, 2925, 2925, 1934, 1935, 1940, 1941, 1942, 1943, 1944, 1945, 1951, 1954, 1957, 1961, 1963, 1976,
+						2925, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2025, 2026, 2027, 2028, 2029,
+						2030, 2031, 2032, 2033, 2034, 2035, 2036, 2037, 2038, 2039, 2040, 2041, 2107, 2115, 2963, 2963, 2963, 2963, 2963, 2963, 2963, 2963, 2963, 2963, 2963, 2963,
+						2963, 2963, 2963, 2963, 2351, 2358, 2963, 2366, 2369, 2963, 2963, 2383, 2388, 2963, 2395, 2396, 2963, 2404, 2963, 2415, 2963, 2963, 2444, 2464, 2522, 2530,
+						2547, 2575, 2581, 2604, 2608, 2624, 2630, 2637, 264, 2658, 2663, 2676, 27, 270, 2705, 2904, 2907, 291, 2919, 2928, 2939, 2943, 2949, 295, 296, 2966, 2975,
+						2977, 2990, 2993, 2925, 3007, 3026, 3031, 3034, 324, 329, 330, 352, 370, 3701, 3714, 3754, 3766, 3774, 3775, 3776, 2925, 405, 405, 405, 441, 473, 489, 2925,
+						501, 528, 56, 2925, 6007, 6021, 6041, 6047, 605, 607, 6212, 6213, 6214, 6216, 6212, 6213, 6214, 6216, 6251, 6251, 630, 639, 6892, 6893, 2925, 712, 717, 718,
+						72, 727, 75, 759, 765, 767, 769, 793, 2925, 800, 816, 869, 2925, 910, 922, 940, 942, 957, 975, 981,
+						/*CDboTSCheckCustomEvent*/
+						1090, 1280, 1290, 1291, 1294, 1295, 1372, 1380, 1457, 1696, 1708, 1732, 1768, 1775, 2441, 2494, 2521, 2554, 2654, 2902, 2967, 2974, 2991, 2999, 3003, 3015,
+						3017, 3021, 3021, 3021, 3021, 3021, 3021, 3021, 3767, 997,
+						/*CDboTSCheckProgQuest*/
+						1061, 1061, 1061, 1066, 1071, 1072, 1075, 1086, 1091, 1092, 1092, 1092, 1092, 12106, 12106, 12106, 12106, 12106, 12136, 12136, 12136, 12136, 12136, 1158,
+						1220, 13102, 13102, 13108, 1327, 1417, 1420, 1442, 1442, 1442, 1602, 1603, 1637, 164, 2925, 215, 2457, 2458, 2459, 2550, 2924, 2928, 2941, 2958, 2963, 2982,
+						348, 3743, 3743, 3743, 3758, 467, 565, 6005, 6015, 6015, 6025, 6005, 6025, 6035, 6035, 6045, 6045, 6055, 6055, 659, 6896, 726, 747, 752, 753, 762, 6281, 6282,
+						822, 839, 842, 843, 86, 871, 872, 873, 874};
+
+	int triggerIds[] = { 1, 10, 1026, 1030, 1036, 1037, 11, 1104, 1108, 1109, 1132, 1149, 1159, 1161, 1163, 117, 1171, 12, 1208, 1211, 122, 1225,
+						1238, 1242, 1266, 1281, 13, 1334, 1340, 1341, 1360, 1374, 14, 142, 1425, 1466, 15, 1502, 1520, 1522, 1537, 1555, 1556, 1593,
+						1594, 16, 1600, 1612, 162, 1626, 1627, 1632, 1675, 1679, 1682, 1688, 1691, 1695, 17, 1707, 1731, 1734, 18, 19, 1934, 1935, 1940,
+						1941, 1942, 1943, 1944, 1945, 1951, 1954, 1957, 1961, 1963, 1976, 2, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+						2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2025, 2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035, 2036,
+						2037, 2038, 2039, 2040, 2041, 2107, 2115, 220, 221, 222, 223, 224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 2351, 2358,
+						236, 2366, 2369, 237, 238, 2383, 2388, 239, 2395, 2396, 240, 2404, 241, 2415, 242, 243, 2444, 2464, 2522, 2530, 2547, 2575, 2581, 2604,
+						2608, 2624, 2630, 2637, 264, 2658, 2663, 2676, 27, 270, 2705, 2904, 2907, 291, 2919, 2928, 2939, 2943, 2949, 295, 296, 2966, 2975, 2977,
+						2990, 2993, 3, 3007, 3026, 3031, 3034, 324, 329, 330, 352, 370, 3701, 3714, 3754, 3766, 3774, 3775, 3776, 4, 405, 406, 407, 441, 473,
+						489, 5, 501, 528, 56, 6, 6013, 6017, 6041, 6047, 605, 607, 6202, 6203, 6204, 6206, 6212, 6213, 6214, 6216, 6251, 6261, 630, 639, 6892,
+						6893, 7, 712, 717, 718, 72, 727, 75, 759, 765, 767, 769, 793, 8, 800, 816, 869, 9, 910, 922, 940, 942, 957, 975, 981,
+						//CDboTSCheckCustomEvent
+						1090, 1280, 1290, 1291, 1294, 1295, 1372, 1380, 1457, 1696, 1708, 1732, 1768, 1775, 2441, 2494, 2521, 2554, 2654, 2902, 2967,
+						2974, 2991, 2999, 3003, 3015, 3017, 3021, 3022, 3023, 3024, 3025, 3027, 3028, 3767, 997,
+						//CDboTSCheckProgQuest
+						1061, 1062, 1063, 1066, 1071, 1072, 1075, 1086, 1091, 1092, 1093, 1094, 1095, 11532, 11533, 11534, 11535, 11536, 11542, 11543, 11544,
+						11545, 11546, 1158, 1220, 13100, 13101, 13102, 1327, 1417, 1420, 1442, 1443, 1444, 1602, 1603, 1637, 164, 20, 215, 2457, 2458, 2459,
+						2550, 2924, 2928, 2941, 2958, 2963, 2982, 348, 3743, 3744, 3745, 3758, 467, 565, 6001, 6002, 6003, 6004, 6005, 6006, 6007, 6008, 6009,
+						6010, 6011, 6012, 659, 6896, 726, 747, 752, 753, 762, 8115, 8117, 822, 839, 842, 843, 86, 871, 872, 873, 874 };
+
+	for (int i = 0; i < sizeof(questIds) / sizeof(int); i++)
+	{
+		QUESTTRIGGIT iterQuestDrop;
+		iterQuestDrop = m_pTriggQuestList.find(questIds[i]);
+		if (QuestTriggerEnd() == iterQuestDrop)
+		{
+			m_pTriggQuestList[questIds[i]] = std::vector<NTL_TS_T_ID>();
+			m_pTriggQuestList[questIds[i]].push_back(triggerIds[i]);
+		}
+		else
+		{
+			m_pTriggQuestList[questIds[i]].push_back(triggerIds[i]);
+		}
+	}
+
 }
 
-NTL_TS_T_ID CQuestWrapper::FindTriggerByQuest(NTL_TS_T_ID questId)
+std::vector<NTL_TS_T_ID> CQuestWrapper::FindTriggerByQuest(NTL_TS_T_ID questId)
 {
 	if (NTL_TS_T_ID_INVALID == questId)
 	{
-		return NTL_TS_T_ID_INVALID;
+		return std::vector<NTL_TS_T_ID>();
 	}
 
 	QUESTTRIGGIT iter;
 	iter = m_pTriggQuestList.find(questId);
 	if (QuestTriggerEnd() == iter)
 	{
-		return NTL_TS_T_ID_INVALID;
+		return std::vector<NTL_TS_T_ID>();
 	}
 
-	return (NTL_TS_T_ID)iter->second;
+	return (std::vector<NTL_TS_T_ID>)iter->second;
 }
 
 

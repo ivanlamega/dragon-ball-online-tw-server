@@ -438,7 +438,7 @@ bool GameServer::ConnectToDatabase()
 }
 int GameServer::Run()
 {
-	
+
 
 	signal(SIGINT, signalHandler);
 	signal(SIGABRT, signalHandler);
@@ -479,6 +479,12 @@ int GameServer::Run()
 		sLog.outError("Trigger data unsucessfully loaded, exiting...");
 		system("PAUSE");
 		return 1;
+	}
+
+	std::vector<NTL_TS_T_ID> triggerIds = sTSM.FindTriggerByQuest(6005);
+	for (int i = 0; i < triggerIds.size(); i++)
+	{
+		sLog.outBasic("Trigger: %d", triggerIds[i]);
 	}
 
 	_ServerID = sXmlParser.GetInt("Server", "ID");

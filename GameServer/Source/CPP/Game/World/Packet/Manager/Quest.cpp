@@ -1232,12 +1232,20 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 								if (quest)
 								{
 									quest->growUpInfo.inQuest = true;
+									quest->questSubCls.curQuestId = tid;
 								}
 							}
 							if (createdItem.tblidx == 99096)
 							{
 								_player->GetAttributesManager()->questSubCls.useItemTblidx = createdItem.tblidx;
 								_player->GetAttributesManager()->questSubCls.curQuestId = tid;
+
+								QuestData* quest = _player->GetQuestManager()->FindQuestById(tid);
+								if (quest)
+								{
+									quest->questSubCls.useItemTblidx = createdItem.tblidx;
+									quest->questSubCls.curQuestId = tid;
+								}
 							}
 						}
 					}
@@ -1449,8 +1457,18 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 						}
 					}
 
-					sLog.outDebug("Mobs %d NPCs %d", _player->GetAttributesManager()->questSubCls.objData[1].mobsTblidx.size(),
+					//New System
+					if (quest)
+					{
+						quest->questSubCls.objData[0].objTblidx = objTblidx1;
+						quest->questSubCls.objData[1].objTblidx = objTblidx2;
+					}
+					//New System
+
+					sLog.outDebug("1 Mobs %d NPCs %d", _player->GetAttributesManager()->questSubCls.objData[1].mobsTblidx.size(),
 						_player->GetAttributesManager()->questSubCls.objData[1].NPCTblidx.size());
+					sLog.outDebug("0 Mobs %d NPCs %d", _player->GetAttributesManager()->questSubCls.objData[0].mobsTblidx.size(),
+						_player->GetAttributesManager()->questSubCls.objData[0].NPCTblidx.size());
 					sOBJECT_TBLDAT* objData = (sOBJECT_TBLDAT*)sTBM.GetObjectTable(_player->GetWorldTableID())->FindData(objTblidx1);
 					if (objData)
 					{
@@ -1480,6 +1498,10 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 				{
 					//SendQuestForcedCompletionNfy(tid);
 					_player->GetAttributesManager()->questSubCls.npcHandle = SpawnNPCByTblidxQuestDende(3174103);
+					if (quest)
+					{
+						quest->questSubCls.npcHandle = _player->GetAttributesManager()->questSubCls.npcHandle;
+					}
 					sLog.outDebug("Player handle %d npc handle %d", _player->GetHandle(), _player->GetAttributesManager()->questSubCls.npcHandle);
 				}
 				// SUB CLASS ---------------------
@@ -2448,7 +2470,7 @@ ResultCodes WorldSession::FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req)
 			{
 				return RESULT_FAIL;
 			}
-			if (ProcessTSContStart(contStart, req->tId) == RESULT_FAIL);
+			if (ProcessTSContStart(contStart, req->tId) == RESULT_FAIL)
 			{
 				return RESULT_FAIL;
 			}
@@ -2850,7 +2872,17 @@ void WorldSession::EvtObjectItem(CDboTSActSToCEvt* sToCEvt, NTL_TS_T_ID tid)
 	{
 		sLog.outBasic("Quest found!");
 		sLog.outBasic("Search trigger...");
-		NTL_TS_T_ID triggerId = sTSM.FindTriggerByQuest(tid);
+		std::vector<NTL_TS_T_ID> triggerIds = sTSM.FindTriggerByQuest(tid);
+		NTL_TS_T_ID triggerId;
+		if (triggerIds.size() > 0)
+		{
+			triggerId = triggerIds[0];
+		}
+		else
+		{
+			triggerId = NTL_TS_T_ID_INVALID;
+		}
+		
 		if (triggerId != NTL_TS_T_ID_INVALID)
 		{
 			sLog.outBasic("Trigger %d found!", triggerId);
@@ -2898,7 +2930,18 @@ void WorldSession::EvtCustomEventCount(CDboTSActSToCEvt* sToCEvt, NTL_TS_T_ID ti
 	QuestData* quest = _player->GetQuestManager()->FindQuestById(tid);
 	if (quest != NULL)
 	{
-		NTL_TS_T_ID triggerId = sTSM.FindTriggerByQuest(tid);
+		//NTL_TS_T_ID triggerId = sTSM.FindTriggerByQuest(tid);
+		std::vector<NTL_TS_T_ID> triggerIds = sTSM.FindTriggerByQuest(tid);
+		NTL_TS_T_ID triggerId;
+		if (triggerIds.size() > 0)
+		{
+			triggerId = triggerIds[0];
+		}
+		else
+		{
+			triggerId = NTL_TS_T_ID_INVALID;
+		}
+
 		if (triggerId != NTL_TS_T_ID_INVALID)
 		{
 			LoadObjectsTriggersForQuest(triggerId, tid);
