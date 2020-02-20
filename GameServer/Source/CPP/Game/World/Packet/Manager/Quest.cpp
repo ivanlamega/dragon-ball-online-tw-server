@@ -1675,14 +1675,14 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 									//Swordman
 									case 201:
 									{
-										_player->GetAttributesManager()->questSubCls.objData[0].mobsTblidx.push_back(8471110);
-										_player->GetAttributesManager()->questSubCls.objData[0].mobsTblidx.push_back(8471110);
-										_player->GetAttributesManager()->questSubCls.objData[0].mobsTblidx.push_back(8471110);
-										_player->GetAttributesManager()->questSubCls.objData[0].mobsTblidx.push_back(8471110);
-										_player->GetAttributesManager()->questSubCls.objData[0].mobsTblidx.push_back(3604104);
+										quest->questSubCls.objData[0].mobsTblidx.push_back(8471110);
+										quest->questSubCls.objData[0].mobsTblidx.push_back(8471110);
+										quest->questSubCls.objData[0].mobsTblidx.push_back(8471110);
+										quest->questSubCls.objData[0].mobsTblidx.push_back(8471110);
+										quest->questSubCls.objData[0].mobsTblidx.push_back(3604104);
 
-										_player->GetAttributesManager()->questSubCls.objData[0].NPCTblidx.push_back(2804129);
-										_player->GetAttributesManager()->questSubCls.objData[0].evtId = 417;
+										quest->questSubCls.objData[0].NPCTblidx.push_back(2804129);
+										quest->questSubCls.objData[0].evtId = 417;
 										break;
 									}
 									//Figther
@@ -1699,6 +1699,16 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 										quest->questSubCls.objData[0].evtId = 416;
 										break;
 									}
+									//Crane
+									case 204:
+									{
+										quest->questSubCls.objData[0].mobsTblidx.push_back(4311110);
+										quest->questSubCls.objData[0].NPCTblidx.push_back(3332303);
+
+										quest->questSubCls.objData[0].evtId = 419;
+										break;
+									}
+
 								}
 
 								if (quest->questSubCls.objData[0].mobsTblidx.size() > 0)
@@ -4880,6 +4890,11 @@ void WorldSession::SendTsExcuteTriggerObject(Packet& packet)
 
 									NTL_TS_T_ID objTriggerId = quest->QuestID;
 
+									//New System
+									sLog.outBasic("New system: New Quest Id sub Class %d", quest->QuestID);
+									NTL_TS_T_ID triggerId = _player->GetQuestManager()->FindTriggerByObject(objTblidx, _player->GetWorldTableID());
+									sLog.outBasic("New System: New Ts Trigger %d", triggerId);
+									//New System
 
 									int indexClass = _player->GetAttributesManager()->questSubCls.objChoseIndex;
 									sLog.outDetail("New Quest Id sub Class %d", _player->GetAttributesManager()->questSubCls.objData[indexClass].specificQuestId);
@@ -4900,6 +4915,7 @@ void WorldSession::SendTsExcuteTriggerObject(Packet& packet)
 										res.hTriggerObject = req->hTarget;
 										//SendPacket((char*)&res, sizeof(sGU_TS_EXCUTE_TRIGGER_OBJECT_RES));
 										sLog.outDetail("New Item trigger: %d %d %d", res.hTriggerObject, req->hSource, req->hTarget);
+										break;
 									}
 								}
 							}
