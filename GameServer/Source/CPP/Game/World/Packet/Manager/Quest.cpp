@@ -1716,6 +1716,15 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 										quest->questSubCls.objData[0].evtId = 419;
 										break;
 									}
+									//Dark warrior
+									case 205:
+									{
+										quest->questSubCls.objData[0].mobsTblidx.push_back(5791104);
+										quest->questSubCls.objData[0].NPCTblidx.push_back(4511411);
+
+										quest->questSubCls.objData[0].evtId = 420;
+										break;
+									}
 
 								}
 
