@@ -1699,6 +1699,14 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 										quest->questSubCls.objData[0].evtId = 416;
 										break;
 									}
+									//Turtle
+									case 203:
+									{
+										quest->questSubCls.objData[0].mobsTblidx.push_back(5761110);
+										quest->questSubCls.objData[0].NPCTblidx.push_back(3181304);
+										quest->questSubCls.objData[0].evtId = 418;
+										break;
+									}
 									//Crane
 									case 204:
 									{
