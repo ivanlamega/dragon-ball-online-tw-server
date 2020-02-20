@@ -3265,6 +3265,48 @@ void Player::RewardDropFromMob(MonsterData& data)
 					}
 				}
 				// GROW UP ---------------
+				//New system
+				// SUBCLASS
+				if (quest->questSubCls.inQuest)
+				{
+					typedef std::vector<TBLIDX> MobsList;
+					typedef MobsList::const_iterator MobsListIt;
+
+					std::vector<TBLIDX>* mobs = &quest->questSubCls.objData[0].mobsTblidx;
+					const TBLIDX* mob = nullptr;
+					for (MobsListIt iter = mobs->cbegin(); iter != mobs->cend(); ++iter)
+					{
+						mob = &(*iter);
+
+						if (mob == nullptr)
+						{
+							continue;
+						}
+
+						sLog.outBasic("New system: Value of mob %d %d", *mob, data.MonsterID);
+
+						if (*mob == data.MonsterID)
+						{
+							//GetAttributesManager()->questSubCls.objData[index].mobsTblidx.erase(iter);
+							mobs->erase(iter);
+							sLog.outBasic("New system: Deleted");
+							break;
+						}
+					}
+
+					sLog.outBasic("New system: In quest sub class %d", quest->questSubCls.inQuest);
+					if (quest->questSubCls.inQuest)
+					{
+						sLog.outBasic("New system: Mobs size %d evt %d", mobs->size(), quest->questSubCls.objData[0].evtId);
+						if (mobs->size() <= 0)
+						{
+							quest->questSubCls.inQuest = false;
+							//m_session->SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, GetAttributesManager()->questSubCls.objData[index].evtId);
+						}
+					}
+				}
+				// SUBCLASS
+				//New System
 				break;
 			}
 		}

@@ -42,7 +42,7 @@ void QuestManager::AddMobQuest(TBLIDX mobTblidx, NTL_TS_T_ID questId)
 
 NTL_TS_T_ID	QuestManager::FindQuestByMob(TBLIDX mobTblidx)
 {
-	if (NTL_TS_T_ID_INVALID == mobTblidx)
+	if (INVALID_TBLIDX == mobTblidx)
 	{
 		return NTL_TS_T_ID_INVALID;
 	}
@@ -64,7 +64,7 @@ void QuestManager::AddObjectQuest(TBLIDX objTblidx, NTL_TS_T_ID questId)
 
 NTL_TS_T_ID	QuestManager::FindQuestByObject(TBLIDX objTblidx)
 {
-	if (NTL_TS_T_ID_INVALID == objTblidx)
+	if (INVALID_TBLIDX == objTblidx)
 	{
 		return NTL_TS_T_ID_INVALID;
 	}
@@ -79,6 +79,53 @@ NTL_TS_T_ID	QuestManager::FindQuestByObject(TBLIDX objTblidx)
 	return (NTL_TS_T_ID)iter->second;
 }
 
+void QuestManager::AddObjectTrigger(TBLIDX objTblidx, NTL_TS_T_ID triggerId, TBLIDX worldTblidx)
+{
+	WORLDTRIGGERIT iter;
+	iter = m_pWorldTriggerList.find(worldTblidx);
+	if (WorldTriggerEnd() == iter)
+	{
+		//m_pWorldTriggerList.insert(std::pair<TBLIDX, OBJECTTRIGGER>(worldTblidx, OBJECTTRIGGER()));
+		m_pWorldTriggerList[worldTblidx] = OBJECTTRIGGER();
+		m_pWorldTriggerList[worldTblidx].insert(std::pair<TBLIDX, NTL_TS_T_ID>(objTblidx, triggerId));
+	}
+	else
+	{
+		m_pWorldTriggerList[worldTblidx].insert(std::pair<TBLIDX, NTL_TS_T_ID>(objTblidx, triggerId));
+	}
+
+	//m_pObjectTriggerList.insert(std::pair<TBLIDX, NTL_TS_T_ID>(objTblidx, triggerId));
+}
+
+NTL_TS_T_ID QuestManager::FindTriggerByObject(TBLIDX objTblidx, TBLIDX worldTblidx)
+{
+	if (INVALID_TBLIDX == worldTblidx)
+	{
+		return NTL_TS_T_ID_INVALID;
+	}
+
+	if (INVALID_TBLIDX == objTblidx)
+	{
+		return NTL_TS_T_ID_INVALID;
+	}
+
+	WORLDTRIGGERIT iterWorld;
+	iterWorld = m_pWorldTriggerList.find(worldTblidx);
+	if (WorldTriggerEnd() == iterWorld)
+	{
+		return NTL_TS_T_ID_INVALID;
+	}
+	
+	OBJECTTRIGGERIT iter;
+	iter = iterWorld->second.find(objTblidx);
+	if (iterWorld->second.end() == iter)
+	{
+		return NTL_TS_T_ID_INVALID;
+	}
+
+	return (NTL_TS_T_ID)iter->second;
+}
+
 void QuestManager::AddItemGiveQuest(TBLIDX itemTblidx, NTL_TS_T_ID questId)
 {
 	m_pItemGiveQuestList.insert(std::pair<TBLIDX, NTL_TS_T_ID>(itemTblidx, questId));
@@ -86,7 +133,7 @@ void QuestManager::AddItemGiveQuest(TBLIDX itemTblidx, NTL_TS_T_ID questId)
 
 NTL_TS_T_ID QuestManager::FindQuestByItemGive(TBLIDX itemTblidx)
 {
-	if (NTL_TS_T_ID_INVALID == itemTblidx)
+	if (INVALID_TBLIDX == itemTblidx)
 	{
 		return NTL_TS_T_ID_INVALID;
 	}
