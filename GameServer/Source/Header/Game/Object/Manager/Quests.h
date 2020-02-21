@@ -53,6 +53,12 @@ private:
 
 	ITEMGIVEQUEST							m_pItemGiveQuestList;
 
+	typedef std::unordered_map<HOBJECT, NTL_TS_T_ID> NPCSPAWNEDQUEST;
+	typedef NPCSPAWNEDQUEST::iterator NPCSPAWNEDQUESTIT;
+	typedef NPCSPAWNEDQUEST::value_type NPCSPAWNEDQUESTVAL;
+
+	NPCSPAWNEDQUEST							m_pNPCSpawnedQuestList;
+
 	std::vector<QuestData> QuestDat;
 
 public:
@@ -76,6 +82,11 @@ public:
 	NTL_TS_T_ID						FindQuestByItemGive(TBLIDX itemTblidx);
 	ITEMGIVEQUESTIT					ItemGiveQuestBegin() { return m_pItemGiveQuestList.begin(); };
 	ITEMGIVEQUESTIT					ItemGiveQuestEnd() { return m_pItemGiveQuestList.end(); };
+
+	void							AddNPCSpawnedQuest(HOBJECT NPCHandle, NTL_TS_T_ID questId);
+	NTL_TS_T_ID						FindQuestByNPCSpawned(HOBJECT NPCHandle);
+	NPCSPAWNEDQUESTIT				NPCSpawnedQuestBegin() { return m_pNPCSpawnedQuestList.begin(); };
+	NPCSPAWNEDQUESTIT				NPCSpawnedQuestEnd() { return m_pNPCSpawnedQuestList.end(); };
 };
 
 #endif

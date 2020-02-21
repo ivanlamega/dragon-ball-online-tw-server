@@ -147,3 +147,25 @@ NTL_TS_T_ID QuestManager::FindQuestByItemGive(TBLIDX itemTblidx)
 
 	return (NTL_TS_T_ID)iter->second;
 }
+
+void QuestManager::AddNPCSpawnedQuest(HOBJECT NPCHandle, NTL_TS_T_ID questId)
+{
+	m_pNPCSpawnedQuestList.insert(std::pair<HOBJECT, NTL_TS_T_ID>(NPCHandle, questId));
+}
+
+NTL_TS_T_ID QuestManager::FindQuestByNPCSpawned(HOBJECT NPCHandle)
+{
+	if (-1 == NPCHandle)
+	{
+		return NTL_TS_T_ID_INVALID;
+	}
+
+	NPCSPAWNEDQUESTIT iter;
+	iter = m_pNPCSpawnedQuestList.find(NPCHandle);
+	if (NPCSpawnedQuestEnd() == iter)
+	{
+		return NTL_TS_T_ID_INVALID;
+	}
+
+	return (NTL_TS_T_ID)iter->second;
+}

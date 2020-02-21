@@ -726,15 +726,30 @@ void Player::SkillAcion()
 					{
 						sLog.outDebug("Skill: ACTIVE_DIRECT_HEAL");
 
-						// Sub class dende
-						Npc* NpcInfo = static_cast<Npc*>(GetFromList(GetAttributesManager()->questSubCls.npcHandle));
-						if (NpcInfo)
+						//New system
+						RunScriptDendeQuest(pCharSkillReq->hTarget);
+						/*NTL_TS_T_ID questId = GetQuestManager()->FindQuestByNPCSpawned(pCharSkillReq->hTarget);
+						QuestData* quest = GetQuestManager()->FindQuestById(questId);
+						if (quest)
 						{
-							sLog.outDebug("Npc found! %d %d", NpcInfo->GetHandle(), GetAttributesManager()->questSubCls.npcHandle);
+							sLog.outBasic("New sytem: NpcHandle %d questId %d", pCharSkillReq->hTarget, quest->QuestID);
+							Npc* NpcInfoSrc = static_cast<Npc*>(GetFromList(GetAttributesManager()->questSubCls.npcHandle));
+							if (NpcInfoSrc)
+							{
+								sLog.outBasic("New system: Npc found! %d %d skilltarget %d", NpcInfoSrc->GetHandle(), quest->questSubCls.npcHandle, pCharSkillReq->hTarget);
+							}
+						}
+						//New system
 
-							NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.byDirectPlayType = DIRECT_PLAY_NORMAL;
+						// Sub class dende
+						Npc* NpcInfoSrc = static_cast<Npc*>(GetFromList(GetAttributesManager()->questSubCls.npcHandle));
+						if (NpcInfoSrc)
+						{
+							sLog.outDebug("Npc found! %d %d skilltarget %d", NpcInfoSrc->GetHandle(), GetAttributesManager()->questSubCls.npcHandle, pCharSkillReq->hTarget);
 
-							Timer.setTimeout([&]() {
+							NpcInfoSrc->GetState()->sCharStateDetail.sCharStateDirectPlay.byDirectPlayType = DIRECT_PLAY_NORMAL;
+
+							Timer.setTimeout([&](Npc* NpcInfo) {
 
 								if (NpcInfo)
 								{
@@ -751,9 +766,9 @@ void Player::SkillAcion()
 									SendPacket((char*)&dialog, sizeof(sGU_CHAR_DIALOG));
 									sLog.outDebug("DIRECT_PLAY_NORMAL %d", NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx);
 								}
-								}, 5000);
+								}, 5000, NpcInfoSrc);
 
-							Timer.setTimeout([&]() {
+							Timer.setTimeout([&](Npc* NpcInfo) {
 								if (NpcInfo)
 								{
 									NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx = 60003;
@@ -769,16 +784,16 @@ void Player::SkillAcion()
 									SendPacket((char*)&dialog, sizeof(sGU_CHAR_DIALOG));
 									sLog.outDebug("DIRECT_PLAY_NORMAL %d", NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx);
 								}
-								}, 10000);
+								}, 10000, NpcInfoSrc);
 
-							Timer.setTimeout([&]() {
+							Timer.setTimeout([&](Npc* NpcInfo) {
 
 								NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx = 60004;
 								NpcInfo->UpdateState(eCHARSTATE::CHARSTATE_DIRECT_PLAY);
 								sLog.outDebug("DIRECT_PLAY_NORMAL %d", NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx);
-								}, 15000);
+								}, 15000, NpcInfoSrc);
 
-							Timer.setTimeout([&]() {
+							Timer.setTimeout([&](Npc* NpcInfo) {
 								if (NpcInfo)
 								{
 									NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.dwTimeStamp = 0;
@@ -791,9 +806,9 @@ void Player::SkillAcion()
 									NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.avDestLoc[0].z = 3999.4399;
 									NpcInfo->UpdateState(eCHARSTATE::CHARSTATE_DESTMOVE);
 								}
-								}, 20000);
+								}, 20000, NpcInfoSrc);
 
-							Timer.setTimeout([&]() {
+							Timer.setTimeout([&](Npc* NpcInfo) {
 								if (NpcInfo)
 								{
 									sGU_OBJECT_DESTROY sPacket;
@@ -808,12 +823,12 @@ void Player::SkillAcion()
 									RemoveFromList(*NpcInfo);
 									sLog.outDebug("NPC deleted");
 								}
-								}, 30000);
+								}, 30000, NpcInfoSrc);
 						}
 						else
 						{
 							sLog.outDebug("Npc not found!");
-						}
+						}*/
 						// Sub class dende
 
 						sSkil.wResultCode = GAME_SUCCESS;

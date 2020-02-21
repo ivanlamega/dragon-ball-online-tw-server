@@ -201,64 +201,105 @@ bool Player::GetIsEmergency()
 
 	return (percent <= 0.25f) ? true : false;
 }
-void Player::RunScriptDendeQuest()
+void Player::RunScriptDendeQuest(HOBJECT handle)
 {
-	Npc* NpcInfo = static_cast<Npc*>(GetFromList(GetAttributesManager()->questSubCls.npcHandle));
-	if (NpcInfo)
+	//New system
+	NTL_TS_T_ID questId = GetQuestManager()->FindQuestByNPCSpawned(handle);
+	QuestData* quest = GetQuestManager()->FindQuestById(questId);
+	if (quest)
 	{
-		sLog.outDebug("Npc found! %d %d", NpcInfo->GetHandle(), GetAttributesManager()->questSubCls.npcHandle);
+		sLog.outBasic("New sytem: NpcHandle %d questId %d", handle, quest->QuestID);
+		Npc* NpcInfoSrc = static_cast<Npc*>(GetFromList(handle));
+		if (NpcInfoSrc)
+		{
+			sLog.outBasic("New system: Npc found! %d %d skilltarget %d", NpcInfoSrc->GetHandle(), quest->questSubCls.npcHandle, handle);
+		}
+	}
+	//New system
 
-		NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.byDirectPlayType = DIRECT_PLAY_NORMAL;
+	// Sub class dende
+	Npc* NpcInfoSrc = static_cast<Npc*>(GetFromList(GetAttributesManager()->questSubCls.npcHandle));
+	if (NpcInfoSrc)
+	{
+		sLog.outDebug("Npc found! %d %d skilltarget %d", NpcInfoSrc->GetHandle(), GetAttributesManager()->questSubCls.npcHandle, handle);
 
-		Timer.setTimeout([&]() {
+		NpcInfoSrc->GetState()->sCharStateDetail.sCharStateDirectPlay.byDirectPlayType = DIRECT_PLAY_NORMAL;
 
-			NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx = 60002;
-			NpcInfo->UpdateState(eCHARSTATE::CHARSTATE_DIRECT_PLAY);
-			sLog.outDebug("DIRECT_PLAY_NORMAL %d", NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx);
-			}, 5000);
+		Timer.setTimeout([&](Npc* NpcInfo) {
 
-		Timer.setTimeout([&]() {
+			if (NpcInfo)
+			{
+				NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx = 60002;
+				NpcInfo->UpdateState(eCHARSTATE::CHARSTATE_DIRECT_PLAY);
 
-			NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx = 60003;
-			NpcInfo->UpdateState(eCHARSTATE::CHARSTATE_DIRECT_PLAY);
-			sLog.outDebug("DIRECT_PLAY_NORMAL %d", NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx);
-			}, 10000);
+				sGU_CHAR_DIALOG dialog;
+				memset(&dialog, 0, sizeof sGU_CHAR_DIALOG);
+				dialog.wPacketSize = sizeof(sGU_CHAR_DIALOG) - 2;
+				dialog.wOpCode = GU_CHAR_DIALOG;
+				dialog.hSubject = NpcInfo->GetHandle();
+				dialog.byDialogType = eCHAR_DIALOG_TYPE::CHAR_DIALOG_SAY;
+				dialog.textTblidx = 3313;
+				SendPacket((char*)&dialog, sizeof(sGU_CHAR_DIALOG));
+				sLog.outDebug("DIRECT_PLAY_NORMAL %d", NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx);
+			}
+			}, 5000, NpcInfoSrc);
 
-		Timer.setTimeout([&]() {
+		Timer.setTimeout([&](Npc* NpcInfo) {
+			if (NpcInfo)
+			{
+				NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx = 60003;
+				NpcInfo->UpdateState(eCHARSTATE::CHARSTATE_DIRECT_PLAY);
+
+				sGU_CHAR_DIALOG dialog;
+				memset(&dialog, 0, sizeof sGU_CHAR_DIALOG);
+				dialog.wPacketSize = sizeof(sGU_CHAR_DIALOG) - 2;
+				dialog.wOpCode = GU_CHAR_DIALOG;
+				dialog.hSubject = NpcInfo->GetHandle();
+				dialog.byDialogType = eCHAR_DIALOG_TYPE::CHAR_DIALOG_SAY;
+				dialog.textTblidx = 3314;
+				SendPacket((char*)&dialog, sizeof(sGU_CHAR_DIALOG));
+				sLog.outDebug("DIRECT_PLAY_NORMAL %d", NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx);
+			}
+			}, 10000, NpcInfoSrc);
+
+		Timer.setTimeout([&](Npc* NpcInfo) {
 
 			NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx = 60004;
 			NpcInfo->UpdateState(eCHARSTATE::CHARSTATE_DIRECT_PLAY);
 			sLog.outDebug("DIRECT_PLAY_NORMAL %d", NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx);
-			}, 15000);
+			}, 15000, NpcInfoSrc);
 
-		Timer.setTimeout([&]() {
+		Timer.setTimeout([&](Npc* NpcInfo) {
+			if (NpcInfo)
+			{
+				NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.dwTimeStamp = 0;
+				NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.byMoveFlag = 1;
+				NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.bHaveSecondDestLoc = false;
+				NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.unknown = 0;
+				NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.byDestLocCount = 1;
+				NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.avDestLoc[0].x = 5779.3789;
+				NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.avDestLoc[0].y = -90.417999;
+				NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.avDestLoc[0].z = 3999.4399;
+				NpcInfo->UpdateState(eCHARSTATE::CHARSTATE_DESTMOVE);
+			}
+			}, 20000, NpcInfoSrc);
 
-			NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.dwTimeStamp = 0;
-			NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.byMoveFlag = 1;
-			NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.bHaveSecondDestLoc = false;
-			NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.unknown = 0;
-			NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.byDestLocCount = 1;
-			NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.avDestLoc[0].x = 5779.3789;
-			NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.avDestLoc[0].y = -90.417999;
-			NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.avDestLoc[0].z = 3999.4399;
-			NpcInfo->UpdateState(eCHARSTATE::CHARSTATE_DESTMOVE);
-			}, 20000);
+		Timer.setTimeout([&](Npc* NpcInfo) {
+			if (NpcInfo)
+			{
+				sGU_OBJECT_DESTROY sPacket;
 
-		Timer.setTimeout([&]() {
+				sPacket.wOpCode = GU_OBJECT_DESTROY;
+				sPacket.handle = NpcInfo->GetHandle();
+				sPacket.wPacketSize = sizeof(sGU_OBJECT_DESTROY) - 2;
 
-			sGU_OBJECT_DESTROY sPacket;
-
-			sPacket.wOpCode = GU_OBJECT_DESTROY;
-			sPacket.handle = NpcInfo->GetHandle();
-			sPacket.wPacketSize = sizeof(sGU_OBJECT_DESTROY) - 2;
-
-			SendPacket((char*)&sPacket, sizeof(sGU_OBJECT_DESTROY));
-			NpcInfo->SetIsBecomeMob(true);
-			NpcInfo->RemoveFromWorld();
-			RemoveFromList(*NpcInfo);
-			sLog.outDebug("NPC deleted");
-
-			}, 30000);
+				SendPacket((char*)&sPacket, sizeof(sGU_OBJECT_DESTROY));
+				NpcInfo->SetIsBecomeMob(true);
+				NpcInfo->RemoveFromWorld();
+				RemoveFromList(*NpcInfo);
+				sLog.outDebug("NPC deleted");
+			}
+			}, 30000, NpcInfoSrc);
 	}
 	else
 	{

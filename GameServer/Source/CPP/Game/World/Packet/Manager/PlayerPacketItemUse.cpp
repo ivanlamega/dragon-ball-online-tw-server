@@ -296,6 +296,16 @@ void Player::HandleItemUse(Packet pPacket)
 										sLog.outString("New FOUNDED object tblidx %d hTarget %d", objTblidx, req->hTarget);
 
 										// SUB CLASS
+										NTL_TS_T_ID questId1 = GetQuestManager()->FindQuestByItemGive(Item->tblidx);
+										QuestData* quest = GetQuestManager()->FindQuestById(questId1);
+										if (quest)
+										{
+											sLog.outBasic("New system: New QUEST ID: %d", quest->questSubCls.curQuestId);
+											sLog.outBasic("New system: New Item Tblidx %d %d %d", quest->questSubCls.useItemTblidx == Item->tblidx,
+												((WorldObject*)reference->getSource())->GetTblidx(), quest->questSubCls.useItemTblidx);
+											std::vector<NTL_TS_T_ID> triggerIds = sTSM.FindTriggerByQuest(quest->QuestID);
+											sLog.outBasic("New system: Trigger %d", triggerIds[0]);
+										}
 										
 										if (GetAttributesManager()->questSubCls.curQuestId != 0 && GetAttributesManager()->questSubCls.curQuestId != INVALID_TBLIDX)
 										{
@@ -305,6 +315,7 @@ void Player::HandleItemUse(Packet pPacket)
 
 											QuestData questDat;
 											questDat.QuestID = GetAttributesManager()->questSubCls.curQuestId;
+											sLog.outDebug("Trigger %d", questDat.QuestID);
 											if (m_session->FindObjectTriggerInformation(questDat.QuestID, &questDat, req->hTarget, objTblidx) == RESULT_SUCCESS)
 											{
 												sGU_ITEM_USE_RES res;
@@ -352,7 +363,7 @@ void Player::HandleItemUse(Packet pPacket)
 																res.tblidxItem = Item->tblidx;
 																res.byPlace = req->byPlace;
 																res.byPos = req->byPos;
-																//SendPacket((char*)&res, sizeof(sGU_ITEM_USE_RES));
+																SendPacket((char*)&res, sizeof(sGU_ITEM_USE_RES));
 																sLog.outDebug("New Item trigger: %d %d %d", res.tblidxItem, req->hTarget, objTblidx);
 															}
 

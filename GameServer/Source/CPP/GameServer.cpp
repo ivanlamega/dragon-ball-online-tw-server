@@ -10,6 +10,8 @@
 #include <iostream>
 #include <signal.h>
 
+#include <TimerJs.h>
+
 #include "QuestWrapper.h"
 
 void signalHandler(int signum)
@@ -439,7 +441,6 @@ bool GameServer::ConnectToDatabase()
 int GameServer::Run()
 {
 
-
 	signal(SIGINT, signalHandler);
 	signal(SIGABRT, signalHandler);
 	signal(SIGFPE, signalHandler);
@@ -481,11 +482,34 @@ int GameServer::Run()
 		return 1;
 	}
 
-	std::vector<NTL_TS_T_ID> triggerIds = sTSM.FindTriggerByQuest(6005);
-	for (int i = 0; i < triggerIds.size(); i++)
-	{
-		sLog.outBasic("Trigger: %d", triggerIds[i]);
-	}
+
+	struct Test {
+		int number;
+		int number2;
+	};
+	Test org;
+	Test* test = &org;
+	test->number = 0;
+	test->number2 = 1;
+
+	Timer.setInterval([&](Test* num) {
+		sLog.outDebug("Test num %d", num->number);
+		num->number++;
+		}, 1000, test);
+
+	Timer.setTimeout([&](Test* num) {
+		sLog.outBasic("Finish Num %d", num->number);
+		Timer.stop();
+		}, 10000, test);
+
+	Timer.setInterval([&]() {
+		sLog.outBasic("New timer");
+		}, 1000, 1);
+
+	Timer.setTimeout([&]() {
+		sLog.outBasic("New timer stop");
+		Timer.stop(1);
+		}, 10000, 2);
 
 	_ServerID = sXmlParser.GetInt("Server", "ID");
 	_ChannelID = sXmlParser.GetInt("Server", "ChannelID");

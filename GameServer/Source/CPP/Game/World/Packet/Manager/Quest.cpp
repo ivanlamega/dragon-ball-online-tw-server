@@ -1248,6 +1248,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 								{
 									quest->questSubCls.useItemTblidx = createdItem.tblidx;
 									quest->questSubCls.curQuestId = tid;
+									_player->GetQuestManager()->AddItemGiveQuest(createdItem.tblidx, quest->QuestID);
 								}
 								//New system
 							}
@@ -1513,6 +1514,8 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 					if (quest)
 					{
 						quest->questSubCls.npcHandle = _player->GetAttributesManager()->questSubCls.npcHandle;
+						_player->GetQuestManager()->AddNPCSpawnedQuest(quest->questSubCls.npcHandle, quest->QuestID);
+						sLog.outBasic("New system: Player handle %d npc handle %d", _player->GetHandle(), quest->questSubCls.npcHandle);
 					}
 					//New system
 					sLog.outDebug("Player handle %d npc handle %d", _player->GetHandle(), _player->GetAttributesManager()->questSubCls.npcHandle);
@@ -1725,6 +1728,69 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 										quest->questSubCls.objData[0].evtId = 420;
 										break;
 									}
+									//Shadow knight
+									case 206:
+									{
+										
+										quest->questSubCls.objData[0].mobsTblidx.push_back(5873104);
+										quest->questSubCls.objData[0].NPCTblidx.push_back(4511609);
+
+										quest->questSubCls.objData[0].evtId = 421;
+										break;
+									}
+									//Dende
+									case 207:
+									{
+										quest->questSubCls.objData[0].mobsTblidx.push_back(4883104);
+										quest->questSubCls.objData[0].NPCTblidx.push_back(4751109);
+										quest->questSubCls.objData[0].NPCTblidx.push_back(4511515);
+										quest->questSubCls.objData[0].evtId = 422;
+										break;
+									}
+									//Poco priest
+									case 208:
+									{
+										
+										quest->questSubCls.objData[0].mobsTblidx.push_back(6651207);
+										quest->questSubCls.objData[0].NPCTblidx.push_back(4751408);
+										quest->questSubCls.objData[0].evtId = 423;
+										break;
+									}
+									// Majin ultimate
+									case 209:
+									{
+										quest->questSubCls.objData[0].mobsTblidx.push_back(8511113);
+										quest->questSubCls.objData[0].NPCTblidx.push_back(4141114);
+										quest->questSubCls.objData[0].evtId = 424;
+										break;
+									}
+									//Majin cheff
+									case 210:
+									{
+										quest->questSubCls.objData[0].mobsTblidx.push_back(8112122);
+										quest->questSubCls.objData[0].NPCTblidx.push_back(4151110);
+										quest->questSubCls.objData[0].evtId = 425;
+										break;
+									}
+									//Majin plasma
+									case 211:
+									{
+										
+										quest->questSubCls.objData[0].mobsTblidx.push_back(2671101);
+										quest->questSubCls.objData[0].NPCTblidx.push_back(4371315);
+
+										quest->questSubCls.objData[0].evtId = 426;
+										break;
+									}
+									//Majin Karma
+									case 212:
+									{
+										quest->questSubCls.objData[0].mobsTblidx.push_back(4131104);
+										quest->questSubCls.objData[0].mobsTblidx.push_back(4131104);
+										quest->questSubCls.objData[0].NPCTblidx.push_back(4261113);
+										quest->questSubCls.objData[0].evtId = 427;
+										break;
+									}
 
 								}
 
@@ -1738,7 +1804,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 
 
 							// Spawn mobs for sub class quest
-							Timer.setIntervalArg([&](NTL_TS_T_ID questId) {
+							Timer.setInterval([&](NTL_TS_T_ID questId) {
 									sLog.outBasic("Check if player is ready %d", questId);
 									if (_player->GetIsReady())
 									{
