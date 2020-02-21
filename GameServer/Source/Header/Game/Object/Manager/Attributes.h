@@ -40,6 +40,7 @@ struct SubClassInfoQuest
 	bool			inQuest;
 	HOBJECT			npcHandle;
 	TBLIDX			useItemTblidx;
+	bool			majinKarmaObject;
 	int				curQuestId;
 	BYTE			objChoseIndex;
 	ObjectDataQuest	objData[2];
@@ -101,7 +102,7 @@ public:
 	//GrowUpInfo growUpInfo;
 
 	// SUB CLASS
-	SubClassInfoQuest questSubCls;
+	//SubClassInfoQuest questSubCls;
 
 	// Teleport
 	TeleportInfo teleportInfo;

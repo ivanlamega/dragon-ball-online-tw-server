@@ -204,7 +204,7 @@ bool Player::GetIsEmergency()
 void Player::RunScriptDendeQuest(HOBJECT handle)
 {
 	//New system
-	NTL_TS_T_ID questId = GetQuestManager()->FindQuestByNPCSpawned(handle);
+	/*NTL_TS_T_ID questId = GetQuestManager()->FindQuestByNPCSpawned(handle);
 	QuestData* quest = GetQuestManager()->FindQuestById(questId);
 	if (quest)
 	{
@@ -214,96 +214,105 @@ void Player::RunScriptDendeQuest(HOBJECT handle)
 		{
 			sLog.outBasic("New system: Npc found! %d %d skilltarget %d", NpcInfoSrc->GetHandle(), quest->questSubCls.npcHandle, handle);
 		}
-	}
+	}*/
 	//New system
 
-	// Sub class dende
-	Npc* NpcInfoSrc = static_cast<Npc*>(GetFromList(GetAttributesManager()->questSubCls.npcHandle));
-	if (NpcInfoSrc)
+	//Npc* NpcInfoSrc = static_cast<Npc*>(GetFromList(GetAttributesManager()->questSubCls.npcHandle));
+	NTL_TS_T_ID questId = GetQuestManager()->FindQuestByNPCSpawned(handle);
+	QuestData* quest = GetQuestManager()->FindQuestById(questId);
+	if (quest)
 	{
-		sLog.outDebug("Npc found! %d %d skilltarget %d", NpcInfoSrc->GetHandle(), GetAttributesManager()->questSubCls.npcHandle, handle);
-
-		NpcInfoSrc->GetState()->sCharStateDetail.sCharStateDirectPlay.byDirectPlayType = DIRECT_PLAY_NORMAL;
-
-		Timer.setTimeout([&](Npc* NpcInfo) {
-
-			if (NpcInfo)
+		sLog.outBasic("New sytem: NpcHandle %d questId %d", handle, quest->QuestID);
+		Npc* NpcInfoSrc = static_cast<Npc*>(GetFromList(handle));
+		if (NpcInfoSrc)
+		{
+			if (NpcInfoSrc)
 			{
-				NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx = 60002;
-				NpcInfo->UpdateState(eCHARSTATE::CHARSTATE_DIRECT_PLAY);
+				sLog.outDebug("Npc found! %d %d skilltarget %d", NpcInfoSrc->GetHandle(), quest->questSubCls.npcHandle, handle);
 
-				sGU_CHAR_DIALOG dialog;
-				memset(&dialog, 0, sizeof sGU_CHAR_DIALOG);
-				dialog.wPacketSize = sizeof(sGU_CHAR_DIALOG) - 2;
-				dialog.wOpCode = GU_CHAR_DIALOG;
-				dialog.hSubject = NpcInfo->GetHandle();
-				dialog.byDialogType = eCHAR_DIALOG_TYPE::CHAR_DIALOG_SAY;
-				dialog.textTblidx = 3313;
-				SendPacket((char*)&dialog, sizeof(sGU_CHAR_DIALOG));
-				sLog.outDebug("DIRECT_PLAY_NORMAL %d", NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx);
+				NpcInfoSrc->GetState()->sCharStateDetail.sCharStateDirectPlay.byDirectPlayType = DIRECT_PLAY_NORMAL;
+
+				Timer.setTimeout([&](Npc* NpcInfo) {
+
+					if (NpcInfo)
+					{
+						NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx = 60002;
+						NpcInfo->UpdateState(eCHARSTATE::CHARSTATE_DIRECT_PLAY);
+
+						sGU_CHAR_DIALOG dialog;
+						memset(&dialog, 0, sizeof sGU_CHAR_DIALOG);
+						dialog.wPacketSize = sizeof(sGU_CHAR_DIALOG) - 2;
+						dialog.wOpCode = GU_CHAR_DIALOG;
+						dialog.hSubject = NpcInfo->GetHandle();
+						dialog.byDialogType = eCHAR_DIALOG_TYPE::CHAR_DIALOG_SAY;
+						dialog.textTblidx = 3313;
+						SendPacket((char*)&dialog, sizeof(sGU_CHAR_DIALOG));
+						sLog.outDebug("DIRECT_PLAY_NORMAL %d", NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx);
+					}
+					}, 5000, NpcInfoSrc);
+
+				Timer.setTimeout([&](Npc* NpcInfo) {
+					if (NpcInfo)
+					{
+						NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx = 60003;
+						NpcInfo->UpdateState(eCHARSTATE::CHARSTATE_DIRECT_PLAY);
+
+						sGU_CHAR_DIALOG dialog;
+						memset(&dialog, 0, sizeof sGU_CHAR_DIALOG);
+						dialog.wPacketSize = sizeof(sGU_CHAR_DIALOG) - 2;
+						dialog.wOpCode = GU_CHAR_DIALOG;
+						dialog.hSubject = NpcInfo->GetHandle();
+						dialog.byDialogType = eCHAR_DIALOG_TYPE::CHAR_DIALOG_SAY;
+						dialog.textTblidx = 3314;
+						SendPacket((char*)&dialog, sizeof(sGU_CHAR_DIALOG));
+						sLog.outDebug("DIRECT_PLAY_NORMAL %d", NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx);
+					}
+					}, 10000, NpcInfoSrc);
+
+				Timer.setTimeout([&](Npc* NpcInfo) {
+
+					NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx = 60004;
+					NpcInfo->UpdateState(eCHARSTATE::CHARSTATE_DIRECT_PLAY);
+					sLog.outDebug("DIRECT_PLAY_NORMAL %d", NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx);
+					}, 15000, NpcInfoSrc);
+
+				Timer.setTimeout([&](Npc* NpcInfo) {
+					if (NpcInfo)
+					{
+						NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.dwTimeStamp = 0;
+						NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.byMoveFlag = 1;
+						NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.bHaveSecondDestLoc = false;
+						NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.unknown = 0;
+						NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.byDestLocCount = 1;
+						NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.avDestLoc[0].x = 5779.3789;
+						NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.avDestLoc[0].y = -90.417999;
+						NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.avDestLoc[0].z = 3999.4399;
+						NpcInfo->UpdateState(eCHARSTATE::CHARSTATE_DESTMOVE);
+					}
+					}, 20000, NpcInfoSrc);
+
+				Timer.setTimeout([&](Npc* NpcInfo) {
+					if (NpcInfo)
+					{
+						sGU_OBJECT_DESTROY sPacket;
+
+						sPacket.wOpCode = GU_OBJECT_DESTROY;
+						sPacket.handle = NpcInfo->GetHandle();
+						sPacket.wPacketSize = sizeof(sGU_OBJECT_DESTROY) - 2;
+
+						SendPacket((char*)&sPacket, sizeof(sGU_OBJECT_DESTROY));
+						NpcInfo->SetIsBecomeMob(true);
+						NpcInfo->RemoveFromWorld();
+						RemoveFromList(*NpcInfo);
+						sLog.outDebug("NPC deleted");
+					}
+					}, 30000, NpcInfoSrc);
 			}
-			}, 5000, NpcInfoSrc);
-
-		Timer.setTimeout([&](Npc* NpcInfo) {
-			if (NpcInfo)
+			else
 			{
-				NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx = 60003;
-				NpcInfo->UpdateState(eCHARSTATE::CHARSTATE_DIRECT_PLAY);
-
-				sGU_CHAR_DIALOG dialog;
-				memset(&dialog, 0, sizeof sGU_CHAR_DIALOG);
-				dialog.wPacketSize = sizeof(sGU_CHAR_DIALOG) - 2;
-				dialog.wOpCode = GU_CHAR_DIALOG;
-				dialog.hSubject = NpcInfo->GetHandle();
-				dialog.byDialogType = eCHAR_DIALOG_TYPE::CHAR_DIALOG_SAY;
-				dialog.textTblidx = 3314;
-				SendPacket((char*)&dialog, sizeof(sGU_CHAR_DIALOG));
-				sLog.outDebug("DIRECT_PLAY_NORMAL %d", NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx);
+				sLog.outDebug("Npc not found!");
 			}
-			}, 10000, NpcInfoSrc);
-
-		Timer.setTimeout([&](Npc* NpcInfo) {
-
-			NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx = 60004;
-			NpcInfo->UpdateState(eCHARSTATE::CHARSTATE_DIRECT_PLAY);
-			sLog.outDebug("DIRECT_PLAY_NORMAL %d", NpcInfo->GetState()->sCharStateDetail.sCharStateDirectPlay.directTblidx);
-			}, 15000, NpcInfoSrc);
-
-		Timer.setTimeout([&](Npc* NpcInfo) {
-			if (NpcInfo)
-			{
-				NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.dwTimeStamp = 0;
-				NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.byMoveFlag = 1;
-				NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.bHaveSecondDestLoc = false;
-				NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.unknown = 0;
-				NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.byDestLocCount = 1;
-				NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.avDestLoc[0].x = 5779.3789;
-				NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.avDestLoc[0].y = -90.417999;
-				NpcInfo->GetState()->sCharStateDetail.sCharStateDestMove.avDestLoc[0].z = 3999.4399;
-				NpcInfo->UpdateState(eCHARSTATE::CHARSTATE_DESTMOVE);
-			}
-			}, 20000, NpcInfoSrc);
-
-		Timer.setTimeout([&](Npc* NpcInfo) {
-			if (NpcInfo)
-			{
-				sGU_OBJECT_DESTROY sPacket;
-
-				sPacket.wOpCode = GU_OBJECT_DESTROY;
-				sPacket.handle = NpcInfo->GetHandle();
-				sPacket.wPacketSize = sizeof(sGU_OBJECT_DESTROY) - 2;
-
-				SendPacket((char*)&sPacket, sizeof(sGU_OBJECT_DESTROY));
-				NpcInfo->SetIsBecomeMob(true);
-				NpcInfo->RemoveFromWorld();
-				RemoveFromList(*NpcInfo);
-				sLog.outDebug("NPC deleted");
-			}
-			}, 30000, NpcInfoSrc);
-	}
-	else
-	{
-		sLog.outDebug("Npc not found!");
+		}
 	}
 }
 sVECTOR3 Player::GetMoveDestinationVector()
@@ -3104,7 +3113,7 @@ void Player::RewardDropFromMob(MonsterData& data)
 {
 
 	// SUBCLASS
-	typedef std::vector<TBLIDX> MobsList;
+	/*typedef std::vector<TBLIDX> MobsList;
 	typedef MobsList::const_iterator MobsListIt;
 
 	int index = GetAttributesManager()->questSubCls.objChoseIndex;
@@ -3139,7 +3148,7 @@ void Player::RewardDropFromMob(MonsterData& data)
 			GetAttributesManager()->questSubCls.inQuest = false;
 			m_session->SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, GetAttributesManager()->questSubCls.objData[index].evtId);
 		}
-	}
+	}*/
 	// SUBCLASS
 
 	// GROW UP ---------------
@@ -3342,7 +3351,7 @@ void Player::RewardDropFromMob(MonsterData& data)
 						if (mobs->size() <= 0)
 						{
 							quest->questSubCls.inQuest = false;
-							//m_session->SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, GetAttributesManager()->questSubCls.objData[index].evtId);
+							m_session->SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, quest->questSubCls.objData[0].evtId);
 						}
 					}
 				}

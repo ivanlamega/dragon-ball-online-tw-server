@@ -475,42 +475,6 @@ int GameServer::Run()
 		return 1;
 	}
 
-	if (loadQuests() == false)
-	{
-		sLog.outError("Trigger data unsucessfully loaded, exiting...");
-		system("PAUSE");
-		return 1;
-	}
-
-
-	struct Test {
-		int number;
-		int number2;
-	};
-	Test org;
-	Test* test = &org;
-	test->number = 0;
-	test->number2 = 1;
-
-	Timer.setInterval([&](Test* num) {
-		sLog.outDebug("Test num %d", num->number);
-		num->number++;
-		}, 1000, test);
-
-	Timer.setTimeout([&](Test* num) {
-		sLog.outBasic("Finish Num %d", num->number);
-		Timer.stop();
-		}, 10000, test);
-
-	Timer.setInterval([&]() {
-		sLog.outBasic("New timer");
-		}, 1000, 1);
-
-	Timer.setTimeout([&]() {
-		sLog.outBasic("New timer stop");
-		Timer.stop(1);
-		}, 10000, 2);
-
 	_ServerID = sXmlParser.GetInt("Server", "ID");
 	_ChannelID = sXmlParser.GetInt("Server", "ChannelID");
 	AKCore::Thread world_thread(new WorldRunnable);

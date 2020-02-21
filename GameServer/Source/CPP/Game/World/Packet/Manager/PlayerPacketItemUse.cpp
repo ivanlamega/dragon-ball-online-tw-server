@@ -305,9 +305,24 @@ void Player::HandleItemUse(Packet pPacket)
 												((WorldObject*)reference->getSource())->GetTblidx(), quest->questSubCls.useItemTblidx);
 											std::vector<NTL_TS_T_ID> triggerIds = sTSM.FindTriggerByQuest(quest->QuestID);
 											sLog.outBasic("New system: Trigger %d", triggerIds[0]);
+											if (m_session->FindObjectTriggerInformation(triggerIds[0], quest, req->hTarget, objTblidx) == RESULT_SUCCESS)
+											{
+												sGU_ITEM_USE_RES res;
+												res.wOpCode = GU_ITEM_USE_RES;
+												res.wPacketSize = sizeof(sGU_ITEM_USE_RES) - 2;
+												res.wResultCode = RESULT_SUCCESS;
+												res.tblidxItem = Item->tblidx;
+												res.byPlace = req->byPlace;
+												res.byPos = req->byPos;
+												SendPacket((char*)&res, sizeof(sGU_ITEM_USE_RES));
+												sLog.outDebug("New Item trigger: %d %d %d", res.tblidxItem, req->hTarget, objTblidx);
+
+												GetInventoryManager()->DeleteItem(Item->byPlace, Item->byPos, Item->handle);
+												break;
+											}
 										}
 										
-										if (GetAttributesManager()->questSubCls.curQuestId != 0 && GetAttributesManager()->questSubCls.curQuestId != INVALID_TBLIDX)
+										/*if (GetAttributesManager()->questSubCls.curQuestId != 0 && GetAttributesManager()->questSubCls.curQuestId != INVALID_TBLIDX)
 										{
 											sLog.outError("New QUEST ID: %d", GetAttributesManager()->questSubCls.curQuestId);
 											sLog.outDebug("New Item Tblidx %d %d", GetAttributesManager()->questSubCls.useItemTblidx == Item->tblidx,
@@ -331,7 +346,7 @@ void Player::HandleItemUse(Packet pPacket)
 												GetInventoryManager()->DeleteItem(Item->byPlace, Item->byPos, Item->handle);
 												break;
 											}
-										}
+										}*/
 										// SUB CLASS
 
 										//New System

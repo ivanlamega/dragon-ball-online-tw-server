@@ -1226,8 +1226,8 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 
 							if (createdItem.tblidx == 98011)
 							{
-								/*_player->GetAttributesManager()->growUpInfo.inQuest = true;*/
-								_player->GetAttributesManager()->questSubCls.curQuestId = tid;
+								/*_player->GetAttributesManager()->growUpInfo.inQuest = true;
+								_player->GetAttributesManager()->questSubCls.curQuestId = tid;*/
 								//New system
 								QuestData* quest = _player->GetQuestManager()->FindQuestById(tid);
 								if (quest)
@@ -1239,8 +1239,8 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 							}
 							if (createdItem.tblidx == 99096)
 							{
-								_player->GetAttributesManager()->questSubCls.useItemTblidx = createdItem.tblidx;
-								_player->GetAttributesManager()->questSubCls.curQuestId = tid;
+								/*_player->GetAttributesManager()->questSubCls.useItemTblidx = createdItem.tblidx;
+								_player->GetAttributesManager()->questSubCls.curQuestId = tid;*/
 
 								//New system
 								QuestData* quest = _player->GetQuestManager()->FindQuestById(tid);
@@ -1248,6 +1248,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 								{
 									quest->questSubCls.useItemTblidx = createdItem.tblidx;
 									quest->questSubCls.curQuestId = tid;
+									quest->questSubCls.majinKarmaObject = true;
 									_player->GetQuestManager()->AddItemGiveQuest(createdItem.tblidx, quest->QuestID);
 								}
 								//New system
@@ -1288,237 +1289,242 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 				if (worldPlayScript->IsStart() && _player->GetWorldTableID() == 800000)// worldPlayScript->GetScriptID() == 6055)
 				{
 					//New system
+					/*QuestData* quest = _player->GetQuestManager()->FindQuestById(tid);
+					if (quest)
+					{
+						quest->questSubCls.inQuest = true;
+						quest->questSubCls.curQuestId = tid;
+					}*/
+					//New system
+
+					TBLIDX objTblidx1 = INVALID_TBLIDX;
+					TBLIDX objTblidx2 = INVALID_TBLIDX;
+					//_player->GetAttributesManager()->questSubCls.inQuest = true;
+					//_player->GetAttributesManager()->questSubCls.curQuestId = tid;
 					QuestData* quest = _player->GetQuestManager()->FindQuestById(tid);
 					if (quest)
 					{
 						quest->questSubCls.inQuest = true;
 						quest->questSubCls.curQuestId = tid;
-					}
-					//New system
-
-					TBLIDX objTblidx1 = INVALID_TBLIDX;
-					TBLIDX objTblidx2 = INVALID_TBLIDX;
-					_player->GetAttributesManager()->questSubCls.inQuest = true;
-					_player->GetAttributesManager()->questSubCls.curQuestId = tid;
-					switch (_player->GetMyClass())
-					{
-						case ePC_CLASS::PC_CLASS_HUMAN_FIGHTER:
+						switch (_player->GetMyClass())
 						{
-							objTblidx1 = 2;
-							objTblidx2 = 3;
+							case ePC_CLASS::PC_CLASS_HUMAN_FIGHTER:
+							{
+								objTblidx1 = 2;
+								objTblidx2 = 3;
 
-							// Swordman
-							_player->GetAttributesManager()->questSubCls.objData[0].mobsTblidx.push_back(8471110);
-							_player->GetAttributesManager()->questSubCls.objData[0].mobsTblidx.push_back(8471110);
-							_player->GetAttributesManager()->questSubCls.objData[0].mobsTblidx.push_back(8471110);
-							_player->GetAttributesManager()->questSubCls.objData[0].mobsTblidx.push_back(8471110);
-							_player->GetAttributesManager()->questSubCls.objData[0].mobsTblidx.push_back(3604104);
+								// Swordman
+								/*_player->GetAttributesManager()->questSubCls.objData[0].mobsTblidx.push_back(8471110);
+								_player->GetAttributesManager()->questSubCls.objData[0].mobsTblidx.push_back(8471110);
+								_player->GetAttributesManager()->questSubCls.objData[0].mobsTblidx.push_back(8471110);
+								_player->GetAttributesManager()->questSubCls.objData[0].mobsTblidx.push_back(8471110);
+								_player->GetAttributesManager()->questSubCls.objData[0].mobsTblidx.push_back(3604104);
 
-							_player->GetAttributesManager()->questSubCls.objData[0].NPCTblidx.push_back(2804129);
+								_player->GetAttributesManager()->questSubCls.objData[0].NPCTblidx.push_back(2804129);
 
-							_player->GetAttributesManager()->questSubCls.objData[0].objTblidx = objTblidx1;
-							_player->GetAttributesManager()->questSubCls.objData[0].triggerId = 6005;
-							_player->GetAttributesManager()->questSubCls.objData[0].triggerObject = 6013;
-							_player->GetAttributesManager()->questSubCls.objData[0].specificQuestId = 6007;
-							_player->GetAttributesManager()->questSubCls.objData[0].evtId = 417;
+								_player->GetAttributesManager()->questSubCls.objData[0].objTblidx = objTblidx1;
+								_player->GetAttributesManager()->questSubCls.objData[0].triggerId = 6005;
+								_player->GetAttributesManager()->questSubCls.objData[0].triggerObject = 6013;
+								_player->GetAttributesManager()->questSubCls.objData[0].specificQuestId = 6007;
+								_player->GetAttributesManager()->questSubCls.objData[0].evtId = 417;
 
-							// Figther
-							_player->GetAttributesManager()->questSubCls.objData[1].mobsTblidx.push_back(3411210);
-							_player->GetAttributesManager()->questSubCls.objData[1].mobsTblidx.push_back(3411210);
-							_player->GetAttributesManager()->questSubCls.objData[1].mobsTblidx.push_back(8411110);
-							_player->GetAttributesManager()->questSubCls.objData[1].mobsTblidx.push_back(8411110);
-							_player->GetAttributesManager()->questSubCls.objData[1].mobsTblidx.push_back(8411110);
-							_player->GetAttributesManager()->questSubCls.objData[1].mobsTblidx.push_back(8411110);
-							_player->GetAttributesManager()->questSubCls.objData[1].NPCTblidx.push_back(1751108);
+								// Figther
+								_player->GetAttributesManager()->questSubCls.objData[1].mobsTblidx.push_back(3411210);
+								_player->GetAttributesManager()->questSubCls.objData[1].mobsTblidx.push_back(3411210);
+								_player->GetAttributesManager()->questSubCls.objData[1].mobsTblidx.push_back(8411110);
+								_player->GetAttributesManager()->questSubCls.objData[1].mobsTblidx.push_back(8411110);
+								_player->GetAttributesManager()->questSubCls.objData[1].mobsTblidx.push_back(8411110);
+								_player->GetAttributesManager()->questSubCls.objData[1].mobsTblidx.push_back(8411110);
+								_player->GetAttributesManager()->questSubCls.objData[1].NPCTblidx.push_back(1751108);
 
-							_player->GetAttributesManager()->questSubCls.objData[1].objTblidx = objTblidx2;
-							_player->GetAttributesManager()->questSubCls.objData[1].triggerId = 6001;
-							_player->GetAttributesManager()->questSubCls.objData[1].evtId = 416;
-							sLog.outDebug("PC_CLASS_HUMAN_FIGHTER");
-							break;
+								_player->GetAttributesManager()->questSubCls.objData[1].objTblidx = objTblidx2;
+								_player->GetAttributesManager()->questSubCls.objData[1].triggerId = 6001;
+								_player->GetAttributesManager()->questSubCls.objData[1].evtId = 416;*/
+								sLog.outDebug("PC_CLASS_HUMAN_FIGHTER");
+								break;
+							}
+							case ePC_CLASS::PC_CLASS_HUMAN_MYSTIC:
+							{
+								objTblidx1 = 4;
+								objTblidx2 = 5;
+
+								// Crane
+								/*_player->GetAttributesManager()->questSubCls.objData[0].mobsTblidx.push_back(4311110);
+								_player->GetAttributesManager()->questSubCls.objData[0].NPCTblidx.push_back(3332303);
+
+								_player->GetAttributesManager()->questSubCls.objData[0].objTblidx = objTblidx1;
+								_player->GetAttributesManager()->questSubCls.objData[0].triggerId = 6002;
+								_player->GetAttributesManager()->questSubCls.objData[0].evtId = 419;
+
+								// Turtle
+								_player->GetAttributesManager()->questSubCls.objData[1].mobsTblidx.push_back(5761110);
+								_player->GetAttributesManager()->questSubCls.objData[1].NPCTblidx.push_back(3181304);
+
+								_player->GetAttributesManager()->questSubCls.objData[1].objTblidx = objTblidx2;
+								_player->GetAttributesManager()->questSubCls.objData[1].triggerId = 6003;
+								_player->GetAttributesManager()->questSubCls.objData[1].triggerObject = 6017;
+								_player->GetAttributesManager()->questSubCls.objData[1].specificQuestId = 6021;
+								_player->GetAttributesManager()->questSubCls.objData[1].evtId = 418;*/
+								sLog.outDebug("PC_CLASS_HUMAN_MYSTIC");
+								break;
+							}
+							case ePC_CLASS::PC_CLASS_HUMAN_ENGINEER:
+							{
+								sLog.outDebug("PC_CLASS_HUMAN_ENGINEER");
+								break;
+							}
+							case ePC_CLASS::PC_CLASS_NAMEK_FIGHTER:
+							{
+								objTblidx1 = 6;
+								objTblidx2 = 7;
+
+								// Dark warrior
+								/*_player->GetAttributesManager()->questSubCls.objData[0].mobsTblidx.push_back(5791104);
+								_player->GetAttributesManager()->questSubCls.objData[0].NPCTblidx.push_back(4511411);
+
+								_player->GetAttributesManager()->questSubCls.objData[0].objTblidx = objTblidx1;
+								_player->GetAttributesManager()->questSubCls.objData[0].triggerId = 6006;
+								_player->GetAttributesManager()->questSubCls.objData[0].evtId = 420;
+
+								// shadow knight
+								_player->GetAttributesManager()->questSubCls.objData[1].mobsTblidx.push_back(5873104);
+								_player->GetAttributesManager()->questSubCls.objData[1].NPCTblidx.push_back(4511609);
+
+								_player->GetAttributesManager()->questSubCls.objData[1].objTblidx = objTblidx2;
+								_player->GetAttributesManager()->questSubCls.objData[1].triggerId = 6004;
+								_player->GetAttributesManager()->questSubCls.objData[1].evtId = 421;*/
+								sLog.outDebug("PC_CLASS_NAMEK_FIGHTER");
+								break;
+							}
+							case ePC_CLASS::PC_CLASS_NAMEK_MYSTIC:
+							{
+								objTblidx1 = 8;
+								objTblidx2 = 9;
+
+								// Dende
+								/*_player->GetAttributesManager()->questSubCls.objData[0].mobsTblidx.push_back(4883104);
+								_player->GetAttributesManager()->questSubCls.objData[0].NPCTblidx.push_back(4751109);
+								_player->GetAttributesManager()->questSubCls.objData[0].NPCTblidx.push_back(4511515);
+
+								_player->GetAttributesManager()->questSubCls.objData[0].objTblidx = objTblidx1;
+								_player->GetAttributesManager()->questSubCls.objData[0].triggerId = 6007;
+								_player->GetAttributesManager()->questSubCls.objData[0].evtId = 422;
+
+
+								// Poco priest
+								_player->GetAttributesManager()->questSubCls.objData[1].mobsTblidx.push_back(6651207);
+								_player->GetAttributesManager()->questSubCls.objData[1].NPCTblidx.push_back(4751408);
+
+								_player->GetAttributesManager()->questSubCls.objData[1].objTblidx = objTblidx2;
+								_player->GetAttributesManager()->questSubCls.objData[1].triggerId = 6008;
+								_player->GetAttributesManager()->questSubCls.objData[1].evtId = 423;*/
+								sLog.outDebug("PC_CLASS_NAMEK_MYSTIC");
+								break;
+							}
+							case ePC_CLASS::PC_CLASS_MIGHTY_MAJIN:
+							{
+								objTblidx1 = 10;
+								objTblidx2 = 11;
+								// Majin cheff
+								/*_player->GetAttributesManager()->questSubCls.objData[0].mobsTblidx.push_back(8112122);
+								_player->GetAttributesManager()->questSubCls.objData[0].NPCTblidx.push_back(4151110);
+
+								_player->GetAttributesManager()->questSubCls.objData[0].objTblidx = objTblidx1;
+								_player->GetAttributesManager()->questSubCls.objData[0].triggerId = 6010;
+								_player->GetAttributesManager()->questSubCls.objData[0].evtId = 425;
+
+								// Majin ultimate
+								_player->GetAttributesManager()->questSubCls.objData[1].mobsTblidx.push_back(8511113);
+								_player->GetAttributesManager()->questSubCls.objData[1].NPCTblidx.push_back(4141114);
+
+								_player->GetAttributesManager()->questSubCls.objData[1].objTblidx = objTblidx2;
+								_player->GetAttributesManager()->questSubCls.objData[1].triggerId = 6009;
+								_player->GetAttributesManager()->questSubCls.objData[1].evtId = 424;*/
+								sLog.outDebug("PC_CLASS_MIGHTY_MAJIN");
+								break;
+							}
+							case ePC_CLASS::PC_CLASS_WONDER_MAJIN:
+							{
+								objTblidx1 = 12;
+								objTblidx2 = 13;
+
+								// Majin Karma
+								/*_player->GetAttributesManager()->questSubCls.objData[0].mobsTblidx.push_back(4131104);
+								_player->GetAttributesManager()->questSubCls.objData[0].mobsTblidx.push_back(4131104);
+								_player->GetAttributesManager()->questSubCls.objData[0].NPCTblidx.push_back(4261113);
+								_player->GetAttributesManager()->questSubCls.objData[0].objTblidx = objTblidx1;
+								_player->GetAttributesManager()->questSubCls.objData[0].triggerId = 6012;
+								_player->GetAttributesManager()->questSubCls.objData[0].evtId = 427;
+
+								// Majin plasma
+								_player->GetAttributesManager()->questSubCls.objData[1].mobsTblidx.push_back(2671101);
+								_player->GetAttributesManager()->questSubCls.objData[1].NPCTblidx.push_back(4371315);
+
+								_player->GetAttributesManager()->questSubCls.objData[1].objTblidx = objTblidx2;
+								_player->GetAttributesManager()->questSubCls.objData[1].triggerId = 6011;
+								_player->GetAttributesManager()->questSubCls.objData[1].evtId = 426;*/
+
+								//SendTObjectUpdateState();
+								sLog.outDebug("PC_CLASS_WONDER_MAJIN");
+								break;
+							}
 						}
-						case ePC_CLASS::PC_CLASS_HUMAN_MYSTIC:
+
+						//New System
+						if (quest)
 						{
-							objTblidx1 = 4;
-							objTblidx2 = 5;
-
-							// Crane
-							_player->GetAttributesManager()->questSubCls.objData[0].mobsTblidx.push_back(4311110);
-							_player->GetAttributesManager()->questSubCls.objData[0].NPCTblidx.push_back(3332303);
-
-							_player->GetAttributesManager()->questSubCls.objData[0].objTblidx = objTblidx1;
-							_player->GetAttributesManager()->questSubCls.objData[0].triggerId = 6002;
-							_player->GetAttributesManager()->questSubCls.objData[0].evtId = 419;
-
-							// Turtle
-							_player->GetAttributesManager()->questSubCls.objData[1].mobsTblidx.push_back(5761110);
-							_player->GetAttributesManager()->questSubCls.objData[1].NPCTblidx.push_back(3181304);
-
-							_player->GetAttributesManager()->questSubCls.objData[1].objTblidx = objTblidx2;
-							_player->GetAttributesManager()->questSubCls.objData[1].triggerId = 6003;
-							_player->GetAttributesManager()->questSubCls.objData[1].triggerObject = 6017;
-							_player->GetAttributesManager()->questSubCls.objData[1].specificQuestId = 6021;
-							_player->GetAttributesManager()->questSubCls.objData[1].evtId = 418;
-							sLog.outDebug("PC_CLASS_HUMAN_MYSTIC");
-							break;
+							quest->questSubCls.objData[0].objTblidx = objTblidx1;
+							quest->questSubCls.objData[1].objTblidx = objTblidx2;
+							std::vector<NTL_TS_T_ID> triggerIds = sTSM.FindTriggerByQuest(tid);
+							for (int i = 0; i < triggerIds.size(); i++)
+							{
+								LoadObjectsTriggersForQuest(triggerIds[i], quest->QuestID);
+							}
 						}
-						case ePC_CLASS::PC_CLASS_HUMAN_ENGINEER:
-						{
-							sLog.outDebug("PC_CLASS_HUMAN_ENGINEER");
-							break;
-						}
-						case ePC_CLASS::PC_CLASS_NAMEK_FIGHTER:
-						{
-							objTblidx1 = 6;
-							objTblidx2 = 7;
-
-							// Dark warrior
-							_player->GetAttributesManager()->questSubCls.objData[0].mobsTblidx.push_back(5791104);
-							_player->GetAttributesManager()->questSubCls.objData[0].NPCTblidx.push_back(4511411);
-
-							_player->GetAttributesManager()->questSubCls.objData[0].objTblidx = objTblidx1;
-							_player->GetAttributesManager()->questSubCls.objData[0].triggerId = 6006;
-							_player->GetAttributesManager()->questSubCls.objData[0].evtId = 420;
-
-							// shadow knight
-							_player->GetAttributesManager()->questSubCls.objData[1].mobsTblidx.push_back(5873104);
-							_player->GetAttributesManager()->questSubCls.objData[1].NPCTblidx.push_back(4511609);
-
-							_player->GetAttributesManager()->questSubCls.objData[1].objTblidx = objTblidx2;
-							_player->GetAttributesManager()->questSubCls.objData[1].triggerId = 6004;
-							_player->GetAttributesManager()->questSubCls.objData[1].evtId = 421;
-							sLog.outDebug("PC_CLASS_NAMEK_FIGHTER");
-							break;
-						}
-						case ePC_CLASS::PC_CLASS_NAMEK_MYSTIC:
-						{
-							objTblidx1 = 8;
-							objTblidx2 = 9;
-
-							// Dende
-							_player->GetAttributesManager()->questSubCls.objData[0].mobsTblidx.push_back(4883104);
-							_player->GetAttributesManager()->questSubCls.objData[0].NPCTblidx.push_back(4751109);
-							_player->GetAttributesManager()->questSubCls.objData[0].NPCTblidx.push_back(4511515);
-
-							_player->GetAttributesManager()->questSubCls.objData[0].objTblidx = objTblidx1;
-							_player->GetAttributesManager()->questSubCls.objData[0].triggerId = 6007;
-							_player->GetAttributesManager()->questSubCls.objData[0].evtId = 422;
-
-
-							// Poco priest
-							_player->GetAttributesManager()->questSubCls.objData[1].mobsTblidx.push_back(6651207);
-							_player->GetAttributesManager()->questSubCls.objData[1].NPCTblidx.push_back(4751408);
-
-							_player->GetAttributesManager()->questSubCls.objData[1].objTblidx = objTblidx2;
-							_player->GetAttributesManager()->questSubCls.objData[1].triggerId = 6008;
-							_player->GetAttributesManager()->questSubCls.objData[1].evtId = 423;
-							sLog.outDebug("PC_CLASS_NAMEK_MYSTIC");
-							break;
-						}
-						case ePC_CLASS::PC_CLASS_MIGHTY_MAJIN:
-						{
-							objTblidx1 = 10;
-							objTblidx2 = 11;
-							// Majin cheff
-							_player->GetAttributesManager()->questSubCls.objData[0].mobsTblidx.push_back(8112122);
-							_player->GetAttributesManager()->questSubCls.objData[0].NPCTblidx.push_back(4151110);
-
-							_player->GetAttributesManager()->questSubCls.objData[0].objTblidx = objTblidx1;
-							_player->GetAttributesManager()->questSubCls.objData[0].triggerId = 6010;
-							_player->GetAttributesManager()->questSubCls.objData[0].evtId = 425;
-
-							// Majin ultimate
-							_player->GetAttributesManager()->questSubCls.objData[1].mobsTblidx.push_back(8511113);
-							_player->GetAttributesManager()->questSubCls.objData[1].NPCTblidx.push_back(4141114);
-
-							_player->GetAttributesManager()->questSubCls.objData[1].objTblidx = objTblidx2;
-							_player->GetAttributesManager()->questSubCls.objData[1].triggerId = 6009;
-							_player->GetAttributesManager()->questSubCls.objData[1].evtId = 424;
-							sLog.outDebug("PC_CLASS_MIGHTY_MAJIN");
-							break;
-						}
-						case ePC_CLASS::PC_CLASS_WONDER_MAJIN:
-						{
-							objTblidx1 = 12;
-							objTblidx2 = 13;
-
-							// Majin Karma
-							_player->GetAttributesManager()->questSubCls.objData[0].mobsTblidx.push_back(4131104);
-							_player->GetAttributesManager()->questSubCls.objData[0].mobsTblidx.push_back(4131104);
-							_player->GetAttributesManager()->questSubCls.objData[0].NPCTblidx.push_back(4261113);
-							_player->GetAttributesManager()->questSubCls.objData[0].objTblidx = objTblidx1;
-							_player->GetAttributesManager()->questSubCls.objData[0].triggerId = 6012;
-							_player->GetAttributesManager()->questSubCls.objData[0].evtId = 427;
-
-							// Majin plasma
-							_player->GetAttributesManager()->questSubCls.objData[1].mobsTblidx.push_back(2671101);
-							_player->GetAttributesManager()->questSubCls.objData[1].NPCTblidx.push_back(4371315);
-
-							_player->GetAttributesManager()->questSubCls.objData[1].objTblidx = objTblidx2;
-							_player->GetAttributesManager()->questSubCls.objData[1].triggerId = 6011;
-							_player->GetAttributesManager()->questSubCls.objData[1].evtId = 426;
-
-							//SendTObjectUpdateState();
-							sLog.outDebug("PC_CLASS_WONDER_MAJIN");
-							break;
-						}
-					}
-
-					//New System
-					if (quest)
-					{
-						quest->questSubCls.objData[0].objTblidx = objTblidx1;
-						quest->questSubCls.objData[1].objTblidx = objTblidx2;
-						std::vector<NTL_TS_T_ID> triggerIds = sTSM.FindTriggerByQuest(tid);
-						for (int i = 0; i < triggerIds.size(); i++)
-						{
-							LoadObjectsTriggersForQuest(triggerIds[i], quest->QuestID);
-						}
-					}
-					//New System
-
-					sLog.outDebug("1 Mobs %d NPCs %d", _player->GetAttributesManager()->questSubCls.objData[1].mobsTblidx.size(),
+						//New System
+						/*sLog.outDebug("1 Mobs %d NPCs %d", _player->GetAttributesManager()->questSubCls.objData[1].mobsTblidx.size(),
 						_player->GetAttributesManager()->questSubCls.objData[1].NPCTblidx.size());
 					sLog.outDebug("0 Mobs %d NPCs %d", _player->GetAttributesManager()->questSubCls.objData[0].mobsTblidx.size(),
-						_player->GetAttributesManager()->questSubCls.objData[0].NPCTblidx.size());
-					sOBJECT_TBLDAT* objData = (sOBJECT_TBLDAT*)sTBM.GetObjectTable(_player->GetWorldTableID())->FindData(objTblidx1);
-					if (objData)
-					{
-						sLog.outDebug("Object %d, %d %s", objData->tblidx, HANDLE_TRIGGER_OBJECT_OFFSET + objData->dwSequence, objData->szModelName);
-						SendTObjectUpdateState(HANDLE_TRIGGER_OBJECT_OFFSET + objData->dwSequence,
-							objTblidx1, 0, TOBJECT_SUBSTATE_FLAG_SHOW, 3909524734);
-					}
-					else
-					{
-						sLog.outDebug("OBJECT NOT FOUND %d", objTblidx1);
-					}
+						_player->GetAttributesManager()->questSubCls.objData[0].NPCTblidx.size());*/
+						sOBJECT_TBLDAT* objData = (sOBJECT_TBLDAT*)sTBM.GetObjectTable(_player->GetWorldTableID())->FindData(objTblidx1);
+						if (objData)
+						{
+							sLog.outDebug("Object %d, %d %s", objData->tblidx, HANDLE_TRIGGER_OBJECT_OFFSET + objData->dwSequence, objData->szModelName);
+							SendTObjectUpdateState(HANDLE_TRIGGER_OBJECT_OFFSET + objData->dwSequence,
+								objTblidx1, 0, TOBJECT_SUBSTATE_FLAG_SHOW, 3909524734);
+						}
+						else
+						{
+							sLog.outDebug("OBJECT NOT FOUND %d", objTblidx1);
+						}
 
-					objData = (sOBJECT_TBLDAT*)sTBM.GetObjectTable(_player->GetWorldTableID())->FindData(objTblidx2);
-					if (objData)
-					{
-						sLog.outDebug("Object %d, %d %s", objData->tblidx, HANDLE_TRIGGER_OBJECT_OFFSET + objData->dwSequence, objData->szModelName);
-						SendTObjectUpdateState(HANDLE_TRIGGER_OBJECT_OFFSET + objData->dwSequence,
-							objTblidx2, 0, TOBJECT_SUBSTATE_FLAG_SHOW, 3909524843);
-					}
-					else
-					{
-						sLog.outDebug("OBJECT NOT FOUND %d", objTblidx2);
+						objData = (sOBJECT_TBLDAT*)sTBM.GetObjectTable(_player->GetWorldTableID())->FindData(objTblidx2);
+						if (objData)
+						{
+							sLog.outDebug("Object %d, %d %s", objData->tblidx, HANDLE_TRIGGER_OBJECT_OFFSET + objData->dwSequence, objData->szModelName);
+							SendTObjectUpdateState(HANDLE_TRIGGER_OBJECT_OFFSET + objData->dwSequence,
+								objTblidx2, 0, TOBJECT_SUBSTATE_FLAG_SHOW, 3909524843);
+						}
+						else
+						{
+							sLog.outDebug("OBJECT NOT FOUND %d", objTblidx2);
+						}
 					}
 				}
 				// Bypass Temporal hasta reparar quest de dende
 				if (worldPlayScript->IsStart() && worldPlayScript->GetScriptID() == 6037)
 				{
 					//SendQuestForcedCompletionNfy(tid);
-					_player->GetAttributesManager()->questSubCls.npcHandle = SpawnNPCByTblidxQuestDende(3174103);
+					//_player->GetAttributesManager()->questSubCls.npcHandle = SpawnNPCByTblidxQuestDende(3174103);
 					//New system
 					if (quest)
 					{
-						quest->questSubCls.npcHandle = _player->GetAttributesManager()->questSubCls.npcHandle;
+						quest->questSubCls.npcHandle = SpawnNPCByTblidxQuestDende(3174103);
 						_player->GetQuestManager()->AddNPCSpawnedQuest(quest->questSubCls.npcHandle, quest->QuestID);
 						sLog.outBasic("New system: Player handle %d npc handle %d", _player->GetHandle(), quest->questSubCls.npcHandle);
 					}
 					//New system
-					sLog.outDebug("Player handle %d npc handle %d", _player->GetHandle(), _player->GetAttributesManager()->questSubCls.npcHandle);
+					//sLog.outDebug("Player handle %d npc handle %d", _player->GetHandle(), _player->GetAttributesManager()->questSubCls.npcHandle);
 				}
 				// SUB CLASS ---------------------
 				// TLQ 1 -----------------------
@@ -1578,10 +1584,16 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 					sLog.outDebug("TGId %d time %d timerSort %d", timerS->GetTGId(), timerS->GetTime(), timerS->GetTimerSort());
 					if (tid == 6062)
 					{
-						Timer.setTimeout([&]() {
-							int index = _player->GetAttributesManager()->questSubCls.objChoseIndex;
-							SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, _player->GetAttributesManager()->questSubCls.objData[index].evtId);
-							}, timerS->GetTime());
+						Timer.setTimeout([&](NTL_TS_T_ID questId) {
+							QuestData* quest = _player->GetQuestManager()->FindQuestById(questId);
+							if (quest)
+							{
+								sLog.outBasic("Time finish %d quest %d %d", quest->questSubCls.objData[0].evtId, questId, tid);
+								SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, quest->questSubCls.objData[0].evtId);
+							}
+							/*int index = _player->GetAttributesManager()->questSubCls.objChoseIndex;
+							SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, _player->GetAttributesManager()->questSubCls.objData[index].evtId);*/
+							}, timerS->GetTime(), tid);
 					}
 					// SUBCLASS
 				}
@@ -1818,12 +1830,14 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 											for (std::vector<TBLIDX>::size_type i = 0; i != mobs.size(); i++)
 											{
 												sLog.outBasic("Mob: %d", mobs[i]);
+												SpawnMobByTblidx(mobs[i]);
 												_player->GetQuestManager()->AddMobQuest(mobs[i], quest->QuestID);
 											}
 
 											for (std::vector<TBLIDX>::size_type i = 0; i != NPCs.size(); i++)
 											{
 												sLog.outBasic("Npc: %d", NPCs[i]);
+												SpawnNPCByTblidx(NPCs[i]);
 											}
 										}
 										else
@@ -1831,7 +1845,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 											sLog.outBasic("Lost object of quest");
 										}
 
-										int index = _player->GetAttributesManager()->questSubCls.objChoseIndex;
+										/*int index = _player->GetAttributesManager()->questSubCls.objChoseIndex;
 										std::vector<TBLIDX> mobs = _player->GetAttributesManager()->questSubCls.objData[index].mobsTblidx;
 										std::vector<TBLIDX> NPCs = _player->GetAttributesManager()->questSubCls.objData[index].NPCTblidx;
 										sLog.outDebug("----------SPAWN MOBS FOR SUB CLASS HERE-----------------");
@@ -1844,7 +1858,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 										for (std::vector<TBLIDX>::size_type i = 0; i != NPCs.size(); i++)
 										{
 											SpawnNPCByTblidx(NPCs[i]);
-										}
+										}*/
 										_player->SetIsReady(false);
 										Timer.stop();
 									}
@@ -3742,6 +3756,7 @@ HOBJECT	WorldSession::SpawnNPCByTblidxQuestDende(TBLIDX npcTblidx)
 				delete created_Npc;
 		}
 	}
+	return -1;
 }
 
 HOBJECT WorldSession::SpawnMobForQuest(TBLIDX mobTblidx, TBLIDX NPCSpawnTblidx, int index)
@@ -4646,7 +4661,7 @@ ResultCodes WorldSession::FindObjectTriggerInformation(NTL_TS_T_ID tid, QuestDat
 							CDboTSActQItem* qItem = ((CDboTSActQItem*)contAct->GetChildEntity(i));
 							if (qItem)
 							{
-								if (questData->QuestID == _player->GetAttributesManager()->questSubCls.curQuestId)
+								if (questData->questSubCls.majinKarmaObject)//(questData->QuestID == _player->GetAttributesManager()->questSubCls.curQuestId)
 								{
 									for (int slot = 0; slot < qItem->eMAX_TS_QITEM_COUNT; slot++)
 									{
@@ -4768,8 +4783,8 @@ ResultCodes WorldSession::FindObjectTriggerInformation(NTL_TS_T_ID tid, QuestDat
 								sLog.outDebug("Check %d tblidx %d main state %d showHide %d world %d",
 									objState->GetObjectCheckUncheck(), objState->GetObjectIdx(), objState->GetObjectMainState(), objState->GetObjectShowHide(),
 									objState->GetWorldIdx());
-
-								if (_player->GetAttributesManager()->questSubCls.inQuest)
+								
+								if (questData->questSubCls.inQuest)//(_player->GetAttributesManager()->questSubCls.inQuest)
 								{
 									if (objState->GetObjectIdx() != INVALID_TBLIDX)
 									{
@@ -4912,36 +4927,35 @@ void WorldSession::SendTsExcuteTriggerObject(Packet& packet)
 				if (quest)
 				{
 					sLog.outBasic("New system: Is in sub class quest or growup %d", quest->questSubCls.inQuest);
-				}
-				//New system
-				sLog.outDebug("Is in sub class quest or growup %d", _player->GetAttributesManager()->questSubCls.inQuest);
-				if (_player->GetAttributesManager()->questSubCls.inQuest)
-				{
-					for (int i = 0; i < 2; i++)
+				
+					//New system
+					//sLog.outDebug("Is in sub class quest or growup %d", _player->GetAttributesManager()->questSubCls.inQuest);
+					if (quest->questSubCls.inQuest)//(_player->GetAttributesManager()->questSubCls.inQuest)
 					{
-						//New system
-						if (quest)
+						for (int i = 0; i < 2; i++)
 						{
-							NTL_TS_T_ID triggerId = _player->GetQuestManager()->FindTriggerByObject(objTblidx, _player->GetWorldTableID());
-							quest->questSubCls.objData[i].triggerId = triggerId;
-							sLog.outBasic("Item %d trigger %d object founded %d", quest->questSubCls.objData[i].objTblidx, quest->questSubCls.objData[i].triggerId, objTblidx);
-						}
-						//New system
-						sLog.outDebug("Item %d trigger %d object founded %d", 
-							_player->GetAttributesManager()->questSubCls.objData[i].objTblidx, _player->GetAttributesManager()->questSubCls.objData[i].triggerId,
-							objTblidx);
-						if (_player->GetAttributesManager()->questSubCls.objData[i].objTblidx == objTblidx)
-						{
-							
-							sLog.outDebug("Item chose %d mobs %d", objTblidx, _player->GetAttributesManager()->questSubCls.objData[i].mobsTblidx.size());
-							_player->GetAttributesManager()->questSubCls.objChoseIndex = i;
-							QuestData questData;
-							questData.QuestID = _player->GetAttributesManager()->questSubCls.objData[i].triggerId;
-							FindObjectTriggerInformation(questData.QuestID, &questData, req->hTarget, objTblidx);
-
+							//New system
 							if (quest)
 							{
-								quest->questSubCls.objChoseIndex = i;
+								NTL_TS_T_ID triggerId = _player->GetQuestManager()->FindTriggerByObject(objTblidx, _player->GetWorldTableID());
+								quest->questSubCls.objData[i].triggerId = triggerId;
+								sLog.outBasic("Item %d trigger %d object founded %d", quest->questSubCls.objData[i].objTblidx, quest->questSubCls.objData[i].triggerId, objTblidx);
+							
+								//New system
+								/*sLog.outDebug("Item %d trigger %d object founded %d", 
+									_player->GetAttributesManager()->questSubCls.objData[i].objTblidx, _player->GetAttributesManager()->questSubCls.objData[i].triggerId,
+									objTblidx);*/
+								if (/*_player->GetAttributesManager()->questSubCls.objData[i].objTblidx*/quest->questSubCls.objData[i].objTblidx == objTblidx)
+								{
+							
+									sLog.outDebug("Item chose %d mobs %d", objTblidx, quest->questSubCls.objData[i].mobsTblidx.size());
+									//_player->GetAttributesManager()->questSubCls.objData[i].mobsTblidx.size());
+									//_player->GetAttributesManager()->questSubCls.objChoseIndex = i;
+									quest->questSubCls.objChoseIndex = i;
+									//QuestData questData;
+									//questData.QuestID = _player->GetAttributesManager()->questSubCls.objData[i].triggerId;
+									FindObjectTriggerInformation(triggerId, quest, req->hTarget, objTblidx);
+								}
 							}
 						}
 					}
@@ -4971,15 +4985,15 @@ void WorldSession::SendTsExcuteTriggerObject(Packet& packet)
 									sLog.outDetail("New Item Tblidx %d %d", quest->uEvtData.sObjectItemCnt[slot].uiItemIdx,
 										((WorldObject*)reference->getSource())->GetTblidx());
 
-									NTL_TS_T_ID objTriggerId = quest->QuestID;
+									//NTL_TS_T_ID objTriggerId = quest->QuestID;
 
 									//New System
 									sLog.outBasic("New system: New Quest Id sub Class %d", quest->QuestID);
-									NTL_TS_T_ID triggerId = _player->GetQuestManager()->FindTriggerByObject(objTblidx, _player->GetWorldTableID());
-									sLog.outBasic("New System: New Ts Trigger %d", triggerId);
+									NTL_TS_T_ID objTriggerId = _player->GetQuestManager()->FindTriggerByObject(objTblidx, _player->GetWorldTableID());
+									sLog.outBasic("New System: New Ts Trigger %d", objTriggerId);
 									//New System
 
-									int indexClass = _player->GetAttributesManager()->questSubCls.objChoseIndex;
+									/*int indexClass = _player->GetAttributesManager()->questSubCls.objChoseIndex;
 									sLog.outDetail("New Quest Id sub Class %d", _player->GetAttributesManager()->questSubCls.objData[indexClass].specificQuestId);
 									if (_player->GetAttributesManager()->questSubCls.objData[indexClass].specificQuestId == quest->QuestID)
 									{
@@ -4987,7 +5001,7 @@ void WorldSession::SendTsExcuteTriggerObject(Packet& packet)
 										int index = _player->GetAttributesManager()->questSubCls.objChoseIndex;
 										objTriggerId = _player->GetAttributesManager()->questSubCls.objData[index].triggerObject;
 										sLog.outDetail("New Ts Trigger %d", objTriggerId);
-									}
+									}*/
 
 									if (FindObjectTriggerInformation(objTriggerId, quest, req->hTarget, objTblidx) == RESULT_SUCCESS)
 									{
