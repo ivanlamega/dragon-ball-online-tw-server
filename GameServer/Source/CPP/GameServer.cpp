@@ -474,6 +474,12 @@ int GameServer::Run()
 		system("PAUSE");
 		return 1;
 	}
+    if (loadQuests() == false)
+	{
+		sLog.outError("Trigger data unsucessfully loaded, exiting...");
+		system("PAUSE");
+		return 1;
+	}
 
 	_ServerID = sXmlParser.GetInt("Server", "ID");
 	_ChannelID = sXmlParser.GetInt("Server", "ChannelID");
