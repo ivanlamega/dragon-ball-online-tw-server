@@ -357,7 +357,7 @@ void Mob::Update(uint32 update_diff, uint32 time)
 		TimmerReg = GetTickCount();
 	}	
 	DWORD MoveAt = GetTickCount() - TimmerMove;
-	if (MoveAt >= 8000 && GetIsDead() == false)
+	if (MoveAt >= 8000 && GetIsDead() == false && GetInitialSpawn())
 	{
 		if (GetState()->sCharStateBase.byStateID == eCHARSTATE::CHARSTATE_STUNNED ||
 			GetState()->sCharStateBase.byStateID == eCHARSTATE::CHARSTATE_PARALYZED ||
@@ -373,7 +373,7 @@ void Mob::Update(uint32 update_diff, uint32 time)
 		TimmerMove = GetTickCount();
 	}
 	DWORD AgroAt = GetTickCount() - TimmerAgro;
-	if (AgroAt >= 1400 && GetIsDead() == false)
+	if (AgroAt >= 1400 && GetIsDead() == false && GetInitialSpawn())
 	{
 		if (GetState()->sCharStateBase.byStateID == eCHARSTATE::CHARSTATE_STUNNED ||
 			GetState()->sCharStateBase.byStateID == eCHARSTATE::CHARSTATE_PARALYZED ||
@@ -396,7 +396,7 @@ void Mob::MoveToPoint()
 		if (it->getSource())
 		{
 			Player* plr = it->getSource();
-			if (plr->IsInWorld() == true && plr->GetSession() != NULL && GetIsDead() == false)
+			if (plr->IsInWorld() == true && plr->GetSession() != NULL && GetIsDead() == false && GetInitialSpawn())
 			{
 				float dist = NtlGetDistance(me.curPos.x, me.curPos.z, plr->GetVectorPosition().x, plr->GetVectorPosition().z);
 				if (dist <= DEFAULT_VISIBILITY_DISTANCE && GetIsDead() == false && GetIsFighting() == false && me.GotAgro == false)
@@ -410,7 +410,7 @@ void Mob::MoveToPoint()
 	float dist = NtlGetDistance(me.curPos.x, me.curPos.z, myX, myZ);
 	float DistSpawn = NtlGetDistance(me.curPos.x, me.curPos.z, me.Spawn_Loc.x, me.Spawn_Loc.z);
 
-	if (dist <= DEFAULT_VISIBILITY_DISTANCE && GetIsDead() == false && GetIsFighting() == false && me.GotAgro == false)
+	if (dist <= DEFAULT_VISIBILITY_DISTANCE && GetIsDead() == false && GetIsFighting() == false && me.GotAgro == false && GetInitialSpawn())
 	{
 		randMove = rand() % 10 + 1;
 		sGU_CHAR_DEST_MOVE res;
@@ -470,7 +470,7 @@ void Mob::MoveToPoint()
 //----------------------------------------
 void Mob::CheckAgro()
 {		
-	if (GetIsDead() == true)
+	if (GetIsDead() == true && !GetInitialSpawn())
 	{
 		return;
 	}
@@ -479,7 +479,7 @@ void Mob::CheckAgro()
 		if (it->getSource())
 		{
 			Player* plr = it->getSource();
-			if (plr->IsInWorld() == true && plr->GetSession() != NULL && GetIsDead() == false)
+			if (plr->IsInWorld() == true && plr->GetSession() != NULL && GetIsDead() == false && GetInitialSpawn())
 			{				
 				float dist = NtlGetDistance(me.curPos.x, me.curPos.z, plr->GetVectorPosition().x, plr->GetVectorPosition().z);
 				float DistSpawn = NtlGetDistance(me.curPos.x, me.curPos.z, me.Spawn_Loc.x, me.Spawn_Loc.z);
@@ -633,6 +633,7 @@ void Mob::CheckAgro()
 						if (SkillMob >= 25000)
 						{
 							int rasdand = rand() % 6;
+							sLog.outString("Mob attack!");
 							SkillTable * skillTable = sTBM.GetSkillTable();
 							sSKILL_TBLDAT * skillDataOriginal = reinterpret_cast<sSKILL_TBLDAT*>(skillTable->FindData(me.use_Skill_Tblidx[rasdand]));
 							if (skillDataOriginal != NULL)

@@ -2270,7 +2270,7 @@ void Player::CharAffect()
 		if (GetAttributesManager()->sBuffTimeInfo[i].BuffIsActive == true && GetAttributesManager()->sBuffTimeInfo[i].isMob == true && GetAttributesManager()->sBuffTimeInfo[i].BuffID != 0 && GetAttributesManager()->sBuffTimeInfo[i].BuffID != INVALID_TBLIDX)
 		{
 			Mob* MobInfo = static_cast<Mob*>(GetFromList(GetAttributesManager()->sBuffTimeInfo[i].PlayerHandle));
-			if (MobInfo != NULL && MobInfo->GetIsDead() == false)
+			if (MobInfo != NULL && MobInfo->GetIsDead() == false && MobInfo->GetInitialSpawn())
 			{			
 					if (GetAttributesManager()->sBuffTimeInfo[i].isAffectPlayer == true)
 					{
@@ -2398,7 +2398,7 @@ void Player::ExecuteBuffTimmer()
 
 					}			
 					Mob* MobInfo = static_cast<Mob*>(GetFromList(GetAttributesManager()->sBuffTimeInfo[i].PlayerHandle));
-					if (MobInfo != NULL && MobInfo->GetIsDead() == false)
+					if (MobInfo != NULL && MobInfo->GetIsDead() == false && MobInfo->GetInitialSpawn())
 					{
 						sGU_UPDATE_CHAR_STATE state;
 

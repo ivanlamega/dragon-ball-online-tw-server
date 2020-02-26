@@ -650,7 +650,7 @@ void			WorldSession::PacketParser(Packet& packet)
 				res.HitRate = PlayerInfo->GetPcProfile()->avatarAttribute.wLastAttackRate; //HitRate
 			}
 			Mob* MobInfo = static_cast<Mob*>(_player->GetFromList(_player->GetTarget()));
-			if (MobInfo != NULL && MobInfo->GetIsDead() == false)
+			if (MobInfo != NULL && MobInfo->GetIsDead() == false && MobInfo->GetInitialSpawn())
 			{
 				res.PowerLevel = MobInfo->GetPowerLevel();
 				res.DoggeRate = MobInfo->GetMobData().Dodge_rate;//Dogge Rate

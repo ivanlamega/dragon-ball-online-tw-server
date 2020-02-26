@@ -434,7 +434,7 @@ void Player::SkillAcion()
 							if (ObjectType == OBJTYPE_MOB)
 							{
 								Mob* MobInfo = static_cast<Mob*>(GetFromList(pCharSkillReq->ahApplyTarget[i]));
-								if (MobInfo != NULL && MobInfo->GetIsDead() == false)
+								if (MobInfo != NULL && MobInfo->GetIsDead() == false && MobInfo->GetInitialSpawn())
 								{
 
 									skillRes.aSkillResult[count].hTarget = MobInfo->GetHandle();
@@ -1284,7 +1284,7 @@ void Player::SkillAcion()
 							if (ObjectType == OBJTYPE_MOB)
 							{
 								Mob* MobInfo = static_cast<Mob*>(GetFromList(pCharSkillReq->ahApplyTarget[i]));
-								if (MobInfo != NULL && MobInfo->GetIsDead() == false)
+								if (MobInfo != NULL && MobInfo->GetIsDead() == false && MobInfo->GetInitialSpawn())
 								{
 									if (AttackType[count] != eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_DODGE)
 									{
@@ -1428,7 +1428,7 @@ void Player::SkillAcion()
 							if (ObjectType == OBJTYPE_MOB)
 							{
 								Mob* MobInfo = static_cast<Mob*>(GetFromList(pCharSkillReq->ahApplyTarget[i]));
-								if (MobInfo != NULL && MobInfo->GetIsDead() == false)
+								if (MobInfo != NULL && MobInfo->GetIsDead() == false && MobInfo->GetInitialSpawn())
 								{
 									if (AttackType[count] != eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_DODGE)
 									{
@@ -1572,7 +1572,7 @@ void Player::SkillAcion()
 							if (ObjectType == OBJTYPE_MOB)
 							{
 								Mob* MobInfo = static_cast<Mob*>(GetFromList(pCharSkillReq->ahApplyTarget[i]));
-								if (MobInfo != NULL && MobInfo->GetIsDead() == false)
+								if (MobInfo != NULL && MobInfo->GetIsDead() == false && MobInfo->GetInitialSpawn())
 								{
 									if (AttackType[count] != eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_DODGE)
 									{
@@ -1715,7 +1715,7 @@ void Player::SkillAcion()
 							if (ObjectType == OBJTYPE_MOB)
 							{
 								Mob* MobInfo = static_cast<Mob*>(GetFromList(pCharSkillReq->ahApplyTarget[i]));
-								if (MobInfo != NULL && MobInfo->GetIsDead() == false)
+								if (MobInfo != NULL && MobInfo->GetIsDead() == false && MobInfo->GetInitialSpawn())
 								{
 									if (AttackType[count] != eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_DODGE)
 									{
@@ -1865,7 +1865,7 @@ void Player::SkillAcion()
 							if (ObjectType == OBJTYPE_MOB)
 							{
 								Mob* MobInfo = static_cast<Mob*>(GetFromList(pCharSkillReq->ahApplyTarget[i]));
-								if (MobInfo != NULL && MobInfo->GetIsDead() == false)
+								if (MobInfo != NULL && MobInfo->GetIsDead() == false && MobInfo->GetInitialSpawn())
 								{
 									if (AttackType[count] != eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_DODGE)
 									{
@@ -2010,7 +2010,7 @@ void Player::SkillAcion()
 							if (ObjectType == OBJTYPE_MOB)
 							{
 								Mob* MobInfo = static_cast<Mob*>(GetFromList(pCharSkillReq->ahApplyTarget[i]));
-								if (MobInfo != NULL && MobInfo->GetIsDead() == false)
+								if (MobInfo != NULL && MobInfo->GetIsDead() == false && MobInfo->GetInitialSpawn())
 								{
 									if (AttackType[count] != eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_DODGE)
 									{
@@ -2169,7 +2169,7 @@ void Player::SkillAcion()
 							if (ObjectType == OBJTYPE_MOB)
 							{
 								Mob* MobInfo = static_cast<Mob*>(GetFromList(pCharSkillReq->ahApplyTarget[i]));
-								if (MobInfo != NULL && MobInfo->GetIsDead() == false)
+								if (MobInfo != NULL && MobInfo->GetIsDead() == false && MobInfo->GetInitialSpawn())
 								{
 									if (AttackType[count] != eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_DODGE)
 									{
