@@ -474,7 +474,8 @@ int GameServer::Run()
 		system("PAUSE");
 		return 1;
 	}
-    if (loadQuests() == false)
+
+	if (loadQuests() == false)
 	{
 		sLog.outError("Trigger data unsucessfully loaded, exiting...");
 		system("PAUSE");
