@@ -94,7 +94,7 @@ ResultCodes	WorldSession::FindPCTriggerInformation(sUG_TS_CONFIRM_STEP_REQ* req)
 								_player->GetAttributesManager()->teleportInfo.worldInfo.tblidx = actPortal->GetWorldIdx();
 								_player->GetAttributesManager()->teleportInfo.worldInfo.worldID = actPortal->GetWorldIdx();
 
-								sLog.outDebug("Teleport: pos %f %f %f rot %f %f %f worldtblidx %d type %d", _player->GetAttributesManager()->teleportInfo.position.x,
+								sLog.outDebug("1 Teleport: pos %f %f %f rot %f %f %f worldtblidx %d type %d", _player->GetAttributesManager()->teleportInfo.position.x,
 									_player->GetAttributesManager()->teleportInfo.position.y,
 									_player->GetAttributesManager()->teleportInfo.position.z,
 									_player->GetAttributesManager()->teleportInfo.rotation.x,
@@ -179,7 +179,7 @@ ResultCodes	WorldSession::FindPCTriggerInformation(sUG_TS_CONFIRM_STEP_REQ* req)
 									_player->GetAttributesManager()->teleportInfo.worldInfo.hTriggerObjectOffset = HANDLE_TRIGGER_OBJECT_OFFSET;
 									_player->GetAttributesManager()->teleportInfo.worldInfo.sRuleInfo.byRuleType = worldData->byWorldRuleType;
 
-									sLog.outDebug("Teleport: pos %f %f %f rot %f %f %f worldtblidx %d type %d ruleType %d", _player->GetAttributesManager()->teleportInfo.position.x,
+									sLog.outDebug("2 Teleport: pos %f %f %f rot %f %f %f worldtblidx %d type %d ruleType %d", _player->GetAttributesManager()->teleportInfo.position.x,
 										_player->GetAttributesManager()->teleportInfo.position.y,
 										_player->GetAttributesManager()->teleportInfo.position.z,
 										_player->GetAttributesManager()->teleportInfo.rotation.x,
@@ -220,7 +220,7 @@ ResultCodes	WorldSession::FindPCTriggerInformation(sUG_TS_CONFIRM_STEP_REQ* req)
 
 									memset(&_player->GetAttributesManager()->teleportInfo.outWorld, 0, sizeof _player->GetAttributesManager()->teleportInfo.outWorld);
 
-									sLog.outDebug("Teleport: pos %f %f %f rot %f %f %f worldtblidx %d type %d ruleType %d", _player->GetAttributesManager()->teleportInfo.position.x,
+									sLog.outDebug("3 Teleport: pos %f %f %f rot %f %f %f worldtblidx %d type %d ruleType %d map %d", _player->GetAttributesManager()->teleportInfo.position.x,
 										_player->GetAttributesManager()->teleportInfo.position.y,
 										_player->GetAttributesManager()->teleportInfo.position.z,
 										_player->GetAttributesManager()->teleportInfo.rotation.x,
@@ -228,7 +228,8 @@ ResultCodes	WorldSession::FindPCTriggerInformation(sUG_TS_CONFIRM_STEP_REQ* req)
 										_player->GetAttributesManager()->teleportInfo.rotation.z,
 										_player->GetAttributesManager()->teleportInfo.worldInfo.tblidx,
 										0,
-										_player->GetAttributesManager()->teleportInfo.worldInfo.sRuleInfo.byRuleType);
+										_player->GetAttributesManager()->teleportInfo.worldInfo.sRuleInfo.byRuleType,
+										_player->GetMap());
 									SendUpdateCharCondition(80);
 									_player->GetState()->sCharStateDetail.sCharStateDespawning.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_TIMEQUEST;
 									_player->SetState(eCHARSTATE::CHARSTATE_DESPAWNING);
@@ -910,7 +911,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 				}
 				//_player->GetAttributesManager()->lastNPCQuest = NPCConv->GetNPCIdx();
 
-				if (tcId == 7 && NPCConv->GetNPCIdx() == 4261111)
+				/*if (tcId == 7 && NPCConv->GetNPCIdx() == 4261111)
 				{
 					TBLIDX worldTblidx = sTBM.GetWorldTable()->FindWorldByLink(tid);
 					//Exit of sub class quest world
@@ -934,7 +935,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 							_player->GetAttributesManager()->teleportInfo.worldInfo.hTriggerObjectOffset = HANDLE_TRIGGER_OBJECT_OFFSET;
 							_player->GetAttributesManager()->teleportInfo.worldInfo.sRuleInfo.byRuleType = worldData->byWorldRuleType;
 
-							sLog.outDebug("Teleport: pos %f %f %f rot %f %f %f worldtblidx %d type %d ruleType %d", _player->GetAttributesManager()->teleportInfo.position.x,
+							sLog.outDebug("4 Teleport: pos %f %f %f rot %f %f %f worldtblidx %d type %d ruleType %d", _player->GetAttributesManager()->teleportInfo.position.x,
 								_player->GetAttributesManager()->teleportInfo.position.y,
 								_player->GetAttributesManager()->teleportInfo.position.z,
 								_player->GetAttributesManager()->teleportInfo.rotation.x,
@@ -978,9 +979,9 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 							Map* map = _player->GetMap();
 							map->Remove(_player, false);
 							_player->ClearListAndReference();*/
-						}
+						/*}
 					}
-				}
+				}*/
 
 				sLog.outDetail("Quest: npc tblidx %d", NPCConv->GetNPCIdx());
 				break;
@@ -1162,7 +1163,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 
 					_player->GetAttributesManager()->teleportInfo.worldInfo.tblidx = sPortal->GetWorldIdx();
 
-					sLog.outDebug("Teleport: pos %f %f %f rot %f %f %f worldtblidx %d type %d", _player->GetAttributesManager()->teleportInfo.position.x,
+					sLog.outDebug("5 Teleport: pos %f %f %f rot %f %f %f worldtblidx %d type %d", _player->GetAttributesManager()->teleportInfo.position.x,
 						_player->GetAttributesManager()->teleportInfo.position.y,
 						_player->GetAttributesManager()->teleportInfo.position.z,
 						_player->GetAttributesManager()->teleportInfo.rotation.x,
@@ -1669,7 +1670,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 							_player->GetAttributesManager()->teleportInfo.worldInfo.hTriggerObjectOffset = HANDLE_TRIGGER_OBJECT_OFFSET;
 							_player->GetAttributesManager()->teleportInfo.worldInfo.sRuleInfo.byRuleType = worldData->byWorldRuleType;
 
-							sLog.outDebug("Teleport: pos %f %f %f rot %f %f %f worldtblidx %d type %d ruleType %d", _player->GetAttributesManager()->teleportInfo.position.x,
+							sLog.outDebug("6 Teleport: pos %f %f %f rot %f %f %f worldtblidx %d type %d ruleType %d", _player->GetAttributesManager()->teleportInfo.position.x,
 								_player->GetAttributesManager()->teleportInfo.position.y,
 								_player->GetAttributesManager()->teleportInfo.position.z,
 								_player->GetAttributesManager()->teleportInfo.rotation.x,
@@ -1909,7 +1910,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 
 							memset(&_player->GetAttributesManager()->teleportInfo.outWorld, 0, sizeof _player->GetAttributesManager()->teleportInfo.outWorld);
 
-							sLog.outDebug("Teleport: pos %f %f %f rot %f %f %f worldtblidx %d type %d ruleType %d", _player->GetAttributesManager()->teleportInfo.position.x,
+							sLog.outDebug("7 Teleport: pos %f %f %f rot %f %f %f worldtblidx %d type %d ruleType %d", _player->GetAttributesManager()->teleportInfo.position.x,
 								_player->GetAttributesManager()->teleportInfo.position.y,
 								_player->GetAttributesManager()->teleportInfo.position.z,
 								_player->GetAttributesManager()->teleportInfo.rotation.x,

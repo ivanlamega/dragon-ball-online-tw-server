@@ -65,7 +65,10 @@ void WorldSession::SendCharTeleportRes(Packet& packet)
 			}
 			/*	   NOT SURE IF THIS IS A GOOD IDEA FOR NOW		*/
 			Map* map = _player->GetMap();
-			map->Remove(_player, false);
+			if (map)
+			{
+				map->Remove(_player, false);
+			}
 			_player->ClearListAndReference();
 			sLog.outDebug("--------TELEPORT DEFAULT--------");
 			break;
@@ -109,7 +112,10 @@ void WorldSession::SendCharTeleportRes(Packet& packet)
 
 			/*	   NOT SURE IF THIS IS A GOOD IDEA FOR NOW		*/
 			Map* map = _player->GetMap();
-			map->Remove(_player, false);
+			if (map)
+			{
+				map->Remove(_player, false);
+			}
 			_player->ClearListAndReference();
 			break;
 		}
@@ -138,13 +144,8 @@ void WorldSession::SendCharTeleportRes(Packet& packet)
 			_player->GetState()->sCharStateDetail.sCharStateTeleporting.byTeleportType = _player->GetState()->sCharStateDetail.sCharStateDespawning.byTeleportType;
 			_player->SetState(eCHARSTATE::CHARSTATE_TELEPORTING);
 
-			if (_player->GetAttributesManager()->teleportInfo.outWorld.worldTblidx == 0 || _player->GetAttributesManager()->teleportInfo.outWorld.worldTblidx == INVALID_TBLIDX)
-			{
-				memset(&(_player->GetAttributesManager()->teleportInfo), 0, sizeof _player->GetAttributesManager()->teleportInfo);
-			}
-
 			sLog.outDebug("--------TELEPORT TIME QUEST--------");
-			sLog.outDebug("Teleport: pos %f %f %f rot %f %f %f worldtblidx %d ruleType %d", _player->GetAttributesManager()->teleportInfo.position.x,
+			sLog.outDebug("8 Teleport: pos %f %f %f rot %f %f %f worldtblidx %d ruleType %d", _player->GetAttributesManager()->teleportInfo.position.x,
 				_player->GetAttributesManager()->teleportInfo.position.y,
 				_player->GetAttributesManager()->teleportInfo.position.z,
 				_player->GetAttributesManager()->teleportInfo.rotation.x,
@@ -157,9 +158,17 @@ void WorldSession::SendCharTeleportRes(Packet& packet)
 				_player->GetAttributesManager()->teleportInfo.outWorld.position.x,
 				_player->GetAttributesManager()->teleportInfo.outWorld.position.y,
 				_player->GetAttributesManager()->teleportInfo.outWorld.position.z);
+
+			if (_player->GetAttributesManager()->teleportInfo.outWorld.worldTblidx == 0 || _player->GetAttributesManager()->teleportInfo.outWorld.worldTblidx == INVALID_TBLIDX)
+			{
+				memset(&(_player->GetAttributesManager()->teleportInfo), 0, sizeof _player->GetAttributesManager()->teleportInfo);
+			}
 			/*	   NOT SURE IF THIS IS A GOOD IDEA FOR NOW		*/
 			Map* map = _player->GetMap();
-			map->Remove(_player, false);
+			if (map)
+			{
+				map->Remove(_player, false);
+			}
 			_player->ClearListAndReference();
 			break;
 		}
@@ -198,7 +207,10 @@ void WorldSession::SendCharTeleportRes(Packet& packet)
 
 			/*	   NOT SURE IF THIS IS A GOOD IDEA FOR NOW		*/
 			Map* map = _player->GetMap();
-			map->Remove(_player, false);
+			if (map)
+			{
+				map->Remove(_player, false);
+			}
 			_player->ClearListAndReference();
 			break;
 		}
