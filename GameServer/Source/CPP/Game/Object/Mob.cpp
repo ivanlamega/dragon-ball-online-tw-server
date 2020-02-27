@@ -633,7 +633,6 @@ void Mob::CheckAgro()
 						if (SkillMob >= 25000)
 						{
 							int rasdand = rand() % 6;
-							sLog.outString("Mob attack!");
 							SkillTable * skillTable = sTBM.GetSkillTable();
 							sSKILL_TBLDAT * skillDataOriginal = reinterpret_cast<sSKILL_TBLDAT*>(skillTable->FindData(me.use_Skill_Tblidx[rasdand]));
 							if (skillDataOriginal != NULL)

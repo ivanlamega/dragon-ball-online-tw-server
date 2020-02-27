@@ -77,6 +77,7 @@ struct QuestData
 	sQUEST_PROGRESS_INFO	progressInfo;
 	GrowUpInfo				growUpInfo;
 	SubClassInfoQuest		questSubCls;
+	TLQ1Info				tlq1Info;
 };
 
 class AttributesManager
@@ -95,7 +96,7 @@ public:
 	//QuestData		QuestDat[30];
 
 	//TLQ 1
-	TLQ1Info tlq1Info;
+	//TLQ1Info tlq1Info;
 
 	// GROW UP
 

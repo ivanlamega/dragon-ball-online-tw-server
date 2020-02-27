@@ -12,8 +12,26 @@ void TimerJs::stop(int id)
 
 void TimerJs::AddTimer(int id) 
 {
+	lastTimerId = id;
 	timers.push_back(id);
 };
+
+int TimerJs::GetNewId()
+{
+	bool found = false;
+	int newId = lastTimerId+1;
+	while (!found)
+	{
+		if (!FindTimer(newId))
+		{
+			return newId;
+		}
+		else
+		{
+			newId++;
+		}
+	}
+}
 
 void TimerJs::DeleteTimer(int id) {
 	int timer = -1;

@@ -885,6 +885,35 @@ ResultCodes WorldSession::ProcessTSContStart(CDboTSContStart * contStart, NTL_TS
 				}
 				break;
 			}
+			case DBO_EVENT_TYPE_ID_COL_RGN:
+			{
+				CDboTSColRgn* colRgn = ((CDboTSColRgn*)contStart->GetChildEntity(i));
+				if (colRgn)
+				{
+					sLog.outDebug("World %d colType %d in range? %d", colRgn->GetWorldIdx(), colRgn->GetColCheckType(), colRgn->InCheck(_player->m_position.x, _player->m_position.z));
+					if (_player->GetWorldTableID() == colRgn->GetWorldIdx())
+					{
+						if (tid == 11613)
+						{ 
+							int idTimer = Timer.GetNewId();
+							TimerArguments<CDboTSColRgn> args(idTimer, *colRgn);
+							Timer.setInterval([&](TimerArguments<CDboTSColRgn> args) {
+									if (args.Argument.InCheck(_player->m_position.x, _player->m_position.z) && _player->GetIsReady())
+									{
+										sLog.outDetail("In Range");
+										SendCharDirectPlay(1, 1, 1037);
+										Timer.stop(args.idTimer);
+									}
+									else
+									{
+										sLog.outDetail("Not In Range pos (%f %f %f)", _player->m_position.x, _player->m_position.z);
+									}
+								}, 1000, args, idTimer);
+						}
+					}
+				}
+				break;
+			}
 		}
 	}
 	return RESULT_SUCCESS;
@@ -1531,13 +1560,26 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 				// TLQ 1 -----------------------
 				if (worldPlayScript->GetScriptID() == 11604)
 				{
-					sLog.outDebug("NPC HANDLE %d", _player->GetAttributesManager()->tlq1Info.handleNpc);
+					QuestData* quest = _player->GetQuestManager()->FindQuestById(tid);
+					if (quest)
+					{
+						sLog.outBasic("New system: NPC HANDLE %d", quest->tlq1Info.handleNpc);
+					}
+					//sLog.outDebug("NPC HANDLE %d", _player->GetAttributesManager()->tlq1Info.handleNpc);
 					ConvertGohanMobNPC(7451101);
 				}
 				if (worldPlayScript->GetScriptID() == 11603)
 				{
-					_player->GetAttributesManager()->tlq1Info.handleNpc = CreateNPCGohanTLQ1();
-					sLog.outDebug("NPC HANDLE %d", _player->GetAttributesManager()->tlq1Info.handleNpc);
+					//_player->GetAttributesManager()->tlq1Info.handleNpc = CreateNPCGohanTLQ1();
+					//sLog.outDebug("NPC HANDLE %d", _player->GetAttributesManager()->tlq1Info.handleNpc);
+
+					QuestData* quest = _player->GetQuestManager()->FindQuestById(tid);
+					if (quest)
+					{
+						quest->tlq1Info.handleNpc = CreateNPCGohanTLQ1();
+						_player->GetQuestManager()->AddNPCSpawnedQuest(quest->tlq1Info.handleNpc, tid);
+						sLog.outBasic("New system: NPC HANDLE %d", quest->tlq1Info.handleNpc);
+					}
 				}
 				// TLQ 1 -----------------------
 				break;
@@ -3358,7 +3400,13 @@ ResultCodes	WorldSession::CheckEvtDataType(CDboTSActSToCEvt* sToCEvt, NTL_TS_TC_
 
 HOBJECT WorldSession::ConvertGohanMobNPC(TBLIDX mobTblidx)
 {
-	sLog.outDebug("GOHAN NPC HANDLES 1: %d 2 %d", _player->GetAttributesManager()->tlq1Info.handleNpc, _player->GetTarget());
+	NTL_TS_T_ID questId = _player->GetQuestManager()->FindQuestByNPCSpawned(_player->GetTarget());
+	QuestData* quest = _player->GetQuestManager()->FindQuestById(questId);
+	if (quest)
+	{
+		sLog.outBasic("New system: GOHAN NPC HANDLES 1: %d 2 %d", quest->tlq1Info.handleNpc, _player->GetTarget());
+	}
+	//sLog.outDebug("GOHAN NPC HANDLES 1: %d 2 %d", _player->GetAttributesManager()->tlq1Info.handleNpc, _player->GetTarget());
 	Npc* curr_Npc = static_cast<Npc*>(_player->GetFromList(_player->GetTarget()));
 	if (curr_Npc)
 	{

@@ -484,7 +484,7 @@ eCOL_RESULT_TYPE CDboTSColRgn::ColCheck_Retangle( float fBeginX, float fBeginZ, 
 
 bool CDboTSColRgn::IsInRadius( float fX, float fZ, sRadiusData& sRadData )
 {
-	float fSRadius = sRadData.r * sRadData.r;
+	float fSRadius = sRadData.r * 10;// *sRadData.r;
 	float fSDist = (fX - sRadData.x) * (fX - sRadData.x) + (fZ - sRadData.z) * (fZ - sRadData.z);
 
 	return fSRadius < fSDist ? false : true;
