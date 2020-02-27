@@ -3184,6 +3184,13 @@ void Player::RewardDropFromMob(MonsterData& data)
 	}
 	// TLQ1-------------------
 
+	// TLQ2-------------------
+	else if (data.MonsterID == 3751101)
+	{
+		m_session->SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, 16510);
+	}
+	// TLQ2-------------------
+
 	//New System
 	NTL_TS_T_ID questId = GetQuestManager()->FindQuestByMob(data.MonsterID);
 	QuestData* quest = GetQuestManager()->FindQuestById(questId);

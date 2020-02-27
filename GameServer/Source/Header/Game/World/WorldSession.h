@@ -221,6 +221,11 @@ public:
 	HOBJECT			CreateNPCGohanTLQ1();
 	HOBJECT			CreateNPCTrunksTLQ1();
 	HOBJECT			ConvertGohanMobNPC(TBLIDX mobTblidx);
+	// TLQ 2
+	HOBJECT			CreateNPCOxSatanTLQ2();
+	HOBJECT			CreateNPCGokuTLQ2();
+	HOBJECT			CreateNPCMilkTLQ2();
+	HOBJECT			ConvertOxSatanMobNPC(TBLIDX mobTblidx);
 	//RankBatle
 	void			GetPlayerFromRankList();
 	
