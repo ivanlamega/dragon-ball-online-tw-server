@@ -2947,6 +2947,7 @@ DWORD				dwDelay;
 BYTE				byLength;
 BYTE				unk;
 char				szName[32];
+//BYTE				unk[544];
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(GU_DOJO_MARK_CHANGED_NFY)

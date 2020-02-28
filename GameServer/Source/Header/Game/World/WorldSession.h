@@ -224,12 +224,15 @@ public:
 	// TLQ 2
 	HOBJECT			CreateNPCOxSatanTLQ2();
 	HOBJECT			CreateNPCGokuTLQ2();
+	HOBJECT			CreateNPCGoku2TLQ2();
 	HOBJECT			CreateNPCMilkTLQ2();
+	HOBJECT			CreateNPCMilk2TLQ2();
 	HOBJECT			CreateMobDino1TLQ2();
 	HOBJECT			CreateMobDino2TLQ2();
 	HOBJECT			CreateMobDino3TLQ2();
 	HOBJECT			CreateMobDino4TLQ2();
 	HOBJECT			ConvertOxSatanMobNPC(TBLIDX mobTblidx);
+	HOBJECT			ConvertMilkMobNPC(TBLIDX mobTblidx);
 	//RankBatle
 	void			GetPlayerFromRankList();
 	

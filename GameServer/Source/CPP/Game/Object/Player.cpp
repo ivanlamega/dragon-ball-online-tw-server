@@ -3206,6 +3206,10 @@ void Player::RewardDropFromMob(MonsterData& data)
 	{
 		m_session->SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, 16530);
 	}
+	else if (data.MonsterID == 2451101)
+	{
+		m_session->SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, 16550);
+	}
 	// TLQ2-------------------
 
 	//New System
