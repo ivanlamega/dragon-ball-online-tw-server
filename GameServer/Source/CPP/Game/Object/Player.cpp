@@ -3189,6 +3189,23 @@ void Player::RewardDropFromMob(MonsterData& data)
 	{
 		m_session->SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, 16510);
 	}
+	else if (data.MonsterID == 8211107)
+	{
+		m_session->SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, 16515);
+		m_session->CreateMobDino2TLQ2();
+	}
+	else if (data.MonsterID == 8211108)
+	{
+		m_session->CreateMobDino3TLQ2();
+	}
+	else if (data.MonsterID == 8211109)
+	{
+		m_session->CreateMobDino4TLQ2();
+	}
+	else if (data.MonsterID == 8211110)
+	{
+		m_session->SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, 16530);
+	}
 	// TLQ2-------------------
 
 	//New System
