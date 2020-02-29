@@ -893,6 +893,17 @@ ResultCodes WorldSession::ProcessTSContStart(CDboTSContStart * contStart, NTL_TS
 							SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, 16610);
 							}, 10000, idTimer); //Change time of settimeout
 					}
+					else if (rcvSvrEvt->GetEvtID() == 16502)
+					{
+						HOBJECT handleNpc = CreateNPCOxSatanTLQ2();
+						_player->GetQuestManager()->AddNPCSpawnedQuest(handleNpc, tid);
+						QuestData* quest = _player->GetQuestManager()->FindQuestById(tid);
+						if (quest)
+						{
+							quest->tlq2Info.handleNpc = handleNpc;
+							sLog.outBasic("Hande ox satan %d", handleNpc);
+						}
+					}
 					// TLQ2 -----------------------------
 				}
 				break;
@@ -918,8 +929,8 @@ ResultCodes WorldSession::ProcessTSContStart(CDboTSContStart * contStart, NTL_TS
 										idTimer = Timer.GetNewId();
 										Timer.setTimeout([&]() {
 											SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, 16502);
-											CreateNPCOxSatanTLQ2();
-
+											
+											// Show the portal exit of tlq2
 											sOBJECT_TBLDAT* obj = (sOBJECT_TBLDAT*)sTBM.GetObjectTable(_player->GetWorldTableID())->FindData(1);
 											if (obj)
 											{
@@ -1052,9 +1063,16 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 				{
 					SendCharDirectPlay(true, 1, 1039);
 					int idTimer = Timer.GetNewId();
-					Timer.setTimeout([&]() {
-						CreateNPCMilkTLQ2();
-						}, 9000, idTimer);
+					Timer.setTimeout([&](NTL_TS_T_ID tid) {
+						HOBJECT handleNpc = CreateNPCMilkTLQ2();
+						sLog.outBasic("Milk created %d", handleNpc);
+						_player->GetQuestManager()->AddNPCSpawnedQuest(handleNpc, tid);
+						QuestData* quest = _player->GetQuestManager()->FindQuestById(tid);
+						if (quest)
+						{
+							quest->tlq2Info.handleNpc = handleNpc;
+						}
+						}, 9000, tid, idTimer);
 
 					int idTimer2 = Timer.GetNewId();
 					Timer.setInterval([&](int idTimer2) {
@@ -1152,7 +1170,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 					// TLQ2 --------------------
 					else if (sendSvrEvt->GetSvrEvtID() == 16500)
 					{
-						ConvertOxSatanMobNPC(3751101);
+						ConvertOxSatanMobNPC(3751101, tid);
 					}
 					else if (sendSvrEvt->GetSvrEvtID() == 16511)
 					{
@@ -1161,12 +1179,13 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 						int idTimer = Timer.GetNewId();
 						Timer.setTimeout([&]() {
 							CreateNPCGokuTLQ2();
+							CreateNPCOxSatanTLQ2();
 							SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, 16512);
 							}, 12000, idTimer);
 					}
 					else if (sendSvrEvt->GetSvrEvtID() == 16540)
 					{
-						ConvertMilkMobNPC(2451101);
+						ConvertMilkMobNPC(2451101, tid);
 					}
 					else if (sendSvrEvt->GetSvrEvtID() == 16560)
 					{
@@ -3618,10 +3637,16 @@ HOBJECT WorldSession::ConvertGohanMobNPC(TBLIDX mobTblidx)
 	return INVALID_TBLIDX;
 }
 
-HOBJECT WorldSession::ConvertOxSatanMobNPC(TBLIDX mobTblidx)
+HOBJECT WorldSession::ConvertOxSatanMobNPC(TBLIDX mobTblidx, NTL_TS_T_ID tid)
 {
-	//sLog.outDebug("GOHAN NPC HANDLES 1: %d 2 %d", _player->GetAttributesManager()->tlq1Info.handleNpc, _player->GetTarget());
-	Npc* curr_Npc = static_cast<Npc*>(_player->GetFromList(_player->GetTarget()));
+	HOBJECT handleNpc = _player->GetTarget();
+	QuestData* quest = _player->GetQuestManager()->FindQuestById(tid);
+	if (quest)
+	{
+		handleNpc = quest->tlq2Info.handleNpc;
+		sLog.outDebug("OX SATAN NPC HANDLES 1: %d 2 %d", quest->tlq2Info.handleNpc, _player->GetTarget());
+	}
+	Npc* curr_Npc = static_cast<Npc*>(_player->GetFromList(handleNpc));
 	if (curr_Npc)
 	{
 
@@ -3723,10 +3748,17 @@ HOBJECT WorldSession::ConvertOxSatanMobNPC(TBLIDX mobTblidx)
 	return INVALID_TBLIDX;
 }
 
-HOBJECT	WorldSession::ConvertMilkMobNPC(TBLIDX mobTblidx)
+HOBJECT	WorldSession::ConvertMilkMobNPC(TBLIDX mobTblidx, NTL_TS_T_ID tid)
 {
-	//sLog.outDebug("GOHAN NPC HANDLES 1: %d 2 %d", _player->GetAttributesManager()->tlq1Info.handleNpc, _player->GetTarget());
-	Npc* curr_Npc = static_cast<Npc*>(_player->GetFromList(_player->GetTarget()));
+	HOBJECT handleNpc = _player->GetTarget();
+	QuestData* quest = _player->GetQuestManager()->FindQuestById(tid);
+	if (quest)
+	{
+		handleNpc = quest->tlq2Info.handleNpc;
+		sLog.outDebug("MILK NPC HANDLES 1: %d, 2: %d", quest->tlq2Info.handleNpc, _player->GetTarget());
+	}
+	
+	Npc* curr_Npc = static_cast<Npc*>(_player->GetFromList(handleNpc));
 	if (curr_Npc)
 	{
 

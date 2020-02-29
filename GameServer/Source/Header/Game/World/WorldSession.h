@@ -231,8 +231,8 @@ public:
 	HOBJECT			CreateMobDino2TLQ2();
 	HOBJECT			CreateMobDino3TLQ2();
 	HOBJECT			CreateMobDino4TLQ2();
-	HOBJECT			ConvertOxSatanMobNPC(TBLIDX mobTblidx);
-	HOBJECT			ConvertMilkMobNPC(TBLIDX mobTblidx);
+	HOBJECT			ConvertOxSatanMobNPC(TBLIDX mobTblidx, NTL_TS_T_ID tid);
+	HOBJECT			ConvertMilkMobNPC(TBLIDX mobTblidx, NTL_TS_T_ID tid);
 	//RankBatle
 	void			GetPlayerFromRankList();
 	

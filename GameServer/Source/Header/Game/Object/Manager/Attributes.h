@@ -51,6 +51,11 @@ struct TLQ1Info
 	HOBJECT handleNpc;
 };
 
+struct TLQ2Info
+{
+	HOBJECT handleNpc;
+};
+
 struct GrowUpInfo
 {
 	bool			inQuest;
@@ -78,6 +83,7 @@ struct QuestData
 	GrowUpInfo				growUpInfo;
 	SubClassInfoQuest		questSubCls;
 	TLQ1Info				tlq1Info;
+	TLQ2Info				tlq2Info;
 };
 
 class AttributesManager
