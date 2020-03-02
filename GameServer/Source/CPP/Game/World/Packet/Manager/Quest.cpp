@@ -882,6 +882,15 @@ ResultCodes WorldSession::ProcessTSContStart(CDboTSContStart * contStart, NTL_TS
 					{
 						CreateNPCTrunksTLQ1();
 					}
+					else if (rcvSvrEvt->GetEvtID() == 16290)
+					{
+						QuestData* quest = _player->GetQuestManager()->FindQuestById(tid);
+						if (quest)
+						{
+							quest->tlq1Info.handleNpc = _player->GetQuestManager()->handleNpcTlq1Temp;
+							sLog.outBasic("Add handle %d npc to quest %d", quest->tlq1Info.handleNpc, quest->QuestID);
+						}
+					}
 					// TLQ1 -----------------------------
 					// TLQ2 -----------------------------
 					else if (rcvSvrEvt->GetEvtID() == 16600)
@@ -944,6 +953,31 @@ ResultCodes WorldSession::ProcessTSContStart(CDboTSContStart * contStart, NTL_TS
 								}, 1000, args, idTimer);
 						}
 					}
+				}
+				break;
+			}
+			case DBO_COND_TYPE_ID_CHECK_PROG_QUEST:
+			{
+				CDboTSCheckProgQuest* checkQuest = (CDboTSCheckProgQuest*)contStart->GetChildEntity(i);
+				if (checkQuest)
+				{
+					if (checkQuest->GetQuestID() == 11603)
+					{
+						QuestData* prevQuest = _player->GetQuestManager()->FindQuestById(checkQuest->GetQuestID());
+						if (prevQuest)
+						{
+							if (prevQuest->tlq1Info.handleNpc)
+							{
+								QuestData* quest = _player->GetQuestManager()->FindQuestById(tid);
+								if (quest)
+								{
+									quest->tlq1Info.handleNpc = prevQuest->tlq1Info.handleNpc;
+									sLog.outBasic("NPC Handle %d cur quest %d prev quest %d", prevQuest->tlq1Info.handleNpc, quest->QuestID, prevQuest->QuestID);
+								}
+							}
+						}
+					}
+					sLog.outDebug("Quest id: %d", checkQuest->GetQuestID());
 				}
 				break;
 			}
@@ -1127,7 +1161,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 					}
 					else if (sendSvrEvt->GetSvrEvtID() == 16260)
 					{
-						ConvertGohanMobNPC(7451107);
+						ConvertGohanMobNPC(7451107, tid);
 					}
 					else if (sendSvrEvt->GetSvrEvtID() == 16210)
 					{
@@ -1665,22 +1699,23 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 					QuestData* quest = _player->GetQuestManager()->FindQuestById(tid);
 					if (quest)
 					{
-						sLog.outBasic("New system: NPC HANDLE %d", quest->tlq1Info.handleNpc);
+						sLog.outBasic("1 New system: NPC HANDLE %d", quest->tlq1Info.handleNpc);
 					}
 					//sLog.outDebug("NPC HANDLE %d", _player->GetAttributesManager()->tlq1Info.handleNpc);
-					ConvertGohanMobNPC(7451101);
+					ConvertGohanMobNPC(7451101, tid);
 				}
-				if (worldPlayScript->GetScriptID() == 11603)
+				if (worldPlayScript->GetScriptID() == 11603 && tid == 11603)
 				{
 					//_player->GetAttributesManager()->tlq1Info.handleNpc = CreateNPCGohanTLQ1();
 					//sLog.outDebug("NPC HANDLE %d", _player->GetAttributesManager()->tlq1Info.handleNpc);
-
+					HOBJECT handleNpc = CreateNPCGohanTLQ1();
+					_player->GetQuestManager()->AddNPCSpawnedQuest(handleNpc, tid);
+					_player->GetQuestManager()->handleNpcTlq1Temp = handleNpc;
 					QuestData* quest = _player->GetQuestManager()->FindQuestById(tid);
 					if (quest)
 					{
-						quest->tlq1Info.handleNpc = CreateNPCGohanTLQ1();
-						_player->GetQuestManager()->AddNPCSpawnedQuest(quest->tlq1Info.handleNpc, tid);
-						sLog.outBasic("New system: NPC HANDLE %d", quest->tlq1Info.handleNpc);
+						quest->tlq1Info.handleNpc = handleNpc;
+						sLog.outBasic("3 New system: Handle Gohan %d", handleNpc);
 					}
 				}
 				// TLQ 1 -----------------------
@@ -2139,7 +2174,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 	return RESULT_SUCCESS;
 }
 
-ResultCodes WorldSession::ProcessTsContGCond(CDboTSContGCond * contGCond)
+ResultCodes WorldSession::ProcessTsContGCond(CDboTSContGCond * contGCond, NTL_TS_T_ID tid, NTL_TS_TC_ID tcId)
 {
 	for (int i = 0; i < contGCond->GetNumOfChildEntity(); i++)
 	{
@@ -2258,6 +2293,29 @@ ResultCodes WorldSession::ProcessTsContGCond(CDboTSContGCond * contGCond)
 					return RESULT_FAIL;
 				}
 
+				break;
+			}
+			case DBO_EVENT_TYPE_ID_RCV_SVR_EVT:
+			{
+				CDboTSRcvSvrEvt* rcvSvrEvt = (CDboTSRcvSvrEvt*)contGCond->GetChildEntity(i);
+				if (rcvSvrEvt)
+				{
+					sLog.outDebug("Quest evt id %d", rcvSvrEvt->GetEvtID());
+					// TLQ1 -----------------------------
+					if (rcvSvrEvt->GetEvtID() == 16030)
+					{
+						HOBJECT handleNpc = CreateNPCGohanTLQ1();
+						_player->GetQuestManager()->AddNPCSpawnedQuest(handleNpc, tid);
+						_player->GetQuestManager()->handleNpcTlq1Temp = handleNpc;
+						QuestData* quest = _player->GetQuestManager()->FindQuestById(tid);
+						if (quest)
+						{
+							quest->tlq1Info.handleNpc = handleNpc;
+							sLog.outBasic("2 New system: Handle Gohan %d", handleNpc);
+						}
+					}
+					// TLQ1 -----------------------------
+				}
 				break;
 			}
 		}
@@ -2866,7 +2924,7 @@ ResultCodes WorldSession::FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req)
 			{
 				return RESULT_FAIL;
 			}
-			if (ProcessTsContGCond(contGCond) == RESULT_FAIL)
+			if (ProcessTsContGCond(contGCond, req->tId, req->tcCurId) == RESULT_FAIL)
 			{
 				return RESULT_FAIL;
 			}
@@ -3526,16 +3584,17 @@ ResultCodes	WorldSession::CheckEvtDataType(CDboTSActSToCEvt* sToCEvt, NTL_TS_TC_
 	return RESULT_SUCCESS;
 }
 
-HOBJECT WorldSession::ConvertGohanMobNPC(TBLIDX mobTblidx)
+HOBJECT WorldSession::ConvertGohanMobNPC(TBLIDX mobTblidx, NTL_TS_T_ID tid)
 {
-	NTL_TS_T_ID questId = _player->GetQuestManager()->FindQuestByNPCSpawned(_player->GetTarget());
-	QuestData* quest = _player->GetQuestManager()->FindQuestById(questId);
+	HOBJECT handleNpc = _player->GetTarget();
+	QuestData* quest = _player->GetQuestManager()->FindQuestById(tid);
 	if (quest)
 	{
+		handleNpc = quest->tlq1Info.handleNpc;
 		sLog.outBasic("New system: GOHAN NPC HANDLES 1: %d 2 %d", quest->tlq1Info.handleNpc, _player->GetTarget());
 	}
 	//sLog.outDebug("GOHAN NPC HANDLES 1: %d 2 %d", _player->GetAttributesManager()->tlq1Info.handleNpc, _player->GetTarget());
-	Npc* curr_Npc = static_cast<Npc*>(_player->GetFromList(_player->GetTarget()));
+	Npc* curr_Npc = static_cast<Npc*>(_player->GetFromList(handleNpc));
 	if (curr_Npc)
 	{
 
@@ -3935,6 +3994,81 @@ HOBJECT WorldSession::CreateNPCTrunksTLQ1()
 	return INVALID_TBLIDX;
 }
 
+/*HOBJECT WorldSession::CreateNPCGohanTLQ1()
+{
+	NPCTable* NpcTable = sTBM.GetNpcTable();
+	sNPC_TBLDAT* pNPCTblData = reinterpret_cast<sNPC_TBLDAT*>(NpcTable->FindData(6201101));
+	if (pNPCTblData != NULL)
+	{
+		SpawnNPC spawnData;
+		memset(&spawnData, 0, sizeof(SpawnNPC));
+
+		spawnData.wOpCode = GU_OBJECT_CREATE;
+		spawnData.wPacketSize = sizeof(SpawnNPC) - 2;
+
+
+		spawnData.CurEP = pNPCTblData->wBasic_EP;
+		spawnData.CurLP = pNPCTblData->wBasic_LP;
+		HOBJECT handle = sWorld.AcquireSerialId();
+		spawnData.Handle = handle;
+
+		//spawnData.Level = pNPCTblData->byLevel;
+		spawnData.MaxEP = pNPCTblData->wBasic_EP;
+		spawnData.MaxLP = pNPCTblData->wBasic_LP;
+		spawnData.Size = 10;
+		spawnData.OBJType = OBJTYPE_NPC;
+		spawnData.Tblidx = pNPCTblData->tblidx;
+
+		spawnData.fLastWalkingSpeed = 0.89999998;
+		spawnData.fLastRunningSpeed = 7.0;
+		spawnData.fLastAirSpeed = 7.0;
+		spawnData.fLastAirDashSpeed = 0.89999998;
+		spawnData.fLastAirDashAccelSpeed = 0.89999998;
+		spawnData.AttackSpeedRate = 1000;
+		spawnData.SkillAnimationSpeedModifier = 100;
+
+		sLog.outDebug("WalkSpeed %f run %d runOrigin %f walkOrigin %f",
+			pNPCTblData->fWalk_Speed, pNPCTblData->fRun_Speed, pNPCTblData->fRun_Speed_Origin, pNPCTblData->fWalk_Speed_Origin);
+		spawnData.TblidxMovementActionPatern = 1;
+
+		spawnData.State.sCharStateBase.aspectState.sAspectStateBase.byAspectStateId = 255;
+		spawnData.State.sCharStateBase.vCurLoc.x = 915.42999;// _player->m_position.x + rand() % 5;
+		spawnData.State.sCharStateBase.vCurLoc.y = 9.0;//_player->m_position.y;
+		spawnData.State.sCharStateBase.vCurLoc.z = -963.71002;//_player->m_position.z + rand() % 5;
+		spawnData.State.sCharStateBase.vCurDir.x = -0.22;//_player->m_rotation.x + rand() % 5;
+		spawnData.State.sCharStateBase.vCurDir.y = 0.0;// _player->m_rotation.y;
+		spawnData.State.sCharStateBase.vCurDir.z = -0.97000003;//_player->m_rotation.z + rand() % 5;
+		spawnData.State.sCharStateBase.byStateID = eCHARSTATE::CHARSTATE_SPAWNING;
+
+		//	sWorld.SendToAll((char*)&spawnData, sizeof(SpawnMOB));
+		//Need Insert In list
+		Npc* created_Npc = new Npc;
+		if (pNPCTblData)
+		{
+			if (created_Npc->Create(pNPCTblData, spawnData) == true)
+			{
+				created_Npc->GetMapRef().link(this->_player->GetMap(), created_Npc);
+				sLog.outString("Npc ID %d inserted into map", pNPCTblData->tblidx);
+				return created_Npc->GetHandle();
+				//_player->GetAttributesManager()->lastNPCQuest = INVALID_TBLIDX;
+				/*Timer.setTimeout([&]() {
+					created_Npc->GetState()->sCharStateDetail.sCharStateDestMove.byMoveFlag = 1;
+					created_Npc->GetState()->sCharStateDetail.sCharStateDestMove.byDestLocCount = 1;
+					created_Npc->GetState()->sCharStateDetail.sCharStateDestMove.avDestLoc[0].x = 881.15002;
+					created_Npc->GetState()->sCharStateDetail.sCharStateDestMove.avDestLoc[0].y = 0.0;
+					created_Npc->GetState()->sCharStateDetail.sCharStateDestMove.avDestLoc[0].z = -1002.0;
+					created_Npc->UpdateState(eCHARSTATE::CHARSTATE_DESTMOVE);
+					}, 2000);*/
+			/*}
+			else
+			{
+				delete created_Npc;
+			}
+		}
+	}
+	return INVALID_TBLIDX;
+}*/
+
 HOBJECT WorldSession::CreateNPCGohanTLQ1()
 {
 	NPCTable* NpcTable = sTBM.GetNpcTable();
@@ -4009,6 +4143,7 @@ HOBJECT WorldSession::CreateNPCGohanTLQ1()
 	}
 	return INVALID_TBLIDX;
 }
+
 
 HOBJECT WorldSession::CreateNPCOxSatanTLQ2()
 {

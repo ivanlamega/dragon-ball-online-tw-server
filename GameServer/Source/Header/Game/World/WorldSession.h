@@ -205,7 +205,7 @@ public:
 	ResultCodes		FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req);
 	ResultCodes		ProcessTSContStart(CDboTSContStart * contStart, NTL_TS_T_ID tid);
 	ResultCodes		ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_ID tid, NTL_TS_TC_ID tcId);
-	ResultCodes		ProcessTsContGCond(CDboTSContGCond * contGCond);
+	ResultCodes		ProcessTsContGCond(CDboTSContGCond * contGCond, NTL_TS_T_ID tid, NTL_TS_TC_ID tcId);
 	ResultCodes		ProcessTsContReward(CDboTSContReward * contReward, DWORD dwParam);
 	void			ProcessTsContEnd(CDboTSContEnd * contEnd);
 	void			SendQuestSVRevtStartNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, NTL_TS_TA_ID taId);
@@ -220,7 +220,7 @@ public:
 	// TLQ 1
 	HOBJECT			CreateNPCGohanTLQ1();
 	HOBJECT			CreateNPCTrunksTLQ1();
-	HOBJECT			ConvertGohanMobNPC(TBLIDX mobTblidx);
+	HOBJECT			ConvertGohanMobNPC(TBLIDX mobTblidx, NTL_TS_T_ID tid);
 	// TLQ 2
 	HOBJECT			CreateNPCOxSatanTLQ2();
 	HOBJECT			CreateNPCGokuTLQ2();

@@ -87,6 +87,9 @@ public:
 	NTL_TS_T_ID						FindQuestByNPCSpawned(HOBJECT NPCHandle);
 	NPCSPAWNEDQUESTIT				NPCSpawnedQuestBegin() { return m_pNPCSpawnedQuestList.begin(); };
 	NPCSPAWNEDQUESTIT				NPCSpawnedQuestEnd() { return m_pNPCSpawnedQuestList.end(); };
+
+
+	HOBJECT							handleNpcTlq1Temp;
 };
 
 #endif
