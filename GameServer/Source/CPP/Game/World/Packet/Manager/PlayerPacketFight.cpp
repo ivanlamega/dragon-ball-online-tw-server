@@ -46,7 +46,7 @@ void WorldSession::SendTargetSelection(HOBJECT hTarget)
 	_player->SetTarget(hTarget);
 	res.hSubject = hTarget;
 
-	sLog.outDebug("eOBJTYPE: %d", object->GetTypeId());
+	sLog.outDebug("eOBJTYPE: %d TBLIDX %d", object->GetTypeId(), object->GetTblidx());
 
 	switch (object->GetTypeId())
 	{

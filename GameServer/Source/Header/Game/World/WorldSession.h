@@ -233,6 +233,10 @@ public:
 	HOBJECT			CreateMobDino4TLQ2();
 	HOBJECT			ConvertOxSatanMobNPC(TBLIDX mobTblidx, NTL_TS_T_ID tid);
 	HOBJECT			ConvertMilkMobNPC(TBLIDX mobTblidx, NTL_TS_T_ID tid);
+	// TLQ3
+	HOBJECT			CreateNPCMilkTLQ3();
+	HOBJECT			ConvertNPC1MobNPC(TBLIDX mobTblidx, NTL_TS_T_ID tid);
+	HOBJECT			ConvertNPC2MobNPC(TBLIDX mobTblidx, NTL_TS_T_ID tid);
 	//RankBatle
 	void			GetPlayerFromRankList();
 	

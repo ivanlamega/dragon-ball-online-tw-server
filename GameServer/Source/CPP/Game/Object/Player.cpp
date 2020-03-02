@@ -2721,6 +2721,7 @@ void Player::FillList(Object& object)
 {
 	mutexPlayer.lock();
 	objList.insert(std::make_pair(object.GetHandle(), &object));
+	tblidxHandle.insert(std::make_pair(object.GetTblidx(), object.GetHandle()));
 	mutexPlayer.unlock();
 }
 //----------------------------------------
@@ -2765,6 +2766,30 @@ Object *Player::GetFromList(uint32 id)
 	}
 	mutexPlayer.unlock();
 	return NULL;
+}
+//----------------------------------------
+//	Get a Handle from our storage list
+//----------------------------------------
+HOBJECT	Player::GetHandleByTBlidx(TBLIDX objectTblidx)
+{
+	mutexPlayer.lock();
+	for (auto it = tblidxHandle.begin(); it != tblidxHandle.end();)
+	{
+		if (it->second != -1)
+		{
+			if (it->first == objectTblidx)
+			{
+				mutexPlayer.unlock();
+				return it->second;
+			}
+			else
+			{
+				it++;
+			}
+		}
+	}
+	mutexPlayer.unlock();
+	return -1;
 }
 //----------------------------------------
 //	Check if Player X is in list

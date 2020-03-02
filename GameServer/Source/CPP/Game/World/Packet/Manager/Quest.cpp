@@ -1175,7 +1175,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 						}
 					}
 
-					if (sendSvrEvt->GetSvrEvtID() == 16040)
+					else if (sendSvrEvt->GetSvrEvtID() == 16040)
 					{
 
 						sOBJECT_TBLDAT* obj = (sOBJECT_TBLDAT*)sTBM.GetObjectTable(120000)->FindData(8);
@@ -1232,8 +1232,41 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 							SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, 16570);
 							}, 11000, idTimer);
 					}
-
 					// TLQ2 --------------------
+					// TLQ3 --------------------
+					else if (sendSvrEvt->GetSvrEvtID() == 16711)
+					{
+						SendCharDirectPlay(true, 1, 1041);
+
+						int idTimer = Timer.GetNewId();
+						Timer.setTimeout([&](NTL_TS_T_ID tid) {
+							SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, 16712);
+							HOBJECT handleNpc = CreateNPCMilkTLQ3();
+
+							QuestData* quest = _player->GetQuestManager()->FindQuestById(tid);
+							if (quest)
+							{
+								quest->tlq3Info.handleNpcMilk = handleNpc;
+								sLog.outBasic("Add npc handle %d in quest %d", handleNpc, tid);
+							}
+							}, 12000, tid, idTimer);
+					}
+					else if (sendSvrEvt->GetSvrEvtID() == 16715)
+					{
+						HOBJECT handleNpc1 = _player->GetHandleByTBlidx(3251101);
+						HOBJECT handleNpc2 = _player->GetHandleByTBlidx(3252101);
+						sLog.outBasic("NPC1 %d NPC2 %d", handleNpc1, handleNpc2);
+						QuestData* quest = _player->GetQuestManager()->FindQuestById(tid);
+						if (quest)
+						{
+							quest->tlq3Info.handleNpc1 = handleNpc1;
+							quest->tlq3Info.handleNpc2 = handleNpc2;
+
+							ConvertNPC1MobNPC(handleNpc1, quest->QuestID);
+							ConvertNPC2MobNPC(handleNpc2, quest->QuestID);
+						}
+					}
+					// TLQ3 --------------------
 					else
 					{
 						SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, sendSvrEvt->GetSvrEvtID());
@@ -3975,15 +4008,6 @@ HOBJECT WorldSession::CreateNPCTrunksTLQ1()
 				created_Npc->GetMapRef().link(this->_player->GetMap(), created_Npc);
 				sLog.outString("Npc ID %d inserted into map", pNPCTblData->tblidx);
 				return handle;
-				//_player->GetAttributesManager()->lastNPCQuest = INVALID_TBLIDX;
-				/*Timer.setTimeout([&]() {
-					created_Npc->GetState()->sCharStateDetail.sCharStateDestMove.byMoveFlag = 1;
-					created_Npc->GetState()->sCharStateDetail.sCharStateDestMove.byDestLocCount = 1;
-					created_Npc->GetState()->sCharStateDetail.sCharStateDestMove.avDestLoc[0].x = 881.15002;
-					created_Npc->GetState()->sCharStateDetail.sCharStateDestMove.avDestLoc[0].y = 0.0;
-					created_Npc->GetState()->sCharStateDetail.sCharStateDestMove.avDestLoc[0].z = -1002.0;
-					created_Npc->UpdateState(eCHARSTATE::CHARSTATE_DESTMOVE);
-					}, 2000);*/
 			}
 			else
 			{
@@ -3993,81 +4017,6 @@ HOBJECT WorldSession::CreateNPCTrunksTLQ1()
 	}
 	return INVALID_TBLIDX;
 }
-
-/*HOBJECT WorldSession::CreateNPCGohanTLQ1()
-{
-	NPCTable* NpcTable = sTBM.GetNpcTable();
-	sNPC_TBLDAT* pNPCTblData = reinterpret_cast<sNPC_TBLDAT*>(NpcTable->FindData(6201101));
-	if (pNPCTblData != NULL)
-	{
-		SpawnNPC spawnData;
-		memset(&spawnData, 0, sizeof(SpawnNPC));
-
-		spawnData.wOpCode = GU_OBJECT_CREATE;
-		spawnData.wPacketSize = sizeof(SpawnNPC) - 2;
-
-
-		spawnData.CurEP = pNPCTblData->wBasic_EP;
-		spawnData.CurLP = pNPCTblData->wBasic_LP;
-		HOBJECT handle = sWorld.AcquireSerialId();
-		spawnData.Handle = handle;
-
-		//spawnData.Level = pNPCTblData->byLevel;
-		spawnData.MaxEP = pNPCTblData->wBasic_EP;
-		spawnData.MaxLP = pNPCTblData->wBasic_LP;
-		spawnData.Size = 10;
-		spawnData.OBJType = OBJTYPE_NPC;
-		spawnData.Tblidx = pNPCTblData->tblidx;
-
-		spawnData.fLastWalkingSpeed = 0.89999998;
-		spawnData.fLastRunningSpeed = 7.0;
-		spawnData.fLastAirSpeed = 7.0;
-		spawnData.fLastAirDashSpeed = 0.89999998;
-		spawnData.fLastAirDashAccelSpeed = 0.89999998;
-		spawnData.AttackSpeedRate = 1000;
-		spawnData.SkillAnimationSpeedModifier = 100;
-
-		sLog.outDebug("WalkSpeed %f run %d runOrigin %f walkOrigin %f",
-			pNPCTblData->fWalk_Speed, pNPCTblData->fRun_Speed, pNPCTblData->fRun_Speed_Origin, pNPCTblData->fWalk_Speed_Origin);
-		spawnData.TblidxMovementActionPatern = 1;
-
-		spawnData.State.sCharStateBase.aspectState.sAspectStateBase.byAspectStateId = 255;
-		spawnData.State.sCharStateBase.vCurLoc.x = 915.42999;// _player->m_position.x + rand() % 5;
-		spawnData.State.sCharStateBase.vCurLoc.y = 9.0;//_player->m_position.y;
-		spawnData.State.sCharStateBase.vCurLoc.z = -963.71002;//_player->m_position.z + rand() % 5;
-		spawnData.State.sCharStateBase.vCurDir.x = -0.22;//_player->m_rotation.x + rand() % 5;
-		spawnData.State.sCharStateBase.vCurDir.y = 0.0;// _player->m_rotation.y;
-		spawnData.State.sCharStateBase.vCurDir.z = -0.97000003;//_player->m_rotation.z + rand() % 5;
-		spawnData.State.sCharStateBase.byStateID = eCHARSTATE::CHARSTATE_SPAWNING;
-
-		//	sWorld.SendToAll((char*)&spawnData, sizeof(SpawnMOB));
-		//Need Insert In list
-		Npc* created_Npc = new Npc;
-		if (pNPCTblData)
-		{
-			if (created_Npc->Create(pNPCTblData, spawnData) == true)
-			{
-				created_Npc->GetMapRef().link(this->_player->GetMap(), created_Npc);
-				sLog.outString("Npc ID %d inserted into map", pNPCTblData->tblidx);
-				return created_Npc->GetHandle();
-				//_player->GetAttributesManager()->lastNPCQuest = INVALID_TBLIDX;
-				/*Timer.setTimeout([&]() {
-					created_Npc->GetState()->sCharStateDetail.sCharStateDestMove.byMoveFlag = 1;
-					created_Npc->GetState()->sCharStateDetail.sCharStateDestMove.byDestLocCount = 1;
-					created_Npc->GetState()->sCharStateDetail.sCharStateDestMove.avDestLoc[0].x = 881.15002;
-					created_Npc->GetState()->sCharStateDetail.sCharStateDestMove.avDestLoc[0].y = 0.0;
-					created_Npc->GetState()->sCharStateDetail.sCharStateDestMove.avDestLoc[0].z = -1002.0;
-					created_Npc->UpdateState(eCHARSTATE::CHARSTATE_DESTMOVE);
-					}, 2000);*/
-			/*}
-			else
-			{
-				delete created_Npc;
-			}
-		}
-	}
-	return INVALID_TBLIDX;
-}*/
 
 HOBJECT WorldSession::CreateNPCGohanTLQ1()
 {
@@ -4125,15 +4074,6 @@ HOBJECT WorldSession::CreateNPCGohanTLQ1()
 				created_Npc->GetMapRef().link(this->_player->GetMap(), created_Npc);
 				sLog.outString("Npc ID %d inserted into map", pNPCTblData->tblidx);
 				return handle;
-				//_player->GetAttributesManager()->lastNPCQuest = INVALID_TBLIDX;
-				/*Timer.setTimeout([&]() {
-					created_Npc->GetState()->sCharStateDetail.sCharStateDestMove.byMoveFlag = 1;
-					created_Npc->GetState()->sCharStateDetail.sCharStateDestMove.byDestLocCount = 1;
-					created_Npc->GetState()->sCharStateDetail.sCharStateDestMove.avDestLoc[0].x = 881.15002;
-					created_Npc->GetState()->sCharStateDetail.sCharStateDestMove.avDestLoc[0].y = 0.0;
-					created_Npc->GetState()->sCharStateDetail.sCharStateDestMove.avDestLoc[0].z = -1002.0;
-					created_Npc->UpdateState(eCHARSTATE::CHARSTATE_DESTMOVE);
-					}, 2000);*/
 			}
 			else
 			{
@@ -4201,15 +4141,6 @@ HOBJECT WorldSession::CreateNPCOxSatanTLQ2()
 				created_Npc->GetMapRef().link(this->_player->GetMap(), created_Npc);
 				sLog.outString("Npc ID %d inserted into map", pNPCTblData->tblidx);
 				return handle;
-				//_player->GetAttributesManager()->lastNPCQuest = INVALID_TBLIDX;
-				/*Timer.setTimeout([&]() {
-					created_Npc->GetState()->sCharStateDetail.sCharStateDestMove.byMoveFlag = 1;
-					created_Npc->GetState()->sCharStateDetail.sCharStateDestMove.byDestLocCount = 1;
-					created_Npc->GetState()->sCharStateDetail.sCharStateDestMove.avDestLoc[0].x = 881.15002;
-					created_Npc->GetState()->sCharStateDetail.sCharStateDestMove.avDestLoc[0].y = 0.0;
-					created_Npc->GetState()->sCharStateDetail.sCharStateDestMove.avDestLoc[0].z = -1002.0;
-					created_Npc->UpdateState(eCHARSTATE::CHARSTATE_DESTMOVE);
-					}, 2000);*/
 			}
 			else
 			{
@@ -4276,15 +4207,6 @@ HOBJECT	WorldSession::CreateNPCMilkTLQ2()
 				created_Npc->GetMapRef().link(this->_player->GetMap(), created_Npc);
 				sLog.outString("Npc ID %d inserted into map", pNPCTblData->tblidx);
 				return handle;
-				//_player->GetAttributesManager()->lastNPCQuest = INVALID_TBLIDX;
-				/*Timer.setTimeout([&]() {
-					created_Npc->GetState()->sCharStateDetail.sCharStateDestMove.byMoveFlag = 1;
-					created_Npc->GetState()->sCharStateDetail.sCharStateDestMove.byDestLocCount = 1;
-					created_Npc->GetState()->sCharStateDetail.sCharStateDestMove.avDestLoc[0].x = 881.15002;
-					created_Npc->GetState()->sCharStateDetail.sCharStateDestMove.avDestLoc[0].y = 0.0;
-					created_Npc->GetState()->sCharStateDetail.sCharStateDestMove.avDestLoc[0].z = -1002.0;
-					created_Npc->UpdateState(eCHARSTATE::CHARSTATE_DESTMOVE);
-					}, 2000);*/
 			}
 			else
 			{
@@ -4822,6 +4744,305 @@ HOBJECT	WorldSession::CreateMobDino4TLQ2()
 			}
 		}
 	}
+	return INVALID_TBLIDX;
+}
+
+HOBJECT	WorldSession::CreateNPCMilkTLQ3()
+{
+	NPCTable* NpcTable = sTBM.GetNpcTable();
+	sNPC_TBLDAT* pNPCTblData = reinterpret_cast<sNPC_TBLDAT*>(NpcTable->FindData(1701101));
+	if (pNPCTblData != NULL)
+	{
+		SpawnNPC spawnData;
+		memset(&spawnData, 0, sizeof(SpawnNPC));
+
+		spawnData.wOpCode = GU_OBJECT_CREATE;
+		spawnData.wPacketSize = sizeof(SpawnNPC) - 2;
+
+
+		spawnData.CurEP = pNPCTblData->wBasic_EP;
+		spawnData.CurLP = pNPCTblData->wBasic_LP;
+		HOBJECT handle = sWorld.AcquireSerialId();
+		spawnData.Handle = handle;
+
+		//spawnData.Level = pNPCTblData->byLevel;
+		spawnData.MaxEP = pNPCTblData->wBasic_EP;
+		spawnData.MaxLP = pNPCTblData->wBasic_LP;
+		spawnData.Size = 10;
+		spawnData.OBJType = OBJTYPE_NPC;
+		spawnData.Tblidx = pNPCTblData->tblidx;
+
+		spawnData.fLastWalkingSpeed = 24.;
+		spawnData.fLastRunningSpeed = 8.;
+		spawnData.fLastAirSpeed = 8.;
+		spawnData.fLastAirDashSpeed = 24.;
+		spawnData.fLastAirDashAccelSpeed = 24.;
+		spawnData.AttackSpeedRate = 1000;
+		spawnData.SkillAnimationSpeedModifier = 100;
+
+		sLog.outDebug("WalkSpeed %f run %d runOrigin %f walkOrigin %f",
+			pNPCTblData->fWalk_Speed, pNPCTblData->fRun_Speed, pNPCTblData->fRun_Speed_Origin, pNPCTblData->fWalk_Speed_Origin);
+		spawnData.TblidxMovementActionPatern = 1;
+
+		spawnData.State.sCharStateBase.aspectState.sAspectStateBase.byAspectStateId = 255;
+		spawnData.State.sCharStateBase.vCurLoc.x = -123.44;// _player->m_position.x + rand() % 5;
+		spawnData.State.sCharStateBase.vCurLoc.y = 22.;//_player->m_position.y;
+		spawnData.State.sCharStateBase.vCurLoc.z = -16.34;//_player->m_position.z + rand() % 5;
+		spawnData.State.sCharStateBase.vCurDir.x = 0.51999998;//_player->m_rotation.x + rand() % 5;
+		spawnData.State.sCharStateBase.vCurDir.y = 0.0;// _player->m_rotation.y;
+		spawnData.State.sCharStateBase.vCurDir.z = 0.86000001;//_player->m_rotation.z + rand() % 5;
+		spawnData.State.sCharStateBase.byStateID = eCHARSTATE::CHARSTATE_SPAWNING;
+
+		//	sWorld.SendToAll((char*)&spawnData, sizeof(SpawnMOB));
+		//Need Insert In list
+		Npc* created_Npc = new Npc;
+		if (pNPCTblData)
+		{
+			if (created_Npc->Create(pNPCTblData, spawnData) == true)
+			{
+				created_Npc->GetMapRef().link(this->_player->GetMap(), created_Npc);
+				sLog.outString("Npc ID %d inserted into map", pNPCTblData->tblidx);
+				return handle;
+				//_player->GetAttributesManager()->lastNPCQuest = INVALID_TBLIDX;
+				/*Timer.setTimeout([&]() {
+					created_Npc->GetState()->sCharStateDetail.sCharStateDestMove.byMoveFlag = 1;
+					created_Npc->GetState()->sCharStateDetail.sCharStateDestMove.byDestLocCount = 1;
+					created_Npc->GetState()->sCharStateDetail.sCharStateDestMove.avDestLoc[0].x = 881.15002;
+					created_Npc->GetState()->sCharStateDetail.sCharStateDestMove.avDestLoc[0].y = 0.0;
+					created_Npc->GetState()->sCharStateDetail.sCharStateDestMove.avDestLoc[0].z = -1002.0;
+					created_Npc->UpdateState(eCHARSTATE::CHARSTATE_DESTMOVE);
+					}, 2000);*/
+			}
+			else
+			{
+				delete created_Npc;
+			}
+		}
+	}
+	return INVALID_TBLIDX;
+}
+
+HOBJECT	WorldSession::ConvertNPC1MobNPC(TBLIDX mobTblidx, NTL_TS_T_ID tid)
+{
+	HOBJECT handleNpc = _player->GetTarget();
+	QuestData* quest = _player->GetQuestManager()->FindQuestById(tid);
+	if (quest)
+	{
+		handleNpc = quest->tlq3Info.handleNpc1;
+		sLog.outDebug("NPC1 NPC HANDLES 1: %d, 2: %d", quest->tlq3Info.handleNpc1, _player->GetTarget());
+	}
+
+	Npc* curr_Npc = static_cast<Npc*>(_player->GetFromList(handleNpc));
+	if (curr_Npc)
+	{
+
+		MobTable* MobTable = sTBM.GetMobTable();
+		sMOB_TBLDAT* pMOBTblData = reinterpret_cast<sMOB_TBLDAT*>(MobTable->FindData(mobTblidx));
+		if (pMOBTblData != NULL)
+		{
+			sLog.outDebug("Converting...");
+			//if (spawnTbl)
+			//{
+			SpawnMOB spawnData;
+			memset(&spawnData, 0, sizeof(SpawnMOB));
+
+			spawnData.wOpCode = GU_OBJECT_CREATE;
+			spawnData.wPacketSize = sizeof(SpawnMOB) - 2;
+
+
+			spawnData.curEP = pMOBTblData->wBasic_EP;
+			spawnData.curLP = pMOBTblData->wBasic_LP;
+			HOBJECT handle = sWorld.AcquireSerialId();
+			spawnData.Handle = handle;
+
+			spawnData.Level = pMOBTblData->byLevel;
+			spawnData.maxEP = pMOBTblData->wBasic_EP;
+			spawnData.maxLP = pMOBTblData->wBasic_LP;
+			spawnData.Size = 10;
+			spawnData.Type = OBJTYPE_MOB;
+			spawnData.Tblidx = pMOBTblData->tblidx;
+
+			spawnData.fLastWalkingSpeed = 2.8599999;
+			spawnData.fLastRunningSpeed = 6.5999999;
+			spawnData.fLastAirgSpeed = 6.5999999;
+			spawnData.fLastAirgDashSpeed = 2.8599999;
+			spawnData.fLastAirgDashAccelSpeed = 2.8599999;
+			spawnData.AttackSpeedRate = 1000;
+			spawnData.SkillAnnimationSpeedModifier = 100.0;
+			spawnData.TBLIDXMovementAcionPattern = 1;
+			spawnData.Level = pMOBTblData->byLevel;;
+			spawnData.byBallType = 0;
+
+			spawnData.State.sCharStateBase.aspectState.sAspectStateBase.byAspectStateId = 255;
+			spawnData.State.sCharStateBase.vCurLoc.x = curr_Npc->GetVectorPosition().x;
+			spawnData.State.sCharStateBase.vCurLoc.y = curr_Npc->GetVectorPosition().y;
+			spawnData.State.sCharStateBase.vCurLoc.z = curr_Npc->GetVectorPosition().z;
+			spawnData.State.sCharStateBase.vCurDir.x = curr_Npc->GetVectorOriantation().x;
+			spawnData.State.sCharStateBase.vCurDir.y = curr_Npc->GetVectorOriantation().y;
+			spawnData.State.sCharStateBase.vCurDir.z = curr_Npc->GetVectorOriantation().z;
+			spawnData.State.sCharStateBase.byStateID = eCHARSTATE::CHARSTATE_SPAWNING;
+
+			//	sWorld.SendToAll((char*)&spawnData, sizeof(SpawnMOB));
+			//Need Insert In list
+			Mob* created_mob = new Mob;
+			if (pMOBTblData)
+			{
+				if (created_mob->Create(pMOBTblData, spawnData) == true)
+				{
+					created_mob->GetMapRef().link(this->_player->GetMap(), created_mob);
+					created_mob->SetInitialSpawn(true);
+					sLog.outDebug("--------------MOB QUEST ----------------");
+					sLog.outDebug("Mob ID %d inserted into map", pMOBTblData->tblidx);
+					NTL_TS_T_ID questId = _player->GetQuestManager()->FindQuestByMob(mobTblidx);
+					QuestData* quest = _player->GetQuestManager()->FindQuestById(questId);
+					if (quest)
+					{
+						quest->sPawnMobQuest = false;
+						sLog.outBasic("New system spawn mob quest: %d", quest->sPawnMobQuest);
+					}
+
+					//_player->GetAttributesManager()->sPawnMobQuest = false;
+
+
+					sGU_OBJECT_DESTROY sPacket;
+
+					sPacket.wOpCode = GU_OBJECT_DESTROY;
+					sPacket.handle = curr_Npc->GetHandle();//_player->GetAttributesManager()->tlq1Info.handleNpc;
+					sPacket.wPacketSize = sizeof(sGU_OBJECT_DESTROY) - 2;
+
+					_player->SendPacket((char*)&sPacket, sizeof(sGU_OBJECT_DESTROY));
+					curr_Npc->SetIsBecomeMob(true);
+					curr_Npc->RemoveFromWorld();
+					_player->RemoveFromList(*curr_Npc);
+					sLog.outDebug("NPC deleted");
+
+					return handle;
+				}
+				else
+					delete created_mob;
+			}
+			else
+			{
+				sLog.outDebug("--------------MOB NOT FOUND----------------");
+			}
+			//}
+			//sLog.outDebug("INVALID_TBLIDX SPAWN NOT FOUND");
+			//return INVALID_TBLIDX;
+		}
+	}
+	sLog.outDebug("--------------NPC NOT FOUND----------------");
+	return INVALID_TBLIDX;
+}
+
+HOBJECT	WorldSession::ConvertNPC2MobNPC(TBLIDX mobTblidx, NTL_TS_T_ID tid)
+{
+	HOBJECT handleNpc = _player->GetTarget();
+	QuestData* quest = _player->GetQuestManager()->FindQuestById(tid);
+	if (quest)
+	{
+		handleNpc = quest->tlq3Info.handleNpc2;
+		sLog.outDebug("NPC1 NPC HANDLES 1: %d, 2: %d", quest->tlq3Info.handleNpc2, _player->GetTarget());
+	}
+
+	Npc* curr_Npc = static_cast<Npc*>(_player->GetFromList(handleNpc));
+	if (curr_Npc)
+	{
+
+		MobTable* MobTable = sTBM.GetMobTable();
+		sMOB_TBLDAT* pMOBTblData = reinterpret_cast<sMOB_TBLDAT*>(MobTable->FindData(mobTblidx));
+		if (pMOBTblData != NULL)
+		{
+			sLog.outDebug("Converting...");
+			//if (spawnTbl)
+			//{
+			SpawnMOB spawnData;
+			memset(&spawnData, 0, sizeof(SpawnMOB));
+
+			spawnData.wOpCode = GU_OBJECT_CREATE;
+			spawnData.wPacketSize = sizeof(SpawnMOB) - 2;
+
+
+			spawnData.curEP = pMOBTblData->wBasic_EP;
+			spawnData.curLP = pMOBTblData->wBasic_LP;
+			HOBJECT handle = sWorld.AcquireSerialId();
+			spawnData.Handle = handle;
+
+			spawnData.Level = pMOBTblData->byLevel;
+			spawnData.maxEP = pMOBTblData->wBasic_EP;
+			spawnData.maxLP = pMOBTblData->wBasic_LP;
+			spawnData.Size = 10;
+			spawnData.Type = OBJTYPE_MOB;
+			spawnData.Tblidx = pMOBTblData->tblidx;
+
+			spawnData.fLastWalkingSpeed = 2.8599999;
+			spawnData.fLastRunningSpeed = 6.5999999;
+			spawnData.fLastAirgSpeed = 6.5999999;
+			spawnData.fLastAirgDashSpeed = 2.8599999;
+			spawnData.fLastAirgDashAccelSpeed = 2.8599999;
+			spawnData.AttackSpeedRate = 1000;
+			spawnData.SkillAnnimationSpeedModifier = 100.0;
+			spawnData.TBLIDXMovementAcionPattern = 1;
+			spawnData.Level = pMOBTblData->byLevel;;
+			spawnData.byBallType = 0;
+
+			spawnData.State.sCharStateBase.aspectState.sAspectStateBase.byAspectStateId = 255;
+			spawnData.State.sCharStateBase.vCurLoc.x = curr_Npc->GetVectorPosition().x;
+			spawnData.State.sCharStateBase.vCurLoc.y = curr_Npc->GetVectorPosition().y;
+			spawnData.State.sCharStateBase.vCurLoc.z = curr_Npc->GetVectorPosition().z;
+			spawnData.State.sCharStateBase.vCurDir.x = curr_Npc->GetVectorOriantation().x;
+			spawnData.State.sCharStateBase.vCurDir.y = curr_Npc->GetVectorOriantation().y;
+			spawnData.State.sCharStateBase.vCurDir.z = curr_Npc->GetVectorOriantation().z;
+			spawnData.State.sCharStateBase.byStateID = eCHARSTATE::CHARSTATE_SPAWNING;
+
+			//	sWorld.SendToAll((char*)&spawnData, sizeof(SpawnMOB));
+			//Need Insert In list
+			Mob* created_mob = new Mob;
+			if (pMOBTblData)
+			{
+				if (created_mob->Create(pMOBTblData, spawnData) == true)
+				{
+					created_mob->GetMapRef().link(this->_player->GetMap(), created_mob);
+					created_mob->SetInitialSpawn(true);
+					sLog.outDebug("--------------MOB QUEST ----------------");
+					sLog.outDebug("Mob ID %d inserted into map", pMOBTblData->tblidx);
+					NTL_TS_T_ID questId = _player->GetQuestManager()->FindQuestByMob(mobTblidx);
+					QuestData* quest = _player->GetQuestManager()->FindQuestById(questId);
+					if (quest)
+					{
+						quest->sPawnMobQuest = false;
+						sLog.outBasic("New system spawn mob quest: %d", quest->sPawnMobQuest);
+					}
+
+					//_player->GetAttributesManager()->sPawnMobQuest = false;
+
+
+					sGU_OBJECT_DESTROY sPacket;
+
+					sPacket.wOpCode = GU_OBJECT_DESTROY;
+					sPacket.handle = curr_Npc->GetHandle();//_player->GetAttributesManager()->tlq1Info.handleNpc;
+					sPacket.wPacketSize = sizeof(sGU_OBJECT_DESTROY) - 2;
+
+					_player->SendPacket((char*)&sPacket, sizeof(sGU_OBJECT_DESTROY));
+					curr_Npc->SetIsBecomeMob(true);
+					curr_Npc->RemoveFromWorld();
+					_player->RemoveFromList(*curr_Npc);
+					sLog.outDebug("NPC deleted");
+
+					return handle;
+				}
+				else
+					delete created_mob;
+			}
+			else
+			{
+				sLog.outDebug("--------------MOB NOT FOUND----------------");
+			}
+			//}
+			//sLog.outDebug("INVALID_TBLIDX SPAWN NOT FOUND");
+			//return INVALID_TBLIDX;
+		}
+	}
+	sLog.outDebug("--------------NPC NOT FOUND----------------");
 	return INVALID_TBLIDX;
 }
 

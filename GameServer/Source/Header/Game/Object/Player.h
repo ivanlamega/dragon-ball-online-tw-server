@@ -126,6 +126,7 @@ public:
 	void				SendToPlayerList(char* data, size_t size);
 	bool				isInList(uint32 id);
 	Object				*GetFromList(uint32 id);
+	HOBJECT				GetHandleByTBlidx(TBLIDX objectTblidx);
 
 	void				AddDropToList(DroppedObject& drop, HOBJECT dropHandle);
 	void				RemoveDropFromList(HOBJECT handle);
@@ -226,6 +227,7 @@ private:
 	std::mutex			mutexDropList;
 
 	std::map<uint32, Object*> objList;
+	std::map<TBLIDX, HOBJECT> tblidxHandle;
 	std::map<uint32, DroppedObject*>	DropList;
 	WorldSession*		m_session;
 	CommunitySession*   m_cSession;
