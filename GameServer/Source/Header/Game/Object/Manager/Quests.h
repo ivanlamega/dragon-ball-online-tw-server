@@ -90,6 +90,8 @@ public:
 
 
 	HOBJECT							handleNpcTlq1Temp;
+	HOBJECT							handleNpcMilkTlq3Temp;
+	HOBJECT							handleNpcGokuTlq3Temp;
 };
 
 #endif

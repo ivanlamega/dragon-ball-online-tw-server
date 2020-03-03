@@ -203,7 +203,7 @@ public:
 	void			EvtVisit(CDboTSActSToCEvt* sToCEvt, NTL_TS_T_ID tid);
 	// TS Quest
 	ResultCodes		FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req);
-	ResultCodes		ProcessTSContStart(CDboTSContStart * contStart, NTL_TS_T_ID tid);
+	ResultCodes		ProcessTSContStart(CDboTSContStart * contStart, NTL_TS_T_ID tid, NTL_TS_TC_ID tcId);
 	ResultCodes		ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_ID tid, NTL_TS_TC_ID tcId);
 	ResultCodes		ProcessTsContGCond(CDboTSContGCond * contGCond, NTL_TS_T_ID tid, NTL_TS_TC_ID tcId);
 	ResultCodes		ProcessTsContReward(CDboTSContReward * contReward, DWORD dwParam);

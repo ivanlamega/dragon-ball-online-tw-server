@@ -791,7 +791,7 @@ void WorldSession::SendQuestAcept(Packet& packet)
 	}
 }
 
-ResultCodes WorldSession::ProcessTSContStart(CDboTSContStart * contStart, NTL_TS_T_ID tid)
+ResultCodes WorldSession::ProcessTSContStart(CDboTSContStart * contStart, NTL_TS_T_ID tid, NTL_TS_TC_ID tcId)
 {
 	// Add quest new system
 	QuestData newQuest;
@@ -828,6 +828,18 @@ ResultCodes WorldSession::ProcessTSContStart(CDboTSContStart * contStart, NTL_TS
 				{
 					return RESULT_FAIL;
 				}
+
+				if (tid == 11625 && tcId == 0)
+				{
+					QuestData* quest = _player->GetQuestManager()->FindQuestById(tid);
+					if (quest)
+					{
+						quest->tlq3Info.handleNpcGoku = _player->GetQuestManager()->handleNpcGokuTlq3Temp;
+						quest->tlq3Info.handleNpcMilk = _player->GetQuestManager()->handleNpcMilkTlq3Temp;
+						sLog.outBasic("HANDLE GOKU TLQ3 %d", _player->GetQuestManager()->handleNpcGokuTlq3Temp);
+					}
+				}
+
 				sLog.outDetail("Quest: not size: %d  and size: %d or size: %d", clrQst->GetNotIdList().size(), clrQst->GetAndIdList().size(), clrQst->GetOrIdList().size());
 				break;
 			}
@@ -914,12 +926,6 @@ ResultCodes WorldSession::ProcessTSContStart(CDboTSContStart * contStart, NTL_TS
 						}
 					}
 					// TLQ2 -----------------------------
-					// TLQ3 -----------------------------
-					else if (rcvSvrEvt->GetEvtID() == 16750)
-					{
-						CreateNPCGokuTLQ3();
-					}
-					// TLQ3 -----------------------------
 				}
 				break;
 			}
@@ -1248,7 +1254,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 						Timer.setTimeout([&](NTL_TS_T_ID tid) {
 							SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, 16712);
 							HOBJECT handleNpc = CreateNPCMilkTLQ3();
-
+							_player->GetQuestManager()->handleNpcMilkTlq3Temp = handleNpc;
 							QuestData* quest = _player->GetQuestManager()->FindQuestById(tid);
 							if (quest)
 							{
@@ -1278,6 +1284,10 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 							_player->GetQuestManager()->AddMobQuest(idMobNpc1, quest->QuestID);
 							_player->GetQuestManager()->AddMobQuest(idMobNpc2, quest->QuestID);
 						}
+					}
+					else if (sendSvrEvt->GetSvrEvtID() == 16780)
+					{
+						SendCharDirectPlay(true, 1, 1044);
 					}
 					// TLQ3 --------------------
 					else
@@ -2215,6 +2225,79 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 				}
 				break;
 			}
+			case DBO_ACT_TYPE_ID_ACT_ESCORT:
+			{
+				CDboTSActEscort* escort = ((CDboTSActEscort*)contGAct->GetChildEntity(i));
+				if (escort)
+				{
+					sLog.outDebug("Npc tblidx %d entityType %d escortType %d", escort->GetNPCTableIndex(), escort->GetEntityType(), escort->GetEscortType());
+					if (escort->GetEscortType() == eESCORT_TYPE::ESCORT_TYPE_TARGET_FOLLOW)
+					{
+						QuestData* quest = _player->GetQuestManager()->FindQuestById(tid);
+						if (quest)
+						{
+							Npc* NpcInfo = static_cast<Npc*>(_player->GetFromList(quest->tlq3Info.handleNpcGoku));
+							if (NpcInfo)
+							{
+								NpcInfo->GetState()->sCharStateDetail.sCharStateFollwing.byMoveFlag = 1;
+								NpcInfo->GetState()->sCharStateDetail.sCharStateFollwing.dwTimeStamp = 0;
+								NpcInfo->GetState()->sCharStateDetail.sCharStateFollwing.hTarget = _player->GetHandle();
+								NpcInfo->GetState()->sCharStateDetail.sCharStateFollwing.fDistance = 2.3287501;
+								NpcInfo->GetState()->sCharStateDetail.sCharStateFollwing.byMovementReason = 0;
+								NpcInfo->UpdateState(eCHARSTATE::CHARSTATE_FOLLOWING);
+								sLog.outBasic("GOKU FOLLOW THE PLAYER");
+								sLog.outBasic("Milk handle %d %d", quest->tlq3Info.handleNpcMilk, _player->GetQuestManager()->handleNpcMilkTlq3Temp);
+
+								int idTimer = Timer.GetNewId();
+								Timer.setInterval([&]() {
+
+									if (NtlGetDistance(-123.44, -16.34, _player->m_position.x, _player->m_position.z) <= 50)
+									{
+										SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, 16770);
+									}
+									else
+									{
+										sLog.outBasic("Not in range of milk");
+									}
+
+									}, 1000, idTimer);
+
+								Npc* NpcInfoMilk = static_cast<Npc*>(_player->GetFromList(quest->tlq3Info.handleNpcMilk));
+								if (NpcInfoMilk)
+								{
+									sVECTOR3 posMilk;
+									NpcInfoMilk->GetPosition(posMilk.x, posMilk.y, posMilk.z);
+									sLog.outBasic("Pos Milk (%f, %f, %f)", posMilk.x, posMilk.y, posMilk.z);
+									
+									/*int idTimer = Timer.GetNewId();
+									TimerArguments<sVECTOR3> args(idTimer, posMilk);
+									Timer.setInterval([&](TimerArguments<sVECTOR3> args) {
+
+										if (NtlGetDistance(args.Argument.x, args.Argument.z, _player->m_position.x, _player->m_position.z) <= 50)
+										{
+											SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, 16770);
+										}
+										else
+										{
+											sLog.outBasic("Not in range of milk");
+										}
+
+										}, 1000, args, idTimer);*/
+								}
+								else
+								{
+									sLog.outError("NPC MILK NOT FOUND ---------------");
+								}
+							}
+							else
+							{
+								sLog.outError("NPC GOKU NOT FOUND ---------------");
+							}
+						}
+					}
+				}
+				break;
+			}
 		}
 	}
 	return RESULT_SUCCESS;
@@ -2361,6 +2444,20 @@ ResultCodes WorldSession::ProcessTsContGCond(CDboTSContGCond * contGCond, NTL_TS
 						}
 					}
 					// TLQ1 -----------------------------
+					// TLQ3 -----------------------------
+					else if (rcvSvrEvt->GetEvtID() == 16750)
+					{
+						HOBJECT handleNpc = CreateNPCGokuTLQ3();
+						_player->GetQuestManager()->AddNPCSpawnedQuest(handleNpc, tid);
+						_player->GetQuestManager()->handleNpcGokuTlq3Temp = handleNpc;
+						QuestData* quest = _player->GetQuestManager()->FindQuestById(tid);
+						if (quest)
+						{
+							quest->tlq3Info.handleNpcGoku = handleNpc;
+							sLog.outBasic("New system: Handle goku TLQ3 %d", handleNpc);
+						}
+					}
+					// TLQ3 -----------------------------
 				}
 				break;
 			}
@@ -2930,7 +3027,7 @@ ResultCodes WorldSession::FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req)
 			{
 				return RESULT_FAIL;
 			}
-			if (ProcessTSContStart(contStart, req->tId) == RESULT_FAIL)
+			if (ProcessTSContStart(contStart, req->tId, req->tcCurId) == RESULT_FAIL)
 			{
 				return RESULT_FAIL;
 			}
