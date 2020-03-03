@@ -239,6 +239,8 @@ public:
 	HOBJECT			ConvertNPC2MobNPC(TBLIDX mobTblidx, NTL_TS_T_ID tid);
 	HOBJECT			CreateNPCGokuTLQ3();
 	HOBJECT			CreateNPCOolongTLQ3();
+	HOBJECT			CreateNPCNpc1TLQ3();
+	HOBJECT			CreateNPCNpc2TLQ3();
 	//RankBatle
 	void			GetPlayerFromRankList();
 	
