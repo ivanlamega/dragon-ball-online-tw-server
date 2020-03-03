@@ -35,6 +35,7 @@ public:
 	eOBJTYPE			GetTypeId() const;
 	uint32				GetHandle() const;
 	TBLIDX				GetTblidx() const;
+	void				SetTblidx(TBLIDX objTblidx);
 	sCHARSTATE*			GetState() { return &State; }
 
 	void				Relocate(float x, float y, float z, float Ox, float Oy, float Oz);
