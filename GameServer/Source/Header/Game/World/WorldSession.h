@@ -237,6 +237,7 @@ public:
 	HOBJECT			CreateNPCMilkTLQ3();
 	HOBJECT			ConvertNPC1MobNPC(TBLIDX mobTblidx, NTL_TS_T_ID tid);
 	HOBJECT			ConvertNPC2MobNPC(TBLIDX mobTblidx, NTL_TS_T_ID tid);
+	HOBJECT			CreateNPCGokuTLQ3();
 	//RankBatle
 	void			GetPlayerFromRankList();
 	

@@ -398,6 +398,7 @@ void Map::CheckObjectInRange()
 				{
 					if (plr->isInList(curr_Npc->GetHandle()) == false && curr_Npc->GetIsDead() == false && curr_Npc->GetIsBecomeMob() == false)
 					{
+						curr_Npc->SetTblidx(curr_Npc->GetNpcData().MonsterID);
 						plr->FillList(*curr_Npc);
 						SpawnNPC spawn;
 						curr_Npc->BuildPacketForSpawn(spawn);
@@ -441,6 +442,7 @@ void Map::CheckObjectInRange()
 					{
 						if (plr->isInList(curr_Mob->GetHandle()) == false)
 						{
+							curr_Mob->SetTblidx(curr_Mob->GetMobData().MonsterID);
 							plr->FillList(*curr_Mob);
 							SpawnMOB spawn;
 							curr_Mob->BuildPacketForSpawn(spawn);

@@ -74,6 +74,13 @@ TBLIDX Object::GetTblidx() const
 	return tblidx;
 }
 //----------------------------------------
+//	Set our object tblidx
+//----------------------------------------
+void Object::SetTblidx(TBLIDX objTblidx)
+{
+	tblidx = objTblidx;
+}
+//----------------------------------------
 //	Relocate our object at position
 //	Pos - Dir
 //----------------------------------------
