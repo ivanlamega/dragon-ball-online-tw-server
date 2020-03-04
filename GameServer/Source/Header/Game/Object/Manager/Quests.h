@@ -64,6 +64,8 @@ private:
 public:
 	void							AddMobQuest(TBLIDX mobTblidx, NTL_TS_T_ID questId);
 	NTL_TS_T_ID						FindQuestByMob(TBLIDX mobTblidx);
+	void							DeleteMobsQuest(NTL_TS_T_ID questId);
+	void							DeleteMobQuest(TBLIDX mobTblidx);
 	MOBQUESTIT						MobQuestBegin() { return m_pMobQuestList.begin(); };
 	MOBQUESTIT						MobQuestEnd() { return m_pMobQuestList.end(); };
 

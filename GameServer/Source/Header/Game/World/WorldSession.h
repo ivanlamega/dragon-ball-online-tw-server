@@ -241,6 +241,10 @@ public:
 	HOBJECT			CreateNPCOolongTLQ3();
 	HOBJECT			CreateNPCNpc1TLQ3();
 	HOBJECT			CreateNPCNpc2TLQ3();
+	HOBJECT			CreateNPCNpc3TLQ3();
+	HOBJECT			ConvertNPC1MobNPC2(TBLIDX mobTblidx, NTL_TS_T_ID tid);
+	HOBJECT			ConvertNPC2MobNPC2(TBLIDX mobTblidx, NTL_TS_T_ID tid);
+	HOBJECT			ConvertNPC3MobNPC(TBLIDX mobTblidx, NTL_TS_T_ID tid);
 	//RankBatle
 	void			GetPlayerFromRankList();
 	

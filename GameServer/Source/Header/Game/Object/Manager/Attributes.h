@@ -61,6 +61,7 @@ struct TLQ3Info
 	HOBJECT handleNpcMilk;
 	HOBJECT handleNpc1;
 	HOBJECT handleNpc2;
+	HOBJECT handleNpc3;
 	HOBJECT handleNpcGoku;
 	int		maxKillMob;
 	int		curKillMob;

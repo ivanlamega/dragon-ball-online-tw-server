@@ -3237,17 +3237,25 @@ void Player::RewardDropFromMob(MonsterData& data)
 	}
 	// TLQ2-------------------
 	// TLQ3-------------------
-	else if (data.MonsterID == 4131101 || data.MonsterID == 4132101)
+	else if (data.MonsterID == 4131101 || data.MonsterID == 4132101 || data.MonsterID == 1591101)
 	{
 		NTL_TS_T_ID questId = GetQuestManager()->FindQuestByMob(data.MonsterID);
 		QuestData* quest = GetQuestManager()->FindQuestById(questId);
 		if (quest)
 		{
 			quest->tlq3Info.curKillMob++;
-			sLog.outDetail("Kill mob tlq3 %d", data.MonsterID);
+			GetQuestManager()->DeleteMobQuest(data.MonsterID);
+			sLog.outDetail("Kill mob tlq3 %d quest %d max kill %d", data.MonsterID, quest->QuestID, quest->tlq3Info.maxKillMob);
 			if (quest->tlq3Info.curKillMob >= quest->tlq3Info.maxKillMob)
 			{
-				m_session->SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, 16960);
+				if (quest->tlq3Info.maxKillMob <= 2)
+				{
+					m_session->SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, 16960);
+				}
+				else if (quest->tlq3Info.maxKillMob >= 3)
+				{
+					m_session->SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, 16990);
+				}
 			}
 		}
 	}
