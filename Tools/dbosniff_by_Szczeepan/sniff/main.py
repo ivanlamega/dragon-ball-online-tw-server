@@ -5,6 +5,9 @@ import struct
 import hashlib
 import enum_parser
 
+enableFilterNpc = True
+enableFilterMob = False
+
 log = ""
 log_counter = 1
 handles = {}
@@ -50,8 +53,18 @@ def get_name(opcode, data, h):
         if type == 0:
             nick_raw = data[18:52]
             nick = wstring2string(nick_raw)
-            handles[handle] = [nick, 1]
+            handles[handle] = [nick, 1, 0]
             return ["{0}_{1}".format(nick, handle), "{0}_{1}_{2}_{3}.bin".format(1, opcode, type, h)]
+        elif type == 1 and enableFilterNpc:
+            tblidx_raw = data[9:13]
+            tblidx = struct.unpack("I", tblidx_raw)[0]
+            handles[handle] = [tblidx, 1, 1]
+            return ["NPC_{0}_{1}".format(tblidx, handle), "{0}_{1}_{2}_{3}.bin".format(1, opcode, type, h)]
+        elif type == 2 and enableFilterMob:
+            tblidx_raw = data[9:13]
+            tblidx = struct.unpack("I", tblidx_raw)[0]
+            handles[handle] = [tblidx, 1, 2]
+            return ["MOB_{0}_{1}".format(tblidx, handle), "{0}_{1}_{2}_{3}.bin".format(1, opcode, type, h)]
         else:
             return ["", "{0}_{1}_{2}_{3}.bin".format(log_counter, opcode, type, h)]
     if opcode == "GU_TS_CONFIRM_STEP_RES":
@@ -61,10 +74,22 @@ def get_name(opcode, data, h):
     if(len(data) > 9):
         handle = struct.unpack("I", data[4:8])[0]
         if handle in handles:
-            nick = handles[handle]
-            i = handles[handle][1] + 1
-            handles[handle][1] = i
-            return ["{0}_{1}".format(nick[0], handle), "{0}_{1}_{2}.bin".format(i, opcode, h)]
+            if handles[handle][2] == 0:
+                nick = handles[handle]
+                i = handles[handle][1] + 1
+                handles[handle][1] = i
+                return ["{0}_{1}".format(nick[0], handle), "{0}_{1}_{2}.bin".format(i, opcode, h)]
+            elif handles[handle][2] == 1:
+                tblidx = handles[handle][0]
+                i = handles[handle][1] + 1
+                handles[handle][1] = i
+                return ["NPC_{0}_{1}".format(tblidx, handle), "{0}_{1}_{2}.bin".format(i, opcode, h)]
+            elif handles[handle][2] == 2:
+                tblidx = handles[handle][0]
+                i = handles[handle][1] + 1
+                handles[handle][1] = i
+                return ["MOB_{0}_{1}".format(tblidx, handle), "{0}_{1}_{2}.bin".format(i, opcode, h)]
+
 
     return ['',"{0}_{1}_{2}.bin".format(log_counter, opcode, h)]
 
