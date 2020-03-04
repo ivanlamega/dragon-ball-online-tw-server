@@ -245,6 +245,12 @@ public:
 	HOBJECT			ConvertNPC1MobNPC2(TBLIDX mobTblidx, NTL_TS_T_ID tid);
 	HOBJECT			ConvertNPC2MobNPC2(TBLIDX mobTblidx, NTL_TS_T_ID tid);
 	HOBJECT			ConvertNPC3MobNPC(TBLIDX mobTblidx, NTL_TS_T_ID tid);
+	HOBJECT			CreateNPCPicoloTLQ3();
+	HOBJECT			CreateNPCTenshinhanTLQ3();
+	HOBJECT			CreateNPCGoku2TLQ3();
+	HOBJECT			CreateNPCKrillinTLQ3();
+	HOBJECT			CreateNPCChaozTLQ3();
+	HOBJECT			CreateNPCYamchaTLQ3();
 	//RankBatle
 	void			GetPlayerFromRankList();
 	
