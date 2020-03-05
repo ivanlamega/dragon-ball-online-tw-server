@@ -1162,9 +1162,45 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 					sLog.outDebug("Quest: evtSendType %d radius %d evtType %d evtId %d trigger type %d tblidx %d",
 						sendSvrEvt->GetEvtSendType(), sendSvrEvt->GetEvtSendType_Radius(), sendSvrEvt->GetSvrEvtType(),
 						sendSvrEvt->GetSvrEvtID(), sendSvrEvt->GetSvrEvtTriggerType(), sendSvrEvt->GetTblIdx());
+					// Tutorial ------------------------
+					if (sendSvrEvt->GetSvrEvtID() == 1100001)
+					{
+						HOBJECT handleMob = SpawnMobByTblidx(1411104);
+						Mob* mobInfo = static_cast<Mob*>(_player->GetFromList(handleMob));
+						if (mobInfo)
+						{
+							sVECTOR3 mobPos;
+							mobInfo->GetPosition(mobPos.x, mobPos.y, mobPos.z);
+							SendDirectionIndicateNfy(true, mobPos.x, mobPos.y, mobPos.z);
+						}
+					}
+					else if (sendSvrEvt->GetSvrEvtID() == 1100201)
+					{
+						HOBJECT handleMob = SpawnMobByTblidx(4911110);
+						Mob* mobInfo = static_cast<Mob*>(_player->GetFromList(handleMob));
+						if (mobInfo)
+						{
+							sVECTOR3 mobPos;
+							mobInfo->GetPosition(mobPos.x, mobPos.y, mobPos.z);
+							SendDirectionIndicateNfy(true, mobPos.x, mobPos.y, mobPos.z);
+						}
+					}
+					else if (sendSvrEvt->GetSvrEvtID() == 1100401)
+					{
+						HOBJECT handleMob = SpawnMobByTblidx(7211113);
+						Mob* mobInfo = static_cast<Mob*>(_player->GetFromList(handleMob));
+						if (mobInfo)
+						{
+							sVECTOR3 mobPos;
+							mobInfo->GetPosition(mobPos.x, mobPos.y, mobPos.z);
+							SendDirectionIndicateNfy(true, mobPos.x, mobPos.y, mobPos.z);
+						}
+					}
+					// Tutorial ------------------------
+
 					// TLQ1 --------------------
 
-					if (sendSvrEvt->GetSvrEvtID() == 16130)
+					else if (sendSvrEvt->GetSvrEvtID() == 16130)
 					{
 						sOBJECT_TBLDAT* obj = (sOBJECT_TBLDAT*)sTBM.GetObjectTable(120000)->FindData(6);
 						if (obj)
@@ -1909,7 +1945,8 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 						{
 							sLog.outDebug("Pos %f %f %f",
 								dirIndicator->GetDirectionIndicatorData().sPos.fX, dirIndicator->GetDirectionIndicatorData().sPos.fY, dirIndicator->GetDirectionIndicatorData().sPos.fZ);
-							SendDirectionIndicateNfy(dirIndicator->GetDirectionIndicatorData().sPos.fX,
+							SendDirectionIndicateNfy(true,
+								dirIndicator->GetDirectionIndicatorData().sPos.fX,
 								dirIndicator->GetDirectionIndicatorData().sPos.fY,
 								dirIndicator->GetDirectionIndicatorData().sPos.fZ);
 							sLog.outDebug("DIRECTION_INDICATE_TYPE_POINT");
@@ -7234,7 +7271,7 @@ void WorldSession::SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, 
 	 SendPacket((char*)&nfy, sizeof(sGU_TS_UPDATE_EVENT_NFY));
  }
 
- void WorldSession::SendDirectionIndicateNfy(float x, float y, float z)
+ void WorldSession::SendDirectionIndicateNfy(bool indicate, float x, float y, float z)
  {
 	 sGU_DIRECTION_INDICATE_NFY nfy;
 	 nfy.wOpCode = GU_DIRECTION_INDICATE_NFY;
@@ -7864,7 +7901,7 @@ void WorldSession::SendTsExcuteTriggerObject(Packet& packet)
 										res.wPacketSize = sizeof(sGU_TS_EXCUTE_TRIGGER_OBJECT_RES) - 2;
 										res.wResultCode = RESULT_SUCCESS;
 										res.hTriggerObject = req->hTarget;
-										//SendPacket((char*)&res, sizeof(sGU_TS_EXCUTE_TRIGGER_OBJECT_RES));
+										SendPacket((char*)&res, sizeof(sGU_TS_EXCUTE_TRIGGER_OBJECT_RES));
 										sLog.outDetail("New Item trigger: %d %d %d", res.hTriggerObject, req->hSource, req->hTarget);
 										break;
 									}
