@@ -2884,7 +2884,6 @@ void Player::RemoveDropFromList(HOBJECT handle)
 //----------------------------------------
 DroppedObject *Player::GetPickupData(HOBJECT handle)
 {
-	sLog.outBasic("Get drop data");
 	mutexDropList.lock();
 	for (auto it = DropList.begin(); it != DropList.end(); ++it)
 	{
@@ -2892,14 +2891,12 @@ DroppedObject *Player::GetPickupData(HOBJECT handle)
 		{
 			if (it->first == handle)
 			{
-				sLog.outBasic("Get drop data complete");
 				mutexDropList.unlock();
 				return it->second;
 			}
 		}
 	}
 	mutexDropList.unlock();
-	sLog.outBasic("Get drop data fail");
 	return NULL;
 }
 //----------------------------------------
@@ -3209,8 +3206,7 @@ void Player::RewardDropFromMob(MonsterData& data)
 	{
 		DroppedObject* dropped;
 		sITEM_TBLDAT* itemSrc = NULL;
-		int DropAmount = 1;
-		sLog.outBasic("Dropping %d items");
+		int DropAmount = 5;
 		for (int i = 0; i <= DropAmount; i++)
 		{
 			dropped = new DroppedObject;
@@ -3246,6 +3242,7 @@ void Player::RewardDropFromMob(MonsterData& data)
 				sLog.outBasic("Item %d dropped handle %d", dropped->item.Tblidx, dropped->item.Handle);
 			}
 		}
+		m_session->SendTimeQuestUpdateTmqPoint(30);
 	}
 	// Tutorial --------------
 	// TLQ1-------------------

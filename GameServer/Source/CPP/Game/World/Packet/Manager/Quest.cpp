@@ -7337,6 +7337,15 @@ void WorldSession::SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, 
 	 SendPacket((char*)&nfy, sizeof(sGU_QUEST_FORCED_COMPLETION_NFY));
  }
 
+ void WorldSession::SendTimeQuestUpdateTmqPoint(WORD tmqPoint)
+ {
+	 sGU_TIMEQUEST_UPDATE_TMQ_POINT nfy;
+	 nfy.wOpCode = GU_TIMEQUEST_UPDATE_TMQ_POINT;
+	 nfy.wPacketSize = sizeof(sGU_TIMEQUEST_UPDATE_TMQ_POINT) - 2;
+	 nfy.wTmqPoint = tmqPoint;
+	 SendPacket((char*)&nfy, sizeof(sGU_TIMEQUEST_UPDATE_TMQ_POINT));
+ }
+
 ResultCodes WorldSession::FindObjectTriggerInformation(NTL_TS_T_ID tid, QuestData* questData, HOBJECT hTarget, TBLIDX objTblidx)
 {
 	NTL_TS_TC_ID nextLink = 0;
