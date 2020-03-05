@@ -428,3 +428,29 @@ struct SpawnNPC
 	sCHARSTATE			State;
 
 };
+
+struct SpawnDrop
+{
+	WORD		wPacketSize;
+	WORD		wOpCode;
+	DWORD		Handle; // The handle is the Unique number for reconyze that "thing", it can be, mob, npc, player, zenny, etc.
+	BYTE		Type; // The type tell to the client, which is it, OBJTYPE van be  Money item Character Mob Npc etc.
+	DWORD		Tblidx; // Table Index of Item locad on Item_Drop_Data
+	BYTE		Rank;
+	BYTE        Grade; // item effect
+	BYTE		BattleAttribute;
+	sVECTOR3	Loc; // X Y Z
+	bool		NeedToIdentify;
+	bool		IsNew;
+}Drop;
+struct SpawnDropzenny
+{
+	WORD		wPacketSize;
+	WORD		wOpCode;
+	DWORD		Handle; // The handle is the Unique number for reconyze that "thing", it can be, mob, npc, player, zenny, etc.
+	BYTE		Type; // The type tell to the client, which is it, OBJTYPE van be  Money item Character Mob Npc etc.
+	DWORD		dwZenny; // Table Index of Item locad on Item_Drop_Data
+	sVECTOR3	Loc; // X Y Z
+	sVECTOR3	Dir; // X Y Z
+	bool		IsNew;
+}Dropzenny;

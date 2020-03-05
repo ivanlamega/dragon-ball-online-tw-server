@@ -2884,6 +2884,7 @@ void Player::RemoveDropFromList(HOBJECT handle)
 //----------------------------------------
 DroppedObject *Player::GetPickupData(HOBJECT handle)
 {
+	sLog.outBasic("Get drop data");
 	mutexDropList.lock();
 	for (auto it = DropList.begin(); it != DropList.end(); ++it)
 	{
@@ -2891,12 +2892,14 @@ DroppedObject *Player::GetPickupData(HOBJECT handle)
 		{
 			if (it->first == handle)
 			{
+				sLog.outBasic("Get drop data complete");
 				mutexDropList.unlock();
 				return it->second;
 			}
 		}
 	}
 	mutexDropList.unlock();
+	sLog.outBasic("Get drop data fail");
 	return NULL;
 }
 //----------------------------------------
@@ -3197,9 +3200,56 @@ void Player::RewardDropFromMob(MonsterData& data)
 		}
 	}*/
 	// GROW UP ---------------
+	// Tutorial --------------
+	if (data.MonsterID == 1411104 || data.MonsterID == 4911110)
+	{
+		m_session->SendDirectionIndicateNfy(false, 0.0, 0.0, 0.0);
+	}
+	else if (data.MonsterID == 7211113)
+	{
+		DroppedObject* dropped;
+		sITEM_TBLDAT* itemSrc = NULL;
+		int DropAmount = 1;
+		sLog.outBasic("Dropping %d items");
+		for (int i = 0; i <= DropAmount; i++)
+		{
+			dropped = new DroppedObject;
+			dropped->droppedTime = GetTickCount();
+			dropped->objType = OBJTYPE_DROPITEM;
+			dropped->owner = GetHandle();
 
+			dropped->item.wPacketSize = sizeof(Drop) - 2;
+			dropped->item.wOpCode = GU_OBJECT_CREATE;
+
+			dropped->item.Handle = sWorld.AcquireItemSerialId();
+			dropped->item.Tblidx = 18011;
+
+			if ((itemSrc = (sITEM_TBLDAT*)sTBM.GetItemTable()->FindData(dropped->item.Tblidx)) == NULL)
+			{
+				itemSrc = (sCASHITEM_TBLDAT*)sTBM.GetCashItemTable()->FindData(dropped->item.Tblidx);
+			}
+			if (itemSrc != NULL)
+			{
+				dropped->item.Type = OBJTYPE_DROPITEM;
+				dropped->item.Grade = 0;
+				dropped->item.Rank = itemSrc->eRank;
+				dropped->item.BattleAttribute = 0;
+				dropped->item.Loc.x = data.curPos.x + rand() % 6;
+				dropped->item.Loc.y = data.curPos.y;
+				dropped->item.Loc.z = data.curPos.z + rand() % 6;
+				dropped->item.IsNew = true;
+				dropped->item.NeedToIdentify = false;
+
+				/* Add Drop to list	*/
+				SendPacket((char*)&dropped->item, sizeof(Drop));
+				AddDropToList(*dropped, dropped->item.Handle);
+				sLog.outBasic("Item %d dropped handle %d", dropped->item.Tblidx, dropped->item.Handle);
+			}
+		}
+	}
+	// Tutorial --------------
 	// TLQ1-------------------
-	if (data.MonsterID == 7451101)
+	else if (data.MonsterID == 7451101)
 	{
 		m_session->SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, 16030);
 	}
