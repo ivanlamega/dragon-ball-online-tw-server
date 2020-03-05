@@ -251,6 +251,7 @@ public:
 	HOBJECT			CreateNPCKrillinTLQ3();
 	HOBJECT			CreateNPCChaozTLQ3();
 	HOBJECT			CreateNPCYamchaTLQ3();
+	HOBJECT			CreateNPCMilk2TLQ3();
 	//RankBatle
 	void			GetPlayerFromRankList();
 	
