@@ -1254,6 +1254,10 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 								obj->tblidx, 1, TOBJECT_SUBSTATE_FLAG_SHOW, 2775787718);
 						}
 					}
+					else if (sendSvrEvt->GetSvrEvtID() == 1101301)
+					{
+						SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, 1101302);
+					}
 					// Tutorial ------------------------
 
 					// TLQ1 --------------------
