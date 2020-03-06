@@ -257,6 +257,8 @@ public:
 	HOBJECT			CreateNPCMilk2TLQ3();
 	// Tutorial
 	HOBJECT			CreateNPCTurtleTutorial();
+	HOBJECT			CreateNPCTrunksTutorial();
+	HOBJECT			CreateNPCRobotTutorial();
 	//RankBatle
 	void			GetPlayerFromRankList();
 	
