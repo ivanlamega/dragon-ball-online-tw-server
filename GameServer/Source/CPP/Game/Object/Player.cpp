@@ -3219,6 +3219,8 @@ void Player::RewardDropFromMob(MonsterData& data)
 
 			dropped->item.Handle = sWorld.AcquireItemSerialId();
 			dropped->item.Tblidx = 18011;
+			dropped->item.OwnerHandle = dropped->owner;
+			dropped->item.unknown = -1;
 
 			if ((itemSrc = (sITEM_TBLDAT*)sTBM.GetItemTable()->FindData(dropped->item.Tblidx)) == NULL)
 			{
@@ -3637,6 +3639,8 @@ void Player::RewardDropFromMob(MonsterData& data)
 
 				dropped->item.Handle = sWorld.AcquireItemSerialId();
 				dropped->item.Tblidx = DragonBalls[GetBall];
+				dropped->item.OwnerHandle = dropped->owner;
+				dropped->item.unknown = -1;
 
 				if ((itemSrc = (sITEM_TBLDAT*)sTBM.GetItemTable()->FindData(dropped->item.Tblidx)) == NULL)
 				{
@@ -3673,6 +3677,8 @@ void Player::RewardDropFromMob(MonsterData& data)
 
 					dropped->item.Handle = sWorld.AcquireItemSerialId();
 					dropped->item.Tblidx = DragonBalls[GetBall];
+					dropped->item.OwnerHandle = dropped->owner;
+					dropped->item.unknown = -1;
 
 					if ((itemSrc = (sITEM_TBLDAT*)sTBM.GetItemTable()->FindData(dropped->item.Tblidx)) == NULL)
 					{
@@ -3716,6 +3722,8 @@ void Player::RewardDropFromMob(MonsterData& data)
 
 		dropped->item.Handle = sWorld.AcquireItemSerialId();
 		dropped->item.Tblidx = 11170019 + rand() % 261 + 1;
+		dropped->item.OwnerHandle = dropped->owner;
+		dropped->item.unknown = -1;
 
 		if ((itemSrc = (sITEM_TBLDAT*)sTBM.GetItemTable()->FindData(dropped->item.Tblidx)) == NULL)
 		{

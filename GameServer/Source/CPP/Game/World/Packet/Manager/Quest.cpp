@@ -801,6 +801,14 @@ ResultCodes WorldSession::ProcessTSContStart(CDboTSContStart * contStart, NTL_TS
 	_player->GetQuestManager()->AddQuest(newQuest);
 	sLog.outBasic("New quest added");
 
+	// Tutorial
+	if (tid == 11005)
+	{
+		SendTimeQuestUpdateGameState(2, 0);
+		SendTimeQuestUpdateGameState(3, 0);
+	}
+	// Tutorial
+
 	for (int i = 0; i < contStart->GetNumOfChildEntity(); i++)
 	{
 		sLog.outDetail("Cont: %s %d", contStart->GetChildEntity(i)->GetClassNameW(), contStart->GetChildEntity(i)->GetEntityType());
@@ -3044,8 +3052,16 @@ void WorldSession::ProcessTsContEnd(CDboTSContEnd * contEnd)
 		}
 		// TLQ1 -------------------
 	}
-	_player->GetQuestManager()->DeleteQuest(trigger->GetID());
-	sLog.outBasic("Quest delete from list %d", trigger->GetID());
+	try
+	{
+		_player->GetQuestManager()->DeleteQuest(trigger->GetID());
+		sLog.outBasic("Quest delete from list %d", trigger->GetID());
+	}
+	catch (int e)
+	{
+		sLog.outError("Error %d: To delete quest %d from list", e, trigger->GetID());
+	}
+	
 }
 
 ResultCodes WorldSession::FindQuestInformation(sUG_TS_CONFIRM_STEP_REQ * req)
@@ -7344,6 +7360,16 @@ void WorldSession::SendQuestSVRevtEndNotify(NTL_TS_T_ID tid, NTL_TS_TC_ID tcId, 
 	 nfy.wPacketSize = sizeof(sGU_TIMEQUEST_UPDATE_TMQ_POINT) - 2;
 	 nfy.wTmqPoint = tmqPoint;
 	 SendPacket((char*)&nfy, sizeof(sGU_TIMEQUEST_UPDATE_TMQ_POINT));
+ }
+
+ void WorldSession::SendTimeQuestUpdateGameState(BYTE byGameState, BYTE byStageNumber)
+ {
+	 sGU_TIMEQUEST_UPDATE_GAME_STATE nfy;
+	 nfy.wOpCode = GU_TIMEQUEST_UPDATE_GAME_STATE;
+	 nfy.wPacketSize = sizeof(sGU_TIMEQUEST_UPDATE_GAME_STATE) - 2;
+	 nfy.sTimeQuestState.byGameState;
+	 nfy.sTimeQuestState.sTimeQuestStage.byStageNumber;
+	 SendPacket((char*)&nfy, sizeof(sGU_TIMEQUEST_UPDATE_GAME_STATE));
  }
 
 ResultCodes WorldSession::FindObjectTriggerInformation(NTL_TS_T_ID tid, QuestData* questData, HOBJECT hTarget, TBLIDX objTblidx)

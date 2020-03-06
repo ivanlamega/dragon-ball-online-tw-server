@@ -555,13 +555,13 @@ void WorldSession::SendPickUp(HOBJECT handle)
 	{
 		// try to duplicate object by clicking fast on item
 		// or simply lag
+		sLog.outBasic("ITEM DROP NOT FOUND");
 		return;
 	}
 	switch (dropped->objType)
 	{
 		case eOBJTYPE::OBJTYPE_DROPITEM:
 		{
-			sLog.outString("Filling package of drop pick up");
 			sGU_ITEM_PICK_RES res;
 			res.wOpCode = GU_ITEM_PICK_RES;
 			res.wPacketSize = sizeof(sGU_ITEM_PICK_RES) - 2;
@@ -569,23 +569,15 @@ void WorldSession::SendPickUp(HOBJECT handle)
 
 			res.bByPartyHunting = false;
 			res.itemTblidx = dropped->item.Handle;
-			sLog.outString("Sending package of drop pick up");
 			SendPacket((char*)&res, sizeof(sGU_ITEM_PICK_RES));
 			if (_player->GetInventoryManager()->IsInventoryFull() == false)
 			{
-				sLog.outString("Inventory not full");
 				sITEM_PROFILE *data = _player->inventoryManager.CreateNewItem(dropped->item.Tblidx, 1);
 				if (data != NULL)
 				{
-					sLog.outString("Sending item create");
 					SendItemCreate(data);
 					_player->RemoveDropFromList(handle);
-					sLog.outString("Sending item create succesfull");
 				}
-			}
-			else
-			{
-				sLog.outString("Inventory full");
 			}
 			break;
 		}
