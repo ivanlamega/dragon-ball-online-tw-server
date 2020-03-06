@@ -1244,6 +1244,16 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 							SendDirectionIndicateNfy(true, npcPos.x, npcPos.y, npcPos.z);
 						}
 					}
+					else if (sendSvrEvt->GetSvrEvtID() == 1101001)
+					{
+						sOBJECT_TBLDAT* obj = (sOBJECT_TBLDAT*)sTBM.GetObjectTable(_player->GetWorldTableID())->FindData(3);
+						if (obj)
+						{
+							sLog.outDebug("Obj %d %d %s handle %d", obj->tblidx, obj->dwSequence, obj->szModelName, 100000 + obj->dwSequence);
+							SendTObjectUpdateState(100000 + obj->dwSequence,
+								obj->tblidx, 1, TOBJECT_SUBSTATE_FLAG_SHOW, 2775787718);
+						}
+					}
 					// Tutorial ------------------------
 
 					// TLQ1 --------------------
