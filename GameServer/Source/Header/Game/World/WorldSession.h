@@ -255,6 +255,8 @@ public:
 	HOBJECT			CreateNPCChaozTLQ3();
 	HOBJECT			CreateNPCYamchaTLQ3();
 	HOBJECT			CreateNPCMilk2TLQ3();
+	// Tutorial
+	HOBJECT			CreateNPCTurtleTutorial();
 	//RankBatle
 	void			GetPlayerFromRankList();
 	

@@ -13,6 +13,11 @@ bool QuestManager::DeleteQuest(int questId)
 {
 	for (std::vector<QuestData>::iterator iter = QuestDat.begin(); iter != QuestDat.end(); ++iter)
 	{
+		if (&iter == NULL)
+		{
+			return false;
+		}
+
 		if (iter->QuestID == questId)
 		{
 			QuestDat.erase(iter);

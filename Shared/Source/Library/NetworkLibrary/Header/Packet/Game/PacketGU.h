@@ -616,9 +616,10 @@ sITEM_DATA      sItemData;			// ¼º°ø½Ã¿¡¸¸ ¼¼ÆÃ
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(GU_ITEM_PICK_RES)
-WORD			wResultCode;
 TBLIDX			itemTblidx;
+WORD			wResultCode;
 bool			bByPartyHunting;
+BYTE			unknown;
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(GU_ZENNY_PICK_RES)

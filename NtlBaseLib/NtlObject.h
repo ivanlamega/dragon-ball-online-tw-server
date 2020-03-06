@@ -506,6 +506,8 @@ struct Drop
 	sVECTOR3	Loc; // X Y Z
 	bool		NeedToIdentify;
 	bool		IsNew;
+	DWORD		OwnerHandle;
+	DWORD		unknown;
 };
 struct Dropzenny
 {

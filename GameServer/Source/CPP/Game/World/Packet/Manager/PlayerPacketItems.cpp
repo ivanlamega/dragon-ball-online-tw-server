@@ -567,6 +567,10 @@ void WorldSession::SendPickUp(HOBJECT handle)
 			res.wPacketSize = sizeof(sGU_ITEM_PICK_RES) - 2;
 			res.wResultCode = ResultCodes::GAME_SUCCESS;
 
+			// Tutorial ----------
+			SendDirectionIndicateNfy(false, 0.0, 0.0, 0.0);
+			// Tutorial ----------
+
 			res.bByPartyHunting = false;
 			res.itemTblidx = dropped->item.Handle;
 			SendPacket((char*)&res, sizeof(sGU_ITEM_PICK_RES));
