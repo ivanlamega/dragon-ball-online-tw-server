@@ -442,6 +442,8 @@ struct SpawnDrop
 	sVECTOR3	Loc; // X Y Z
 	bool		NeedToIdentify;
 	bool		IsNew;
+	DWORD		OwnerHandle; 
+	DWORD		unknown; 
 }Drop;
 struct SpawnDropzenny
 {
