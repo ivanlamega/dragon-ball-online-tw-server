@@ -21,7 +21,7 @@ bool QuestManager::DeleteQuest(int questId)
 		if (iter->QuestID == questId)
 		{
 			QuestDat.erase(iter);
-			DeleteMobsQuest(questId);
+			//DeleteMobsQuest(questId);
 			return true;
 		}
 	}
