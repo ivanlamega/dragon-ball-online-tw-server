@@ -296,7 +296,7 @@ bool CharSocket::GetCreateCharactersRequest(Packet &packet)
 		res.sPcDataSummary.byLevel = 1;
 		res.sPcDataSummary.dwMoney = 0;
 		res.sPcDataSummary.dwMoneyBank = 0;
-		res.sPcDataSummary.bTutorialFlag = true;
+		res.sPcDataSummary.bTutorialFlag = false;
 		res.sPcDataSummary.bNeedNameChange = false;
 
 		res.unknown = 1;

@@ -449,7 +449,7 @@ void WorldSession::SendWorldEnter()
 		res.sDojoData[n].sMark.byMarkMain = 1;
 		res.sDojoData[n].sMark.byMarkMainColor = 1;
 		res.sDojoData[n].sMark.byMarkOutColor = 1;
-		res.sDojoData[n].sMark.byMarkOutLine = 1;		
+		res.sDojoData[n].sMark.byMarkOutLine = 1;
 	}*/
 	sql::ResultSet* result = sDB.executes("SELECT * FROM characters WHERE CharacterID = '%d';", _player->GetCharacterID());
 	if (result == NULL)
@@ -459,6 +459,7 @@ void WorldSession::SendWorldEnter()
 		delete result;
 		return;
 	}
+	sLog.outDebug("Is tutorial done? %d", result->getInt("IsTutorialDone"));
 	//Uncomment this if lines to see the first tutorial...not working for now this method above is wrong...we need get from database - Luiz45
 	if (result->getInt("IsTutorialDone") == 1)
 	{
@@ -478,7 +479,7 @@ void WorldSession::SendWorldEnter()
 			_player->Relocate(world->outWorldLoc.x, world->outWorldLoc.y, world->outWorldLoc.z, world->outWorldDir.x, world->outWorldDir.y, world->outWorldDir.z);
 			world = (sWORLD_TBLDAT*)sTBM.GetWorldTable()->FindData(world->outWorldTblidx);
 			_player->SetWorldTableID(world->tblidx);
-			
+
 		}*/
 		res.worldInfo.tblidx = _player->GetWorldTableID();
 		res.worldInfo.worldID = _player->GetWorldID();
@@ -499,20 +500,29 @@ void WorldSession::SendWorldEnter()
 			delete result;
 			return;
 		}
+
+		sWORLD_TBLDAT* pWorld = (sWORLD_TBLDAT*)sTBM.GetWorldTable()->FindData(pNewbieTbldat->tutorialWorld);
+		if (pWorld == NULL)
+		{
+			requestToLogout = true;
+			delete result;
+			return;
+		}
+
 		res.worldInfo.tblidx = pNewbieTbldat->tutorialWorld;
-		res.worldInfo.worldID = pNewbieTbldat->world_Id;
+		res.worldInfo.worldID = pWorld->tblidx; //pNewbieTbldat->world_Id;
 
 		res.worldInfo.hTriggerObjectOffset = HANDLE_TRIGGER_OBJECT_OFFSET;
-		res.worldInfo.sRuleInfo.byRuleType = GAMERULE_TUTORIAL;
+		res.worldInfo.sRuleInfo.byRuleType = pWorld->byWorldRuleType;//GAMERULE_TUTORIAL;
 		//Hard Coded
-		res.vCurLoc.x = (-1)*78.90;
-		res.vCurLoc.y = 46.95;
-		res.vCurLoc.z = (-1) * 168.35;
-		res.vCurDir.x = (-1) * 0.95;
-		res.vCurDir.y = 0;
-		res.vCurDir.z = 0.30;
+		res.vCurLoc.x = pWorld->vStart1Loc.x;//(-1)*78.90;
+		res.vCurLoc.y = pWorld->vStart1Loc.y;// 46.95;
+		res.vCurLoc.z = pWorld->vStart1Loc.z;// (-1) * 168.35;
+		res.vCurDir.x = pWorld->vStart1Dir.x;// (-1) * 0.95;
+		res.vCurDir.y = pWorld->vStart1Dir.y;// 0;
+		res.vCurDir.z = pWorld->vStart1Dir.z;// 0.30;
 		_player->SetWorldID(pNewbieTbldat->world_Id);
-		_player->SetWorldTableID(pNewbieTbldat->tutorialWorld);
+		_player->SetWorldTableID(pWorld->tblidx); //pNewbieTbldat->tutorialWorld
 		_player->Relocate(res.vCurLoc.x, res.vCurLoc.y, res.vCurLoc.z, res.vCurDir.x, res.vCurDir.y, res.vCurDir.z);
 		sLog.outDebug("Loading tutorial map: WorldID: %u, tblidx: %u", pNewbieTbldat->world_Id, pNewbieTbldat->tutorialWorld);
 		// Set in tutorial ??? to not get the other player packet ??

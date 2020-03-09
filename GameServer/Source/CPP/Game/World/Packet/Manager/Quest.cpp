@@ -1244,19 +1244,66 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 							SendDirectionIndicateNfy(true, npcPos.x, npcPos.y, npcPos.z);
 						}
 					}
-					else if (sendSvrEvt->GetSvrEvtID() == 1101001)
+					else if (sendSvrEvt->GetSvrEvtID() == 1101101)
 					{
 						sOBJECT_TBLDAT* obj = (sOBJECT_TBLDAT*)sTBM.GetObjectTable(_player->GetWorldTableID())->FindData(3);
 						if (obj)
 						{
 							sLog.outDebug("Obj %d %d %s handle %d", obj->tblidx, obj->dwSequence, obj->szModelName, 100000 + obj->dwSequence);
 							SendTObjectUpdateState(100000 + obj->dwSequence,
-								obj->tblidx, 1, TOBJECT_SUBSTATE_FLAG_SHOW, 2775787718);
+								obj->tblidx, 1, TOBJECT_SUBSTATE_FLAG_SHOW, 2650781283);
 						}
 					}
 					else if (sendSvrEvt->GetSvrEvtID() == 1101301)
 					{
 						SendTSUpdateEventNfy(TS_TYPE_QUEST_CS, 1101302);
+					}
+					else if (sendSvrEvt->GetSvrEvtID() == 1101303)
+					{
+						sNEWBIE_TBLDAT* pNewbieTbldat = (sNEWBIE_TBLDAT*)sTBM.GetNewbieTable()->GetNewbieTbldat(_player->GetAttributesManager()->PlayerRaceID, _player->GetAttributesManager()->PlayerClassID);
+						if (pNewbieTbldat == NULL)
+						{
+							return RESULT_FAIL;
+						}
+						sWORLD_TBLDAT* worldData = (sWORLD_TBLDAT*)sTBM.GetWorldTable()->FindData(pNewbieTbldat->tutorialWorld);
+
+						if (worldData == NULL)
+						{
+							return RESULT_FAIL;
+						}
+
+						sql::ResultSet* result = sDB.executes("UPDATE characters SET IsTutorialDone = 1 WHERE CharacterID = %d;", _player->GetAttributesManager()->GetPlayerProfile()->charId);
+						sLog.outBasic("Result: %d to saved tutorial in db charid %d %d", result, _player->GetCharacterID(), _player->GetAttributesManager()->GetPlayerProfile()->charId);
+						if (result != NULL)
+						{
+							delete result;
+						}
+
+						_player->GetAttributesManager()->teleportInfo.position.x = pNewbieTbldat->vSpawn_Loc.x;
+						_player->GetAttributesManager()->teleportInfo.position.y = pNewbieTbldat->vSpawn_Loc.y;
+						_player->GetAttributesManager()->teleportInfo.position.z = pNewbieTbldat->vSpawn_Loc.z;
+
+						_player->GetAttributesManager()->teleportInfo.rotation.x = pNewbieTbldat->vSpawn_Dir.x;
+						_player->GetAttributesManager()->teleportInfo.rotation.y = pNewbieTbldat->vSpawn_Dir.y;
+						_player->GetAttributesManager()->teleportInfo.rotation.z = pNewbieTbldat->vSpawn_Dir.z;
+
+						_player->GetAttributesManager()->teleportInfo.bIsToMoveAnotherServer = false;
+						_player->GetAttributesManager()->teleportInfo.worldInfo.worldID = pNewbieTbldat->world_Id;
+						_player->GetAttributesManager()->teleportInfo.worldInfo.tblidx = pNewbieTbldat->world_Id;
+						_player->GetAttributesManager()->teleportInfo.worldInfo.hTriggerObjectOffset = HANDLE_TRIGGER_OBJECT_OFFSET;
+						_player->GetAttributesManager()->teleportInfo.worldInfo.sRuleInfo.byRuleType = worldData->byWorldRuleType;
+
+						sLog.outDebug("8 Teleport: pos %f %f %f rot %f %f %f worldtblidx %d ruleType %d", _player->GetAttributesManager()->teleportInfo.position.x,
+							_player->GetAttributesManager()->teleportInfo.position.y,
+							_player->GetAttributesManager()->teleportInfo.position.z,
+							_player->GetAttributesManager()->teleportInfo.rotation.x,
+							_player->GetAttributesManager()->teleportInfo.rotation.y,
+							_player->GetAttributesManager()->teleportInfo.rotation.z,
+							worldData->tblidx,
+							worldData->byWorldRuleType);
+						SendUpdateCharCondition(80);
+						_player->GetState()->sCharStateDetail.sCharStateDespawning.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_DEFAULT;
+						_player->SetState(eCHARSTATE::CHARSTATE_DESPAWNING);
 					}
 					// Tutorial ------------------------
 

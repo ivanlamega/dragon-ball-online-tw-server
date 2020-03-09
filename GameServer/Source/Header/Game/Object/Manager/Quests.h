@@ -3,6 +3,8 @@
 
 #include <vector>
 #include <unordered_map>
+#include <mutex>
+
 #include "DboTSCore.h"
 
 #define MAX_QUEST_SLOT 30
@@ -61,9 +63,14 @@ private:
 
 	std::vector<QuestData> QuestDat;
 
+	std::mutex						mutexMobsQuest;
+
 public:
+	
+
 	void							AddMobQuest(TBLIDX mobTblidx, NTL_TS_T_ID questId);
 	NTL_TS_T_ID						FindQuestByMob(TBLIDX mobTblidx);
+	int								FindCountMobsQuest(NTL_TS_T_ID questId);
 	void							DeleteMobsQuest(NTL_TS_T_ID questId);
 	void							DeleteMobQuest(TBLIDX mobTblidx);
 	MOBQUESTIT						MobQuestBegin() { return m_pMobQuestList.begin(); };
