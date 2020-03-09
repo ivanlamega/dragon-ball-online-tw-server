@@ -575,7 +575,10 @@ CREATE TABLE `realmlist` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Realm System' ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
-
+-- Registros de realmlist
+-- ----------------------------
+INSERT INTO `realmlist` VALUES (1, 1, 1, 0, 0, 0, null);
+INSERT INTO `realmlist` VALUES (2, 2, 1, 0, 0, 0, null);
 --
 -- Estructura de tabla para la tabla `skills`
 --
