@@ -19,12 +19,12 @@ public:
 	BYTE					getSkillsCount() { return SkillCounter; }
 	BYTE					getBuffCount() { return SkillBuffCounter; }
 	BYTE					getHTBCounter() { return HTBSkillCounter; }
-	BYTE					getQuickSlotsCounter() { return QuickSlotCounter; }
+	//BYTE					getQuickSlotsCounter() { return QuickSlotCounter; }
 
 	sSKILL_INFO				*getSkillsInfos() { return SkillInfo; }
 	sBUFF_INFO				*getBuffInfos() { return BuffInfo; }
 	sHTB_SKILL_INFO			*getHTBSkillInfos() { return HTBSkillnfo; };
-	sQUICK_SLOT_PROFILE		*getQuickSlots() { return QuickSlotData; }
+	//sQUICK_SLOT_PROFILE		*getQuickSlots() { return QuickSlotData; }
 	TBLIDX					getIdAtPos(BYTE slot_id);
 	bool					isSkillLearned(DWORD SkillID);
 
@@ -33,17 +33,17 @@ private:
 	bool					LoadSkillsFromDatabase();
 	bool					LoadSkillBuffFromDatabase();
 	bool					LoadHTBFromDatabase();
-	bool					LoadQuickSlotFromDatabase();
+	//bool					LoadQuickSlotFromDatabase();
 
 	// SKILL
 	BYTE					SkillCounter;
 	BYTE					SkillBuffCounter;
 	BYTE					HTBSkillCounter;
-	BYTE					QuickSlotCounter;
+	//BYTE					QuickSlotCounter;
 	sSKILL_INFO				SkillInfo[MAX_PC_HAVE_SKILL];
 	sBUFF_INFO				BuffInfo[MAX_BLESS_BUFF_CHARACTER_HAS + MAX_CURSE_BUFF_CHARACTER_HAS];
 	sHTB_SKILL_INFO			HTBSkillnfo[HTB_MAX_PC_HAVE_HTB_SKILL];
-	sQUICK_SLOT_PROFILE		QuickSlotData[CHAR_QUICK_SLOT_MAX_COUNT];
+	//sQUICK_SLOT_PROFILE		QuickSlotData[CHAR_QUICK_SLOT_MAX_COUNT];
 
 	CHARACTERID				charid;
 };

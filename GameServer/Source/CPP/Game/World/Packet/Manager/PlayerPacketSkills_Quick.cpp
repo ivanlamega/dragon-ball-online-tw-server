@@ -70,15 +70,16 @@ void WorldSession::SendSlotInfo()
 	memset(&res, 0, sizeof(sGU_QUICK_SLOT_INFO));
 
 	res.wOpCode = GU_QUICK_SLOT_INFO;
-	res.byQuickSlotCount = _player->skillManager.getQuickSlotsCounter();
+	/*res.byQuickSlotCount = _player->skillManager.getQuickSlotsCounter();
 	for (int i = 0; i < res.byQuickSlotCount; i++)
 	{
 		res.asQuickSlotData[i].bySlot = _player->skillManager.getQuickSlots()[i].bySlot;
 		res.asQuickSlotData[i].byType = _player->skillManager.getQuickSlots()[i].byType;
 		res.asQuickSlotData[i].hItem = _player->skillManager.getQuickSlots()[i].hItem;
 		res.asQuickSlotData[i].tblidx = _player->skillManager.getQuickSlots()[i].tblidx;
-	}
+	}*/
 	res.wPacketSize = sizeof(sGU_QUICK_SLOT_INFO) - 2;//((2 * sizeof(BYTE)) + (res.byQuickSlotCount * sizeof(sQUICK_SLOT_DATA)));
+	_player->GetQuickSlotInfo(res);
 	SendPacket((char*)&res, sizeof(sGU_QUICK_SLOT_INFO));
 }
 //----------------------------------------
@@ -810,7 +811,8 @@ void WorldSession::SendUpdateQuickSlots(Packet& packet)
 	res.wOpCode = GU_QUICK_SLOT_UPDATE_RES;
 	res.wResultCode = GAME_SUCCESS;
 
-	_player->skillManager.UpdateSlot(req->bySlotID, req->tblidx, req->byType);
+	//_player->skillManager.UpdateSlot(req->bySlotID, req->tblidx, req->byType);
+	_player->AddQuickSlot(req->tblidx, req->bySlotID, req->byType);
 
 	res.byPlace = req->byPlace;
 	res.byPos = req->byPos;
@@ -818,7 +820,7 @@ void WorldSession::SendUpdateQuickSlots(Packet& packet)
 	res.byType = req->byType;
 	res.tblidx = req->tblidx;
 	SendPacket((char*)&res, sizeof(sGU_QUICK_SLOT_UPDATE_RES));
-	sDB.UpdateQuickSlots(res.tblidx, res.bySlotID, _player->charid);
+	//sDB.UpdateQuickSlots(res.tblidx, res.bySlotID, _player->charid);
 }
 //----------------------------------------
 //	update our hot bar again
@@ -833,8 +835,9 @@ void WorldSession::SendRemoveQuickSlots(Packet& packet)
 	//SendPacket((char*)&res, sizeof(sGU_QUICK_SLOT_DEL_NFY));
 
 	//update data base
-	_player->skillManager.UpdateSlot(req->bySlotID, INVALID_TBLIDX, INVALID_BYTE);
-	sDB.UpdateQuickSlots(0, req->bySlotID, _player->charid);
+	//_player->skillManager.UpdateSlot(req->bySlotID, INVALID_TBLIDX, INVALID_BYTE);
+	_player->DeleteQuickSlot(req->bySlotID);
+	//sDB.UpdateQuickSlots(0, req->bySlotID, _player->charid);
 }
 //----------------------------------------
 //	Send the social action to near player

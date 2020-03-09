@@ -68,6 +68,12 @@ public:
 	void				UpdateModusaAmount(DWORD amount);
 	void				UpdateExperienceAmount(DWORD exp, DWORD bonus);
 	//	------------------------------------------------------------------------
+	// QUICK SLOT
+	//	------------------------------------------------------------------------
+	void					AddQuickSlot(TBLIDX tblidx, BYTE slotId, BYTE type);
+	void					DeleteQuickSlot(BYTE slotId);
+	int						GetQuickSlotInfo(sGU_QUICK_SLOT_INFO& slotInfo);
+	//	------------------------------------------------------------------------
 	// GETTER
 	//	------------------------------------------------------------------------
 	
@@ -273,6 +279,10 @@ private:
 	BYTE				AttackType[40];
 	BYTE				ObjectType;
 	DWORD				DelayTime;
+	//	------------------------------------------------------------------------
+	// QUICK SLOT
+	//	------------------------------------------------------------------------
+	sQUICK_SLOT_PROFILE quickSlotData;
 	//	------------------------------------------------------------------------
 	// TIMER
 	//	------------------------------------------------------------------------

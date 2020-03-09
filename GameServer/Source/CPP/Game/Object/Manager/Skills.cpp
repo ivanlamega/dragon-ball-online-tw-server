@@ -34,16 +34,16 @@ bool SkillsManager::LoadSkill(CHARACTERID id)
 	{
 		return false;
 	}
-	if (LoadQuickSlotFromDatabase() == false)
+	/*if (LoadQuickSlotFromDatabase() == false)
 	{
 		return false;
-	}
+	}*/
 	return true;
 }
 //----------------------------------------
 //	Save quickSlot
 //----------------------------------------
-void SkillsManager::SaveSkill(Player& plr)
+/*void SkillsManager::SaveSkill(Player& plr)
 {
 	for (int i = 0; i < 48; i++)
 	{
@@ -56,7 +56,7 @@ void SkillsManager::SaveSkill(Player& plr)
 			sDB.UpdateQuickSlots(0, i, plr.GetCharacterID());
 		}
 	}
-}
+}*/
 //----------------------------------------
 //	Load function
 //----------------------------------------
@@ -193,11 +193,11 @@ bool SkillsManager::LoadHTBFromDatabase()
 //----------------------------------------
 //	Load all skill quick slot
 //----------------------------------------
-bool SkillsManager::LoadQuickSlotFromDatabase()
+/*bool SkillsManager::LoadQuickSlotFromDatabase()
 {
 	for (int i = 0; i < 48; i++) memset(&QuickSlotData[i], 0, sizeof(sQUICK_SLOT_PROFILE));
 
-	sql::ResultSet* result = sDB.executes("SELECT * FROM quickslot WHERE charId = '%d';", charid);
+	sql::ResultSet* result = sDB.executes("SELECT * FROM quickslot WHERE CharID = %d;", charid);
 	if (result == NULL)
 		return false;
 	if (result->rowsCount() <= 0)
@@ -269,11 +269,11 @@ bool SkillsManager::LoadQuickSlotFromDatabase()
 	QuickSlotCounter = static_cast<BYTE>(slotID);
 	delete result;
 	return true;
-}
+}*/
 //----------------------------------------
 //	Update our quickslot localy
 //----------------------------------------
-void SkillsManager::UpdateSlot(BYTE slot_id, TBLIDX id, BYTE byType)
+/*void SkillsManager::UpdateSlot(BYTE slot_id, TBLIDX id, BYTE byType)
 {
 	printf("UpdateSlot : slot id: %u -- at slotid: %d\n", slot_id, id);
 
@@ -281,7 +281,7 @@ void SkillsManager::UpdateSlot(BYTE slot_id, TBLIDX id, BYTE byType)
 	QuickSlotData[slot_id].tblidx = id;
 	QuickSlotData[slot_id].byType = byType;
 	QuickSlotData[slot_id].hItem = INVALID_TBLIDX;
-}
+}*/
 //----------------------------------------
 //	Get id from slot_id
 //----------------------------------------

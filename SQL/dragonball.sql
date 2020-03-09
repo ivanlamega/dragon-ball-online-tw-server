@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.1
--- http://www.phpmyadmin.net
+-- version 5.0.1
+-- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Nov 20, 2019 at 07:09 PM
--- Server version: 5.7.12
--- PHP Version: 5.6.21
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 09-03-2020 a las 18:27:54
+-- Versión del servidor: 10.4.11-MariaDB
+-- Versión de PHP: 7.4.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -17,27 +19,27 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `dragonball`
+-- Base de datos: `dragonball`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `account`
+-- Estructura de tabla para la tabla `account`
 --
 
 CREATE TABLE `account` (
   `AccountID` bigint(20) UNSIGNED NOT NULL,
   `UserName` varchar(16) NOT NULL,
   `UserPassword` varchar(32) NOT NULL,
-  `IsBanned` tinyint(1) NOT NULL DEFAULT '0',
-  `IsGM` tinyint(1) NOT NULL DEFAULT '0',
-  `LastServerID` int(11) NOT NULL DEFAULT '255',
-  `LastChannelID` int(11) NOT NULL DEFAULT '255',
-  `AccountStatus` tinyint(1) NOT NULL DEFAULT '0',
+  `IsBanned` tinyint(1) NOT NULL DEFAULT 0,
+  `IsGM` tinyint(1) NOT NULL DEFAULT 0,
+  `LastServerID` int(11) NOT NULL DEFAULT 255,
+  `LastChannelID` int(11) NOT NULL DEFAULT 255,
+  `AccountStatus` tinyint(1) NOT NULL DEFAULT 0,
   `email` varchar(50) DEFAULT NULL,
   `foto_user` varchar(200) CHARACTER SET utf8 COLLATE utf8_spanish2_ci DEFAULT NULL,
-  `rango` int(11) DEFAULT '1',
+  `rango` int(11) DEFAULT 1,
   `estado` varchar(1) CHARACTER SET utf8 COLLATE utf8_spanish2_ci DEFAULT NULL,
   `fecha_baja` datetime DEFAULT NULL,
   `ip` varchar(50) CHARACTER SET utf8 COLLATE utf8_spanish2_ci NOT NULL
@@ -46,7 +48,7 @@ CREATE TABLE `account` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `aucionhouse`
+-- Estructura de tabla para la tabla `aucionhouse`
 --
 
 CREATE TABLE `aucionhouse` (
@@ -61,28 +63,28 @@ CREATE TABLE `aucionhouse` (
   `ItemType` int(11) DEFAULT NULL,
   `ItemGrade` int(11) DEFAULT NULL,
   `ItemRank` int(11) DEFAULT NULL,
-  `AtributeType1` int(11) DEFAULT '0',
-  `AtributeValue1` int(11) DEFAULT '0',
-  `AtributeType2` int(11) DEFAULT '0',
-  `AtributeValue2` int(11) DEFAULT '0',
-  `AtributeType3` int(11) DEFAULT '0',
-  `AtributeValue3` int(11) DEFAULT '0',
-  `AtributeType4` int(11) DEFAULT '0',
-  `AtributeValue4` int(11) DEFAULT '0',
-  `AtributeType5` int(11) DEFAULT '0',
-  `AtributeValue5` int(11) DEFAULT '0',
-  `AtributeType6` int(11) DEFAULT '0',
-  `AtributeValue6` int(11) DEFAULT '0',
-  `DogiAtributeType1` int(11) DEFAULT '0',
-  `DogiAtributeValue1` int(11) DEFAULT '0',
-  `DogiAtributeType2` int(11) DEFAULT '0',
-  `DogiAtributeValue2` int(11) DEFAULT '0'
+  `AtributeType1` int(11) DEFAULT 0,
+  `AtributeValue1` int(11) DEFAULT 0,
+  `AtributeType2` int(11) DEFAULT 0,
+  `AtributeValue2` int(11) DEFAULT 0,
+  `AtributeType3` int(11) DEFAULT 0,
+  `AtributeValue3` int(11) DEFAULT 0,
+  `AtributeType4` int(11) DEFAULT 0,
+  `AtributeValue4` int(11) DEFAULT 0,
+  `AtributeType5` int(11) DEFAULT 0,
+  `AtributeValue5` int(11) DEFAULT 0,
+  `AtributeType6` int(11) DEFAULT 0,
+  `AtributeValue6` int(11) DEFAULT 0,
+  `DogiAtributeType1` int(11) DEFAULT 0,
+  `DogiAtributeValue1` int(11) DEFAULT 0,
+  `DogiAtributeType2` int(11) DEFAULT 0,
+  `DogiAtributeValue2` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `banlist`
+-- Estructura de tabla para la tabla `banlist`
 --
 
 CREATE TABLE `banlist` (
@@ -94,7 +96,7 @@ CREATE TABLE `banlist` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `bind`
+-- Estructura de tabla para la tabla `bind`
 --
 
 CREATE TABLE `bind` (
@@ -107,33 +109,33 @@ CREATE TABLE `bind` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `cashitem`
+-- Estructura de tabla para la tabla `cashitem`
 --
 
 CREATE TABLE `cashitem` (
   `id` int(11) UNSIGNED NOT NULL,
-  `tblidx` int(11) UNSIGNED NOT NULL DEFAULT '0',
-  `owner_id` int(11) UNSIGNED NOT NULL DEFAULT '0',
-  `byStackCount` int(10) UNSIGNED NOT NULL DEFAULT '1',
+  `tblidx` int(11) UNSIGNED NOT NULL DEFAULT 0,
+  `owner_id` int(11) UNSIGNED NOT NULL DEFAULT 0,
+  `byStackCount` int(10) UNSIGNED NOT NULL DEFAULT 1,
   `Year` int(10) DEFAULT NULL,
   `Month` int(10) DEFAULT NULL,
   `Day` int(10) DEFAULT NULL,
   `Hour` int(10) DEFAULT NULL,
   `Minute` int(10) DEFAULT NULL,
   `Secound` int(10) DEFAULT NULL,
-  `Handle` int(11) DEFAULT '0'
+  `Handle` int(11) DEFAULT 0
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 ROW_FORMAT=FIXED;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `characters`
+-- Estructura de tabla para la tabla `characters`
 --
 
 CREATE TABLE `characters` (
   `CharacterID` bigint(20) UNSIGNED NOT NULL,
   `AccountID` bigint(20) UNSIGNED NOT NULL,
-  `GuildID` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
+  `GuildID` bigint(20) UNSIGNED NOT NULL DEFAULT 0,
   `Name` varchar(20) NOT NULL,
   `ServerID` int(10) UNSIGNED NOT NULL,
   `RaceID` int(10) UNSIGNED NOT NULL,
@@ -143,201 +145,201 @@ CREATE TABLE `characters` (
   `HairID` int(10) UNSIGNED NOT NULL,
   `HairColorID` int(10) UNSIGNED NOT NULL,
   `SkinColorID` int(10) UNSIGNED NOT NULL,
-  `CurrentLevel` int(10) UNSIGNED NOT NULL DEFAULT '70',
-  `CurrentExp` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
-  `MapInfoID` bigint(20) UNSIGNED NOT NULL DEFAULT '4294967295',
-  `WorldTableID` bigint(20) UNSIGNED NOT NULL DEFAULT '1',
-  `WorldID` bigint(20) UNSIGNED NOT NULL DEFAULT '1',
-  `BindType` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `BindWorldID` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
-  `BindObjectID` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
-  `Position_X` float(11,6) NOT NULL DEFAULT '0.000000',
-  `Position_Y` float(11,6) NOT NULL DEFAULT '0.000000',
-  `Position_Z` float(11,6) NOT NULL DEFAULT '0.000000',
-  `Direction_X` float(11,6) NOT NULL DEFAULT '0.000000',
-  `Direction_Y` float(11,6) NOT NULL DEFAULT '0.000000',
-  `Direction_Z` float(11,6) NOT NULL DEFAULT '0.000000',
-  `ZennyInventory` bigint(20) NOT NULL DEFAULT '0',
-  `ZennyBank` bigint(20) NOT NULL DEFAULT '0',
-  `Token` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `WP_Point` int(10) DEFAULT '0',
-  `CashPoint` int(10) DEFAULT '999999',
-  `MixLevel` int(10) NOT NULL DEFAULT '1',
-  `IsAdult` tinyint(1) NOT NULL DEFAULT '0',
-  `IsTutorialDone` tinyint(1) NOT NULL DEFAULT '1',
-  `IsToRename` tinyint(1) NOT NULL DEFAULT '0',
-  `IsToDelete` tinyint(1) NOT NULL DEFAULT '0',
-  `IsToChangeClass` tinyint(1) NOT NULL DEFAULT '0',
-  `IsOnline` tinyint(1) NOT NULL DEFAULT '0',
-  `IsGameMaster` tinyint(1) NOT NULL DEFAULT '0',
-  `HintsDone` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
-  `Reputation` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
-  `Mudosa` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
-  `SkillPoints` int(10) UNSIGNED NOT NULL DEFAULT '69',
+  `CurrentLevel` int(10) UNSIGNED NOT NULL DEFAULT 70,
+  `CurrentExp` bigint(20) UNSIGNED NOT NULL DEFAULT 0,
+  `MapInfoID` bigint(20) UNSIGNED NOT NULL DEFAULT 4294967295,
+  `WorldTableID` bigint(20) UNSIGNED NOT NULL DEFAULT 1,
+  `WorldID` bigint(20) UNSIGNED NOT NULL DEFAULT 1,
+  `BindType` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `BindWorldID` bigint(20) UNSIGNED NOT NULL DEFAULT 0,
+  `BindObjectID` bigint(20) UNSIGNED NOT NULL DEFAULT 0,
+  `Position_X` float(11,6) NOT NULL DEFAULT 0.000000,
+  `Position_Y` float(11,6) NOT NULL DEFAULT 0.000000,
+  `Position_Z` float(11,6) NOT NULL DEFAULT 0.000000,
+  `Direction_X` float(11,6) NOT NULL DEFAULT 0.000000,
+  `Direction_Y` float(11,6) NOT NULL DEFAULT 0.000000,
+  `Direction_Z` float(11,6) NOT NULL DEFAULT 0.000000,
+  `ZennyInventory` bigint(20) NOT NULL DEFAULT 0,
+  `ZennyBank` bigint(20) NOT NULL DEFAULT 0,
+  `Token` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `WP_Point` int(10) DEFAULT 0,
+  `CashPoint` int(10) DEFAULT 999999,
+  `MixLevel` int(10) NOT NULL DEFAULT 1,
+  `IsAdult` tinyint(1) NOT NULL DEFAULT 0,
+  `IsTutorialDone` tinyint(1) NOT NULL DEFAULT 1,
+  `IsToRename` tinyint(1) NOT NULL DEFAULT 0,
+  `IsToDelete` tinyint(1) NOT NULL DEFAULT 0,
+  `IsToChangeClass` tinyint(1) NOT NULL DEFAULT 0,
+  `IsOnline` tinyint(1) NOT NULL DEFAULT 0,
+  `IsGameMaster` tinyint(1) NOT NULL DEFAULT 0,
+  `HintsDone` bigint(20) UNSIGNED NOT NULL DEFAULT 0,
+  `Reputation` bigint(20) UNSIGNED NOT NULL DEFAULT 0,
+  `Mudosa` bigint(20) UNSIGNED NOT NULL DEFAULT 0,
+  `SkillPoints` int(10) UNSIGNED NOT NULL DEFAULT 69,
   `createdAt` varchar(20) DEFAULT NULL,
-  `Title_Marking` int(10) NOT NULL DEFAULT '0',
-  `IsVip` int(10) DEFAULT '0',
-  `MixExp` int(10) NOT NULL DEFAULT '0',
+  `Title_Marking` int(10) NOT NULL DEFAULT 0,
+  `IsVip` int(10) DEFAULT 0,
+  `MixExp` int(10) NOT NULL DEFAULT 0,
   `deletionStartedAt` varchar(20) DEFAULT NULL,
-  `MailIsAway` int(10) DEFAULT '0',
+  `MailIsAway` int(10) DEFAULT 0,
   `GSHandle` int(20) DEFAULT NULL,
-  `WagguCoin` int(10) DEFAULT '9999',
-  `EventCoin` int(10) DEFAULT '0'
+  `WagguCoin` int(10) DEFAULT 9999,
+  `EventCoin` int(10) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `characters_attributes`
+-- Estructura de tabla para la tabla `characters_attributes`
 --
 
 CREATE TABLE `characters_attributes` (
   `ID` int(10) NOT NULL,
   `CharacterID` int(10) NOT NULL,
-  `BaseStr` int(3) DEFAULT '10',
-  `LastStr` int(3) DEFAULT '10',
-  `BaseCon` int(3) DEFAULT '10',
-  `LastCon` int(3) DEFAULT '10',
-  `BaseFoc` int(3) DEFAULT '10',
-  `LastFoc` int(3) DEFAULT '10',
-  `BaseDex` int(3) DEFAULT '10',
-  `LastDex` int(3) DEFAULT '10',
-  `BaseSol` int(3) DEFAULT '10',
-  `LastSol` int(3) DEFAULT '10',
-  `BaseEng` int(3) DEFAULT '10',
-  `LastEng` int(3) DEFAULT '10',
-  `BaseMaxLP` int(5) DEFAULT '100',
-  `LastMaxLP` int(5) DEFAULT '100',
-  `BaseMaxEP` int(5) DEFAULT '100',
-  `LastMaxEP` int(5) DEFAULT '100',
-  `BaseMaxRP` int(5) DEFAULT '100',
-  `LastMaxRP` int(5) DEFAULT '100',
-  `BaseLpRegen` int(5) DEFAULT '0',
-  `LastLpRegen` int(5) DEFAULT '0',
-  `BaseLpSitdownRegen` int(5) DEFAULT '0',
-  `LastLpSitdownRegen` int(5) DEFAULT '0',
-  `BaseLpBattleRegen` int(5) DEFAULT '0',
-  `LastLpBattleRegen` int(5) DEFAULT '0',
-  `BaseEpRegen` int(5) DEFAULT '0',
-  `LastEpRegen` int(5) DEFAULT '0',
-  `BaseEpSitdownRegen` int(5) DEFAULT '0',
-  `LastEpSitdownRegen` int(5) DEFAULT '0',
-  `BaseEpBattleRegen` int(5) DEFAULT '0',
-  `LastEpBattleRegen` int(5) DEFAULT '0',
-  `BaseRpRegen` int(5) DEFAULT '0',
-  `LastRpRegen` int(5) DEFAULT '0',
-  `LastRpDimimutionRate` int(5) DEFAULT '0',
-  `BasePhysicalOffence` int(5) DEFAULT '10',
-  `LastPhysicalOffence` int(5) DEFAULT '10',
-  `BasePhysicalDefence` int(5) DEFAULT '10',
-  `LastPhysicalDefence` int(5) DEFAULT '10',
-  `BaseEnergyOffence` int(5) DEFAULT '10',
-  `LastEnergyOffence` int(5) DEFAULT '10',
-  `BaseEnergyDefence` int(5) DEFAULT '10',
-  `LastEnergyDefence` int(5) DEFAULT '10',
-  `BaseAttackRate` int(5) DEFAULT '2',
-  `LastAttackRate` int(5) DEFAULT '2',
-  `BaseDodgeRate` int(5) DEFAULT '2',
-  `LastDodgeRate` int(5) DEFAULT '2',
-  `BaseBlockRate` int(5) DEFAULT '2',
-  `LastBlockRate` int(5) DEFAULT '2',
-  `BaseCurseSuccessRate` int(5) DEFAULT '0',
-  `LastCurseSuccessRate` int(5) DEFAULT '0',
-  `BaseCurseToleranceRate` int(5) DEFAULT '0',
-  `LastCurseToleranceRate` int(5) DEFAULT '0',
-  `BasePhysicalCriticalRate` int(5) DEFAULT '0',
-  `LastPhysicalCriticalRate` int(5) DEFAULT '0',
-  `BaseEnergyCriticalRate` int(5) DEFAULT '0',
-  `LastEnergyCriticalRate` int(5) DEFAULT '0',
-  `LastRunSpeed` float(10,5) DEFAULT '8.00000',
-  `BaseAttackSpeedRate` int(5) DEFAULT '1000',
-  `LastAttackSpeedRate` int(5) DEFAULT '1000',
-  `BaseAttackRange` float(10,5) DEFAULT '10.00000',
-  `LastAttackRange` float(10,5) DEFAULT '10.00000',
-  `CastingTimeChangePercent` float(10,5) DEFAULT '100.00000',
-  `CoolTimeChangePercent` float(10,5) DEFAULT '100.00000',
-  `KeepTimeChangePercent` float(10,5) DEFAULT '100.00000',
-  `DotValueChangePercent` float(10,5) DEFAULT '100.00000',
-  `DotTimeChangeAbsolute` float(10,5) DEFAULT '100.00000',
-  `RequiredEpChangePercent` float(10,5) DEFAULT '100.00000',
-  `HonestOffence` float(10,5) DEFAULT '0.00000',
-  `HonestDefence` float(10,5) DEFAULT '0.00000',
-  `StrangeOffence` float(10,5) DEFAULT '0.00000',
-  `StrangeDefence` float(10,5) DEFAULT '0.00000',
-  `WildOffence` float(10,5) DEFAULT '0.00000',
-  `WildDefence` float(10,5) DEFAULT '0.00000',
-  `EleganceOffence` float(10,5) DEFAULT '0.00000',
-  `EleganceDefence` float(10,5) DEFAULT '0.00000',
-  `FunnyOffence` float(10,5) DEFAULT '0.00000',
-  `FunnyDefence` float(10,5) DEFAULT '0.00000',
-  `ParalyzeToleranceRate` int(5) DEFAULT '0',
-  `TerrorToleranceRate` int(5) DEFAULT '0',
-  `ConfuseToleranceRate` int(5) DEFAULT '0',
-  `StoneToleranceRate` int(5) DEFAULT '0',
-  `CandyToleranceRate` int(5) DEFAULT '0',
-  `ParalyzeKeepTimeDown` float(10,5) DEFAULT '0.00000',
-  `TerrorKeepTimeDown` float(10,5) DEFAULT '0.00000',
-  `ConfuseKeepTimeDown` float(10,5) DEFAULT '0.00000',
-  `StoneKeepTimeDown` float(10,5) DEFAULT '0.00000',
-  `CandyKeepTimeDown` float(10,5) DEFAULT '0.00000',
-  `BleedingKeepTimeDown` float(10,5) DEFAULT '0.00000',
-  `PoisonKeepTimeDown` float(10,5) DEFAULT '0.00000',
-  `StomachacheKeepTimeDown` float(10,5) DEFAULT '0.00000',
-  `CriticalBlockSuccessRate` float(10,5) DEFAULT '0.00000',
-  `GuardRate` int(5) DEFAULT '0',
-  `SkillDamageBlockModeSuccessRate` float(10,5) DEFAULT '0.00000',
-  `CurseBlockModeSuccessRate` float(10,5) DEFAULT '0.00000',
-  `KnockdownBlockModeSuccessRate` float(10,5) DEFAULT '0.00000',
-  `HtbBlockModeSuccessRate` float(10,5) DEFAULT '0.00000',
-  `SitDownLpRegenBonusRate` float(10,5) DEFAULT '0.00000',
-  `SitDownEpRegenBonusRate` float(10,5) DEFAULT '0.00000',
-  `PhysicalCriticalDamageBonusRate` float(10,5) DEFAULT '0.00000',
-  `EnergyCriticalDamageBonusRate` float(10,5) DEFAULT '0.00000',
-  `ItemUpgradeBonusRate` float(10,5) DEFAULT '0.00000',
-  `ItemUpgradeBreakBonusRate` float(10,5) DEFAULT '0.00000',
-  `CurAP` int(10) DEFAULT '450000' COMMENT 'FlyingAP',
-  `CurLP` int(10) DEFAULT '100',
-  `CurEP` int(10) DEFAULT '100',
-  `CurRP` int(10) DEFAULT '100',
-  `LastMaxAp` int(5) DEFAULT '450000',
-  `BaseMaxAp` int(5) DEFAULT '450000'
+  `BaseStr` int(3) DEFAULT 10,
+  `LastStr` int(3) DEFAULT 10,
+  `BaseCon` int(3) DEFAULT 10,
+  `LastCon` int(3) DEFAULT 10,
+  `BaseFoc` int(3) DEFAULT 10,
+  `LastFoc` int(3) DEFAULT 10,
+  `BaseDex` int(3) DEFAULT 10,
+  `LastDex` int(3) DEFAULT 10,
+  `BaseSol` int(3) DEFAULT 10,
+  `LastSol` int(3) DEFAULT 10,
+  `BaseEng` int(3) DEFAULT 10,
+  `LastEng` int(3) DEFAULT 10,
+  `BaseMaxLP` int(5) DEFAULT 100,
+  `LastMaxLP` int(5) DEFAULT 100,
+  `BaseMaxEP` int(5) DEFAULT 100,
+  `LastMaxEP` int(5) DEFAULT 100,
+  `BaseMaxRP` int(5) DEFAULT 100,
+  `LastMaxRP` int(5) DEFAULT 100,
+  `BaseLpRegen` int(5) DEFAULT 0,
+  `LastLpRegen` int(5) DEFAULT 0,
+  `BaseLpSitdownRegen` int(5) DEFAULT 0,
+  `LastLpSitdownRegen` int(5) DEFAULT 0,
+  `BaseLpBattleRegen` int(5) DEFAULT 0,
+  `LastLpBattleRegen` int(5) DEFAULT 0,
+  `BaseEpRegen` int(5) DEFAULT 0,
+  `LastEpRegen` int(5) DEFAULT 0,
+  `BaseEpSitdownRegen` int(5) DEFAULT 0,
+  `LastEpSitdownRegen` int(5) DEFAULT 0,
+  `BaseEpBattleRegen` int(5) DEFAULT 0,
+  `LastEpBattleRegen` int(5) DEFAULT 0,
+  `BaseRpRegen` int(5) DEFAULT 0,
+  `LastRpRegen` int(5) DEFAULT 0,
+  `LastRpDimimutionRate` int(5) DEFAULT 0,
+  `BasePhysicalOffence` int(5) DEFAULT 10,
+  `LastPhysicalOffence` int(5) DEFAULT 10,
+  `BasePhysicalDefence` int(5) DEFAULT 10,
+  `LastPhysicalDefence` int(5) DEFAULT 10,
+  `BaseEnergyOffence` int(5) DEFAULT 10,
+  `LastEnergyOffence` int(5) DEFAULT 10,
+  `BaseEnergyDefence` int(5) DEFAULT 10,
+  `LastEnergyDefence` int(5) DEFAULT 10,
+  `BaseAttackRate` int(5) DEFAULT 2,
+  `LastAttackRate` int(5) DEFAULT 2,
+  `BaseDodgeRate` int(5) DEFAULT 2,
+  `LastDodgeRate` int(5) DEFAULT 2,
+  `BaseBlockRate` int(5) DEFAULT 2,
+  `LastBlockRate` int(5) DEFAULT 2,
+  `BaseCurseSuccessRate` int(5) DEFAULT 0,
+  `LastCurseSuccessRate` int(5) DEFAULT 0,
+  `BaseCurseToleranceRate` int(5) DEFAULT 0,
+  `LastCurseToleranceRate` int(5) DEFAULT 0,
+  `BasePhysicalCriticalRate` int(5) DEFAULT 0,
+  `LastPhysicalCriticalRate` int(5) DEFAULT 0,
+  `BaseEnergyCriticalRate` int(5) DEFAULT 0,
+  `LastEnergyCriticalRate` int(5) DEFAULT 0,
+  `LastRunSpeed` float(10,5) DEFAULT 8.00000,
+  `BaseAttackSpeedRate` int(5) DEFAULT 1000,
+  `LastAttackSpeedRate` int(5) DEFAULT 1000,
+  `BaseAttackRange` float(10,5) DEFAULT 10.00000,
+  `LastAttackRange` float(10,5) DEFAULT 10.00000,
+  `CastingTimeChangePercent` float(10,5) DEFAULT 100.00000,
+  `CoolTimeChangePercent` float(10,5) DEFAULT 100.00000,
+  `KeepTimeChangePercent` float(10,5) DEFAULT 100.00000,
+  `DotValueChangePercent` float(10,5) DEFAULT 100.00000,
+  `DotTimeChangeAbsolute` float(10,5) DEFAULT 100.00000,
+  `RequiredEpChangePercent` float(10,5) DEFAULT 100.00000,
+  `HonestOffence` float(10,5) DEFAULT 0.00000,
+  `HonestDefence` float(10,5) DEFAULT 0.00000,
+  `StrangeOffence` float(10,5) DEFAULT 0.00000,
+  `StrangeDefence` float(10,5) DEFAULT 0.00000,
+  `WildOffence` float(10,5) DEFAULT 0.00000,
+  `WildDefence` float(10,5) DEFAULT 0.00000,
+  `EleganceOffence` float(10,5) DEFAULT 0.00000,
+  `EleganceDefence` float(10,5) DEFAULT 0.00000,
+  `FunnyOffence` float(10,5) DEFAULT 0.00000,
+  `FunnyDefence` float(10,5) DEFAULT 0.00000,
+  `ParalyzeToleranceRate` int(5) DEFAULT 0,
+  `TerrorToleranceRate` int(5) DEFAULT 0,
+  `ConfuseToleranceRate` int(5) DEFAULT 0,
+  `StoneToleranceRate` int(5) DEFAULT 0,
+  `CandyToleranceRate` int(5) DEFAULT 0,
+  `ParalyzeKeepTimeDown` float(10,5) DEFAULT 0.00000,
+  `TerrorKeepTimeDown` float(10,5) DEFAULT 0.00000,
+  `ConfuseKeepTimeDown` float(10,5) DEFAULT 0.00000,
+  `StoneKeepTimeDown` float(10,5) DEFAULT 0.00000,
+  `CandyKeepTimeDown` float(10,5) DEFAULT 0.00000,
+  `BleedingKeepTimeDown` float(10,5) DEFAULT 0.00000,
+  `PoisonKeepTimeDown` float(10,5) DEFAULT 0.00000,
+  `StomachacheKeepTimeDown` float(10,5) DEFAULT 0.00000,
+  `CriticalBlockSuccessRate` float(10,5) DEFAULT 0.00000,
+  `GuardRate` int(5) DEFAULT 0,
+  `SkillDamageBlockModeSuccessRate` float(10,5) DEFAULT 0.00000,
+  `CurseBlockModeSuccessRate` float(10,5) DEFAULT 0.00000,
+  `KnockdownBlockModeSuccessRate` float(10,5) DEFAULT 0.00000,
+  `HtbBlockModeSuccessRate` float(10,5) DEFAULT 0.00000,
+  `SitDownLpRegenBonusRate` float(10,5) DEFAULT 0.00000,
+  `SitDownEpRegenBonusRate` float(10,5) DEFAULT 0.00000,
+  `PhysicalCriticalDamageBonusRate` float(10,5) DEFAULT 0.00000,
+  `EnergyCriticalDamageBonusRate` float(10,5) DEFAULT 0.00000,
+  `ItemUpgradeBonusRate` float(10,5) DEFAULT 0.00000,
+  `ItemUpgradeBreakBonusRate` float(10,5) DEFAULT 0.00000,
+  `CurAP` int(10) DEFAULT 450000 COMMENT 'FlyingAP',
+  `CurLP` int(10) DEFAULT 100,
+  `CurEP` int(10) DEFAULT 100,
+  `CurRP` int(10) DEFAULT 100,
+  `LastMaxAp` int(5) DEFAULT 450000,
+  `BaseMaxAp` int(5) DEFAULT 450000
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `charquestlist`
+-- Estructura de tabla para la tabla `charquestlist`
 --
 
 CREATE TABLE `charquestlist` (
   `pkQtTable` int(11) NOT NULL,
   `charId` int(10) DEFAULT NULL,
   `tid` int(100) DEFAULT NULL,
-  `isCompleted` smallint(1) NOT NULL DEFAULT '0',
-  `currentStep` int(255) NOT NULL DEFAULT '255',
+  `isCompleted` smallint(1) NOT NULL DEFAULT 0,
+  `currentStep` int(255) NOT NULL DEFAULT 255,
   `type` smallint(1) DEFAULT NULL,
   `dwEventData` int(255) DEFAULT NULL,
-  `nextStep` int(255) NOT NULL DEFAULT '2',
-  `timeRemaing` int(15) NOT NULL DEFAULT '255'
+  `nextStep` int(255) NOT NULL DEFAULT 2,
+  `timeRemaing` int(15) NOT NULL DEFAULT 255
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `friendlist`
+-- Estructura de tabla para la tabla `friendlist`
 --
 
 CREATE TABLE `friendlist` (
   `FriendID` bigint(20) UNSIGNED NOT NULL COMMENT 'Id of friend in the database',
   `OwnerID` bigint(20) UNSIGNED NOT NULL COMMENT 'CharID of the owner of the list friend',
   `CharID` bigint(10) NOT NULL COMMENT 'Id of the friend',
-  `IsBlack` tinyint(1) DEFAULT '0' COMMENT 'is in the black list?'
+  `IsBlack` tinyint(1) DEFAULT 0 COMMENT 'is in the black list?'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `guilds`
+-- Estructura de tabla para la tabla `guilds`
 --
 
 CREATE TABLE `guilds` (
@@ -345,18 +347,18 @@ CREATE TABLE `guilds` (
   `GuildName` varchar(30) DEFAULT NULL,
   `GuildMasterName` varchar(30) DEFAULT NULL,
   `GuildMaster` int(10) DEFAULT NULL,
-  `GuildSecondMaster` int(10) DEFAULT '0',
+  `GuildSecondMaster` int(10) DEFAULT 0,
   `GuildNotice` varchar(256) DEFAULT NULL,
-  `GuildReputation` int(10) DEFAULT '0',
-  `GuildPointEver` int(10) DEFAULT '0',
+  `GuildReputation` int(10) DEFAULT 0,
+  `GuildPointEver` int(10) DEFAULT 0,
   `GuildDisbandTime` datetime DEFAULT NULL,
-  `GuildFunctions` int(15) DEFAULT '0'
+  `GuildFunctions` int(15) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `guild_members`
+-- Estructura de tabla para la tabla `guild_members`
 --
 
 CREATE TABLE `guild_members` (
@@ -364,93 +366,93 @@ CREATE TABLE `guild_members` (
   `GuildID` int(5) NOT NULL,
   `MemberID` int(10) NOT NULL,
   `MemberName` varchar(30) NOT NULL,
-  `is_guildmaster` tinyint(1) DEFAULT '0',
-  `is_secondguildmaster` tinyint(1) DEFAULT '0'
+  `is_guildmaster` tinyint(1) DEFAULT 0,
+  `is_secondguildmaster` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `hoipoimix`
+-- Estructura de tabla para la tabla `hoipoimix`
 --
 
 CREATE TABLE `hoipoimix` (
   `ID` int(10) NOT NULL,
-  `CharID` int(11) DEFAULT '0',
-  `RecipeID` int(11) DEFAULT '0'
+  `CharID` int(11) DEFAULT 0,
+  `RecipeID` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `itematributes`
+-- Estructura de tabla para la tabla `itematributes`
 --
 
 CREATE TABLE `itematributes` (
   `id` int(11) UNSIGNED NOT NULL,
-  `tblidx` int(11) UNSIGNED NOT NULL DEFAULT '0',
-  `owner_id` int(11) UNSIGNED NOT NULL DEFAULT '0',
+  `tblidx` int(11) UNSIGNED NOT NULL DEFAULT 0,
+  `owner_id` int(11) UNSIGNED NOT NULL DEFAULT 0,
   `place` int(11) DEFAULT NULL,
   `pos` int(11) DEFAULT NULL,
-  `AtributeType1` int(11) DEFAULT '0',
-  `AtributeValue1` int(11) DEFAULT '0',
-  `AtributeType2` int(11) DEFAULT '0',
-  `AtributeValue2` int(11) DEFAULT '0',
-  `AtributeType3` int(11) DEFAULT '0',
-  `AtributeValue3` int(11) DEFAULT '0',
-  `AtributeType4` int(11) DEFAULT '0',
-  `AtributeValue4` int(11) DEFAULT '0',
-  `AtributeType5` int(11) DEFAULT '0',
-  `AtributeValue5` int(11) DEFAULT '0',
-  `AtributeType6` int(11) DEFAULT '0',
-  `AtributeValue6` int(11) DEFAULT '0',
-  `DogiAtributeType1` int(11) DEFAULT '0',
-  `DogiAtributeValue1` int(11) DEFAULT '0',
-  `DogiAtributeType2` int(11) DEFAULT '0',
-  `DogiAtributeValue2` int(11) DEFAULT '0'
+  `AtributeType1` int(11) DEFAULT 0,
+  `AtributeValue1` int(11) DEFAULT 0,
+  `AtributeType2` int(11) DEFAULT 0,
+  `AtributeValue2` int(11) DEFAULT 0,
+  `AtributeType3` int(11) DEFAULT 0,
+  `AtributeValue3` int(11) DEFAULT 0,
+  `AtributeType4` int(11) DEFAULT 0,
+  `AtributeValue4` int(11) DEFAULT 0,
+  `AtributeType5` int(11) DEFAULT 0,
+  `AtributeValue5` int(11) DEFAULT 0,
+  `AtributeType6` int(11) DEFAULT 0,
+  `AtributeValue6` int(11) DEFAULT 0,
+  `DogiAtributeType1` int(11) DEFAULT 0,
+  `DogiAtributeValue1` int(11) DEFAULT 0,
+  `DogiAtributeType2` int(11) DEFAULT 0,
+  `DogiAtributeValue2` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `items`
+-- Estructura de tabla para la tabla `items`
 --
 
 CREATE TABLE `items` (
   `id` int(11) UNSIGNED NOT NULL,
-  `tblidx` int(11) UNSIGNED NOT NULL DEFAULT '0',
-  `owner_id` int(11) UNSIGNED NOT NULL DEFAULT '0',
-  `place` tinyint(1) UNSIGNED NOT NULL DEFAULT '1',
-  `pos` smallint(5) UNSIGNED NOT NULL DEFAULT '0',
-  `count` smallint(3) UNSIGNED NOT NULL DEFAULT '1',
-  `rank` tinyint(1) UNSIGNED NOT NULL DEFAULT '1',
-  `durability` smallint(3) UNSIGNED NOT NULL DEFAULT '100',
-  `grade` tinyint(1) UNSIGNED NOT NULL DEFAULT '0',
-  `battleAttribute` int(11) DEFAULT '0',
-  `option0` int(11) DEFAULT '0',
-  `option1` int(11) DEFAULT '0',
-  `AtributeType1` int(11) DEFAULT '0',
-  `AtributeValue1` int(11) DEFAULT '0',
-  `AtributeType2` int(11) DEFAULT '0',
-  `AtributeValue2` int(11) DEFAULT '0',
-  `AtributeType3` int(11) DEFAULT '0',
-  `AtributeValue3` int(11) DEFAULT '0',
-  `AtributeType4` int(11) DEFAULT '0',
-  `AtributeValue4` int(11) DEFAULT '0',
-  `AtributeType5` int(11) DEFAULT '0',
-  `AtributeValue5` int(11) DEFAULT '0',
-  `AtributeType6` int(11) DEFAULT '0',
-  `AtributeValue6` int(11) DEFAULT '0',
-  `DogiAtributeType1` int(11) DEFAULT '0',
-  `DogiAtributeValue1` int(11) DEFAULT '0',
-  `DogiAtributeType2` int(11) DEFAULT '0',
-  `DogiAtributeValue2` int(11) DEFAULT '0'
+  `tblidx` int(11) UNSIGNED NOT NULL DEFAULT 0,
+  `owner_id` int(11) UNSIGNED NOT NULL DEFAULT 0,
+  `place` tinyint(1) UNSIGNED NOT NULL DEFAULT 1,
+  `pos` smallint(5) UNSIGNED NOT NULL DEFAULT 0,
+  `count` smallint(3) UNSIGNED NOT NULL DEFAULT 1,
+  `rank` tinyint(1) UNSIGNED NOT NULL DEFAULT 1,
+  `durability` smallint(3) UNSIGNED NOT NULL DEFAULT 100,
+  `grade` tinyint(1) UNSIGNED NOT NULL DEFAULT 0,
+  `battleAttribute` int(11) DEFAULT 0,
+  `option0` int(11) DEFAULT 0,
+  `option1` int(11) DEFAULT 0,
+  `AtributeType1` int(11) DEFAULT 0,
+  `AtributeValue1` int(11) DEFAULT 0,
+  `AtributeType2` int(11) DEFAULT 0,
+  `AtributeValue2` int(11) DEFAULT 0,
+  `AtributeType3` int(11) DEFAULT 0,
+  `AtributeValue3` int(11) DEFAULT 0,
+  `AtributeType4` int(11) DEFAULT 0,
+  `AtributeValue4` int(11) DEFAULT 0,
+  `AtributeType5` int(11) DEFAULT 0,
+  `AtributeValue5` int(11) DEFAULT 0,
+  `AtributeType6` int(11) DEFAULT 0,
+  `AtributeValue6` int(11) DEFAULT 0,
+  `DogiAtributeType1` int(11) DEFAULT 0,
+  `DogiAtributeValue1` int(11) DEFAULT 0,
+  `DogiAtributeType2` int(11) DEFAULT 0,
+  `DogiAtributeValue2` int(11) DEFAULT 0
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 ROW_FORMAT=FIXED;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `mail`
+-- Estructura de tabla para la tabla `mail`
 --
 
 CREATE TABLE `mail` (
@@ -458,59 +460,59 @@ CREATE TABLE `mail` (
   `CharacterID` int(11) DEFAULT NULL,
   `byDay` tinyint(2) DEFAULT NULL,
   `tCreateTime` int(50) DEFAULT NULL,
-  `SenderType` tinyint(1) NOT NULL DEFAULT '0',
+  `SenderType` tinyint(1) NOT NULL DEFAULT 0,
   `byMailType` tinyint(1) NOT NULL,
   `byTextSize` int(10) DEFAULT NULL,
-  `dwZenny` int(10) DEFAULT '0',
+  `dwZenny` int(10) DEFAULT 0,
   `wszText` varchar(130) DEFAULT NULL,
   `item_id` int(11) DEFAULT NULL,
   `item_place` int(10) DEFAULT NULL,
   `item_pos` int(10) DEFAULT NULL,
-  `grade` int(11) DEFAULT '0',
-  `StackCount` int(10) DEFAULT '1',
+  `grade` int(11) DEFAULT 0,
+  `StackCount` int(10) DEFAULT 1,
   `wszTargetName` varchar(16) DEFAULT NULL,
   `wszFromName` varchar(16) DEFAULT NULL,
   `bIsAccept` int(1) DEFAULT NULL,
   `bIsLock` int(1) DEFAULT NULL,
   `bIsRead` int(1) DEFAULT NULL,
-  `AtributeValue1` int(11) DEFAULT '0',
-  `AtributeType2` int(11) DEFAULT '0',
-  `AtributeValue2` int(11) DEFAULT '0',
-  `AtributeType3` int(11) DEFAULT '0',
-  `AtributeValue3` int(11) DEFAULT '0',
-  `AtributeType4` int(11) DEFAULT '0',
-  `AtributeValue4` int(11) DEFAULT '0',
-  `AtributeType5` int(11) DEFAULT '0',
-  `AtributeValue5` int(11) DEFAULT '0',
-  `AtributeType6` int(11) DEFAULT '0',
-  `AtributeValue6` int(11) DEFAULT '0'
+  `AtributeValue1` int(11) DEFAULT 0,
+  `AtributeType2` int(11) DEFAULT 0,
+  `AtributeValue2` int(11) DEFAULT 0,
+  `AtributeType3` int(11) DEFAULT 0,
+  `AtributeValue3` int(11) DEFAULT 0,
+  `AtributeType4` int(11) DEFAULT 0,
+  `AtributeValue4` int(11) DEFAULT 0,
+  `AtributeType5` int(11) DEFAULT 0,
+  `AtributeValue5` int(11) DEFAULT 0,
+  `AtributeType6` int(11) DEFAULT 0,
+  `AtributeValue6` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `mascotinfo`
+-- Estructura de tabla para la tabla `mascotinfo`
 --
 
 CREATE TABLE `mascotinfo` (
   `ID` int(10) NOT NULL,
-  `CharID` int(11) DEFAULT '0',
-  `MascotID` int(11) DEFAULT '0',
-  `Slot` int(5) DEFAULT '0',
-  `CurVP` int(11) DEFAULT '0',
-  `MaxVP` int(11) DEFAULT '0',
-  `Exp` int(11) DEFAULT '0',
-  `Skill_count` int(5) DEFAULT '1',
-  `Skill1` int(11) DEFAULT '0',
-  `Skill2` int(11) DEFAULT '0',
-  `Skill3` int(11) DEFAULT '0',
-  `Skill4` int(11) DEFAULT '0'
+  `CharID` int(11) DEFAULT 0,
+  `MascotID` int(11) DEFAULT 0,
+  `Slot` int(5) DEFAULT 0,
+  `CurVP` int(11) DEFAULT 0,
+  `MaxVP` int(11) DEFAULT 0,
+  `Exp` int(11) DEFAULT 0,
+  `Skill_count` int(5) DEFAULT 1,
+  `Skill1` int(11) DEFAULT 0,
+  `Skill2` int(11) DEFAULT 0,
+  `Skill3` int(11) DEFAULT 0,
+  `Skill4` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `portals`
+-- Estructura de tabla para la tabla `portals`
 --
 
 CREATE TABLE `portals` (
@@ -522,67 +524,21 @@ CREATE TABLE `portals` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `quickslot`
+-- Estructura de tabla para la tabla `quickslot`
 --
 
 CREATE TABLE `quickslot` (
-  `pkQuick` int(15) NOT NULL,
-  `charId` int(11) DEFAULT NULL,
-  `slotId_0` int(10) UNSIGNED DEFAULT '0',
-  `slotId_1` int(10) UNSIGNED DEFAULT '0',
-  `slotId_2` int(10) UNSIGNED DEFAULT '0',
-  `slotId_3` int(10) UNSIGNED DEFAULT '0',
-  `slotId_4` int(10) UNSIGNED DEFAULT '0',
-  `slotId_5` int(10) UNSIGNED DEFAULT '0',
-  `slotId_6` int(10) UNSIGNED DEFAULT '0',
-  `slotId_7` int(10) UNSIGNED DEFAULT '0',
-  `slotId_8` int(10) UNSIGNED DEFAULT '0',
-  `slotId_9` int(10) UNSIGNED DEFAULT '0',
-  `slotId_10` int(10) UNSIGNED DEFAULT '0',
-  `slotId_11` int(10) UNSIGNED DEFAULT '0',
-  `slotId_12` int(10) UNSIGNED DEFAULT '0',
-  `slotId_13` int(10) UNSIGNED DEFAULT '0',
-  `slotId_14` int(10) UNSIGNED DEFAULT '0',
-  `slotId_15` int(10) UNSIGNED DEFAULT '0',
-  `slotId_16` int(10) UNSIGNED DEFAULT '0',
-  `slotId_17` int(10) UNSIGNED DEFAULT '0',
-  `slotId_18` int(10) UNSIGNED DEFAULT '0',
-  `slotId_19` int(10) UNSIGNED DEFAULT '0',
-  `slotId_20` int(10) UNSIGNED DEFAULT '0',
-  `slotId_21` int(10) UNSIGNED DEFAULT '0',
-  `slotId_22` int(10) UNSIGNED DEFAULT '0',
-  `slotId_23` int(10) UNSIGNED DEFAULT '0',
-  `slotId_24` int(10) UNSIGNED DEFAULT '0',
-  `slotId_25` int(10) UNSIGNED DEFAULT '0',
-  `slotId_26` int(10) UNSIGNED DEFAULT '0',
-  `slotId_27` int(10) UNSIGNED DEFAULT '0',
-  `slotId_28` int(10) UNSIGNED DEFAULT '0',
-  `slotId_29` int(10) UNSIGNED DEFAULT '0',
-  `slotId_30` int(10) UNSIGNED DEFAULT '0',
-  `slotId_31` int(10) UNSIGNED DEFAULT '0',
-  `slotId_32` int(10) UNSIGNED DEFAULT '0',
-  `slotId_33` int(10) UNSIGNED DEFAULT '0',
-  `slotId_34` int(10) UNSIGNED DEFAULT '0',
-  `slotId_35` int(10) UNSIGNED DEFAULT '0',
-  `slotId_36` int(10) UNSIGNED DEFAULT '0',
-  `slotId_37` int(10) UNSIGNED DEFAULT '0',
-  `slotId_38` int(10) UNSIGNED DEFAULT '0',
-  `slotId_39` int(10) UNSIGNED DEFAULT '0',
-  `slotId_40` int(10) UNSIGNED DEFAULT '0',
-  `slotId_41` int(10) UNSIGNED DEFAULT '0',
-  `slotId_42` int(10) UNSIGNED DEFAULT '0',
-  `slotId_43` int(10) UNSIGNED DEFAULT '0',
-  `slotId_44` int(10) UNSIGNED DEFAULT '0',
-  `slotId_45` int(10) UNSIGNED DEFAULT '0',
-  `slotId_46` int(10) UNSIGNED DEFAULT '0',
-  `slotId_47` int(10) DEFAULT NULL,
-  `placeID` int(10) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+  `quickslotID` int(10) UNSIGNED NOT NULL COMMENT 'Quick Slot ID',
+  `CharID` int(10) UNSIGNED NOT NULL COMMENT 'Char ID of player',
+  `Tblidx` int(10) UNSIGNED NOT NULL COMMENT 'tblidx of item',
+  `SlotID` int(3) UNSIGNED NOT NULL COMMENT 'slot id',
+  `Type` int(3) UNSIGNED NOT NULL COMMENT 'type item'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `quickteleporter`
+-- Estructura de tabla para la tabla `quickteleporter`
 --
 
 CREATE TABLE `quickteleporter` (
@@ -605,46 +561,40 @@ CREATE TABLE `quickteleporter` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `realmlist`
+-- Estructura de tabla para la tabla `realmlist`
 --
 
 CREATE TABLE `realmlist` (
   `id` int(11) UNSIGNED NOT NULL,
-  `ServerID` int(11) UNSIGNED NOT NULL DEFAULT '0',
-  `ChannelID` int(11) UNSIGNED NOT NULL DEFAULT '0',
-  `realmflags` tinyint(3) UNSIGNED NOT NULL DEFAULT '2',
-  `population` float UNSIGNED NOT NULL DEFAULT '0',
-  `IsEvent` int(11) DEFAULT '0',
+  `ServerID` int(11) UNSIGNED NOT NULL DEFAULT 0,
+  `ChannelID` int(11) UNSIGNED NOT NULL DEFAULT 0,
+  `realmflags` tinyint(3) UNSIGNED NOT NULL DEFAULT 2,
+  `population` float UNSIGNED NOT NULL DEFAULT 0,
+  `IsEvent` int(11) DEFAULT 0,
   `Name` varchar(20) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Realm System' ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
--- ----------------------------
--- Records of realmlist
--- ----------------------------
-INSERT INTO `realmlist` VALUES ('1', '1', '1', '0', '0', '0', null);
-INSERT INTO `realmlist` VALUES ('2', '2', '1', '0', '0', '0', null);
-
 --
--- Table structure for table `skills`
+-- Estructura de tabla para la tabla `skills`
 --
 
 CREATE TABLE `skills` (
   `id` int(11) UNSIGNED NOT NULL,
-  `skill_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `skill_id` int(10) UNSIGNED NOT NULL DEFAULT 0,
   `owner_id` int(11) UNSIGNED NOT NULL,
   `RpBonusAuto` bit(1) DEFAULT b'0',
-  `RpBonusType` int(5) UNSIGNED NOT NULL DEFAULT '0',
-  `SlotID` smallint(3) UNSIGNED NOT NULL DEFAULT '0',
-  `TimeRemaining` int(15) UNSIGNED NOT NULL DEFAULT '0',
-  `Exp` int(5) UNSIGNED NOT NULL DEFAULT '0'
+  `RpBonusType` int(5) UNSIGNED NOT NULL DEFAULT 0,
+  `SlotID` smallint(3) UNSIGNED NOT NULL DEFAULT 0,
+  `TimeRemaining` int(15) UNSIGNED NOT NULL DEFAULT 0,
+  `Exp` int(5) UNSIGNED NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `titlelist`
+-- Estructura de tabla para la tabla `titlelist`
 --
 
 CREATE TABLE `titlelist` (
@@ -656,7 +606,7 @@ CREATE TABLE `titlelist` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `warfoginfo`
+-- Estructura de tabla para la tabla `warfoginfo`
 --
 
 CREATE TABLE `warfoginfo` (
@@ -666,36 +616,36 @@ CREATE TABLE `warfoginfo` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 --
--- Indexes for dumped tables
+-- Índices para tablas volcadas
 --
 
 --
--- Indexes for table `account`
+-- Indices de la tabla `account`
 --
 ALTER TABLE `account`
   ADD PRIMARY KEY (`AccountID`) USING BTREE,
   ADD UNIQUE KEY `AccountID_UNIQUE` (`AccountID`) USING BTREE;
 
 --
--- Indexes for table `aucionhouse`
+-- Indices de la tabla `aucionhouse`
 --
 ALTER TABLE `aucionhouse`
   ADD PRIMARY KEY (`id`) USING BTREE;
 
 --
--- Indexes for table `banlist`
+-- Indices de la tabla `banlist`
 --
 ALTER TABLE `banlist`
   ADD PRIMARY KEY (`id`) USING BTREE;
 
 --
--- Indexes for table `bind`
+-- Indices de la tabla `bind`
 --
 ALTER TABLE `bind`
   ADD PRIMARY KEY (`id`) USING BTREE;
 
 --
--- Indexes for table `cashitem`
+-- Indices de la tabla `cashitem`
 --
 ALTER TABLE `cashitem`
   ADD PRIMARY KEY (`id`) USING BTREE,
@@ -703,7 +653,7 @@ ALTER TABLE `cashitem`
   ADD KEY `item_vnum_index` (`tblidx`) USING BTREE;
 
 --
--- Indexes for table `characters`
+-- Indices de la tabla `characters`
 --
 ALTER TABLE `characters`
   ADD PRIMARY KEY (`CharacterID`) USING BTREE,
@@ -711,19 +661,19 @@ ALTER TABLE `characters`
   ADD UNIQUE KEY `Name_UNIQUE` (`Name`) USING BTREE;
 
 --
--- Indexes for table `characters_attributes`
+-- Indices de la tabla `characters_attributes`
 --
 ALTER TABLE `characters_attributes`
   ADD PRIMARY KEY (`ID`) USING BTREE;
 
 --
--- Indexes for table `charquestlist`
+-- Indices de la tabla `charquestlist`
 --
 ALTER TABLE `charquestlist`
   ADD PRIMARY KEY (`pkQtTable`) USING BTREE;
 
 --
--- Indexes for table `friendlist`
+-- Indices de la tabla `friendlist`
 --
 ALTER TABLE `friendlist`
   ADD PRIMARY KEY (`FriendID`) USING BTREE COMMENT 'Friend ID',
@@ -731,31 +681,31 @@ ALTER TABLE `friendlist`
   ADD KEY `friendlist_ibfk_1` (`OwnerID`) USING BTREE;
 
 --
--- Indexes for table `guilds`
+-- Indices de la tabla `guilds`
 --
 ALTER TABLE `guilds`
   ADD PRIMARY KEY (`GuildID`) USING BTREE;
 
 --
--- Indexes for table `guild_members`
+-- Indices de la tabla `guild_members`
 --
 ALTER TABLE `guild_members`
   ADD PRIMARY KEY (`id`) USING BTREE;
 
 --
--- Indexes for table `hoipoimix`
+-- Indices de la tabla `hoipoimix`
 --
 ALTER TABLE `hoipoimix`
   ADD PRIMARY KEY (`ID`) USING BTREE;
 
 --
--- Indexes for table `itematributes`
+-- Indices de la tabla `itematributes`
 --
 ALTER TABLE `itematributes`
   ADD PRIMARY KEY (`id`) USING BTREE;
 
 --
--- Indexes for table `items`
+-- Indices de la tabla `items`
 --
 ALTER TABLE `items`
   ADD PRIMARY KEY (`id`) USING BTREE,
@@ -763,187 +713,199 @@ ALTER TABLE `items`
   ADD KEY `item_vnum_index` (`tblidx`) USING BTREE;
 
 --
--- Indexes for table `mail`
+-- Indices de la tabla `mail`
 --
 ALTER TABLE `mail`
   ADD PRIMARY KEY (`id`) USING BTREE;
 
 --
--- Indexes for table `mascotinfo`
+-- Indices de la tabla `mascotinfo`
 --
 ALTER TABLE `mascotinfo`
   ADD PRIMARY KEY (`ID`) USING BTREE;
 
 --
--- Indexes for table `portals`
+-- Indices de la tabla `portals`
 --
 ALTER TABLE `portals`
   ADD PRIMARY KEY (`id`) USING BTREE;
 
 --
--- Indexes for table `quickslot`
---
-ALTER TABLE `quickslot`
-  ADD PRIMARY KEY (`pkQuick`) USING BTREE;
-
---
--- Indexes for table `quickteleporter`
+-- Indices de la tabla `quickteleporter`
 --
 ALTER TABLE `quickteleporter`
   ADD PRIMARY KEY (`ID`) USING BTREE;
 
 --
--- Indexes for table `realmlist`
+-- Indices de la tabla `realmlist`
 --
 ALTER TABLE `realmlist`
   ADD PRIMARY KEY (`id`) USING BTREE;
 
 --
--- Indexes for table `skills`
+-- Indices de la tabla `skills`
 --
 ALTER TABLE `skills`
   ADD PRIMARY KEY (`id`) USING BTREE;
 
 --
--- Indexes for table `titlelist`
+-- Indices de la tabla `titlelist`
 --
 ALTER TABLE `titlelist`
   ADD PRIMARY KEY (`id`) USING BTREE;
 
 --
--- Indexes for table `warfoginfo`
+-- Indices de la tabla `warfoginfo`
 --
 ALTER TABLE `warfoginfo`
   ADD PRIMARY KEY (`idFog`) USING BTREE;
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT de las tablas volcadas
 --
 
 --
--- AUTO_INCREMENT for table `account`
+-- AUTO_INCREMENT de la tabla `account`
 --
 ALTER TABLE `account`
   MODIFY `AccountID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
 --
--- AUTO_INCREMENT for table `aucionhouse`
+-- AUTO_INCREMENT de la tabla `aucionhouse`
 --
 ALTER TABLE `aucionhouse`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
--- AUTO_INCREMENT for table `banlist`
+-- AUTO_INCREMENT de la tabla `banlist`
 --
 ALTER TABLE `banlist`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
--- AUTO_INCREMENT for table `bind`
+-- AUTO_INCREMENT de la tabla `bind`
 --
 ALTER TABLE `bind`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+
 --
--- AUTO_INCREMENT for table `cashitem`
+-- AUTO_INCREMENT de la tabla `cashitem`
 --
 ALTER TABLE `cashitem`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=122;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
 --
--- AUTO_INCREMENT for table `characters`
+-- AUTO_INCREMENT de la tabla `characters`
 --
 ALTER TABLE `characters`
   MODIFY `CharacterID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
 --
--- AUTO_INCREMENT for table `characters_attributes`
+-- AUTO_INCREMENT de la tabla `characters_attributes`
 --
 ALTER TABLE `characters_attributes`
   MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT;
+
 --
--- AUTO_INCREMENT for table `charquestlist`
+-- AUTO_INCREMENT de la tabla `charquestlist`
 --
 ALTER TABLE `charquestlist`
-  MODIFY `pkQtTable` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `pkQtTable` int(11) NOT NULL AUTO_INCREMENT;
+
 --
--- AUTO_INCREMENT for table `friendlist`
+-- AUTO_INCREMENT de la tabla `friendlist`
 --
 ALTER TABLE `friendlist`
   MODIFY `FriendID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Id of friend in the database';
+
 --
--- AUTO_INCREMENT for table `guilds`
+-- AUTO_INCREMENT de la tabla `guilds`
 --
 ALTER TABLE `guilds`
   MODIFY `GuildID` int(5) NOT NULL AUTO_INCREMENT;
+
 --
--- AUTO_INCREMENT for table `guild_members`
+-- AUTO_INCREMENT de la tabla `guild_members`
 --
 ALTER TABLE `guild_members`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+
 --
--- AUTO_INCREMENT for table `hoipoimix`
+-- AUTO_INCREMENT de la tabla `hoipoimix`
 --
 ALTER TABLE `hoipoimix`
   MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT;
+
 --
--- AUTO_INCREMENT for table `itematributes`
+-- AUTO_INCREMENT de la tabla `itematributes`
 --
 ALTER TABLE `itematributes`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
 --
--- AUTO_INCREMENT for table `items`
+-- AUTO_INCREMENT de la tabla `items`
 --
 ALTER TABLE `items`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=157460;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
 --
--- AUTO_INCREMENT for table `mail`
+-- AUTO_INCREMENT de la tabla `mail`
 --
 ALTER TABLE `mail`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+
 --
--- AUTO_INCREMENT for table `mascotinfo`
+-- AUTO_INCREMENT de la tabla `mascotinfo`
 --
 ALTER TABLE `mascotinfo`
   MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT;
+
 --
--- AUTO_INCREMENT for table `portals`
+-- AUTO_INCREMENT de la tabla `portals`
 --
 ALTER TABLE `portals`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+
 --
--- AUTO_INCREMENT for table `quickslot`
---
-ALTER TABLE `quickslot`
-  MODIFY `pkQuick` int(15) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `quickteleporter`
+-- AUTO_INCREMENT de la tabla `quickteleporter`
 --
 ALTER TABLE `quickteleporter`
   MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT;
+
 --
--- AUTO_INCREMENT for table `realmlist`
+-- AUTO_INCREMENT de la tabla `realmlist`
 --
 ALTER TABLE `realmlist`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
 --
--- AUTO_INCREMENT for table `skills`
+-- AUTO_INCREMENT de la tabla `skills`
 --
 ALTER TABLE `skills`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
 --
--- AUTO_INCREMENT for table `titlelist`
+-- AUTO_INCREMENT de la tabla `titlelist`
 --
 ALTER TABLE `titlelist`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+
 --
--- AUTO_INCREMENT for table `warfoginfo`
+-- AUTO_INCREMENT de la tabla `warfoginfo`
 --
 ALTER TABLE `warfoginfo`
   MODIFY `idFog` int(11) NOT NULL AUTO_INCREMENT;
+
 --
--- Constraints for dumped tables
+-- Restricciones para tablas volcadas
 --
 
 --
--- Constraints for table `friendlist`
+-- Filtros para la tabla `friendlist`
 --
 ALTER TABLE `friendlist`
   ADD CONSTRAINT `friendlist_ibfk_1` FOREIGN KEY (`OwnerID`) REFERENCES `characters` (`CharacterID`) ON DELETE CASCADE;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
