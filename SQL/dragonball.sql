@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 09-03-2020 a las 18:27:54
+-- Tiempo de generación: 09-03-2020 a las 18:32:53
 -- Versión del servidor: 10.4.11-MariaDB
 -- Versión de PHP: 7.4.2
 
@@ -166,7 +166,7 @@ CREATE TABLE `characters` (
   `CashPoint` int(10) DEFAULT 999999,
   `MixLevel` int(10) NOT NULL DEFAULT 1,
   `IsAdult` tinyint(1) NOT NULL DEFAULT 0,
-  `IsTutorialDone` tinyint(1) NOT NULL DEFAULT 1,
+  `IsTutorialDone` tinyint(1) NOT NULL DEFAULT 0,
   `IsToRename` tinyint(1) NOT NULL DEFAULT 0,
   `IsToDelete` tinyint(1) NOT NULL DEFAULT 0,
   `IsToChangeClass` tinyint(1) NOT NULL DEFAULT 0,
