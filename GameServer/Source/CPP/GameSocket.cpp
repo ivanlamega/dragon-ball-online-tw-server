@@ -35,8 +35,7 @@ bool GameSocket::HandleAuthSession(Packet& packet)
 {
 	sUG_GAME_ENTER_REQ *req = (sUG_GAME_ENTER_REQ*)packet.GetPacketData();
 	sGU_GAME_ENTER_RES res;
-
-	sql::ResultSet* result = sDB.executes("UPDATE characters SET isOnline = 1 AND IsTutorialDone = 1 WHERE CharacterID = '%d';" , req->charId);
+	sql::ResultSet* result = sDB.executes("UPDATE characters SET isOnline = 1, IsTutorialDone = %d WHERE CharacterID = '%d';", (req->bTutorialMode == true ? 0 : 1), req->charId);
 	
 	if (result != NULL)
 		delete result;

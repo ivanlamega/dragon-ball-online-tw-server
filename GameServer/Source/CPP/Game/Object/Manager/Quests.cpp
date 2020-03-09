@@ -20,8 +20,8 @@ bool QuestManager::DeleteQuest(int questId)
 
 		if (iter->QuestID == questId)
 		{
+			DeleteMobsQuest(questId);
 			QuestDat.erase(iter);
-			//DeleteMobsQuest(questId);
 			return true;
 		}
 	}
@@ -65,15 +65,31 @@ NTL_TS_T_ID	QuestManager::FindQuestByMob(TBLIDX mobTblidx)
 
 void QuestManager::DeleteMobsQuest(NTL_TS_T_ID questId)
 {
-	for (auto it = m_pMobQuestList.begin(); it != m_pMobQuestList.end(); ++it)
+	mutexMobsQuest.lock();
+	try
 	{
-		if (it->second == questId)
+		for (auto it = m_pMobQuestList.begin(); it != m_pMobQuestList.end(); ++it)
 		{
-			sLog.outBasic("Deleted mob %d of quest %d", it->second, it->first);
-			m_pMobQuestList.erase(it->first);
-			sLog.outBasic("Deleted!");
+			if (it->second == questId)
+			{
+				try
+				{
+					sLog.outBasic("Deleted mob %d of quest %d", it->second, it->first);
+					m_pMobQuestList.erase(it->first);
+					sLog.outBasic("Deleted!");
+				}
+				catch (int e)
+				{
+					sLog.outError("Error to delete mob quest");
+				}
+			}
 		}
-	}	
+	}
+	catch (int e)
+	{
+		sLog.outError("Error to find mobquest");
+	}
+	mutexMobsQuest.unlock();
 }
 
 void QuestManager::DeleteMobQuest(TBLIDX mobTblidx)

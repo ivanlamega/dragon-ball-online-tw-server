@@ -1272,8 +1272,8 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 							return RESULT_FAIL;
 						}
 
-						sql::ResultSet* result = sDB.executes("UPDATE characters SET isOnline = 1 AND IsTutorialDone = 1 WHERE CharacterID = '%d';", _player->GetCharacterID());
-						sLog.outBasic("Result: %d to saved tutorial in db", result);
+						sql::ResultSet* result = sDB.executes("UPDATE characters SET IsTutorialDone = 1 WHERE CharacterID = %d;", _player->GetAttributesManager()->GetPlayerProfile()->charId);
+						sLog.outBasic("Result: %d to saved tutorial in db charid %d %d", result, _player->GetCharacterID(), _player->GetAttributesManager()->GetPlayerProfile()->charId);
 						if (result != NULL)
 						{
 							delete result;

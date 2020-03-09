@@ -459,6 +459,7 @@ void WorldSession::SendWorldEnter()
 		delete result;
 		return;
 	}
+	sLog.outDebug("Is tutorial done? %d", result->getInt("IsTutorialDone"));
 	//Uncomment this if lines to see the first tutorial...not working for now this method above is wrong...we need get from database - Luiz45
 	if (result->getInt("IsTutorialDone") == 1)
 	{
