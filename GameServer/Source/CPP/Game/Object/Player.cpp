@@ -4729,6 +4729,7 @@ void Player::AddQuickSlot(TBLIDX tblidx, BYTE slotId, BYTE type)
 	sLog.outBasic("AddObjetSlot : slot id: %u at itemTblidx: %d\n", slotId, tblidx);
 	sql::ResultSet * result = sDB.executes("INSERT INTO quickslot(CharID, Tblidx, SlotID, Type) VALUES(%d, %d, %d, %d) ON DUPLICATE KEY UPDATE CharID = VALUES(CharID), Tblidx = VALUES(Tblidx), SlotID = VALUES(SlotID), Type = VALUES(Type)", 
 		GetCharacterID(), tblidx, slotId, type);
+	sLog.outBasic("Add items in quickslot");
 	if (result != NULL)
 	{ 
 		delete result;
@@ -4738,6 +4739,7 @@ void Player::AddQuickSlot(TBLIDX tblidx, BYTE slotId, BYTE type)
 void Player::DeleteQuickSlot(BYTE slotId)
 {
 	sql::ResultSet* result = sDB.executes("DELETE FROM quickslot WHERE SlotID = %d AND CharID = %d limit 1;", slotId, charid);
+	sLog.outBasic("Quick slot deleted %d", slotId);
 	if (result != NULL)
 		delete result;
 }
@@ -4762,15 +4764,18 @@ int Player::GetQuickSlotInfo(sGU_QUICK_SLOT_INFO& slotInfo)
 		slotInfo.asQuickSlotData[i].tblidx = result->getInt("Tblidx");
 		slotInfo.asQuickSlotData[i].hItem = INVALID_TBLIDX;
 
-		if (QUICK_SLOT_TYPE_ITEM)
+		if (slotInfo.asQuickSlotData[i].byType == QUICK_SLOT_TYPE_ITEM)
 		{
 			sITEM_PROFILE* item = GetInventoryManager()->GetItemByTblidx(slotInfo.asQuickSlotData[i].tblidx);
 			if (item)
 			{
 				slotInfo.asQuickSlotData[i].hItem = item->handle;
+				sLog.outBasic("Item for quick slot handle %d", item->handle);
 			}
 		}
 
 		result->next();
 	}
+
+	sLog.outBasic("Load %d quick slot", slotInfo.byQuickSlotCount);
 }
