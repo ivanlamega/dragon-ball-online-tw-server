@@ -20,7 +20,13 @@ bool QuestManager::DeleteQuest(int questId)
 
 		if (iter->QuestID == questId)
 		{
-			DeleteMobsQuest(questId);
+			// Delete mob references
+			int countToDelete = FindCountMobsQuest(questId);
+			sLog.outBasic("References mob to delete %d", countToDelete);
+			for (int i = 0; i < countToDelete; i++)
+			{
+				DeleteMobsQuest(questId);
+			}
 			QuestDat.erase(iter);
 			return true;
 		}
@@ -63,31 +69,33 @@ NTL_TS_T_ID	QuestManager::FindQuestByMob(TBLIDX mobTblidx)
 	return (NTL_TS_T_ID)iter->second;
 }
 
+int QuestManager::FindCountMobsQuest(NTL_TS_T_ID questId)
+{
+	int count = 0;
+	mutexMobsQuest.lock();
+	for (auto it = m_pMobQuestList.begin(); it != m_pMobQuestList.end(); ++it)
+	{
+		if (it->second == questId)
+		{
+			count++;
+		}
+	}
+	mutexMobsQuest.unlock();
+	return count;
+}
+
 void QuestManager::DeleteMobsQuest(NTL_TS_T_ID questId)
 {
 	mutexMobsQuest.lock();
-	try
+	for (auto it = m_pMobQuestList.begin(); it != m_pMobQuestList.end(); ++it)
 	{
-		for (auto it = m_pMobQuestList.begin(); it != m_pMobQuestList.end(); ++it)
+		if (it->second == questId)
 		{
-			if (it->second == questId)
-			{
-				try
-				{
-					sLog.outBasic("Deleted mob %d of quest %d", it->second, it->first);
-					m_pMobQuestList.erase(it->first);
-					sLog.outBasic("Deleted!");
-				}
-				catch (int e)
-				{
-					sLog.outError("Error to delete mob quest");
-				}
-			}
+			sLog.outBasic("Deleted mob %d of quest %d", it->second, it->first);
+			m_pMobQuestList.erase(it->first);
+			sLog.outBasic("Deleted!");
+			return;
 		}
-	}
-	catch (int e)
-	{
-		sLog.outError("Error to find mobquest");
 	}
 	mutexMobsQuest.unlock();
 }
