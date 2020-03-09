@@ -621,6 +621,12 @@ CREATE TABLE `realmlist`  (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = MyISAM AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'Realm System' ROW_FORMAT = Dynamic;
 
+-- --------------------------------------------------------
+-- Records of realmlist
+-- ----------------------------
+INSERT INTO `realmlist` VALUES (1, 1, 1, 0, 0, 0, null);
+INSERT INTO `realmlist` VALUES (2, 2, 1, 0, 0, 0, null);
+--
 -- ----------------------------
 -- Table structure for skills
 -- ----------------------------
