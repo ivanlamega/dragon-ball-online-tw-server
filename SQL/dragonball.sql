@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 09-03-2020 a las 18:32:53
+-- Tiempo de generación: 09-03-2020 a las 18:36:10
 -- Versión del servidor: 10.4.11-MariaDB
 -- Versión de PHP: 7.4.2
 
@@ -731,6 +731,12 @@ ALTER TABLE `portals`
   ADD PRIMARY KEY (`id`) USING BTREE;
 
 --
+-- Indices de la tabla `quickslot`
+--
+ALTER TABLE `quickslot`
+  ADD PRIMARY KEY (`quickslotID`);
+
+--
 -- Indices de la tabla `quickteleporter`
 --
 ALTER TABLE `quickteleporter`
@@ -865,6 +871,12 @@ ALTER TABLE `mascotinfo`
 --
 ALTER TABLE `portals`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `quickslot`
+--
+ALTER TABLE `quickslot`
+  MODIFY `quickslotID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Quick Slot ID';
 
 --
 -- AUTO_INCREMENT de la tabla `quickteleporter`
