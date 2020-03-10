@@ -1,0 +1,674 @@
+/*****************************************************************************
+ * filesystems.hsl - Structure definitions for file system related entities.
+ *     This presently includes the MBR, and BOOTSECTORs for FAT16, FAT32, and
+ *     NTFS.
+ *  
+ * Copyright (c) 2003-2008 BreakPoint Software, Inc.  All Rights Reserved
+ *
+ *****************************************************************************
+ * Revision History:
+ *  05/01/03 - RJA - Original
+ *  10/16/07 - RJA - Formatting tweaks, use blob for ByteCode
+ *  12/16/09 - RJA - Added enumsign pragmas
+ */
+
+#include "standard-types.hsl"
+struct sPC_SHAPE
+{
+	BYTE			byFace;
+	BYTE			byHair;
+	BYTE			byHairColor;
+	BYTE			bySkinColor;
+}sPC_SHAPE;
+
+struct sAVATAR_ATTRIBUTE
+{
+	WORD byBaseStr;
+	WORD byLastStr;
+	WORD byBaseCon;
+	WORD byLastCon;
+	WORD byBaseFoc;
+	WORD byLastFoc;
+	WORD byBaseDex;
+	WORD byLastDex;
+	WORD byBaseSol;
+	WORD byLastSol;
+	WORD byBaseEng;
+	WORD byLastEng;
+	//
+	DWORD wBaseMaxLP;
+	DWORD wLastMaxLP;
+	WORD wBaseMaxEP;
+	WORD wLastMaxEP;
+	DWORD wBaseMaxAp;
+	DWORD wLastMaxAp;
+	WORD wBaseMaxRP;
+	WORD wLastMaxRP;
+	//
+	WORD wBaseLpRegen;
+	WORD wLastLpRegen;
+	WORD wBaseLpSitdownRegen;
+	WORD wLastLpSitdownRegen;
+	WORD wBaseLpBattleRegen;
+	WORD wLastLpBattleRegen;
+	//
+	WORD wBaseEpRegen;
+	WORD wLastEpRegen;
+	WORD wBaseEpSitdownRegen;
+	WORD wLastEpSitdownRegen;
+	WORD wBaseEpBattleRegen;
+	WORD wLastEpBattleRegen;
+	//
+	WORD wBaseApRegen;
+	WORD wLastApRegen;
+	WORD wBaseApSitdownRegen;
+	WORD wLastApSitdownRegen;
+	WORD wBaseApBattleRegen;
+	WORD wLastApBattleRegen;
+	//
+	WORD unknown_int16_0;//wBaseApDegen
+	WORD unknown_int16_1;//wLastApDegen
+	WORD unknown_int16_2;//wBaseApBattleDegen
+	WORD unknown_int16_3;//wLastApBattleDegen
+	//
+	WORD wBaseRpRegen;
+	WORD wLastRpRegen;
+	WORD wLastRpDimimutionRate;
+	//
+	WORD wBasePhysicalOffence;
+	WORD wLastPhysicalOffence;
+	WORD wBasePhysicalDefence;
+	WORD wLastPhysicalDefence;
+	//
+	//unsigned __int16 wBasePhysicalPiercingOffence;
+	//unsigned __int16 wLastPhysicalPiercingOffence;
+	//
+	WORD wBaseEnergyOffence;
+	WORD wLastEnergyOffence;
+	WORD wBaseEnergyDefence;
+	WORD wLastEnergyDefence;
+	//
+	//unsigned __int16 wBaseEnergyPiercingOffence;
+	//unsigned __int16 wLastEnergyPiercingOffence;
+	//
+	WORD wBaseAttackRate;
+	WORD wLastAttackRate;
+	WORD wBaseDodgeRate;
+	WORD wLastDodgeRate;
+	WORD wBaseBlockRate;
+	WORD wLastBlockRate;
+	//
+	//unsigned __int16 wBaseBlockDamageRate;
+	//unsigned __int16 wLastBlockDamageRate;
+	//
+	WORD wBaseCurseSuccessRate;
+	WORD wLastCurseSuccessRate;
+	WORD wBaseCurseToleranceRate;
+	WORD wLastCurseToleranceRate;
+
+	WORD unknown_rate1;// wBaseBlockDamageRate
+	WORD unknown_rate2;// wLastBlockDamageRate
+
+	WORD wBasePhysicalCriticalRate;
+	WORD wLastPhysicalCriticalRate;
+	WORD wBaseEnergyCriticalRate;
+	WORD wLastEnergyCriticalRate;
+
+	float unknown_float1_0;//??
+	float unknown_float1_1;//??
+	float unknown_float2_0;//??
+	float unknown_float2_1;//??
+
+	float fBaseRunSpeed;
+	float fLastRunSpeed;
+
+	float fBaseAirSpeed;
+	float fLastAirSpeed;
+	float fBaseAirDashSpeed;
+	float fLastAirDashSpeed;
+	float fBaseAirDash2Speed;
+	float fLastAirDash2Speed;
+
+
+	WORD wBaseAttackSpeedRate;
+	WORD wLastAttackSpeedRate;
+	float fBaseAttackRange;
+	float fLastAttackRange;
+
+	float fCastingTimeChangePercent;
+	float fCoolTimeChangePercent;
+	float fKeepTimeChangePercent;
+	float fDotValueChangePercent;
+	float fDotTimeChangeAbsolute;
+	float fRequiredEpChangePercent;
+	
+	float fHonestOffence;
+	float fHonestDefence;
+	float fStrangeOffence;
+	float fStrangeDefence;
+	float fWildOffence;
+	float fWildDefence;
+	float fEleganceOffence;
+	float fEleganceDefence;
+	float fFunnyOffence;
+	float fFunnyDefence;
+
+	float unknown2;// mob speed maybe
+
+	WORD wParalyzeToleranceRate;
+	WORD wTerrorToleranceRate;
+	WORD wConfuseToleranceRate;
+	WORD wStoneToleranceRate;
+	WORD wCandyToleranceRate;
+
+	float fParalyzeKeepTimeDown;
+	float fTerrorKeepTimeDown;
+	float fConfuseKeepTimeDown;
+	float fStoneKeepTimeDown;
+	float fCandyKeepTimeDown;
+	float fBleedingKeepTimeDown;
+	float fPoisonKeepTimeDown;
+	float fStomachacheKeepTimeDown;
+
+	float fCriticalBlockSuccessRate;
+
+	WORD wGuardRate;
+	WORD unknown6;
+
+	float fSkillDamageBlockModeSuccessRate;
+	float fCurseBlockModeSuccessRate;
+	float fKnockdownBlockModeSuccessRate;
+
+	float fHtbBlockModeSuccessRate;//bleeding defese
+	float fSitDownLpRegenBonusRate;// posion defese
+	float fSitDownEpRegenBonusRate;// defesa sangramento
+	float fPhysicalCriticalDamageBonusRate; //burn defese
+
+	float fEnergyCriticalDamageBonusRate;
+	float fItemUpgradeBonusRate;
+	float fItemUpgradeBreakBonusRate;
+
+	float unknown3_0;//??
+	float unknown3_1;//??
+	float unknown3_2;//??
+	float unknown3_3;//??
+	float SkillSpeed;//??
+	float unknown3_5;//??
+	WORD MaxWeight;
+	WORD unknown3_w6;
+	//float unknown3_6;//??
+	float unknown3_7;//??
+	float unknown3_8;//??
+	float unknown3_9;//??
+	float unknown3_10;//??
+	float unknown3_11;//??
+	float unknown3_12;//??
+	float unknown3_13;//??
+	WORD unknown4_0;//??
+	WORD unknown4_1;//??
+	WORD unknown4_2;//??
+	WORD unknown4_3;//??
+	WORD unknown4_4;//??
+	WORD unknown4_5;//??
+	WORD unknown4_6;//??
+	float unknown5_0;//??
+	float unknown5_1;//??
+	float unknown5_2;//??
+	float unknown5_3;//??
+	float unknown5_4;//??
+	float unknown5_5;//??
+}sAVATAR_ATTRIBUTE;
+
+struct sMARKING
+{
+	DWORD dwCode;			// eMARKING_TYPE
+}sMARKING;//end of sMARKING
+
+struct sHOIPOIMIX_DATA
+{
+	bool			bNormalStart;	// ��ֵ�Ͽ��� // ����Ʈ ���� Ȥ�� ����
+
+	bool			bSpecialStart;	// ���伣 �ͽ� ��Ͽ���
+	BYTE			bySpecialType;	// eRECIPE_TYPE
+
+	BYTE			byMixLevel;
+	DWORD			dwMixExp;
+
+	//BYTE			byNormalLevel;	 
+	//DWORD			dwNormalExp;
+	//BYTE			bySpecialLevel; 	
+	//DWORD			dwSpecialExp;
+}sHOIPOIMIX_DATA;
+
+struct sPC_PROFILE_LOCALIZE
+{
+	BYTE type;
+	DWORD netp;// Token Point correct value
+	DWORD GiftCash;// Notify if recive cash item from friend "mensage say gift not confirmed"
+	BYTE unknown;// Unknow TW
+	BYTE IsVip;// S icon Maybe Vip_Member
+	BYTE unknown1;// Unknow TW
+	BYTE unknown2;// Unknow TW
+	BYTE unknown3;// Unknow TW
+	BYTE unknown4;// Unknow TW
+	DWORD unknown5;// INVALID_TBLIDX TW
+	DWORD unknown6;// INVALID_TBLIDX TW
+	DWORD WP_Point;// WP Poit mensage
+	BYTE unknown7;// Unknow TW
+}sPC_PROFILE_LOCALIZE;
+
+struct sPC_PROFILE
+{
+	BYTE			byMaxLevel;
+	DWORD			tblidx; // pc 테이블 인덱스
+	bool			bIsAdult;
+	bool			bChangeClass;		// 전직 권한을 가지고 있는지의 여부
+	DWORD		charId;		// PC 캐릭터의 고유 ID(DB index)
+	WCHAR			awchName[16 + 1];
+
+	sPC_SHAPE		sPcShape; // pc 외양 ( 얼굴/머리/머리색 )
+
+	sAVATAR_ATTRIBUTE		avatarAttribute;
+
+	DWORD			dwCurLP;
+	WORD			wCurEP;
+	WORD			wCurRP;
+	BYTE			byUnknow;
+	DWORD			dwCurAp;
+
+	BYTE			byLevel;
+	DWORD			dwCurExp;
+	DWORD			dwMaxExpInThisLevel;
+
+	DWORD			dwZenny;
+	DWORD			dwTutorialHint;
+
+	BYTE			byBindType;
+	DWORD			bindWorldId;
+	DWORD			bindObjectTblidx;
+
+	DWORD			dwReputation;
+	DWORD			dwMudosaPoint;
+	DWORD			dwSpPoint;
+
+	sMARKING		sMarking;
+	sHOIPOIMIX_DATA sMixData;
+
+	bool			bIsGameMaster;		// true : 운영자 character
+
+	DWORD			guildId;
+
+	sPC_PROFILE_LOCALIZE sLocalize;
+}sPC_PROFILE;
+
+struct sVECTOR3
+{
+	float x;
+	float y;
+	float z;
+}sVECTOR3;
+
+struct dVECTOR3
+{
+	int	x;
+	int	y;
+	int	z;
+}dVECTOR3;
+
+struct sSUMMARY_PRIVATESHOP_SHOP_DATA
+{
+	bool bIsOwnerEmpty; //true�̸� ������ �ڸ��� ����
+	BYTE byShopState; //Shop State ����(ePRIVATESHOP_STATE)
+	WCHAR wcPrivateShopName[32 + 1];
+}sSUMMARY_PRIVATESHOP_SHOP_DATA;// end of struct sSUMMARY_PRIVATESHOP_SHOP_DATA
+
+struct sDBO_SYSTEM_EFFECT_RESULT
+{
+	DWORD	eResultType;
+	float	 Value1;
+	float	 Value2;
+	float	 Value3;
+	float	 Value4;
+	float	 Value5;
+	float	 Value6;	
+}sDBO_SYSTEM_EFFECT_RESULT;
+
+struct sSKILL_RESULT
+{
+	unsigned int			hTarget;
+	BYTE			byAttackResult;		// eBATTLE_ATTACK_RESULT
+	sDBO_SYSTEM_EFFECT_RESULT		effectResult[2];
+	BYTE							byBlockedAction;		// eDBO_GUARD_TYPE
+	DWORD	 unk1;
+	sVECTOR3		vShift;
+	sVECTOR3		vShift1;
+}sSKILL_RESULT;
+
+struct sHTBSKILL_RESULT
+{
+	BYTE			byStep; // 현재 HTB 스텝
+	sSKILL_RESULT	sSkillResult;
+}sHTBSKILL_RESULT;
+
+struct sCHARSTATE_SPAWNING
+{
+	BYTE								unk;		//TODO: what is that value?
+	BYTE								byTeleportType;		// eTELEPORT_TYPE	
+}sCHARSTATE_SPAWNING;
+//-----------------------------------------------------------------------------------
+struct sCHARSTATE_DESPAWNING
+{
+	BYTE								unk;		//TODO: what is that value?
+	BYTE								byTeleportType;		// eTELEPORT_TYPE	
+}sCHARSTATE_DESPAWNING;
+//-----------------------------------------------------------------------------------
+struct sCHARSTATE_STANDING
+{
+}sCHARSTATE_STANDING;
+//-----------------------------------------------------------------------------------
+struct sCHARSTATE_SITTING
+{
+}sCHARSTATE_SITTING;
+//-----------------------------------------------------------------------------------
+struct sCHARSTATE_FAINTING
+{
+	BYTE			byReason; // eFAINT_REASON
+}sCHARSTATE_FAINTING;
+//-----------------------------------------------------------------------------------
+struct sCHARSTATE_CAMPING
+{
+}sCHARSTATE_CAMPING;
+//-----------------------------------------------------------------------------------
+struct sCHARSTATE_LEAVING
+{
+	BYTE			byLeavingType;	// eCHARLEAVING_TYPE
+}sCHARSTATE_LEAVING;
+//-----------------------------------------------------------------------------------
+struct sCHARSTATE_MOVING
+{
+	DWORD			dwTimeStamp;
+	BYTE			byMoveFlag;
+	BYTE			byMoveDirection;
+}sCHARSTATE_MOVING;
+//-----------------------------------------------------------------------------------
+struct sCHARSTATE_DESTMOVE
+{
+	DWORD		    dwTimeStamp;
+	BYTE            byMoveFlag;
+	bool            bHaveSecondDestLoc;
+	dVECTOR3	    vSecondDestLoc;
+	BYTE			unknown;
+	BYTE            byDestLocCount;
+	dVECTOR3		avDestLoc[10];
+}sCHARSTATE_DESTMOVE;
+//-----------------------------------------------------------------------------------
+struct sCHARSTATE_FOLLOWING
+{
+	DWORD			dwTimeStamp;
+	BYTE			byMoveFlag;
+	unsigned int			hTarget; // 타겟 따라가기일때 따라갈 타겟 핸들
+	float			fDistance; // 타겟 앞에서 멈출 거리
+	BYTE			byMovementReason; // 공격 or 스킬사용 등의 FOLLOW의 이유를 설정
+}sCHARSTATE_FOLLOWING;
+//-----------------------------------------------------------------------------------
+struct sCHARSTATE_FALLING
+{
+	DWORD			dwTimeStamp;
+	BYTE			byMoveDirection;		// ENtlMovementDirection
+}sCHARSTATE_FALLING;
+//-----------------------------------------------------------------------------------
+struct sCHARSTATE_DASH_PASSIVE
+{
+	BYTE			byMoveDirection;		// MOVE_DASH_F, MOVE_DASH_B and so on
+	sVECTOR3		vDestLoc;
+}sCHARSTATE_DASH_PASSIVE;
+//-----------------------------------------------------------------------------------
+struct sCHARSTATE_TELEPORTING
+{
+	BYTE								byTeleportType;		// eTELEPORT_TYPE
+}sCHARSTATE_TELEPORTING;
+//-----------------------------------------------------------------------------------
+struct sCHARSTATE_SLIDING
+{
+	sVECTOR3		vShift;
+}sCHARSTATE_SLIDING;
+//-----------------------------------------------------------------------------------
+struct sCHARSTATE_KNOCKDOWN
+{
+	sVECTOR3		vShift;
+}sCHARSTATE_KNOCKDOWN;
+//-----------------------------------------------------------------------------------
+struct sCHARSTATE_FOCUSING
+{
+}sCHARSTATE_FOCUSING;
+//-----------------------------------------------------------------------------------
+struct sCHARSTATE_CASTING
+{
+	unsigned int			skillId;
+	unsigned int			hTarget;
+	DWORD			dwCastingTime;
+	DWORD			dwCastingTimeRemaining;
+}sCHARSTATE_CASTING;
+//-----------------------------------------------------------------------------------
+struct sCHARSTATE_SKILL_AFFECTING
+{
+	unsigned int			skillId;
+	unsigned int			hTarget;
+}sCHARSTATE_SKILL_AFFECTING;
+//-----------------------------------------------------------------------------------
+struct sCHARSTATE_KEEPING_EFFECT
+{
+}sCHARSTATE_KEEPING_EFFECT;
+//-----------------------------------------------------------------------------------
+struct sCHARSTATE_CASTING_ITEM
+{
+	unsigned int			itemTblidx;
+	unsigned int			hTarget;
+	DWORD			dwCastingTime;
+	DWORD			dwCastingTimeRemaining;
+}sCHARSTATE_CASTING_ITEM;
+//-----------------------------------------------------------------------------------
+struct sCHARSTATE_STUNNED
+{
+	BYTE			byStunType;		// eDBO_STUN_TYPE
+}sCHARSTATE_STUNNED;
+//-----------------------------------------------------------------------------------
+struct sCHARSTATE_SLEEPING
+{
+}sCHARSTATE_SLEEPING;
+//-----------------------------------------------------------------------------------
+struct sCHARSTATE_PARALYZED
+{
+}sCHARSTATE_PARALYZED;
+//-----------------------------------------------------------------------------------
+struct sCHARSTATE_HTB
+{
+	unsigned int				HTBId;			// HTB 스킬 ID
+	unsigned int				hTarget;		// HTB 타겟 핸들
+	BYTE				byStepCount;	// HTB 스텝 개수
+	BYTE				byCurStep;		// 현재 스텝
+	BYTE				byResultCount;	// HTB 스킬 결과 개수
+	sHTBSKILL_RESULT	aHTBSkillResult[10]; // HTB 스킬 결과
+}sCHARSTATE_HTB;
+//-----------------------------------------------------------------------------------
+struct sCHARSTATE_SANDBAG
+{
+	
+}sCHARSTATE_SANDBAG;
+//-----------------------------------------------------------------------------------
+struct sCHARSTATE_CHARGING
+{
+}sCHARSTATE_CHARGING;
+//-----------------------------------------------------------------------------------
+struct sCHARSTATE_BLOCKING
+{
+}sCHARSTATE_BLOCKING;
+//-----------------------------------------------------------------------------------
+struct sCHARSTATE_PRIVATESHOP
+{
+	sSUMMARY_PRIVATESHOP_SHOP_DATA		sSummaryPrivateShopData;
+}sCHARSTATE_PRIVATESHOP;
+//-----------------------------------------------------------------------------------
+struct sCHARSTATE_DIRECT_PLAY
+{
+	BYTE				byDirectPlayType; // 연출 타입 ( eDIRECT_PLAY_TYPE )
+	unsigned int				directTblidx; // 연출 TBLIDX
+}sCHARSTATE_DIRECT_PLAY;
+//-----------------------------------------------------------------------------------
+struct sCHARSTATE_OPERATING
+{
+	unsigned int				hTargetObject; // 타겟 오브젝트 핸들
+	DWORD				dwOperateTime; // 동작 시간
+	unsigned int				directTblidx; // 연출 TBLIDX
+}sCHARSTATE_OPERATING;
+//-----------------------------------------------------------------------------------
+struct sCHARSTATE_RIDEON
+{
+	unsigned int				hTarget; // 타겟 핸들
+}sCHARSTATE_RIDEON;
+//-----------------------------------------------------------------------------------
+struct sCHARSTATE_TURNING
+{
+	unsigned int				directTblidx; // 연출 TBLIDX
+	sVECTOR3			vDestDir;
+}sCHARSTATE_TURNING;
+//-----------------------------------------------------------------------------------
+struct sCHARSTATE_AIR_JUMP
+{
+	DWORD			dwTimeStamp;
+	BYTE			byMoveFlag;
+	BYTE			byMoveDirection;
+}sCHARSTATE_AIR_JUMP;
+//-----------------------------------------------------------------------------------
+struct sCHARSTATE_AIR_DASH_ACCEL
+{
+	BYTE			byMoveDirection;		// MOVE_DASH_F, MOVE_DASH_B and so on	
+}sCHARSTATE_AIR_DASH_ACCEL;
+
+union sCHARSTATE_DETAIL
+{
+	sCHARSTATE_SPAWNING				sCharStateSpawning;
+	sCHARSTATE_DESPAWNING			sCharStateDespawning;
+	sCHARSTATE_STANDING				sCharStateStanding;
+	sCHARSTATE_SITTING				sCharStateSitting;
+	sCHARSTATE_FAINTING				sCharStateFainting;
+	sCHARSTATE_CAMPING				sCharStateCamping;
+	sCHARSTATE_LEAVING				sCharStateLeaving;
+
+	sCHARSTATE_MOVING				sCharStateMoving;
+	sCHARSTATE_DESTMOVE				sCharStateDestMove;
+	sCHARSTATE_FOLLOWING			sCharStateFollwing;
+	sCHARSTATE_FALLING				sCharStateFalling;
+	sCHARSTATE_DASH_PASSIVE			sCharStateDashPassive;
+	sCHARSTATE_TELEPORTING			sCharStateTeleporting;
+	sCHARSTATE_SLIDING				sCharStateSliding;
+	sCHARSTATE_KNOCKDOWN			sCharStateKnockdown;
+
+	sCHARSTATE_FOCUSING				sCharStateFocusing;
+	sCHARSTATE_CASTING				sCharStateCasting;
+	sCHARSTATE_SKILL_AFFECTING		sCharStateSkillAffecting;
+	sCHARSTATE_KEEPING_EFFECT		sCharStateKeepingEffect;
+	sCHARSTATE_CASTING_ITEM			sCharStateCastingItem;
+
+	sCHARSTATE_STUNNED				sCharStateStunned;
+	sCHARSTATE_SLEEPING				sCharStateSleeping;
+	sCHARSTATE_PARALYZED			sCharStateParalyzed;
+
+	sCHARSTATE_HTB					sCharStateHTB;
+	sCHARSTATE_SANDBAG				sCharStateSandBag;
+	sCHARSTATE_CHARGING				sCharStateCharging;
+
+	sCHARSTATE_PRIVATESHOP			sCharStatePrivateShop;//  [7/16/2007]
+	sCHARSTATE_DIRECT_PLAY			sCharStateDirectPlay;
+	sCHARSTATE_OPERATING			sCharStateOperating;
+	sCHARSTATE_RIDEON				sCharStateRideOn;
+	sCHARSTATE_TURNING				sCharStateTurning;
+	sCHARSTATE_AIR_JUMP				sCharStateAirJump;
+	sCHARSTATE_AIR_DASH_ACCEL		sCharStateAirDashAccel;
+
+}sCHARSTATE_DETAIL;
+
+struct sASPECTSTATE_SUPER_SAIYAN
+{
+	BYTE				bySourceGrade;
+}sASPECTSTATE_SUPER_SAIYAN;
+//-----------------------------------------------------------------------------------
+struct sASPECTSTATE_PURE_MAJIN
+{
+	BYTE				bySourceGrade;
+}sASPECTSTATE_PURE_MAJIN;
+//-----------------------------------------------------------------------------------
+struct sASPECTSTATE_GREAT_NAMEK
+{
+	BYTE				bySourceGrade;
+}sASPECTSTATE_GREAT_NAMEK;
+//-----------------------------------------------------------------------------------
+struct sASPECTSTATE_KAIOKEN
+{
+	BYTE				bySourceGrade;
+	BYTE				byRepeatingCount;
+}sASPECTSTATE_KAIOKEN;
+//-----------------------------------------------------------------------------------
+struct sASPECTSTATE_SPINNING_ATTACK
+{
+}sASPECTSTATE_SPINNING_ATTACK;
+//-----------------------------------------------------------------------------------
+struct sASPECTSTATE_VEHICLE
+{	
+	unsigned int		idVehicleTblidx;
+	unsigned int		hVehicleItem;
+	bool		bIsEngineOn;
+}sASPECTSTATE_VEHICLE;
+
+union sASPECTSTATE_DETAIL
+{
+	sASPECTSTATE_SUPER_SAIYAN		sSuperSaiyan;
+	sASPECTSTATE_PURE_MAJIN			sPureMajin;
+	sASPECTSTATE_GREAT_NAMEK		sGreatNamek;
+	sASPECTSTATE_KAIOKEN			sKaioken;
+	sASPECTSTATE_SPINNING_ATTACK	sSpinningAttack;
+	sASPECTSTATE_VEHICLE			sVehicle;
+	//BYTE							unknown[9];
+}sASPECTSTATE_DETAIL;
+
+struct sASPECTSTATE_BASE
+{
+	BYTE							byAspectStateId;
+}sASPECTSTATE_BASE;
+
+struct sASPECTSTATE
+{
+	sASPECTSTATE_BASE				sAspectStateBase;
+	sASPECTSTATE_DETAIL				sAspectStateDetail;
+}sASPECTSTATE;
+
+struct sCHARSTATE_BASE
+{
+	BYTE			byStateID;
+	DWORD			dwStateTime;
+	unsigned __int64		dwConditionFlag;
+	sASPECTSTATE	aspectState;
+	bool			isFighting;
+
+	sVECTOR3		vCurLoc;
+	sVECTOR3		vCurDir;
+	bool			isFlying;
+}sCHARSTATE_BASE;
+
+struct sCHARSTATE
+{
+	sCHARSTATE_BASE				sCharStateBase;
+	sCHARSTATE_DETAIL			sCharStateDetail;
+}sCHARSTATE;
+
+
+
+struct GU_AVATAR_CHAR_INFO
+{
+WORD size;
+WORD opcode;
+DWORD			handle;
+sPC_PROFILE		sPcProfile;
+WORD			wCharStateSize; //-[9/7/2006 zeroera] : ¼³¸í : Å¬¶óÀÌ¾ðÆ®¸¦ À§ÇÑ Ä³¸¯ÅÍ»óÅÂ »çÀÌÁî Á¤º¸ 
+sCHARSTATE		sCharState;
+};

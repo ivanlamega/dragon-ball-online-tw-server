@@ -1,0 +1,397 @@
+/*****************************************************************************
+ * filesystems.hsl - Structure definitions for file system related entities.
+ *     This presently includes the MBR, and BOOTSECTORs for FAT16, FAT32, and
+ *     NTFS.
+ *  
+ * Copyright (c) 2003-2008 BreakPoint Software, Inc.  All Rights Reserved
+ *
+ *****************************************************************************
+ * Revision History:
+ *  05/01/03 - RJA - Original
+ *  10/16/07 - RJA - Formatting tweaks, use blob for ByteCode
+ *  12/16/09 - RJA - Added enumsign pragmas
+ */
+
+#include "standard-types.hsl"
+
+struct sAVATAR_ATTRIBUTE2
+{
+
+	unsigned short baseStr;
+	unsigned short lastStr;
+	unsigned short baseConstitution;
+	unsigned short lastConstitution;
+	unsigned short baseFocus;
+	unsigned short lastFocus;
+	unsigned short baseDextery;
+	unsigned short lastDextery;
+	unsigned short baseSoul;
+	unsigned short lastSoul;
+	unsigned short baseEnergy;
+	unsigned short lastEnergy;
+				   
+	unsigned long baseMaxLP;
+	unsigned long lastMaxLP;
+	unsigned short baseMaxEP;
+	unsigned short lastMaxEP;
+	unsigned long baseMaxAP;
+	unsigned long lastMaxAP;
+	unsigned short baseMaxRP;
+	unsigned short lastMaxRP;
+				   
+	unsigned short baseLpRegen;
+	unsigned short lastLpRegen;
+	unsigned short baseLpSitdownRegen;
+	unsigned short lastLpSitdownRegen;
+	unsigned short baseLpBattleRegen;
+	unsigned short lastLpBattleRegen;
+				   
+	unsigned short baseEpRegen;
+	unsigned short lastEpRegen;
+	unsigned short baseEpSitdownRegen;
+	unsigned short lastEpSitdownRegen;
+	unsigned short baseEpBattleRegen;
+	unsigned short lastEpBattleRegen;
+				   
+	unsigned short baseApRegen;
+	unsigned short lastApRegen;
+	unsigned short baseApSitdownRegen;
+	unsigned short lastApSitdownRegen;
+	unsigned short baseApBattleRegen;
+	unsigned short lastApBattleRegen;
+				   
+	unsigned short unknown_int16[4];//????
+				   
+	unsigned short baseRpRegen;
+	unsigned short lastRpRegen;
+	unsigned short lastRpDiminutionRate;
+				   
+	unsigned short basePhysicalOffence;
+	unsigned short lastPhysicalOffence;
+	unsigned short basePhysicalDefence;
+	unsigned short lastPhysicalDefence;
+				   
+	unsigned short baseEnergyOffence;
+	unsigned short lastEnergyOffence;
+	unsigned short baseEnergyDefence;
+	unsigned short lastEnergyDefence;
+				   
+	unsigned short baseAttackRate;
+	unsigned short lastAttackRate;
+	unsigned short baseDodgeRate;
+	unsigned short lastDodgeRate;
+	unsigned short baseBlockRate;
+	unsigned short lastBlockRate;
+				   
+	unsigned short baseCurseSuccessRate;
+	unsigned short lastCurseSuccessRate;
+	unsigned short baseCurseToleranceRate;
+	unsigned short lastCurseToleranceRate;
+				   
+	unsigned short unknown_rate1;// ??
+	unsigned short unknown_rate2;// ??
+				   
+	unsigned short basePhysicalCriticalRate;
+	unsigned short lastPhysicalCriticalRate;
+	unsigned short baseEnergyCriticalRate;
+	unsigned short lastEnergyCriticalRate;
+
+	float unknown_float1[2];//??
+	float unknown_float2[2];//??
+		  
+	float baseRunSpeed;
+	float lastRunSpeed;
+		  
+	float baseAirSpeed;
+	float lastAirSpeed;
+	float baseAirDashSpeed;
+	float lastAirDashSpeed;
+	float baseAirDash2Speed;
+	float lastAirDash2Speed;
+
+	unsigned short baseAttackSpeedRate;
+	unsigned short lastAttackSpeedRate;
+	float baseAttackRange;
+	float lastAttackRange;
+		  
+	float castingTimeChangePercent;
+	float coolTimeChangePercent;
+	float keepTimeChangePercent;
+	float dotValueChangePercent;
+	float dotTimeChangeAbsolute;
+	float requiredEpChangePercent;
+		  
+	float honestOffence;
+	float honestDefence;
+	float strangeOffence;
+	float strangeDefence;
+	float wildOffence;
+	float wildDefence;
+	float eleganceOffence;
+	float eleganceDefence;
+	float funnyOffence;
+	float funnyDefence;
+		  
+	float mobSpeed;//??
+
+	unsigned short paralyzeToleranceRate;
+	unsigned short terrorToleranceRate;
+	unsigned short confuseToleranceRate;
+	unsigned short stoneToleranceRate;
+	unsigned short candyToleranceRate;
+
+	float paralyzeKeepTimeDown;
+	float terrorKeepTimeDown;
+	float confuseKeepTimeDown;
+	float stoneKeepTimeDown;
+	float candyKeepTimeDown;
+	float bleedingKeepTimeDown;
+	float poisonKeepTimeDown;
+	float stomachacheKeepTimeDown;
+		  
+	float criticalBlockSuccessRate;
+
+	unsigned short guardRate;
+	unsigned short unknown6;
+
+	float skillDamageBlockModeSuccessRate;
+	float curseBlockModeSuccessRate;
+	float knockdownBlockModeSuccessRate;
+	float htbBlockModeSuccessRate;
+		  
+	float sitdownLpRegenBonusRate;
+	float sitdownEpRegenBonusRate;
+		  
+	float physicalCriticalDamageBonusRate;
+	float energyCriticalDamageBonusRate;
+		  
+	float itemUpgradeBonusRate;
+	float itemUpgradeBreakBonusRate;
+		  
+	float unknown3[4];//??
+	float skillSpeed;
+	float unknown5;
+	unsigned int weightLimit;
+	float unknown4[7];//??
+	unsigned short unknown40[7];//??
+	float unknown7[6];//??
+
+}sAVATAR_ATTRIBUTE2;
+
+struct sAVATAR_ATTRIBUTE
+{
+	WORD byBaseStr;
+	WORD byLastStr;
+	WORD byBaseCon;
+	WORD byLastCon;
+	WORD byBaseFoc;
+	WORD byLastFoc;
+	WORD byBaseDex;
+	WORD byLastDex;
+	WORD byBaseSol;
+	WORD byLastSol;
+	WORD byBaseEng;
+	WORD byLastEng;
+	//
+	DWORD wBaseMaxLP;
+	DWORD wLastMaxLP;
+	WORD wBaseMaxEP;
+	WORD wLastMaxEP;
+	DWORD wBaseMaxAp;
+	DWORD wLastMaxAp;
+	WORD wBaseMaxRP;
+	WORD wLastMaxRP;
+	//
+	WORD wBaseLpRegen;
+	WORD wLastLpRegen;
+	WORD wBaseLpSitdownRegen;
+	WORD wLastLpSitdownRegen;
+	WORD wBaseLpBattleRegen;
+	WORD wLastLpBattleRegen;
+	//
+	WORD wBaseEpRegen;
+	WORD wLastEpRegen;
+	WORD wBaseEpSitdownRegen;
+	WORD wLastEpSitdownRegen;
+	WORD wBaseEpBattleRegen;
+	WORD wLastEpBattleRegen;
+	//
+	WORD wBaseApRegen;
+	WORD wLastApRegen;
+	WORD wBaseApSitdownRegen;
+	WORD wLastApSitdownRegen;
+	WORD wBaseApBattleRegen;
+	WORD wLastApBattleRegen;
+	//
+	WORD unknown_int16_0;//wBaseApDegen
+	WORD unknown_int16_1;//wLastApDegen
+	WORD unknown_int16_2;//wBaseApBattleDegen
+	WORD unknown_int16_3;//wLastApBattleDegen
+	//
+	WORD wBaseRpRegen;
+	WORD wLastRpRegen;
+	WORD wLastRpDimimutionRate;
+	//
+	WORD wBasePhysicalOffence;
+	WORD wLastPhysicalOffence;
+	WORD wBasePhysicalDefence;
+	WORD wLastPhysicalDefence;
+	//
+	//unsigned __int16 wBasePhysicalPiercingOffence;
+	//unsigned __int16 wLastPhysicalPiercingOffence;
+	//
+	WORD wBaseEnergyOffence;
+	WORD wLastEnergyOffence;
+	WORD wBaseEnergyDefence;
+	WORD wLastEnergyDefence;
+	//
+	//unsigned __int16 wBaseEnergyPiercingOffence;
+	//unsigned __int16 wLastEnergyPiercingOffence;
+	//
+	WORD wBaseAttackRate;
+	WORD wLastAttackRate;
+	WORD wBaseDodgeRate;
+	WORD wLastDodgeRate;
+	WORD wBaseBlockRate;
+	WORD wLastBlockRate;
+	//
+	//unsigned __int16 wBaseBlockDamageRate;
+	//unsigned __int16 wLastBlockDamageRate;
+	//
+	WORD wBaseCurseSuccessRate;
+	WORD wLastCurseSuccessRate;
+	WORD wBaseCurseToleranceRate;
+	WORD wLastCurseToleranceRate;
+
+	WORD unknown_rate1;// wBaseBlockDamageRate
+	WORD unknown_rate2;// wLastBlockDamageRate
+
+	WORD wBasePhysicalCriticalRate;
+	WORD wLastPhysicalCriticalRate;
+	WORD wBaseEnergyCriticalRate;
+	WORD wLastEnergyCriticalRate;
+
+	float unknown_float1_0;//??
+	float unknown_float1_1;//??
+	float unknown_float2_0;//??
+	float unknown_float2_1;//??
+
+	float fBaseRunSpeed;
+	float fLastRunSpeed;
+
+	float fBaseAirSpeed;
+	float fLastAirSpeed;
+	float fBaseAirDashSpeed;
+	float fLastAirDashSpeed;
+	float fBaseAirDash2Speed;
+	float fLastAirDash2Speed;
+
+
+	WORD wBaseAttackSpeedRate;
+	WORD wLastAttackSpeedRate;
+	float fBaseAttackRange;
+	float fLastAttackRange;
+
+	float fCastingTimeChangePercent;
+	float fCoolTimeChangePercent;
+	float fKeepTimeChangePercent;
+	float fDotValueChangePercent;
+	float fDotTimeChangeAbsolute;
+	
+	float fHonestOffence;
+	float fHonestDefence;
+	float fStrangeOffence;
+	float fStrangeDefence;
+	float fWildOffence;
+	float fWildDefence;
+	float fEleganceOffence;
+	float fEleganceDefence;
+	float fFunnyOffence;
+	float fFunnyDefence;
+
+	float fRequiredEpChangePercent;
+
+	float unknown2;// mob speed maybe
+
+	WORD wParalyzeToleranceRate;
+	WORD wTerrorToleranceRate;
+	WORD wConfuseToleranceRate;
+	WORD wStoneToleranceRate;
+	WORD wCandyToleranceRate;
+
+	float fParalyzeKeepTimeDown;
+	float fTerrorKeepTimeDown;
+	float fConfuseKeepTimeDown;
+	float fStoneKeepTimeDown;
+	float fCandyKeepTimeDown;
+	float fBleedingKeepTimeDown;
+	float fPoisonKeepTimeDown;
+	float fStomachacheKeepTimeDown;
+
+	float fCriticalBlockSuccessRate;
+
+	WORD wGuardRate;
+	WORD unknown6;
+
+	float fSkillDamageBlockModeSuccessRate;
+	float fCurseBlockModeSuccessRate;
+	float fKnockdownBlockModeSuccessRate;
+
+	float fHtbBlockModeSuccessRate;//bleeding defese
+	float fSitDownLpRegenBonusRate;// posion defese
+	float fSitDownEpRegenBonusRate;// defesa sangramento
+	float fPhysicalCriticalDamageBonusRate; //burn defese
+
+	float fEnergyCriticalDamageBonusRate;
+	float fItemUpgradeBonusRate;
+	float fItemUpgradeBreakBonusRate;
+
+	float unknown3_0;//??
+	float unknown3_1;//??
+	float unknown3_2;//??
+	float unknown3_3;//??
+	float SkillSpeed;//??
+	float unknown3_5;//??
+	WORD MaxWeight;
+	WORD unknown3_w6;
+	//float unknown3_6;//??
+	float unknown3_7;//??
+	float unknown3_8;//??
+	float unknown3_9;//??
+	float unknown3_10;//??
+	float unknown3_11;//??
+	float unknown3_12;//??
+	float unknown3_13;//??
+	WORD unknown4_0;//??
+	WORD unknown4_1;//??
+	WORD unknown4_2;//??
+	WORD unknown4_3;//??
+	WORD unknown4_4;//??
+	WORD unknown4_5;//??
+	WORD unknown4_6;//??
+	float unknown5_0;//??
+	float unknown5_1;//??
+	float unknown5_2;//??
+	float unknown5_3;//??
+	float unknown5_4;//??
+	float unknown5_5;//??
+}sAVATAR_ATTRIBUTE;
+
+union attributes
+{
+sAVATAR_ATTRIBUTE attr1;
+sAVATAR_ATTRIBUTE2 attr2;
+}attributes;
+
+
+struct GU_AVATAR_ATTRIBUTE_UPDATE
+{
+WORD size;
+WORD opcode;
+DWORD			hHandle;
+unsigned char			byAttributeTotalCount;
+/*BYTE			abyFlexibleField[490];*/
+BYTE bitmask[20];
+attributes attributes;
+DWORD unknown[3];
+};
