@@ -161,7 +161,7 @@ void Player::SetMap(Map* m)
 {
 	m_currMap = m;
 	WorldId = m->GetId();
-	sLog.outError("PLAYER WORLDID %D", m->GetId());
+	sLog.outError("PLAYER WORLDID %d", m->GetId());
 }
 void Player::ResetMap()
 {

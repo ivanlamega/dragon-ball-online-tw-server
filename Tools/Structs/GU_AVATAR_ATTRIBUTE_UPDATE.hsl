@@ -180,7 +180,7 @@ struct sAVATAR_ATTRIBUTE2
 
 struct sAVATAR_ATTRIBUTE
 {
-	WORD byBaseStr;
+WORD byBaseStr;
 	WORD byLastStr;
 	WORD byBaseCon;
 	WORD byLastCon;
@@ -297,6 +297,7 @@ struct sAVATAR_ATTRIBUTE
 	float fKeepTimeChangePercent;
 	float fDotValueChangePercent;
 	float fDotTimeChangeAbsolute;
+	float fRequiredEpChangePercent;
 	
 	float fHonestOffence;
 	float fHonestDefence;
@@ -308,8 +309,6 @@ struct sAVATAR_ATTRIBUTE
 	float fEleganceDefence;
 	float fFunnyOffence;
 	float fFunnyDefence;
-
-	float fRequiredEpChangePercent;
 
 	float unknown2;// mob speed maybe
 
@@ -331,20 +330,20 @@ struct sAVATAR_ATTRIBUTE
 	float fCriticalBlockSuccessRate;
 
 	WORD wGuardRate;
-	WORD unknown6;
+	DWORD unknown6;
 
-	float fSkillDamageBlockModeSuccessRate;
-	float fCurseBlockModeSuccessRate;
-	float fKnockdownBlockModeSuccessRate;
+	DWORD fSkillDamageBlockModeSuccessRate;
+	DWORD fCurseBlockModeSuccessRate;
+	DWORD fKnockdownBlockModeSuccessRate;
 
-	float fHtbBlockModeSuccessRate;//bleeding defese
-	float fSitDownLpRegenBonusRate;// posion defese
-	float fSitDownEpRegenBonusRate;// defesa sangramento
-	float fPhysicalCriticalDamageBonusRate; //burn defese
+	DWORD fHtbBlockModeSuccessRate;//bleeding defese
+	DWORD fSitDownLpRegenBonusRate;// posion defese
+	DWORD fSitDownEpRegenBonusRate;// defesa sangramento
+	DWORD fPhysicalCriticalDamageBonusRate; //burn defese
 
-	float fEnergyCriticalDamageBonusRate;
-	float fItemUpgradeBonusRate;
-	float fItemUpgradeBreakBonusRate;
+	DWORD fEnergyCriticalDamageBonusRate;
+	DWORD fItemUpgradeBonusRate;
+	DWORD fItemUpgradeBreakBonusRate;
 
 	float unknown3_0;//??
 	float unknown3_1;//??
@@ -374,7 +373,7 @@ struct sAVATAR_ATTRIBUTE
 	float unknown5_2;//??
 	float unknown5_3;//??
 	float unknown5_4;//??
-	float unknown5_5;//??
+	WORD unknown5_5;//??
 }sAVATAR_ATTRIBUTE;
 
 union attributes

@@ -320,9 +320,7 @@ struct sAVATAR_ATTRIBUTE
 	float fDotValueChangePercent;
 	float fDotTimeChangeAbsolute;
 	float fRequiredEpChangePercent;
-
-
-
+	
 	float fHonestOffence;
 	float fHonestDefence;
 	float fStrangeOffence;
@@ -354,20 +352,20 @@ struct sAVATAR_ATTRIBUTE
 	float fCriticalBlockSuccessRate;
 
 	WORD wGuardRate;
-	WORD unknown6;
+	DWORD unknown6;
 
-	float fSkillDamageBlockModeSuccessRate;
-	float fCurseBlockModeSuccessRate;
-	float fKnockdownBlockModeSuccessRate;
+	DWORD fSkillDamageBlockModeSuccessRate;
+	DWORD fCurseBlockModeSuccessRate;
+	DWORD fKnockdownBlockModeSuccessRate;
 
-	float fHtbBlockModeSuccessRate;//bleeding defese
-	float fSitDownLpRegenBonusRate;// posion defese
-	float fSitDownEpRegenBonusRate;// defesa sangramento
-	float fPhysicalCriticalDamageBonusRate; //burn defese
+	DWORD fHtbBlockModeSuccessRate;//bleeding defese
+	DWORD fSitDownLpRegenBonusRate;// posion defese
+	DWORD fSitDownEpRegenBonusRate;// defesa sangramento
+	DWORD fPhysicalCriticalDamageBonusRate; //burn defese
 
-	float fEnergyCriticalDamageBonusRate;
-	float fItemUpgradeBonusRate;
-	float fItemUpgradeBreakBonusRate;
+	DWORD fEnergyCriticalDamageBonusRate;
+	DWORD fItemUpgradeBonusRate;
+	DWORD fItemUpgradeBreakBonusRate;
 
 	float unknown3_0;//??
 	float unknown3_1;//??
@@ -397,7 +395,7 @@ struct sAVATAR_ATTRIBUTE
 	float unknown5_2;//??
 	float unknown5_3;//??
 	float unknown5_4;//??
-	float unknown5_5;//??
+	WORD unknown5_5;//??
 };
 
 struct sAVATAR_ATTRIBUTE_LINK
@@ -542,21 +540,21 @@ struct sAVATAR_ATTRIBUTE_LINK
 	float* pfCriticalBlockSuccessRate;
 
 	WORD*  pwGuardRate;
-	WORD*  pwunknown6;
+	DWORD*  pwunknown6;
 
-	float* pfSkillDamageBlockModeSuccessRate;
-	float* pfCurseBlockModeSuccessRate;
-	float* pfKnockdownBlockModeSuccessRate;
-	float* pfHtbBlockModeSuccessRate;
+	DWORD* pfSkillDamageBlockModeSuccessRate;
+	DWORD* pfCurseBlockModeSuccessRate;
+	DWORD* pfKnockdownBlockModeSuccessRate;
+	DWORD* pfHtbBlockModeSuccessRate;
 
-	float* pfSitDownLpRegenBonusRate;
-	float* pfSitDownEpRegenBonusRate;
+	DWORD* pfSitDownLpRegenBonusRate;
+	DWORD* pfSitDownEpRegenBonusRate;
 
-	float* pfPhysicalCriticalDamageBonusRate;
-	float* pfEnergyCriticalDamageBonusRate;
+	DWORD* pfPhysicalCriticalDamageBonusRate;
+	DWORD* pfEnergyCriticalDamageBonusRate;
 
-	float* pfItemUpgradeBonusRate;
-	float* pfItemUpgradeBreakBonusRate;
+	DWORD* pfItemUpgradeBonusRate;
+	DWORD* pfItemUpgradeBreakBonusRate;
 
 	float *unknown3_0;//??
 	float *unknown3_1;//??
@@ -585,7 +583,7 @@ struct sAVATAR_ATTRIBUTE_LINK
 	float *unknown5_2;//??
 	float *unknown5_3;//??
 	float *unknown5_4;//??
-	float *unknown5_5;//??
+	WORD *unknown5_5;//??
 };
 #pragma pack(pop)
 

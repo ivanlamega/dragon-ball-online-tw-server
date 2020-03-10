@@ -116,9 +116,12 @@ BEGIN_PROTOCOL(GU_AVATAR_INFO_END)
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(GU_AVATAR_ATTRIBUTE_UPDATE)
-HOBJECT			hHandle;
-BYTE			byAttributeTotalCount;
-BYTE			abyFlexibleField[((UCHAR_MAX - 1) / 8 + 1) + sizeof(sAVATAR_ATTRIBUTE)];
+HOBJECT				hHandle;
+BYTE				byAttributeTotalCount;
+//BYTE				abyFlexibleField[((UCHAR_MAX - 1) / 8 + 1) + sizeof(sAVATAR_ATTRIBUTE)];
+BYTE				bitmask[20];
+sAVATAR_ATTRIBUTE	attributes;
+DWORD				unknown[3];
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(GU_OBJECT_CREATE)

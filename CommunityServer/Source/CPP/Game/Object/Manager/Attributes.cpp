@@ -800,10 +800,11 @@ void AttributesManager::UpdateAttributes()
 	attr.wOpCode = GU_AVATAR_ATTRIBUTE_UPDATE;
 	attr.wPacketSize = sizeof(sGU_AVATAR_ATTRIBUTE_UPDATE) - 2;
 
-	attr.byAttributeTotalCount = ATTRIBUTE_TO_UPDATE_COUNT;// 166; // 157
+	attr.byAttributeTotalCount = ATTRIBUTE_TO_UPDATE_COUNT+1;// 166; // 157
 	attr.hHandle = plr->GetHandle();
-
-	memcpy(attr.abyFlexibleField, &buffer, ((UCHAR_MAX - 1) / 8 + 1) + sizeof(sAVATAR_ATTRIBUTE));
+	memset(attr.bitmask, 0xff, sizeof attr.bitmask);
+	attr.bitmask[19] = 0x3f;
+	memcpy(&attr.attributes, &PlayerProfile.avatarAttribute, sizeof sAVATAR_ATTRIBUTE);
 
 	plr->SendPacket((char*)&attr, sizeof(sGU_AVATAR_ATTRIBUTE_UPDATE));
 }
