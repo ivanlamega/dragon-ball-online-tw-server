@@ -361,8 +361,8 @@ bool AttributesManager::LoadAttributeFromDB()
 	PlayerProfile.avatarAttribute.unknown3_12 = 6;
 	PlayerProfile.avatarAttribute.unknown3_13 = 7;//
 	PlayerProfile.avatarAttribute.unknown3_2 = 8;
-	PlayerProfile.avatarAttribute.unknown3_3 = 9;//
-	PlayerProfile.avatarAttribute.unknown3_5 = 10;
+	PlayerProfile.avatarAttribute.baseSkillSpeed = 9;//
+	PlayerProfile.avatarAttribute.baseMaxWeight = 10;
 	PlayerProfile.avatarAttribute.MaxWeight = 2600;
 	PlayerProfile.avatarAttribute.unknown3_w6 = 11; // if != 0 weight get bugged
 	PlayerProfile.avatarAttribute.unknown3_7 = 12;
@@ -1563,9 +1563,9 @@ void AttributesManager::FillAttributesLink()
 	attrLink.unknown3_0 = &PlayerProfile.avatarAttribute.unknown3_0;
 	attrLink.unknown3_1 = &PlayerProfile.avatarAttribute.unknown3_1;
 	attrLink.unknown3_2 = &PlayerProfile.avatarAttribute.unknown3_2;
-	attrLink.unknown3_3 = &PlayerProfile.avatarAttribute.unknown3_3;
+	attrLink.unknown3_3 = &PlayerProfile.avatarAttribute.baseSkillSpeed;
 	attrLink.SkillSpeed = &PlayerProfile.avatarAttribute.SkillSpeed;
-	attrLink.unknown3_5 = &PlayerProfile.avatarAttribute.unknown3_5;
+	attrLink.unknown3_5 = &PlayerProfile.avatarAttribute.baseMaxWeight;
 	attrLink.MaxWeight = &PlayerProfile.avatarAttribute.MaxWeight;
 	attrLink.unknown3_w6 = &PlayerProfile.avatarAttribute.unknown3_w6;
 	attrLink.unknown3_7 = &PlayerProfile.avatarAttribute.unknown3_7;

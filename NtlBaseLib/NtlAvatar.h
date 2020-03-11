@@ -369,13 +369,13 @@ struct sAVATAR_ATTRIBUTE
 	float fItemUpgradeBonusRate;
 	float fItemUpgradeBreakBonusRate;
 
-	float unknown3_0;//??
+	WORD unknown3_0;//??
 	float unknown3_1;//??
 	float unknown3_2;//??
+	float baseSkillSpeed;//??
 	float SkillSpeed;//??
-	float unknown3_3;//??
-	float unknown3_5;//??
-	WORD MaxWeight;
+	DWORD baseMaxWeight;//??
+	DWORD MaxWeight;
 	WORD unknown3_w6;
 	//float unknown3_6;//??
 	float unknown3_7;//??
@@ -559,13 +559,13 @@ struct sAVATAR_ATTRIBUTE_LINK
 	float* pfItemUpgradeBonusRate;
 	float* pfItemUpgradeBreakBonusRate;
 
-	float* unknown3_0;//??
+	WORD* unknown3_0;//??
 	float* unknown3_1;//??
 	float* unknown3_2;//??
 	float* unknown3_3;//??
 	float* SkillSpeed;//??
-	float* unknown3_5;//??
-	WORD* MaxWeight;
+	DWORD* unknown3_5;//??
+	DWORD* MaxWeight;
 	WORD* unknown3_w6;//??
 	float* unknown3_7;//??
 	float* unknown3_8;//??
