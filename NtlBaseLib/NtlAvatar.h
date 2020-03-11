@@ -320,7 +320,9 @@ struct sAVATAR_ATTRIBUTE
 	float fDotValueChangePercent;
 	float fDotTimeChangeAbsolute;
 	float fRequiredEpChangePercent;
-	
+
+
+
 	float fHonestOffence;
 	float fHonestDefence;
 	float fStrangeOffence;
@@ -354,24 +356,24 @@ struct sAVATAR_ATTRIBUTE
 	WORD wGuardRate;
 	DWORD unknown6;
 
-	DWORD fSkillDamageBlockModeSuccessRate;
-	DWORD fCurseBlockModeSuccessRate;
-	DWORD fKnockdownBlockModeSuccessRate;
+	float fSkillDamageBlockModeSuccessRate;
+	float fCurseBlockModeSuccessRate;
+	float fKnockdownBlockModeSuccessRate;
 
 	DWORD fHtbBlockModeSuccessRate;//bleeding defese
 	DWORD fSitDownLpRegenBonusRate;// posion defese
 	DWORD fSitDownEpRegenBonusRate;// defesa sangramento
 	DWORD fPhysicalCriticalDamageBonusRate; //burn defese
 
-	DWORD fEnergyCriticalDamageBonusRate;
-	DWORD fItemUpgradeBonusRate;
-	DWORD fItemUpgradeBreakBonusRate;
+	float fEnergyCriticalDamageBonusRate;
+	float fItemUpgradeBonusRate;
+	float fItemUpgradeBreakBonusRate;
 
 	float unknown3_0;//??
 	float unknown3_1;//??
 	float unknown3_2;//??
-	float unknown3_3;//??
 	float SkillSpeed;//??
+	float unknown3_3;//??
 	float unknown3_5;//??
 	WORD MaxWeight;
 	WORD unknown3_w6;
@@ -383,8 +385,8 @@ struct sAVATAR_ATTRIBUTE
 	float unknown3_11;//??
 	float unknown3_12;//??
 	float unknown3_13;//??
-	WORD unknown4_0;//??
-	WORD unknown4_1;//??
+	BYTE unknown4_0;//??
+	BYTE unknown4_1;//??
 	WORD unknown4_2;//??
 	WORD unknown4_3;//??
 	WORD unknown4_4;//??
@@ -395,8 +397,9 @@ struct sAVATAR_ATTRIBUTE
 	float unknown5_2;//??
 	float unknown5_3;//??
 	float unknown5_4;//??
-	WORD unknown5_5;//??
+	float unknown5_5;//??
 };
+
 
 struct sAVATAR_ATTRIBUTE_LINK
 {
@@ -443,10 +446,10 @@ struct sAVATAR_ATTRIBUTE_LINK
 	WORD* pwBaseApBattleRegen;
 	WORD* pwLastApBattleRegen;
 
-	WORD *unknown_int16_0;
-	WORD *unknown_int16_1;
-	WORD *unknown_int16_2;
-	WORD *unknown_int16_3;
+	WORD* unknown_int16_0;
+	WORD* unknown_int16_1;
+	WORD* unknown_int16_2;
+	WORD* unknown_int16_3;
 
 	WORD* pwBaseRpRegen;
 	WORD* pwLastRpRegen;
@@ -482,10 +485,10 @@ struct sAVATAR_ATTRIBUTE_LINK
 	WORD* pwBaseEnergyCriticalRate;
 	WORD* pwLastEnergyCriticalRate;
 
-	float *unknown_float1_0;//??
-	float *unknown_float1_1;//??
-	float *unknown_float2_0;//??
-	float *unknown_float2_1;//??
+	float* unknown_float1_0;//??
+	float* unknown_float1_1;//??
+	float* unknown_float2_0;//??
+	float* unknown_float2_1;//??
 
 	float* pfBaseRunSpeed;
 	float* pfLastRunSpeed;
@@ -539,51 +542,51 @@ struct sAVATAR_ATTRIBUTE_LINK
 
 	float* pfCriticalBlockSuccessRate;
 
-	WORD*  pwGuardRate;
-	DWORD*  pwunknown6;
+	WORD* pwGuardRate;
+	DWORD* pwunknown6;
 
-	DWORD* pfSkillDamageBlockModeSuccessRate;
-	DWORD* pfCurseBlockModeSuccessRate;
-	DWORD* pfKnockdownBlockModeSuccessRate;
+	float* pfSkillDamageBlockModeSuccessRate;
+	float* pfCurseBlockModeSuccessRate;
+	float* pfKnockdownBlockModeSuccessRate;
 	DWORD* pfHtbBlockModeSuccessRate;
 
 	DWORD* pfSitDownLpRegenBonusRate;
 	DWORD* pfSitDownEpRegenBonusRate;
 
 	DWORD* pfPhysicalCriticalDamageBonusRate;
-	DWORD* pfEnergyCriticalDamageBonusRate;
+	float* pfEnergyCriticalDamageBonusRate;
 
-	DWORD* pfItemUpgradeBonusRate;
-	DWORD* pfItemUpgradeBreakBonusRate;
+	float* pfItemUpgradeBonusRate;
+	float* pfItemUpgradeBreakBonusRate;
 
-	float *unknown3_0;//??
-	float *unknown3_1;//??
-	float *unknown3_2;//??
-	float *unknown3_3;//??
-	float *SkillSpeed;//??
-	float *unknown3_5;//??
-	WORD *MaxWeight;
-	WORD *unknown3_w6;//??
-	float *unknown3_7;//??
-	float *unknown3_8;//??
-	float *unknown3_9;//??
-	float *unknown3_10;//??
-	float *unknown3_11;//??
-	float *unknown3_12;//??
-	float *unknown3_13;//??
-	WORD *unknown4_0;//??
-	WORD *unknown4_1;//??
-	WORD *unknown4_2;//??
-	WORD *unknown4_3;//??
-	WORD *unknown4_4;//??
-	WORD *unknown4_5;//??
-	WORD *unknown4_6;//??
-	float *unknown5_0;//??
-	float *unknown5_1;//??
-	float *unknown5_2;//??
-	float *unknown5_3;//??
-	float *unknown5_4;//??
-	WORD *unknown5_5;//??
+	float* unknown3_0;//??
+	float* unknown3_1;//??
+	float* unknown3_2;//??
+	float* unknown3_3;//??
+	float* SkillSpeed;//??
+	float* unknown3_5;//??
+	WORD* MaxWeight;
+	WORD* unknown3_w6;//??
+	float* unknown3_7;//??
+	float* unknown3_8;//??
+	float* unknown3_9;//??
+	float* unknown3_10;//??
+	float* unknown3_11;//??
+	float* unknown3_12;//??
+	float* unknown3_13;//??
+	BYTE* unknown4_0;//??
+	BYTE* unknown4_1;//??
+	WORD* unknown4_2;//??
+	WORD* unknown4_3;//??
+	WORD* unknown4_4;//??
+	WORD* unknown4_5;//??
+	WORD* unknown4_6;//??
+	float* unknown5_0;//??
+	float* unknown5_1;//??
+	float* unknown5_2;//??
+	float* unknown5_3;//??
+	float* unknown5_4;//??
+	float* unknown5_5;//??
 };
 #pragma pack(pop)
 

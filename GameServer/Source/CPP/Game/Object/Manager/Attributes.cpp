@@ -1385,13 +1385,13 @@ void AttributesManager::UpdateExtraAttributesFromItem(sITEM_EFFECT aitemEffect[6
 void AttributesManager::UpdateAttributes()
 {
 	FillAttributesLink(); // store our attributes modded value
-	DWORD buffer[2048];
+	/*DWORD buffer[2048];
 	DWORD datasize = 0;
 
 	if (SaveAvatarAttribute(&buffer, &datasize) == false)
 	{
 		sLog.outError("ERROR IN SaveAvatarAttribute");
-	}
+	}*/
 
 	sGU_AVATAR_ATTRIBUTE_UPDATE attr;
 	memset(&attr, INVALID_TBLIDX, sizeof(sGU_AVATAR_ATTRIBUTE_UPDATE));
