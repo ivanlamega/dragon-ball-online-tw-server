@@ -1,0 +1,58 @@
+/*****************************************************************************
+ * filesystems.hsl - Structure definitions for file system related entities.
+ *     This presently includes the MBR, and BOOTSECTORs for FAT16, FAT32, and
+ *     NTFS.
+ *  
+ * Copyright (c) 2003-2008 BreakPoint Software, Inc.  All Rights Reserved
+ *
+ *****************************************************************************
+ * Revision History:
+ *  05/01/03 - RJA - Original
+ *  10/16/07 - RJA - Formatting tweaks, use blob for ByteCode
+ *  12/16/09 - RJA - Added enumsign pragmas
+ */
+
+#include "standard-types.hsl"
+struct sDBO_SYSTEM_EFFECT_RESULT
+{
+	DWORD	eResultType;
+	float	 Value1;
+	float	 Value2;
+	float	 Value3;
+	float	 Value4;
+	float	 Value5;
+	float	 Value6;	
+}sDBO_SYSTEM_EFFECT_RESULT;
+
+struct sVECTOR3
+{
+	float x;
+	float y;
+	float z;
+}sVECTOR3;
+
+struct sSKILL_RESULT
+{
+	DWORD			hTarget;
+	BYTE			byAttackResult;		// eBATTLE_ATTACK_RESULT
+	sDBO_SYSTEM_EFFECT_RESULT		effectResult[2];
+	BYTE							byBlockedAction;		// eDBO_GUARD_TYPE
+	DWORD	 unk1;
+	sVECTOR3		vShift;
+	sVECTOR3		vShift1;
+}sSKILL_RESULT;
+
+struct GU_CHAR_ACTION_SKILL
+{
+WORD opcode;
+WORD size;
+DWORD				handle;
+WORD				wResultCode;
+DWORD				dwLpEpEventId;
+DWORD				skillId;
+BYTE				byRpBonusType;		// eDBO_RP_BONUS_TYPE
+DWORD				hAppointedTarget;
+bool				bIsSkillHarmful;
+BYTE				bySkillResultCount;
+sSKILL_RESULT		aSkillResult[32];
+};
