@@ -612,10 +612,10 @@ int CharSocket::AddCharacters(sPC_SUMMARY data)
 	if (result != NULL)
 		delete result;
 	// QUICK SLOT
-	result = sDB.executes("INSERT INTO quickslot (`charId`) VALUES ( '%d' );",
+	/*result = sDB.executes("INSERT INTO quickslot (`charId`) VALUES ( '%d' );",
 		charid);
 	if (result != NULL)
-		delete result;
+		delete result;*/
 	// PORTALS
 	PortalTable* pPortalTbl = sTBM.GetPortalTable();
 	sDB.AddNewPortal(charid, pPortalTbl->FindData(pNewbieTbldat->defaultPortalTblidx)->tblidx);
