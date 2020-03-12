@@ -72,7 +72,6 @@ NTL_TS_T_ID	QuestManager::FindQuestByMob(TBLIDX mobTblidx)
 int QuestManager::FindCountMobsQuest(NTL_TS_T_ID questId)
 {
 	int count = 0;
-	mutexMobsQuest.lock();
 	for (auto it = m_pMobQuestList.begin(); it != m_pMobQuestList.end(); ++it)
 	{
 		if (it->second == questId)
@@ -80,7 +79,6 @@ int QuestManager::FindCountMobsQuest(NTL_TS_T_ID questId)
 			count++;
 		}
 	}
-	mutexMobsQuest.unlock();
 	return count;
 }
 

@@ -149,7 +149,10 @@ bool AttributesManager::LoadAttributes(CHARACTERID _id, Player* _plr)
 
 	sql::ResultSet* result = sDB.executes("SELECT * FROM characters WHERE CharacterID = '%d';", charid);
 	if (result == NULL)
+	{ 
+		delete result;
 		return false;
+	}
 	if (result->rowsCount() <= 0)
 	{
 		delete result;
@@ -279,7 +282,10 @@ bool AttributesManager::LoadAttributeFromDB()
 {
 	sql::ResultSet* result = sDB.executes("SELECT * FROM characters_attributes WHERE CharacterID = '%d';", charid);
 	if (result == NULL)
+	{ 
+		delete result;
 		return false;
+	}
 	if (result->rowsCount() <= 0)
 	{
 		delete result;
@@ -500,6 +506,7 @@ bool AttributesManager::LoadCharacterAttrFromDB(sPC_TBLDAT* pTblData)
 	sql::ResultSet* result = sDB.executes("SELECT * FROM characters_attributes WHERE CharacterID = '%d';", charid);
 	if (result == NULL)
 	{
+		delete result;
 		sLog.outError("result == NULL begin");
 		return false;
 	}
