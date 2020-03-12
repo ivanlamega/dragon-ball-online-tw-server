@@ -141,7 +141,9 @@ struct sAVATAR_ATTRIBUTE
 	float fDotValueChangePercent;
 	float fDotTimeChangeAbsolute;
 	float fRequiredEpChangePercent;
-	
+
+
+
 	float fHonestOffence;
 	float fHonestDefence;
 	float fStrangeOffence;
@@ -173,39 +175,39 @@ struct sAVATAR_ATTRIBUTE
 	float fCriticalBlockSuccessRate;
 
 	WORD wGuardRate;
-	WORD unknown6;
+	DWORD unknown6;
 
 	float fSkillDamageBlockModeSuccessRate;
 	float fCurseBlockModeSuccessRate;
 	float fKnockdownBlockModeSuccessRate;
 
-	float fHtbBlockModeSuccessRate;//bleeding defese
-	float fSitDownLpRegenBonusRate;// posion defese
-	float fSitDownEpRegenBonusRate;// defesa sangramento
-	float fPhysicalCriticalDamageBonusRate; //burn defese
+	DWORD AbdominalPainDefense;//bleeding defese
+	DWORD PoisonDefense;// posion defese
+	DWORD BleedingDefense;// defesa sangramento
+	DWORD BurnDefense; //burn defese
 
 	float fEnergyCriticalDamageBonusRate;
 	float fItemUpgradeBonusRate;
 	float fItemUpgradeBreakBonusRate;
 
-	float unknown3_0;//??
+	WORD unknown3_0;//??
 	float unknown3_1;//??
 	float unknown3_2;//??
-	float unknown3_3;//??
+	float baseSkillSpeed;//??
 	float SkillSpeed;//??
-	float unknown3_5;//??
-	WORD MaxWeight;
+	DWORD baseMaxWeight;//??
+	DWORD MaxWeight;
 	WORD unknown3_w6;
 	//float unknown3_6;//??
-	float unknown3_7;//??
-	float unknown3_8;//??
-	float unknown3_9;//??
-	float unknown3_10;//??
+	float fHtbBlockModeSuccessRate;//??
+	float fSitDownLpRegenBonusRate;//??
+	float fSitDownEpRegenBonusRate;//??
+	float fPhysicalCriticalDamageBonusRate;//??
 	float unknown3_11;//??
 	float unknown3_12;//??
 	float unknown3_13;//??
-	WORD unknown4_0;//??
-	WORD unknown4_1;//??
+	BYTE unknown4_0;//??
+	BYTE unknown4_1;//??
 	WORD unknown4_2;//??
 	WORD unknown4_3;//??
 	WORD unknown4_4;//??

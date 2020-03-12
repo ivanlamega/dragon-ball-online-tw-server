@@ -338,10 +338,10 @@ struct sAVATAR_ATTRIBUTE
 	float fCurseBlockModeSuccessRate;
 	float fKnockdownBlockModeSuccessRate;
 
-	DWORD fHtbBlockModeSuccessRate;//bleeding defese
-	DWORD fSitDownLpRegenBonusRate;// posion defese
-	DWORD fSitDownEpRegenBonusRate;// defesa sangramento
-	DWORD fPhysicalCriticalDamageBonusRate; //burn defese
+	DWORD AbdominalPainDefense;//bleeding defese
+	DWORD PoisonDefense;// posion defese
+	DWORD BleedingDefense;// defesa sangramento
+	DWORD BurnDefense; //burn defese
 
 	float fEnergyCriticalDamageBonusRate;
 	float fItemUpgradeBonusRate;
@@ -351,15 +351,15 @@ struct sAVATAR_ATTRIBUTE
 	float unknown3_1;//??
 	float unknown3_2;//??
 	float baseSkillSpeed;//??
-float SkillSpeed;//??
+	float SkillSpeed;//??
 	DWORD baseMaxWeight;//??
 	DWORD MaxWeight;
 	WORD unknown3_w6;
 	//float unknown3_6;//??
-	float unknown3_7;//??
-	float unknown3_8;//??
-	float unknown3_9;//??
-	float unknown3_10;//??
+	float fHtbBlockModeSuccessRate;//??
+	float fSitDownLpRegenBonusRate;//??
+	float fSitDownEpRegenBonusRate;//??
+	float fPhysicalCriticalDamageBonusRate;//??
 	float unknown3_11;//??
 	float unknown3_12;//??
 	float unknown3_13;//??

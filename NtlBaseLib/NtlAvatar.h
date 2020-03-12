@@ -360,10 +360,10 @@ struct sAVATAR_ATTRIBUTE
 	float fCurseBlockModeSuccessRate;
 	float fKnockdownBlockModeSuccessRate;
 
-	DWORD fHtbBlockModeSuccessRate;//bleeding defese
-	DWORD fSitDownLpRegenBonusRate;// posion defese
-	DWORD fSitDownEpRegenBonusRate;// defesa sangramento
-	DWORD fPhysicalCriticalDamageBonusRate; //burn defese
+	DWORD AbdominalPainDefense;//bleeding defese
+	DWORD PoisonDefense;// posion defese
+	DWORD BleedingDefense;// defesa sangramento
+	DWORD BurnDefense; //burn defese
 
 	float fEnergyCriticalDamageBonusRate;
 	float fItemUpgradeBonusRate;
@@ -378,10 +378,10 @@ struct sAVATAR_ATTRIBUTE
 	DWORD MaxWeight;
 	WORD unknown3_w6;
 	//float unknown3_6;//??
-	float unknown3_7;//??
-	float unknown3_8;//??
-	float unknown3_9;//??
-	float unknown3_10;//??
+	float fHtbBlockModeSuccessRate;//??
+	float fSitDownLpRegenBonusRate;//??
+	float fSitDownEpRegenBonusRate;//??
+	float fPhysicalCriticalDamageBonusRate;//??
 	float unknown3_11;//??
 	float unknown3_12;//??
 	float unknown3_13;//??
@@ -548,12 +548,10 @@ struct sAVATAR_ATTRIBUTE_LINK
 	float* pfSkillDamageBlockModeSuccessRate;
 	float* pfCurseBlockModeSuccessRate;
 	float* pfKnockdownBlockModeSuccessRate;
-	DWORD* pfHtbBlockModeSuccessRate;
-
-	DWORD* pfSitDownLpRegenBonusRate;
-	DWORD* pfSitDownEpRegenBonusRate;
-
-	DWORD* pfPhysicalCriticalDamageBonusRate;
+	DWORD* AbdominalPainDefense;//bleeding defese
+	DWORD* PoisonDefense;// posion defese
+	DWORD* BleedingDefense;// defesa sangramento
+	DWORD* BurnDefense; //burn defese
 	float* pfEnergyCriticalDamageBonusRate;
 
 	float* pfItemUpgradeBonusRate;
@@ -567,10 +565,10 @@ struct sAVATAR_ATTRIBUTE_LINK
 	DWORD* unknown3_5;//??
 	DWORD* MaxWeight;
 	WORD* unknown3_w6;//??
-	float* unknown3_7;//??
-	float* unknown3_8;//??
-	float* unknown3_9;//??
-	float* unknown3_10;//??
+	float* pfHtbBlockModeSuccessRate;//??
+	float* pfSitDownLpRegenBonusRate;//??
+	float* pfSitDownEpRegenBonusRate;//??
+	float* pfPhysicalCriticalDamageBonusRate;//??
 	float* unknown3_11;//??
 	float* unknown3_12;//??
 	float* unknown3_13;//??
