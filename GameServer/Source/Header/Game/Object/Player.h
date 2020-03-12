@@ -50,6 +50,8 @@ public:
 	void				SetSpeed(int sppeed);
 	void				ConvertClass(int ClassID , HOBJECT Target);
 	ePC_CLASS			GetBaseClass(ePC_CLASS classId);
+	TBLIDX				GetDashByClass(ePC_CLASS classId);
+	DWORD				GetRequireEpDash();
 	void				ChangeClass(ePC_CLASS classId);
 	DWORD				GetClassFlag(int Class, int ItemType)const;
 	void				SetStatsByEquip(BYTE ItemType);
@@ -208,6 +210,7 @@ public:
 
 	void				GetAtributesCalculation(HOBJECT Target[32], BYTE MaxApplyTarget, BYTE bySkillType, BYTE SkillType[2], double SkillValueDemage[2], BYTE byRPBonus);
 	void				SkillAcion();
+	void				UpdateEP(WORD curEP);
 	Packet packets;
 	//
 	void				TeleportByCommand(TBLIDX WorldID);
@@ -294,6 +297,7 @@ private:
 	int					countnetpy = 0;
 	int					timeonline = 0;
 	DWORD				RegTmmer;
+	DWORD				AttrTime;
 	DWORD				AutoAttackTmmer;
 	DWORD				TranformationRegTmmer;
 	DWORD				AffectTime;

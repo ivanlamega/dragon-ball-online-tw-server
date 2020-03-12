@@ -477,7 +477,7 @@ void Player::Update(uint32 _update_diff, uint32 _time)
 		AutoAttackTmmer = GetTickCount();
 	}
 	DWORD RegTimmer = GetTickCount() - RegTmmer;
-	if (RegTimmer >= 1200)
+	if (RegTimmer >= 2000)
 	{
 		if (GetIsFighting() == false && GetIsDead() == false)
 		{		
@@ -485,10 +485,18 @@ void Player::Update(uint32 _update_diff, uint32 _time)
 		ExecuteLPFood();
 		ExecuteEPFood();			
 		}		
-		characterManager.UpdateAttributes(); // update our attributes all every time thats is good to prevent hack
+		//characterManager.UpdateAttributes(); // update our attributes all every time thats is good to prevent hack
 		CalculeRpBall();			
 		RegTmmer = GetTickCount();//Set Time				
 	}	
+
+	DWORD AttrTimer = GetTickCount() - AttrTime;
+	if (AttrTimer >= 1200)
+	{
+		characterManager.UpdateAttributes(); // update our attributes all every time thats is good to prevent hack
+		AttrTime = GetTickCount();//Set Time				
+	}
+
 	DWORD Affecttimmer = GetTickCount() - AffectTime;
 	if (Affecttimmer >= 2000)
 	{
@@ -4082,6 +4090,70 @@ ePC_CLASS Player::GetBaseClass(ePC_CLASS classId)
 		}
 	}
 	return PC_CLASS_UNKNOWN;
+}
+
+TBLIDX Player::GetDashByClass(ePC_CLASS classId)
+{
+	switch (classId)
+	{
+	case PC_CLASS_HUMAN_FIGHTER:
+	{
+		return 20211;
+	}
+	case PC_CLASS_HUMAN_MYSTIC:
+	{
+		return 120311;
+	}
+	case PC_CLASS_HUMAN_ENGINEER:
+	{
+		return -1;
+	}
+	case PC_CLASS_NAMEK_FIGHTER:
+	{
+		return 320311;
+	}
+	case PC_CLASS_NAMEK_MYSTIC:
+	{
+		return 420411;
+	}
+	case PC_CLASS_MIGHTY_MAJIN:
+	{
+		return 520321;
+	}
+	case PC_CLASS_WONDER_MAJIN:
+	{
+		return 620151;
+	}
+	}
+	return -1;
+}
+
+DWORD Player::GetRequireEpDash()
+{
+	int myClass;
+	if (GetMyClass() <= PC_CLASS_1_LAST)
+	{
+		myClass = GetMyClass();
+	}
+	else
+	{
+		myClass = GetBaseClass(GetMyClass());
+	}
+
+	TBLIDX dashIdx = GetDashByClass((ePC_CLASS)myClass);
+
+	sSKILL_TBLDAT* skill = (sSKILL_TBLDAT*)sTBM.GetSkillTable()->FindData(dashIdx);
+	if (skill)
+	{
+		sLog.outBasic("My class %d require ep %d", myClass, skill->wRequire_EP);
+		return skill->wRequire_EP;
+	}
+	else 
+	{
+		sLog.outBasic("Not skill dash found");
+	}
+
+	return 0;
 }
 
 void Player::ChangeClass(ePC_CLASS classId)

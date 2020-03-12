@@ -345,6 +345,18 @@ void Player::GetAtributesCalculation(HOBJECT Target[32], BYTE MaxApplyTarget, BY
 
 }
 
+void Player::UpdateEP(WORD curEP)
+{
+	sGU_UPDATE_CHAR_EP nfy;
+	nfy.wOpCode = GU_UPDATE_CHAR_EP;
+	nfy.wPacketSize = sizeof(sGU_UPDATE_CHAR_EP) - 2;
+	nfy.handle = GetHandle();
+	nfy.dwLpEpEventId = -1;
+	nfy.wCurEP = curEP;
+	nfy.wMaxEP = GetPcProfile()->avatarAttribute.wLastMaxEP;
+	SendPacket((char*)&nfy, sizeof(sGU_UPDATE_CHAR_EP));
+}
+
 void Player::SkillAcion()
 {
 
@@ -361,6 +373,13 @@ void Player::SkillAcion()
 	sSKILL_TBLDAT* skillDataOriginal = reinterpret_cast<sSKILL_TBLDAT*>(skillTable->FindData(skillID));
 	if (skillDataOriginal != NULL)
 	{
+		if (GetPcProfile()->wCurEP < skillDataOriginal->wRequire_EP)
+		{
+			sSkil.wResultCode = GAME_SKILL_NOT_ENOUGH_EP;
+			SendPacket((char*)&sSkil, sizeof(sGU_CHAR_SKILL_RES));
+			return;
+		}
+
 		if (GetIsDead() == false)
 		{
 			sGU_CHAR_ACTION_SKILL skillRes;
@@ -2264,6 +2283,12 @@ void Player::SkillAcion()
 					//NEXT CASE
 					}
 				}
+			}
+
+			if (sSkil.wResultCode == GAME_SUCCESS)
+			{
+				GetPcProfile()->wCurEP -= skillDataOriginal->wRequire_EP;
+				UpdateEP(GetPcProfile()->wCurEP);
 			}
 
 			SendPacket((char*)&sSkil, sizeof(sGU_CHAR_SKILL_RES));

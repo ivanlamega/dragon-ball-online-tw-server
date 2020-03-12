@@ -1131,11 +1131,15 @@ void			WorldSession::PacketParser(Packet& packet)
 		case Opcodes::UG_CHAR_DASH_KEYBOARD:
 		{			
 			sLog.outError("UG_CHAR_DASH_KEYBOARD");
+			_player->GetPcProfile()->wCurEP -= _player->GetRequireEpDash();
+			_player->UpdateEP(_player->GetPcProfile()->wCurEP);
 			break;
 		}
 		case Opcodes::UG_CHAR_DASH_MOUSE:
 		{			
 			sLog.outError("UG_CHAR_DASH_MOUSE");
+			_player->GetPcProfile()->wCurEP -= _player->GetRequireEpDash();
+			_player->UpdateEP(_player->GetPcProfile()->wCurEP);
 			break;
 		}
 		case Opcodes::UG_CHAR_FALLING:
