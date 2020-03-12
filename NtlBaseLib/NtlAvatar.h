@@ -354,16 +354,22 @@ struct sAVATAR_ATTRIBUTE
 	float fCriticalBlockSuccessRate;
 
 	WORD wGuardRate;
-	DWORD unknown6;
 
 	float fSkillDamageBlockModeSuccessRate;
 	float fCurseBlockModeSuccessRate;
 	float fKnockdownBlockModeSuccessRate;
+	//DWORD unknown6;
+	WORD unknown6;
+	WORD baseAbdominalPainDefense;
 
-	DWORD AbdominalPainDefense;//bleeding defese
-	DWORD PoisonDefense;// posion defese
-	DWORD BleedingDefense;// defesa sangramento
-	DWORD BurnDefense; //burn defese
+	WORD AbdominalPainDefense;//bleeding defese
+	WORD basePoisonDefense;
+	WORD PoisonDefense;// posion defese
+	WORD baseBleedingDefense;
+	WORD BleedingDefense;// defesa sangramento
+	WORD baseBurnDefense;
+	WORD BurnDefense; //burn defese
+	WORD unknown7;
 
 	float fEnergyCriticalDamageBonusRate;
 	float fItemUpgradeBonusRate;
@@ -543,15 +549,22 @@ struct sAVATAR_ATTRIBUTE_LINK
 	float* pfCriticalBlockSuccessRate;
 
 	WORD* pwGuardRate;
-	DWORD* pwunknown6;
+	//DWORD* pwunknown6;
 
 	float* pfSkillDamageBlockModeSuccessRate;
 	float* pfCurseBlockModeSuccessRate;
 	float* pfKnockdownBlockModeSuccessRate;
-	DWORD* AbdominalPainDefense;//bleeding defese
-	DWORD* PoisonDefense;// posion defese
-	DWORD* BleedingDefense;// defesa sangramento
-	DWORD* BurnDefense; //burn defese
+	WORD* pwunknown6;
+	WORD* pbaseAbdominalPainDefense;
+
+	WORD* pAbdominalPainDefense;//bleeding defese
+	WORD* pbasePoisonDefense;
+	WORD* pPoisonDefense;// posion defese
+	WORD* pbaseBleedingDefense;
+	WORD* pBleedingDefense;// defesa sangramento
+	WORD* pbaseBurnDefense;
+	WORD* pBurnDefense; //burn defese
+	WORD* pwunknown7;
 	float* pfEnergyCriticalDamageBonusRate;
 
 	float* pfItemUpgradeBonusRate;

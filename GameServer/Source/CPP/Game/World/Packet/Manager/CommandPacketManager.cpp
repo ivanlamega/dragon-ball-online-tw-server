@@ -211,26 +211,16 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 			test.sDeliveryItemCnt[0].nCurItemCnt = 1;
 			SendQuestSVRevtUpdateNotify(854, 2, 3, eSTOC_EVT_DATA_TYPE_DELIVERY_ITEM, 0, &test);
 		}
-		else if (strToken == "@pared")
+		else if (strToken == "@attr")
 		{
 			sLog.outDetail("Respawn object quest");
 			strToken = str.substr(pos + 1, std::string::npos);
-			unsigned int count = (unsigned int)atof(strToken.c_str());
+			DWORD value = (unsigned int)atof(strToken.c_str());
 
-			sOBJECT_TBLDAT* obj = (sOBJECT_TBLDAT*)sTBM.GetObjectTable(120000)->FindData(8);
-			if (obj)
-			{
-				sLog.outDebug("Obj %d %d %s handle %d", obj->tblidx, obj->dwSequence, obj->szModelName, HANDLE_TRIGGER_OBJECT_OFFSET + obj->dwSequence);
-				sGU_TOBJECT_UPDATE_STATE state;
-				state.wOpCode = GU_TOBJECT_UPDATE_STATE;
-				state.wPacketSize = sizeof(sGU_TOBJECT_UPDATE_STATE) - 2;
-				state.handle = HANDLE_TRIGGER_OBJECT_OFFSET + obj->dwSequence;
-				state.tobjectBrief.objectID = obj->tblidx;
-				state.tobjectState.byState = 0;
-				state.tobjectState.bySubStateFlag = 0;
-				state.tobjectState.dwStateTime = 2775787718;
-				SendPacket((char*)&state, sizeof(sGU_TOBJECT_UPDATE_STATE));
-			}
+			_player->GetAttributesManager()->GetPlayerProfile()->avatarAttribute.AbdominalPainDefense = value;
+			_player->GetAttributesManager()->GetPlayerProfile()->avatarAttribute.PoisonDefense = value;
+			_player->GetAttributesManager()->GetPlayerProfile()->avatarAttribute.BleedingDefense = value;
+			_player->GetAttributesManager()->GetPlayerProfile()->avatarAttribute.BurnDefense = value;
 			return;
 		}
 		else if (strToken == "@pickup")

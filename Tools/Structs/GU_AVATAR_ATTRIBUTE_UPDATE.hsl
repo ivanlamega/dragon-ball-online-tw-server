@@ -332,16 +332,22 @@ struct sAVATAR_ATTRIBUTE
 	float fCriticalBlockSuccessRate;
 
 	WORD wGuardRate;
-	DWORD unknown6;
 
 	float fSkillDamageBlockModeSuccessRate;
 	float fCurseBlockModeSuccessRate;
 	float fKnockdownBlockModeSuccessRate;
+//DWORD unknown6;
+WORD unknown6;
+WORD baseAbdominalPainDefense;
 
-	DWORD AbdominalPainDefense;//bleeding defese
-	DWORD PoisonDefense;// posion defese
-	DWORD BleedingDefense;// defesa sangramento
-	DWORD BurnDefense; //burn defese
+	WORD AbdominalPainDefense;//bleeding defese
+WORD basePoisonDefense;
+	WORD PoisonDefense;// posion defese
+WORD baseBleedingDefense;
+	WORD BleedingDefense;// defesa sangramento
+WORD baseBurnDefense;
+	WORD BurnDefense; //burn defese
+WORD unknown7;
 
 	float fEnergyCriticalDamageBonusRate;
 	float fItemUpgradeBonusRate;

@@ -285,6 +285,7 @@ bool AttributesManager::LoadAttributeFromDB()
 		delete result;
 		return false;
 	}
+	memset(&PlayerProfile.avatarAttribute, 50, sizeof PlayerProfile.avatarAttribute);
 	//Load All Attributes One time only - Luiz  IN ORDER --Kalisto
 	//STR 
 	PlayerProfile.avatarAttribute.byBaseStr = static_cast<WORD>(result->getInt("BaseStr"));
@@ -353,40 +354,40 @@ bool AttributesManager::LoadAttributeFromDB()
 	PlayerProfile.avatarAttribute.unknown_int16_2 = 1;
 	PlayerProfile.avatarAttribute.unknown_int16_3 = 1;
 
-	PlayerProfile.avatarAttribute.unknown2 = 0;
-	PlayerProfile.avatarAttribute.unknown3_0 = 0;
-	PlayerProfile.avatarAttribute.unknown3_1 = 0;
-	PlayerProfile.avatarAttribute.fPhysicalCriticalDamageBonusRate = 0;
-	PlayerProfile.avatarAttribute.unknown3_11 = 0;//
-	PlayerProfile.avatarAttribute.unknown3_12 = 0;
-	PlayerProfile.avatarAttribute.unknown3_13 = 0;//
-	PlayerProfile.avatarAttribute.unknown3_2 = 0;
-	PlayerProfile.avatarAttribute.baseSkillSpeed = 0;//
-	PlayerProfile.avatarAttribute.baseMaxWeight = 0;
+	PlayerProfile.avatarAttribute.unknown2 = 144;
+	PlayerProfile.avatarAttribute.unknown3_0 = 143;
+	PlayerProfile.avatarAttribute.unknown3_1 = 142;
+	PlayerProfile.avatarAttribute.fPhysicalCriticalDamageBonusRate = 141;
+	PlayerProfile.avatarAttribute.unknown3_11 = 140;//
+	PlayerProfile.avatarAttribute.unknown3_12 = 139;
+	PlayerProfile.avatarAttribute.unknown3_13 = 138;//
+	PlayerProfile.avatarAttribute.unknown3_2 = 137;
+	PlayerProfile.avatarAttribute.baseSkillSpeed = 136;//
+	PlayerProfile.avatarAttribute.baseMaxWeight = 135;
 	PlayerProfile.avatarAttribute.MaxWeight = 2600;
-	PlayerProfile.avatarAttribute.unknown3_w6 = 0; // if != 0 weight get bugged
-	PlayerProfile.avatarAttribute.fHtbBlockModeSuccessRate = 0;
-	PlayerProfile.avatarAttribute.fSitDownLpRegenBonusRate = 0;//
-	PlayerProfile.avatarAttribute.fSitDownEpRegenBonusRate = 0;
-	PlayerProfile.avatarAttribute.unknown4_0 = 0;
-	PlayerProfile.avatarAttribute.unknown4_1 = 0;
-	PlayerProfile.avatarAttribute.unknown4_2 = 0;
-	PlayerProfile.avatarAttribute.unknown4_3 = 0;
-	PlayerProfile.avatarAttribute.unknown4_4 = 0;
-	PlayerProfile.avatarAttribute.unknown4_5 = 0;
-	PlayerProfile.avatarAttribute.unknown4_6 = 0;
-	PlayerProfile.avatarAttribute.unknown5_1 = 0;
-	PlayerProfile.avatarAttribute.unknown5_0 = 0;
-	PlayerProfile.avatarAttribute.unknown5_2 = 0;
-	PlayerProfile.avatarAttribute.unknown5_3 = 0;
-	PlayerProfile.avatarAttribute.unknown5_4 = 0;
-	PlayerProfile.avatarAttribute.unknown5_5 = 0;
-	PlayerProfile.avatarAttribute.unknown_float1_0 = 0;
-	PlayerProfile.avatarAttribute.unknown_float1_1 = 0;
-	PlayerProfile.avatarAttribute.unknown_float2_0 = 0;
-	PlayerProfile.avatarAttribute.unknown_float2_1 = 0;
-	PlayerProfile.avatarAttribute.unknown_rate1 = 0;
-	PlayerProfile.avatarAttribute.unknown_rate2 = 0;
+	PlayerProfile.avatarAttribute.unknown3_w6 = 134; // if != 0 weight get bugged
+	PlayerProfile.avatarAttribute.fHtbBlockModeSuccessRate = 133;
+	PlayerProfile.avatarAttribute.fSitDownLpRegenBonusRate = 132;//
+	PlayerProfile.avatarAttribute.fSitDownEpRegenBonusRate = 131;
+	PlayerProfile.avatarAttribute.unknown4_0 = 130;
+	PlayerProfile.avatarAttribute.unknown4_1 = 129;
+	PlayerProfile.avatarAttribute.unknown4_2 = 128;
+	PlayerProfile.avatarAttribute.unknown4_3 = 127;
+	PlayerProfile.avatarAttribute.unknown4_4 = 126;
+	PlayerProfile.avatarAttribute.unknown4_5 = 125;
+	PlayerProfile.avatarAttribute.unknown4_6 = 124;
+	PlayerProfile.avatarAttribute.unknown5_1 = 123;
+	PlayerProfile.avatarAttribute.unknown5_0 = 122;
+	PlayerProfile.avatarAttribute.unknown5_2 = 121;
+	PlayerProfile.avatarAttribute.unknown5_3 = 120;
+	PlayerProfile.avatarAttribute.unknown5_4 = 119;
+	PlayerProfile.avatarAttribute.unknown5_5 = 118;
+	PlayerProfile.avatarAttribute.unknown_float1_0 = 117;
+	PlayerProfile.avatarAttribute.unknown_float1_1 = 116;
+	PlayerProfile.avatarAttribute.unknown_float2_0 = 115;
+	PlayerProfile.avatarAttribute.unknown_float2_1 = 114;
+	PlayerProfile.avatarAttribute.unknown_rate1 = 113;
+	PlayerProfile.avatarAttribute.unknown_rate2 = 112;
 	// SKILL SPEED
 	PlayerProfile.avatarAttribute.SkillSpeed = 100.0f;
 	//LP Get up Reg
@@ -396,8 +397,8 @@ bool AttributesManager::LoadAttributeFromDB()
 	PlayerProfile.avatarAttribute.wBaseLpSitdownRegen = PlayerProfile.avatarAttribute.wLastMaxLP / 100 * 3;
 	PlayerProfile.avatarAttribute.wLastLpSitdownRegen = PlayerProfile.avatarAttribute.wLastMaxLP / 100 * 3;
 	//LP Reg in Batle
-	PlayerProfile.avatarAttribute.wBaseLpBattleRegen = 0;
-	PlayerProfile.avatarAttribute.wLastLpBattleRegen = 0;
+	PlayerProfile.avatarAttribute.wBaseLpBattleRegen = 111;
+	PlayerProfile.avatarAttribute.wLastLpBattleRegen = 110;
 	//EP Get UP Reg
 	PlayerProfile.avatarAttribute.wBaseEpRegen = 70;
 	PlayerProfile.avatarAttribute.wLastEpRegen = 70;
@@ -405,25 +406,25 @@ bool AttributesManager::LoadAttributeFromDB()
 	PlayerProfile.avatarAttribute.wBaseEpSitdownRegen = PlayerProfile.avatarAttribute.wLastMaxEP / 100 * 3;
 	PlayerProfile.avatarAttribute.wLastEpSitdownRegen = PlayerProfile.avatarAttribute.wLastMaxEP / 100 * 3;
 	//EP Reg in Batle
-	PlayerProfile.avatarAttribute.wBaseEpBattleRegen = 0;
-	PlayerProfile.avatarAttribute.wLastEpBattleRegen = 0;
+	PlayerProfile.avatarAttribute.wBaseEpBattleRegen = 109;
+	PlayerProfile.avatarAttribute.wLastEpBattleRegen = 108;
 	//Rp incress rate
 	PlayerProfile.avatarAttribute.wBaseRpRegen = 1;
 	PlayerProfile.avatarAttribute.wLastRpRegen = 1;
 	//RP diminution
 	PlayerProfile.avatarAttribute.wLastRpDimimutionRate = 3;
 	//Curse Sucess Rate
-	PlayerProfile.avatarAttribute.wBaseCurseSuccessRate = 0;
-	PlayerProfile.avatarAttribute.wLastCurseSuccessRate = 0;
+	PlayerProfile.avatarAttribute.wBaseCurseSuccessRate = 107;
+	PlayerProfile.avatarAttribute.wLastCurseSuccessRate = 106;
 	//Curse Tolerance Rate
-	PlayerProfile.avatarAttribute.wBaseCurseToleranceRate = 0;
-	PlayerProfile.avatarAttribute.wLastCurseToleranceRate = 0;
+	PlayerProfile.avatarAttribute.wBaseCurseToleranceRate = 105;
+	PlayerProfile.avatarAttribute.wLastCurseToleranceRate = 104;
 	//Nao sei
-	PlayerProfile.avatarAttribute.fCastingTimeChangePercent = 0;
-	PlayerProfile.avatarAttribute.fCoolTimeChangePercent = 0;//
-	PlayerProfile.avatarAttribute.fKeepTimeChangePercent = 0;
-	PlayerProfile.avatarAttribute.fDotValueChangePercent = 0;
-	PlayerProfile.avatarAttribute.fDotTimeChangeAbsolute = 0;//Ep Skill Required
+	PlayerProfile.avatarAttribute.fCastingTimeChangePercent = 103;
+	PlayerProfile.avatarAttribute.fCoolTimeChangePercent = 102;//
+	PlayerProfile.avatarAttribute.fKeepTimeChangePercent = 101;
+	PlayerProfile.avatarAttribute.fDotValueChangePercent = 100;
+	PlayerProfile.avatarAttribute.fDotTimeChangeAbsolute = 99;//Ep Skill Required
 	
 	//Atribute Ofense/Defese
 	PlayerProfile.avatarAttribute.fHonestOffence = 15;//nao
@@ -437,30 +438,34 @@ bool AttributesManager::LoadAttributeFromDB()
 	PlayerProfile.avatarAttribute.fFunnyOffence = 95;//nao
 	PlayerProfile.avatarAttribute.fFunnyDefence = 105;//nao
 
-	PlayerProfile.avatarAttribute.fRequiredEpChangePercent = 0;
-	PlayerProfile.avatarAttribute.wParalyzeToleranceRate = 0;//nao
-	PlayerProfile.avatarAttribute.wTerrorToleranceRate = 0;//nao
-	PlayerProfile.avatarAttribute.wConfuseToleranceRate = 0;//nao
-	PlayerProfile.avatarAttribute.wStoneToleranceRate = 0;//nao
-	PlayerProfile.avatarAttribute.wCandyToleranceRate = 0;//nao
-	PlayerProfile.avatarAttribute.fParalyzeKeepTimeDown = 0;//nao
-	PlayerProfile.avatarAttribute.fTerrorKeepTimeDown = 0;//nao
-	PlayerProfile.avatarAttribute.fConfuseKeepTimeDown = 0;//nao
-	PlayerProfile.avatarAttribute.fStoneKeepTimeDown = 0;//nao
-	PlayerProfile.avatarAttribute.fCandyKeepTimeDown = 0;//nao
-	PlayerProfile.avatarAttribute.fBleedingKeepTimeDown = 0;//nao
-	PlayerProfile.avatarAttribute.fPoisonKeepTimeDown = 0;
-	PlayerProfile.avatarAttribute.fStomachacheKeepTimeDown = 0;
+	PlayerProfile.avatarAttribute.fRequiredEpChangePercent = 98;
+	PlayerProfile.avatarAttribute.wParalyzeToleranceRate = 97;//nao
+	PlayerProfile.avatarAttribute.wTerrorToleranceRate = 96;//nao
+	PlayerProfile.avatarAttribute.wConfuseToleranceRate = 95;//nao
+	PlayerProfile.avatarAttribute.wStoneToleranceRate = 94;//nao
+	PlayerProfile.avatarAttribute.wCandyToleranceRate = 93;//nao
+	PlayerProfile.avatarAttribute.fParalyzeKeepTimeDown = 92;//nao
+	PlayerProfile.avatarAttribute.fTerrorKeepTimeDown = 91;//nao
+	PlayerProfile.avatarAttribute.fConfuseKeepTimeDown = 90;//nao
+	PlayerProfile.avatarAttribute.fStoneKeepTimeDown = 89;//nao
+	PlayerProfile.avatarAttribute.fCandyKeepTimeDown = 88;//nao
+	PlayerProfile.avatarAttribute.fBleedingKeepTimeDown = 87;//nao
+	PlayerProfile.avatarAttribute.fPoisonKeepTimeDown = 86;
+	PlayerProfile.avatarAttribute.fStomachacheKeepTimeDown = 85;
 	PlayerProfile.avatarAttribute.fCriticalBlockSuccessRate = 50;
-	PlayerProfile.avatarAttribute.wGuardRate = 0;
-	PlayerProfile.avatarAttribute.unknown6 = 0;
-	PlayerProfile.avatarAttribute.fSkillDamageBlockModeSuccessRate = 0;
-	PlayerProfile.avatarAttribute.fCurseBlockModeSuccessRate = 0;
-	PlayerProfile.avatarAttribute.fKnockdownBlockModeSuccessRate = 0;
+	PlayerProfile.avatarAttribute.wGuardRate = 84;
+	PlayerProfile.avatarAttribute.unknown6 = 83;
+	PlayerProfile.avatarAttribute.fSkillDamageBlockModeSuccessRate = 82;
+	PlayerProfile.avatarAttribute.fCurseBlockModeSuccessRate = 81;
+	PlayerProfile.avatarAttribute.fKnockdownBlockModeSuccessRate = 80;
 
+	PlayerProfile.avatarAttribute.baseAbdominalPainDefense = 66;
 	PlayerProfile.avatarAttribute.AbdominalPainDefense = 66; // abdominal pain defense
+	PlayerProfile.avatarAttribute.basePoisonDefense = 67;
 	PlayerProfile.avatarAttribute.PoisonDefense = 67; // posion defense tw
+	PlayerProfile.avatarAttribute.baseBleedingDefense = 68;
 	PlayerProfile.avatarAttribute.BleedingDefense = 68;// Bleeding defense TW 
+	PlayerProfile.avatarAttribute.baseBurnDefense = 69;
 	PlayerProfile.avatarAttribute.BurnDefense = 69;//Burn Defense
 
 	PlayerProfile.avatarAttribute.fEnergyCriticalDamageBonusRate = 0;
@@ -1553,6 +1558,7 @@ void AttributesManager::FillAttributesLink()
 	attrLink.pwTerrorToleranceRate = &PlayerProfile.avatarAttribute.wTerrorToleranceRate;
 	
 	attrLink.pwunknown6 = &PlayerProfile.avatarAttribute.unknown6;
+	attrLink.pwunknown7 = &PlayerProfile.avatarAttribute.unknown7;;
 	attrLink.pwunknown_rate1 = &PlayerProfile.avatarAttribute.unknown_rate1;
 	attrLink.pwunknown_rate2 = &PlayerProfile.avatarAttribute.unknown_rate2;
 	attrLink.pfunknown2 = &unkFLOATField; //&PlayerProfile.avatarAttribute.unknown2;
