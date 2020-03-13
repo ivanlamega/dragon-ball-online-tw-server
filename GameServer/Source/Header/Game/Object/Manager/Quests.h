@@ -63,8 +63,6 @@ private:
 
 	std::vector<QuestData> QuestDat;
 
-	std::mutex						mutexMobsQuest;
-
 public:
 	
 

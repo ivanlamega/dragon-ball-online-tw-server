@@ -84,7 +84,6 @@ int QuestManager::FindCountMobsQuest(NTL_TS_T_ID questId)
 
 void QuestManager::DeleteMobsQuest(NTL_TS_T_ID questId)
 {
-	mutexMobsQuest.lock();
 	for (auto it = m_pMobQuestList.begin(); it != m_pMobQuestList.end(); ++it)
 	{
 		if (it->second == questId)
@@ -95,7 +94,6 @@ void QuestManager::DeleteMobsQuest(NTL_TS_T_ID questId)
 			return;
 		}
 	}
-	mutexMobsQuest.unlock();
 }
 
 void QuestManager::DeleteMobQuest(TBLIDX mobTblidx)
