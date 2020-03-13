@@ -468,3 +468,118 @@ void WorldSession::SendAirEnd(Packet & packet)
 
 	_player->SendToPlayerList((char*)&res, sizeof(sGU_CHAR_MOVE));
 }
+
+
+void WorldSession::SendCharDashMouse(Packet& packet)
+{
+	sUG_CHAR_DASH_MOUSE* req = (sUG_CHAR_DASH_MOUSE*)packet.GetPacketBuffer();
+
+	//--------------------------------
+	// CHECK SPEED HACK
+	//--------------------------------
+	// check distance between received pos and server pos should get a distance around 20 with the acceptence.
+	// here
+	//
+	/*try
+	{
+		CNtlVector newHeading;
+		CNtlVector destination;
+		NtlGetDestination_Mouse(_player->m_rotation.x, _player->m_rotation.z,
+			10.0f,
+			_player->m_position.x, _player->m_position.y, _player->m_position.z,
+			dbo_move_pos_to_float(req->vDestLoc.x), dbo_move_pos_to_float(req->vDestLoc.y), dbo_move_pos_to_float(req->vDestLoc.z),
+			100, newHeading, destination);
+
+		sLog.outBasic("Headingnew (%f, %f, %f) destination new (%f, %f, %f)", newHeading.x, newHeading.y, newHeading.z,
+			destination.x, destination.y, destination.z);
+	}
+	catch (int e)
+	{
+		sLog.outError("Error to calculating heading");
+	}*/
+
+	_player->SetOrientation(_player->m_rotation.x, _player->m_rotation.y, _player->m_rotation.z);
+	_player->GetState()->sCharStateDetail.sCharStateDashPassive.MoveFlag = NTL_MOVE_KEYBOARD_FIRST;
+	_player->GetState()->sCharStateDetail.sCharStateDashPassive.dwTimeStamp = 3616226767;
+	_player->GetState()->sCharStateDetail.sCharStateDashPassive.byMoveDirection = NTL_MOVE_F;
+	_player->GetState()->sCharStateDetail.sCharStateDashPassive.vDestLoc.x = dbo_move_pos_to_float(req->vDestLoc.x);
+	_player->GetState()->sCharStateDetail.sCharStateDashPassive.vDestLoc.y = dbo_move_pos_to_float(req->vDestLoc.y);
+	_player->GetState()->sCharStateDetail.sCharStateDashPassive.vDestLoc.z = dbo_move_pos_to_float(req->vDestLoc.z);
+	_player->SetState(eCHARSTATE::CHARSTATE_DASH_PASSIVE);
+
+	_player->Relocate(dbo_move_pos_to_float(req->vDestLoc.x), dbo_move_pos_to_float(req->vDestLoc.y), dbo_move_pos_to_float(req->vDestLoc.z));
+
+	WORD epDash = _player->GetRequireEpDash();
+	if (_player->GetPcProfile()->wCurEP >= epDash)
+	{
+		_player->GetPcProfile()->wCurEP -= epDash;
+		_player->UpdateEP(_player->GetPcProfile()->wCurEP);
+	}
+}
+
+void WorldSession::SendCharDashKeyboard(Packet& packet)
+{
+	sUG_CHAR_DASH_KEYBOARD* req = (sUG_CHAR_DASH_KEYBOARD*)packet.GetPacketBuffer();
+
+	//--------------------------------
+	// CHECK SPEED HACK
+	//--------------------------------
+	// check distance between received pos and server pos should get a distance around 20 with the acceptence.
+	// here
+	//
+	sVECTOR3 vDest;
+	sVECTOR3 vPos = _player->m_position;
+	sVECTOR3 vDir = _player->m_rotation;
+	float fDashDist, fDashHeightOffset, fDahsHeightWeight = 0.5f;
+	switch (req->byMoveDirection)
+	{
+		case NTL_MOVE_F:
+		{
+			fDashDist = DASH_DISTANCE_F;
+			fDashHeightOffset = DASH_DISTANCE_F * fDahsHeightWeight;
+			break;
+		}
+		case NTL_MOVE_B:
+		{
+			RotateVector180Degree(vDir.x, vDir.z, vDir.x, vDir.z);
+			fDashDist = DASH_DISTANCE_B;
+			fDashHeightOffset = DASH_DISTANCE_B * fDahsHeightWeight;
+			break;
+		}
+		case NTL_MOVE_TURN_L:
+		{
+			RotateVector90DegreeToLeft(vDir.x, vDir.z, vDir.x, vDir.z);
+			fDashDist = DASH_DISTANCE_L;
+			fDashHeightOffset = DASH_DISTANCE_L * fDahsHeightWeight;
+			break;
+		}
+		case NTL_MOVE_TURN_R:
+		{
+			RotateVector90DegreeToRight(vDir.x, vDir.z, vDir.x, vDir.z);
+			fDashDist = DASH_DISTANCE_R;
+			fDashHeightOffset = DASH_DISTANCE_R * fDahsHeightWeight;
+			break;
+		}
+	}
+
+	vDest.x = vPos.x + vDir.x * fDashDist;
+	vDest.y = vPos.y;// + vDir.y * fDashDist + fDashHeightOffset;
+	vDest.z = vPos.z + vDir.z * fDashDist;
+
+	_player->GetState()->sCharStateDetail.sCharStateDashPassive.MoveFlag = NTL_MOVE_F;
+	_player->GetState()->sCharStateDetail.sCharStateDashPassive.dwTimeStamp = 3616226767;
+	_player->GetState()->sCharStateDetail.sCharStateDashPassive.byMoveDirection = req->byMoveDirection;
+	_player->GetState()->sCharStateDetail.sCharStateDashPassive.vDestLoc.x = vDest.x;
+	_player->GetState()->sCharStateDetail.sCharStateDashPassive.vDestLoc.y = vDest.y;
+	_player->GetState()->sCharStateDetail.sCharStateDashPassive.vDestLoc.z = vDest.z;
+	_player->SetState(eCHARSTATE::CHARSTATE_DASH_PASSIVE);
+
+	_player->Relocate(vDest.x, vDest.y, vDest.z);
+
+	WORD epDash = _player->GetRequireEpDash();
+	if (_player->GetPcProfile()->wCurEP >= epDash)
+	{
+		_player->GetPcProfile()->wCurEP -= epDash;
+		_player->UpdateEP(_player->GetPcProfile()->wCurEP);
+	}
+}

@@ -132,6 +132,8 @@ struct sCHARSTATE_FALLING
 //-----------------------------------------------------------------------------------
 struct sCHARSTATE_DASH_PASSIVE
 {
+	DWORD			dwTimeStamp;
+	BYTE			byMoveFlag;
 	BYTE			byMoveDirection;		// MOVE_DASH_F, MOVE_DASH_B and so on
 	sVECTOR3		vDestLoc;
 }sCHARSTATE_DASH_PASSIVE;

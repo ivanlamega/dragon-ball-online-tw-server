@@ -4128,7 +4128,7 @@ TBLIDX Player::GetDashByClass(ePC_CLASS classId)
 	return -1;
 }
 
-DWORD Player::GetRequireEpDash()
+WORD Player::GetRequireEpDash()
 {
 	int myClass;
 	if (GetMyClass() <= PC_CLASS_1_LAST)

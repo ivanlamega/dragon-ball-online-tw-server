@@ -51,7 +51,7 @@ public:
 	void				ConvertClass(int ClassID , HOBJECT Target);
 	ePC_CLASS			GetBaseClass(ePC_CLASS classId);
 	TBLIDX				GetDashByClass(ePC_CLASS classId);
-	DWORD				GetRequireEpDash();
+	WORD				GetRequireEpDash();
 	void				ChangeClass(ePC_CLASS classId);
 	DWORD				GetClassFlag(int Class, int ItemType)const;
 	void				SetStatsByEquip(BYTE ItemType);

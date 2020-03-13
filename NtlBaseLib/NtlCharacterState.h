@@ -412,7 +412,7 @@ struct sCHARSTATE_DASH_PASSIVE
 	DWORD			dwTimeStamp;
 	BYTE			byMoveDirection;		// MOVE_DASH_F, MOVE_DASH_B and so on
 	BYTE			MoveFlag;
-	dVECTOR3		vDestLoc;
+	sVECTOR3		vDestLoc;
 };
 //-----------------------------------------------------------------------------------
 struct sCHARSTATE_TELEPORTING

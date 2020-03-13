@@ -101,6 +101,8 @@ public:
 	void			SendAirDashMove(Packet& packet);
 	void			SendAirFalling(Packet& packet);
 	void			SendAirEnd(Packet& packet);
+	void			SendCharDashMouse(Packet& packet);
+	void			SendCharDashKeyboard(Packet& packet);
 	// portal
 	void			SendPortalTeleport(Packet& packet);
 	void			SendAddPortal(Packet& packet);
