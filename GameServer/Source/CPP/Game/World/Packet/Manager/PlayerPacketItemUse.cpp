@@ -694,6 +694,7 @@ void Player::HandleItemUse(Packet pPacket)
 							break;
 						}
 						case eSYSTEM_EFFECT_CODE::ACTIVE_CHILD_ADULT_TRANSFORM://Kid Clock
+							if (GetPcProfile()->byLevel > 29)
 						{	
 							if (Item->byStackcount <= 1)
 							{
