@@ -549,6 +549,36 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 			return;
 
 		}
+		else if (strToken == "@aspect")
+		{
+			sLog.outDetail("GM Mudusa Modified");
+			strToken = str.substr(pos + 1, std::string::npos);
+			unsigned int Point = (unsigned int)atof(strToken.c_str());
+			//_player->UpdateModusaAmount(Point);
+			sGU_UPDATE_CHAR_ASPECT_STATE CharAspect;
+			CharAspect.wOpCode = GU_UPDATE_CHAR_ASPECT_STATE;
+			CharAspect.wPacketSize = sizeof(sGU_UPDATE_CHAR_ASPECT_STATE) - 2;
+			CharAspect.handle = _player->GetHandle();
+			CharAspect.aspectState.sAspectStateBase.byAspectStateId = Point;
+			CharAspect.aspectState.sAspectStateDetail.sVehicle.bIsEngineOn = false;
+			CharAspect.aspectState.sAspectStateDetail.sVehicle.hVehicleItem = 0;
+			CharAspect.aspectState.sAspectStateDetail.sVehicle.idVehicleTblidx = 0;
+			sWorld.SendToAll((char*)&CharAspect, sizeof(sGU_UPDATE_CHAR_ASPECT_STATE));
+			return;
+		}
+		else if (strToken == "@kick")
+		{
+		strToken = str.substr(pos + 1, std::string::npos);
+		/// get player from name or kick target
+		}
+		else if (strToken == "@setsize")
+		{
+			sLog.outDetail("GM Size Modified");
+			strToken = str.substr(pos + 1, std::string::npos);
+			unsigned int Size = (unsigned int)atof(strToken.c_str());
+			_player->SendUpdateSize(Size);
+			return;
+		}
 		else if (strToken == "@addallskill")
 		{
 			strToken = str.substr(pos + 1, std::string::npos);
@@ -749,7 +779,7 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 				_player->TeleportByCommand(1);
 				return;
 			}
-		else if (strToken == "@topapaya")
+		else if (strToken == "@topapaya") // for non gm players
 		{
 			strToken = str.substr(pos + 1, std::string::npos);
 			unsigned int Point = (unsigned int)atof(strToken.c_str());
@@ -758,7 +788,7 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 
 		}
 		
-		else if (strToken == "@karin")
+		else if (strToken == "@karin") // for non gm players
 		{
 			strToken = str.substr(pos + 1, std::string::npos);
 			unsigned int Point = (unsigned int)atof(strToken.c_str());
