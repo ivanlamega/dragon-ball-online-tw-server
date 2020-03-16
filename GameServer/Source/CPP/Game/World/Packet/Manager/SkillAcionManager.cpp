@@ -36,7 +36,7 @@ void Player::GetAtributesCalculation(HOBJECT Target[32], BYTE MaxApplyTarget, BY
 				float attack = 0;
 				int Defense = 0;
 				//Demage Calculation		
-				if (SkillType[0] == 0 && SkillType[1] == 255)
+				if (SkillType[0] == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_FIRST && SkillType[1] == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_UNKNOWN)
 				{
 					if (bySkillType == eSKILL_TYPE::SKILL_TYPE_PHYSICAL)
 					{
@@ -61,7 +61,7 @@ void Player::GetAtributesCalculation(HOBJECT Target[32], BYTE MaxApplyTarget, BY
 					}
 				}
 				//Skull Demage in Percent
-				else if (SkillType[0] == 1)
+				else if (SkillType[0] == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_DOT)
 				{
 					if (bySkillType == eSKILL_TYPE::SKILL_TYPE_PHYSICAL)
 					{
@@ -86,7 +86,7 @@ void Player::GetAtributesCalculation(HOBJECT Target[32], BYTE MaxApplyTarget, BY
 						CriticalDemage[TargetCount] = attack / 100 * GetPcProfile()->avatarAttribute.fPhysicalCriticalDamageBonusRate;
 					}
 				}
-				else if (SkillType[0] == 0 && SkillType[1] == 1)
+				else if (SkillType[0] == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_DD && SkillType[1] == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_DOT)
 				{
 					if (bySkillType == eSKILL_TYPE::SKILL_TYPE_PHYSICAL)
 					{
@@ -115,9 +115,9 @@ void Player::GetAtributesCalculation(HOBJECT Target[32], BYTE MaxApplyTarget, BY
 				}
 
 				//Demage
-				float TotalAttack = attack + Defense;
-				float FinalPercent = attack * 100 / TotalAttack;
-				SkillDemage[TargetCount] = attack * FinalPercent / 100;
+				//float TotalAttack = attack + Defense;
+				//float FinalPercent = attack * 100 / TotalAttack;
+				SkillDemage[TargetCount] = attack - Defense;//attack * FinalPercent / 100;
 
 				//DemageValue[Demagecount] / 100 *  GetPcProfile()->avatarAttribute.fPhysicalCriticalDamageBonusRate;
 				//HitRate
@@ -220,22 +220,24 @@ void Player::GetAtributesCalculation(HOBJECT Target[32], BYTE MaxApplyTarget, BY
 			if (MobInfo != NULL)
 			{
 				//Demage Calculation
-				if (SkillType[0] == 0)
+				if (SkillType[0] == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_DD)
 				{
 					if (bySkillType == eSKILL_TYPE::SKILL_TYPE_PHYSICAL)
 					{
 						float attack = GetPcProfile()->avatarAttribute.wLastPhysicalOffence + SkillValueDemage[0];
-						int TotalAttack = attack + MobInfo->GetMobData().Basic_physical_defence;
-						float FinalPercent = attack * 100 / TotalAttack;
-						SkillDemage[TargetCount] = attack * FinalPercent / 100;
+						float deffense = MobInfo->GetMobData().Basic_physical_defence;
+						//int TotalAttack = attack + MobInfo->GetMobData().Basic_physical_defence;
+						//float FinalPercent = attack * 100 / TotalAttack;
+						SkillDemage[TargetCount] = attack - deffense;//attack * FinalPercent / 100;
 						CriticalDemage[TargetCount] = attack / 100 * GetPcProfile()->avatarAttribute.fPhysicalCriticalDamageBonusRate;
 					}
 					if (bySkillType == eSKILL_TYPE::SKILL_TYPE_ENERGY)
 					{
 						float attack = GetPcProfile()->avatarAttribute.wLastEnergyOffence + SkillValueDemage[0];
-						int TotalAttack = attack + MobInfo->GetMobData().Basic_energy_defence;
-						float FinalPercent = attack * 100 / TotalAttack;
-						SkillDemage[TargetCount] = attack * FinalPercent / 100;
+						float deffense = MobInfo->GetMobData().Basic_energy_defence;
+						//int TotalAttack = attack + MobInfo->GetMobData().Basic_energy_defence;
+						//float FinalPercent = attack * 100 / TotalAttack;
+						SkillDemage[TargetCount] = attack - deffense;//attack * FinalPercent / 100;
 						CriticalDemage[TargetCount] = attack / 100 * GetPcProfile()->avatarAttribute.fEnergyCriticalDamageBonusRate;
 					}
 					if (bySkillType == eSKILL_TYPE::SKILL_TYPE_STATE)
@@ -244,30 +246,32 @@ void Player::GetAtributesCalculation(HOBJECT Target[32], BYTE MaxApplyTarget, BY
 
 						float Defense = MobInfo->GetMobData().Basic_energy_defence + MobInfo->GetMobData().Basic_physical_defence;
 						//float attack =  GetPcProfile()->avatarAttribute.wLastEnergyOffence + skillDataOriginal->SkillValue[0];
-						int TotalAttack = attack + Defense;
-						float FinalPercent = attack * 100 / TotalAttack;
-						SkillDemage[TargetCount] = attack * FinalPercent / 100;
+						//int TotalAttack = attack + Defense;
+						//float FinalPercent = attack * 100 / TotalAttack;
+						SkillDemage[TargetCount] = attack - Defense;// attack * FinalPercent / 100;
 						CriticalDemage[TargetCount] = attack / 100 * GetPcProfile()->avatarAttribute.fPhysicalCriticalDamageBonusRate;
 					}
 				}
 				//Skull Demage in Percent
-				else if (SkillType[0] == 1)
+				else if (SkillType[0] == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_DOT)
 				{
 
 					if (bySkillType == eSKILL_TYPE::SKILL_TYPE_PHYSICAL)
 					{
 						float attack = GetPcProfile()->avatarAttribute.wLastPhysicalOffence / 100 * SkillValueDemage[0];
-						int TotalAttack = attack + MobInfo->GetMobData().Basic_physical_defence;
-						float FinalPercent = attack * 100 / TotalAttack;
-						SkillDemage[TargetCount] = attack * FinalPercent / 100;
+						float Defense = MobInfo->GetMobData().Basic_physical_defence;
+						//int TotalAttack = attack + MobInfo->GetMobData().Basic_physical_defence;
+						//float FinalPercent = attack * 100 / TotalAttack;
+						SkillDemage[TargetCount] = attack - Defense;//attack * FinalPercent / 100;
 						CriticalDemage[TargetCount] = attack / 100 * GetPcProfile()->avatarAttribute.fPhysicalCriticalDamageBonusRate;
 					}
 					if (bySkillType == eSKILL_TYPE::SKILL_TYPE_ENERGY)
 					{
 						float attack = GetPcProfile()->avatarAttribute.wLastEnergyOffence / 100 * SkillValueDemage[0];
-						int TotalAttack = attack + MobInfo->GetMobData().Basic_energy_defence;
-						float FinalPercent = attack * 100 / TotalAttack;
-						SkillDemage[TargetCount] = attack * FinalPercent / 100;
+						float defense = MobInfo->GetMobData().Basic_energy_defence;
+						//int TotalAttack = attack + MobInfo->GetMobData().Basic_energy_defence;
+						//float FinalPercent = attack * 100 / TotalAttack;
+						SkillDemage[TargetCount] = attack - defense;// attack* FinalPercent / 100;
 						CriticalDemage[TargetCount] = attack / 100 * GetPcProfile()->avatarAttribute.fEnergyCriticalDamageBonusRate;
 					}
 					if (bySkillType == eSKILL_TYPE::SKILL_TYPE_STATE)
@@ -276,9 +280,9 @@ void Player::GetAtributesCalculation(HOBJECT Target[32], BYTE MaxApplyTarget, BY
 
 						float Defense = MobInfo->GetMobData().Basic_energy_defence + MobInfo->GetMobData().Basic_physical_defence;
 						//float attack =  GetPcProfile()->avatarAttribute.wLastEnergyOffence + skillDataOriginal->SkillValue[0];
-						int TotalAttack = attack + Defense;
-						float FinalPercent = attack * 100 / TotalAttack;
-						SkillDemage[TargetCount] = attack * FinalPercent / 100;
+						//int TotalAttack = attack + Defense;
+						//float FinalPercent = attack * 100 / TotalAttack;
+						SkillDemage[TargetCount] = attack - Defense ;// attack* FinalPercent / 100;
 						CriticalDemage[TargetCount] = attack / 100 * GetPcProfile()->avatarAttribute.fPhysicalCriticalDamageBonusRate;
 					}
 				}

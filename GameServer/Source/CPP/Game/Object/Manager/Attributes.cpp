@@ -763,10 +763,10 @@ void AttributesManager::UpdateAttributesFromItem(sITEM_TBLDAT& item, BYTE Grade,
 }
 void AttributesManager::UpdateExtraAttributesFromItem(sITEM_EFFECT aitemEffect[6], bool isRemove)
 {	
-	sFORMULA_TBLDAT *EnchantTable = NULL;
+	sITEM_ENCHANT_TBLDAT *EnchantTable = NULL;
 	for (int i = 0; i <= 6; i++)
 	{
-		EnchantTable = (sFORMULA_TBLDAT*)sTBM.GetFormulaTable()->FindData(aitemEffect[i].wType);
+		EnchantTable = (sITEM_ENCHANT_TBLDAT*)sTBM.GetFormulaTable()->FindData(aitemEffect[i].wType);
 		if (EnchantTable != NULL)
 		{
 			int count = 0;

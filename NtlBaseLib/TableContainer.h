@@ -38,6 +38,7 @@ class SetItemTable;
 class EachDropTable;
 class TypeDropTable;
 class ExcellentDropTable;
+class ItemEnchantTable;
 
 // Misc
 class ActionTable;
@@ -134,6 +135,7 @@ public:
 		TABLE_SET_ITEM,
 		TABLE_DRAGONBALL,
 		TABLE_DRAGONBALL_REWARD,
+		TABLE_ITEM_ENCHANT,
 
 		// Misc
 		TABLE_ACTION,
@@ -272,6 +274,7 @@ public:
 	EachDropTable* GetEachDropTable() { return m_pEachDropTable; }
 	TypeDropTable* GetTypeDropTable() { return m_pTypeDropTable; }
 	ExcellentDropTable* GetExcellentDropTable() { return m_pExcellentDropTable; }
+	ItemEnchantTable* GetItemEnchantTable() { return m_pItemEnchantTable; }
 
 	// Misc
 	ActionTable* GetActionTable() { return m_pActionTable; }
@@ -393,6 +396,7 @@ protected:
 	EachDropTable* m_pEachDropTable;
 	TypeDropTable* m_pTypeDropTable;
 	ExcellentDropTable* m_pExcellentDropTable;
+	ItemEnchantTable* m_pItemEnchantTable;
 
 	// Misc
 	ActionTable* m_pActionTable;

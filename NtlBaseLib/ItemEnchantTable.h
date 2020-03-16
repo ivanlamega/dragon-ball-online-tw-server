@@ -2,15 +2,27 @@
 
 #include "Table.h"
 
-const DWORD		DBO_MAX_FORMULA_RATE_COUNT = 4;
-const DWORD		DBO_MAX_FORMULA_IDX = 1000;
-
 #pragma pack(push, 4)
-struct sFORMULA_TBLDAT : public sTBLDAT
+struct sITEM_ENCHANT_TBLDAT : public sTBLDAT
 {
 public:
-	bool			bValidity_Able;
-	float			afRate[4];
+	WCHAR awName[40 + 1];
+	TBLIDX tbxSystemEffect;
+	BYTE	bySetType;
+	BYTE	byRvType;
+	BYTE	ByExclIdex;
+	BYTE	byMinLevel;
+	BYTE	byMaxLevel;
+	BYTE	byFrequency;
+	WORD	wEnchantValue;
+	BYTE	byKind;
+	DWORD	dwEquip;
+	BYTE	byGroupNo;
+	WORD	wMaxValue;
+	BYTE	bIsSuperior;
+	BYTE	bIsExcellent;
+	BYTE	bIsRare;
+	BYTE	bIsLegendary;
 
 protected:
 
@@ -21,11 +33,11 @@ protected:
 };
 #pragma pack(pop)
 
-class FormulaTable : public Table
+class ItemEnchantTable : public Table
 {
 public:
-	FormulaTable(void);
-	virtual ~FormulaTable(void);
+	ItemEnchantTable(void);
+	virtual ~ItemEnchantTable(void);
 
 	bool Create(DWORD dwCodePage);
 	void Destroy();
@@ -38,10 +50,10 @@ public:
 protected:
 	void Init();
 
-	WCHAR** GetSheetListInWChar() { return &(FormulaTable::m_pwszSheetList[0]); }
+	WCHAR** GetSheetListInWChar() { return &(ItemEnchantTable::m_pwszSheetList[0]); }
 	void* AllocNewTable(WCHAR* pwszSheetName, DWORD dwCodePage);
 	bool DeallocNewTable(void* pvTable, WCHAR* pwszSheetName);
-	bool AddTable(void * pvTable, bool bReload);
+	bool AddTable(void* pvTable, bool bReload);
 	bool SetTableData(void* pvTable, WCHAR* pwszSheetName, std::wstring* pstrDataName, BSTR bstrData);
 
 	// WARNING :
@@ -54,7 +66,6 @@ protected:
 	// m_afRate[m][n]에서의 n은 인덱스를 뜻합니다.
 	// 예를 들어, fRate2의 값을 얻을 때에는 m_afRate[m][1]이 아닌 m_afRate[m][2]를 사용해야 합니다.
 	// by YOSHIKI(2009-07-13)
-	static float m_afRate[DBO_MAX_FORMULA_IDX + 1][DBO_MAX_FORMULA_RATE_COUNT + 1];
 
 private:
 	static WCHAR* m_pwszSheetList[];

@@ -211,6 +211,7 @@
     <ClInclude Include="HLSItemTable.h" />
     <ClInclude Include="HLSMerchantTable.h" />
     <ClInclude Include="HTBSetTable.h" />
+    <ClInclude Include="ItemEnchantTable.h" />
     <ClInclude Include="ItemMixMachineTable.h" />
     <ClInclude Include="ItemOptionTable.h" />
     <ClInclude Include="ItemRecipeTable.h" />
@@ -363,6 +364,7 @@
     <ClCompile Include="HLSItemTable.cpp" />
     <ClCompile Include="HLSMerchantTable.cpp" />
     <ClCompile Include="HTBSetTable.cpp" />
+    <ClCompile Include="ItemEnchantTable.cpp" />
     <ClCompile Include="ItemMixMachineTable.cpp" />
     <ClCompile Include="ItemOptionTable.cpp" />
     <ClCompile Include="ItemRecipeTable.cpp" />

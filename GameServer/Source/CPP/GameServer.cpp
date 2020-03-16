@@ -101,6 +101,7 @@ bool GameServer::loadDataTable()
 	flagManager.Set(TableContainer::TABLE_MIX_MACHINE);
 	flagManager.Set(TableContainer::TABLE_GUIDE_HINT);
 	flagManager.Set(TableContainer::TABLE_ITEM_UPGRADE);
+	flagManager.Set(TableContainer::TABLE_ITEM_ENCHANT);
 
 	flagManager.Set(TableContainer::TABLE_ITEM_RECIPE);
 	flagManager.Set(TableContainer::TABLE_ITEM_RECIPE2);
@@ -219,7 +220,8 @@ bool GameServer::loadDataTable()
 	
 	/*Unloadable Tables*/
 	//
-	fileNameList.SetFileName(TableContainer::TABLE_FORMULA,					"table_item_enchant_data");//structure need
+	fileNameList.SetFileName(TableContainer::TABLE_FORMULA,					"TD_Formula");//structure need
+	fileNameList.SetFileName(TableContainer::TABLE_ITEM_ENCHANT,			"table_item_enchant_data");//structure need
 	fileNameList.SetFileName(TableContainer::TABLE_WORLD_MAP,				"Table_Worldmap_Data");//structure need
 	//fileNameList.SetFileName(TableContainer::TABLE_SPEECH,				"Table_NPC_Speech_Data");//structure need
 	//fileNameList.SetFileName(TableContainer::TABLE_ITEM_OPTION,			"Table_Item_Option_Data");	//structure need
@@ -480,6 +482,18 @@ int GameServer::Run()
 		sLog.outError("Trigger data unsucessfully loaded, exiting...");
 		system("PAUSE");
 		return 1;
+	}
+
+	sFORMULA_TBLDAT* enchant = (sFORMULA_TBLDAT*)sTBM.GetFormulaTable()->FindData(101);
+	if (enchant)
+	{
+		sLog.outDebug("tblidx %d %d %f %f", enchant->tblidx, enchant->bValidity_Able, enchant->afRate[0], enchant->afRate[1]);
+	}
+
+	enchant = (sFORMULA_TBLDAT*)sTBM.GetFormulaTable()->FindData(102);
+	if (enchant)
+	{
+		sLog.outDebug("tblidx %d %d %f %f", enchant->tblidx, enchant->bValidity_Able, enchant->afRate[0], enchant->afRate[1]);
 	}
 
 	_ServerID = sXmlParser.GetInt("Server", "ID");

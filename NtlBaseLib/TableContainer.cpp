@@ -34,6 +34,7 @@
 #include "ChatCommandTable.h"
 #include "DirectionLinkTable.h"
 #include "FormulaTable.h"
+#include "ItemEnchantTable.h"
 
 #include "CharmTable.h"
 
@@ -496,6 +497,10 @@ bool TableContainer::Create(CNtlBitFlagManager& rTableFlag, WCHAR* pwszPath, Tab
 	if (false != rTableFlag.IsSet(TABLE_FORMULA))
 	{
 		DBO_CREATE_TABLE(FormulaTable, serializer, pFileNameList->GetFileNameW(TABLE_FORMULA), m_pFormulaTable, pCall);
+	}
+	if (false != rTableFlag.IsSet(TABLE_ITEM_ENCHANT))
+	{
+		DBO_CREATE_TABLE(ItemEnchantTable, serializer, pFileNameList->GetFileNameW(TABLE_ITEM_ENCHANT), m_pItemEnchantTable, pCall);
 	}
 	//--------------------------------------------------------------------------------
 
@@ -1333,6 +1338,11 @@ bool TableContainer::Reload(CNtlBitFlagManager& rTableFlag, TableFileNameList* p
 		DBO_RELOAD_TABLE(FormulaTable, serializer, pFileNameList->GetFileNameW(TABLE_FORMULA), m_pFormulaTable);
 	}
 
+	if (false != rTableFlag.IsSet(TABLE_ITEM_ENCHANT))
+	{
+		DBO_RELOAD_TABLE(ItemEnchantTable, serializer, pFileNameList->GetFileNameW(TABLE_ITEM_ENCHANT), m_pItemEnchantTable);
+	}
+
 	if (false != rTableFlag.IsSet(TABLE_SCRIPT_LINK))
 	{
 		DBO_RELOAD_TABLE(ScriptLinkTable, serializer, pFileNameList->GetFileNameW(TABLE_SCRIPT_LINK), m_pScriptLinkTable);
@@ -1567,6 +1577,11 @@ bool TableContainer::SaveToFile(CNtlBitFlagManager& rTableFlag, TableFileNameLis
 	if (false != rTableFlag.IsSet(TABLE_FORMULA))
 	{
 		DBO_EXPORT_TABLE(m_pFormulaTable, serializer, pFileNameList->GetFileNameW(TABLE_FORMULA), bNeedToEncrypt);
+	}
+
+	if (false != rTableFlag.IsSet(TABLE_ITEM_ENCHANT))
+	{
+		DBO_EXPORT_TABLE(m_pItemEnchantTable, serializer, pFileNameList->GetFileNameW(TABLE_ITEM_ENCHANT), bNeedToEncrypt);
 	}
 	//--------------------------------------------------------------------------------
 

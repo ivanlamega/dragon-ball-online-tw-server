@@ -36,6 +36,7 @@
 #include "ChatCommandTable.h"
 #include "DirectionLinkTable.h"
 #include "FormulaTable.h"
+#include "ItemEnchantTable.h"
 
 #include "CharmTable.h"
 

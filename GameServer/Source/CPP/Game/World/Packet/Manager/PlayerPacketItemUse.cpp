@@ -781,7 +781,7 @@ void Player::ItemSoketInsert(Packet pPacket)
 	sITEM_PROFILE *DoggiBall = NULL;
 	sITEM_TBLDAT *ItemTbl = NULL;
 	sITEM_TBLDAT *DoggiballTbl = NULL;
-	sFORMULA_TBLDAT *EnchantTable = NULL;
+	sITEM_ENCHANT_TBLDAT*EnchantTable = NULL;
 	Item = this->inventoryManager.GetItemAtPlaceAndPost(req->itemPlace, req->itemPos);
 	DoggiBall = this->inventoryManager.GetItemAtPlaceAndPost(req->DogiBallplace, req->DogiBallPos);
 	if (Item != NULL && DoggiBall != NULL)
@@ -820,7 +820,7 @@ void Player::ItemSoketInsert(Packet pPacket)
 				int randommstats = rand() % GetAttributesManager()->countstats;
 				if (GetAttributesManager()->Stats[randommstats] != 0 && GetAttributesManager()->Stats[randommstats] != INVALID_TBLIDX)
 				{
-					EnchantTable = (sFORMULA_TBLDAT*)sTBM.GetFormulaTable()->FindData(GetAttributesManager()->Stats[randommstats]);
+					EnchantTable = (sITEM_ENCHANT_TBLDAT*)sTBM.GetFormulaTable()->FindData(GetAttributesManager()->Stats[randommstats]);
 					if (EnchantTable != NULL)
 					{
 						float randStats = 1 + rand() % static_cast<int>(Dbo_GetItemsStatsPoints(ItemTbl->eRank, ItemTbl->byNeedLevel) / EnchantTable->wEnchantValue) + 1;
@@ -1209,7 +1209,7 @@ void Player::ItemOptionsChange(Packet pPacket)
 	sITEM_PROFILE *Box = NULL;
 	sITEM_TBLDAT *ItemTbl = NULL;
 	sITEM_TBLDAT *BoxTbl = NULL;
-	sFORMULA_TBLDAT *EnchantTable = NULL;
+	sITEM_ENCHANT_TBLDAT*EnchantTable = NULL;
 	Item = this->inventoryManager.GetItemAtPlaceAndPost(req->itemPlace, req->itemPos);
 	Box = this->inventoryManager.GetItemAtPlaceAndPost(req->Boxplace, req->BoxPos);
 	if (Item != NULL && Box != NULL)
@@ -1248,7 +1248,7 @@ void Player::ItemOptionsChange(Packet pPacket)
 				int randommstats = rand()% GetAttributesManager()->countstats;
 				if (GetAttributesManager()->Stats[randommstats] != 0 && GetAttributesManager()->Stats[randommstats] != INVALID_TBLIDX)
 				{	
-					EnchantTable = (sFORMULA_TBLDAT*)sTBM.GetFormulaTable()->FindData(GetAttributesManager()->Stats[randommstats]);
+					EnchantTable = (sITEM_ENCHANT_TBLDAT*)sTBM.GetFormulaTable()->FindData(GetAttributesManager()->Stats[randommstats]);
 					if(EnchantTable != NULL)
 					{
 						float randStats = 1 + rand() % static_cast<int>(Dbo_GetItemsStatsPoints(ItemTbl->eRank, ItemTbl->byNeedLevel) / EnchantTable->wEnchantValue) + 1;

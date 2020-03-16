@@ -20,6 +20,7 @@
 #include "TextAllTable.h"
 #include "ObjectTable.h"
 #include "FormulaTable.h"
+#include "ItemEnchantTable.h"
 #include "PCTable.h"
 #include "ExpTable.h"
 #include "QuestTextDataTable.h"
