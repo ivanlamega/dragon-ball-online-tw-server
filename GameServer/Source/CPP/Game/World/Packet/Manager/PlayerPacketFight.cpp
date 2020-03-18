@@ -172,7 +172,7 @@ void WorldSession::UseSkill(Packet& packet)
 	if (skillDataOriginal != NULL)
 	{
 			_player->packets = packet;
-			_player->GetAtributesCalculation(pCharSkillReq->ahApplyTarget, pCharSkillReq->byApplyTargetCount, skillDataOriginal->bySkill_Type, skillDataOriginal->bySkill_Effect_Type, skillDataOriginal->SkillValue, pCharSkillReq->byRpBonusType);
+			_player->GetAtributesCalculation(pCharSkillReq->ahApplyTarget, pCharSkillReq->byApplyTargetCount, pCharSkillReq->byRpBonusType, *skillDataOriginal);
 			if (skillDataOriginal->dwCastingTimeInMilliSecs > 0)
 			{
 				sGU_UPDATE_CHAR_STATE state;
