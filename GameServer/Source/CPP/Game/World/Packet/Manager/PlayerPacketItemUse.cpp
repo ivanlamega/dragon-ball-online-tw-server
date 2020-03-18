@@ -820,7 +820,7 @@ void Player::ItemSoketInsert(Packet pPacket)
 				int randommstats = rand() % GetAttributesManager()->countstats;
 				if (GetAttributesManager()->Stats[randommstats] != 0 && GetAttributesManager()->Stats[randommstats] != INVALID_TBLIDX)
 				{
-					EnchantTable = (sITEM_ENCHANT_TBLDAT*)sTBM.GetFormulaTable()->FindData(GetAttributesManager()->Stats[randommstats]);
+					EnchantTable = (sITEM_ENCHANT_TBLDAT*)sTBM.GetItemEnchantTable()->FindData(GetAttributesManager()->Stats[randommstats]);
 					if (EnchantTable != NULL)
 					{
 						float randStats = 1 + rand() % static_cast<int>(Dbo_GetItemsStatsPoints(ItemTbl->eRank, ItemTbl->byNeedLevel) / EnchantTable->wEnchantValue) + 1;
@@ -1248,7 +1248,7 @@ void Player::ItemOptionsChange(Packet pPacket)
 				int randommstats = rand()% GetAttributesManager()->countstats;
 				if (GetAttributesManager()->Stats[randommstats] != 0 && GetAttributesManager()->Stats[randommstats] != INVALID_TBLIDX)
 				{	
-					EnchantTable = (sITEM_ENCHANT_TBLDAT*)sTBM.GetFormulaTable()->FindData(GetAttributesManager()->Stats[randommstats]);
+					EnchantTable = (sITEM_ENCHANT_TBLDAT*)sTBM.GetItemEnchantTable()->FindData(GetAttributesManager()->Stats[randommstats]);
 					if(EnchantTable != NULL)
 					{
 						float randStats = 1 + rand() % static_cast<int>(Dbo_GetItemsStatsPoints(ItemTbl->eRank, ItemTbl->byNeedLevel) / EnchantTable->wEnchantValue) + 1;

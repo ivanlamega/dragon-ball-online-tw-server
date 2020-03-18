@@ -766,7 +766,7 @@ void AttributesManager::UpdateExtraAttributesFromItem(sITEM_EFFECT aitemEffect[6
 	sITEM_ENCHANT_TBLDAT *EnchantTable = NULL;
 	for (int i = 0; i <= 6; i++)
 	{
-		EnchantTable = (sITEM_ENCHANT_TBLDAT*)sTBM.GetFormulaTable()->FindData(aitemEffect[i].wType);
+		EnchantTable = (sITEM_ENCHANT_TBLDAT*)sTBM.GetItemEnchantTable()->FindData(aitemEffect[i].wType);
 		if (EnchantTable != NULL)
 		{
 			int count = 0;
