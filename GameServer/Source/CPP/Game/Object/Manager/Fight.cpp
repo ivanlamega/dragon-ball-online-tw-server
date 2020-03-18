@@ -39,6 +39,42 @@ int FightManager::GetLevelDiff()
 	return levelDiff;
 }
 //----------------------------------------
+//	Get the amount of physical damage
+//----------------------------------------
+float FightManager::CalculePhysicalDamage(float attackerOffence, DWORD attackerLevel, float targetDefence)
+{
+	sFORMULA_TBLDAT* formula = (sFORMULA_TBLDAT*)sTBM.GetFormulaTable()->FindData(3100);
+	if (formula)
+	{
+		sLog.outBasic("1 physical attack %f level %d", attackerOffence, attackerLevel);
+		float damage = (targetDefence + attackerLevel * formula->afRate[0]);
+		damage = (1 - (targetDefence / damage));
+		damage = attackerOffence * damage;
+		sLog.outBasic("damage %d", damage);
+		sLog.outBasic("damage %f mob defense %d", damage, targetDefence);
+		return damage;
+	}
+	return 0.0;
+}
+//----------------------------------------
+//	Get the amount of energy damage
+//----------------------------------------
+float FightManager::CalculeEnergyDamage(float attackerOffence, DWORD attackerLevel, float targetDefence)
+{
+	sFORMULA_TBLDAT* formula = (sFORMULA_TBLDAT*)sTBM.GetFormulaTable()->FindData(3300);
+	if (formula)
+	{
+		sLog.outBasic("1 energy attack %f level %d", attackerOffence, attackerLevel);
+		float damage = (targetDefence + attackerLevel * formula->afRate[0]);
+		damage = (1 - (targetDefence / damage));
+		damage = attackerOffence * damage;
+		sLog.outBasic("damage %d", damage);
+		sLog.outBasic("damage %f mob defense %d", damage, targetDefence);
+		return damage;
+	}
+	return 0.0;
+}
+//----------------------------------------
 //	Get amount of damage to do
 //	@param id - boolean to say if we are caster or cac
 //----------------------------------------
@@ -61,18 +97,15 @@ void FightManager::GetPlayerDamage(bool caster, eOBJTYPE ObjectTypeId)
 				float damage = (mob->GetMobData().Basic_physical_defence + plr->GetPcProfile()->byLevel * formula->afRate[0]);
 				damage = (1 - (mob->GetMobData().Basic_physical_defence / damage));
 				damage = physicalAttack * damage;
+				sLog.outBasic("damage %d", damage);
 				sLog.outBasic("damage %f mob defense %d", damage, mob->GetMobData().Basic_physical_defence);
-				//Physical_Damage* (fRate1 + (aplicado y restado entre el atacante y el defensor%))
-				float percent = (damage * 1 / physicalAttack);
-				float last_damage = damage * (10.0 + percent); // multiplicar last_damage por el nivel del player y ajustar nivel del player multiplicando por unnumero menor a 1
+				/*float percent = (damage * 1 / physicalAttack);
+				float last_damage = damage * (percent);
 				sLog.outBasic("last damage %f percent %f", last_damage, percent);
-				float random_damage = last_damage * ((2.5 + (plr->GetPcProfile()->byLevel * 0.4)) / (60 - (plr->GetPcProfile()->byLevel * 0.001)));
-				/*float random_damage = last_damage * formula->afRate[0];
-				sLog.outBasic("original random damage %f", random_damage);
-				random_damage = random_damage * (plr->GetPcProfile()->byLevel * 0.01);
+				float random_damage = last_damage * ((4 + (plr->GetPcProfile()->byLevel * 0.1)) / (8 - (plr->GetPcProfile()->byLevel * 0.09)));
 				sLog.outBasic("fixed random damage %f", random_damage);*/
 
-				attackValue = random_damage;//attack * FinalPercent / 100;
+				attackValue = damage;//attack * FinalPercent / 100;
 			}
 			else
 			{
@@ -101,22 +134,37 @@ void FightManager::GetPlayerDamage(bool caster, eOBJTYPE ObjectTypeId)
 
 				// Last_Physical_Offence del atacante * (1- (Defender Last_Physical_Defence / (Defender Last_Physical_Defence + Attacker Level * idx (3100) .Rate1)
 				float physicalAttack = (float)plr->GetPcProfile()->avatarAttribute.wLastPhysicalOffence;
-				sLog.outBasic("1 physical attack %f level %d mob tbidx %d", physicalAttack, plr->GetPcProfile()->byLevel, mob->GetTblidx());
+				sLog.outBasic("2 physical attack %f level %d mob tbidx %d", physicalAttack, plr->GetPcProfile()->byLevel, mob->GetTblidx());
 				float damage = (mob->GetMobData().Basic_physical_defence + plr->GetPcProfile()->byLevel * formula->afRate[0]);
 				damage = (1 - (mob->GetMobData().Basic_physical_defence / damage));
 				damage = physicalAttack * damage;
 				sLog.outBasic("damage %f mob defense %d", damage, mob->GetMobData().Basic_physical_defence);
-				//Physical_Damage* (fRate1 + (aplicado y restado entre el atacante y el defensor%))
-				float percent = (damage * 1 / physicalAttack);
-				float last_damage = damage * (10.0 + percent); // multiplicar last_damage por el nivel del player y ajustar nivel del player multiplicando por unnumero menor a 1
+				/*float percent = (damage * 1 / physicalAttack);
+				float last_damage = damage * (percent); 
 				sLog.outBasic("last damage %f percent %f", last_damage, percent);
-				float random_damage = last_damage * ((2.5 + (plr->GetPcProfile()->byLevel * 0.4)) / (60 - (plr->GetPcProfile()->byLevel * 0.001)));
-				/*float random_damage = last_damage * formula->afRate[0];
-				sLog.outBasic("original random damage %f", random_damage);
-				random_damage = random_damage * (plr->GetPcProfile()->byLevel * 0.01);
+				float random_damage = last_damage * ((4 + (plr->GetPcProfile()->byLevel * 0.1)) / (8 - (plr->GetPcProfile()->byLevel * 0.09)));
 				sLog.outBasic("fixed random damage %f", random_damage);*/
 
-				attackValue = random_damage;//attack * FinalPercent / 100;
+				attackValue = damage;//attack * FinalPercent / 100;
+
+				/*Tu lv: 60
+				Ataque fisico: 266
+				Daño: entre 193 y 200
+				daño skill: 344
+				skill: 103110
+				Defensa fisica del mob: 861
+				Defensa energica: 574
+				Tu lv: 60
+				ataque fisico: 266
+				defensa del mob: 0 (creo) con lv 1
+				daño: 255
+				daño skill: 476
+
+				tu lv: 1
+				ataque fisico: 27
+				defensa del mob: 0 (creo) con lv1
+				daño: entre 26 y 28
+				Daño skill: 80*/
 			}
 		}
 		if (ObjectTypeId == OBJTYPE_PC)

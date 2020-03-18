@@ -24,6 +24,8 @@ public:
 	bool					HandleDamage(Object& Attacker, Object& Target);
 	void					HandlePlrFight();
 
+	float					CalculePhysicalDamage(float attackerOffence, DWORD attackerLevel, float targetDefence);
+	float					CalculeEnergyDamage(float attackerOffence, DWORD attackerLevel, float targetDefence);
 	void					GetPlayerDamage(bool caster, eOBJTYPE ObjectTypeId);
 	void					GetPlayerCriticAttack(bool caster, eOBJTYPE ObjectTypeId);
 	void					GetPlayerHitChance(eOBJTYPE ObjectTypeId);

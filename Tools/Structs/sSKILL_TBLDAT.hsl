@@ -39,7 +39,7 @@ BYTE fill[1];
 	BYTE			byApply_Target_Max;
 	BYTE			byApply_Range;
 	BYTE			byApply_Area_Size_1;
-BYTE unknown;
+BYTE byApply_Area_Size_2;
 BYTE fill[2];
 	DWORD			skill_Effect[2];
 	BYTE			bySkill_Effect_Type[2];
