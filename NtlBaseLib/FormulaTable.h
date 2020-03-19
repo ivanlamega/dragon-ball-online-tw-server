@@ -21,6 +21,20 @@ protected:
 };
 #pragma pack(pop)
 
+struct CLASS_INFO
+{
+	BYTE	byClass;
+	TBLIDX	Physical_Offence;
+	TBLIDX	LP;
+	TBLIDX	Energy_Offence;
+	TBLIDX	EP;
+	TBLIDX	Physical_Critical_Rate;
+	TBLIDX	Physical_Critical_Range;
+	TBLIDX	Energy_Critical_Rate;
+	TBLIDX	Energy_Critical_Range;
+	TBLIDX	Max_AP;
+};
+
 class FormulaTable : public Table
 {
 public:
@@ -31,6 +45,7 @@ public:
 	void Destroy();
 
 	sTBLDAT* FindData(TBLIDX tblidx);
+	CLASS_INFO* FindClassInfoByClass(BYTE byClass);
 
 	virtual bool LoadFromBinary(Serializer& serializer, bool bReload);
 	virtual bool SaveToBinary(Serializer& serializer);
@@ -43,6 +58,9 @@ protected:
 	bool DeallocNewTable(void* pvTable, WCHAR* pwszSheetName);
 	bool AddTable(void * pvTable, bool bReload);
 	bool SetTableData(void* pvTable, WCHAR* pwszSheetName, std::wstring* pstrDataName, BSTR bstrData);
+
+	void AddClassInfo(BYTE byClass);
+	void LoadClassInfo();
 
 	// WARNING :
 	// The value of 'm' in the variable 'afRate[m][n]' means tblidx.
@@ -57,5 +75,14 @@ protected:
 	static float m_afRate[DBO_MAX_FORMULA_IDX + 1][DBO_MAX_FORMULA_RATE_COUNT + 1];
 
 private:
+	typedef std::unordered_map<BYTE, CLASS_INFO> CLASS_INFODATA;
+	typedef CLASS_INFODATA::iterator CLASS_INFODATAIT;
+	typedef CLASS_INFODATA::value_type CLASS_INFODATAVAL;
+
 	static WCHAR* m_pwszSheetList[];
+
+	CLASS_INFODATA m_mapClassInfoList;
+
+	CLASS_INFODATAIT ClassInfoBegin() { return m_mapClassInfoList.begin(); };
+	CLASS_INFODATAIT ClassInfoEnd() { return m_mapClassInfoList.end(); }
 };

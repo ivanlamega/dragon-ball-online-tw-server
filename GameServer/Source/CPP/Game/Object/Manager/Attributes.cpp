@@ -523,35 +523,43 @@ bool AttributesManager::LoadCharacterAttrFromDB(sPC_TBLDAT* pTblData)
 
 	delete result;
 
+	int baseStr = static_cast<int>(pTblData->byStr + (pTblData->fLevel_Up_Str * (PlayerProfile.byLevel - 1)));
+	int baseCon = static_cast<int>(pTblData->byCon + (pTblData->fLevel_Up_Con * (PlayerProfile.byLevel - 1)));
+	int baseFoc = static_cast<int>(pTblData->byFoc + (pTblData->fLevel_Up_Foc * (PlayerProfile.byLevel - 1)));
+	int baseDex = static_cast<int>(pTblData->byDex + (pTblData->fLevel_Up_Dex * (PlayerProfile.byLevel - 1)));
+	int baseSol = static_cast<int>(pTblData->bySol + (pTblData->fLevel_Up_Sol * (PlayerProfile.byLevel - 1)));
+	int baseEng = static_cast<int>(pTblData->byEng + (pTblData->fLevel_Up_Eng * (PlayerProfile.byLevel - 1)));
+
 	//status Base Con/Focus Etc
 	result = sDB.executes("UPDATE characters_attributes SET BaseStr = '%d', BaseCon = '%d', BaseFoc = '%d', BaseDex = '%d',BaseSol = '%d', BaseEng = '%d' WHERE CharacterID = '%d';",
-		static_cast<int>(pTblData->byStr + (pTblData->fLevel_Up_Str * PlayerProfile.byLevel)),
-		static_cast<int>(pTblData->byCon + (pTblData->fLevel_Up_Con * PlayerProfile.byLevel)),
-		static_cast<int>(pTblData->byFoc + (pTblData->fLevel_Up_Foc * PlayerProfile.byLevel)),
-		static_cast<int>(pTblData->byDex + (pTblData->fLevel_Up_Dex * PlayerProfile.byLevel)),
-		static_cast<int>(pTblData->bySol + (pTblData->fLevel_Up_Sol * PlayerProfile.byLevel)),
-		static_cast<int>(pTblData->byEng + (pTblData->fLevel_Up_Eng * PlayerProfile.byLevel)),
-		charid);
+		baseStr, baseCon, baseFoc, baseDex, baseSol, baseEng, charid);
 	if (result != NULL)
 		delete result;
 	
 	//status Last Con/Focus Etc
 	result = sDB.executes("UPDATE characters_attributes SET LastStr = '%d', LastCon = '%d', LastFoc = '%d', LastDex = '%d', LastSol = '%d', LastEng = '%d' WHERE CharacterID = '%d';",
-		static_cast<int>(pTblData->byStr + (pTblData->fLevel_Up_Str * PlayerProfile.byLevel)),
-		static_cast<int>(pTblData->byCon + (pTblData->fLevel_Up_Con * PlayerProfile.byLevel)),
-		static_cast<int>(pTblData->byFoc + (pTblData->fLevel_Up_Foc * PlayerProfile.byLevel)),
-		static_cast<int>(pTblData->byDex + (pTblData->fLevel_Up_Dex * PlayerProfile.byLevel)),
-		static_cast<int>(pTblData->bySol + (pTblData->fLevel_Up_Sol * PlayerProfile.byLevel)),
-		static_cast<int>(pTblData->byEng + (pTblData->fLevel_Up_Eng * PlayerProfile.byLevel)),
-		charid);
+		baseStr, baseCon, baseFoc, baseDex, baseSol, baseEng, charid);
 	if (result != NULL)
 		delete result;
 
 	// LP Calculation
-	DWORD BasicLife = pTblData->wBasic_LP + (pTblData->byLevel_Up_LP * PlayerProfile.byLevel);
+	DWORD LP = 0;
+	CLASS_INFO* classInfo = sTBM.GetFormulaTable()->FindClassInfoByClass(plr->GetMyClass());
+	if (classInfo)
+	{
+		sLog.outBasic("Class %d lp rate tblidx %d", plr->GetMyClass(), classInfo->LP);
+		sFORMULA_TBLDAT* formula = (sFORMULA_TBLDAT*)sTBM.GetFormulaTable()->FindData(classInfo->LP);
+		if (formula)
+		{
+			LP = formula->afRate[0] + (baseCon * formula->afRate[1]);
+			sLog.outBasic("LP total %d rate1 %f rate2 %f lastCon %d", LP, formula->afRate[0], formula->afRate[1], baseCon);
+		}
+	}
+	
+	/*DWORD BasicLife = pTblData->wBasic_LP + (pTblData->byLevel_Up_LP * PlayerProfile.byLevel);
 	WORD LevelCon = pTblData->byCon + static_cast<WORD>(pTblData->fLevel_Up_Con * PlayerProfile.byLevel);
 	float ConByPoint = 85; // 1con = 85 old tw
-	DWORD LP = BasicLife + static_cast<DWORD>(LevelCon * ConByPoint);
+	DWORD LP = BasicLife + static_cast<DWORD>(LevelCon * ConByPoint);*/
 
 	//EP Calculation
 	WORD BasicEnergy = pTblData->wBasic_EP + (pTblData->byLevel_Up_EP * PlayerProfile.byLevel);
@@ -651,7 +659,7 @@ bool AttributesManager::LoadCharacterAttrFromDB(sPC_TBLDAT* pTblData)
 //----------------------------------------
 //	Load and add the items attributes to our player.avatarattribute
 //----------------------------------------
-void			AttributesManager::LoadAttributesFromItems(sITEM_BRIEF *brief)
+void AttributesManager::LoadAttributesFromItems(sITEM_BRIEF *brief)
 {
 	for (int i = 0; i < EQUIP_SLOT_TYPE_COUNT; i++)
 	{

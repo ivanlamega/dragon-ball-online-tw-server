@@ -34,6 +34,7 @@ void FormulaTable::Destroy()
 void FormulaTable::Init()
 {
 	::ZeroMemory(m_afRate, sizeof(m_afRate));
+	LoadClassInfo();
 }
 
 void* FormulaTable::AllocNewTable(WCHAR* pwszSheetName, DWORD dwCodePage)
@@ -76,6 +77,50 @@ bool FormulaTable::DeallocNewTable(void* pvTable, WCHAR* pwszSheetName)
 	}
 
 	return false;
+}
+
+void FormulaTable::AddClassInfo(BYTE byClass)
+{
+	TBLIDX PO = 101;
+	TBLIDX LP = 201;
+	TBLIDX EO = 1101;
+	TBLIDX EP = 1301;
+	TBLIDX CPCR = 1901;
+	TBLIDX PCR = 2001;
+	TBLIDX CECR = 2101;
+	TBLIDX ECR = 2201;
+	TBLIDX MAP = 2301;
+
+	CLASS_INFO classInfo;
+	classInfo.byClass = byClass;
+	classInfo.Physical_Offence = PO + byClass;
+	classInfo.LP = LP + byClass;
+	classInfo.Energy_Offence = EO + byClass;
+	classInfo.EP = EP + byClass;
+	classInfo.Physical_Critical_Rate = CPCR + byClass;
+	classInfo.Physical_Critical_Range = PCR + byClass;
+	classInfo.Energy_Critical_Rate = CECR + byClass;
+	classInfo.Energy_Critical_Range = ECR + byClass;
+	classInfo.Max_AP = MAP + byClass;
+
+	m_mapClassInfoList.insert(std::pair<BYTE, CLASS_INFO>(byClass, classInfo));
+}
+
+CLASS_INFO*	FormulaTable::FindClassInfoByClass(BYTE byClass)
+{
+	if (PC_CLASS_UNKNOWN == byClass)
+	{
+		return NULL;
+	}
+
+	CLASS_INFODATAIT iter;
+	iter = m_mapClassInfoList.find(byClass);
+	if (ClassInfoEnd() == iter)
+	{
+		return NULL;
+	}
+
+	return &iter->second;
 }
 
 bool FormulaTable::AddTable(void * pvTable, bool bReload)
@@ -191,4 +236,29 @@ bool FormulaTable::SaveToBinary(Serializer& serializer)
 	}
 
 	return true;
+}
+
+void FormulaTable::LoadClassInfo()
+{
+	AddClassInfo(PC_CLASS_HUMAN_FIGHTER);
+	AddClassInfo(PC_CLASS_HUMAN_MYSTIC);
+	AddClassInfo(PC_CLASS_HUMAN_ENGINEER);
+	AddClassInfo(PC_CLASS_NAMEK_FIGHTER);
+	AddClassInfo(PC_CLASS_NAMEK_MYSTIC);
+	AddClassInfo(PC_CLASS_MIGHTY_MAJIN);
+	AddClassInfo(PC_CLASS_WONDER_MAJIN);
+	AddClassInfo(PC_CLASS_STREET_FIGHTER);
+	AddClassInfo(PC_CLASS_SWORD_MASTER);
+	AddClassInfo(PC_CLASS_CRANE_ROSHI);
+	AddClassInfo(PC_CLASS_TURTLE_ROSHI);
+	AddClassInfo(PC_CLASS_GUN_MANIA);
+	AddClassInfo(PC_CLASS_MECH_MANIA);
+	AddClassInfo(PC_CLASS_DARK_WARRIOR);
+	AddClassInfo(PC_CLASS_SHADOW_KNIGHT);
+	AddClassInfo(PC_CLASS_DENDEN_HEALER);
+	AddClassInfo(PC_CLASS_POCO_SUMMONER);
+	AddClassInfo(PC_CLASS_ULTI_MA);
+	AddClassInfo(PC_CLASS_GRAND_MA);
+	AddClassInfo(PC_CLASS_PLAS_MA);
+	AddClassInfo(PC_CLASS_KAR_MA);
 }

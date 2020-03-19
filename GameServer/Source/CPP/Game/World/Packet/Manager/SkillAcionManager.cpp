@@ -14,19 +14,25 @@
 #include <XmlParser2/XmlParser2.h>
 //#include <TimerJs.h>
 
-float Player::CalculeSkillDamage(BYTE Skill_Effect_Type[2], double SkillValue[2])
+float Player::CalculeSkillDamage(BYTE Skill_Effect_Type[2], double SkillValue[2], float damage)
 {
+	float newDamage = damage;
 	for (int i = 0; i < 2; i++)
 	{
-		switch ((eSYSTEM_EFFECT_APPLY_TYPE)Skill_Effect_Type[0])
+		switch ((eSYSTEM_EFFECT_APPLY_TYPE)Skill_Effect_Type[i])
 		{
 			case SYSTEM_EFFECT_APPLY_TYPE_VALUE:
 			{
+				newDamage += SkillValue[i];
+				sLog.outBasic("Add damage %f", SkillValue[i]);
 				sLog.outBasic("SYSTEM_EFFECT_APPLY_TYPE_VALUE");
 				break;
 			}
 			case SYSTEM_EFFECT_APPLY_TYPE_PERCENT:
 			{
+				float newPercent = SkillValue[i] * 0.01;
+				newDamage += damage * newPercent;
+				sLog.outBasic("Add percent %f", SkillValue[i]);
 				sLog.outBasic("SYSTEM_EFFECT_APPLY_TYPE_PERCENT");
 				break;
 			}
@@ -82,6 +88,8 @@ float Player::CalculeSkillDamage(BYTE Skill_Effect_Type[2], double SkillValue[2]
 			}
 		}
 	}
+	sLog.outBasic("NewDamage by skill %f original damage %f", newDamage, damage);
+	return newDamage;
 }
 
 void Player::GetAtributesCalculation(HOBJECT Target[32], BYTE MaxApplyTarget, BYTE byRPBonus, sSKILL_TBLDAT skillData)
@@ -105,11 +113,13 @@ void Player::GetAtributesCalculation(HOBJECT Target[32], BYTE MaxApplyTarget, BY
 				float damage = 0;
 				int Defense = 0;
 				//Demage Calculation		
-				if (skillData.bySkill_Effect_Type[0] == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_DD &&
-					skillData.bySkill_Effect_Type[1] == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_UNKNOWN)
+				if (skillData.bySkill_Active_Type == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_DD)// &&
+					//skillData.bySkill_Effect_Type[1] == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_UNKNOWN)
 				{
+					sLog.outBasic("SKILL_ACTIVE_TYPE_DD");
 					if (skillData.bySkill_Type == eSKILL_TYPE::SKILL_TYPE_PHYSICAL)
 					{
+						sLog.outBasic("SKILL_TYPE_PHYSICAL");
 						CriticalRate = GetPcProfile()->avatarAttribute.wLastPhysicalCriticalRate;
 						attack = GetPcProfile()->avatarAttribute.wLastPhysicalOffence;//+skillData.SkillValue[0];
 						Defense = PlayerInfo->GetPcProfile()->avatarAttribute.wLastPhysicalDefence;
@@ -118,6 +128,7 @@ void Player::GetAtributesCalculation(HOBJECT Target[32], BYTE MaxApplyTarget, BY
 					}
 					if (skillData.bySkill_Type == eSKILL_TYPE::SKILL_TYPE_ENERGY)
 					{
+						sLog.outBasic("SKILL_TYPE_ENERGY");
 						CriticalRate = GetPcProfile()->avatarAttribute.wLastEnergyCriticalRate;
 						attack = GetPcProfile()->avatarAttribute.wLastEnergyOffence;// +skillData.SkillValue[0];
 						Defense = PlayerInfo->GetPcProfile()->avatarAttribute.wLastEnergyDefence;
@@ -126,6 +137,7 @@ void Player::GetAtributesCalculation(HOBJECT Target[32], BYTE MaxApplyTarget, BY
 					}
 					if (skillData.bySkill_Type == eSKILL_TYPE::SKILL_TYPE_STATE)
 					{
+						sLog.outBasic("SKILL_TYPE_STATE");
 						attack = GetPcProfile()->avatarAttribute.wLastEnergyOffence + GetPcProfile()->avatarAttribute.wLastPhysicalOffence + skillData.SkillValue[0];
 						attack /= 2.5;
 						Defense = PlayerInfo->GetPcProfile()->avatarAttribute.wLastEnergyDefence + PlayerInfo->GetPcProfile()->avatarAttribute.wLastPhysicalDefence;
@@ -134,10 +146,12 @@ void Player::GetAtributesCalculation(HOBJECT Target[32], BYTE MaxApplyTarget, BY
 					}
 				}
 				//Skull Demage in Percent
-				else if (skillData.bySkill_Effect_Type[0] == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_DOT)
+				else if (skillData.bySkill_Active_Type == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_DOT)
 				{
+					sLog.outBasic("SKILL_ACTIVE_TYPE_DOT");
 					if (skillData.bySkill_Type == eSKILL_TYPE::SKILL_TYPE_PHYSICAL)
 					{
+						sLog.outBasic("SKILL_TYPE_PHYSICAL");
 						CriticalRate = GetPcProfile()->avatarAttribute.wLastPhysicalCriticalRate;
 						attack = GetPcProfile()->avatarAttribute.wLastPhysicalOffence / 100 * skillData.SkillValue[0];
 						Defense = PlayerInfo->GetPcProfile()->avatarAttribute.wLastPhysicalDefence;
@@ -146,6 +160,7 @@ void Player::GetAtributesCalculation(HOBJECT Target[32], BYTE MaxApplyTarget, BY
 					}
 					if (skillData.bySkill_Type == eSKILL_TYPE::SKILL_TYPE_ENERGY)
 					{
+						sLog.outBasic("SKILL_TYPE_ENERGY");
 						CriticalRate = GetPcProfile()->avatarAttribute.wLastEnergyCriticalRate;
 						attack = GetPcProfile()->avatarAttribute.wLastEnergyOffence / 100 * skillData.SkillValue[0];
 						Defense = PlayerInfo->GetPcProfile()->avatarAttribute.wLastEnergyDefence;
@@ -155,6 +170,7 @@ void Player::GetAtributesCalculation(HOBJECT Target[32], BYTE MaxApplyTarget, BY
 					}
 					if (skillData.bySkill_Type == eSKILL_TYPE::SKILL_TYPE_STATE)
 					{
+						sLog.outBasic("SKILL_TYPE_STATE");
 						attack = GetPcProfile()->avatarAttribute.wLastEnergyOffence + GetPcProfile()->avatarAttribute.wLastPhysicalOffence + skillData.SkillValue[0];
 						attack /= 2.5;
 						Defense = PlayerInfo->GetPcProfile()->avatarAttribute.wLastEnergyDefence + PlayerInfo->GetPcProfile()->avatarAttribute.wLastPhysicalDefence;
@@ -197,7 +213,7 @@ void Player::GetAtributesCalculation(HOBJECT Target[32], BYTE MaxApplyTarget, BY
 				//Demage
 				//float TotalAttack = attack + Defense;
 				//float FinalPercent = attack * 100 / TotalAttack;
-				SkillDemage[TargetCount] = damage;//attack * FinalPercent / 100;
+				SkillDemage[TargetCount] = CalculeSkillDamage(skillData.bySkill_Effect_Type, skillData.SkillValue, damage);//attack * FinalPercent / 100;
 
 				//DemageValue[Demagecount] / 100 *  GetPcProfile()->avatarAttribute.fPhysicalCriticalDamageBonusRate;
 				//HitRate
@@ -303,33 +319,39 @@ void Player::GetAtributesCalculation(HOBJECT Target[32], BYTE MaxApplyTarget, BY
 				float Defense = 0;
 				float damage = 0;
 				//Demage Calculation
-				if (skillData.bySkill_Effect_Type[0] == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_DD)
+				if (skillData.bySkill_Active_Type == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_DD)
 				{
+					sLog.outBasic("SKILL_ACTIVE_TYPE_DD");
 					if (skillData.bySkill_Type == eSKILL_TYPE::SKILL_TYPE_PHYSICAL)
 					{
+						sLog.outBasic("SKILL_TYPE_PHYSICAL");
 						attack = GetPcProfile()->avatarAttribute.wLastPhysicalOffence;// +skillData.SkillValue[0];
-						Defense = MobInfo->GetMobData().Basic_physical_defence;
+						Defense = static_cast<float>(MobInfo->GetMobData().Basic_physical_defence);
 						//int TotalAttack = attack + MobInfo->GetMobData().Basic_physical_defence;
 						//float FinalPercent = attack * 100 / TotalAttack;
+						sLog.outDebug("Mob %d defense %d float %d", MobInfo->GetMobData().MonsterID, MobInfo->GetMobData().Basic_physical_defence, Defense);
 						damage = fightManager.CalculePhysicalDamage(attack, GetPcProfile()->byLevel, Defense);
 						//SkillDemage[TargetCount] = attack - deffense;//attack * FinalPercent / 100;
 						CriticalDemage[TargetCount] = attack / 100 * GetPcProfile()->avatarAttribute.fPhysicalCriticalDamageBonusRate;
 					}
 					if (skillData.bySkill_Type == eSKILL_TYPE::SKILL_TYPE_ENERGY)
 					{
+						sLog.outBasic("SKILL_TYPE_ENERGY");
 						attack = GetPcProfile()->avatarAttribute.wLastEnergyOffence;// +skillData.SkillValue[0];
-						Defense = MobInfo->GetMobData().Basic_energy_defence;
+						Defense = static_cast<float>(MobInfo->GetMobData().Basic_energy_defence);
 						//int TotalAttack = attack + MobInfo->GetMobData().Basic_energy_defence;
 						//float FinalPercent = attack * 100 / TotalAttack;
+						sLog.outDebug("Mob %d defense %d float %f", MobInfo->GetMobData().MonsterID, MobInfo->GetMobData().Basic_energy_defence, Defense);
 						damage = fightManager.CalculeEnergyDamage(attack, GetPcProfile()->byLevel, Defense);
 						//SkillDemage[TargetCount] = attack - deffense;//attack * FinalPercent / 100;
 						CriticalDemage[TargetCount] = attack / 100 * GetPcProfile()->avatarAttribute.fEnergyCriticalDamageBonusRate;
 					}
 					if (skillData.bySkill_Type == eSKILL_TYPE::SKILL_TYPE_STATE)
 					{
+						sLog.outBasic("SKILL_TYPE_STATE");
 						attack = GetPcProfile()->avatarAttribute.wLastEnergyOffence + GetPcProfile()->avatarAttribute.wLastPhysicalOffence;
 
-						Defense = MobInfo->GetMobData().Basic_energy_defence + MobInfo->GetMobData().Basic_physical_defence;
+						Defense = static_cast<float>(MobInfo->GetMobData().Basic_energy_defence + MobInfo->GetMobData().Basic_physical_defence);
 						//float attack =  GetPcProfile()->avatarAttribute.wLastEnergyOffence + skillDataOriginal->SkillValue[0];
 						//int TotalAttack = attack + Defense;
 						//float FinalPercent = attack * 100 / TotalAttack;
@@ -339,11 +361,12 @@ void Player::GetAtributesCalculation(HOBJECT Target[32], BYTE MaxApplyTarget, BY
 					}
 				}
 				//Skull Demage in Percent
-				else if (skillData.bySkill_Effect_Type[0] == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_DOT)
+				else if (skillData.bySkill_Active_Type == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_DOT)
 				{
-
+					sLog.outBasic("SKILL_ACTIVE_TYPE_DOT");
 					if (skillData.bySkill_Type == eSKILL_TYPE::SKILL_TYPE_PHYSICAL)
 					{
+						sLog.outBasic("SKILL_TYPE_PHYSICAL");
 						attack = GetPcProfile()->avatarAttribute.wLastPhysicalOffence;// / 100 * skillData.SkillValue[0];
 						Defense = MobInfo->GetMobData().Basic_physical_defence;
 						//int TotalAttack = attack + MobInfo->GetMobData().Basic_physical_defence;
@@ -354,6 +377,7 @@ void Player::GetAtributesCalculation(HOBJECT Target[32], BYTE MaxApplyTarget, BY
 					}
 					if (skillData.bySkill_Type == eSKILL_TYPE::SKILL_TYPE_ENERGY)
 					{
+						sLog.outBasic("SKILL_TYPE_ENERGY");
 						attack = GetPcProfile()->avatarAttribute.wLastEnergyOffence;// / 100 * skillData.SkillValue[0];
 						Defense = MobInfo->GetMobData().Basic_energy_defence;
 						//int TotalAttack = attack + MobInfo->GetMobData().Basic_energy_defence;
@@ -364,6 +388,7 @@ void Player::GetAtributesCalculation(HOBJECT Target[32], BYTE MaxApplyTarget, BY
 					}
 					if (skillData.bySkill_Type == eSKILL_TYPE::SKILL_TYPE_STATE)
 					{
+						sLog.outBasic("SKILL_TYPE_STATE");
 						attack = GetPcProfile()->avatarAttribute.wLastEnergyOffence + GetPcProfile()->avatarAttribute.wLastPhysicalOffence;
 
 						Defense = MobInfo->GetMobData().Basic_energy_defence + MobInfo->GetMobData().Basic_physical_defence;
@@ -376,7 +401,7 @@ void Player::GetAtributesCalculation(HOBJECT Target[32], BYTE MaxApplyTarget, BY
 					}
 				}
 
-				SkillDemage[TargetCount] = attack - Defense;// attack* FinalPercent / 100;
+				SkillDemage[TargetCount] = CalculeSkillDamage(skillData.bySkill_Effect_Type, skillData.SkillValue, damage);;// attack* FinalPercent / 100;
 
 				//HitRate
 				int HitRate = GetPcProfile()->avatarAttribute.wLastAttackRate + 500;
@@ -430,7 +455,7 @@ void Player::GetAtributesCalculation(HOBJECT Target[32], BYTE MaxApplyTarget, BY
 				}
 				if (SkillDemage[TargetCount] <= 0 || SkillDemage[TargetCount] > 1000000000)
 				{
-					SkillDemage[TargetCount] = 60;
+					SkillDemage[TargetCount] = 0;
 				}
 
 				TargetCount += 1;
@@ -498,7 +523,7 @@ void Player::SkillAcion()
 
 				if (SystemEffectData != NULL)
 				{
-					//printf("Skill EffectCode %d \n", SystemEffectData->effectCode);
+					sLog.outBasic("Skill EffectCode %d", SystemEffectData->effectCode);
 					switch (SystemEffectData->effectCode)
 					{
 					case ACTIVE_DIRECT_DAMAGE:
@@ -529,7 +554,7 @@ void Player::SkillAcion()
 										skillRes.aSkillResult[count].byAttackResult = AttackType[count];
 
 										skillRes.aSkillResult[count].effectResult[Effect].eResultType = DBO_SYSTEM_EFFECT_RESULT_TYPE_DD_DOT;
-										skillRes.aSkillResult[count].effectResult[Effect].Value1 = SkillDemage[count];
+										skillRes.aSkillResult[count].effectResult[Effect].Value1 = SkillDemage[count]/2;
 										skillRes.aSkillResult[count].effectResult[Effect].Value2 = 0;
 										skillRes.aSkillResult[count].effectResult[Effect].Value3 = 0;
 										skillRes.aSkillResult[count].effectResult[Effect].Value4 = 0;
@@ -556,7 +581,7 @@ void Player::SkillAcion()
 									skillRes.aSkillResult[count].byAttackResult = AttackType[count];
 
 									skillRes.aSkillResult[count].effectResult[Effect].eResultType = DBO_SYSTEM_EFFECT_RESULT_TYPE_DD_DOT;
-									skillRes.aSkillResult[count].effectResult[Effect].Value1 = SkillDemage[count];
+									skillRes.aSkillResult[count].effectResult[Effect].Value1 = SkillDemage[count]/2;
 									skillRes.aSkillResult[count].effectResult[Effect].Value2 = 0;
 									skillRes.aSkillResult[count].effectResult[Effect].Value3 = 0;
 									skillRes.aSkillResult[count].effectResult[Effect].Value4 = 0;

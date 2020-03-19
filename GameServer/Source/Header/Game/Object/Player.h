@@ -209,7 +209,7 @@ public:
 	//Skills
 
 	void				GetAtributesCalculation(HOBJECT Target[32], BYTE MaxApplyTarget, BYTE byRPBonus, sSKILL_TBLDAT skillData);
-	float				CalculeSkillDamage(BYTE Skill_Effect_Type[2], double SkillValue[2]);
+	float				CalculeSkillDamage(BYTE Skill_Effect_Type[2], double SkillValue[2], float damage);
 	void				SkillAcion();
 	void				UpdateEP(WORD curEP);
 	Packet packets;
