@@ -1,0 +1,33 @@
+/*****************************************************************************
+ * filesystems.hsl - Structure definitions for file system related entities.
+ *     This presently includes the MBR, and BOOTSECTORs for FAT16, FAT32, and
+ *     NTFS.
+ *  
+ * Copyright (c) 2003-2008 BreakPoint Software, Inc.  All Rights Reserved
+ *
+ *****************************************************************************
+ * Revision History:
+ *  05/01/03 - RJA - Original
+ *  10/16/07 - RJA - Formatting tweaks, use blob for ByteCode
+ *  12/16/09 - RJA - Added enumsign pragmas
+ */
+
+#include "standard-types.hsl"
+
+struct sSYSTEM_EFFECT_TBLDAT 
+{
+DWORD Tblidx;
+	WCHAR					wszName[40 + 1];
+	BYTE					byEffect_Type;
+	BYTE					byActive_Effect_Type;
+	DWORD					Effect_Info_Text;
+	DWORD					Keep_Effect_Name;
+	BYTE					byTarget_Effect_Position;
+	char					szSuccess_Effect_Name[32 + 1];
+	BYTE					bySuccess_Projectile_Type;
+	BYTE					bySuccess_Effect_Position;
+	char					szSuccess_End_Effect_Name[32 + 1];
+	BYTE					byEnd_Effect_Position;
+	WORD					wKeep_Animation_Index;
+	DWORD					effectCode; // Effect Code Match ¿ë
+};

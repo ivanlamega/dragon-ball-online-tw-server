@@ -522,13 +522,13 @@ bool AttributesManager::LoadCharacterAttrFromDB(sPC_TBLDAT* pTblData)
 	PlayerProfile.dwCurAp = result->getInt("CurAp");//New AP TW
 
 	delete result;
-
-	int baseStr = static_cast<int>(pTblData->byStr + (pTblData->fLevel_Up_Str * (PlayerProfile.byLevel - 1)));
-	int baseCon = static_cast<int>(pTblData->byCon + (pTblData->fLevel_Up_Con * (PlayerProfile.byLevel - 1)));
-	int baseFoc = static_cast<int>(pTblData->byFoc + (pTblData->fLevel_Up_Foc * (PlayerProfile.byLevel - 1)));
-	int baseDex = static_cast<int>(pTblData->byDex + (pTblData->fLevel_Up_Dex * (PlayerProfile.byLevel - 1)));
-	int baseSol = static_cast<int>(pTblData->bySol + (pTblData->fLevel_Up_Sol * (PlayerProfile.byLevel - 1)));
-	int baseEng = static_cast<int>(pTblData->byEng + (pTblData->fLevel_Up_Eng * (PlayerProfile.byLevel - 1)));
+	//static_cast<int>(pTblData->byStr + (pTblData->fLevel_Up_Str * (PlayerProfile.byLevel - 1)));
+	int baseStr = CalculeBasicStats(pTblData->byStr, pTblData->fLevel_Up_Str, PlayerProfile.byLevel);
+	int baseCon = CalculeBasicStats(pTblData->byCon, pTblData->fLevel_Up_Con, PlayerProfile.byLevel);
+	int baseFoc = CalculeBasicStats(pTblData->byFoc, pTblData->fLevel_Up_Foc, PlayerProfile.byLevel);
+	int baseDex = CalculeBasicStats(pTblData->byDex, pTblData->fLevel_Up_Dex, PlayerProfile.byLevel);
+	int baseSol = CalculeBasicStats(pTblData->bySol, pTblData->fLevel_Up_Sol, PlayerProfile.byLevel);
+	int baseEng = CalculeBasicStats(pTblData->byEng, pTblData->fLevel_Up_Eng, PlayerProfile.byLevel);
 
 	//status Base Con/Focus Etc
 	result = sDB.executes("UPDATE characters_attributes SET BaseStr = '%d', BaseCon = '%d', BaseFoc = '%d', BaseDex = '%d',BaseSol = '%d', BaseEng = '%d' WHERE CharacterID = '%d';",
@@ -543,8 +543,8 @@ bool AttributesManager::LoadCharacterAttrFromDB(sPC_TBLDAT* pTblData)
 		delete result;
 
 	// LP Calculation
-	DWORD LP = 0;
-	CLASS_INFO* classInfo = sTBM.GetFormulaTable()->FindClassInfoByClass(plr->GetMyClass());
+	DWORD LP = CalculeLP(plr->GetMyClass(), baseCon);
+	/*CLASS_INFO* classInfo = sTBM.GetFormulaTable()->FindClassInfoByClass(plr->GetMyClass());
 	if (classInfo)
 	{
 		sLog.outBasic("Class %d lp rate tblidx %d", plr->GetMyClass(), classInfo->LP);
@@ -554,7 +554,7 @@ bool AttributesManager::LoadCharacterAttrFromDB(sPC_TBLDAT* pTblData)
 			LP = formula->afRate[0] + (baseCon * formula->afRate[1]);
 			sLog.outBasic("LP total %d rate1 %f rate2 %f lastCon %d", LP, formula->afRate[0], formula->afRate[1], baseCon);
 		}
-	}
+	}*/
 	
 	/*DWORD BasicLife = pTblData->wBasic_LP + (pTblData->byLevel_Up_LP * PlayerProfile.byLevel);
 	WORD LevelCon = pTblData->byCon + static_cast<WORD>(pTblData->fLevel_Up_Con * PlayerProfile.byLevel);
@@ -562,19 +562,20 @@ bool AttributesManager::LoadCharacterAttrFromDB(sPC_TBLDAT* pTblData)
 	DWORD LP = BasicLife + static_cast<DWORD>(LevelCon * ConByPoint);*/
 
 	//EP Calculation
-	WORD BasicEnergy = pTblData->wBasic_EP + (pTblData->byLevel_Up_EP * PlayerProfile.byLevel);
+	/*WORD BasicEnergy = pTblData->wBasic_EP + (pTblData->byLevel_Up_EP * PlayerProfile.byLevel);
 	WORD LevelEng = pTblData->byEng + static_cast<WORD>(pTblData->fLevel_Up_Eng * PlayerProfile.byLevel);
-	float EngByPoint = 45; // 1Eng = 45 ep old tw
-	WORD EP = BasicEnergy + static_cast<WORD>(LevelEng * EngByPoint);
+	float EngByPoint = 45; // 1Eng = 45 ep old tw*/
+	WORD EP = CalculeEP(plr->GetMyClass(), baseEng);//BasicEnergy + static_cast<WORD>(LevelEng * EngByPoint);
 
+	WORD RP = CalculeRP(PlayerProfile.byLevel);
 	//Set Data Base LP/ EP/ RP
 	result = sDB.executes("UPDATE characters_attributes SET BaseMaxLP = '%d', BaseMaxEP = '%d', BaseMaxRP = '%d', LastMaxLP = '%d', LastMaxEP = '%d', LastMaxRP = '%d' WHERE CharacterID = '%d';",
 		LP,
 		static_cast<int>(EP),
-		static_cast<int>(pTblData->wBasic_RP + (pTblData->byLevel_Up_RP * PlayerProfile.byLevel)),
+		static_cast<int>(RP),//pTblData->wBasic_RP + (pTblData->byLevel_Up_RP * PlayerProfile.byLevel)),
 		LP,
 		static_cast<int>(EP),
-		static_cast<int>(pTblData->wBasic_RP + (pTblData->byLevel_Up_RP * PlayerProfile.byLevel)),
+		static_cast<int>(RP),//pTblData->wBasic_RP + (pTblData->byLevel_Up_RP * PlayerProfile.byLevel)),
 		charid);
 	if (result != NULL)
 		delete result;
@@ -1649,4 +1650,59 @@ bool AttributesManager::SaveAvatarAttribute(void* pvBuffer, DWORD* pwdDataSize)
 	}
 
 	return true;
+}
+
+//----------------------------------------
+//	Calcule basic stats  str, con, foc, dex, sol, eng
+//----------------------------------------
+int AttributesManager::CalculeBasicStats(WORD basicStat, float basicStatLvUp, BYTE playerLevel)
+{
+	return static_cast<int>(basicStat + (basicStatLvUp * (playerLevel - 1)));
+}
+
+DWORD AttributesManager::CalculeLP(BYTE pcClass, int baseCon)
+{
+	DWORD LP = 0;
+	CLASS_INFO* classInfo = sTBM.GetFormulaTable()->FindClassInfoByClass(pcClass);
+	if (classInfo)
+	{
+		sLog.outBasic("Class %d lp rate tblidx %d", pcClass, classInfo->LP);
+		sFORMULA_TBLDAT* formula = (sFORMULA_TBLDAT*)sTBM.GetFormulaTable()->FindData(classInfo->LP);
+		if (formula)
+		{
+			LP = formula->afRate[0] + (baseCon * formula->afRate[1]);
+			sLog.outBasic("LP total %d rate1 %f rate2 %f lastCon %d", LP, formula->afRate[0], formula->afRate[1], baseCon);
+		}
+	}
+	return LP;
+}
+
+WORD AttributesManager::CalculeEP(BYTE pcClass, int baseEng)
+{
+	WORD EP = 0;
+	CLASS_INFO* classInfo = sTBM.GetFormulaTable()->FindClassInfoByClass(pcClass);
+	if (classInfo)
+	{
+		sLog.outBasic("Class %d ep rate tblidx %d", pcClass, classInfo->EP);
+		sFORMULA_TBLDAT* formula = (sFORMULA_TBLDAT*)sTBM.GetFormulaTable()->FindData(classInfo->EP);
+		if (formula)
+		{
+			EP = formula->afRate[0] + (baseEng * formula->afRate[1]);
+			sLog.outBasic("EP total %d rate1 %f rate2 %f lastEng %d", EP, formula->afRate[0], formula->afRate[1], baseEng);
+		}
+	}
+	return EP;
+}
+
+int AttributesManager::CalculeRP(BYTE playerLevel)
+{
+	int RP = 0;
+	sFORMULA_TBLDAT* formula = (sFORMULA_TBLDAT*)sTBM.GetFormulaTable()->FindData(2300);
+	if (formula)
+	{
+		// = fRate1 + Level * fRate2
+		RP = formula->afRate[0] + (playerLevel * formula->afRate[1]);
+		sLog.outBasic("RP total %d rate1 %f rate2 %f", RP, formula->afRate[0], formula->afRate[1]);
+	}
+	return RP;
 }

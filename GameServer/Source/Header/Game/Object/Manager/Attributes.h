@@ -206,6 +206,11 @@ public:
 	void			UpdateAttributesFromItem(sITEM_TBLDAT& item, BYTE Grade, bool remove = false);
 	void			UpdateExtraAttributesFromItem(sITEM_EFFECT aitemEffect[6], bool isRemove = false);
 
+	// Basic stats: str, con, foc, dex, sol, eng
+	int				CalculeBasicStats(WORD basicStat, float basicStatLvUp, BYTE playerLevel);
+	DWORD			CalculeLP(BYTE pcClass, int baseCon);
+	WORD			CalculeEP(BYTE pcClass, int baseEng);
+	int				CalculeRP(BYTE playerLevel);
 	//	------------------------------------------------------------------------
 	// GETTER
 	//	------------------------------------------------------------------------
