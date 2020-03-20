@@ -591,10 +591,10 @@ bool AttributesManager::LoadCharacterAttrFromDB(sPC_TBLDAT* pTblData)
 		delete result;
 
 	//Calculation Physical Atack
-	WORD BasicPhysicalOffence = pTblData->wBasic_Physical_Offence + (pTblData->byLevel_Up_Physical_Offence * PlayerProfile.byLevel);
+	/*WORD BasicPhysicalOffence = pTblData->wBasic_Physical_Offence + (pTblData->byLevel_Up_Physical_Offence * PlayerProfile.byLevel);
 	WORD LevelStr = pTblData->byStr + static_cast<WORD>(pTblData->fLevel_Up_Str * PlayerProfile.byLevel);
-	float StrByPoint = 1.66; // 1Str = 1.66 Physical old tw
-	WORD PhysicalOffence = BasicPhysicalOffence + static_cast<WORD>(LevelStr * StrByPoint);
+	float StrByPoint = 1.66; // 1Str = 1.66 Physical old tw*/
+	WORD PhysicalOffence = CalculePhysicalOffence(plr->GetMyClass(), PlayerProfile.byLevel, baseStr, baseDex);//BasicPhysicalOffence + static_cast<WORD>(LevelStr * StrByPoint);
 	//Calculation Physical Critical Atack 
 	WORD BasicPhysicalCritical = 0;
 	WORD LevelDex = pTblData->byDex + static_cast<WORD>(pTblData->fLevel_Up_Dex * PlayerProfile.byLevel);
@@ -613,10 +613,10 @@ bool AttributesManager::LoadCharacterAttrFromDB(sPC_TBLDAT* pTblData)
 		delete result;
 
 	//Calculation Energy Atack
-	WORD BasicEnergyOffence = pTblData->wBasic_Energy_Offence + (pTblData->byLevel_Up_Energy_Offence * PlayerProfile.byLevel);
+	/*WORD BasicEnergyOffence = pTblData->wBasic_Energy_Offence + (pTblData->byLevel_Up_Energy_Offence * PlayerProfile.byLevel);
 	WORD LevelSol = pTblData->bySol + static_cast<WORD>(pTblData->fLevel_Up_Sol * PlayerProfile.byLevel);
-	float SolByPoint = 1.66; // 1Soul = 1.66 Physical old tw
-	WORD EnergyOffence = BasicEnergyOffence + static_cast<WORD>(LevelSol * SolByPoint);
+	float SolByPoint = 1.66; // 1Soul = 1.66 Physical old tw*/
+	WORD EnergyOffence = CalculeEnergyOffence(plr->GetMyClass(), PlayerProfile.byLevel, baseSol, baseFoc);//BasicEnergyOffence + static_cast<WORD>(LevelSol * SolByPoint);
 	//Calculation Energy Critical Atack
 	WORD BasicEnergyCritical = 0;
 	WORD LevelFoc = pTblData->byFoc + static_cast<WORD>(pTblData->fLevel_Up_Foc * PlayerProfile.byLevel);
@@ -1705,4 +1705,42 @@ int AttributesManager::CalculeRP(BYTE playerLevel)
 		sLog.outBasic("RP total %d rate1 %f rate2 %f", RP, formula->afRate[0], formula->afRate[1]);
 	}
 	return RP;
+}
+
+WORD AttributesManager::CalculePhysicalOffence(BYTE pcClass, BYTE playerLevel, int lastStr, int lastDex)
+{
+	// = LV* fRate1 + (Last_Str * fRate2) + (Last_Dex * fRate3) - fRate4
+	WORD PhysicalOffence = 0;
+	CLASS_INFO* classInfo = sTBM.GetFormulaTable()->FindClassInfoByClass(pcClass);
+	if (classInfo)
+	{
+		sLog.outBasic("Class %d Physical_Offence rate tblidx %d lastStr %d lastDex %d", pcClass, classInfo->Physical_Offence, lastStr, lastDex);
+		sFORMULA_TBLDAT* formula = (sFORMULA_TBLDAT*)sTBM.GetFormulaTable()->FindData(classInfo->Physical_Offence);
+		if (formula)
+		{
+			PhysicalOffence = playerLevel * formula->afRate[0] + (lastStr * formula->afRate[1]) + (lastDex * formula->afRate[2]) - formula->afRate[3];
+			sLog.outBasic("PhysicalOffence total %d rate1 %f rate2 %f rate3 %f rate4 %f", 
+				PhysicalOffence, formula->afRate[0], formula->afRate[1], formula->afRate[2], formula->afRate[4]);
+		}
+	}
+	return PhysicalOffence;
+}
+
+WORD AttributesManager::CalculeEnergyOffence(BYTE pcClass, BYTE playerLevel, int lastSol, int lastFoc)
+{
+	//  = LV* fRate1 + (Last_Sol * fRate2) + (Last_Foc * fRate3) - fRate4
+	WORD EnergyOffence = 0;
+	CLASS_INFO* classInfo = sTBM.GetFormulaTable()->FindClassInfoByClass(pcClass);
+	if (classInfo)
+	{
+		sLog.outBasic("Class %d Energy_Offence rate tblidx %d lastSol %d lastFoc %d", pcClass, classInfo->Energy_Offence, lastSol, lastFoc);
+		sFORMULA_TBLDAT* formula = (sFORMULA_TBLDAT*)sTBM.GetFormulaTable()->FindData(classInfo->Energy_Offence);
+		if (formula)
+		{
+			EnergyOffence = playerLevel * formula->afRate[0] + (lastSol * formula->afRate[1]) + (lastFoc * formula->afRate[2]) - formula->afRate[3];
+			sLog.outBasic("EnergyOffence total %d rate1 %f rate2 %f rate3 %f rate4 %f",
+				EnergyOffence, formula->afRate[0], formula->afRate[1], formula->afRate[2], formula->afRate[4]);
+		}
+	}
+	return EnergyOffence;
 }

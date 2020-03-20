@@ -211,6 +211,8 @@ public:
 	DWORD			CalculeLP(BYTE pcClass, int baseCon);
 	WORD			CalculeEP(BYTE pcClass, int baseEng);
 	int				CalculeRP(BYTE playerLevel);
+	WORD			CalculePhysicalOffence(BYTE pcClass, BYTE playerLevel, int lastStr, int lastDex);
+	WORD			CalculeEnergyOffence(BYTE pcClass, BYTE playerLevel, int lastSol, int lastFoc);
 	//	------------------------------------------------------------------------
 	// GETTER
 	//	------------------------------------------------------------------------
