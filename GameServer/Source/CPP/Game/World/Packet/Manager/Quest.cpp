@@ -3447,6 +3447,7 @@ void WorldSession::EvtMobKillCount(CDboTSActSToCEvt* sToCEvt, NTL_TS_T_ID tid)
 				quest->uEvtData.sMobKillCnt[i].nMobCnt = sToCEvt->GetEvtData().sMobKillCnt[i].nMobCnt;
 
 				_player->GetQuestManager()->AddMobQuest(mobTblidx, tid);
+				sLog.outBasic("mob add %d to quest %d", mobTblidx, tid);
 			}
 			//New system
 			/*
