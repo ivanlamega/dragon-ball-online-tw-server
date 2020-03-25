@@ -2834,6 +2834,11 @@ ResultCodes WorldSession::ProcessTsContReward(CDboTSContReward * contReward, DWO
 					sLog.outDebug("eREWARD_TYPE_GET_CONVERT_CLASS_RIGHT");
 					break;
 				}
+				case eREWARD_TYPE_GET_QUEST_REWARD_SELECT:
+				{
+					sLog.outDebug("eREWARD_TYPE_GET_QUEST_REWARD_SELECT");
+					break;
+				}
 			}
 		}
 
@@ -2874,7 +2879,7 @@ ResultCodes WorldSession::GivePlayerItemReward(sQUEST_REWARD_TBLDAT* rewardTbl, 
 	{
 		if (rewardTbl->rewardDefData[rw].rwdIdx == INVALID_TBLIDX)
 		{
-			break; // cambiar por continue si causa bug
+			continue; // cambiar por continue si causa bug
 		}
 
 		switch (rewardTbl->rewardDefData->unknown)
