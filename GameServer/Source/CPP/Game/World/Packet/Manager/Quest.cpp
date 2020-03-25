@@ -8132,6 +8132,32 @@ ResultCodes WorldSession::FindObjectTriggerInformation(NTL_TS_T_ID tid, QuestDat
 				}
 				break;
 			}
+			case DBO_CONT_TYPE_ID_CONT_SWITCH:
+			{
+				CDboTSContSwitch* contSwitch = ((CDboTSContSwitch*)contBase);
+				if (contSwitch)
+				{
+					for (int i = 0; i < contSwitch->GetNumOfChildEntity(); i++)
+					{
+						sLog.outDetail("Cont: %s %d", contSwitch->GetChildEntity(i)->GetClassNameW(), contSwitch->GetChildEntity(i)->GetEntityType());
+						switch (contSwitch->GetChildEntity(i)->GetEntityType())
+						{
+							case DBO_ACT_TYPE_ID_ACT_SWPROBSF:
+							{
+								CDboTSActSWProbSF* actSWProbSF = ((CDboTSActSWProbSF*)contSwitch->GetChildEntity(i));
+								if (actSWProbSF)
+								{
+									sLog.outBasic("failBid %d probability %f success bid %d", actSWProbSF->GetFailBID(), actSWProbSF->GetProbility(), actSWProbSF->GetSuccessBID());
+									sLog.outBasic("next cid %d", contSwitch->GetTCIdFromBId(actSWProbSF->GetSuccessBID()));
+									nextLink = contSwitch->GetTCIdFromBId(actSWProbSF->GetSuccessBID());
+								}
+								break;
+							}
+						}
+					}
+				}
+				break;
+			}
 			case DBO_CONT_TYPE_ID_CONT_END:
 			{
 				CDboTSContEnd* contEnd = ((CDboTSContEnd*)contBase);
