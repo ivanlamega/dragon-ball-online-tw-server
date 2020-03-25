@@ -1031,6 +1031,32 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 				if (quest)
 				{
 					quest->lastNPCQuest = NPCConv->GetNPCIdx();
+
+					if (tid == 164)
+					{
+						sLog.outBasic("Quest found!");
+						sLog.outBasic("Search trigger...");
+						quest->evtDataType = eSTOC_EVT_DATA_TYPE_OBJECT_ITEM;
+						quest->uEvtData.sObjectItemCnt[i].uiItemIdx = 284;
+						quest->uEvtData.sObjectItemCnt[i].nItemCnt = 1;
+						quest->uEvtData.sObjectItemCnt[i].nCurItemCnt = 0;
+						std::vector<NTL_TS_T_ID> triggerIds = sTSM.FindTriggerByQuest(tid);
+						NTL_TS_T_ID triggerId;
+						if (triggerIds.size() > 0)
+						{
+							triggerId = triggerIds[0];
+						}
+						else
+						{
+							triggerId = NTL_TS_T_ID_INVALID;
+						}
+
+						if (triggerId != NTL_TS_T_ID_INVALID)
+						{
+							sLog.outBasic("Trigger %d found!", triggerId);
+							LoadObjectsTriggersForQuest(triggerId, tid);
+						}
+					}
 				}
 				//_player->GetAttributesManager()->lastNPCQuest = NPCConv->GetNPCIdx();
 
