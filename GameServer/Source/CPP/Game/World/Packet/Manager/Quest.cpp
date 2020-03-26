@@ -971,7 +971,7 @@ ResultCodes WorldSession::ProcessTSContStart(CDboTSContStart * contStart, NTL_TS
 											if (obj)
 											{
 												sLog.outDebug("Obj %d %d %s handle %d", obj->tblidx, obj->dwSequence, obj->szModelName, 100000 + obj->dwSequence);
-												SendTObjectUpdateState(100000 + obj->dwSequence,
+												SendTObjectUpdateState(HANDLE_TRIGGER_OBJECT_OFFSET + obj->dwSequence,
 													obj->tblidx, 1, TOBJECT_SUBSTATE_FLAG_SHOW, 2775787718);
 											}
 
@@ -1276,7 +1276,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 						if (obj)
 						{
 							sLog.outDebug("Obj %d %d %s handle %d", obj->tblidx, obj->dwSequence, obj->szModelName, 100000 + obj->dwSequence);
-							SendTObjectUpdateState(100000 + obj->dwSequence,
+							SendTObjectUpdateState(HANDLE_TRIGGER_OBJECT_OFFSET + obj->dwSequence,
 								obj->tblidx, 1, TOBJECT_SUBSTATE_FLAG_SHOW, 2650781283);
 						}
 					}
@@ -1341,7 +1341,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 						if (obj)
 						{
 							sLog.outDebug("Obj %d %d %s handle %d", obj->tblidx, obj->dwSequence, obj->szModelName, 100000 + obj->dwSequence);
-							SendTObjectUpdateState(100000 + obj->dwSequence,
+							SendTObjectUpdateState(HANDLE_TRIGGER_OBJECT_OFFSET + obj->dwSequence,
 								obj->tblidx, 1, TOBJECT_SUBSTATE_FLAG_SHOW, 2775787718);
 						}
 					}
@@ -1368,7 +1368,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 						if (obj)
 						{
 							sLog.outDebug("Obj %d %d %s handle %d", obj->tblidx, obj->dwSequence, obj->szModelName, 100000 + obj->dwSequence);
-							SendTObjectUpdateState(100000 + obj->dwSequence,
+							SendTObjectUpdateState(HANDLE_TRIGGER_OBJECT_OFFSET + obj->dwSequence,
 								obj->tblidx, 0, 0, 2775787718);
 						}
 
@@ -7293,6 +7293,51 @@ void WorldSession::LoadObjectsTriggersForQuest(NTL_TS_T_ID triggerId, NTL_TS_T_I
 
 									_player->GetQuestManager()->AddObjectQuest(objTblidx, questId);
 									_player->GetQuestManager()->AddObjectTrigger(objTblidx, triggerId, _player->GetWorldTableID());
+
+									if (questId == 162)
+									{
+										sOBJECT_TBLDAT* obj = (sOBJECT_TBLDAT*)sTBM.GetObjectTable(clickObject->GetWorldIdx())->FindData(objTblidx);
+										if (obj)
+										{
+											struct tempStruct
+											{
+												sOBJECT_TBLDAT objData;
+												TBLIDX objWorldId;
+											};
+
+											tempStruct tempData;
+											tempData.objData = *obj;
+											tempData.objWorldId = clickObject->GetWorldIdx();
+											int idTimer = Timer.GetNewId();
+											TimerArguments<tempStruct> args(idTimer, tempData);
+											Timer.setInterval([&](TimerArguments<tempStruct> args) {
+												if (_player->GetWorldTableID() == args.Argument.objWorldId)
+												{
+													if (NtlGetDistance(args.Argument.objData.vLoc.x, args.Argument.objData.vLoc.z,
+														_player->m_position.x, _player->m_position.z) <= 100.0f)
+													{
+														sLog.outDebug("Obj %d %d %s handle %d",
+															args.Argument.objData.tblidx, args.Argument.objData.dwSequence, args.Argument.objData.szModelName,
+															HANDLE_TRIGGER_OBJECT_OFFSET + args.Argument.objData.dwSequence);
+														SendTObjectUpdateState(HANDLE_TRIGGER_OBJECT_OFFSET + args.Argument.objData.dwSequence,
+															args.Argument.objData.tblidx, 1, TOBJECT_SUBSTATE_FLAG_SHOW, 2775787718);
+														Timer.stop(args.idTimer);
+													}
+													else
+													{
+														sLog.outBasic("Not in range of object %d Player( %f %f) object (%f %f)",
+															args.Argument.objData.tblidx, _player->m_position.x, _player->m_position.z,
+															args.Argument.objData.vLoc.x, args.Argument.objData.vLoc.z);
+													}
+												}
+												else
+												{
+													sLog.outBasic("Not the same world player %d object %d", _player->GetWorldTableID(), args.Argument.objWorldId);
+												}
+												}, 1000, args, idTimer);
+
+										}
+									}
 								}
 								return;
 							}
