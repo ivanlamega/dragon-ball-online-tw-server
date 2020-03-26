@@ -213,6 +213,11 @@ public:
 	int				CalculeRP(BYTE playerLevel);
 	WORD			CalculePhysicalOffence(BYTE pcClass, BYTE playerLevel, int lastStr, int lastDex);
 	WORD			CalculeEnergyOffence(BYTE pcClass, BYTE playerLevel, int lastSol, int lastFoc);
+	WORD			CalculePhysicalCriticalRate(BYTE pcClass, int lastDex);
+	WORD			CalculeEnergyCriticalRate(BYTE pcClass, int lastFoc);
+	WORD			CalculeHitRate(int lastFoc);
+	WORD			CalculeDodgeRate(int lastDex);
+	WORD			CalculeBlockRate(int lastDex, int lastCon);
 	//	------------------------------------------------------------------------
 	// GETTER
 	//	------------------------------------------------------------------------

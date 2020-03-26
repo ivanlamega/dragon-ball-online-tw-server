@@ -426,11 +426,11 @@ bool AttributesManager::LoadAttributeFromDB()
 	PlayerProfile.avatarAttribute.wBaseCurseToleranceRate = 105;
 	PlayerProfile.avatarAttribute.wLastCurseToleranceRate = 104;
 	//Nao sei
-	PlayerProfile.avatarAttribute.fCastingTimeChangePercent = 103;
-	PlayerProfile.avatarAttribute.fCoolTimeChangePercent = 102;//
-	PlayerProfile.avatarAttribute.fKeepTimeChangePercent = 101;
-	PlayerProfile.avatarAttribute.fDotValueChangePercent = 100;
-	PlayerProfile.avatarAttribute.fDotTimeChangeAbsolute = 99;//Ep Skill Required
+	PlayerProfile.avatarAttribute.fCastingTimeChangePercent = 0;
+	PlayerProfile.avatarAttribute.fCoolTimeChangePercent = 0;//
+	PlayerProfile.avatarAttribute.fKeepTimeChangePercent = 0;
+	PlayerProfile.avatarAttribute.fDotValueChangePercent = 0;
+	PlayerProfile.avatarAttribute.fDotTimeChangeAbsolute = 0;//Ep Skill Required
 	
 	//Atribute Ofense/Defese
 	PlayerProfile.avatarAttribute.fHonestOffence = 15;//nao
@@ -444,7 +444,7 @@ bool AttributesManager::LoadAttributeFromDB()
 	PlayerProfile.avatarAttribute.fFunnyOffence = 95;//nao
 	PlayerProfile.avatarAttribute.fFunnyDefence = 105;//nao
 
-	PlayerProfile.avatarAttribute.fRequiredEpChangePercent = 98;
+	PlayerProfile.avatarAttribute.fRequiredEpChangePercent = 0;
 	PlayerProfile.avatarAttribute.wParalyzeToleranceRate = 97;//nao
 	PlayerProfile.avatarAttribute.wTerrorToleranceRate = 96;//nao
 	PlayerProfile.avatarAttribute.wConfuseToleranceRate = 95;//nao
@@ -596,10 +596,10 @@ bool AttributesManager::LoadCharacterAttrFromDB(sPC_TBLDAT* pTblData)
 	float StrByPoint = 1.66; // 1Str = 1.66 Physical old tw*/
 	WORD PhysicalOffence = CalculePhysicalOffence(plr->GetMyClass(), PlayerProfile.byLevel, baseStr, baseDex);//BasicPhysicalOffence + static_cast<WORD>(LevelStr * StrByPoint);
 	//Calculation Physical Critical Atack 
-	WORD BasicPhysicalCritical = 0;
+	/*WORD BasicPhysicalCritical = 0;
 	WORD LevelDex = pTblData->byDex + static_cast<WORD>(pTblData->fLevel_Up_Dex * PlayerProfile.byLevel);
-	float DexByPoint = 0.5; // 1Dex = 1 critical old tw
-	WORD PhysicalCriticalRate = BasicPhysicalCritical + static_cast<WORD>(LevelDex * DexByPoint); 
+	float DexByPoint = 0.5; // 1Dex = 1 critical old tw*/
+	WORD PhysicalCriticalRate = CalculePhysicalCriticalRate(plr->GetMyClass(), baseDex);//BasicPhysicalCritical + static_cast<WORD>(LevelDex * DexByPoint); 
 	// Atack Defese Physical
 	result = sDB.executes("UPDATE characters_attributes SET BasePhysicalOffence = '%d', LastPhysicalOffence = '%d', BasePhysicalDefence = '%d', LastPhysicalDefence = '%d', BasePhysicalCriticalRate = '%d', LastPhysicalCriticalRate = '%d' WHERE CharacterID = '%d';",
 		static_cast<int>(PhysicalOffence),
@@ -618,10 +618,10 @@ bool AttributesManager::LoadCharacterAttrFromDB(sPC_TBLDAT* pTblData)
 	float SolByPoint = 1.66; // 1Soul = 1.66 Physical old tw*/
 	WORD EnergyOffence = CalculeEnergyOffence(plr->GetMyClass(), PlayerProfile.byLevel, baseSol, baseFoc);//BasicEnergyOffence + static_cast<WORD>(LevelSol * SolByPoint);
 	//Calculation Energy Critical Atack
-	WORD BasicEnergyCritical = 0;
+	/*WORD BasicEnergyCritical = 0;
 	WORD LevelFoc = pTblData->byFoc + static_cast<WORD>(pTblData->fLevel_Up_Foc * PlayerProfile.byLevel);
-	float FocByPoint = 0.5; // 1Focus = 1 pont critical 
-	WORD EnergyCriticalRate = BasicEnergyCritical + static_cast<WORD>(LevelFoc * FocByPoint);
+	float FocByPoint = 0.5; // 1Focus = 1 pont critical */
+	WORD EnergyCriticalRate = CalculeEnergyCriticalRate(plr->GetMyClass(), baseFoc);// BasicEnergyCritical + static_cast<WORD>(LevelFoc * FocByPoint);
 	// Atack Defese Energy
 	result = sDB.executes("UPDATE characters_attributes SET BaseEnergyOffence = '%d', LastEnergyOffence = '%d', BaseEnergyDefence = '%d', LastEnergyDefence = '%d', BaseEnergyCriticalRate = '%d', LastEnergyCriticalRate = '%d' WHERE CharacterID = '%d';",
 		static_cast<int>(EnergyOffence),
@@ -635,23 +635,25 @@ bool AttributesManager::LoadCharacterAttrFromDB(sPC_TBLDAT* pTblData)
 		delete result;
 
 	//HitRate Calculation
-	WORD BasicHitRate = pTblData->wAttack_Rate  * PlayerProfile.byLevel;
+	/*WORD BasicHitRate = pTblData->wAttack_Rate  * PlayerProfile.byLevel;
 	WORD LevelingFocus = pTblData->byFoc + static_cast<WORD>(pTblData->fLevel_Up_Foc * PlayerProfile.byLevel);
-	float FocusByPoint = 10; // 1 point = 10 hit rate old tw
-	WORD HitRate = BasicHitRate + static_cast<WORD>(LevelingFocus * FocusByPoint);
+	float FocusByPoint = 10; // 1 point = 10 hit rate old tw*/
+	WORD HitRate = CalculeHitRate(baseFoc);//BasicHitRate + static_cast<WORD>(LevelingFocus * FocusByPoint);
 	//DoggeRate Calculation
-	WORD BasicDoggeRate = pTblData->wDodge_Rate  * PlayerProfile.byLevel;
+	/*WORD BasicDoggeRate = pTblData->wDodge_Rate  * PlayerProfile.byLevel;
 	WORD LevelingDex = pTblData->byDex + static_cast<WORD>(pTblData->fLevel_Up_Dex * PlayerProfile.byLevel);
-	float DoggeByPoint = 5;
-	WORD DoggeRate = BasicDoggeRate + static_cast<WORD>(LevelingDex * DoggeByPoint);
+	float DoggeByPoint = 5;*/
+	WORD DoggeRate = CalculeDodgeRate(baseDex);// BasicDoggeRate + static_cast<WORD>(LevelingDex * DoggeByPoint);
+	// BlockRate calculation
+	WORD BlockRate = CalculeBlockRate(baseDex, baseCon);
 	//Set DataBase HitRate,DoggeRate,BlockRate 
 	result = sDB.executes("UPDATE characters_attributes SET BaseAttackRate = '%d', LastAttackRate = '%d', BaseDodgeRate = '%d', LastDodgeRate = '%d', BaseBlockRate = '%d', LastBlockRate = '%d' WHERE CharacterID = '%d';",
 		static_cast<int>(HitRate),
 		static_cast<int>(HitRate),
 		static_cast<int>(DoggeRate),
 		static_cast<int>(DoggeRate),
-		static_cast<int>(pTblData->wBlock_Rate),
-		static_cast<int>(pTblData->wBlock_Rate),
+		BlockRate,//static_cast<int>(pTblData->wBlock_Rate),
+		BlockRate,//static_cast<int>(pTblData->wBlock_Rate),
 		charid);
 	if (result != NULL)
 		delete result;
@@ -1720,7 +1722,7 @@ WORD AttributesManager::CalculePhysicalOffence(BYTE pcClass, BYTE playerLevel, i
 		{
 			PhysicalOffence = playerLevel * formula->afRate[0] + (lastStr * formula->afRate[1]) + (lastDex * formula->afRate[2]) - formula->afRate[3];
 			sLog.outBasic("PhysicalOffence total %d rate1 %f rate2 %f rate3 %f rate4 %f", 
-				PhysicalOffence, formula->afRate[0], formula->afRate[1], formula->afRate[2], formula->afRate[4]);
+				PhysicalOffence, formula->afRate[0], formula->afRate[1], formula->afRate[2], formula->afRate[3]);
 		}
 	}
 	return PhysicalOffence;
@@ -1739,8 +1741,86 @@ WORD AttributesManager::CalculeEnergyOffence(BYTE pcClass, BYTE playerLevel, int
 		{
 			EnergyOffence = playerLevel * formula->afRate[0] + (lastSol * formula->afRate[1]) + (lastFoc * formula->afRate[2]) - formula->afRate[3];
 			sLog.outBasic("EnergyOffence total %d rate1 %f rate2 %f rate3 %f rate4 %f",
-				EnergyOffence, formula->afRate[0], formula->afRate[1], formula->afRate[2], formula->afRate[4]);
+				EnergyOffence, formula->afRate[0], formula->afRate[1], formula->afRate[2], formula->afRate[3]);
 		}
 	}
 	return EnergyOffence;
+}
+
+WORD AttributesManager::CalculePhysicalCriticalRate(BYTE pcClass, int lastDex)
+{
+	//  = fRate1 + (Last_Dex / fRate2) 
+	WORD PhysicalCriticalRate = 0;
+	CLASS_INFO* classInfo = sTBM.GetFormulaTable()->FindClassInfoByClass(pcClass);
+	if (classInfo)
+	{
+		sLog.outBasic("Class %d PhysicalCriticalRate rate tblidx %d lastDex %d", pcClass, classInfo->Physical_Critical_Rate, lastDex);
+		sFORMULA_TBLDAT* formula = (sFORMULA_TBLDAT*)sTBM.GetFormulaTable()->FindData(classInfo->Physical_Critical_Rate);
+		if (formula)
+		{
+			PhysicalCriticalRate = formula->afRate[0] + (lastDex / formula->afRate[1]);
+			sLog.outBasic("PhysicalCriticalRate total %d rate1 %f rate2 %f", PhysicalCriticalRate, formula->afRate[0], formula->afRate[1]);
+		}
+	}
+	return PhysicalCriticalRate;
+}
+
+WORD AttributesManager::CalculeEnergyCriticalRate(BYTE pcClass, int lastFoc)
+{
+	// = fRate1 + (Last_Foc / fRate2)
+	WORD EnergyCriticalRate = 0;
+	CLASS_INFO* classInfo = sTBM.GetFormulaTable()->FindClassInfoByClass(pcClass);
+	if (classInfo)
+	{
+		sLog.outBasic("Class %d EnergyCriticalRate rate tblidx %d lastFoc %d", pcClass, classInfo->Energy_Critical_Rate, lastFoc);
+		sFORMULA_TBLDAT* formula = (sFORMULA_TBLDAT*)sTBM.GetFormulaTable()->FindData(classInfo->Energy_Critical_Rate);
+		if (formula)
+		{
+			EnergyCriticalRate = formula->afRate[0] + (lastFoc / formula->afRate[1]);
+			sLog.outBasic("EnergyCriticalRate total %d rate1 %f rate2 %f", EnergyCriticalRate, formula->afRate[0], formula->afRate[1]);
+		}
+	}
+	return EnergyCriticalRate;
+}
+
+WORD AttributesManager::CalculeHitRate(int lastFoc)
+{
+	// = (Last_Foc / fRate1) * fRate2
+	WORD HitRate = 0;
+	sFORMULA_TBLDAT* formula = (sFORMULA_TBLDAT*)sTBM.GetFormulaTable()->FindData(600);
+	if (formula)
+	{
+		sLog.outBasic("HitRate tblidx %d lastFoc %d", formula->tblidx, lastFoc);
+		HitRate = (lastFoc / formula->afRate[0]) * formula->afRate[1];
+		sLog.outBasic("HitRate total %d rate1 %f rate2 %f", HitRate, formula->afRate[0], formula->afRate[1]);
+	}
+	return HitRate;
+}
+
+WORD AttributesManager::CalculeDodgeRate(int lastDex)
+{
+	// = (Last_Foc / fRate1) * fRate2
+	WORD DodgeRate = 0;
+	sFORMULA_TBLDAT* formula = (sFORMULA_TBLDAT*)sTBM.GetFormulaTable()->FindData(800);
+	if (formula)
+	{
+		sLog.outBasic("DodgeRate tblidx %d lastDex %d", formula->tblidx, lastDex);
+		DodgeRate = (lastDex / formula->afRate[0]) * formula->afRate[1];
+		sLog.outBasic("DodgeRate total %d rate1 %f rate2 %f", DodgeRate, formula->afRate[0], formula->afRate[1]);
+	}
+	return DodgeRate;
+}
+
+WORD AttributesManager::CalculeBlockRate(int lastDex, int lastCon)
+{
+	//  = fRate1 + (Last_Dex * fRate2) + (Last_Con * fRate3)
+	WORD BlockRate = 0;
+	sFORMULA_TBLDAT* formula = (sFORMULA_TBLDAT*)sTBM.GetFormulaTable()->FindData(900);
+	if (formula)
+	{
+		sLog.outBasic("BlockRate tblidx %d lastDex %d lastCon %d", formula->tblidx, lastDex, lastCon);
+		BlockRate = formula->afRate[0] + (lastDex * formula->afRate[1]) + (lastCon * formula->afRate[2]);
+		sLog.outBasic("BlockRate total %d rate1 %f rate2 %f rate3 %f", BlockRate, formula->afRate[0], formula->afRate[1], formula->afRate[2]);
+	}
+	return BlockRate;
 }
