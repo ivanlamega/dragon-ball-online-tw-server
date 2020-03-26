@@ -51,6 +51,9 @@ float FightManager::CalculePhysicalDamage(float attackerOffence, DWORD attackerL
 		damage = (1 - (targetDefence / damage));
 		damage = attackerOffence * damage;
 		sLog.outBasic("damage %f mob defense %f", damage, targetDefence);
+		float percent = damage * 1 / attackerOffence;
+		float lastDamage = damage * (1 + percent);
+		sLog.outBasic("percent %f last damage %f", percent, lastDamage);
 		return damage;
 	}
 	return 0.0;
@@ -68,6 +71,9 @@ float FightManager::CalculeEnergyDamage(float attackerOffence, DWORD attackerLev
 		damage = (1 - (targetDefence / damage));
 		damage = attackerOffence * damage;
 		sLog.outBasic("damage %f mob defense %f", damage, targetDefence);
+		float percent = damage * 1 / attackerOffence;
+		float lastDamage = damage * (1 + percent);
+		sLog.outBasic("percent %f last damage %f", percent, lastDamage);
 		return damage;
 	}
 	return 0.0;
