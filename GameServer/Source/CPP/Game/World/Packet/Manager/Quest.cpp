@@ -8261,11 +8261,19 @@ void WorldSession::SendTsExcuteTriggerObject(Packet& packet)
 
 	switch (req->byEvtGenType)
 	{
-		case eEVENT_GEN_TYPE_CLICK_OBJECT:
-		{
-			break;
-		}
+	case eEVENT_GEN_TYPE_CLICK_OBJECT:
+	{
+		break;
 	}
+	}
+
+	sLog.outBasic("Find object %d new system...", req->hTarget);
+	Object* objInfo = _player->GetFromList(req->hTarget);
+	if (objInfo)
+	{
+		sLog.outBasic("Object found with new system %d type %d", objInfo->GetTblidx(), objInfo->GetTypeId());
+	}
+
 	TBLIDX objTblidx = INVALID_TBLIDX;
 	Map* map = _player->GetMap();
 	sLog.outDebug("Worldid player %d world object %d", _player->GetWorldID(), map);
@@ -8352,7 +8360,11 @@ void WorldSession::SendTsExcuteTriggerObject(Packet& packet)
 									NTL_TS_T_ID objTriggerId = _player->GetQuestManager()->FindTriggerByObject(objTblidx, _player->GetWorldTableID());
 									sLog.outBasic("New System: New Ts Trigger %d", objTriggerId);
 									//New System
-
+									if (objTriggerId == -1)
+									{
+										sLog.outError("Error to find trigger by obj");
+										return;
+									}
 									/*int indexClass = _player->GetAttributesManager()->questSubCls.objChoseIndex;
 									sLog.outDetail("New Quest Id sub Class %d", _player->GetAttributesManager()->questSubCls.objData[indexClass].specificQuestId);
 									if (_player->GetAttributesManager()->questSubCls.objData[indexClass].specificQuestId == quest->QuestID)
