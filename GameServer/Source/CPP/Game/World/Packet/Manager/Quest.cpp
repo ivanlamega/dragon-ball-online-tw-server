@@ -3465,6 +3465,11 @@ void WorldSession::EvtMobKillCount(CDboTSActSToCEvt* sToCEvt, NTL_TS_T_ID tid)
 			//New system
 			if (quest != NULL)
 			{
+				if (quest->QuestID == 645) // Hardcoded
+				{
+					quest->sPawnMobQuest = true;
+				}
+
 				sLog.outBasic("New system spawn mob quest: %d", quest->sPawnMobQuest);
 
 				//New system
