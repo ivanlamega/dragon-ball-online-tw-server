@@ -426,11 +426,11 @@ bool AttributesManager::LoadAttributeFromDB()
 	PlayerProfile.avatarAttribute.wBaseCurseToleranceRate = 105;
 	PlayerProfile.avatarAttribute.wLastCurseToleranceRate = 104;
 	//Nao sei
-	PlayerProfile.avatarAttribute.fCastingTimeChangePercent = 103;
-	PlayerProfile.avatarAttribute.fCoolTimeChangePercent = 102;//
-	PlayerProfile.avatarAttribute.fKeepTimeChangePercent = 101;
-	PlayerProfile.avatarAttribute.fDotValueChangePercent = 100;
-	PlayerProfile.avatarAttribute.fDotTimeChangeAbsolute = 99;//Ep Skill Required
+	PlayerProfile.avatarAttribute.fCastingTimeChangePercent = 0;
+	PlayerProfile.avatarAttribute.fCoolTimeChangePercent = 0;//
+	PlayerProfile.avatarAttribute.fKeepTimeChangePercent = 0;
+	PlayerProfile.avatarAttribute.fDotValueChangePercent = 0;
+	PlayerProfile.avatarAttribute.fDotTimeChangeAbsolute = 0;//Ep Skill Required
 	
 	//Atribute Ofense/Defese
 	PlayerProfile.avatarAttribute.fHonestOffence = 15;//nao
@@ -444,7 +444,7 @@ bool AttributesManager::LoadAttributeFromDB()
 	PlayerProfile.avatarAttribute.fFunnyOffence = 95;//nao
 	PlayerProfile.avatarAttribute.fFunnyDefence = 105;//nao
 
-	PlayerProfile.avatarAttribute.fRequiredEpChangePercent = 98;
+	PlayerProfile.avatarAttribute.fRequiredEpChangePercent = 0;
 	PlayerProfile.avatarAttribute.wParalyzeToleranceRate = 97;//nao
 	PlayerProfile.avatarAttribute.wTerrorToleranceRate = 96;//nao
 	PlayerProfile.avatarAttribute.wConfuseToleranceRate = 95;//nao
