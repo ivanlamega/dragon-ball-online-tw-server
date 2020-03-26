@@ -72,38 +72,41 @@ BYTE fill;
 	WORD            wNeedSol;
 	WORD            wNeedEng;
 
+BYTE fill[2];
 	unsigned int          tbxSetItem;
 
 	unsigned int          tbxNote;
 
 	BYTE            byBagSize;
-
+BYTE fill[1];
 	WORD            wScouterWatt;
 	DWORD           dwScouterMaxPower;
 	WORD            wScouterPartsType;
 	WORD            wScouterPartsValue;
 	unsigned int          tbxUseItem;
 	bool	        bCanHaveOption;
+BYTE fill[3];
 
 	unsigned int          tbxItemOption;
 	BYTE            byItemGroup;//ticket upgrade here^^
-
+BYTE fill[3];
 	unsigned int          tbxCharm;
 	WORD            wCostumeHideBitFlag;
-
+BYTE fill[2];
 	unsigned int          tbxNeedItem;
 	DWORD           dwCommonPoint;
 	BYTE            byCommonPointType;
 
 	BYTE            byNeedFunction;
+BYTE fill[2];
 
 	DWORD           dwUseDurationMax;
 	BYTE		    eDurationType; // BYTE
-
+BYTE fill[3];
 	unsigned int          tbxContents;
 	DWORD           dwDurationGroup;
 	BYTE            byDropLevel;
-
+BYTE fill[3];
 	DWORD           dwCreateEnchentRateID;
 	DWORD           dwExcellentID;
 	DWORD           dwRareID;
@@ -114,7 +117,7 @@ BYTE fill;
 	bool			bCreateLegendaryAble;
 
 	BYTE			eRestrictType; // BYTE
-
+BYTE fill[3];
 	FLOAT           fAttackPhysical;
 	FLOAT           fAttackEnergy;
 	FLOAT           fDefencePhysical;
@@ -131,6 +134,7 @@ BYTE fill;
 
 	bool           bUseDisassemble;
 	bool           bDropVisual;
+BYTE fill[2];
 };
 
 

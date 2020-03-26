@@ -4045,6 +4045,8 @@ void Player::SetSpeed(int sppeed)
 	speed.fLastFlySpeed2 = sppeed* .50;
 	speed.fLastFlyBoostSpeed2 = sppeed;
 
+	GetAttributesManager()->GetPlayerProfile()->avatarAttribute.fLastRunSpeed = speed.fLastRunningSpeed;
+	GetAttributesManager()->GetPlayerProfile()->avatarAttribute.fBaseRunSpeed = speed.fLastRunningSpeed;
 	SendPacket((char*)&speed, sizeof(sGU_UPDATE_CHAR_SPEED));
 	SendToPlayerList((char*)&speed, sizeof(sGU_UPDATE_CHAR_SPEED));
 }

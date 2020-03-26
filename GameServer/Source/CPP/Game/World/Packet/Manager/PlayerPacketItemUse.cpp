@@ -60,7 +60,7 @@ void Player::HandleItemUse(Packet pPacket)
 					UseItem.byPlace = Item->byPlace;
 					UseItem.byPos = Item->byPos;
 					UseItem.wResultCode = GAME_ITEM_CANT_USE_FOR_SOME_REASON;
-				//	printf("effectCode %d \n ", SystemEffectData->effectCode);
+					sLog.outBasic("effectCode %d tblidx %d", SystemEffectData->effectCode, Item->tblidx);
 					switch (SystemEffectData->effectCode)
 					{
 						//eSYSTEM_EFFECT_CODE
@@ -235,6 +235,8 @@ void Player::HandleItemUse(Packet pPacket)
 						}
 						case eSYSTEM_EFFECT_CODE::ACTIVE_SCRIPT_EXECUTE_WPS_LOC:
 						{
+							sLog.outBasic("Item %d use Item %d system effect %d effect value %f", Item->tblidx, UseItemData->tblidx, SystemEffectData->tblidx,
+								UseItemData->adSystemEffectValue[0]);
 							
 							if (static_cast<NTL_TS_T_ID>(UseItemData->adSystemEffectValue[0]) == 6003)
 							{
@@ -263,6 +265,29 @@ void Player::HandleItemUse(Packet pPacket)
 											quest->growUpInfo.countKill = 0;
 											GetQuestManager()->AddMobQuest(quest->growUpInfo.mobTblidx, quest->QuestID);
 											m_session->SpawnMobForQuest(quest->growUpInfo.mobTblidx, INVALID_TBLIDX, 0);
+										}
+									}
+								}
+							}
+							else
+							{
+								NTL_TS_T_ID questId = GetQuestManager()->FindQuestByItemGive(Item->tblidx);
+								QuestData* quest = GetQuestManager()->FindQuestById(questId);
+								if (quest)
+								{
+									sLog.outBasic("Quest for item found %d", quest->QuestID);
+									for (int i = 0; i < 3; i++)
+									{
+										quest->uEvtData.sMobKillCnt[i].uiMobIdx;
+										quest->uEvtData.sMobKillCnt[i].nCurMobCnt;
+										quest->uEvtData.sMobKillCnt[i].nMobCnt;
+										sLog.outDebug("spawn mob %d count %d", quest->uEvtData.sMobKillCnt[i].uiMobIdx, quest->uEvtData.sMobKillCnt[i].nMobCnt);
+										if (quest->uEvtData.sMobKillCnt[i].uiMobIdx != INVALID_TBLIDX)
+										{
+											for (int i = 0; i < quest->uEvtData.sMobKillCnt[i].nMobCnt; i++)
+											{
+												m_session->SpawnMobForQuest(quest->uEvtData.sMobKillCnt[i].uiMobIdx, INVALID_TBLIDX, 0);
+											}
 										}
 									}
 								}

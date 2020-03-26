@@ -971,7 +971,7 @@ ResultCodes WorldSession::ProcessTSContStart(CDboTSContStart * contStart, NTL_TS
 											if (obj)
 											{
 												sLog.outDebug("Obj %d %d %s handle %d", obj->tblidx, obj->dwSequence, obj->szModelName, 100000 + obj->dwSequence);
-												SendTObjectUpdateState(100000 + obj->dwSequence,
+												SendTObjectUpdateState(HANDLE_TRIGGER_OBJECT_OFFSET + obj->dwSequence,
 													obj->tblidx, 1, TOBJECT_SUBSTATE_FLAG_SHOW, 2775787718);
 											}
 
@@ -1031,6 +1031,32 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 				if (quest)
 				{
 					quest->lastNPCQuest = NPCConv->GetNPCIdx();
+
+					if (tid == 164)
+					{
+						sLog.outBasic("Quest found!");
+						sLog.outBasic("Search trigger...");
+						quest->evtDataType = eSTOC_EVT_DATA_TYPE_OBJECT_ITEM;
+						quest->uEvtData.sObjectItemCnt[i].uiItemIdx = 284;
+						quest->uEvtData.sObjectItemCnt[i].nItemCnt = 1;
+						quest->uEvtData.sObjectItemCnt[i].nCurItemCnt = 0;
+						std::vector<NTL_TS_T_ID> triggerIds = sTSM.FindTriggerByQuest(tid);
+						NTL_TS_T_ID triggerId;
+						if (triggerIds.size() > 0)
+						{
+							triggerId = triggerIds[0];
+						}
+						else
+						{
+							triggerId = NTL_TS_T_ID_INVALID;
+						}
+
+						if (triggerId != NTL_TS_T_ID_INVALID)
+						{
+							sLog.outBasic("Trigger %d found!", triggerId);
+							LoadObjectsTriggersForQuest(triggerId, tid);
+						}
+					}
 				}
 				//_player->GetAttributesManager()->lastNPCQuest = NPCConv->GetNPCIdx();
 
@@ -1250,7 +1276,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 						if (obj)
 						{
 							sLog.outDebug("Obj %d %d %s handle %d", obj->tblidx, obj->dwSequence, obj->szModelName, 100000 + obj->dwSequence);
-							SendTObjectUpdateState(100000 + obj->dwSequence,
+							SendTObjectUpdateState(HANDLE_TRIGGER_OBJECT_OFFSET + obj->dwSequence,
 								obj->tblidx, 1, TOBJECT_SUBSTATE_FLAG_SHOW, 2650781283);
 						}
 					}
@@ -1315,7 +1341,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 						if (obj)
 						{
 							sLog.outDebug("Obj %d %d %s handle %d", obj->tblidx, obj->dwSequence, obj->szModelName, 100000 + obj->dwSequence);
-							SendTObjectUpdateState(100000 + obj->dwSequence,
+							SendTObjectUpdateState(HANDLE_TRIGGER_OBJECT_OFFSET + obj->dwSequence,
 								obj->tblidx, 1, TOBJECT_SUBSTATE_FLAG_SHOW, 2775787718);
 						}
 					}
@@ -1342,7 +1368,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 						if (obj)
 						{
 							sLog.outDebug("Obj %d %d %s handle %d", obj->tblidx, obj->dwSequence, obj->szModelName, 100000 + obj->dwSequence);
-							SendTObjectUpdateState(100000 + obj->dwSequence,
+							SendTObjectUpdateState(HANDLE_TRIGGER_OBJECT_OFFSET + obj->dwSequence,
 								obj->tblidx, 0, 0, 2775787718);
 						}
 
@@ -2834,6 +2860,11 @@ ResultCodes WorldSession::ProcessTsContReward(CDboTSContReward * contReward, DWO
 					sLog.outDebug("eREWARD_TYPE_GET_CONVERT_CLASS_RIGHT");
 					break;
 				}
+				case eREWARD_TYPE_GET_QUEST_REWARD_SELECT:
+				{
+					sLog.outDebug("eREWARD_TYPE_GET_QUEST_REWARD_SELECT");
+					break;
+				}
 			}
 		}
 
@@ -2874,7 +2905,7 @@ ResultCodes WorldSession::GivePlayerItemReward(sQUEST_REWARD_TBLDAT* rewardTbl, 
 	{
 		if (rewardTbl->rewardDefData[rw].rwdIdx == INVALID_TBLIDX)
 		{
-			break; // cambiar por continue si causa bug
+			continue; // cambiar por continue si causa bug
 		}
 
 		switch (rewardTbl->rewardDefData->unknown)
@@ -3416,6 +3447,7 @@ void WorldSession::EvtMobKillCount(CDboTSActSToCEvt* sToCEvt, NTL_TS_T_ID tid)
 				quest->uEvtData.sMobKillCnt[i].nMobCnt = sToCEvt->GetEvtData().sMobKillCnt[i].nMobCnt;
 
 				_player->GetQuestManager()->AddMobQuest(mobTblidx, tid);
+				sLog.outBasic("mob add %d to quest %d", mobTblidx, tid);
 			}
 			//New system
 			/*
@@ -3433,6 +3465,11 @@ void WorldSession::EvtMobKillCount(CDboTSActSToCEvt* sToCEvt, NTL_TS_T_ID tid)
 			//New system
 			if (quest != NULL)
 			{
+				if (quest->QuestID == 645) // Hardcoded
+				{
+					quest->sPawnMobQuest = true;
+				}
+
 				sLog.outBasic("New system spawn mob quest: %d", quest->sPawnMobQuest);
 
 				//New system
@@ -7256,6 +7293,51 @@ void WorldSession::LoadObjectsTriggersForQuest(NTL_TS_T_ID triggerId, NTL_TS_T_I
 
 									_player->GetQuestManager()->AddObjectQuest(objTblidx, questId);
 									_player->GetQuestManager()->AddObjectTrigger(objTblidx, triggerId, _player->GetWorldTableID());
+
+									if (questId == 162)
+									{
+										sOBJECT_TBLDAT* obj = (sOBJECT_TBLDAT*)sTBM.GetObjectTable(clickObject->GetWorldIdx())->FindData(objTblidx);
+										if (obj)
+										{
+											struct tempStruct
+											{
+												sOBJECT_TBLDAT objData;
+												TBLIDX objWorldId;
+											};
+
+											tempStruct tempData;
+											tempData.objData = *obj;
+											tempData.objWorldId = clickObject->GetWorldIdx();
+											int idTimer = Timer.GetNewId();
+											TimerArguments<tempStruct> args(idTimer, tempData);
+											Timer.setInterval([&](TimerArguments<tempStruct> args) {
+												if (_player->GetWorldTableID() == args.Argument.objWorldId)
+												{
+													if (NtlGetDistance(args.Argument.objData.vLoc.x, args.Argument.objData.vLoc.z,
+														_player->m_position.x, _player->m_position.z) <= 100.0f)
+													{
+														sLog.outDebug("Obj %d %d %s handle %d",
+															args.Argument.objData.tblidx, args.Argument.objData.dwSequence, args.Argument.objData.szModelName,
+															HANDLE_TRIGGER_OBJECT_OFFSET + args.Argument.objData.dwSequence);
+														SendTObjectUpdateState(HANDLE_TRIGGER_OBJECT_OFFSET + args.Argument.objData.dwSequence,
+															args.Argument.objData.tblidx, 1, TOBJECT_SUBSTATE_FLAG_SHOW, 2775787718);
+														Timer.stop(args.idTimer);
+													}
+													else
+													{
+														sLog.outBasic("Not in range of object %d Player( %f %f) object (%f %f)",
+															args.Argument.objData.tblidx, _player->m_position.x, _player->m_position.z,
+															args.Argument.objData.vLoc.x, args.Argument.objData.vLoc.z);
+													}
+												}
+												else
+												{
+													sLog.outBasic("Not the same world player %d object %d", _player->GetWorldTableID(), args.Argument.objWorldId);
+												}
+												}, 1000, args, idTimer);
+
+										}
+									}
 								}
 								return;
 							}
@@ -8132,6 +8214,32 @@ ResultCodes WorldSession::FindObjectTriggerInformation(NTL_TS_T_ID tid, QuestDat
 				}
 				break;
 			}
+			case DBO_CONT_TYPE_ID_CONT_SWITCH:
+			{
+				CDboTSContSwitch* contSwitch = ((CDboTSContSwitch*)contBase);
+				if (contSwitch)
+				{
+					for (int i = 0; i < contSwitch->GetNumOfChildEntity(); i++)
+					{
+						sLog.outDetail("Cont: %s %d", contSwitch->GetChildEntity(i)->GetClassNameW(), contSwitch->GetChildEntity(i)->GetEntityType());
+						switch (contSwitch->GetChildEntity(i)->GetEntityType())
+						{
+							case DBO_ACT_TYPE_ID_ACT_SWPROBSF:
+							{
+								CDboTSActSWProbSF* actSWProbSF = ((CDboTSActSWProbSF*)contSwitch->GetChildEntity(i));
+								if (actSWProbSF)
+								{
+									sLog.outBasic("failBid %d probability %f success bid %d", actSWProbSF->GetFailBID(), actSWProbSF->GetProbility(), actSWProbSF->GetSuccessBID());
+									sLog.outBasic("next cid %d", contSwitch->GetTCIdFromBId(actSWProbSF->GetSuccessBID()));
+									nextLink = contSwitch->GetTCIdFromBId(actSWProbSF->GetSuccessBID());
+								}
+								break;
+							}
+						}
+					}
+				}
+				break;
+			}
 			case DBO_CONT_TYPE_ID_CONT_END:
 			{
 				CDboTSContEnd* contEnd = ((CDboTSContEnd*)contBase);
@@ -8153,11 +8261,19 @@ void WorldSession::SendTsExcuteTriggerObject(Packet& packet)
 
 	switch (req->byEvtGenType)
 	{
-		case eEVENT_GEN_TYPE_CLICK_OBJECT:
-		{
-			break;
-		}
+	case eEVENT_GEN_TYPE_CLICK_OBJECT:
+	{
+		break;
 	}
+	}
+
+	sLog.outBasic("Find object %d new system...", req->hTarget);
+	Object* objInfo = _player->GetFromList(req->hTarget);
+	if (objInfo)
+	{
+		sLog.outBasic("Object found with new system %d type %d", objInfo->GetTblidx(), objInfo->GetTypeId());
+	}
+
 	TBLIDX objTblidx = INVALID_TBLIDX;
 	Map* map = _player->GetMap();
 	sLog.outDebug("Worldid player %d world object %d", _player->GetWorldID(), map);
@@ -8244,7 +8360,11 @@ void WorldSession::SendTsExcuteTriggerObject(Packet& packet)
 									NTL_TS_T_ID objTriggerId = _player->GetQuestManager()->FindTriggerByObject(objTblidx, _player->GetWorldTableID());
 									sLog.outBasic("New System: New Ts Trigger %d", objTriggerId);
 									//New System
-
+									if (objTriggerId == -1)
+									{
+										sLog.outError("Error to find trigger by obj");
+										return;
+									}
 									/*int indexClass = _player->GetAttributesManager()->questSubCls.objChoseIndex;
 									sLog.outDetail("New Quest Id sub Class %d", _player->GetAttributesManager()->questSubCls.objData[indexClass].specificQuestId);
 									if (_player->GetAttributesManager()->questSubCls.objData[indexClass].specificQuestId == quest->QuestID)
