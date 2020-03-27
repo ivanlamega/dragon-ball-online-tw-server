@@ -219,10 +219,10 @@ void Player::GetAtributesCalculation(HOBJECT Target[32], BYTE MaxApplyTarget, BY
 				//HitRate
 				int HitRate = GetPcProfile()->avatarAttribute.wLastAttackRate;
 				int DodgeRate = PlayerInfo->GetPcProfile()->avatarAttribute.wLastDodgeRate;
-				float TotalHitRate = HitRate + DodgeRate;
-				float TotalHitRatePercent = HitRate * 100 / TotalHitRate;
+				//float TotalHitRate = HitRate + DodgeRate;
+				float TotalHitRatePercent = fightManager.CalculeAttackSuccess(HitRate, DodgeRate, GetPcProfile()->byLevel, PlayerInfo->GetPcProfile()->byLevel);//HitRate * 100 / TotalHitRate;
 				int RandomHit = rand() % 100;
-				TotalHitRatePercent *= 1.6;
+				//TotalHitRatePercent *= 1.6;
 				//printf("Total Hit Percent %f \n", TotalHitRatePercent);
 
 				int BlockCriticalRate = PlayerInfo->GetPcProfile()->avatarAttribute.fCriticalBlockSuccessRate;
@@ -406,8 +406,8 @@ void Player::GetAtributesCalculation(HOBJECT Target[32], BYTE MaxApplyTarget, BY
 				//HitRate
 				int HitRate = GetPcProfile()->avatarAttribute.wLastAttackRate + 500;
 				int DodgeRate = MobInfo->GetMobData().Dodge_rate;
-				float TotalHitRate = HitRate + DodgeRate;
-				float TotalHitRatePercent = HitRate * 100 / TotalHitRate;
+				//float TotalHitRate = HitRate + DodgeRate;
+				float TotalHitRatePercent = fightManager.CalculeAttackSuccess(HitRate, DodgeRate, GetPcProfile()->byLevel, MobInfo->GetMobData().Level);//HitRate * 100 / TotalHitRate;
 				int RandomHit = rand() % 100;
 				//printf("Total Hit Percent %f \n", TotalHitRatePercent);
 
@@ -513,7 +513,7 @@ void Player::SkillAcion()
 			pBuffData.OpCode = GU_BUFF_REGISTERED;
 			pBuffData.size = sizeof(BuffTypeSkill) - 2;
 			pBuffData.tblidx = INVALID_TBLIDX;
-
+			int damageApply = 1;
 			for (int Effect = 0; Effect <= 2; Effect++)
 			{
 				////Skill Handle
@@ -554,7 +554,7 @@ void Player::SkillAcion()
 										skillRes.aSkillResult[count].byAttackResult = AttackType[count];
 
 										skillRes.aSkillResult[count].effectResult[Effect].eResultType = DBO_SYSTEM_EFFECT_RESULT_TYPE_DD_DOT;
-										skillRes.aSkillResult[count].effectResult[Effect].Value1 = SkillDemage[count]/2;
+										skillRes.aSkillResult[count].effectResult[Effect].Value1 = SkillDemage[count] * damageApply;
 										skillRes.aSkillResult[count].effectResult[Effect].Value2 = 0;
 										skillRes.aSkillResult[count].effectResult[Effect].Value3 = 0;
 										skillRes.aSkillResult[count].effectResult[Effect].Value4 = 0;
@@ -564,7 +564,7 @@ void Player::SkillAcion()
 										skillRes.aSkillResult[count].vShift = PlayerInfo->GetVectorPosition();
 										skillRes.aSkillResult[count].vShift1 = PlayerInfo->GetVectorPosition();
 										skillRes.bySkillResultCount = count + 1;
-
+										damageApply = 0;
 
 										PlayerInfo->TakeDamage(skillRes.aSkillResult[count].effectResult[Effect].Value1);
 										count = 1;
@@ -581,7 +581,7 @@ void Player::SkillAcion()
 									skillRes.aSkillResult[count].byAttackResult = AttackType[count];
 
 									skillRes.aSkillResult[count].effectResult[Effect].eResultType = DBO_SYSTEM_EFFECT_RESULT_TYPE_DD_DOT;
-									skillRes.aSkillResult[count].effectResult[Effect].Value1 = SkillDemage[count]/2;
+									skillRes.aSkillResult[count].effectResult[Effect].Value1 = SkillDemage[count] * damageApply;
 									skillRes.aSkillResult[count].effectResult[Effect].Value2 = 0;
 									skillRes.aSkillResult[count].effectResult[Effect].Value3 = 0;
 									skillRes.aSkillResult[count].effectResult[Effect].Value4 = 0;
@@ -591,7 +591,7 @@ void Player::SkillAcion()
 									//skillRes.aSkillResult[count].vShift = MobInfo->GetVectorPosition();
 									//skillRes.aSkillResult[count].vShift1 = MobInfo->GetVectorPosition();
 									skillRes.bySkillResultCount = count + 1;
-
+									damageApply = 0;
 
 									//if (MobInfo->attackers == 0)
 									MobInfo->attackers = GetHandle();

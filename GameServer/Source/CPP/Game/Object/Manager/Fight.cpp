@@ -1,4 +1,4 @@
-#include <Game\Object\Manager\Fight.h>
+﻿#include <Game\Object\Manager\Fight.h>
 #include <TableAll.h>
 #include <Game\Object\Player.h>
 #include <Game\Object\Mob.h>
@@ -43,40 +43,67 @@ int FightManager::GetLevelDiff()
 //----------------------------------------
 float FightManager::CalculePhysicalDamage(float attackerOffence, DWORD attackerLevel, float targetDefence)
 {
+	float damage = 0;
 	sFORMULA_TBLDAT* formula = (sFORMULA_TBLDAT*)sTBM.GetFormulaTable()->FindData(3100);
 	if (formula)
 	{
 		sLog.outBasic("1 physical attack %f level %d", attackerOffence, attackerLevel);
-		float damage = (targetDefence + attackerLevel * formula->afRate[0]);
+		damage = (targetDefence + attackerLevel * formula->afRate[0]);
 		damage = (1 - (targetDefence / damage));
 		damage = attackerOffence * damage;
 		sLog.outBasic("damage %f mob defense %f", damage, targetDefence);
 		float percent = damage * 1 / attackerOffence;
 		float lastDamage = damage * (1 + percent);
 		sLog.outBasic("percent %f last damage %f", percent, lastDamage);
-		return damage;
+		//return damage;
 	}
-	return 0.0;
+	return damage;
 }
 //----------------------------------------
 //	Get the amount of energy damage
 //----------------------------------------
 float FightManager::CalculeEnergyDamage(float attackerOffence, DWORD attackerLevel, float targetDefence)
 {
+	float damage = 0;
 	sFORMULA_TBLDAT* formula = (sFORMULA_TBLDAT*)sTBM.GetFormulaTable()->FindData(3300);
 	if (formula)
 	{
 		sLog.outBasic("1 energy attack %f level %d", attackerOffence, attackerLevel);
-		float damage = (targetDefence + attackerLevel * formula->afRate[0]);
+		damage = (targetDefence + attackerLevel * formula->afRate[0]);
 		damage = (1 - (targetDefence / damage));
 		damage = attackerOffence * damage;
 		sLog.outBasic("damage %f mob defense %f", damage, targetDefence);
 		float percent = damage * 1 / attackerOffence;
 		float lastDamage = damage * (1 + percent);
 		sLog.outBasic("percent %f last damage %f", percent, lastDamage);
-		return damage;
+		//return damage;
 	}
-	return 0.0;
+	return damage;
+}
+//----------------------------------------
+//	Get the percent of attack success
+//----------------------------------------
+int FightManager::CalculeAttackSuccess(int attAttackRate, int defDodgeRate, BYTE attLevel, BYTE defLevel)
+{
+	// = fRate1 * ( 공격자 Last_Attack_Rate / ( 공격자 Last_Attack_Rate + 방어자 Last_Dodge_Rate) ) * ( ( 공격자 Level + 1 ) / ( 공격자 Level + 방어자 Level ) ) * 100   (단, 최대 99%)
+	float attackRate = static_cast<float>(attAttackRate);
+	float dodgeRate = static_cast<float>(defDodgeRate);
+	float attackLevel = static_cast<float>(attLevel);
+	float deffenLevel = static_cast<float>(defLevel);
+	float attackSuccess = 0;
+	sFORMULA_TBLDAT* formula = (sFORMULA_TBLDAT*)sTBM.GetFormulaTable()->FindData(3700);
+	if (formula)
+	{
+		attackSuccess = formula->afRate[0] * (attackRate / (attackRate + dodgeRate)) * ((attackLevel + 1) / (attackLevel + deffenLevel)) * 100;
+		sLog.outBasic("attack Success %f", attackSuccess);
+		sLog.outBasic("attackRate %f dodgeRate %f attLevel %f defLevel %f rate1 %f", attackRate, dodgeRate, attackLevel, deffenLevel, formula->afRate[0]);
+
+	}
+	if (attackSuccess > 99.0f)
+	{
+		attackSuccess = 99.0f;
+	}
+	return static_cast<int>(attackSuccess);
 }
 //----------------------------------------
 //	Get amount of damage to do
@@ -166,25 +193,31 @@ void FightManager::GetPlayerCriticAttack(bool caster, eOBJTYPE ObjectTypeId)
 //----------------------------------------
 void FightManager::GetPlayerHitChance(eOBJTYPE ObjectTypeId)
 {
+	srand(time(NULL));
+
 	if (ObjectTypeId == OBJTYPE_MOB)
 	{
 		int HitRate = plr->GetPcProfile()->avatarAttribute.wLastAttackRate;
 		int DodgeRate = mob->GetMobData().Dodge_rate;
-		float TotalHitPercent = HitRate + DodgeRate;
-		float TotalHitRatePercent = HitRate * 100 / TotalHitPercent;
+		//float TotalHitPercent = HitRate + DodgeRate;
+		float TotalHitRatePercent = CalculeAttackSuccess(HitRate, DodgeRate, plr->GetPcProfile()->byLevel, mob->GetMobData().Level);//HitRate * 100 / TotalHitPercent;
 		int RandomHit = rand() % 100;
 		if (RandomHit <= TotalHitRatePercent && TotalHitRatePercent > 0)
+		{
 			attackResult = eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_HIT;
+		}
 	}
 	if (ObjectTypeId == OBJTYPE_PC)
 	{
 		int HitRate = plr->GetPcProfile()->avatarAttribute.wLastAttackRate;
 		int DodgeRate = plrTarget->GetPcProfile()->avatarAttribute.wLastDodgeRate;
-		float TotalHitPercent = HitRate + DodgeRate;
-		float TotalHitRatePercent = HitRate * 100 / TotalHitPercent;
+		//float TotalHitPercent = HitRate + DodgeRate;
+		float TotalHitRatePercent = CalculeAttackSuccess(HitRate, DodgeRate, plr->GetPcProfile()->byLevel, plrTarget->GetPcProfile()->byLevel);// HitRate * 100 / TotalHitPercent;
 		int RandomHit = rand() % 100;
 		if (RandomHit <= TotalHitRatePercent && TotalHitRatePercent > 0)
+		{
 			attackResult = eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_HIT;
+		}
 	}	
 }
 //----------------------------------------
