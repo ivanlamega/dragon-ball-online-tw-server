@@ -196,6 +196,9 @@ bool Mob::Create(sMOB_TBLDAT* mobTbl, SpawnMOB spawnInfo)
 	me.MaxchainAttackCount = 0;
 	handle = me.UniqueID = spawnInfo.Handle;
 	
+	me.physicalCriticalDefenseRate = CalculePhysicalCriticalDefenceRate(me.Con);
+	me.energyCriticalDefenseRate = CalculeEnergyCriticalDefenceRate(me.Eng);
+	
 	Relocate(me.curPos.x, me.curPos.y, me.curPos.z, me.Spawn_Dir.x, me.Spawn_Dir.y, me.Spawn_Dir.z);	
 	
 	AddToWorld();
@@ -311,6 +314,9 @@ bool Mob::Create(sSPAWN_TBLDAT* spawnTbl, sMOB_TBLDAT* mobTbl)
 	me.chainAttackCount = 0;
 	me.MaxchainAttackCount = 0;
 	handle = me.UniqueID = sWorld.AcquireSerialId();
+
+	me.physicalCriticalDefenseRate = CalculePhysicalCriticalDefenceRate(me.Con);
+	me.energyCriticalDefenseRate = CalculeEnergyCriticalDefenceRate(me.Eng);
 
 	int BallRandom = rand() % 100;
 	if (BallRandom >= 0 && BallRandom <= 15)
@@ -996,6 +1002,38 @@ void Mob::Regen()
 MonsterData Mob::GetMobData() const
 {
 	return me;
+}
+//----------------------------------------
+//	Calcule physical critical defence
+//----------------------------------------
+WORD Mob::CalculePhysicalCriticalDefenceRate(int lastCon)
+{
+	// = fRate1 + (Last_Con / fRate2)
+	WORD criticalDefenseRate = 0;
+	sFORMULA_TBLDAT* formula = (sFORMULA_TBLDAT*)sTBM.GetFormulaTable()->FindData(9300);
+	if (formula)
+	{
+		//sLog.outBasic("MonsterPhysicalCriticalDefenseRate tblidx %d lastCon %d", formula->tblidx, lastCon);
+		criticalDefenseRate = formula->afRate[0] + (lastCon / formula->afRate[1]);
+		//sLog.outBasic("MonsterPhysicalCriticalDefenseRate total %d rate1 %f rate2 %f", criticalDefenseRate, formula->afRate[0], formula->afRate[1]);
+	}
+	return criticalDefenseRate;
+}
+//----------------------------------------
+//	Calcule energy critical defence
+//----------------------------------------
+WORD Mob::CalculeEnergyCriticalDefenceRate(int lastEng)
+{
+	// = fRate1 + (Last_Con / fRate2)
+	WORD criticalDefenseRate = 0;
+	sFORMULA_TBLDAT* formula = (sFORMULA_TBLDAT*)sTBM.GetFormulaTable()->FindData(9400);
+	if (formula)
+	{
+		//sLog.outBasic("MonsterEnergyCriticalDefenseRate tblidx %d lastEng %d", formula->tblidx, lastEng);
+		criticalDefenseRate = formula->afRate[0] + (lastEng / formula->afRate[1]);
+		//sLog.outBasic("MonsterEnergyCriticalDefenseRate total %d rate1 %f rate2 %f", criticalDefenseRate, formula->afRate[0], formula->afRate[1]);
+	}
+	return criticalDefenseRate;
 }
 //----------------------------------------
 //	Return the mob struct filled

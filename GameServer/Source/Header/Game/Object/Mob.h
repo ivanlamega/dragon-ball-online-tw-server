@@ -48,6 +48,12 @@ public:
 	//	------------------------------------------------------------------------
 	virtual DWORD		GetPowerLevel() override;
 
+	//	------------------------------------------------------------------------
+	// CALCULE
+	//	------------------------------------------------------------------------
+	WORD CalculePhysicalCriticalDefenceRate(int lastCon);
+	WORD CalculeEnergyCriticalDefenceRate(int lastEng);
+
 	virtual void UpdateState(eCHARSTATE _state) override;
 private:
 	MonsterData			me;

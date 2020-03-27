@@ -377,8 +377,8 @@ bool AttributesManager::LoadAttributeFromDB()
 	PlayerProfile.avatarAttribute.fSitDownEpRegenBonusRate = 131;
 	PlayerProfile.avatarAttribute.unknown4_0 = 130;
 	PlayerProfile.avatarAttribute.unknown4_1 = 129;
-	PlayerProfile.avatarAttribute.unknown4_2 = 128;
-	PlayerProfile.avatarAttribute.unknown4_3 = 127;
+	PlayerProfile.avatarAttribute.physicalCriticalDefenceRate = CalculePhysicalCriticalDefenceRate(PlayerProfile.avatarAttribute.byLastCon);
+	PlayerProfile.avatarAttribute.energyCriticalDefenceRate = CalculeEnergyCriticalDefenceRate(PlayerProfile.avatarAttribute.byLastEng);
 	PlayerProfile.avatarAttribute.unknown4_4 = 126;
 	PlayerProfile.avatarAttribute.unknown4_5 = 125;
 	PlayerProfile.avatarAttribute.unknown4_6 = 124;
@@ -1601,8 +1601,8 @@ void AttributesManager::FillAttributesLink()
 	attrLink.unknown3_13 = &PlayerProfile.avatarAttribute.unknown3_13;
 	attrLink.unknown4_0 = &PlayerProfile.avatarAttribute.unknown4_0;
 	attrLink.unknown4_1 = &PlayerProfile.avatarAttribute.unknown4_1;
-	attrLink.unknown4_2 = &PlayerProfile.avatarAttribute.unknown4_2;
-	attrLink.unknown4_3 = &PlayerProfile.avatarAttribute.unknown4_3;
+	attrLink.physicalCriticalDefenceRate = &PlayerProfile.avatarAttribute.physicalCriticalDefenceRate;
+	attrLink.energyCriticalDefenceRate = &PlayerProfile.avatarAttribute.energyCriticalDefenceRate;
 	attrLink.unknown4_4 = &PlayerProfile.avatarAttribute.unknown4_4;
 	attrLink.unknown4_5 = &PlayerProfile.avatarAttribute.unknown4_5;
 	attrLink.unknown4_6 = &PlayerProfile.avatarAttribute.unknown4_6;
@@ -1823,4 +1823,32 @@ WORD AttributesManager::CalculeBlockRate(int lastDex, int lastCon)
 		sLog.outBasic("BlockRate total %d rate1 %f rate2 %f rate3 %f", BlockRate, formula->afRate[0], formula->afRate[1], formula->afRate[2]);
 	}
 	return BlockRate;
+}
+
+WORD AttributesManager::CalculePhysicalCriticalDefenceRate(int lastCon)
+{
+	// = fRate1 + (Last_Con / fRate2)
+	WORD criticalDefenseRate = 0;
+	sFORMULA_TBLDAT* formula = (sFORMULA_TBLDAT*)sTBM.GetFormulaTable()->FindData(9100);
+	if (formula)
+	{
+		sLog.outBasic("CharacterPhysicalCriticalDefenseRate tblidx %d lastCon %d", formula->tblidx, lastCon);
+		criticalDefenseRate = formula->afRate[0] + (lastCon / formula->afRate[1]);
+		sLog.outBasic("CharacterPhysicalCriticalDefenseRate total %d rate1 %f rate2 %f", criticalDefenseRate, formula->afRate[0], formula->afRate[1]);
+	}
+	return criticalDefenseRate;
+}
+
+WORD AttributesManager::CalculeEnergyCriticalDefenceRate(int lastEng)
+{
+	// = fRate1 + (Last_Con / fRate2)
+	WORD criticalDefenseRate = 0;
+	sFORMULA_TBLDAT* formula = (sFORMULA_TBLDAT*)sTBM.GetFormulaTable()->FindData(9200);
+	if (formula)
+	{
+		sLog.outBasic("CharacteEnergyCriticalDefenseRate tblidx %d lastEng %d", formula->tblidx, lastEng);
+		criticalDefenseRate = formula->afRate[0] + (lastEng / formula->afRate[1]);
+		sLog.outBasic("CharacteEnergyCriticalDefenseRate total %d rate1 %f rate2 %f", criticalDefenseRate, formula->afRate[0], formula->afRate[1]);
+	}
+	return criticalDefenseRate;
 }

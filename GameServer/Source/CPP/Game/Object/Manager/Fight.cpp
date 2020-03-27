@@ -106,6 +106,45 @@ int FightManager::CalculeAttackSuccess(int attAttackRate, int defDodgeRate, BYTE
 	return static_cast<int>(attackSuccess);
 }
 //----------------------------------------
+//	Get the percent of critical attack success
+//----------------------------------------
+int FightManager::CalculePhysicalCriticalSuccess(WORD attPhysicalCriticalRate, WORD deffPhysicalCriticalDefenceRate)
+{
+	//fRate1 * ( 공격자 Character(Monster)_Physical_Critical_Rate / ( 공격자 Character(Monster)_Physical_Critical_Rate + 방어자 Character(Monster)_Physical_Critical_Defence_Rate * fRate2 ) )  최대 90
+	//plr->GetPcProfile()->avatarAttribute.wLastPhysicalCriticalRate - (mob->GetMobData().);
+	int physicalCriticalSuccess = 0;
+	sFORMULA_TBLDAT* formula = (sFORMULA_TBLDAT*)sTBM.GetFormulaTable()->FindData(4400);
+	if (formula)
+	{
+		sLog.outBasic("physicalCriticalSuccess tblidx %d attPhysicalCriticalRate %d deffPhysicalCriticalDefenceRate %d", formula->tblidx, attPhysicalCriticalRate, deffPhysicalCriticalDefenceRate);
+		physicalCriticalSuccess = formula->afRate[2] * (attPhysicalCriticalRate / (attPhysicalCriticalRate + deffPhysicalCriticalDefenceRate * formula->afRate[3]));
+		sLog.outBasic("physicalCriticalSuccess total %d rate3 %f rate4 %f", physicalCriticalSuccess, formula->afRate[2], formula->afRate[3]);
+	}
+	if (physicalCriticalSuccess > 90)
+	{
+		physicalCriticalSuccess = 90;
+	}
+	return physicalCriticalSuccess;
+
+}
+int FightManager::CalculeEnergyCriticalSuccess(WORD attEnergyCriticalRate, WORD deffEnergyCriticalDefenceRate)
+{
+	//fRate1 * ( 공격자 Character(Monster)_Physical_Critical_Rate / ( 공격자 Character(Monster)_Physical_Critical_Rate + 방어자 Character(Monster)_Physical_Critical_Defence_Rate * fRate2 ) )  최대 90
+	int energyCriticalSuccess = 0;
+	sFORMULA_TBLDAT* formula = (sFORMULA_TBLDAT*)sTBM.GetFormulaTable()->FindData(4500);
+	if (formula)
+	{
+		sLog.outBasic("energyCriticalSuccess tblidx %d attEnergyCriticalRate %d deffEnergyCriticalDefenceRate %d", formula->tblidx, attEnergyCriticalRate, deffEnergyCriticalDefenceRate);
+		energyCriticalSuccess = formula->afRate[0] * (attEnergyCriticalRate / (attEnergyCriticalRate + deffEnergyCriticalDefenceRate * formula->afRate[1]));
+		sLog.outBasic("energyCriticalSuccess total %d rate1 %f rate2 %f", energyCriticalSuccess, formula->afRate[0], formula->afRate[1]);
+	}
+	if (energyCriticalSuccess > 90)
+	{
+		energyCriticalSuccess = 90;
+	}
+	return energyCriticalSuccess;
+}
+//----------------------------------------
 //	Get amount of damage to do
 //	@param id - boolean to say if we are caster or cac
 //----------------------------------------
@@ -157,30 +196,34 @@ void FightManager::GetPlayerDamage(bool caster, eOBJTYPE ObjectTypeId)
 void FightManager::GetPlayerCriticAttack(bool caster, eOBJTYPE ObjectTypeId)
 {
 	int CritChance = 0; 
-	int num = rand() % 100 + 1;
+	int num = rand() % 100;
 	if (caster == false)
 	{		
 		if (ObjectTypeId == OBJTYPE_MOB)
 		{
-			CritChance = plr->GetPcProfile()->avatarAttribute.wLastPhysicalCriticalRate - (mob->GetMobData().Block_rate / 100);
+			CritChance = CalculePhysicalCriticalSuccess(plr->GetPcProfile()->avatarAttribute.wLastPhysicalCriticalRate, mob->GetMobData().physicalCriticalDefenseRate);
+				//plr->GetPcProfile()->avatarAttribute.wLastPhysicalCriticalRate - (mob->GetMobData().Block_rate / 100);
 		}
 		if (ObjectTypeId == OBJTYPE_PC)
 		{
-			CritChance = plr->GetPcProfile()->avatarAttribute.wLastPhysicalCriticalRate - (plrTarget->GetPcProfile()->avatarAttribute.wLastBlockRate / 100);
+			CritChance = CalculePhysicalCriticalSuccess(plr->GetPcProfile()->avatarAttribute.wLastPhysicalCriticalRate, plrTarget->GetPcProfile()->avatarAttribute.physicalCriticalDefenceRate);
+				//plr->GetPcProfile()->avatarAttribute.wLastPhysicalCriticalRate - (plrTarget->GetPcProfile()->avatarAttribute.wLastBlockRate / 100);
 		}
 	}
 	else
 	{		
 		if (ObjectTypeId == OBJTYPE_MOB)
 		{
-			CritChance = plr->GetPcProfile()->avatarAttribute.wLastEnergyCriticalRate - (mob->GetMobData().Block_rate / 100);
+			CritChance = CalculeEnergyCriticalSuccess(plr->GetPcProfile()->avatarAttribute.wLastEnergyCriticalRate, mob->GetMobData().energyCriticalDefenseRate); 
+			//plr->GetPcProfile()->avatarAttribute.wLastEnergyCriticalRate - (mob->GetMobData().Block_rate / 100);
 		}
 		if (ObjectTypeId == OBJTYPE_PC)
 		{
-			CritChance = plr->GetPcProfile()->avatarAttribute.wLastEnergyCriticalRate - (plrTarget->GetPcProfile()->avatarAttribute.wLastBlockRate / 100);
+			CritChance = CalculeEnergyCriticalSuccess(plr->GetPcProfile()->avatarAttribute.wLastEnergyCriticalRate, plrTarget->GetPcProfile()->avatarAttribute.energyCriticalDefenceRate); 
+			//plr->GetPcProfile()->avatarAttribute.wLastEnergyCriticalRate - (plrTarget->GetPcProfile()->avatarAttribute.wLastBlockRate / 100);
 		}
 	}
-	(CritChance > 0) ? CritChance *= 1 : CritChance *= -1;
+	//(CritChance > 0) ? CritChance *= 1 : CritChance *= -1;
 	if (num <= CritChance && CritChance > 0)
 	{
 		attackResult = eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_CRITICAL_HIT;

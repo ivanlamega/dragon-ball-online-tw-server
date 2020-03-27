@@ -218,6 +218,8 @@ public:
 	WORD			CalculeHitRate(int lastFoc);
 	WORD			CalculeDodgeRate(int lastDex);
 	WORD			CalculeBlockRate(int lastDex, int lastCon);
+	WORD			CalculePhysicalCriticalDefenceRate(int lastCon);
+	WORD			CalculeEnergyCriticalDefenceRate(int lastEng);
 	//	------------------------------------------------------------------------
 	// GETTER
 	//	------------------------------------------------------------------------

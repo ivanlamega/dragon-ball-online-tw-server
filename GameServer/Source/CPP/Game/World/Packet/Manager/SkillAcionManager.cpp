@@ -109,9 +109,11 @@ void Player::GetAtributesCalculation(HOBJECT Target[32], BYTE MaxApplyTarget, BY
 			if (PlayerInfo != NULL)
 			{
 				int CriticalRate = 0;
+				int CriticalDefence = 0;
 				float attack = 0;
 				float damage = 0;
 				int Defense = 0;
+				float TotalCriticRatePercent = 0;
 				//Demage Calculation		
 				if (skillData.bySkill_Active_Type == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_DD)// &&
 					//skillData.bySkill_Effect_Type[1] == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_UNKNOWN)
@@ -121,18 +123,23 @@ void Player::GetAtributesCalculation(HOBJECT Target[32], BYTE MaxApplyTarget, BY
 					{
 						sLog.outBasic("SKILL_TYPE_PHYSICAL");
 						CriticalRate = GetPcProfile()->avatarAttribute.wLastPhysicalCriticalRate;
+						CriticalDefence = PlayerInfo->GetPcProfile()->avatarAttribute.physicalCriticalDefenceRate;
 						attack = GetPcProfile()->avatarAttribute.wLastPhysicalOffence;//+skillData.SkillValue[0];
 						Defense = PlayerInfo->GetPcProfile()->avatarAttribute.wLastPhysicalDefence;
 						damage = fightManager.CalculePhysicalDamage(attack, GetPcProfile()->byLevel, Defense);
+						TotalCriticRatePercent = fightManager.CalculePhysicalCriticalSuccess(CriticalRate, CriticalDefence);
 						CriticalDemage[TargetCount] = attack / 100 * GetPcProfile()->avatarAttribute.fPhysicalCriticalDamageBonusRate;
 					}
 					if (skillData.bySkill_Type == eSKILL_TYPE::SKILL_TYPE_ENERGY)
 					{
 						sLog.outBasic("SKILL_TYPE_ENERGY");
 						CriticalRate = GetPcProfile()->avatarAttribute.wLastEnergyCriticalRate;
+						CriticalDefence = PlayerInfo->GetPcProfile()->avatarAttribute.energyCriticalDefenceRate;
 						attack = GetPcProfile()->avatarAttribute.wLastEnergyOffence;// +skillData.SkillValue[0];
 						Defense = PlayerInfo->GetPcProfile()->avatarAttribute.wLastEnergyDefence;
+						TotalCriticRatePercent = fightManager.CalculeEnergyCriticalSuccess(CriticalRate, CriticalDefence);
 						damage = fightManager.CalculeEnergyDamage(attack, GetPcProfile()->byLevel, Defense);
+
 						CriticalDemage[TargetCount] = attack / 100 * GetPcProfile()->avatarAttribute.fEnergyCriticalDamageBonusRate;
 					}
 					if (skillData.bySkill_Type == eSKILL_TYPE::SKILL_TYPE_STATE)
@@ -225,9 +232,9 @@ void Player::GetAtributesCalculation(HOBJECT Target[32], BYTE MaxApplyTarget, BY
 				//TotalHitRatePercent *= 1.6;
 				//printf("Total Hit Percent %f \n", TotalHitRatePercent);
 
-				int BlockCriticalRate = PlayerInfo->GetPcProfile()->avatarAttribute.fCriticalBlockSuccessRate;
+				/*int BlockCriticalRate = PlayerInfo->GetPcProfile()->avatarAttribute.fCriticalBlockSuccessRate;
 				float TotalCriticRate = CriticalRate + BlockCriticalRate;
-				float TotalCriticRatePercent = CriticalRate * 100 / TotalCriticRate;
+				TotalCriticRatePercent = CriticalRate * 100 / TotalCriticRate;*/
 				int RandomCriticHit = rand() % 100;
 				//printf("Total Critic rate Percent %f \n", TotalCriticRatePercent);
 
@@ -318,6 +325,9 @@ void Player::GetAtributesCalculation(HOBJECT Target[32], BYTE MaxApplyTarget, BY
 				float attack = 0;
 				float Defense = 0;
 				float damage = 0;
+				int CriticalRate = 0;
+				int CriticalDefence = 0;
+				float TotalCriticRatePercent = 0;
 				//Demage Calculation
 				if (skillData.bySkill_Active_Type == eSKILL_ACTIVE_TYPE::SKILL_ACTIVE_TYPE_DD)
 				{
@@ -331,6 +341,9 @@ void Player::GetAtributesCalculation(HOBJECT Target[32], BYTE MaxApplyTarget, BY
 						//float FinalPercent = attack * 100 / TotalAttack;
 						sLog.outDebug("Mob %d defense %d float %d", MobInfo->GetMobData().MonsterID, MobInfo->GetMobData().Basic_physical_defence, Defense);
 						damage = fightManager.CalculePhysicalDamage(attack, GetPcProfile()->byLevel, Defense);
+						CriticalRate = GetPcProfile()->avatarAttribute.wLastPhysicalCriticalRate;
+						CriticalDefence = MobInfo->GetMobData().physicalCriticalDefenseRate;
+						TotalCriticRatePercent = fightManager.CalculePhysicalCriticalSuccess(CriticalRate, CriticalDefence);
 						//SkillDemage[TargetCount] = attack - deffense;//attack * FinalPercent / 100;
 						CriticalDemage[TargetCount] = attack / 100 * GetPcProfile()->avatarAttribute.fPhysicalCriticalDamageBonusRate;
 					}
@@ -343,6 +356,9 @@ void Player::GetAtributesCalculation(HOBJECT Target[32], BYTE MaxApplyTarget, BY
 						//float FinalPercent = attack * 100 / TotalAttack;
 						sLog.outDebug("Mob %d defense %d float %f", MobInfo->GetMobData().MonsterID, MobInfo->GetMobData().Basic_energy_defence, Defense);
 						damage = fightManager.CalculeEnergyDamage(attack, GetPcProfile()->byLevel, Defense);
+						CriticalRate = GetPcProfile()->avatarAttribute.wLastEnergyCriticalRate;
+						CriticalDefence = MobInfo->GetMobData().energyCriticalDefenseRate;
+						TotalCriticRatePercent = fightManager.CalculePhysicalCriticalSuccess(CriticalRate, CriticalDefence);
 						//SkillDemage[TargetCount] = attack - deffense;//attack * FinalPercent / 100;
 						CriticalDemage[TargetCount] = attack / 100 * GetPcProfile()->avatarAttribute.fEnergyCriticalDamageBonusRate;
 					}
@@ -411,9 +427,9 @@ void Player::GetAtributesCalculation(HOBJECT Target[32], BYTE MaxApplyTarget, BY
 				int RandomHit = rand() % 100;
 				//printf("Total Hit Percent %f \n", TotalHitRatePercent);
 
-				int BlockCriticalRate = MobInfo->GetMobData().Block_rate;
+				/*int BlockCriticalRate = MobInfo->GetMobData().Block_rate;
 				float TotalCriticRate = GetPcProfile()->avatarAttribute.wLastPhysicalCriticalRate + BlockCriticalRate;
-				float TotalCriticRatePercent = BlockCriticalRate * 100 / TotalCriticRate;
+				TotalCriticRatePercent = BlockCriticalRate * 100 / TotalCriticRate;*/
 				int RandomCriticHit = rand() % 100;
 				//	printf("Total Critic rate Percent %f \n", TotalCriticRatePercent);
 
@@ -437,7 +453,7 @@ void Player::GetAtributesCalculation(HOBJECT Target[32], BYTE MaxApplyTarget, BY
 				//Rates ~Hit/critic/Dodge
 				if (RandomHit <= TotalHitRatePercent && TotalHitRatePercent > 0)
 				{
-					if (RandomCriticHit >= 0 && RandomCriticHit <= 40)
+					if (RandomCriticHit >= 0 && RandomCriticHit <= TotalCriticRatePercent)
 					{
 						AttackType[TargetCount] = eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_CRITICAL_HIT;
 						SkillDemage[TargetCount] *= 2;

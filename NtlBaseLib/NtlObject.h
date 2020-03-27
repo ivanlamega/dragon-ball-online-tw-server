@@ -283,6 +283,10 @@ struct MonsterData
 	WORD			Use_skill_Lp[MAX_NPC_HAVE_SKILL];
 	WORD			Use_skill_time[MAX_NPC_HAVE_SKILL];
 
+	//New
+	WORD			physicalCriticalDefenseRate;
+	WORD			energyCriticalDefenseRate;
+
 	BYTE			DropEachRateControl;
 	BYTE			DropEItemRateControl;
 	BYTE			DropLItemRateControl;

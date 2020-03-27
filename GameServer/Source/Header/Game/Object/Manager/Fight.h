@@ -27,6 +27,9 @@ public:
 	float					CalculePhysicalDamage(float attackerOffence, DWORD attackerLevel, float targetDefence);
 	float					CalculeEnergyDamage(float attackerOffence, DWORD attackerLevel, float targetDefence);
 	int						CalculeAttackSuccess(int attAttackRate, int defDodgeRate, BYTE attLevel, BYTE defLevel);
+	int						CalculePhysicalCriticalSuccess(WORD attPhysicalCriticalRate, WORD deffPhysicalCriticalDefenceRate);
+	int						CalculeEnergyCriticalSuccess(WORD attEnergyCriticalRate, WORD deffEnergyCriticalDefenceRate);
+
 	void					GetPlayerDamage(bool caster, eOBJTYPE ObjectTypeId);
 	void					GetPlayerCriticAttack(bool caster, eOBJTYPE ObjectTypeId);
 	void					GetPlayerHitChance(eOBJTYPE ObjectTypeId);

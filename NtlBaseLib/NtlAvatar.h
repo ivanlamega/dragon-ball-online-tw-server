@@ -393,8 +393,8 @@ struct sAVATAR_ATTRIBUTE
 	float unknown3_13;//??
 	BYTE unknown4_0;//??
 	BYTE unknown4_1;//??
-	WORD unknown4_2;//??
-	WORD unknown4_3;//??
+	WORD physicalCriticalDefenceRate;//??
+	WORD energyCriticalDefenceRate;//??
 	WORD unknown4_4;//??
 	WORD unknown4_5;//??
 	WORD unknown4_6;//??
@@ -587,8 +587,8 @@ struct sAVATAR_ATTRIBUTE_LINK
 	float* unknown3_13;//??
 	BYTE* unknown4_0;//??
 	BYTE* unknown4_1;//??
-	WORD* unknown4_2;//??
-	WORD* unknown4_3;//??
+	WORD* physicalCriticalDefenceRate;//??
+	WORD* energyCriticalDefenceRate;//??
 	WORD* unknown4_4;//??
 	WORD* unknown4_5;//??
 	WORD* unknown4_6;//??
