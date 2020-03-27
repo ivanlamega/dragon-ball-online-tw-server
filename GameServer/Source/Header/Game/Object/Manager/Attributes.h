@@ -322,6 +322,8 @@ public:
 	void SetItemUpgradeBonusRate(float val);
 	void SetItemUpgradeBreakBonusRate(float val);
 	void SetSkillSpeed(float val);
+	void SetPhysicalCriticalDefenceRate(WORD val);
+	void SetEnergyCriticalDefenceRate(WORD val);
 };
 
 #endif

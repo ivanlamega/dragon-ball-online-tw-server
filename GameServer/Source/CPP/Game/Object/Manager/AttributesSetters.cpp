@@ -365,3 +365,15 @@ void AttributesManager::SetSkillSpeed(float val)
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_SKILL_SPEED);
 	PlayerProfile.avatarAttribute.SkillSpeed = val;
 }
+
+void AttributesManager::SetPhysicalCriticalDefenceRate(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_PHYSICAL_CRITICAL_DEFENCE_RATE);
+	PlayerProfile.avatarAttribute.physicalCriticalDefenceRate = val;
+}
+
+void AttributesManager::SetEnergyCriticalDefenceRate(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_ENERGY_CRITICAL_DEFENCE_RATE);
+	PlayerProfile.avatarAttribute.energyCriticalDefenceRate = val;
+}

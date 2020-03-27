@@ -3863,6 +3863,8 @@ void	Player::LevelUp()
 
 		// save new level to db
 		sDB.UpdatePlayerLevel(GetPcProfile()->byLevel, GetCharacterID(), GetPcProfile()->dwCurExp);
+		// Update attributes
+		GetAttributesManager()->UpdateLevelUpAtributes();
 	}
 }
 void Player::HandleEvent()

@@ -87,54 +87,89 @@ void AttributesManager::UpdateLevelUpAtributes()
 	if (pTblData != NULL)
 	{	
 
-		plr->GetAttributesManager()->SetLastStr(static_cast<int>(pTblData->byStr + (pTblData->fLevel_Up_Str * 1)));
+		int baseStr = CalculeBasicStats(pTblData->byStr, pTblData->fLevel_Up_Str, PlayerProfile.byLevel);
+		int baseCon = CalculeBasicStats(pTblData->byCon, pTblData->fLevel_Up_Con, PlayerProfile.byLevel);
+		int baseFoc = CalculeBasicStats(pTblData->byFoc, pTblData->fLevel_Up_Foc, PlayerProfile.byLevel);
+		int baseDex = CalculeBasicStats(pTblData->byDex, pTblData->fLevel_Up_Dex, PlayerProfile.byLevel);
+		int baseSol = CalculeBasicStats(pTblData->bySol, pTblData->fLevel_Up_Sol, PlayerProfile.byLevel);
+		int baseEng = CalculeBasicStats(pTblData->byEng, pTblData->fLevel_Up_Eng, PlayerProfile.byLevel);
+
+		plr->GetAttributesManager()->SetLastStr(baseStr);
+		plr->GetAttributesManager()->SetLastCon(baseCon);
+		plr->GetAttributesManager()->SetLastFoc(baseFoc);
+		plr->GetAttributesManager()->SetLastDex(baseDex);
+		plr->GetAttributesManager()->SetLastSol(baseSol);
+		plr->GetAttributesManager()->SetLastEng(baseEng);
+		/*plr->GetAttributesManager()->SetLastStr(static_cast<int>(pTblData->byStr + (pTblData->fLevel_Up_Str * 1)));
 		plr->GetAttributesManager()->SetLastCon(static_cast<int>(pTblData->byCon + (pTblData->fLevel_Up_Con * 1)));
 		plr->GetAttributesManager()->SetLastFoc(static_cast<int>(pTblData->byFoc + (pTblData->fLevel_Up_Foc * 1)));
 		plr->GetAttributesManager()->SetLastDex(static_cast<int>(pTblData->byDex + (pTblData->fLevel_Up_Dex * 1)));
 		plr->GetAttributesManager()->SetLastSol(static_cast<int>(pTblData->bySol + (pTblData->fLevel_Up_Sol * 1)));
-		plr->GetAttributesManager()->SetLastEng(static_cast<int>(pTblData->byEng + (pTblData->fLevel_Up_Eng * 1)));
+		plr->GetAttributesManager()->SetLastEng(static_cast<int>(pTblData->byEng + (pTblData->fLevel_Up_Eng * 1)));*/
 	
 		// LP Calculation
-		DWORD BasicLife = pTblData->wBasic_LP + (pTblData->byLevel_Up_LP * 1);
+		/*DWORD BasicLife = pTblData->wBasic_LP + (pTblData->byLevel_Up_LP * 1);
 		WORD LevelCon = pTblData->byCon + static_cast<WORD>(pTblData->fLevel_Up_Con * 1);
 		float ConByPoint = 85; // 1con = 85 old tw
-		DWORD LP = BasicLife + static_cast<DWORD>(LevelCon * ConByPoint);
+		DWORD LP = BasicLife + static_cast<DWORD>(LevelCon * ConByPoint);*/
+		DWORD LP = CalculeLP(plr->GetMyClass(), baseCon);
 
 		//EP Calculation
-		WORD BasicEnergy = pTblData->wBasic_EP + (pTblData->byLevel_Up_EP * 1);
+		/*WORD BasicEnergy = pTblData->wBasic_EP + (pTblData->byLevel_Up_EP * 1);
 		WORD LevelEng = pTblData->byEng + static_cast<WORD>(pTblData->fLevel_Up_Eng * 1);
 		float EngByPoint = 45; // 1Eng = 45 ep old tw
-		WORD EP = BasicEnergy + static_cast<WORD>(LevelEng * EngByPoint);
+		WORD EP = BasicEnergy + static_cast<WORD>(LevelEng * EngByPoint);*/
+		WORD EP = CalculeEP(plr->GetMyClass(), baseEng);
 	
 		plr->GetAttributesManager()->SetLastMaxLP(LP);
 		plr->GetAttributesManager()->SetLastMaxEP(EP);
 
 		//Calculation Physical Atack
-		WORD BasicPhysicalOffence = pTblData->wBasic_Physical_Offence + (pTblData->byLevel_Up_Physical_Offence * 1);
+		/*WORD BasicPhysicalOffence = pTblData->wBasic_Physical_Offence + (pTblData->byLevel_Up_Physical_Offence * 1);
 		WORD LevelStr = pTblData->byStr + static_cast<WORD>(pTblData->fLevel_Up_Str * 1);
 		float StrByPoint = 1.66; // 1Str = 1.66 Physical old tw
-		WORD PhysicalOffence = BasicPhysicalOffence + static_cast<WORD>(LevelStr * StrByPoint);
+		WORD PhysicalOffence = BasicPhysicalOffence + static_cast<WORD>(LevelStr * StrByPoint);*/
+		WORD PhysicalOffence = CalculePhysicalOffence(plr->GetMyClass(), PlayerProfile.byLevel, baseStr, baseDex);
 		//Calculation Physical Critical Atack 
-		WORD BasicPhysicalCritical = 0;
+		/*WORD BasicPhysicalCritical = 0;
 		WORD LevelDex = pTblData->byDex + static_cast<WORD>(pTblData->fLevel_Up_Dex * 1);
 		float DexByPoint = 0.5; // 1Dex = 1 critical old tw
-		WORD PhysicalCriticalRate = BasicPhysicalCritical + static_cast<WORD>(LevelDex * DexByPoint);
+		WORD PhysicalCriticalRate = BasicPhysicalCritical + static_cast<WORD>(LevelDex * DexByPoint);*/
+		WORD PhysicalCriticalRate = CalculePhysicalCriticalRate(plr->GetMyClass(), baseDex);
 
 		plr->GetAttributesManager()->SetLastPhysicalOffence(PhysicalOffence);
 		plr->GetAttributesManager()->SetLastPhysicalCriticalRate(PhysicalCriticalRate);
 
-		WORD BasicEnergyOffence = pTblData->wBasic_Energy_Offence + (pTblData->byLevel_Up_Energy_Offence * 1);
+		/*WORD BasicEnergyOffence = pTblData->wBasic_Energy_Offence + (pTblData->byLevel_Up_Energy_Offence * 1);
 		WORD LevelSol = pTblData->bySol + static_cast<WORD>(pTblData->fLevel_Up_Sol * 1);
 		float SolByPoint = 1.66; // 1Soul = 1.66 Physical old tw
-		WORD EnergyOffence = BasicEnergyOffence + static_cast<WORD>(LevelSol * SolByPoint);
+		WORD EnergyOffence = BasicEnergyOffence + static_cast<WORD>(LevelSol * SolByPoint);*/
+		WORD EnergyOffence = CalculeEnergyOffence(plr->GetMyClass(), PlayerProfile.byLevel, baseSol, baseFoc);
 		//Calculation Energy Critical Atack
-		WORD BasicEnergyCritical = 0;
+		/*WORD BasicEnergyCritical = 0;
 		WORD LevelFoc = pTblData->byFoc + static_cast<WORD>(pTblData->fLevel_Up_Foc * 1);
 		float FocByPoint = 0.5; // 1Focus = 1 pont critical 
-		WORD EnergyCriticalRate = BasicEnergyCritical + static_cast<WORD>(LevelFoc * FocByPoint);
+		WORD EnergyCriticalRate = BasicEnergyCritical + static_cast<WORD>(LevelFoc * FocByPoint);*/
+		WORD EnergyCriticalRate = CalculeEnergyCriticalRate(plr->GetMyClass(), baseFoc);
 
 		plr->GetAttributesManager()->SetLastEnergyOffence(EnergyOffence);
 		plr->GetAttributesManager()->SetLastEnergyCriticalRate(EnergyCriticalRate);
+
+		WORD HitRate = CalculeHitRate(baseFoc);
+	//DoggeRate Calculation
+		WORD DodgeRate = CalculeDodgeRate(baseDex);
+		// BlockRate calculation
+		WORD BlockRate = CalculeBlockRate(baseDex, baseCon);
+
+		plr->GetAttributesManager()->SetLastAttackRate(HitRate);
+		plr->GetAttributesManager()->SetLastDodgeRate(DodgeRate);
+		plr->GetAttributesManager()->SetLastBlockRate(BlockRate);
+
+		WORD physicalCriticalDefenceRate = CalculePhysicalCriticalDefenceRate(PlayerProfile.avatarAttribute.byLastCon);
+		WORD energyCriticalDefenceRate = CalculeEnergyCriticalDefenceRate(PlayerProfile.avatarAttribute.byLastEng);
+		plr->GetAttributesManager()->SetPhysicalCriticalDefenceRate(physicalCriticalDefenceRate);
+		plr->GetAttributesManager()->SetEnergyCriticalDefenceRate(energyCriticalDefenceRate);
+
 	}
 	
 
