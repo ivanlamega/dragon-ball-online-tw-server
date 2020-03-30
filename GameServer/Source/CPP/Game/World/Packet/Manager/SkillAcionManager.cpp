@@ -2427,6 +2427,35 @@ void Player::SkillAcion()
 						}
 						break;
 					}
+					case ACTIVE_SPINNING_ATTACK:
+					{
+						sSkil.wResultCode = GAME_SUCCESS;
+						skillRes.wOpCode = GU_CHAR_ACTION_SKILL;
+						skillRes.skillId = skillDataOriginal->tblidx;
+						sLog.outBasic("Skillid %d", skillDataOriginal->tblidx);
+						skillRes.wResultCode = GAME_SUCCESS;
+						skillRes.dwLpEpEventId = 1712247496;
+						skillRes.byRpBonusType = -1;//Untested
+						skillRes.handle = GetHandle();//My Handle
+						skillRes.hAppointedTarget = GetHandle();
+						skillRes.bIsSkillHarmful = 0;
+						skillRes.bySkillResultCount = 1;
+						skillRes.aSkillResult[0].hTarget = GetHandle();
+						skillRes.aSkillResult[0].byAttackResult = 0;
+						skillRes.aSkillResult[0].effectResult[0].eResultType = 255;
+						skillRes.aSkillResult[0].effectResult[0].Value1 = 1401;
+						skillRes.aSkillResult[0].effectResult[1].eResultType = 255;
+						skillRes.aSkillResult[0].byBlockedAction = -1;
+						skillRes.aSkillResult[0].unk1 = 0;
+						skillRes.aSkillResult[0].vShift1 = m_position;
+
+						GetState()->sCharStateBase.aspectState.sAspectStateBase.byAspectStateId = eASPECTSTATE::ASPECTSTATE_SPINNING_ATTACK;
+						GetState()->sCharStateBase.aspectState.sAspectStateDetail.sVehicle.bIsEngineOn = false;
+						GetState()->sCharStateBase.aspectState.sAspectStateDetail.sVehicle.hVehicleItem = INVALID_TBLIDX;
+						GetState()->sCharStateBase.aspectState.sAspectStateDetail.sVehicle.idVehicleTblidx = INVALID_TBLIDX;
+						UpdateAspectState(eASPECTSTATE::ASPECTSTATE_SPINNING_ATTACK);
+						break;
+					}
 					case ACTIVE_SUMMON:
 					{
 						sSkil.wResultCode = GAME_SUCCESS;

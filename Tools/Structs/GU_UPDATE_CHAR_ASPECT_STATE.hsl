@@ -1,0 +1,79 @@
+/*****************************************************************************
+ * filesystems.hsl - Structure definitions for file system related entities.
+ *     This presently includes the MBR, and BOOTSECTORs for FAT16, FAT32, and
+ *     NTFS.
+ *  
+ * Copyright (c) 2003-2008 BreakPoint Software, Inc.  All Rights Reserved
+ *
+ *****************************************************************************
+ * Revision History:
+ *  05/01/03 - RJA - Original
+ *  10/16/07 - RJA - Formatting tweaks, use blob for ByteCode
+ *  12/16/09 - RJA - Added enumsign pragmas
+ */
+
+#include "standard-types.hsl"
+struct sASPECTSTATE_SUPER_SAIYAN
+{
+	BYTE				bySourceGrade;
+}sASPECTSTATE_SUPER_SAIYAN;
+//-----------------------------------------------------------------------------------
+struct sASPECTSTATE_PURE_MAJIN
+{
+	BYTE				bySourceGrade;
+}sASPECTSTATE_PURE_MAJIN;
+//-----------------------------------------------------------------------------------
+struct sASPECTSTATE_GREAT_NAMEK
+{
+	BYTE				bySourceGrade;
+}sASPECTSTATE_GREAT_NAMEK;
+//-----------------------------------------------------------------------------------
+struct sASPECTSTATE_KAIOKEN
+{
+	BYTE				bySourceGrade;
+	BYTE				byRepeatingCount;
+}sASPECTSTATE_KAIOKEN;
+//-----------------------------------------------------------------------------------
+struct sASPECTSTATE_SPINNING_ATTACK
+{
+}sASPECTSTATE_SPINNING_ATTACK;
+//-----------------------------------------------------------------------------------
+struct sASPECTSTATE_VEHICLE
+{	
+	DWORD		idVehicleTblidx;
+	DWORD		hVehicleItem;
+	bool		bIsEngineOn;
+}sASPECTSTATE_VEHICLE;
+struct sASPECTSTATE_SPINNING_BALL
+{
+}sASPECTSTATE_SPINNING_BALL;
+
+struct sASPECTSTATE_BASE
+{
+	BYTE							byAspectStateId;
+}sASPECTSTATE_BASE;
+
+union sASPECTSTATE_DETAIL
+{
+	sASPECTSTATE_SUPER_SAIYAN		sSuperSaiyan;
+	sASPECTSTATE_PURE_MAJIN			sPureMajin;
+	sASPECTSTATE_GREAT_NAMEK		sGreatNamek;
+	sASPECTSTATE_KAIOKEN			sKaioken;
+	sASPECTSTATE_SPINNING_ATTACK	sSpinningAttack;
+	sASPECTSTATE_VEHICLE			sVehicle;
+	sASPECTSTATE_SPINNING_BALL		sSpinningBall;
+	//BYTE							unknown[9];
+}sASPECTSTATE_DETAIL;
+struct sASPECTSTATE
+{
+	sASPECTSTATE_BASE				sAspectStateBase;
+	sASPECTSTATE_DETAIL				sAspectStateDetail;
+}sASPECTSTATE;
+
+struct GU_UPDATE_CHAR_ASPECT_STATE
+{
+WORD opcode;
+WORD size;
+DWORD			handle;
+sASPECTSTATE	aspectState;
+};
