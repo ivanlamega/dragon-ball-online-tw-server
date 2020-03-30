@@ -42,6 +42,29 @@ struct sSKILL_RESULT
 	sVECTOR3		vShift1;
 }sSKILL_RESULT;
 
+struct GU_CHAR_ACTION_SKILL2
+{
+
+WORD opcode;
+WORD size;
+	unsigned int			handle; 
+	unsigned int			target;
+
+	unsigned long			lpEpEventID;
+	unsigned char			chainAttack : 1; 
+	//unsigned short	    AttackResult; 
+	//unsigned short		AttackResultValue; 
+	unsigned int			unknown;
+
+	unsigned char			attackSequence;
+	float					reflectedDamage;
+
+	unsigned char			blockedAction;
+	sVECTOR3			shift; 
+
+	unsigned char			unknown2[10];
+};
+
 struct GU_CHAR_ACTION_SKILL
 {
 WORD opcode;
