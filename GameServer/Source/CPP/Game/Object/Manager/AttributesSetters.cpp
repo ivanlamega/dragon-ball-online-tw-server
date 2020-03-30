@@ -8,42 +8,42 @@
 void AttributesManager::SetLastStr(WORD val)
 {
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_STR_LAST);
-	PlayerProfile.avatarAttribute.byLastStr += val;
+	PlayerProfile.avatarAttribute.byLastStr = val;
 }
 void AttributesManager::SetLastCon(WORD val)
 {
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_CON_LAST);
-	PlayerProfile.avatarAttribute.byLastCon += val;
+	PlayerProfile.avatarAttribute.byLastCon = val;
 }
 void AttributesManager::SetLastFoc(WORD val)
 {
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_FOC_LAST);
-	PlayerProfile.avatarAttribute.byLastFoc += val;
+	PlayerProfile.avatarAttribute.byLastFoc = val;
 }
 void AttributesManager::SetLastDex(WORD val)
 {
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_DEX_LAST);
-	PlayerProfile.avatarAttribute.byLastDex += val;
+	PlayerProfile.avatarAttribute.byLastDex = val;
 }
 void AttributesManager::SetLastEng(WORD val)
 {
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_ENG_LAST);
-	PlayerProfile.avatarAttribute.byLastEng += val;
+	PlayerProfile.avatarAttribute.byLastEng = val;
 }
 void AttributesManager::SetLastSol(WORD val)
 {
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_SOL_LAST);
-	PlayerProfile.avatarAttribute.byLastSol += val;
+	PlayerProfile.avatarAttribute.byLastSol = val;
 }
 void AttributesManager::SetLastMaxLP(DWORD val)
 {
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_MAX_LP_LAST);
-	PlayerProfile.avatarAttribute.wLastMaxLP += val;
+	PlayerProfile.avatarAttribute.wLastMaxLP = val;
 }
 void AttributesManager::SetLastMaxEP(WORD val)
 {
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_MAX_EP_LAST);
-	PlayerProfile.avatarAttribute.wLastMaxEP += val;
+	PlayerProfile.avatarAttribute.wLastMaxEP = val;
 }
 void AttributesManager::SetLastMaxAP(DWORD val)
 {
@@ -73,57 +73,57 @@ void AttributesManager::SetLastAPRegen(WORD val)
 void AttributesManager::SetLastPhysicalOffence(WORD val)
 {
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_PHYSICAL_OFFENCE_LAST);
-	PlayerProfile.avatarAttribute.wLastPhysicalOffence += val;
+	PlayerProfile.avatarAttribute.wLastPhysicalOffence = val;
 }
 void AttributesManager::SetLastPhysicalDefence(WORD val)
 {
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_PHYSICAL_DEFENCE_LAST);
-	PlayerProfile.avatarAttribute.wLastPhysicalDefence += val;
+	PlayerProfile.avatarAttribute.wLastPhysicalDefence = val;
 }
 void AttributesManager::SetLastEnergyOffence(WORD val)
 {
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_ENERGY_OFFENCE_LAST);
-	PlayerProfile.avatarAttribute.wLastEnergyOffence += val;
+	PlayerProfile.avatarAttribute.wLastEnergyOffence = val;
 }
 void AttributesManager::SetLastEnergyDefence(WORD val)
 {
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_ENERGY_DEFENCE_LAST);
-	PlayerProfile.avatarAttribute.wLastEnergyDefence += val;
+	PlayerProfile.avatarAttribute.wLastEnergyDefence = val;
 }
 void AttributesManager::SetLastAttackRate(WORD val)
 {
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_ATTACK_RATE_LAST);
-	PlayerProfile.avatarAttribute.wLastAttackRate += val;
+	PlayerProfile.avatarAttribute.wLastAttackRate = val;
 }
 void AttributesManager::SetLastDodgeRate(WORD val)
 {
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_DODGE_RATE_LAST);
-	PlayerProfile.avatarAttribute.wLastDodgeRate += val;
+	PlayerProfile.avatarAttribute.wLastDodgeRate = val;
 }
 void AttributesManager::SetLastBlockRate(WORD val)
 {
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_BLOCK_RATE_LAST);
-	PlayerProfile.avatarAttribute.wLastBlockRate += val;
+	PlayerProfile.avatarAttribute.wLastBlockRate = val;
 }
 void AttributesManager::SetLastCurseSuccessRate(WORD val)
 {
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_CURSE_SUCCESS_LAST);
-	PlayerProfile.avatarAttribute.wLastCurseSuccessRate += val;
+	PlayerProfile.avatarAttribute.wLastCurseSuccessRate = val;
 }
 void AttributesManager::SetLastCurseToleranceRate(WORD val)
 {
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_CURSE_TOLERANCE_LAST);
-	PlayerProfile.avatarAttribute.wBaseCurseToleranceRate += val;
+	PlayerProfile.avatarAttribute.wBaseCurseToleranceRate = val;
 }
 void AttributesManager::SetLastPhysicalCriticalRate(WORD val)
 {
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_PHYSICAL_CRITICAL_LAST);
-	PlayerProfile.avatarAttribute.wLastPhysicalCriticalRate += val;
+	PlayerProfile.avatarAttribute.wLastPhysicalCriticalRate = val;
 }
 void AttributesManager::SetLastEnergyCriticalRate(WORD val)
 {
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_ENERGY_CRITICAL_LAST);
-	PlayerProfile.avatarAttribute.wLastEnergyCriticalRate += val;
+	PlayerProfile.avatarAttribute.wLastEnergyCriticalRate = val;
 }
 void AttributesManager::SetLastRunSpeed(float val)
 {
@@ -133,22 +133,22 @@ void AttributesManager::SetLastRunSpeed(float val)
 void AttributesManager::SetLastAirSpeed(float val)
 {
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_AIR_SPEED_LAST);
-	PlayerProfile.avatarAttribute.fLastAirSpeed += val;
+	PlayerProfile.avatarAttribute.fLastAirSpeed = val;
 }
 void AttributesManager::SetLastAirDashSpeed(float val)
 {
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_AIR_DASH_SPEED_LAST);
-	PlayerProfile.avatarAttribute.fLastAirDashSpeed += val;
+	PlayerProfile.avatarAttribute.fLastAirDashSpeed = val;
 }
 void AttributesManager::SetLastAirDash2Speed(float val)
 {
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_AIR_DASH2_SPEED_LAST);
-	PlayerProfile.avatarAttribute.fLastAirDash2Speed += val;
+	PlayerProfile.avatarAttribute.fLastAirDash2Speed = val;
 }
 void AttributesManager::SetLastAttackSpeedRate(WORD val)
 {
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_ATTACK_SPEED_RATE_LAST);
-	PlayerProfile.avatarAttribute.wLastAttackSpeedRate += val;
+	PlayerProfile.avatarAttribute.wLastAttackSpeedRate = val;
 }
 void AttributesManager::SetLastAttackRange(float val)
 {
@@ -163,7 +163,7 @@ void AttributesManager::SetCastingTimeChangePercent(float val)
 void AttributesManager::SetCoolTimeChangePercent(float val)
 {
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_COOL_TIME_CHANGE_PERCENT);
-	PlayerProfile.avatarAttribute.fCoolTimeChangePercent += val;
+	PlayerProfile.avatarAttribute.fCoolTimeChangePercent = val;
 }
 void AttributesManager::SetKeepTimeChangePercent(float val)
 {
@@ -188,52 +188,52 @@ void AttributesManager::SetRequiredEpChangePercent(float val)
 void AttributesManager::SetHonestOffence(float val)
 {
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_HONEST_OFFENCE);
-	PlayerProfile.avatarAttribute.fHonestOffence += val;
+	PlayerProfile.avatarAttribute.fHonestOffence = val;
 }
 void AttributesManager::SetHonestDefence(float val)
 {
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_HONEST_DEFENCE);
-	PlayerProfile.avatarAttribute.fHonestDefence += val;
+	PlayerProfile.avatarAttribute.fHonestDefence = val;
 }
 void AttributesManager::SetStrangeOffence(float val)
 {
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_STRANGE_OFFENCE);
-	PlayerProfile.avatarAttribute.fStrangeOffence += val;
+	PlayerProfile.avatarAttribute.fStrangeOffence = val;
 }
 void AttributesManager::SetStrangeDefence(float val)
 {
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_STRANGE_DEFENCE);
-	PlayerProfile.avatarAttribute.fStrangeDefence += val;
+	PlayerProfile.avatarAttribute.fStrangeDefence = val;
 }
 void AttributesManager::SetWildOffence(float val)
 {
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_WILD_OFFENCE);
-	PlayerProfile.avatarAttribute.fWildOffence += val;
+	PlayerProfile.avatarAttribute.fWildOffence = val;
 }
 void AttributesManager::SetWildDefence(float val)
 {
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_WILD_DEFENCE);
-	PlayerProfile.avatarAttribute.fWildDefence += val;
+	PlayerProfile.avatarAttribute.fWildDefence = val;
 }
 void AttributesManager::SetEleganceOffence(float val)
 {
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_ELEGANCE_OFFENCE);
-	PlayerProfile.avatarAttribute.fEleganceOffence += val;
+	PlayerProfile.avatarAttribute.fEleganceOffence = val;
 }
 void AttributesManager::SetEleganceDefence(float val)
 {
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_ELEGANCE_DEFENCE);
-	PlayerProfile.avatarAttribute.fEleganceDefence += val;
+	PlayerProfile.avatarAttribute.fEleganceDefence = val;
 }
 void AttributesManager::SetFunnyOffence(float val)
 {
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_FUNNY_OFFENCE);
-	PlayerProfile.avatarAttribute.fFunnyOffence += val;
+	PlayerProfile.avatarAttribute.fFunnyOffence = val;
 }
 void AttributesManager::SetFunnyDefence(float val)
 {
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_FUNNY_DEFENCE);
-	PlayerProfile.avatarAttribute.fFunnyDefence += val;
+	PlayerProfile.avatarAttribute.fFunnyDefence = val;
 }
 void AttributesManager::SetParalyzeToleranceRate(WORD val)
 {
@@ -376,4 +376,381 @@ void AttributesManager::SetEnergyCriticalDefenceRate(WORD val)
 {
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_ENERGY_CRITICAL_DEFENCE_RATE);
 	PlayerProfile.avatarAttribute.energyCriticalDefenceRate = val;
+}
+
+
+//Add
+
+
+void AttributesManager::AddLastStr(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_STR_LAST);
+	PlayerProfile.avatarAttribute.byLastStr += val;
+}
+void AttributesManager::AddLastCon(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_CON_LAST);
+	PlayerProfile.avatarAttribute.byLastCon += val;
+}
+void AttributesManager::AddLastFoc(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_FOC_LAST);
+	PlayerProfile.avatarAttribute.byLastFoc += val;
+}
+void AttributesManager::AddLastDex(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_DEX_LAST);
+	PlayerProfile.avatarAttribute.byLastDex += val;
+}
+void AttributesManager::AddLastEng(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_ENG_LAST);
+	PlayerProfile.avatarAttribute.byLastEng += val;
+}
+void AttributesManager::AddLastSol(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_SOL_LAST);
+	PlayerProfile.avatarAttribute.byLastSol += val;
+}
+void AttributesManager::AddLastMaxLP(DWORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_MAX_LP_LAST);
+	PlayerProfile.avatarAttribute.wLastMaxLP += val;
+}
+void AttributesManager::AddLastMaxEP(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_MAX_EP_LAST);
+	PlayerProfile.avatarAttribute.wLastMaxEP += val;
+}
+void AttributesManager::AddLastMaxAP(DWORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_MAX_AP_LAST);
+	PlayerProfile.avatarAttribute.wLastMaxAp += val;
+}
+void AttributesManager::AddLastMaxRP(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_MAX_RP_LAST);
+	PlayerProfile.avatarAttribute.wLastMaxRP += val;
+}
+void AttributesManager::AddLastLPRegen(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_LP_REGENERATION_LAST);
+	PlayerProfile.avatarAttribute.wLastLpRegen += val;
+}
+void AttributesManager::AddLastEPRegen(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_EP_REGENERATION_LAST);
+	PlayerProfile.avatarAttribute.wLastEpRegen += val;
+}
+void AttributesManager::AddLastAPRegen(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_AP_REGENERATION_LAST);
+	PlayerProfile.avatarAttribute.wLastApRegen += val;
+}
+void AttributesManager::AddLastPhysicalOffence(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_PHYSICAL_OFFENCE_LAST);
+	PlayerProfile.avatarAttribute.wLastPhysicalOffence += val;
+}
+void AttributesManager::AddLastPhysicalDefence(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_PHYSICAL_DEFENCE_LAST);
+	PlayerProfile.avatarAttribute.wLastPhysicalDefence += val;
+}
+void AttributesManager::AddLastEnergyOffence(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_ENERGY_OFFENCE_LAST);
+	PlayerProfile.avatarAttribute.wLastEnergyOffence += val;
+}
+void AttributesManager::AddLastEnergyDefence(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_ENERGY_DEFENCE_LAST);
+	PlayerProfile.avatarAttribute.wLastEnergyDefence += val;
+}
+void AttributesManager::AddLastAttackRate(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_ATTACK_RATE_LAST);
+	PlayerProfile.avatarAttribute.wLastAttackRate += val;
+}
+void AttributesManager::AddLastDodgeRate(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_DODGE_RATE_LAST);
+	PlayerProfile.avatarAttribute.wLastDodgeRate += val;
+}
+void AttributesManager::AddLastBlockRate(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_BLOCK_RATE_LAST);
+	PlayerProfile.avatarAttribute.wLastBlockRate += val;
+}
+void AttributesManager::AddLastCurseSuccessRate(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_CURSE_SUCCESS_LAST);
+	PlayerProfile.avatarAttribute.wLastCurseSuccessRate += val;
+}
+void AttributesManager::AddLastCurseToleranceRate(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_CURSE_TOLERANCE_LAST);
+	PlayerProfile.avatarAttribute.wBaseCurseToleranceRate += val;
+}
+void AttributesManager::AddLastPhysicalCriticalRate(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_PHYSICAL_CRITICAL_LAST);
+	PlayerProfile.avatarAttribute.wLastPhysicalCriticalRate += val;
+}
+void AttributesManager::AddLastEnergyCriticalRate(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_ENERGY_CRITICAL_LAST);
+	PlayerProfile.avatarAttribute.wLastEnergyCriticalRate += val;
+}
+void AttributesManager::AddLastRunSpeed(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_RUN_SPEED_LAST);
+	PlayerProfile.avatarAttribute.fLastRunSpeed += val;
+}
+void AttributesManager::AddLastAirSpeed(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_AIR_SPEED_LAST);
+	PlayerProfile.avatarAttribute.fLastAirSpeed += val;
+}
+void AttributesManager::AddLastAirDashSpeed(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_AIR_DASH_SPEED_LAST);
+	PlayerProfile.avatarAttribute.fLastAirDashSpeed += val;
+}
+void AttributesManager::AddLastAirDash2Speed(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_AIR_DASH2_SPEED_LAST);
+	PlayerProfile.avatarAttribute.fLastAirDash2Speed += val;
+}
+void AttributesManager::AddLastAttackSpeedRate(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_ATTACK_SPEED_RATE_LAST);
+	PlayerProfile.avatarAttribute.wLastAttackSpeedRate += val;
+}
+void AttributesManager::AddLastAttackRange(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_ATTACK_RANGE_LAST);
+	PlayerProfile.avatarAttribute.fLastAttackRange += val;
+}
+void AttributesManager::AddCastingTimeChangePercent(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_CASTING_TIME_CHANGE_PERCENT);
+	PlayerProfile.avatarAttribute.fCastingTimeChangePercent += val;
+}
+void AttributesManager::AddCoolTimeChangePercent(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_COOL_TIME_CHANGE_PERCENT);
+	PlayerProfile.avatarAttribute.fCoolTimeChangePercent += val;
+}
+void AttributesManager::AddKeepTimeChangePercent(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_KEEP_TIME_CHANGE_PERCENT);
+	PlayerProfile.avatarAttribute.fKeepTimeChangePercent += val;
+}
+void AttributesManager::AddDotValueChangePercent(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_DOT_VALUE_CHANGE_PERCENT);
+	PlayerProfile.avatarAttribute.fDotValueChangePercent += val;
+}
+void AttributesManager::AddDotTimeChangeAbsolute(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_DOT_TIME_CHANGE_ABSOLUTE);
+	PlayerProfile.avatarAttribute.fDotTimeChangeAbsolute += val;
+}
+void AttributesManager::AddRequiredEpChangePercent(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_REQUIRED_EP_CHANGE_PERCENT);
+	PlayerProfile.avatarAttribute.fRequiredEpChangePercent += val;
+}
+void AttributesManager::AddHonestOffence(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_HONEST_OFFENCE);
+	PlayerProfile.avatarAttribute.fHonestOffence += val;
+}
+void AttributesManager::AddHonestDefence(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_HONEST_DEFENCE);
+	PlayerProfile.avatarAttribute.fHonestDefence += val;
+}
+void AttributesManager::AddStrangeOffence(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_STRANGE_OFFENCE);
+	PlayerProfile.avatarAttribute.fStrangeOffence += val;
+}
+void AttributesManager::AddStrangeDefence(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_STRANGE_DEFENCE);
+	PlayerProfile.avatarAttribute.fStrangeDefence += val;
+}
+void AttributesManager::AddWildOffence(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_WILD_OFFENCE);
+	PlayerProfile.avatarAttribute.fWildOffence += val;
+}
+void AttributesManager::AddWildDefence(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_WILD_DEFENCE);
+	PlayerProfile.avatarAttribute.fWildDefence += val;
+}
+void AttributesManager::AddEleganceOffence(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_ELEGANCE_OFFENCE);
+	PlayerProfile.avatarAttribute.fEleganceOffence += val;
+}
+void AttributesManager::AddEleganceDefence(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_ELEGANCE_DEFENCE);
+	PlayerProfile.avatarAttribute.fEleganceDefence += val;
+}
+void AttributesManager::AddFunnyOffence(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_FUNNY_OFFENCE);
+	PlayerProfile.avatarAttribute.fFunnyOffence += val;
+}
+void AttributesManager::AddFunnyDefence(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_FUNNY_DEFENCE);
+	PlayerProfile.avatarAttribute.fFunnyDefence += val;
+}
+void AttributesManager::AddParalyzeToleranceRate(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_PARALYZE_TOLERANCE_RATE);
+	PlayerProfile.avatarAttribute.wParalyzeToleranceRate += val;
+}
+void AttributesManager::AddTerrorToleranceRate(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_TERROR_TOLERANCE_RATE);
+	PlayerProfile.avatarAttribute.wTerrorToleranceRate += val;
+}
+void AttributesManager::AddConfuseToleranceRate(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_CONFUSE_TOLERANCE_RATE);
+	PlayerProfile.avatarAttribute.wConfuseToleranceRate += val;
+}
+void AttributesManager::AddStoneToleranceRate(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_STONE_TOLERANCE_RATE);
+	PlayerProfile.avatarAttribute.wStoneToleranceRate += val;
+}
+void AttributesManager::AddCandyToleranceRate(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_CANDY_TOLERANCE_RATE);
+	PlayerProfile.avatarAttribute.wCandyToleranceRate += val;
+}
+void AttributesManager::AddParalyzeKeepTimeDown(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_PARALYZE_TOLERANCE_RATE);
+	PlayerProfile.avatarAttribute.fParalyzeKeepTimeDown += val;
+}
+void AttributesManager::AddTerrorKeepTimeDown(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_TERROR_KEEP_TIME_DOWN);
+	PlayerProfile.avatarAttribute.fTerrorKeepTimeDown += val;
+}
+void AttributesManager::AddConfuseKeepTimeDown(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_CONFUSE_KEEP_TIME_DOWN);
+	PlayerProfile.avatarAttribute.fConfuseKeepTimeDown += val;
+}
+void AttributesManager::AddStoneKeepTimeDown(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_STONE_KEEP_TIME_DOWN);
+	PlayerProfile.avatarAttribute.fStoneKeepTimeDown += val;
+}
+void AttributesManager::AddCandyKeepTimeDown(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_CANDY_KEEP_TIME_DOWN);
+	PlayerProfile.avatarAttribute.fCandyKeepTimeDown += val;
+}
+void AttributesManager::AddBleedingKeepTimeDown(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_BLEEDING_KEEP_TIME_DOWN);
+	PlayerProfile.avatarAttribute.fBleedingKeepTimeDown += val;
+}
+void AttributesManager::AddPoisonKeepTimeDown(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_POISON_KEEP_TIME_DOWN);
+	PlayerProfile.avatarAttribute.fPoisonKeepTimeDown += val;
+}
+void AttributesManager::AddStomachacheKeepTimeDown(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_STOMACHACHE_KEEP_TIME_DOWN);
+	PlayerProfile.avatarAttribute.fStoneKeepTimeDown += val;
+}
+void AttributesManager::AddCriticalBlockSuccessRate(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_CRITICAL_BLOCK_SUCCESS_RATE);
+	PlayerProfile.avatarAttribute.fCriticalBlockSuccessRate += val;
+}
+void AttributesManager::AddGuardRate(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_GUARD_RATE_BASE);
+	PlayerProfile.avatarAttribute.wGuardRate += val;
+}
+void AttributesManager::AddSkillDamageBlockModeSuccessRate(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_SKILL_DAMAGE_BLOCK_MODE_SUCCESS_RATE_LAST);
+	PlayerProfile.avatarAttribute.fSkillDamageBlockModeSuccessRate += val;
+}
+void AttributesManager::AddCurseBlockModeSuccessRate(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_CURSE_BLOCK_MODE_SUCCESS_RATE_LAST);
+	PlayerProfile.avatarAttribute.fCurseBlockModeSuccessRate += val;
+}
+void AttributesManager::AddKnockdownBlockModeSuccessRate(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_KNOCKDOWN_BLOCK_MODE_SUCCESS_RATE_LAST);
+	PlayerProfile.avatarAttribute.fKnockdownBlockModeSuccessRate += val;
+}
+void AttributesManager::AddHtbBlockModeSuccessRate(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_HTB_BLOCK_MODE_SUCCESS_RATE_LAST);
+	PlayerProfile.avatarAttribute.fHtbBlockModeSuccessRate += val;
+}
+void AttributesManager::AddSitDownLpRegenBonusRate(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_SIT_DOWN_LP_REGENERATION_UP);
+	PlayerProfile.avatarAttribute.fSitDownLpRegenBonusRate += val;
+}
+void AttributesManager::AddSitDownEpRegenBonusRate(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_SIT_DOWN_EP_REGENERATION_UP);
+	PlayerProfile.avatarAttribute.fSitDownEpRegenBonusRate += val;
+}
+void AttributesManager::AddPhysicalCriticalDamageBonusRate(float val)
+{
+	PlayerProfile.avatarAttribute.fPhysicalCriticalDamageBonusRate += val;
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_PHYSICAL_CRITICAL_DAMAGE_UP);
+}
+void AttributesManager::AddEnergyCriticalDamageBonusRate(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_ENERGY_CRITICAL_DAMAGE_UP);
+	PlayerProfile.avatarAttribute.fEnergyCriticalDamageBonusRate += val;
+}
+void AttributesManager::AddItemUpgradeBonusRate(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_ITEM_UPGRADE_RATE_UP);
+	PlayerProfile.avatarAttribute.fItemUpgradeBonusRate += val;
+}
+void AttributesManager::AddItemUpgradeBreakBonusRate(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_ITEM_BREAK_RATE_DOWN);
+	PlayerProfile.avatarAttribute.fItemUpgradeBreakBonusRate += val;
+}
+void AttributesManager::AddSkillSpeed(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_SKILL_SPEED);
+	PlayerProfile.avatarAttribute.SkillSpeed += val;
+}
+
+void AttributesManager::AddPhysicalCriticalDefenceRate(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_PHYSICAL_CRITICAL_DEFENCE_RATE);
+	PlayerProfile.avatarAttribute.physicalCriticalDefenceRate += val;
+}
+
+void AttributesManager::AddEnergyCriticalDefenceRate(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_ENERGY_CRITICAL_DEFENCE_RATE);
+	PlayerProfile.avatarAttribute.energyCriticalDefenceRate += val;
 }

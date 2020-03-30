@@ -182,10 +182,10 @@ CNtlAvatar::sATTRIBUTE_LOGIC CNtlAvatar::m_attributeLogic[ATTRIBUTE_TO_UPDATE_CO
 	ATTRIBUTE_LOGIC_DEFINE(wBaseEnergyCriticalRate, WORD),
 	ATTRIBUTE_LOGIC_DEFINE(wLastEnergyCriticalRate, WORD),
 
-	ATTRIBUTE_LOGIC_DEFINE(unknown_float1_0, float),
-	ATTRIBUTE_LOGIC_DEFINE(unknown_float1_1, float),
-	ATTRIBUTE_LOGIC_DEFINE(unknown_float1_0, float),
-	ATTRIBUTE_LOGIC_DEFINE(unknown_float1_1, float),
+	ATTRIBUTE_LOGIC_DEFINE(fBasePhysicalCriticalRange, float),
+	ATTRIBUTE_LOGIC_DEFINE(fLastPhysicalCriticalRange, float),
+	ATTRIBUTE_LOGIC_DEFINE(fBaseEnergyCriticalRange, float),
+	ATTRIBUTE_LOGIC_DEFINE(fLastEnergyCriticalRange, float),
 
 	ATTRIBUTE_LOGIC_DEFINE(fBaseRunSpeed, float),
 	ATTRIBUTE_LOGIC_DEFINE(fLastRunSpeed, float),

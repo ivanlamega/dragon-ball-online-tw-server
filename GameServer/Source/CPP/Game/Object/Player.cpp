@@ -1219,17 +1219,17 @@ void Player::ExecuteEffectCalculation(TBLIDX SkillID, bool isRemove)
 				case ACTIVE_MAX_LP_UP:
 				{
 					if (isRemove == true)
-						GetAttributesManager()->SetLastMaxLP(skillDataOriginal->SkillValue[Effect] * -1);
+						GetAttributesManager()->AddLastMaxLP(skillDataOriginal->SkillValue[Effect] * -1);
 					else
-						GetAttributesManager()->SetLastMaxLP(skillDataOriginal->SkillValue[Effect]);
+						GetAttributesManager()->AddLastMaxLP(skillDataOriginal->SkillValue[Effect]);
 					break;
 				}
 				case ACTIVE_MAX_EP_UP:
 				{
 					if (isRemove == true)
-						GetAttributesManager()->SetLastMaxEP(skillDataOriginal->SkillValue[Effect] * -1);
+						GetAttributesManager()->AddLastMaxEP(skillDataOriginal->SkillValue[Effect] * -1);
 					else
-						GetAttributesManager()->SetLastMaxEP(skillDataOriginal->SkillValue[Effect]);
+						GetAttributesManager()->AddLastMaxEP(skillDataOriginal->SkillValue[Effect]);
 					break;
 				}
 				case ACTIVE_MAX_RP_UP:
@@ -1252,13 +1252,13 @@ void Player::ExecuteEffectCalculation(TBLIDX SkillID, bool isRemove)
 						PHyPercent = skillDataOriginal->SkillValue[Effect];
 
 					if (isRemove == true)
-						GetAttributesManager()->SetLastPhysicalOffence(PHyPercent * -1);
+						GetAttributesManager()->AddLastPhysicalOffence(PHyPercent * -1);
 					else
-						GetAttributesManager()->SetLastPhysicalOffence(PHyPercent);
+						GetAttributesManager()->AddLastPhysicalOffence(PHyPercent);
 					if (GetPcProfile()->avatarAttribute.wLastPhysicalOffence <= 0 || GetPcProfile()->avatarAttribute.wLastPhysicalOffence >= 60000)
 					{
 						GetPcProfile()->avatarAttribute.wLastPhysicalOffence = 0;
-						GetAttributesManager()->SetLastPhysicalOffence(0);
+						GetAttributesManager()->AddLastPhysicalOffence(0);
 					}
 
 					break;
@@ -1272,13 +1272,13 @@ void Player::ExecuteEffectCalculation(TBLIDX SkillID, bool isRemove)
 						EnergyPercent = skillDataOriginal->SkillValue[Effect];
 					
 					if (isRemove == true)
-						GetAttributesManager()->SetLastEnergyOffence(EnergyPercent * -1);
+						GetAttributesManager()->AddLastEnergyOffence(EnergyPercent * -1);
 					else
-						GetAttributesManager()->SetLastEnergyOffence(EnergyPercent);
+						GetAttributesManager()->AddLastEnergyOffence(EnergyPercent);
 					if (GetPcProfile()->avatarAttribute.wLastEnergyOffence <= 0 || GetPcProfile()->avatarAttribute.wLastEnergyOffence >= 60000)
 					{
 						GetPcProfile()->avatarAttribute.wLastEnergyOffence = 0;
-						GetAttributesManager()->SetLastPhysicalOffence(0);
+						GetAttributesManager()->AddLastPhysicalOffence(0);
 					}
 					break;
 				}
@@ -1286,13 +1286,13 @@ void Player::ExecuteEffectCalculation(TBLIDX SkillID, bool isRemove)
 				{
 
 					if (isRemove == true)
-						GetAttributesManager()->SetLastPhysicalDefence(skillDataOriginal->SkillValue[Effect] * -1);
+						GetAttributesManager()->AddLastPhysicalDefence(skillDataOriginal->SkillValue[Effect] * -1);
 					else
-						GetAttributesManager()->SetLastPhysicalDefence(skillDataOriginal->SkillValue[Effect]);
+						GetAttributesManager()->AddLastPhysicalDefence(skillDataOriginal->SkillValue[Effect]);
 					if (GetPcProfile()->avatarAttribute.wLastPhysicalDefence <= 0 || GetPcProfile()->avatarAttribute.wLastPhysicalDefence >= 60000)
 					{
 						GetPcProfile()->avatarAttribute.wLastPhysicalDefence = 0;
-						GetAttributesManager()->SetLastPhysicalDefence(0);
+						GetAttributesManager()->AddLastPhysicalDefence(0);
 					}
 					break;
 				}
@@ -1300,13 +1300,13 @@ void Player::ExecuteEffectCalculation(TBLIDX SkillID, bool isRemove)
 				{
 
 					if (isRemove == true)
-						GetAttributesManager()->SetLastEnergyDefence(skillDataOriginal->SkillValue[Effect] * -1);
+						GetAttributesManager()->AddLastEnergyDefence(skillDataOriginal->SkillValue[Effect] * -1);
 					else
-						GetAttributesManager()->SetLastEnergyDefence(skillDataOriginal->SkillValue[Effect]);
+						GetAttributesManager()->AddLastEnergyDefence(skillDataOriginal->SkillValue[Effect]);
 					if (GetPcProfile()->avatarAttribute.wLastEnergyDefence <= 0 || GetPcProfile()->avatarAttribute.wLastEnergyDefence >= 60000)
 					{
 						GetPcProfile()->avatarAttribute.wLastEnergyDefence = 0;
-						GetAttributesManager()->SetLastEnergyDefence(0);
+						GetAttributesManager()->AddLastEnergyDefence(0);
 					}
 					break;
 				}
@@ -1314,28 +1314,28 @@ void Player::ExecuteEffectCalculation(TBLIDX SkillID, bool isRemove)
 				{
 					if (isRemove == true)
 					{
-						GetAttributesManager()->SetLastStr(skillDataOriginal->SkillValue[Effect] * -1);
+						GetAttributesManager()->AddLastStr(skillDataOriginal->SkillValue[Effect] * -1);
 
 						WORD LevelStr = skillDataOriginal->SkillValue[Effect];
 						float StrByPoint = 1.66; // 1Str = 1.66 Physical old tw
 						WORD PhysicalOffence = static_cast<WORD>(LevelStr * StrByPoint);
 
-						GetAttributesManager()->SetLastPhysicalOffence(PhysicalOffence * -1);
+						GetAttributesManager()->AddLastPhysicalOffence(PhysicalOffence * -1);
 						if (GetPcProfile()->avatarAttribute.wLastPhysicalOffence <= 0 || GetPcProfile()->avatarAttribute.wLastPhysicalOffence >= 60000)
 						{
 							GetPcProfile()->avatarAttribute.wLastPhysicalOffence = 0;
-							GetAttributesManager()->SetLastPhysicalOffence(0);
+							GetAttributesManager()->AddLastPhysicalOffence(0);
 						}
 					}
 					else
 					{
-						GetAttributesManager()->SetLastStr(skillDataOriginal->SkillValue[Effect]);
+						GetAttributesManager()->AddLastStr(skillDataOriginal->SkillValue[Effect]);
 
 						WORD LevelStr = skillDataOriginal->SkillValue[Effect];
 						float StrByPoint = 1.66; // 1Str = 1.66 Physical old tw
 						WORD PhysicalOffence = static_cast<WORD>(LevelStr * StrByPoint);
 
-						GetAttributesManager()->SetLastPhysicalOffence(PhysicalOffence);
+						GetAttributesManager()->AddLastPhysicalOffence(PhysicalOffence);
 					}
 					break;
 				}
@@ -1343,23 +1343,23 @@ void Player::ExecuteEffectCalculation(TBLIDX SkillID, bool isRemove)
 				{
 					if (isRemove == true)
 					{
-						GetAttributesManager()->SetLastCon(skillDataOriginal->SkillValue[Effect] * -1);
+						GetAttributesManager()->AddLastCon(skillDataOriginal->SkillValue[Effect] * -1);
 
 						float LevelCon = skillDataOriginal->SkillValue[Effect];
 						float ConByPoint = 85; // 1con = 85 old tw
 						float LP = static_cast<float>(LevelCon * ConByPoint);
 
-						GetAttributesManager()->SetLastMaxLP(LP * -1);
+						GetAttributesManager()->AddLastMaxLP(LP * -1);
 					}
 					else
 					{
-						GetAttributesManager()->SetLastCon(skillDataOriginal->SkillValue[Effect]);
+						GetAttributesManager()->AddLastCon(skillDataOriginal->SkillValue[Effect]);
 
 						float LevelCon = skillDataOriginal->SkillValue[Effect];
 						float ConByPoint = 85; // 1con = 85 old tw
 						float LP = static_cast<float>(LevelCon * ConByPoint);
 
-						GetAttributesManager()->SetLastMaxLP(LP);
+						GetAttributesManager()->AddLastMaxLP(LP);
 					}
 					break;
 				}
@@ -1367,7 +1367,7 @@ void Player::ExecuteEffectCalculation(TBLIDX SkillID, bool isRemove)
 				{
 					if (isRemove == true)
 					{
-						GetAttributesManager()->SetLastFoc(skillDataOriginal->SkillValue[Effect] * -1);
+						GetAttributesManager()->AddLastFoc(skillDataOriginal->SkillValue[Effect] * -1);
 						WORD LevelFoc = skillDataOriginal->SkillValue[Effect];
 						float EnergyCriticalByPoint = 0.2; // 1Focus = 1 pont critical 
 						float EnergyAttackByPoint = 2; // 1Focus = 1 pont critical 
@@ -1375,18 +1375,18 @@ void Player::ExecuteEffectCalculation(TBLIDX SkillID, bool isRemove)
 						WORD EnergyCriticalRate = static_cast<WORD>(LevelFoc * EnergyCriticalByPoint);
 						WORD EnergyAttack = static_cast<WORD>(LevelFoc * EnergyAttackByPoint);
 						WORD HitRate = static_cast<WORD>(LevelFoc * HitRateByPoint);
-						GetAttributesManager()->SetLastEnergyCriticalRate(EnergyCriticalRate * -1);
-						GetAttributesManager()->SetLastEnergyOffence(EnergyAttack * -1);
-						GetAttributesManager()->SetLastAttackRate(HitRate * -1);
+						GetAttributesManager()->AddLastEnergyCriticalRate(EnergyCriticalRate * -1);
+						GetAttributesManager()->AddLastEnergyOffence(EnergyAttack * -1);
+						GetAttributesManager()->AddLastAttackRate(HitRate * -1);
 						if (GetPcProfile()->avatarAttribute.wLastEnergyOffence <= 0 || GetPcProfile()->avatarAttribute.wLastEnergyOffence >= 60000)
 						{
 							GetPcProfile()->avatarAttribute.wLastEnergyOffence = 0;
-							GetAttributesManager()->SetLastPhysicalOffence(0);
+							GetAttributesManager()->AddLastPhysicalOffence(0);
 						}
 					}
 					else
 					{
-						GetAttributesManager()->SetLastFoc(skillDataOriginal->SkillValue[Effect]);
+						GetAttributesManager()->AddLastFoc(skillDataOriginal->SkillValue[Effect]);
 						WORD LevelFoc = skillDataOriginal->SkillValue[Effect];
 						float EnergyCriticalByPoint = 0.5; // 1Focus = 1 pont critical 
 						float EnergyAttackByPoint = 2; // 1Focus = 1 pont critical 
@@ -1394,9 +1394,9 @@ void Player::ExecuteEffectCalculation(TBLIDX SkillID, bool isRemove)
 						WORD EnergyCriticalRate = static_cast<WORD>(LevelFoc * EnergyCriticalByPoint);
 						WORD EnergyAttack = static_cast<WORD>(LevelFoc * EnergyAttackByPoint);
 						WORD HitRate = static_cast<WORD>(LevelFoc * HitRateByPoint);
-						GetAttributesManager()->SetLastEnergyCriticalRate(EnergyCriticalRate);
-						GetAttributesManager()->SetLastEnergyOffence(EnergyAttack);
-						GetAttributesManager()->SetLastAttackRate(HitRate);
+						GetAttributesManager()->AddLastEnergyCriticalRate(EnergyCriticalRate);
+						GetAttributesManager()->AddLastEnergyOffence(EnergyAttack);
+						GetAttributesManager()->AddLastAttackRate(HitRate);
 					}
 					break;
 				}
@@ -1404,7 +1404,7 @@ void Player::ExecuteEffectCalculation(TBLIDX SkillID, bool isRemove)
 				{
 					if (isRemove == true)
 					{
-						GetAttributesManager()->SetLastDex(skillDataOriginal->SkillValue[Effect] * -1);
+						GetAttributesManager()->AddLastDex(skillDataOriginal->SkillValue[Effect] * -1);
 						WORD LevelDex = skillDataOriginal->SkillValue[Effect];
 						float CriticalAttackByPoint = 0.5; // 1Dex = 1 critical old tw
 						float PhyAttackByPoint = 2; // 1Dex = 1 phyattack old tw
@@ -1412,23 +1412,23 @@ void Player::ExecuteEffectCalculation(TBLIDX SkillID, bool isRemove)
 						WORD PhysicalCriticalRate = static_cast<WORD>(LevelDex * CriticalAttackByPoint);
 						WORD PhysicalAttack = static_cast<WORD>(LevelDex * PhyAttackByPoint);
 						WORD DodgeRate = static_cast<WORD>(LevelDex * DoggeByPoint);
-						GetAttributesManager()->SetLastPhysicalCriticalRate(PhysicalCriticalRate * -1);
-						GetAttributesManager()->SetLastPhysicalOffence(PhysicalAttack * -1);
-						GetAttributesManager()->SetLastDodgeRate(DodgeRate * -1);
+						GetAttributesManager()->AddLastPhysicalCriticalRate(PhysicalCriticalRate * -1);
+						GetAttributesManager()->AddLastPhysicalOffence(PhysicalAttack * -1);
+						GetAttributesManager()->AddLastDodgeRate(DodgeRate * -1);
 						if (GetPcProfile()->avatarAttribute.wLastPhysicalOffence <= 0 || GetPcProfile()->avatarAttribute.wLastPhysicalOffence >= 60000)
 						{
 							GetPcProfile()->avatarAttribute.wLastPhysicalOffence = 0;
-							GetAttributesManager()->SetLastPhysicalOffence(0);
+							GetAttributesManager()->AddLastPhysicalOffence(0);
 						}
 						if (GetPcProfile()->avatarAttribute.byLastDex <= 0 || GetPcProfile()->avatarAttribute.byLastDex >= 60000)
 						{
 							GetPcProfile()->avatarAttribute.byLastDex = 0;
-							GetAttributesManager()->SetLastDex(0);
+							GetAttributesManager()->AddLastDex(0);
 						}
 					}
 					else
 					{
-						GetAttributesManager()->SetLastDex(skillDataOriginal->SkillValue[Effect]);
+						GetAttributesManager()->AddLastDex(skillDataOriginal->SkillValue[Effect]);
 						WORD LevelDex = skillDataOriginal->SkillValue[Effect];
 						float CriticalAttackByPoint = 0.5; // 1Dex = 1 critical old tw
 						float PhyAttackByPoint = 2; // 1Dex = 1 phyattack old tw
@@ -1436,9 +1436,9 @@ void Player::ExecuteEffectCalculation(TBLIDX SkillID, bool isRemove)
 						WORD PhysicalCriticalRate = static_cast<WORD>(LevelDex * CriticalAttackByPoint);
 						WORD PhysicalAttack = static_cast<WORD>(LevelDex * PhyAttackByPoint);
 						WORD DodgeRate = static_cast<WORD>(LevelDex * DoggeByPoint);
-						GetAttributesManager()->SetLastPhysicalCriticalRate(PhysicalCriticalRate);
-						GetAttributesManager()->SetLastPhysicalOffence(PhysicalAttack);
-						GetAttributesManager()->SetLastDodgeRate(DodgeRate);
+						GetAttributesManager()->AddLastPhysicalCriticalRate(PhysicalCriticalRate);
+						GetAttributesManager()->AddLastPhysicalOffence(PhysicalAttack);
+						GetAttributesManager()->AddLastDodgeRate(DodgeRate);
 					}
 					break;
 				}
@@ -1446,28 +1446,28 @@ void Player::ExecuteEffectCalculation(TBLIDX SkillID, bool isRemove)
 				{
 					if (isRemove == true)
 					{
-						GetAttributesManager()->SetLastSol(skillDataOriginal->SkillValue[Effect] * -1);
+						GetAttributesManager()->AddLastSol(skillDataOriginal->SkillValue[Effect] * -1);
 
 						WORD LevelSol = skillDataOriginal->SkillValue[Effect];
 						float SolByPoint = 1.66; // 1Soul = 1.66 Physical old tw
 						WORD EnergyOffence = static_cast<WORD>(LevelSol * SolByPoint);
 
-						GetAttributesManager()->SetLastEnergyOffence(EnergyOffence * -1);
+						GetAttributesManager()->AddLastEnergyOffence(EnergyOffence * -1);
 						if (GetPcProfile()->avatarAttribute.wLastEnergyOffence <= 0 || GetPcProfile()->avatarAttribute.wLastEnergyOffence >= 60000)
 						{
 							GetPcProfile()->avatarAttribute.wLastEnergyOffence = 0;
-							GetAttributesManager()->SetLastPhysicalOffence(0);
+							GetAttributesManager()->AddLastPhysicalOffence(0);
 						}
 					}
 					else
 					{
-						GetAttributesManager()->SetLastSol(skillDataOriginal->SkillValue[Effect]);
+						GetAttributesManager()->AddLastSol(skillDataOriginal->SkillValue[Effect]);
 
 						WORD LevelSol = skillDataOriginal->SkillValue[Effect];
 						float SolByPoint = 1.66; // 1Soul = 1.66 Physical old tw
 						WORD EnergyOffence = static_cast<WORD>(LevelSol * SolByPoint);
 
-						GetAttributesManager()->SetLastEnergyOffence(EnergyOffence);
+						GetAttributesManager()->AddLastEnergyOffence(EnergyOffence);
 					}
 					break;
 				}
@@ -1475,23 +1475,23 @@ void Player::ExecuteEffectCalculation(TBLIDX SkillID, bool isRemove)
 				{
 					if (isRemove == true)
 					{
-						GetAttributesManager()->SetLastEng(skillDataOriginal->SkillValue[Effect] * -1);
+						GetAttributesManager()->AddLastEng(skillDataOriginal->SkillValue[Effect] * -1);
 
 						WORD LevelEng = skillDataOriginal->SkillValue[Effect];
 						float EngByPoint = 45; // 1Eng = 45 ep old tw
 						WORD EP = static_cast<WORD>(LevelEng * EngByPoint);
 
-						GetAttributesManager()->SetLastMaxEP(EP * -1);
+						GetAttributesManager()->AddLastMaxEP(EP * -1);
 					}
 					else
 					{
-						GetAttributesManager()->SetLastEng(skillDataOriginal->SkillValue[Effect]);
+						GetAttributesManager()->AddLastEng(skillDataOriginal->SkillValue[Effect]);
 
 						WORD LevelEng = skillDataOriginal->SkillValue[Effect];
 						float EngByPoint = 45; // 1Eng = 45 ep old tw
 						WORD EP = static_cast<WORD>(LevelEng * EngByPoint);
 
-						GetAttributesManager()->SetLastMaxEP(EP);
+						GetAttributesManager()->AddLastMaxEP(EP);
 					}
 					break;
 				}
@@ -1547,13 +1547,13 @@ void Player::ExecuteEffectCalculation(TBLIDX SkillID, bool isRemove)
 						sAttackSpeed.wPacketSize = sizeof(sGU_UPDATE_CHAR_ATTACK_SPEEDRATE) - 2;
 						sAttackSpeed.handle = GetHandle();
 						int attackspeed = 1400 / 100 * skillDataOriginal->SkillValue[Effect];
-						GetAttributesManager()->SetLastAttackSpeedRate(attackspeed);
+						GetAttributesManager()->AddLastAttackSpeedRate(attackspeed);
 						sAttackSpeed.wAttackSpeedRate = GetPcProfile()->avatarAttribute.wLastAttackSpeedRate;						
 
 						if (GetPcProfile()->avatarAttribute.wLastAttackSpeedRate <= 0 || GetPcProfile()->avatarAttribute.wLastAttackSpeedRate >= 1400)
 						{
 							GetPcProfile()->avatarAttribute.wLastAttackSpeedRate = 1400;
-							GetAttributesManager()->SetLastAttackSpeedRate(0);
+							GetAttributesManager()->AddLastAttackSpeedRate(0);
 							sAttackSpeed.wAttackSpeedRate = GetPcProfile()->avatarAttribute.wLastAttackSpeedRate;
 						}
 
@@ -1567,14 +1567,14 @@ void Player::ExecuteEffectCalculation(TBLIDX SkillID, bool isRemove)
 						sAttackSpeed.wPacketSize = sizeof(sGU_UPDATE_CHAR_ATTACK_SPEEDRATE) - 2;
 						sAttackSpeed.handle = GetHandle();
 						int attackspeed = 1400 / 100 * skillDataOriginal->SkillValue[Effect];
-						GetAttributesManager()->SetLastAttackSpeedRate(attackspeed * -1);
+						GetAttributesManager()->AddLastAttackSpeedRate(attackspeed * -1);
 						sAttackSpeed.wAttackSpeedRate = GetPcProfile()->avatarAttribute.wLastAttackSpeedRate;
 						
 
 						if (GetPcProfile()->avatarAttribute.wLastAttackSpeedRate <= 0 || GetPcProfile()->avatarAttribute.wLastAttackSpeedRate >= 1400)
 						{
 							GetPcProfile()->avatarAttribute.wLastAttackSpeedRate = 1400;
-							GetAttributesManager()->SetLastAttackSpeedRate(0);
+							GetAttributesManager()->AddLastAttackSpeedRate(0);
 							sAttackSpeed.wAttackSpeedRate = GetPcProfile()->avatarAttribute.wLastAttackSpeedRate;
 						}
 
@@ -1587,11 +1587,11 @@ void Player::ExecuteEffectCalculation(TBLIDX SkillID, bool isRemove)
 				{
 					if (isRemove == true)
 					{						
-						GetAttributesManager()->SetLastAttackRate(skillDataOriginal->SkillValue[Effect] * -1);
+						GetAttributesManager()->AddLastAttackRate(skillDataOriginal->SkillValue[Effect] * -1);
 					}
 					else
 					{						
-						GetAttributesManager()->SetLastAttackRate(skillDataOriginal->SkillValue[Effect]);
+						GetAttributesManager()->AddLastAttackRate(skillDataOriginal->SkillValue[Effect]);
 					}
 					break;
 				}
@@ -1599,11 +1599,11 @@ void Player::ExecuteEffectCalculation(TBLIDX SkillID, bool isRemove)
 				{
 					if (isRemove == true)
 					{
-						GetAttributesManager()->SetLastDodgeRate(skillDataOriginal->SkillValue[Effect] * -1);
+						GetAttributesManager()->AddLastDodgeRate(skillDataOriginal->SkillValue[Effect] * -1);
 					}
 					else
 					{
-						GetAttributesManager()->SetLastDodgeRate(skillDataOriginal->SkillValue[Effect]);
+						GetAttributesManager()->AddLastDodgeRate(skillDataOriginal->SkillValue[Effect]);
 					}
 					break;
 				}
@@ -1611,11 +1611,11 @@ void Player::ExecuteEffectCalculation(TBLIDX SkillID, bool isRemove)
 				{
 					if (isRemove == true)
 					{
-						GetAttributesManager()->SetLastBlockRate(skillDataOriginal->SkillValue[Effect] * -1);
+						GetAttributesManager()->AddLastBlockRate(skillDataOriginal->SkillValue[Effect] * -1);
 					}
 					else
 					{
-						GetAttributesManager()->SetLastBlockRate(skillDataOriginal->SkillValue[Effect]);
+						GetAttributesManager()->AddLastBlockRate(skillDataOriginal->SkillValue[Effect]);
 					}
 					break;
 				}
@@ -1734,11 +1734,11 @@ void Player::ExecuteEffectCalculation(TBLIDX SkillID, bool isRemove)
 				{
 					if (isRemove == true)
 					{
-						GetAttributesManager()->SetLastPhysicalCriticalRate(skillDataOriginal->SkillValue[Effect] * -1);
+						GetAttributesManager()->AddLastPhysicalCriticalRate(skillDataOriginal->SkillValue[Effect] * -1);
 					}
 					else
 					{
-						GetAttributesManager()->SetLastPhysicalCriticalRate(skillDataOriginal->SkillValue[Effect]);
+						GetAttributesManager()->AddLastPhysicalCriticalRate(skillDataOriginal->SkillValue[Effect]);
 					}
 					break;
 				}
@@ -1746,11 +1746,11 @@ void Player::ExecuteEffectCalculation(TBLIDX SkillID, bool isRemove)
 				{
 					if (isRemove == true)
 					{
-						GetAttributesManager()->SetLastEnergyCriticalRate(skillDataOriginal->SkillValue[Effect] * -1);
+						GetAttributesManager()->AddLastEnergyCriticalRate(skillDataOriginal->SkillValue[Effect] * -1);
 					}
 					else
 					{
-						GetAttributesManager()->SetLastEnergyCriticalRate(skillDataOriginal->SkillValue[Effect]);
+						GetAttributesManager()->AddLastEnergyCriticalRate(skillDataOriginal->SkillValue[Effect]);
 					}
 					break;
 				}
@@ -1769,12 +1769,12 @@ void Player::ExecuteEffectCalculation(TBLIDX SkillID, bool isRemove)
 					if (isRemove == true)
 					{
 						//printf("Remove Cool Down  %d \n", skillDataOriginal->SkillValue[Effect]);
-						GetAttributesManager()->SetCoolTimeChangePercent(skillDataOriginal->SkillValue[Effect]);
+						GetAttributesManager()->AddCoolTimeChangePercent(skillDataOriginal->SkillValue[Effect]);
 					}
 					else
 					{
 						//printf("Adiciona Cool Down  %d \n", skillDataOriginal->SkillValue[Effect]);
-						GetAttributesManager()->SetCoolTimeChangePercent(skillDataOriginal->SkillValue[Effect] * -1);
+						GetAttributesManager()->AddCoolTimeChangePercent(skillDataOriginal->SkillValue[Effect] * -1);
 					}
 					break;
 				}
@@ -1809,7 +1809,7 @@ void Player::ExecuteEffectPlayerCalculation(TBLIDX SkillID, HOBJECT Handle, bool
 						if (isRemove == true)
 						{
 							float MaxLP = skillDataOriginal->SkillValue[Effect];
-							GetAttributesManager()->SetLastMaxLP(MaxLP);
+							GetAttributesManager()->AddLastMaxLP(MaxLP);
 						}
 						else
 						{
@@ -1817,11 +1817,11 @@ void Player::ExecuteEffectPlayerCalculation(TBLIDX SkillID, HOBJECT Handle, bool
 							if (GetPcProfile()->avatarAttribute.wLastMaxLP - MaxLP <= 0)
 							{
 								GetPcProfile()->avatarAttribute.wBaseMaxLP = MaxLP;
-								GetAttributesManager()->SetLastMaxLP(MaxLP * -1);
+								GetAttributesManager()->AddLastMaxLP(MaxLP * -1);
 							}
 							else
 							{
-								GetAttributesManager()->SetLastMaxLP(MaxLP * -1);
+								GetAttributesManager()->AddLastMaxLP(MaxLP * -1);
 							}
 						}
 						break;
@@ -1831,7 +1831,7 @@ void Player::ExecuteEffectPlayerCalculation(TBLIDX SkillID, HOBJECT Handle, bool
 						if (isRemove == true)
 						{
 							float MaxEP = skillDataOriginal->SkillValue[Effect];
-							GetAttributesManager()->SetLastMaxEP(MaxEP);
+							GetAttributesManager()->AddLastMaxEP(MaxEP);
 						}
 						else
 						{
@@ -1839,11 +1839,11 @@ void Player::ExecuteEffectPlayerCalculation(TBLIDX SkillID, HOBJECT Handle, bool
 							if (GetPcProfile()->avatarAttribute.wLastMaxEP - MaxEP <= 0)
 							{
 								GetPcProfile()->avatarAttribute.wBaseMaxEP = MaxEP;
-								GetAttributesManager()->SetLastMaxEP(MaxEP * -1);
+								GetAttributesManager()->AddLastMaxEP(MaxEP * -1);
 							}
 							else
 							{
-								GetAttributesManager()->SetLastMaxEP(MaxEP * -1);
+								GetAttributesManager()->AddLastMaxEP(MaxEP * -1);
 							}
 						}
 						break;
@@ -1857,7 +1857,7 @@ void Player::ExecuteEffectPlayerCalculation(TBLIDX SkillID, HOBJECT Handle, bool
 						if (isRemove == true)
 						{
 							float PhycalOffenseDown = skillDataOriginal->SkillValue[Effect];
-							GetAttributesManager()->SetLastPhysicalOffence(PhycalOffenseDown);
+							GetAttributesManager()->AddLastPhysicalOffence(PhycalOffenseDown);
 						}
 						else
 						{
@@ -1865,11 +1865,11 @@ void Player::ExecuteEffectPlayerCalculation(TBLIDX SkillID, HOBJECT Handle, bool
 							if (GetPcProfile()->avatarAttribute.wLastPhysicalOffence - PhycalOffenseDown <= 0)
 							{
 								GetPcProfile()->avatarAttribute.wLastPhysicalOffence = PhycalOffenseDown;
-								GetAttributesManager()->SetLastPhysicalOffence(PhycalOffenseDown * -1);
+								GetAttributesManager()->AddLastPhysicalOffence(PhycalOffenseDown * -1);
 							}
 							else
 							{
-								GetAttributesManager()->SetLastPhysicalOffence(PhycalOffenseDown * -1);
+								GetAttributesManager()->AddLastPhysicalOffence(PhycalOffenseDown * -1);
 							}
 						}
 						break;
@@ -1879,7 +1879,7 @@ void Player::ExecuteEffectPlayerCalculation(TBLIDX SkillID, HOBJECT Handle, bool
 						if (isRemove == true)
 						{
 							float EnergyOffenseDown = skillDataOriginal->SkillValue[Effect];
-							GetAttributesManager()->SetLastEnergyOffence(EnergyOffenseDown);
+							GetAttributesManager()->AddLastEnergyOffence(EnergyOffenseDown);
 						}
 						else
 						{
@@ -1887,11 +1887,11 @@ void Player::ExecuteEffectPlayerCalculation(TBLIDX SkillID, HOBJECT Handle, bool
 							if (GetPcProfile()->avatarAttribute.wLastEnergyOffence - EnergyOffenseDown <= 0)
 							{
 								GetPcProfile()->avatarAttribute.wLastEnergyOffence = EnergyOffenseDown;
-								GetAttributesManager()->SetLastEnergyOffence(EnergyOffenseDown * -1);
+								GetAttributesManager()->AddLastEnergyOffence(EnergyOffenseDown * -1);
 							}
 							else
 							{
-								GetAttributesManager()->SetLastEnergyOffence(EnergyOffenseDown * -1);
+								GetAttributesManager()->AddLastEnergyOffence(EnergyOffenseDown * -1);
 							}
 						}
 						break;
@@ -1901,7 +1901,7 @@ void Player::ExecuteEffectPlayerCalculation(TBLIDX SkillID, HOBJECT Handle, bool
 						if (isRemove == true)
 						{
 							float PhycalDefenceDown = skillDataOriginal->SkillValue[Effect];
-							GetAttributesManager()->SetLastPhysicalDefence(PhycalDefenceDown);
+							GetAttributesManager()->AddLastPhysicalDefence(PhycalDefenceDown);
 						}
 						else
 						{
@@ -1909,11 +1909,11 @@ void Player::ExecuteEffectPlayerCalculation(TBLIDX SkillID, HOBJECT Handle, bool
 							if (GetPcProfile()->avatarAttribute.wLastPhysicalDefence - PhycalDefenceDown <= 0)
 							{
 								GetPcProfile()->avatarAttribute.wLastPhysicalDefence = PhycalDefenceDown;
-								GetAttributesManager()->SetLastPhysicalDefence(PhycalDefenceDown * -1);
+								GetAttributesManager()->AddLastPhysicalDefence(PhycalDefenceDown * -1);
 							}
 							else
 							{
-								GetAttributesManager()->SetLastPhysicalDefence(PhycalDefenceDown * -1);
+								GetAttributesManager()->AddLastPhysicalDefence(PhycalDefenceDown * -1);
 							}							
 						}
 						break;
@@ -1923,7 +1923,7 @@ void Player::ExecuteEffectPlayerCalculation(TBLIDX SkillID, HOBJECT Handle, bool
 						if (isRemove == true)
 						{
 							float EnergyDefenceDown = skillDataOriginal->SkillValue[Effect];
-							GetAttributesManager()->SetLastEnergyDefence(EnergyDefenceDown);
+							GetAttributesManager()->AddLastEnergyDefence(EnergyDefenceDown);
 						}
 						else
 						{
@@ -1931,11 +1931,11 @@ void Player::ExecuteEffectPlayerCalculation(TBLIDX SkillID, HOBJECT Handle, bool
 							if (GetPcProfile()->avatarAttribute.wLastEnergyDefence - EnergyDefenceDown <= 0)
 							{
 								GetPcProfile()->avatarAttribute.wLastEnergyDefence = EnergyDefenceDown;
-								GetAttributesManager()->SetLastEnergyDefence(EnergyDefenceDown * - 1);
+								GetAttributesManager()->AddLastEnergyDefence(EnergyDefenceDown * - 1);
 							}
 							else
 							{
-								GetAttributesManager()->SetLastEnergyDefence(EnergyDefenceDown * -1);
+								GetAttributesManager()->AddLastEnergyDefence(EnergyDefenceDown * -1);
 							}
 						}
 						break;
@@ -1945,7 +1945,7 @@ void Player::ExecuteEffectPlayerCalculation(TBLIDX SkillID, HOBJECT Handle, bool
 						if (isRemove == true)
 						{
 							float MaxLP = skillDataOriginal->SkillValue[Effect];
-							GetAttributesManager()->SetLastMaxLP(MaxLP);
+							GetAttributesManager()->AddLastMaxLP(MaxLP);
 							sGU_UPDATE_CHAR_LP updLp;
 
 							updLp.handle = Handle;
@@ -1960,7 +1960,7 @@ void Player::ExecuteEffectPlayerCalculation(TBLIDX SkillID, HOBJECT Handle, bool
 						else
 						{
 							float MaxLP = skillDataOriginal->SkillValue[Effect];
-							GetAttributesManager()->SetLastMaxLP(MaxLP * -1);
+							GetAttributesManager()->AddLastMaxLP(MaxLP * -1);
 							sGU_UPDATE_CHAR_LP updLp;
 
 							updLp.handle = Handle;

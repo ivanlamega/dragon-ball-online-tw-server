@@ -728,12 +728,12 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 			sAttackSpeed.handle = _player->GetHandle();
 			int attackspeed = 1400 / 100 * SpeedRate;
 			sAttackSpeed.wAttackSpeedRate = _player->GetPcProfile()->avatarAttribute.wLastAttackSpeedRate;
-			_player->GetAttributesManager()->SetLastAttackSpeedRate(attackspeed * -1);
+			_player->GetAttributesManager()->AddLastAttackSpeedRate(attackspeed * -1);
 
 			if (_player->GetPcProfile()->avatarAttribute.wLastAttackSpeedRate <= 0 || _player->GetPcProfile()->avatarAttribute.wLastAttackSpeedRate >= 1400)
 			{
 				_player->GetPcProfile()->avatarAttribute.wLastAttackSpeedRate = 1400;
-				_player->GetAttributesManager()->SetLastAttackSpeedRate(0);
+				_player->GetAttributesManager()->AddLastAttackSpeedRate(0);
 				sAttackSpeed.wAttackSpeedRate = _player->GetPcProfile()->avatarAttribute.wLastAttackSpeedRate;
 			}
 

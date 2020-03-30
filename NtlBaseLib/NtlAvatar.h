@@ -84,11 +84,11 @@ enum eATTRIBUTE_TO_UPDATE
 	ATTRIBUTE_TO_UPDATE_ENERGY_CRITICAL_BASE,
 	ATTRIBUTE_TO_UPDATE_ENERGY_CRITICAL_LAST,
 
-	ATTRIBUTE_TO_UPDATE_UNKNOW_FLOAT1_0,
-	ATTRIBUTE_TO_UPDATE_UNKNOW_FLOAT1_1,
+	ATTRIBUTE_TO_UPDATE_PHYSICAL_CRITICAL_RANGE_BASE,
+	ATTRIBUTE_TO_UPDATE_PHYSICAL_CRITICAL_RANGE_LAST,
 
-	ATTRIBUTE_TO_UPDATE_UNKNOW_FLOAT2_0,
-	ATTRIBUTE_TO_UPDATE_UNKNOW_FLOAT2_1,
+	ATTRIBUTE_TO_UPDATE_ENERGY_CRITICAL_RANGE_BASE,
+	ATTRIBUTE_TO_UPDATE_ENERGY_CRITICAL_RANGE_LAST,
 
 
 	ATTRIBUTE_TO_UPDATE_RUN_SPEED_BASE,
@@ -293,10 +293,10 @@ struct sAVATAR_ATTRIBUTE
 	WORD wBaseEnergyCriticalRate;
 	WORD wLastEnergyCriticalRate;
 
-	float unknown_float1_0;//??
-	float unknown_float1_1;//??
-	float unknown_float2_0;//??
-	float unknown_float2_1;//??
+	float fBasePhysicalCriticalRange;//??
+	float fLastPhysicalCriticalRange;//??
+	float fBaseEnergyCriticalRange;//??
+	float fLastEnergyCriticalRange;//??
 
 	float fBaseRunSpeed;
 	float fLastRunSpeed;
@@ -491,10 +491,10 @@ struct sAVATAR_ATTRIBUTE_LINK
 	WORD* pwBaseEnergyCriticalRate;
 	WORD* pwLastEnergyCriticalRate;
 
-	float* unknown_float1_0;//??
-	float* unknown_float1_1;//??
-	float* unknown_float2_0;//??
-	float* unknown_float2_1;//??
+	float* pfBasePhysicalCriticalRange;//??
+	float* pfLastPhysicalCriticalRange;//??
+	float* pfBaseEnergyCriticalRange;//??
+	float* pfLastEnergyCriticalRange;//??
 
 	float* pfBaseRunSpeed;
 	float* pfLastRunSpeed;

@@ -220,6 +220,8 @@ public:
 	WORD			CalculeBlockRate(int lastDex, int lastCon);
 	WORD			CalculePhysicalCriticalDefenceRate(int lastCon);
 	WORD			CalculeEnergyCriticalDefenceRate(int lastEng);
+	float			CalculePhysicalCriticalRange(BYTE pcClass, int lastDex);
+	float			CalculeEnergyCriticalRange(BYTE pcClass, int lastFoc);
 	//	------------------------------------------------------------------------
 	// GETTER
 	//	------------------------------------------------------------------------
@@ -324,6 +326,82 @@ public:
 	void SetSkillSpeed(float val);
 	void SetPhysicalCriticalDefenceRate(WORD val);
 	void SetEnergyCriticalDefenceRate(WORD val);
+
+	// Add
+	void AddLastStr(WORD val);
+	void AddLastCon(WORD val);
+	void AddLastFoc(WORD val);
+	void AddLastDex(WORD val);
+	void AddLastEng(WORD val);
+	void AddLastSol(WORD val);
+	void AddLastMaxLP(DWORD val);
+	void AddLastMaxEP(WORD val);
+	void AddLastMaxAP(DWORD val);
+	void AddLastMaxRP(WORD val);
+	void AddLastLPRegen(WORD val);
+	void AddLastEPRegen(WORD val);
+	void AddLastAPRegen(WORD val);
+	void AddLastPhysicalOffence(WORD val);
+	void AddLastPhysicalDefence(WORD val);
+	void AddLastEnergyOffence(WORD val);
+	void AddLastEnergyDefence(WORD val);
+	void AddLastAttackRate(WORD val);
+	void AddLastDodgeRate(WORD val);
+	void AddLastBlockRate(WORD val);
+	void AddLastCurseSuccessRate(WORD val);
+	void AddLastCurseToleranceRate(WORD val);
+	void AddLastPhysicalCriticalRate(WORD val);
+	void AddLastEnergyCriticalRate(WORD val);
+	void AddLastRunSpeed(float val);
+	void AddLastAirSpeed(float val);
+	void AddLastAirDashSpeed(float val);
+	void AddLastAirDash2Speed(float val);
+	void AddLastAttackSpeedRate(WORD val);
+	void AddLastAttackRange(float val);
+	void AddCastingTimeChangePercent(float val);
+	void AddCoolTimeChangePercent(float val);
+	void AddKeepTimeChangePercent(float val);
+	void AddDotValueChangePercent(float val);
+	void AddDotTimeChangeAbsolute(float val);
+	void AddRequiredEpChangePercent(float val);
+	void AddHonestOffence(float val);
+	void AddHonestDefence(float val);
+	void AddStrangeOffence(float val);
+	void AddStrangeDefence(float val);
+	void AddWildOffence(float val);
+	void AddWildDefence(float val);
+	void AddEleganceOffence(float val);
+	void AddEleganceDefence(float val);
+	void AddFunnyOffence(float val);
+	void AddFunnyDefence(float val);
+	void AddParalyzeToleranceRate(WORD val);
+	void AddTerrorToleranceRate(WORD val);
+	void AddConfuseToleranceRate(WORD val);
+	void AddStoneToleranceRate(WORD val);
+	void AddCandyToleranceRate(WORD val);
+	void AddParalyzeKeepTimeDown(float val);
+	void AddTerrorKeepTimeDown(float val);
+	void AddConfuseKeepTimeDown(float val);
+	void AddStoneKeepTimeDown(float val);
+	void AddCandyKeepTimeDown(float val);
+	void AddBleedingKeepTimeDown(float val);
+	void AddPoisonKeepTimeDown(float val);
+	void AddStomachacheKeepTimeDown(float val);
+	void AddCriticalBlockSuccessRate(float val);
+	void AddGuardRate(WORD val);
+	void AddSkillDamageBlockModeSuccessRate(float val);
+	void AddCurseBlockModeSuccessRate(float val);
+	void AddKnockdownBlockModeSuccessRate(float val);
+	void AddHtbBlockModeSuccessRate(float val);
+	void AddSitDownLpRegenBonusRate(float val);
+	void AddSitDownEpRegenBonusRate(float val);
+	void AddPhysicalCriticalDamageBonusRate(float val);
+	void AddEnergyCriticalDamageBonusRate(float val);
+	void AddItemUpgradeBonusRate(float val);
+	void AddItemUpgradeBreakBonusRate(float val);
+	void AddSkillSpeed(float val);
+	void AddPhysicalCriticalDefenceRate(WORD val);
+	void AddEnergyCriticalDefenceRate(WORD val);
 };
 
 #endif

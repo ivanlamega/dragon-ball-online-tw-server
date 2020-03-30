@@ -152,7 +152,7 @@ void AttributesManager::UpdateLevelUpAtributes()
 		WORD EnergyCriticalRate = BasicEnergyCritical + static_cast<WORD>(LevelFoc * FocByPoint);*/
 		WORD EnergyCriticalRate = CalculeEnergyCriticalRate(plr->GetMyClass(), baseFoc);
 
-		plr->GetAttributesManager()->SetLastEnergyOffence(EnergyOffence);
+		plr->GetAttributesManager()->AddLastEnergyOffence(EnergyOffence);
 		plr->GetAttributesManager()->SetLastEnergyCriticalRate(EnergyCriticalRate);
 
 		WORD HitRate = CalculeHitRate(baseFoc);
@@ -423,10 +423,10 @@ bool AttributesManager::LoadAttributeFromDB()
 	PlayerProfile.avatarAttribute.unknown5_3 = 120;
 	PlayerProfile.avatarAttribute.unknown5_4 = 119;
 	PlayerProfile.avatarAttribute.unknown5_5 = 118;
-	PlayerProfile.avatarAttribute.unknown_float1_0 = 117;
-	PlayerProfile.avatarAttribute.unknown_float1_1 = 116;
-	PlayerProfile.avatarAttribute.unknown_float2_0 = 115;
-	PlayerProfile.avatarAttribute.unknown_float2_1 = 114;
+	PlayerProfile.avatarAttribute.fBasePhysicalCriticalRange = 0;
+	PlayerProfile.avatarAttribute.fLastPhysicalCriticalRange = 0;
+	PlayerProfile.avatarAttribute.fBaseEnergyCriticalRange = 0;
+	PlayerProfile.avatarAttribute.fLastEnergyCriticalRange = 0;
 	PlayerProfile.avatarAttribute.unknown_rate1 = 113;
 	PlayerProfile.avatarAttribute.unknown_rate2 = 112;
 	// SKILL SPEED
@@ -775,30 +775,30 @@ void AttributesManager::UpdateAttributesFromItem(sITEM_TBLDAT& item, BYTE Grade,
 			if (item.wPhysicalOffence < 65535 && item.wPhysicalOffence > 0)
 			{
 				if (remove == true)
-					SetLastPhysicalOffence(Dbo_GetFinalOffence(item.wPhysicalOffence, Grade, UpGrade->PysicalValue[Grade]) * -1); // 0 should be grade
+					AddLastPhysicalOffence(Dbo_GetFinalOffence(item.wPhysicalOffence, Grade, UpGrade->PysicalValue[Grade]) * -1); // 0 should be grade
 				else
-					SetLastPhysicalOffence(Dbo_GetFinalOffence(item.wPhysicalOffence, Grade, UpGrade->PysicalValue[Grade]));
+					AddLastPhysicalOffence(Dbo_GetFinalOffence(item.wPhysicalOffence, Grade, UpGrade->PysicalValue[Grade]));
 			}
 			if (item.wPhysicalDefence < 65535 && item.wPhysicalDefence > 0)
 			{
 				if (remove)
-					SetLastPhysicalDefence(Dbo_GetFinalDefence(item.wPhysicalDefence, Grade, UpGrade->PysicalValue[Grade]) * -1);
+					AddLastPhysicalDefence(Dbo_GetFinalDefence(item.wPhysicalDefence, Grade, UpGrade->PysicalValue[Grade]) * -1);
 				else
-					SetLastPhysicalDefence(Dbo_GetFinalDefence(item.wPhysicalDefence, Grade, UpGrade->PysicalValue[Grade]));
+					AddLastPhysicalDefence(Dbo_GetFinalDefence(item.wPhysicalDefence, Grade, UpGrade->PysicalValue[Grade]));
 			}
 			if (item.wEnergyOffence < 65535 && item.wEnergyOffence > 0)
 			{
 				if (remove)
-					SetLastEnergyOffence(Dbo_GetFinalOffence(item.wEnergyOffence, Grade, UpGrade->EnergyValue[Grade]) * -1);
+					AddLastEnergyOffence(Dbo_GetFinalOffence(item.wEnergyOffence, Grade, UpGrade->EnergyValue[Grade]) * -1);
 				else
-					SetLastEnergyOffence(Dbo_GetFinalOffence(item.wEnergyOffence, Grade, UpGrade->EnergyValue[Grade]));
+					AddLastEnergyOffence(Dbo_GetFinalOffence(item.wEnergyOffence, Grade, UpGrade->EnergyValue[Grade]));
 			}
 			if (item.wEnergyDefence < 65535 && item.wEnergyDefence > 0)
 			{
 				if (remove)
-					SetLastEnergyDefence(Dbo_GetFinalDefence(item.wEnergyDefence, Grade, UpGrade->EnergyValue[Grade]) * -1);
+					AddLastEnergyDefence(Dbo_GetFinalDefence(item.wEnergyDefence, Grade, UpGrade->EnergyValue[Grade]) * -1);
 				else
-					SetLastEnergyDefence(Dbo_GetFinalDefence(item.wEnergyDefence, Grade, UpGrade->EnergyValue[Grade]));
+					AddLastEnergyDefence(Dbo_GetFinalDefence(item.wEnergyDefence, Grade, UpGrade->EnergyValue[Grade]));
 			}
 		/*	if (item.wAttackSpeedRate < 65535 && item.wAttackSpeedRate > 0)
 			{
@@ -828,17 +828,17 @@ void AttributesManager::UpdateExtraAttributesFromItem(sITEM_EFFECT aitemEffect[6
 				case ACTIVE_MAX_LP_UP:
 				{
 					if (isRemove == true)
-						plr->GetAttributesManager()->SetLastMaxLP(aitemEffect[i].dwValue * -1);
+						plr->GetAttributesManager()->AddLastMaxLP(aitemEffect[i].dwValue * -1);
 					else
-						plr->GetAttributesManager()->SetLastMaxLP(aitemEffect[i].dwValue);
+						plr->GetAttributesManager()->AddLastMaxLP(aitemEffect[i].dwValue);
 					break;
 				}
 				case ACTIVE_MAX_EP_UP:
 				{
 					if (isRemove == true)
-						plr->GetAttributesManager()->SetLastMaxEP(aitemEffect[i].dwValue * -1);
+						plr->GetAttributesManager()->AddLastMaxEP(aitemEffect[i].dwValue * -1);
 					else
-						plr->GetAttributesManager()->SetLastMaxEP(aitemEffect[i].dwValue);
+						plr->GetAttributesManager()->AddLastMaxEP(aitemEffect[i].dwValue);
 					break;
 				}
 				case ACTIVE_MAX_RP_UP:
@@ -855,13 +855,13 @@ void AttributesManager::UpdateExtraAttributesFromItem(sITEM_EFFECT aitemEffect[6
 				case ACTIVE_PHYSICAL_OFFENCE_UP:
 				{
 					if (isRemove == true)
-						plr->GetAttributesManager()->SetLastPhysicalOffence(aitemEffect[i].dwValue * -1);
+						plr->GetAttributesManager()->AddLastPhysicalOffence(aitemEffect[i].dwValue * -1);
 					else
-						plr->GetAttributesManager()->SetLastPhysicalOffence(aitemEffect[i].dwValue);
+						plr->GetAttributesManager()->AddLastPhysicalOffence(aitemEffect[i].dwValue);
 					if (plr->GetPcProfile()->avatarAttribute.wLastPhysicalOffence <= 0 || plr->GetPcProfile()->avatarAttribute.wLastPhysicalOffence >= 60000)
 					{
 						plr->GetPcProfile()->avatarAttribute.wLastPhysicalOffence = 0;
-						plr->GetAttributesManager()->SetLastPhysicalOffence(0);
+						plr->GetAttributesManager()->AddLastPhysicalOffence(0);
 					}
 
 					break;
@@ -869,13 +869,13 @@ void AttributesManager::UpdateExtraAttributesFromItem(sITEM_EFFECT aitemEffect[6
 				case ACTIVE_ENERGY_OFFENCE_UP:
 				{
 					if (isRemove == true)
-						plr->GetAttributesManager()->SetLastEnergyOffence(aitemEffect[i].dwValue * -1);
+						plr->GetAttributesManager()->AddLastEnergyOffence(aitemEffect[i].dwValue * -1);
 					else
-						plr->GetAttributesManager()->SetLastEnergyOffence(aitemEffect[i].dwValue);
+						plr->GetAttributesManager()->AddLastEnergyOffence(aitemEffect[i].dwValue);
 					if (plr->GetPcProfile()->avatarAttribute.wLastEnergyOffence <= 0 || plr->GetPcProfile()->avatarAttribute.wLastEnergyOffence >= 60000)
 					{
 						plr->GetPcProfile()->avatarAttribute.wLastEnergyOffence = 0;
-						plr->GetAttributesManager()->SetLastPhysicalOffence(0);
+						plr->GetAttributesManager()->AddLastPhysicalOffence(0);
 					}
 					break;
 				}
@@ -883,13 +883,13 @@ void AttributesManager::UpdateExtraAttributesFromItem(sITEM_EFFECT aitemEffect[6
 				{
 
 					if (isRemove == true)
-						plr->GetAttributesManager()->SetLastPhysicalDefence(aitemEffect[i].dwValue * -1);
+						plr->GetAttributesManager()->AddLastPhysicalDefence(aitemEffect[i].dwValue * -1);
 					else
-						plr->GetAttributesManager()->SetLastPhysicalDefence(aitemEffect[i].dwValue);
+						plr->GetAttributesManager()->AddLastPhysicalDefence(aitemEffect[i].dwValue);
 					if (plr->GetPcProfile()->avatarAttribute.wLastPhysicalDefence <= 0 || plr->GetPcProfile()->avatarAttribute.wLastPhysicalDefence >= 60000)
 					{
 						plr->GetPcProfile()->avatarAttribute.wLastPhysicalDefence = 0;
-						plr->GetAttributesManager()->SetLastPhysicalDefence(0);
+						plr->GetAttributesManager()->AddLastPhysicalDefence(0);
 					}
 					break;
 				}
@@ -897,13 +897,13 @@ void AttributesManager::UpdateExtraAttributesFromItem(sITEM_EFFECT aitemEffect[6
 				{
 
 					if (isRemove == true)
-						plr->GetAttributesManager()->SetLastEnergyDefence(aitemEffect[i].dwValue * -1);
+						plr->GetAttributesManager()->AddLastEnergyDefence(aitemEffect[i].dwValue * -1);
 					else
-						plr->GetAttributesManager()->SetLastEnergyDefence(aitemEffect[i].dwValue);
+						plr->GetAttributesManager()->AddLastEnergyDefence(aitemEffect[i].dwValue);
 					if (plr->GetPcProfile()->avatarAttribute.wLastEnergyDefence <= 0 || plr->GetPcProfile()->avatarAttribute.wLastEnergyDefence >= 60000)
 					{
 						plr->GetPcProfile()->avatarAttribute.wLastEnergyDefence = 0;
-						plr->GetAttributesManager()->SetLastEnergyDefence(0);
+						plr->GetAttributesManager()->AddLastEnergyDefence(0);
 					}
 					break;
 				}
@@ -911,28 +911,28 @@ void AttributesManager::UpdateExtraAttributesFromItem(sITEM_EFFECT aitemEffect[6
 				{
 					if (isRemove == true)
 					{
-						plr->GetAttributesManager()->SetLastStr(aitemEffect[i].dwValue * -1);
+						plr->GetAttributesManager()->AddLastStr(aitemEffect[i].dwValue * -1);
 
 						WORD LevelStr = aitemEffect[i].dwValue;
 						float StrByPoint = 1.66; // 1Str = 1.66 Physical old tw
 						WORD PhysicalOffence = static_cast<WORD>(LevelStr * StrByPoint);
 
-						plr->GetAttributesManager()->SetLastPhysicalOffence(PhysicalOffence * -1);
+						plr->GetAttributesManager()->AddLastPhysicalOffence(PhysicalOffence * -1);
 						if (plr->GetPcProfile()->avatarAttribute.wLastPhysicalOffence <= 0 || plr->GetPcProfile()->avatarAttribute.wLastPhysicalOffence >= 60000)
 						{
 							plr->GetPcProfile()->avatarAttribute.wLastPhysicalOffence = 0;
-							plr->GetAttributesManager()->SetLastPhysicalOffence(0);
+							plr->GetAttributesManager()->AddLastPhysicalOffence(0);
 						}
 					}
 					else
 					{
-						plr->GetAttributesManager()->SetLastStr(aitemEffect[i].dwValue);
+						plr->GetAttributesManager()->AddLastStr(aitemEffect[i].dwValue);
 
 						WORD LevelStr = aitemEffect[i].dwValue;
 						float StrByPoint = 1.66; // 1Str = 1.66 Physical old tw
 						WORD PhysicalOffence = static_cast<WORD>(LevelStr * StrByPoint);
 
-						plr->GetAttributesManager()->SetLastPhysicalOffence(PhysicalOffence);
+						plr->GetAttributesManager()->AddLastPhysicalOffence(PhysicalOffence);
 					}
 					break;
 				}
@@ -940,23 +940,23 @@ void AttributesManager::UpdateExtraAttributesFromItem(sITEM_EFFECT aitemEffect[6
 				{
 					if (isRemove == true)
 					{
-						plr->GetAttributesManager()->SetLastCon(aitemEffect[i].dwValue * -1);
+						plr->GetAttributesManager()->AddLastCon(aitemEffect[i].dwValue * -1);
 
 						float LevelCon = aitemEffect[i].dwValue;
 						float ConByPoint = 85; // 1con = 85 old tw
 						float LP = static_cast<float>(LevelCon * ConByPoint);
 
-						plr->GetAttributesManager()->SetLastMaxLP(LP * -1);
+						plr->GetAttributesManager()->AddLastMaxLP(LP * -1);
 					}
 					else
 					{
-						plr->GetAttributesManager()->SetLastCon(aitemEffect[i].dwValue);
+						plr->GetAttributesManager()->AddLastCon(aitemEffect[i].dwValue);
 
 						float LevelCon = aitemEffect[i].dwValue;
 						float ConByPoint = 85; // 1con = 85 old tw
 						float LP = static_cast<float>(LevelCon * ConByPoint);
 
-						plr->GetAttributesManager()->SetLastMaxLP(LP);
+						plr->GetAttributesManager()->AddLastMaxLP(LP);
 					}
 					break;
 				}
@@ -964,7 +964,7 @@ void AttributesManager::UpdateExtraAttributesFromItem(sITEM_EFFECT aitemEffect[6
 				{
 					if (isRemove == true)
 					{
-						plr->GetAttributesManager()->SetLastFoc(aitemEffect[i].dwValue * -1);
+						plr->GetAttributesManager()->AddLastFoc(aitemEffect[i].dwValue * -1);
 						WORD LevelFoc = aitemEffect[i].dwValue;
 						float EnergyCriticalByPoint = 0.5; // 1Focus = 1 pont critical 
 						float EnergyAttackByPoint = 2; // 1Focus = 1 pont critical 
@@ -972,18 +972,18 @@ void AttributesManager::UpdateExtraAttributesFromItem(sITEM_EFFECT aitemEffect[6
 						WORD EnergyCriticalRate = static_cast<WORD>(LevelFoc * EnergyCriticalByPoint);
 						WORD EnergyAttack = static_cast<WORD>(LevelFoc * EnergyAttackByPoint);
 						WORD HitRate = static_cast<WORD>(LevelFoc * HitRateByPoint);
-						plr->GetAttributesManager()->SetLastEnergyCriticalRate(EnergyCriticalRate * -1);
-						plr->GetAttributesManager()->SetLastEnergyOffence(EnergyAttack * -1);
-						plr->GetAttributesManager()->SetLastAttackRate(HitRate * -1);
+						plr->GetAttributesManager()->AddLastEnergyCriticalRate(EnergyCriticalRate * -1);
+						plr->GetAttributesManager()->AddLastEnergyOffence(EnergyAttack * -1);
+						plr->GetAttributesManager()->AddLastAttackRate(HitRate * -1);
 						if (plr->GetPcProfile()->avatarAttribute.wLastEnergyOffence <= 0 || plr->GetPcProfile()->avatarAttribute.wLastEnergyOffence >= 60000)
 						{
 							plr->GetPcProfile()->avatarAttribute.wLastEnergyOffence = 0;
-							plr->GetAttributesManager()->SetLastPhysicalOffence(0);
+							plr->GetAttributesManager()->AddLastPhysicalOffence(0);
 						}
 					}
 					else
 					{
-						plr->GetAttributesManager()->SetLastFoc(aitemEffect[i].dwValue);
+						plr->GetAttributesManager()->AddLastFoc(aitemEffect[i].dwValue);
 						WORD LevelFoc = aitemEffect[i].dwValue;
 						float EnergyCriticalByPoint = 0.5; // 1Focus = 1 pont critical 
 						float EnergyAttackByPoint = 2; // 1Focus = 1 pont critical 
@@ -991,9 +991,9 @@ void AttributesManager::UpdateExtraAttributesFromItem(sITEM_EFFECT aitemEffect[6
 						WORD EnergyCriticalRate = static_cast<WORD>(LevelFoc * EnergyCriticalByPoint);
 						WORD EnergyAttack = static_cast<WORD>(LevelFoc * EnergyAttackByPoint);
 						WORD HitRate = static_cast<WORD>(LevelFoc * HitRateByPoint);
-						plr->GetAttributesManager()->SetLastEnergyCriticalRate(EnergyCriticalRate);
-						plr->GetAttributesManager()->SetLastEnergyOffence(EnergyAttack);
-						plr->GetAttributesManager()->SetLastAttackRate(HitRate);
+						plr->GetAttributesManager()->AddLastEnergyCriticalRate(EnergyCriticalRate);
+						plr->GetAttributesManager()->AddLastEnergyOffence(EnergyAttack);
+						plr->GetAttributesManager()->AddLastAttackRate(HitRate);
 					}
 					break;
 				}
@@ -1001,7 +1001,7 @@ void AttributesManager::UpdateExtraAttributesFromItem(sITEM_EFFECT aitemEffect[6
 				{
 					if (isRemove == true)
 					{
-						plr->GetAttributesManager()->SetLastDex(aitemEffect[i].dwValue * -1);
+						plr->GetAttributesManager()->AddLastDex(aitemEffect[i].dwValue * -1);
 						WORD LevelDex = aitemEffect[i].dwValue;
 						float CriticalAttackByPoint = 0.5; // 1Dex = 1 critical old tw
 						float PhyAttackByPoint = 2; // 1Dex = 1 phyattack old tw
@@ -1009,23 +1009,23 @@ void AttributesManager::UpdateExtraAttributesFromItem(sITEM_EFFECT aitemEffect[6
 						WORD PhysicalCriticalRate = static_cast<WORD>(LevelDex * CriticalAttackByPoint);
 						WORD PhysicalAttack = static_cast<WORD>(LevelDex * PhyAttackByPoint);
 						WORD DodgeRate = static_cast<WORD>(LevelDex * DoggeByPoint);
-						plr->GetAttributesManager()->SetLastPhysicalCriticalRate(PhysicalCriticalRate * -1);
-						plr->GetAttributesManager()->SetLastPhysicalOffence(PhysicalAttack * -1);
-						plr->GetAttributesManager()->SetLastDodgeRate(DodgeRate * -1);
+						plr->GetAttributesManager()->AddLastPhysicalCriticalRate(PhysicalCriticalRate * -1);
+						plr->GetAttributesManager()->AddLastPhysicalOffence(PhysicalAttack * -1);
+						plr->GetAttributesManager()->AddLastDodgeRate(DodgeRate * -1);
 						if (plr->GetPcProfile()->avatarAttribute.wLastPhysicalOffence <= 0 || plr->GetPcProfile()->avatarAttribute.wLastPhysicalOffence >= 60000)
 						{
 							plr->GetPcProfile()->avatarAttribute.wLastPhysicalOffence = 0;
-							plr->GetAttributesManager()->SetLastPhysicalOffence(0);
+							plr->GetAttributesManager()->AddLastPhysicalOffence(0);
 						}
 						if (plr->GetPcProfile()->avatarAttribute.byLastDex <= 0 || plr->GetPcProfile()->avatarAttribute.byLastDex >= 60000)
 						{
 							plr->GetPcProfile()->avatarAttribute.byLastDex = 0;
-							plr->GetAttributesManager()->SetLastDex(0);
+							plr->GetAttributesManager()->AddLastDex(0);
 						}
 					}
 					else
 					{
-						plr->GetAttributesManager()->SetLastDex(aitemEffect[i].dwValue);
+						plr->GetAttributesManager()->AddLastDex(aitemEffect[i].dwValue);
 						WORD LevelDex = aitemEffect[i].dwValue;
 						float CriticalAttackByPoint = 0.5; // 1Dex = 1 critical old tw
 						float PhyAttackByPoint = 2; // 1Dex = 1 phyattack old tw
@@ -1033,9 +1033,9 @@ void AttributesManager::UpdateExtraAttributesFromItem(sITEM_EFFECT aitemEffect[6
 						WORD PhysicalCriticalRate = static_cast<WORD>(LevelDex * CriticalAttackByPoint);
 						WORD PhysicalAttack = static_cast<WORD>(LevelDex * PhyAttackByPoint);
 						WORD DodgeRate = static_cast<WORD>(LevelDex * DoggeByPoint);
-						plr->GetAttributesManager()->SetLastPhysicalCriticalRate(PhysicalCriticalRate);
-						plr->GetAttributesManager()->SetLastPhysicalOffence(PhysicalAttack);
-						plr->GetAttributesManager()->SetLastDodgeRate(DodgeRate);
+						plr->GetAttributesManager()->AddLastPhysicalCriticalRate(PhysicalCriticalRate);
+						plr->GetAttributesManager()->AddLastPhysicalOffence(PhysicalAttack);
+						plr->GetAttributesManager()->AddLastDodgeRate(DodgeRate);
 					}
 					break;
 				}
@@ -1043,28 +1043,28 @@ void AttributesManager::UpdateExtraAttributesFromItem(sITEM_EFFECT aitemEffect[6
 				{
 					if (isRemove == true)
 					{
-						plr->GetAttributesManager()->SetLastSol(aitemEffect[i].dwValue * -1);
+						plr->GetAttributesManager()->AddLastSol(aitemEffect[i].dwValue * -1);
 
 						WORD LevelSol = aitemEffect[i].dwValue;
 						float SolByPoint = 1.66; // 1Soul = 1.66 Physical old tw
 						WORD EnergyOffence = static_cast<WORD>(LevelSol * SolByPoint);
 
-						plr->GetAttributesManager()->SetLastEnergyOffence(EnergyOffence * -1);
+						plr->GetAttributesManager()->AddLastEnergyOffence(EnergyOffence * -1);
 						if (plr->GetPcProfile()->avatarAttribute.wLastEnergyOffence <= 0 || plr->GetPcProfile()->avatarAttribute.wLastEnergyOffence >= 60000)
 						{
 							plr->GetPcProfile()->avatarAttribute.wLastEnergyOffence = 0;
-							plr->GetAttributesManager()->SetLastPhysicalOffence(0);
+							plr->GetAttributesManager()->AddLastPhysicalOffence(0);
 						}
 					}
 					else
 					{
-						plr->GetAttributesManager()->SetLastSol(aitemEffect[i].dwValue);
+						plr->GetAttributesManager()->AddLastSol(aitemEffect[i].dwValue);
 
 						WORD LevelSol = aitemEffect[i].dwValue;
 						float SolByPoint = 1.66; // 1Soul = 1.66 Physical old tw
 						WORD EnergyOffence = static_cast<WORD>(LevelSol * SolByPoint);
 
-						plr->GetAttributesManager()->SetLastEnergyOffence(EnergyOffence);
+						plr->GetAttributesManager()->AddLastEnergyOffence(EnergyOffence);
 					}
 					break;
 				}
@@ -1072,23 +1072,23 @@ void AttributesManager::UpdateExtraAttributesFromItem(sITEM_EFFECT aitemEffect[6
 				{
 					if (isRemove == true)
 					{
-						plr->GetAttributesManager()->SetLastEng(aitemEffect[i].dwValue * -1);
+						plr->GetAttributesManager()->AddLastEng(aitemEffect[i].dwValue * -1);
 
 						WORD LevelEng = aitemEffect[i].dwValue;
 						float EngByPoint = 45; // 1Eng = 45 ep old tw
 						WORD EP = static_cast<WORD>(LevelEng * EngByPoint);
 
-						plr->GetAttributesManager()->SetLastMaxEP(EP * -1);
+						plr->GetAttributesManager()->AddLastMaxEP(EP * -1);
 					}
 					else
 					{
-						plr->GetAttributesManager()->SetLastEng(aitemEffect[i].dwValue);
+						plr->GetAttributesManager()->AddLastEng(aitemEffect[i].dwValue);
 
 						WORD LevelEng = aitemEffect[i].dwValue;
 						float EngByPoint = 45; // 1Eng = 45 ep old tw
 						WORD EP = static_cast<WORD>(LevelEng * EngByPoint);
 
-						plr->GetAttributesManager()->SetLastMaxEP(EP);
+						plr->GetAttributesManager()->AddLastMaxEP(EP);
 					}
 					break;
 				}
@@ -1096,11 +1096,11 @@ void AttributesManager::UpdateExtraAttributesFromItem(sITEM_EFFECT aitemEffect[6
 				{
 					if (isRemove == true)
 					{
-						plr->GetAttributesManager()->SetLastAttackRate(aitemEffect[i].dwValue * -1);
+						plr->GetAttributesManager()->AddLastAttackRate(aitemEffect[i].dwValue * -1);
 					}
 					else
 					{
-						plr->GetAttributesManager()->SetLastAttackRate(aitemEffect[i].dwValue);
+						plr->GetAttributesManager()->AddLastAttackRate(aitemEffect[i].dwValue);
 					}
 					break;
 				}
@@ -1108,11 +1108,11 @@ void AttributesManager::UpdateExtraAttributesFromItem(sITEM_EFFECT aitemEffect[6
 				{
 					if (isRemove == true)
 					{
-						plr->GetAttributesManager()->SetLastDodgeRate(aitemEffect[i].dwValue * -1);
+						plr->GetAttributesManager()->AddLastDodgeRate(aitemEffect[i].dwValue * -1);
 					}
 					else
 					{
-						plr->GetAttributesManager()->SetLastDodgeRate(aitemEffect[i].dwValue);
+						plr->GetAttributesManager()->AddLastDodgeRate(aitemEffect[i].dwValue);
 					}
 					break;
 				}
@@ -1120,11 +1120,11 @@ void AttributesManager::UpdateExtraAttributesFromItem(sITEM_EFFECT aitemEffect[6
 				{
 					if (isRemove == true)
 					{
-						plr->GetAttributesManager()->SetLastBlockRate(aitemEffect[i].dwValue * -1);
+						plr->GetAttributesManager()->AddLastBlockRate(aitemEffect[i].dwValue * -1);
 					}
 					else
 					{
-						plr->GetAttributesManager()->SetLastBlockRate(aitemEffect[i].dwValue);
+						plr->GetAttributesManager()->AddLastBlockRate(aitemEffect[i].dwValue);
 					}
 					break;
 				}
@@ -1133,11 +1133,11 @@ void AttributesManager::UpdateExtraAttributesFromItem(sITEM_EFFECT aitemEffect[6
 				{
 					if (isRemove == true)
 					{
-						plr->GetAttributesManager()->SetHonestDefence(0);
+						plr->GetAttributesManager()->AddHonestDefence(0);
 					}
 					else
 					{
-						plr->GetAttributesManager()->SetHonestDefence(100.0);
+						plr->GetAttributesManager()->AddHonestDefence(100.0);
 					}
 					break;
 				}
@@ -1145,11 +1145,11 @@ void AttributesManager::UpdateExtraAttributesFromItem(sITEM_EFFECT aitemEffect[6
 				{
 					if (isRemove == true)
 					{
-						plr->GetAttributesManager()->SetStrangeDefence(0);
+						plr->GetAttributesManager()->AddStrangeDefence(0);
 					}
 					else
 					{
-						plr->GetAttributesManager()->SetStrangeDefence(100.0);
+						plr->GetAttributesManager()->AddStrangeDefence(100.0);
 					}
 					break;
 				}
@@ -1157,11 +1157,11 @@ void AttributesManager::UpdateExtraAttributesFromItem(sITEM_EFFECT aitemEffect[6
 				{
 					if (isRemove == true)
 					{
-						plr->GetAttributesManager()->SetWildDefence(0);
+						plr->GetAttributesManager()->AddWildDefence(0);
 					}
 					else
 					{
-						plr->GetAttributesManager()->SetWildDefence(100.0);
+						plr->GetAttributesManager()->AddWildDefence(100.0);
 					}
 					break;
 				}
@@ -1169,11 +1169,11 @@ void AttributesManager::UpdateExtraAttributesFromItem(sITEM_EFFECT aitemEffect[6
 				{
 					if (isRemove == true)
 					{
-						plr->GetAttributesManager()->SetEleganceDefence(0);
+						plr->GetAttributesManager()->AddEleganceDefence(0);
 					}
 					else
 					{
-						plr->GetAttributesManager()->SetEleganceDefence(100.0);
+						plr->GetAttributesManager()->AddEleganceDefence(100.0);
 					}
 					break;
 				}
@@ -1181,11 +1181,11 @@ void AttributesManager::UpdateExtraAttributesFromItem(sITEM_EFFECT aitemEffect[6
 				{
 					if (isRemove == true)
 					{
-						plr->GetAttributesManager()->SetFunnyDefence(0);
+						plr->GetAttributesManager()->AddFunnyDefence(0);
 					}
 					else
 					{
-						plr->GetAttributesManager()->SetFunnyDefence(100.0);
+						plr->GetAttributesManager()->AddFunnyDefence(100.0);
 					}
 					break;
 				}
@@ -1193,11 +1193,11 @@ void AttributesManager::UpdateExtraAttributesFromItem(sITEM_EFFECT aitemEffect[6
 				{
 					if (isRemove == true)
 					{
-						plr->GetAttributesManager()->SetHonestOffence(0);
+						plr->GetAttributesManager()->AddHonestOffence(0);
 					}
 					else
 					{
-						plr->GetAttributesManager()->SetHonestOffence(100.0);
+						plr->GetAttributesManager()->AddHonestOffence(100.0);
 					}
 					break;
 				}
@@ -1205,11 +1205,11 @@ void AttributesManager::UpdateExtraAttributesFromItem(sITEM_EFFECT aitemEffect[6
 				{
 					if (isRemove == true)
 					{
-						plr->GetAttributesManager()->SetStrangeOffence(0);
+						plr->GetAttributesManager()->AddStrangeOffence(0);
 					}
 					else
 					{
-						plr->GetAttributesManager()->SetStrangeOffence(100.0);
+						plr->GetAttributesManager()->AddStrangeOffence(100.0);
 					}
 					break;
 				}
@@ -1217,11 +1217,11 @@ void AttributesManager::UpdateExtraAttributesFromItem(sITEM_EFFECT aitemEffect[6
 				{
 					if (isRemove == true)
 					{
-						plr->GetAttributesManager()->SetWildOffence(0);
+						plr->GetAttributesManager()->AddWildOffence(0);
 					}
 					else
 					{
-						plr->GetAttributesManager()->SetWildOffence(100.0);
+						plr->GetAttributesManager()->AddWildOffence(100.0);
 					}
 					break;
 				}
@@ -1229,11 +1229,11 @@ void AttributesManager::UpdateExtraAttributesFromItem(sITEM_EFFECT aitemEffect[6
 				{
 					if (isRemove == true)
 					{
-						plr->GetAttributesManager()->SetEleganceOffence(0);
+						plr->GetAttributesManager()->AddEleganceOffence(0);
 					}
 					else
 					{
-						plr->GetAttributesManager()->SetEleganceOffence(100.0);
+						plr->GetAttributesManager()->AddEleganceOffence(100.0);
 					}
 					break;
 				}
@@ -1241,11 +1241,11 @@ void AttributesManager::UpdateExtraAttributesFromItem(sITEM_EFFECT aitemEffect[6
 				{
 					if (isRemove == true)
 					{
-						plr->GetAttributesManager()->SetFunnyOffence(0);
+						plr->GetAttributesManager()->AddFunnyOffence(0);
 					}
 					else
 					{
-						plr->GetAttributesManager()->SetFunnyOffence(100.0);
+						plr->GetAttributesManager()->AddFunnyOffence(100.0);
 					}
 					break;
 				}
@@ -1313,11 +1313,11 @@ void AttributesManager::UpdateExtraAttributesFromItem(sITEM_EFFECT aitemEffect[6
 				{
 					if (isRemove == true)
 					{
-						plr->GetAttributesManager()->SetLastPhysicalCriticalRate(aitemEffect[i].dwValue * -1);
+						plr->GetAttributesManager()->AddLastPhysicalCriticalRate(aitemEffect[i].dwValue * -1);
 					}
 					else
 					{
-						plr->GetAttributesManager()->SetLastPhysicalCriticalRate(aitemEffect[i].dwValue);
+						plr->GetAttributesManager()->AddLastPhysicalCriticalRate(aitemEffect[i].dwValue);
 					}
 					break;
 				}
@@ -1325,11 +1325,11 @@ void AttributesManager::UpdateExtraAttributesFromItem(sITEM_EFFECT aitemEffect[6
 				{
 					if (isRemove == true)
 					{
-						plr->GetAttributesManager()->SetLastEnergyCriticalRate(aitemEffect[i].dwValue * -1);
+						plr->GetAttributesManager()->AddLastEnergyCriticalRate(aitemEffect[i].dwValue * -1);
 					}
 					else
 					{
-						plr->GetAttributesManager()->SetLastEnergyCriticalRate(aitemEffect[i].dwValue);
+						plr->GetAttributesManager()->AddLastEnergyCriticalRate(aitemEffect[i].dwValue);
 					}
 					break;
 				}
@@ -1394,7 +1394,7 @@ void AttributesManager::UpdateExtraAttributesFromItem(sITEM_EFFECT aitemEffect[6
 						sAttackSpeed.wPacketSize = sizeof(sGU_UPDATE_CHAR_ATTACK_SPEEDRATE) - 2;
 						sAttackSpeed.handle = plr->GetHandle();
 						int attackspeed = 1400 / 100 * aitemEffect[i].dwValue;
-						plr->GetAttributesManager()->SetLastAttackSpeedRate(attackspeed);
+						plr->GetAttributesManager()->AddLastAttackSpeedRate(attackspeed);
 						sAttackSpeed.wAttackSpeedRate = plr->GetPcProfile()->avatarAttribute.wLastAttackSpeedRate;						
 
 						if (plr->GetPcProfile()->avatarAttribute.wLastAttackSpeedRate <= 0 || plr->GetPcProfile()->avatarAttribute.wLastAttackSpeedRate >= 1400)
@@ -1615,10 +1615,10 @@ void AttributesManager::FillAttributesLink()
 	attrLink.pwunknown_rate1 = &PlayerProfile.avatarAttribute.unknown_rate1;
 	attrLink.pwunknown_rate2 = &PlayerProfile.avatarAttribute.unknown_rate2;
 	attrLink.pfunknown2 = &unkFLOATField; //&PlayerProfile.avatarAttribute.unknown2;
-	attrLink.unknown_float1_0 = &PlayerProfile.avatarAttribute.unknown_float1_0;
-	attrLink.unknown_float1_1 = &PlayerProfile.avatarAttribute.unknown_float1_1;
-	attrLink.unknown_float2_0 = &PlayerProfile.avatarAttribute.unknown_float2_0;
-	attrLink.unknown_float2_1 = &PlayerProfile.avatarAttribute.unknown_float2_1;
+	attrLink.pfBasePhysicalCriticalRange = &PlayerProfile.avatarAttribute.fBasePhysicalCriticalRange;
+	attrLink.pfLastPhysicalCriticalRange = &PlayerProfile.avatarAttribute.fLastPhysicalCriticalRange;
+	attrLink.pfBaseEnergyCriticalRange = &PlayerProfile.avatarAttribute.fBaseEnergyCriticalRange;
+	attrLink.pfLastEnergyCriticalRange = &PlayerProfile.avatarAttribute.fLastEnergyCriticalRange;
 	attrLink.unknown3_0 = &PlayerProfile.avatarAttribute.unknown3_0;
 	attrLink.unknown3_1 = &PlayerProfile.avatarAttribute.unknown3_1;
 	attrLink.unknown3_2 = &PlayerProfile.avatarAttribute.unknown3_2;
@@ -1886,4 +1886,40 @@ WORD AttributesManager::CalculeEnergyCriticalDefenceRate(int lastEng)
 		sLog.outBasic("CharacteEnergyCriticalDefenseRate total %d rate1 %f rate2 %f", criticalDefenseRate, formula->afRate[0], formula->afRate[1]);
 	}
 	return criticalDefenseRate;
+}
+
+float AttributesManager::CalculePhysicalCriticalRange(BYTE pcClass, int lastDex)
+{
+	//  = fRate1 + (Last_Dex / fRate2)
+	float physicalCriticalRange = 0;
+	CLASS_INFO* classInfo = sTBM.GetFormulaTable()->FindClassInfoByClass(pcClass);
+	if (classInfo)
+	{
+		sLog.outBasic("Class %d physicalCriticalRange rate tblidx %d lastDex %d", pcClass, classInfo->Physical_Critical_Range, lastDex);
+		sFORMULA_TBLDAT* formula = (sFORMULA_TBLDAT*)sTBM.GetFormulaTable()->FindData(classInfo->Physical_Critical_Range);
+		if (formula)
+		{
+			physicalCriticalRange = formula->afRate[0] + (lastDex / formula->afRate[1]);
+			sLog.outBasic("physicalCriticalRange total %f rate1 %f rate2 %f", physicalCriticalRange, formula->afRate[0], formula->afRate[1]);
+		}
+	}
+	return physicalCriticalRange;
+}
+
+float AttributesManager::CalculeEnergyCriticalRange(BYTE pcClass, int lastFoc)
+{
+	// = fRate1 + (Last_Foc / fRate2)
+	float energyCriticalRange = 0;
+	CLASS_INFO* classInfo = sTBM.GetFormulaTable()->FindClassInfoByClass(pcClass);
+	if (classInfo)
+	{
+		sLog.outBasic("Class %d energyCriticalRange rate tblidx %d lastFoc %d", pcClass, classInfo->Energy_Critical_Range, lastFoc);
+		sFORMULA_TBLDAT* formula = (sFORMULA_TBLDAT*)sTBM.GetFormulaTable()->FindData(classInfo->Energy_Critical_Range);
+		if (formula)
+		{
+			energyCriticalRange = formula->afRate[0] + (lastFoc / formula->afRate[1]);
+			sLog.outBasic("energyCriticalRange total %f rate1 %f rate2 %f", energyCriticalRange, formula->afRate[0], formula->afRate[1]);
+		}
+	}
+	return energyCriticalRange;
 }
