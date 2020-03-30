@@ -106,6 +106,23 @@ int FightManager::CalculeAttackSuccess(int attAttackRate, int defDodgeRate, BYTE
 	return static_cast<int>(attackSuccess);
 }
 //----------------------------------------
+//	Get the percent of critical damage
+//----------------------------------------
+DWORD FightManager::CalculePhysicalCriticalDamage(float damage, float PhysicalCriticalRange)
+{
+	float percentDamage = PhysicalCriticalRange * damage / 100.0f;
+	float newDamage = damage + percentDamage;
+	sLog.outBasic("Percent damage added %f damage with percent %f newdamage %f", PhysicalCriticalRange, percentDamage, newDamage);
+	return newDamage;
+}
+DWORD FightManager::CalculeEnergyCriticalDamage(float damage, float energyCriticalRange)
+{
+	float percentDamage = energyCriticalRange * damage / 100.0f;
+	float newDamage = damage + percentDamage;
+	sLog.outBasic("Percent damage added %f damage with percent %f newdamage %f", energyCriticalRange, percentDamage, newDamage);
+	return newDamage;
+}
+//----------------------------------------
 //	Get the percent of critical attack success
 //----------------------------------------
 int FightManager::CalculePhysicalCriticalSuccess(WORD attPhysicalCriticalRate, WORD deffPhysicalCriticalDefenceRate)
@@ -127,6 +144,9 @@ int FightManager::CalculePhysicalCriticalSuccess(WORD attPhysicalCriticalRate, W
 	return physicalCriticalSuccess;
 
 }
+//----------------------------------------
+//	Get the percent of critical attack success
+//----------------------------------------
 int FightManager::CalculeEnergyCriticalSuccess(WORD attEnergyCriticalRate, WORD deffEnergyCriticalDefenceRate)
 {
 	//fRate1 * ( 공격자 Character(Monster)_Physical_Critical_Rate / ( 공격자 Character(Monster)_Physical_Critical_Rate + 방어자 Character(Monster)_Physical_Critical_Defence_Rate * fRate2 ) )  최대 90
@@ -227,7 +247,15 @@ void FightManager::GetPlayerCriticAttack(bool caster, eOBJTYPE ObjectTypeId)
 	if (num <= CritChance && CritChance > 0)
 	{
 		attackResult = eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_CRITICAL_HIT;
-		attackValue *= 2;
+		//attackValue *= 2;
+		if (caster == false)
+		{
+			attackValue = CalculePhysicalCriticalDamage(attackValue, plr->GetPcProfile()->avatarAttribute.fLastPhysicalCriticalRange);
+		}
+		else
+		{
+			attackValue = CalculeEnergyCriticalDamage(attackValue, plr->GetPcProfile()->avatarAttribute.fLastEnergyCriticalRange);
+		}
 	}
 	//std::cout << "CritChance = " << CritChance << std::endl;
 }

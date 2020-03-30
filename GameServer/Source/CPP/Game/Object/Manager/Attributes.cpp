@@ -423,10 +423,10 @@ bool AttributesManager::LoadAttributeFromDB()
 	PlayerProfile.avatarAttribute.unknown5_3 = 120;
 	PlayerProfile.avatarAttribute.unknown5_4 = 119;
 	PlayerProfile.avatarAttribute.unknown5_5 = 118;
-	PlayerProfile.avatarAttribute.fBasePhysicalCriticalRange = 0;
-	PlayerProfile.avatarAttribute.fLastPhysicalCriticalRange = 0;
-	PlayerProfile.avatarAttribute.fBaseEnergyCriticalRange = 0;
-	PlayerProfile.avatarAttribute.fLastEnergyCriticalRange = 0;
+	PlayerProfile.avatarAttribute.fBasePhysicalCriticalRange = CalculePhysicalCriticalRange(plr->GetMyClass(), PlayerProfile.avatarAttribute.byLastDex);
+	PlayerProfile.avatarAttribute.fLastPhysicalCriticalRange = PlayerProfile.avatarAttribute.fBasePhysicalCriticalRange;
+	PlayerProfile.avatarAttribute.fBaseEnergyCriticalRange = CalculeEnergyCriticalRange(plr->GetMyClass(), PlayerProfile.avatarAttribute.byLastFoc);
+	PlayerProfile.avatarAttribute.fLastEnergyCriticalRange = PlayerProfile.avatarAttribute.fBaseEnergyCriticalRange;
 	PlayerProfile.avatarAttribute.unknown_rate1 = 113;
 	PlayerProfile.avatarAttribute.unknown_rate2 = 112;
 	// SKILL SPEED
