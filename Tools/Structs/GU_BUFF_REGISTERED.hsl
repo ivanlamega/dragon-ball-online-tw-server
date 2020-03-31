@@ -1,0 +1,126 @@
+/*****************************************************************************
+ * filesystems.hsl - Structure definitions for file system related entities.
+ *     This presently includes the MBR, and BOOTSECTORs for FAT16, FAT32, and
+ *     NTFS.
+ *  
+ * Copyright (c) 2003-2008 BreakPoint Software, Inc.  All Rights Reserved
+ *
+ *****************************************************************************
+ * Revision History:
+ *  05/01/03 - RJA - Original
+ *  10/16/07 - RJA - Formatting tweaks, use blob for ByteCode
+ *  12/16/09 - RJA - Added enumsign pragmas
+ */
+
+#include "standard-types.hsl"
+struct BuffInfoSkill
+{
+	float           SystemEffectValue;
+	DWORD           SystemEffectTime;
+	DWORD           dwSystemEffectValue;
+	DWORD           SystemEffectUnk1;
+	DWORD           SystemEffectUnk2;
+	BYTE            BuffEffectValue3[2];	
+	bool			NeedDisplayMensage;
+}BuffInfoSkill;
+
+struct LP_EP_Recovered
+{
+
+	bool bRecoveredLP;
+	DWORD wRecoveredLpValue;
+	bool bRecoveredEP;
+	DWORD wRecoveredEpValue;
+}LP_EP_Recovered;
+
+struct BuffTypeDefault
+{
+	float fEffectValue;
+	float fBonusValue;
+}BuffTypeDefault;
+struct BuffTypeDoT
+{
+	float fEffectValue;
+	float fBonusValue;
+	float fReflectdDemage;
+	LP_EP_Recovered sLP_EP_Recovered;
+}BuffTypeDoT;
+struct BuffTypeHoT
+{
+	float fHealLP;
+	float fHealEP;
+}BuffTypeHoT;
+struct BuffTypeLP_EP_Steal
+{
+	float fDemage;
+	bool  bInPercent;
+	float fRation;
+}BuffTypeLP_EP_Steal;
+struct BuffTypeLP_EP_AutoRecover
+{
+	DWORD	TbxCommonConfig;
+	DWORD	dwRemainTime;
+	DWORD	dwRemainValue;
+}BuffTypeLP_EP_AutoRecover;
+struct BuffInfoSkill
+{
+	float           SystemEffectValue;
+	DWORD           SystemEffectTime;
+	DWORD           dwSystemEffectValue;
+	DWORD           SystemEffectUnk1;
+	DWORD           SystemEffectUnk2;
+	BYTE            BuffEffectValue3[2];	
+	bool			NeedDisplayMensage;
+}BuffInfoSkill;
+struct BuffTypeSkill
+{
+	WORD size;
+	WORD OpCode;
+	DWORD		hHandle;
+	BYTE        slot;		// eDBO_OBJECT_SOURCE
+	DWORD		tblidx;
+	BYTE        bySourceType;// set 0
+	DWORD       dwInitialDuration;//dwInitialDuration and dwTimeRemaining
+	DWORD		dwTimeRemaining;
+	bool        isactive;
+	BYTE        Type;	 
+	BuffInfoSkill BuffInfo[2];	
+}BuffTypeSkill;
+struct sBuffType
+{
+	BYTE   BuffEffectType;
+
+	BuffTypeDefault sBuffTypeDefault;
+	BuffTypeDoT		sBuffTypeDoT;
+	BuffTypeHoT		sBuffTypeHoT;
+	BuffTypeLP_EP_Steal sBuffTypeLP_EP_Steal;
+	BuffTypeLP_EP_AutoRecover sBuffTypeLP_EP_AutoRecover;
+	BuffTypeSkill    sBuffTypeSkill[2];
+};
+
+union sBuffType
+{
+	BYTE   BuffEffectType;
+
+	BuffTypeDefault sBuffTypeDefault;
+	BuffTypeDoT		sBuffTypeDoT;
+	BuffTypeHoT		sBuffTypeHoT;
+	BuffTypeLP_EP_Steal sBuffTypeLP_EP_Steal;
+	BuffTypeLP_EP_AutoRecover sBuffTypeLP_EP_AutoRecover;
+	BuffTypeSkill    sBuffTypeSkill[2];
+}sBuffType;
+
+struct GU_BUFF_REGISTERED
+{
+WORD size;
+WORD opcode;
+DWORD			hHandle;
+BYTE			Slot;
+DWORD			tblidx;
+BYTE			bySourceType;// set 0
+DWORD			dwInitialDuration;//dwInitialDuration and dwTimeRemaining
+DWORD			dwTimeRemaining;
+bool			isactive;
+sBuffType		BuffType;
+bool            NeedDisplayMensage;
+};
