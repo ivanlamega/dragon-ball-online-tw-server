@@ -298,7 +298,7 @@ HOBJECT			hTarget;
 BYTE			unknown;
 BYTE			unknown2;
 TBLIDX			skillTblidx;
-BYTE			unknown3;
+BYTE			specialResult; //eBATTLE_SPECIAL_ATTACK_RESULT
 DWORD			damage;
 dVECTOR3		pos;
 END_PROTOCOL()

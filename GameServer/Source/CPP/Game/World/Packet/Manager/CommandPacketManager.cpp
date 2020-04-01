@@ -216,6 +216,7 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 			sLog.outDetail("Test spin value %d", numVal);
 
 			sGU_CHAR_SPECIAL_ATTACK_NFY nfy;
+			memset(&nfy, 0, sizeof sGU_CHAR_SPECIAL_ATTACK_NFY);
 			nfy.wOpCode = GU_CHAR_SPECIAL_ATTACK_NFY;
 			nfy.wPacketSize = sizeof(sGU_CHAR_SPECIAL_ATTACK_NFY) - 2;
 			nfy.hTarget = _player->GetHandle();
