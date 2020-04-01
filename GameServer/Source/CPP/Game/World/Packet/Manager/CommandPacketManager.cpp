@@ -255,16 +255,29 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 
 			SendPacket((char*)&nfy, sizeof(sGU_CHAR_SPECIAL_ATTACK_NFY));
 		}
-		else if (strToken == "@attr")
+		else if (strToken == "@attack")
 		{
 			sLog.outDetail("Respawn object quest");
 			strToken = str.substr(pos + 1, std::string::npos);
 			DWORD value = (unsigned int)atof(strToken.c_str());
-
-			_player->GetAttributesManager()->GetPlayerProfile()->avatarAttribute.AbdominalPainDefense = value;
-			_player->GetAttributesManager()->GetPlayerProfile()->avatarAttribute.PoisonDefense = value;
-			_player->GetAttributesManager()->GetPlayerProfile()->avatarAttribute.BleedingDefense = value;
-			_player->GetAttributesManager()->GetPlayerProfile()->avatarAttribute.BurnDefense = value;
+			sGU_CHAR_ACTION_ATTACK res;
+			res.bChainAttack = true;
+			res.byAttackResult = value;
+			res.byBlockedAction = -1;
+			res.dwLpEpEventId = 700121;
+			res.fReflectedDamage = 0;
+			res.byAttackSequence = 1;
+			res.hSubject = _player->GetHandle();
+			res.hTarget = _player->GetHandle();
+			res.vShift = _player->GetVectorPosition();
+			res.wAttackResultValue = 10;
+			res.bRecoveredLP = false;
+			res.wRecoveredLpValue = 0;
+			res.bRecoveredEP = false;
+			res.wRecoveredEpValue = 0;
+			res.wOpCode = GU_CHAR_ACTION_ATTACK;
+			res.wPacketSize = sizeof(sGU_CHAR_ACTION_ATTACK) - 2;
+			SendPacket((char*)&res, sizeof(sGU_CHAR_ACTION_ATTACK));
 			return;
 		}
 		else if (strToken == "@pickup")
