@@ -224,7 +224,7 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 			nfy.unknown = 0;
 			nfy.unknown2 = 1;
 			nfy.skillTblidx = 510044;
-			nfy.unknown3 = 0;
+			nfy.specialResult = 0;
 			nfy.damage = 3895;
 			nfy.pos.x = dbo_move_float_to_pos(_player->GetVectorPosition().x);
 			nfy.pos.y = dbo_move_float_to_pos(_player->GetVectorPosition().y);
@@ -244,7 +244,7 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 				}
 				case 3:
 				{
-					nfy.unknown3 = numVal;
+					nfy.specialResult = numVal;
 					break;
 				}
 				case 4:
