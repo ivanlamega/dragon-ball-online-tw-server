@@ -151,6 +151,7 @@ public:
 	void				ExecuteEPFood();
 	void				CharAffect();
 	void				ExecuteBuffTimmer();
+	void				ExecuteSpinningBallAttack();
 	void				CheckPVPArea();
 	void				PowerUpUpdate();//incress RP
 	void				NetPYUpdate();//incress RP
@@ -304,6 +305,8 @@ private:
 	DWORD				AutoAttackTmmer;
 	DWORD				TranformationRegTmmer;
 	DWORD				AffectTime;
+	DWORD				SpinningBallAttackTimer;
+
 	std::string			GuildName;
 	DWORD				WarFrogList[100];
 	int					WarFrogcount;

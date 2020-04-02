@@ -166,6 +166,16 @@ public:
 		bool		isMob;
 		int			StunedType;
 	};
+
+	struct SpinningInfo
+	{
+		DWORD		spinTime;
+		DWORD		spinEndTime;
+		DWORD		attackValue;
+	};
+
+	// Control of spin
+	SpinningInfo spinInfo;
 	
 	//Control Stun Time Need change
 	BuffTimeInfo sBuffTimeInfo[34];

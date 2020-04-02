@@ -576,7 +576,8 @@ void Player::SkillAcion()
 
 				if (SystemEffectData != NULL)
 				{
-					sLog.outBasic("Skill EffectCode %d", SystemEffectData->effectCode);
+					sLog.outBasic("Skill EffectCode %d Skill value %f skill tblidx %d", 
+						SystemEffectData->effectCode, skillDataOriginal->SkillValue[Effect], skillDataOriginal->tblidx);
 					switch (SystemEffectData->effectCode)
 					{
 					case ACTIVE_DIRECT_DAMAGE:
@@ -2440,23 +2441,81 @@ void Player::SkillAcion()
 						skillRes.hAppointedTarget = GetHandle();
 						skillRes.bIsSkillHarmful = 0;
 						skillRes.bySkillResultCount = 1;
-						skillRes.aSkillResult[0].hTarget = GetHandle();
-						skillRes.aSkillResult[0].byAttackResult = 0;
-						skillRes.aSkillResult[0].effectResult[0].eResultType = 255;
-						skillRes.aSkillResult[0].effectResult[0].Value1 = skillDataOriginal->SkillValue[0];
-						skillRes.aSkillResult[0].effectResult[1].eResultType = 255;
-						skillRes.aSkillResult[0].byBlockedAction = -1;
-						skillRes.aSkillResult[0].unk1 = 0;
-						skillRes.aSkillResult[0].vShift1 = m_position;
+						skillRes.aSkillResult[count].hTarget = GetHandle();
+						skillRes.aSkillResult[count].byAttackResult = 0;
+						skillRes.aSkillResult[count].effectResult[Effect].eResultType = 255;
+						skillRes.aSkillResult[count].effectResult[Effect].Value1 = skillDataOriginal->SkillValue[0];
+						skillRes.aSkillResult[count].effectResult[1].eResultType = 255;
+						skillRes.aSkillResult[count].byBlockedAction = -1;
+						skillRes.aSkillResult[count].unk1 = 0;
+						skillRes.aSkillResult[count].vShift1 = m_position;
 
 						GetState()->sCharStateBase.aspectState.sAspectStateBase.byAspectStateId = eASPECTSTATE::ASPECTSTATE_SPINNING_ATTACK;
 						memset(&GetState()->sCharStateBase.aspectState.sAspectStateDetail, 0, sizeof GetState()->sCharStateBase.aspectState.sAspectStateDetail);
+						GetAttributesManager()->spinInfo.spinTime = GetTickCount();
+						GetAttributesManager()->spinInfo.spinEndTime = skillDataOriginal->dwKeepTimeInMilliSecs;
+						GetAttributesManager()->spinInfo.attackValue = skillDataOriginal->SkillValue[Effect];
 						/*GetState()->sCharStateBase.aspectState.sAspectStateDetail.sVehicle.bIsEngineOn = false;
 						GetState()->sCharStateBase.aspectState.sAspectStateDetail.sVehicle.hVehicleItem = INVALID_TBLIDX;
 						GetState()->sCharStateBase.aspectState.sAspectStateDetail.sVehicle.idVehicleTblidx = INVALID_TBLIDX;*/
 						//UpdateAspectState(eASPECTSTATE::ASPECTSTATE_SPINNING_ATTACK);
 
-						pBuffData.hHandle = GetHandle();
+						if (pCharSkillReq->hTarget == GetHandle())
+						{
+							pBuffData.hHandle = GetHandle();
+							//pBuffData.slot = 1;
+							pBuffData.tblidx = skillDataOriginal->tblidx;
+							pBuffData.bySourceType = 0;
+							pBuffData.dwInitialDuration = skillDataOriginal->dwKeepTimeInMilliSecs;
+							pBuffData.dwTimeRemaining = skillDataOriginal->dwKeepTimeInMilliSecs;//Time
+
+							pBuffData.isactive = 1;
+							pBuffData.Type = 0;
+							pBuffData.BuffInfo[Effect].SystemEffectValue = skillDataOriginal->SkillValue[Effect];
+							pBuffData.BuffInfo[Effect].SystemEffectTime = skillDataOriginal->dwKeepTimeInMilliSecs;
+							pBuffData.BuffInfo[Effect].dwSystemEffectValue = skillDataOriginal->SkillValue[Effect];
+							//Handle Buff Time List
+							int FreePlace = 0;
+							for (int i = 0; i <= 32; i++)
+							{
+								if (GetAttributesManager()->sBuffTimeInfo[i].BuffID == pBuffData.tblidx)
+								{
+									sGU_BUFF_DROPPED dropbuff;
+									dropbuff.wOpCode = GU_BUFF_DROPPED;
+									dropbuff.wPacketSize = sizeof(sGU_BUFF_DROPPED) - 2;
+									dropbuff.hHandle = GetHandle();
+									dropbuff.bySourceType = eDBO_OBJECT_SOURCE::DBO_OBJECT_SOURCE_SKILL;
+									dropbuff.Slot = 0;
+									dropbuff.tblidx = pBuffData.tblidx;
+									dropbuff.unk1 = 0;
+									SendPacket((char*)&dropbuff, sizeof(sGU_BUFF_DROPPED));
+									SendToPlayerList((char*)&dropbuff, sizeof(sGU_BUFF_DROPPED));
+									GetAttributesManager()->sBuffTimeInfo[i].BuffIsActive = false;
+									GetAttributesManager()->sBuffTimeInfo[i].BuffEndTime = INVALID_TBLIDX;
+									GetAttributesManager()->sBuffTimeInfo[i].BuffTime = INVALID_TBLIDX;
+									GetAttributesManager()->sBuffTimeInfo[i].BuffID = INVALID_TBLIDX;
+									ExecuteEffectCalculation(pBuffData.tblidx, true);
+									//printf("Alardy got that buff \n");
+									FreePlace = i;
+								}
+								//GetFreeSlot
+								else if (GetAttributesManager()->sBuffTimeInfo[i].BuffID == 0 || GetAttributesManager()->sBuffTimeInfo[i].BuffID == INVALID_TBLIDX)
+								{
+									//	printf("Regist new buff \n");
+									FreePlace = i;
+								}
+
+							}
+
+							GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffID = pBuffData.tblidx;
+							GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffTime = GetTickCount();
+							GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffEndTime = pBuffData.dwInitialDuration;
+							GetAttributesManager()->sBuffTimeInfo[FreePlace].PlayerHandle = pBuffData.hHandle;
+							GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffIsActive = true;
+							GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffSlot = 0;
+						}
+
+						/*pBuffData.hHandle = GetHandle();
 						pBuffData.slot = 0;
 						pBuffData.bySourceType = 0;
 						pBuffData.tblidx = skillDataOriginal->tblidx;
@@ -2467,9 +2526,9 @@ void Player::SkillAcion()
 						pBuffData.BuffInfo[0].SystemEffectValue = skillDataOriginal->SkillValue[0];
 						pBuffData.BuffInfo[0].SystemEffectTime = skillDataOriginal->dwKeepTimeInMilliSecs;
 						pBuffData.BuffInfo[0].dwSystemEffectValue = static_cast<DWORD>(skillDataOriginal->SkillValue[0]);
-						pBuffData.BuffInfo[1].NeedDisplayMensage = 1;
+						pBuffData.BuffInfo[1].NeedDisplayMensage = 1;*/
 
-						int idTimer = Timer.GetNewId();
+						/*int idTimer = Timer.GetNewId();
 						Timer.setTimeout([&](TBLIDX skillTblidx) {
 							sGU_BUFF_DROPPED drop;
 							drop.wPacketSize = sizeof(sGU_BUFF_DROPPED) - 2;
@@ -2491,7 +2550,7 @@ void Player::SkillAcion()
 								m_session->SendUpdateCharCondition(0);
 								}, 4000, idTimer);
 
-							}, skillDataOriginal->dwKeepTimeInMilliSecs, skillDataOriginal->tblidx, idTimer);
+							}, skillDataOriginal->dwKeepTimeInMilliSecs, skillDataOriginal->tblidx, idTimer);*/
 						break;
 					}
 					case ACTIVE_ROLLING_ATTACK:

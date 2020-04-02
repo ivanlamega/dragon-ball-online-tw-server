@@ -529,7 +529,8 @@ void Player::Update(uint32 _update_diff, uint32 _time)
 	
 	//HandleFreeBattleRange();	
 	PowerUpUpdate();
-	ExecuteBuffTimmer();	
+	ExecuteBuffTimmer();
+	ExecuteSpinningBallAttack();
 	CheckPVPArea();
 	TranformationRegen();
 	CalculeLowLife();	
@@ -2347,6 +2348,40 @@ void Player::CharAffect()
 		}
 	}
 }
+
+void Player::ExecuteSpinningBallAttack()
+{
+	if (GetState()->sCharStateBase.aspectState.sAspectStateBase.byAspectStateId == eASPECTSTATE::ASPECTSTATE_SPINNING_ATTACK
+		|| GetState()->sCharStateBase.aspectState.sAspectStateBase.byAspectStateId == eASPECTSTATE::ASPECTSTATE_BALL)
+	{
+		DWORD spinTimer = GetTickCount() - SpinningBallAttackTimer;
+		if (spinTimer >= 1000)
+		{
+			DWORD spinEndTimer = GetTickCount() - GetAttributesManager()->spinInfo.spinTime;
+			sLog.outBasic("In Spinning/ball attack spinTimer %d SpininballTimer %d gettickcount %d", spinEndTimer, SpinningBallAttackTimer, GetTickCount());
+			sLog.outBasic("Spintime %de spin endtime %d", GetAttributesManager()->spinInfo.spinTime, GetAttributesManager()->spinInfo.spinEndTime);
+
+			if (spinEndTimer >= GetAttributesManager()->spinInfo.spinEndTime)
+			{
+				GetState()->sCharStateBase.aspectState.sAspectStateBase.byAspectStateId = eASPECTSTATE::ASPECTSTATE_INVALID;
+				UpdateAspectState(GetState()->sCharStateBase.aspectState.sAspectStateBase.byAspectStateId);
+
+				m_session->SendUpdateCharCondition(CHARCOND_AFTEREFFECT_FLAG);
+
+				int idTimer = Timer.GetNewId();
+				Timer.setTimeout([&]() {
+					m_session->SendUpdateCharCondition(0);
+					sLog.outBasic("CHARCOND_AFTEREFFECT_FLAG stop");
+					}, 4000, idTimer);
+
+				sLog.outBasic("Spinning end");
+			}
+
+			SpinningBallAttackTimer = GetTickCount();//Set Time				
+		}
+	}
+}
+
 void Player::ExecuteBuffTimmer()
 {	
 	for (int i = 0; i <= 32; i++)
