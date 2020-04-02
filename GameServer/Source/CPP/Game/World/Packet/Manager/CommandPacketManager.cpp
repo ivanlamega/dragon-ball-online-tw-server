@@ -312,6 +312,54 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 			_player->TeleportByCommand(211000);
 			return;
 		}
+		else if (strToken == "@airspeed")
+		{
+			sLog.outDetail("GM LearnTitle Modified");
+			strToken = str.substr(pos + 1, std::string::npos);
+			unsigned int speed = (unsigned int)atof(strToken.c_str());
+			_player->GetAttributesManager()->GetPlayerProfile()->avatarAttribute.fBaseAirSpeed = speed;
+			_player->GetAttributesManager()->GetPlayerProfile()->avatarAttribute.fLastAirSpeed = speed;
+		}
+		else if (strToken == "@dashspeed")
+		{
+			sLog.outDetail("GM LearnTitle Modified");
+			strToken = str.substr(pos + 1, std::string::npos);
+			unsigned int speed = (unsigned int)atof(strToken.c_str());
+			_player->GetAttributesManager()->GetPlayerProfile()->avatarAttribute.fBaseAirDashSpeed = speed;
+			_player->GetAttributesManager()->GetPlayerProfile()->avatarAttribute.fLastAirDashSpeed = speed;
+		}
+		else if (strToken == "@dash2speed")
+		{
+			sLog.outDetail("GM LearnTitle Modified");
+			strToken = str.substr(pos + 1, std::string::npos);
+			unsigned int speed = (unsigned int)atof(strToken.c_str());
+			_player->GetAttributesManager()->GetPlayerProfile()->avatarAttribute.fBaseAirDash2Speed = speed;
+			_player->GetAttributesManager()->GetPlayerProfile()->avatarAttribute.fLastAirDash2Speed = speed;
+		}
+		else if (strToken == "@runspeed")
+		{
+			sLog.outDetail("GM LearnTitle Modified");
+			strToken = str.substr(pos + 1, std::string::npos);
+			unsigned int speed = (unsigned int)atof(strToken.c_str());
+			_player->GetAttributesManager()->GetPlayerProfile()->avatarAttribute.fBaseRunSpeed = speed;
+			_player->GetAttributesManager()->GetPlayerProfile()->avatarAttribute.fLastRunSpeed = speed;
+		}
+		else if (strToken == "@skillspeed")
+		{
+			sLog.outDetail("GM LearnTitle Modified");
+			strToken = str.substr(pos + 1, std::string::npos);
+			unsigned int speed = (unsigned int)atof(strToken.c_str());
+			_player->GetAttributesManager()->GetPlayerProfile()->avatarAttribute.baseSkillSpeed = speed;
+			_player->GetAttributesManager()->GetPlayerProfile()->avatarAttribute.SkillSpeed = speed;
+		}
+		else if (strToken == "@attackspeed")
+		{
+			sLog.outDetail("GM LearnTitle Modified");
+			strToken = str.substr(pos + 1, std::string::npos);
+			unsigned int speed = (unsigned int)atof(strToken.c_str());
+			_player->GetAttributesManager()->GetPlayerProfile()->avatarAttribute.wBaseAttackSpeedRate = speed;
+			_player->GetAttributesManager()->GetPlayerProfile()->avatarAttribute.wLastAttackSpeedRate = speed;
+		}
 		else if (strToken == "@setspeed")
 		{
 			sLog.outDetail("GM LearnTitle Modified");

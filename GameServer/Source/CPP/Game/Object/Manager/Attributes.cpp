@@ -1,4 +1,4 @@
-#include <Game\Object\Manager\Attributes.h>
+﻿#include <Game\Object\Manager\Attributes.h>
 #include <Game\Object\Player.h>
 #include <WorldSession.h>
 #include <mysqlconn_wrapper.h>
@@ -316,7 +316,7 @@ bool AttributesManager::LoadAttributeFromDB()
 {
 	sql::ResultSet* result = sDB.executes("SELECT * FROM characters_attributes WHERE CharacterID = '%d';", charid);
 	if (result == NULL)
-	{ 
+	{
 		delete result;
 		return false;
 	}
@@ -389,10 +389,10 @@ bool AttributesManager::LoadAttributeFromDB()
 	PlayerProfile.avatarAttribute.fLastAttackRange = (float)result->getDouble("LastAttackRange");
 	PlayerProfile.avatarAttribute.fBaseAttackRange = (float)result->getDouble("BaseAttackRange");
 	//nao sei....
-	PlayerProfile.avatarAttribute.wBaseApDegen = 1;
-	PlayerProfile.avatarAttribute.wLastApDegen = 1;
-	PlayerProfile.avatarAttribute.wBaseApBattleDegen = 1;
-	PlayerProfile.avatarAttribute.wLastApBattleDegen = 1;
+	PlayerProfile.avatarAttribute.wBaseApDegen = 5000;
+	PlayerProfile.avatarAttribute.wLastApDegen = 5000;
+	PlayerProfile.avatarAttribute.wBaseApBattleDegen = 5000;
+	PlayerProfile.avatarAttribute.wLastApBattleDegen = 5000;
 
 	PlayerProfile.avatarAttribute.unknown2 = 144;
 	PlayerProfile.avatarAttribute.unknown3_0 = 143;
@@ -402,7 +402,7 @@ bool AttributesManager::LoadAttributeFromDB()
 	PlayerProfile.avatarAttribute.unknown3_12 = 139;
 	PlayerProfile.avatarAttribute.unknown3_13 = 138;//
 	PlayerProfile.avatarAttribute.unknown3_2 = 137;
-	PlayerProfile.avatarAttribute.baseSkillSpeed = 136;//
+	PlayerProfile.avatarAttribute.baseSkillSpeed = 100.0f;//
 	PlayerProfile.avatarAttribute.baseMaxWeight = 135;
 	PlayerProfile.avatarAttribute.MaxWeight = 2600;
 	PlayerProfile.avatarAttribute.unknown3_w6 = 134; // if != 0 weight get bugged
@@ -431,14 +431,14 @@ bool AttributesManager::LoadAttributeFromDB()
 	// SKILL SPEED
 	PlayerProfile.avatarAttribute.SkillSpeed = 100.0f;
 	//LP Get up Reg
-	PlayerProfile.avatarAttribute.wBaseLpRegen = 70;
-	PlayerProfile.avatarAttribute.wLastLpRegen = 70;
+	PlayerProfile.avatarAttribute.wBaseLpRegen = CalculeLPRegeneration(PlayerProfile.avatarAttribute.byLastCon);
+	PlayerProfile.avatarAttribute.wLastLpRegen = PlayerProfile.avatarAttribute.wBaseLpRegen;
 	//LP Sit Down Reg
 	PlayerProfile.avatarAttribute.wBaseLpSitdownRegen = PlayerProfile.avatarAttribute.wLastMaxLP / 100 * 3;
 	PlayerProfile.avatarAttribute.wLastLpSitdownRegen = PlayerProfile.avatarAttribute.wLastMaxLP / 100 * 3;
 	//LP Reg in Batle
-	PlayerProfile.avatarAttribute.wBaseLpBattleRegen = 111;
-	PlayerProfile.avatarAttribute.wLastLpBattleRegen = 110;
+	PlayerProfile.avatarAttribute.wBaseLpBattleRegen = 0;
+	PlayerProfile.avatarAttribute.wLastLpBattleRegen = 0;
 	//EP Get UP Reg
 	PlayerProfile.avatarAttribute.wBaseEpRegen = 70;
 	PlayerProfile.avatarAttribute.wLastEpRegen = 70;
@@ -465,7 +465,7 @@ bool AttributesManager::LoadAttributeFromDB()
 	PlayerProfile.avatarAttribute.fKeepTimeChangePercent = 0;
 	PlayerProfile.avatarAttribute.fDotValueChangePercent = 0;
 	PlayerProfile.avatarAttribute.fDotTimeChangeAbsolute = 0;//Ep Skill Required
-	
+
 	//Atribute Ofense/Defese
 	PlayerProfile.avatarAttribute.fHonestOffence = 15;//nao
 	PlayerProfile.avatarAttribute.fHonestDefence = 25;//nao
@@ -1922,6 +1922,77 @@ float AttributesManager::CalculeEnergyCriticalRange(BYTE pcClass, int lastFoc)
 	}
 	return energyCriticalRange;
 }
+
+WORD AttributesManager::CalculeLPRegeneration(int lastCon)
+{
+	// = (fRate4 초당) fRate1 + (Last_Con * fRate2) (cada fRate4 segundos)
+	WORD LpRegen;
+	sFORMULA_TBLDAT* formula = (sFORMULA_TBLDAT*)sTBM.GetFormulaTable()->FindData(300);
+	if (formula)
+	{
+		LpRegen = formula->afRate[0] + (lastCon * formula->afRate[1]);
+		sLog.outBasic("LpRegen total %d rate1 %f rate2 %f lastCon %d every %f seconds", 
+			LpRegen, formula->afRate[0], formula->afRate[1], lastCon, formula->afRate[3]);
+	}
+	return LpRegen;
+}
+
+WORD AttributesManager::CalculeLPSitDownRegeneration(WORD lastLpRegeneration)
+{
+	// = (fRate4 초당) Last_LP_Regeneration * fRate1 (cada fRate4 segundos)
+	WORD lpSitdDownRegen;
+	sFORMULA_TBLDAT* formula = (sFORMULA_TBLDAT*)sTBM.GetFormulaTable()->FindData(400);
+	if (formula)
+	{
+		lpSitdDownRegen = lastLpRegeneration * formula->afRate[0];
+		sLog.outBasic("lpSitdDownRegen total %d rate1 %f lastLpRegeneration %d every %f seconds",
+			lpSitdDownRegen, formula->afRate[0], lastLpRegeneration, formula->afRate[3]);
+	}
+	return lpSitdDownRegen;
+}
+
+WORD AttributesManager::CalculeEPRegeneration(int lastEng)
+{
+	//  = (fRate4 초당) fRate1 + (Last_Eng * fRate2) (cada fRate4 segundos)
+	WORD EpRegen;
+	sFORMULA_TBLDAT* formula = (sFORMULA_TBLDAT*)sTBM.GetFormulaTable()->FindData(1400);
+	if (formula)
+	{
+		EpRegen = formula->afRate[0] + (lastEng * formula->afRate[1]);
+		sLog.outBasic("EpRegen total %d rate1 %f rate2 %f lastEng %d every %f seconds",
+			EpRegen, formula->afRate[0], formula->afRate[1], lastEng, formula->afRate[3]);
+	}
+	return EpRegen;
+}
+
+WORD AttributesManager::CalculeEPSitDownRegeneration(WORD lastEpRegeneration)
+{
+	// = (fRate4 초당) Last_EP_Regeneration * fRate1 (cada fRate4 segundos)
+	WORD epSitdDownRegen;
+	sFORMULA_TBLDAT* formula = (sFORMULA_TBLDAT*)sTBM.GetFormulaTable()->FindData(1500);
+	if (formula)
+	{
+		epSitdDownRegen = lastEpRegeneration * formula->afRate[0];
+		sLog.outBasic("epSitdDownRegen total %d rate1 %f lastEpRegeneration %d every %f seconds",
+			epSitdDownRegen, formula->afRate[0], lastEpRegeneration, formula->afRate[3]);
+	}
+	return epSitdDownRegen;
+}
+
+WORD AttributesManager::CalculeEPBattleRegeneration(WORD lastEpRegeneration)
+{
+	// = (fRate4 초당) Last_EP_Regeneration * fRate1(cada fRate4 segundos)
+	WORD epBattleRegen;
+	sFORMULA_TBLDAT* formula = (sFORMULA_TBLDAT*)sTBM.GetFormulaTable()->FindData(1600);
+	if (formula)
+	{
+		epBattleRegen = lastEpRegeneration * formula->afRate[0];
+		sLog.outBasic("epBattleRegen total %d rate1 %f lastEpRegeneration %d every %f seconds",
+			epBattleRegen, formula->afRate[0], lastEpRegeneration, formula->afRate[3]);
+	}
+	return epBattleRegen;
+}
+
 // Update phyicalOffence
 void AttributesManager::UpdateStr(int lastStr, bool addSet)
 {
@@ -1953,10 +2024,12 @@ void AttributesManager::UpdateCon(int lastCon, bool addSet)
 	DWORD LP = CalculeLP(plr->GetMyClass(), PlayerProfile.avatarAttribute.byLastCon);
 	WORD BlockRate = CalculeBlockRate(PlayerProfile.avatarAttribute.byLastDex, PlayerProfile.avatarAttribute.byLastCon);
 	WORD PhysicalCriticalDefenceRate = CalculePhysicalCriticalDefenceRate(PlayerProfile.avatarAttribute.byLastCon);
+	WORD LpRegen = CalculeLPRegeneration(PlayerProfile.avatarAttribute.byLastCon);
 
 	UpdateLP(LP, false);
 	UpdateBlockRate(BlockRate, false);
 	UpdatePhysicalCriticalDefenceRate(PhysicalCriticalDefenceRate, false);
+	UpdateLPRegeneration(LpRegen, false);
 }
 // Update energyOffence, energyCriticalRate, hitRate(attackRate), energyCriticalRange
 void AttributesManager::UpdateFoc(int lastFoc, bool addSet)
@@ -2020,8 +2093,10 @@ void AttributesManager::UpdateSol(int lastSol, bool addSet)
 
 	WORD energyOffence = CalculeEnergyOffence(plr->GetMyClass(), PlayerProfile.byLevel, 
 		PlayerProfile.avatarAttribute.byLastSol, PlayerProfile.avatarAttribute.byLastFoc);
+
+	UpdateEnergyOffence(energyOffence, false);
 }
-// Update Eng, EP and EnergyCriticalDefenceRate
+// Update EP EnergyCriticalDefenceRate, EPRegeneration
 void AttributesManager::UpdateEng(int lastEng, bool addSet)
 {
 	if (addSet)
@@ -2035,6 +2110,11 @@ void AttributesManager::UpdateEng(int lastEng, bool addSet)
 
 	WORD EP = CalculeEP(plr->GetMyClass(), PlayerProfile.avatarAttribute.byLastEng);
 	WORD energyCriticalDefenceRate = CalculeEnergyCriticalDefenceRate(PlayerProfile.avatarAttribute.byLastEng);
+	WORD epRegen = CalculeEPRegeneration(PlayerProfile.avatarAttribute.byLastEng);
+
+	UpdateEP(EP, false);
+	UpdateEnergyCriticalDefenceRate(energyCriticalDefenceRate, false);
+	UpdateEPRegeneration(epRegen, false);
 }
 
 void AttributesManager::UpdateLP(DWORD lp, bool addSet)
@@ -2203,5 +2283,75 @@ void AttributesManager::UpdateEnergyCriticalRange(float energyCriticalRange, boo
 	else
 	{
 		SetLastEnergyCriticalRange(energyCriticalRange);
+	}
+}
+// Update LPSitDownRegeneration
+void AttributesManager::UpdateLPRegeneration(WORD LpRegen, bool addSet)
+{
+	if (addSet)
+	{
+		AddLastLPRegen(LpRegen);
+	}
+	else
+	{
+		SetLastLPRegen(LpRegen);
+	}
+
+	WORD lpSitDownRegen = CalculeLPSitDownRegeneration(PlayerProfile.avatarAttribute.wLastLpRegen);
+
+	UpdateLPSitDownRegeneration(lpSitDownRegen, false);
+}
+
+void AttributesManager::UpdateLPSitDownRegeneration(WORD lpSitDownRegen, bool addSet)
+{
+	if (addSet)
+	{
+		AddLastLPSitDownRegeneration(lpSitDownRegen);
+	}
+	else
+	{
+		SetLastLPSitDownRegeneration(lpSitDownRegen);
+	}
+}
+
+void AttributesManager::UpdateEPRegeneration(WORD EpRegen, bool addSet)
+{
+	if (addSet)
+	{
+		AddLastEPRegen(EpRegen);
+	}
+	else
+	{
+		SetLastEPRegen(EpRegen);
+	}
+
+	WORD EpSitDownRegen = CalculeEPSitDownRegeneration(PlayerProfile.avatarAttribute.wLastEpRegen);
+	WORD EpBattleRegen = CalculeEPBattleRegeneration(PlayerProfile.avatarAttribute.wLastEpRegen);
+
+	UpdateEPSitDownRegeneration(EpSitDownRegen, false);
+	UpdateEPBattleRegeneration(EpBattleRegen, false);
+}
+
+void AttributesManager::UpdateEPSitDownRegeneration(WORD epSitDownRegen, bool addSet)
+{
+	if (addSet)
+	{
+		AddLastEPSitDownRegeneration(epSitDownRegen);
+	}
+	else
+	{
+		SetLastEPSitDownRegeneration(epSitDownRegen);
+	}
+}
+
+void AttributesManager::UpdateEPBattleRegeneration(WORD epBattleRegen, bool addSet)
+{
+	if (addSet)
+	{
+		AddLastEPBattleRegeneration(epBattleRegen);
+	}
+	else
+	{
+		SetLastEPBattleRegeneration(epBattleRegen);
 	}
 }

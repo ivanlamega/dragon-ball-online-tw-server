@@ -407,6 +407,25 @@ void AttributesManager::SetLastBlockDamageRate(WORD val)
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_BLOCK_DAMAGE_RATE_LAST);
 	PlayerProfile.avatarAttribute.wLastBlockDamageRate = val;
 }
+
+void AttributesManager::SetLastLPSitDownRegeneration(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_LP_SITDOWN_REGENERATION_LAST);
+	PlayerProfile.avatarAttribute.wLastLpSitdownRegen = val;
+}
+
+void AttributesManager::SetLastEPSitDownRegeneration(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_EP_SITDOWN_REGENERATION_LAST);
+	PlayerProfile.avatarAttribute.wLastEpSitdownRegen = val;
+}
+
+void AttributesManager::SetLastEPBattleRegeneration(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_EP_BATTLE_REGENERATION_LAST);
+	PlayerProfile.avatarAttribute.wLastEpBattleRegen = val;
+}
+
 //Add
 
 
@@ -811,4 +830,22 @@ void AttributesManager::AddLastBlockDamageRate(WORD val)
 {
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_BLOCK_DAMAGE_RATE_LAST);
 	PlayerProfile.avatarAttribute.wLastBlockDamageRate += val;
+}
+
+void AttributesManager::AddLastLPSitDownRegeneration(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_LP_SITDOWN_REGENERATION_LAST);
+	PlayerProfile.avatarAttribute.wLastLpSitdownRegen += val;
+}
+
+void AttributesManager::AddLastEPSitDownRegeneration(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_EP_SITDOWN_REGENERATION_LAST);
+	PlayerProfile.avatarAttribute.wLastEpSitdownRegen += val;
+}
+
+void AttributesManager::AddLastEPBattleRegeneration(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_EP_BATTLE_REGENERATION_LAST);
+	PlayerProfile.avatarAttribute.wLastEpBattleRegen += val;
 }

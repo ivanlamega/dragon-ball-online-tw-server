@@ -222,6 +222,11 @@ public:
 	WORD			CalculeEnergyCriticalDefenceRate(int lastEng);
 	float			CalculePhysicalCriticalRange(BYTE pcClass, int lastDex);
 	float			CalculeEnergyCriticalRange(BYTE pcClass, int lastFoc);
+	WORD			CalculeLPRegeneration(int lastCon);
+	WORD			CalculeLPSitDownRegeneration(WORD lastLpRegeneration);
+	WORD			CalculeEPRegeneration(int lastEng);
+	WORD			CalculeEPSitDownRegeneration(WORD lastEpRegeneration);
+	WORD			CalculeEPBattleRegeneration(WORD lastEpRegeneration);
 
 	// Update cascading stats bool addSet = 0 add, 1 set
 	// Update phyicalOffence
@@ -234,7 +239,7 @@ public:
 	void			UpdateDex(int lastDex, bool addSet);
 	// Update energyOffence
 	void			UpdateSol(int lastSol, bool addSet);
-	// Update Eng, EP and EnergyCriticalDefenceRate
+	// Update EP and EnergyCriticalDefenceRate
 	void			UpdateEng(int lastEng, bool addSet);
 	void			UpdateLP(DWORD lp, bool addSet);
 	void			UpdateEP(WORD ep, bool addSet);
@@ -250,6 +255,13 @@ public:
 	void			UpdateEnergyCriticalDefenceRate(WORD energyCriticalDefenceRate, bool addSet);
 	void			UpdatePhysicalCriticalRange(float physicalCriticalRange, bool addSet);
 	void			UpdateEnergyCriticalRange(float energyCriticalRange, bool addSet);
+	// Update LPSitDownRegeneration
+	void			UpdateLPRegeneration(WORD LpRegen, bool addSet);
+	void			UpdateLPSitDownRegeneration(WORD lpSitDownRegen, bool addSet);
+	// Update EPSitDownRegeneration, EPBattleRegeneration
+	void			UpdateEPRegeneration(WORD EpRegen, bool addSet);
+	void			UpdateEPSitDownRegeneration(WORD epSitDownRegen, bool addSet);
+	void			UpdateEPBattleRegeneration(WORD epBattleRegen, bool addSet);
 	//	------------------------------------------------------------------------
 	// GETTER
 	//	------------------------------------------------------------------------
@@ -359,6 +371,9 @@ public:
 	void SetLastApDegeneration(WORD val);
 	void SetLastApBattleDegeneration(WORD val);
 	void SetLastBlockDamageRate(WORD val);
+	void SetLastLPSitDownRegeneration(WORD val);
+	void SetLastEPSitDownRegeneration(WORD val);
+	void SetLastEPBattleRegeneration(WORD val);
 
 	// Add
 	void AddLastStr(WORD val);
@@ -440,6 +455,9 @@ public:
 	void AddLastApDegeneration(WORD val);
 	void AddLastApBattleDegeneration(WORD val);
 	void AddLastBlockDamageRate(WORD val);
+	void AddLastLPSitDownRegeneration(WORD val);
+	void AddLastEPSitDownRegeneration(WORD val);
+	void AddLastEPBattleRegeneration(WORD val);
 };
 
 #endif
