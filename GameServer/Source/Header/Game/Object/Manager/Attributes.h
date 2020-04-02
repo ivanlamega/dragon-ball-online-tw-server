@@ -206,10 +206,10 @@ public:
 	void			UpdateAttributesFromItem(sITEM_TBLDAT& item, BYTE Grade, bool remove = false);
 	void			UpdateExtraAttributesFromItem(sITEM_EFFECT aitemEffect[6], bool isRemove = false);
 
-	// Basic stats: str, con, foc, dex, sol, eng
+	// Calcule stats
 	int				CalculeBasicStats(WORD basicStat, float basicStatLvUp, BYTE playerLevel);
-	DWORD			CalculeLP(BYTE pcClass, int baseCon);
-	WORD			CalculeEP(BYTE pcClass, int baseEng);
+	DWORD			CalculeLP(BYTE pcClass, int lastCon);
+	WORD			CalculeEP(BYTE pcClass, int lastEng);
 	int				CalculeRP(BYTE playerLevel);
 	WORD			CalculePhysicalOffence(BYTE pcClass, BYTE playerLevel, int lastStr, int lastDex);
 	WORD			CalculeEnergyOffence(BYTE pcClass, BYTE playerLevel, int lastSol, int lastFoc);
@@ -222,6 +222,34 @@ public:
 	WORD			CalculeEnergyCriticalDefenceRate(int lastEng);
 	float			CalculePhysicalCriticalRange(BYTE pcClass, int lastDex);
 	float			CalculeEnergyCriticalRange(BYTE pcClass, int lastFoc);
+
+	// Update cascading stats bool addSet = 0 add, 1 set
+	// Update phyicalOffence
+	void			UpdateStr(int lastStr, bool addSet);
+	// Update LP, blockRate, physicalCriticalDefenceRate
+	void			UpdateCon(int lastCon, bool addSet);
+	// Update energyOffence, energyCriticalRate, hitRate(attackRate), energyCriticalRange
+	void			UpdateFoc(int lastFoc, bool addSet);
+	// Update physicalOffence, physicalCriticalRate, dodgeRate, blockRate, physicalCriticalRange
+	void			UpdateDex(int lastDex, bool addSet);
+	// Update energyOffence
+	void			UpdateSol(int lastSol, bool addSet);
+	// Update Eng, EP and EnergyCriticalDefenceRate
+	void			UpdateEng(int lastEng, bool addSet);
+	void			UpdateLP(DWORD lp, bool addSet);
+	void			UpdateEP(WORD ep, bool addSet);
+	void			UpdateRP(int rp, bool addSet);
+	void			UpdatePhysicalOffence(WORD physicalOffence, bool addSet);
+	void			UpdateEnergyOffence(WORD energyOffence, bool addSet);
+	void			UpdatePhysicalCriticalRate(WORD physicalCriticalRate, bool addSet);
+	void			UpdateEnergyCriticalRate(WORD energyCriticalRate, bool addSet);
+	void			UpdateHitRate(WORD hitRate, bool addSet);
+	void			UpdateDodgeRate(WORD dodgeRate, bool addSet);
+	void			UpdateBlockRate(WORD blockRate, bool addSet);
+	void			UpdatePhysicalCriticalDefenceRate(WORD physicalCriticalDefenceRate, bool addSet);
+	void			UpdateEnergyCriticalDefenceRate(WORD energyCriticalDefenceRate, bool addSet);
+	void			UpdatePhysicalCriticalRange(float physicalCriticalRange, bool addSet);
+	void			UpdateEnergyCriticalRange(float energyCriticalRange, bool addSet);
 	//	------------------------------------------------------------------------
 	// GETTER
 	//	------------------------------------------------------------------------
@@ -326,6 +354,11 @@ public:
 	void SetSkillSpeed(float val);
 	void SetPhysicalCriticalDefenceRate(WORD val);
 	void SetEnergyCriticalDefenceRate(WORD val);
+	void SetLastPhysicalCriticalRange(float val);
+	void SetLastEnergyCriticalRange(float val);
+	void SetLastApDegeneration(WORD val);
+	void SetLastApBattleDegeneration(WORD val);
+	void SetLastBlockDamageRate(WORD val);
 
 	// Add
 	void AddLastStr(WORD val);
@@ -402,6 +435,11 @@ public:
 	void AddSkillSpeed(float val);
 	void AddPhysicalCriticalDefenceRate(WORD val);
 	void AddEnergyCriticalDefenceRate(WORD val);
+	void AddLastPhysicalCriticalRange(float val);
+	void AddLastEnergyCriticalRange(float val);
+	void AddLastApDegeneration(WORD val);
+	void AddLastApBattleDegeneration(WORD val);
+	void AddLastBlockDamageRate(WORD val);
 };
 
 #endif
