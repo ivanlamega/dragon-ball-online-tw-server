@@ -102,6 +102,26 @@ void AttributesManager::UpdateLevelUpAtributes()
 		plr->GetAttributesManager()->UpdateSol(baseSol, false);
 		plr->GetAttributesManager()->UpdateEng(baseEng, false);
 
+		plr->GetAttributesManager()->PlayerProfile.avatarAttribute.byBaseStr = baseStr;
+		plr->GetAttributesManager()->PlayerProfile.avatarAttribute.byBaseCon = baseCon;
+		plr->GetAttributesManager()->PlayerProfile.avatarAttribute.byBaseFoc = baseFoc;
+		plr->GetAttributesManager()->PlayerProfile.avatarAttribute.byBaseDex = baseDex;
+		plr->GetAttributesManager()->PlayerProfile.avatarAttribute.byBaseSol = baseSol;
+		plr->GetAttributesManager()->PlayerProfile.avatarAttribute.byBaseEng = baseEng;
+
+		plr->GetAttributesManager()->PlayerProfile.avatarAttribute.wBasePhysicalOffence = plr->GetAttributesManager()->PlayerProfile.avatarAttribute.wLastPhysicalOffence;
+		plr->GetAttributesManager()->PlayerProfile.avatarAttribute.wBaseMaxLP = plr->GetAttributesManager()->PlayerProfile.avatarAttribute.wLastMaxLP;
+		plr->GetAttributesManager()->PlayerProfile.avatarAttribute.wBaseBlockRate = plr->GetAttributesManager()->PlayerProfile.avatarAttribute.wLastBlockRate;
+		plr->GetAttributesManager()->PlayerProfile.avatarAttribute.wBaseEnergyOffence = plr->GetAttributesManager()->PlayerProfile.avatarAttribute.wLastEnergyOffence;
+		plr->GetAttributesManager()->PlayerProfile.avatarAttribute.wBaseEnergyCriticalRate = plr->GetAttributesManager()->PlayerProfile.avatarAttribute.wLastEnergyCriticalRate;
+		plr->GetAttributesManager()->PlayerProfile.avatarAttribute.wBaseAttackRate = plr->GetAttributesManager()->PlayerProfile.avatarAttribute.wLastAttackRate;
+		plr->GetAttributesManager()->PlayerProfile.avatarAttribute.fBaseEnergyCriticalRange = plr->GetAttributesManager()->PlayerProfile.avatarAttribute.fLastEnergyCriticalRange;
+		plr->GetAttributesManager()->PlayerProfile.avatarAttribute.wBasePhysicalCriticalRate = plr->GetAttributesManager()->PlayerProfile.avatarAttribute.wLastPhysicalCriticalRate;
+		plr->GetAttributesManager()->PlayerProfile.avatarAttribute.wBaseDodgeRate = plr->GetAttributesManager()->PlayerProfile.avatarAttribute.wLastDodgeRate;
+		plr->GetAttributesManager()->PlayerProfile.avatarAttribute.fBasePhysicalCriticalRange = plr->GetAttributesManager()->PlayerProfile.avatarAttribute.fLastPhysicalCriticalRange;
+		plr->GetAttributesManager()->PlayerProfile.avatarAttribute.wBaseMaxEP = plr->GetAttributesManager()->PlayerProfile.avatarAttribute.wLastMaxEP;
+
+
 		/*plr->GetAttributesManager()->SetLastStr(baseStr);
 		plr->GetAttributesManager()->SetLastCon(baseCon);
 		plr->GetAttributesManager()->SetLastFoc(baseFoc);
