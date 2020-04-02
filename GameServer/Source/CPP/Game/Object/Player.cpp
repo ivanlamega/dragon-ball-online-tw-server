@@ -696,7 +696,7 @@ void Player::PowerUpUpdate()
 	if (GetAttributesManager()->IsPowerUp == true)
 	{
 		
-			GetPcProfile()->wCurRP += 2;
+			GetPcProfile()->wCurRP += GetPcProfile()->avatarAttribute.wLastRpRegen;
 			sGU_UPDATE_CHAR_RP RP;
 
 			RP.bHitDelay = false;

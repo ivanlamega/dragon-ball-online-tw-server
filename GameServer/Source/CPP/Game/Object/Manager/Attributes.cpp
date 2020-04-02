@@ -391,8 +391,8 @@ bool AttributesManager::LoadAttributeFromDB()
 	//nao sei....
 	PlayerProfile.avatarAttribute.wBaseApDegen = 5000;
 	PlayerProfile.avatarAttribute.wLastApDegen = 5000;
-	PlayerProfile.avatarAttribute.wBaseApBattleDegen = 5000;
-	PlayerProfile.avatarAttribute.wLastApBattleDegen = 5000;
+	PlayerProfile.avatarAttribute.wBaseApBattleDegen = 0;
+	PlayerProfile.avatarAttribute.wLastApBattleDegen = 0;
 
 	PlayerProfile.avatarAttribute.unknown2 = 144;
 	PlayerProfile.avatarAttribute.unknown3_0 = 143;
@@ -449,10 +449,10 @@ bool AttributesManager::LoadAttributeFromDB()
 	PlayerProfile.avatarAttribute.wBaseEpBattleRegen = CalculeEPBattleRegeneration(PlayerProfile.avatarAttribute.wBaseEpRegen);
 	PlayerProfile.avatarAttribute.wLastEpBattleRegen = PlayerProfile.avatarAttribute.wBaseEpBattleRegen;
 	//Rp incress rate
-	PlayerProfile.avatarAttribute.wBaseRpRegen = 1;
-	PlayerProfile.avatarAttribute.wLastRpRegen = 1;
+	PlayerProfile.avatarAttribute.wBaseRpRegen = CalculeRPRegeneration(PlayerProfile.avatarAttribute.wLastMaxRP);
+	PlayerProfile.avatarAttribute.wLastRpRegen = PlayerProfile.avatarAttribute.wBaseRpRegen;
 	//RP diminution
-	PlayerProfile.avatarAttribute.wLastRpDimimutionRate = 3;
+	PlayerProfile.avatarAttribute.wLastRpDimimutionRate = CalculeRPDiminution(PlayerProfile.avatarAttribute.wLastMaxRP);
 	//Curse Sucess Rate
 	PlayerProfile.avatarAttribute.wBaseCurseSuccessRate = 107;
 	PlayerProfile.avatarAttribute.wLastCurseSuccessRate = 106;
@@ -520,8 +520,8 @@ bool AttributesManager::LoadAttributeFromDB()
 	PlayerProfile.avatarAttribute.fLastAirSpeed = 15.0f;//LastAir Speed TW
 	PlayerProfile.avatarAttribute.wLastMaxAp = result->getInt("LastMaxAp");//Max AP
 	PlayerProfile.avatarAttribute.wBaseMaxAp = result->getInt("BaseMaxAp");//Base Max Ap
-	PlayerProfile.avatarAttribute.wBaseApBattleRegen = 5000;//Regen In Battle AP TW
-	PlayerProfile.avatarAttribute.wLastApBattleRegen = 5000;//LAst Regen in Battle Ap TW
+	PlayerProfile.avatarAttribute.wBaseApBattleRegen = 1000;//Regen In Battle AP TW
+	PlayerProfile.avatarAttribute.wLastApBattleRegen = 1000;//LAst Regen in Battle Ap TW
 	PlayerProfile.avatarAttribute.wBaseApRegen = 5000;//Base Ap Regen TW
 	PlayerProfile.avatarAttribute.wLastApRegen = 5000;//Base While Sitting Regen AP TW
 	PlayerProfile.avatarAttribute.wBaseApSitdownRegen = 5000;//AP Regen TW
@@ -1991,6 +1991,55 @@ WORD AttributesManager::CalculeEPBattleRegeneration(WORD lastEpRegeneration)
 			epBattleRegen, formula->afRate[0], lastEpRegeneration, formula->afRate[3]);
 	}
 	return epBattleRegen;
+}
+
+WORD AttributesManager::CalculeRPRegeneration(WORD maxRP)
+{
+	// = (fRate4 초당) fRate1+ (Last_Max_RP * fRate2) (cada fRate4 segundos)
+	WORD rpRegen;
+	sFORMULA_TBLDAT* formula = (sFORMULA_TBLDAT*)sTBM.GetFormulaTable()->FindData(2400);
+	if (formula)
+	{
+		rpRegen = formula->afRate[0] + (maxRP * formula->afRate[1]);
+		sLog.outBasic("rpRegen total %d rate1 %f maxRP %d every %f seconds",
+			rpRegen, formula->afRate[0], maxRP, formula->afRate[3]);
+	}
+	return rpRegen;
+}
+
+WORD AttributesManager::CalculeRPDiminution(WORD maxRP)
+{
+	// = (fRate4 초당) fRate1+ (Last_Max_RP * fRate2) (cada fRate4 segundos)
+	WORD rpDiminution;
+	sFORMULA_TBLDAT* formula = (sFORMULA_TBLDAT*)sTBM.GetFormulaTable()->FindData(2500);
+	if (formula)
+	{
+		rpDiminution = formula->afRate[0] + (maxRP * formula->afRate[1]);
+		sLog.outBasic("rpDiminution total %d rate1 %f maxRP %d every %f seconds",
+			rpDiminution, formula->afRate[0], maxRP, formula->afRate[3]);
+	}
+	return rpDiminution;
+}
+
+WORD AttributesManager::CalculeRPHitCharge(BYTE deffLevel, BYTE attLevel)
+{
+	//= fRate1 - (fRate2 * min(max((방어자 Level - 공격자 Level), 0), 5))
+	WORD rpHitCharge;
+	sFORMULA_TBLDAT* formula = (sFORMULA_TBLDAT*)sTBM.GetFormulaTable()->FindData(2600);
+	if (formula)
+	{
+		rpHitCharge = formula->afRate[0] - (formula->afRate[1] * min(max(static_cast<float>(deffLevel - attLevel), 0), 5));
+		sLog.outBasic("rpHitCharge total %d rate1 %f rate2 %d deffLevel %d attLevel %d",
+			rpHitCharge, formula->afRate[0], formula->afRate[1], deffLevel, attLevel);
+	}
+	return rpHitCharge;
+}
+
+WORD AttributesManager::CalculeRPHitChargeRate(BYTE deffLevel, BYTE attLevel)
+{
+	WORD hitRpChargeRate = 50 - (deffLevel - attLevel);
+	sLog.outBasic("hitRpChargeRate total %d deffLevel %d attLevel %d", hitRpChargeRate, deffLevel, attLevel);
+	return hitRpChargeRate;
 }
 
 // Update phyicalOffence

@@ -227,6 +227,10 @@ public:
 	WORD			CalculeEPRegeneration(int lastEng);
 	WORD			CalculeEPSitDownRegeneration(WORD lastEpRegeneration);
 	WORD			CalculeEPBattleRegeneration(WORD lastEpRegeneration);
+	WORD			CalculeRPRegeneration(WORD maxRP);
+	WORD			CalculeRPDiminution(WORD maxRP);
+	WORD			CalculeRPHitCharge(BYTE deffLevel, BYTE attLevel);
+	WORD			CalculeRPHitChargeRate(BYTE deffLevel, BYTE attLevel);
 
 	// Update cascading stats bool addSet = 0 add, 1 set
 	// Update phyicalOffence
