@@ -434,20 +434,20 @@ bool AttributesManager::LoadAttributeFromDB()
 	PlayerProfile.avatarAttribute.wBaseLpRegen = CalculeLPRegeneration(PlayerProfile.avatarAttribute.byLastCon);
 	PlayerProfile.avatarAttribute.wLastLpRegen = PlayerProfile.avatarAttribute.wBaseLpRegen;
 	//LP Sit Down Reg
-	PlayerProfile.avatarAttribute.wBaseLpSitdownRegen = PlayerProfile.avatarAttribute.wLastMaxLP / 100 * 3;
-	PlayerProfile.avatarAttribute.wLastLpSitdownRegen = PlayerProfile.avatarAttribute.wLastMaxLP / 100 * 3;
+	PlayerProfile.avatarAttribute.wBaseLpSitdownRegen = CalculeLPSitDownRegeneration(PlayerProfile.avatarAttribute.wLastLpRegen);//PlayerProfile.avatarAttribute.wLastMaxLP / 100 * 3;
+	PlayerProfile.avatarAttribute.wLastLpSitdownRegen = PlayerProfile.avatarAttribute.wBaseLpSitdownRegen;//PlayerProfile.avatarAttribute.wLastMaxLP / 100 * 3;
 	//LP Reg in Batle
 	PlayerProfile.avatarAttribute.wBaseLpBattleRegen = 0;
 	PlayerProfile.avatarAttribute.wLastLpBattleRegen = 0;
 	//EP Get UP Reg
-	PlayerProfile.avatarAttribute.wBaseEpRegen = 70;
-	PlayerProfile.avatarAttribute.wLastEpRegen = 70;
+	PlayerProfile.avatarAttribute.wBaseEpRegen = CalculeEPRegeneration(PlayerProfile.avatarAttribute.byLastEng);
+	PlayerProfile.avatarAttribute.wLastEpRegen = PlayerProfile.avatarAttribute.wBaseEpRegen;
 	//EP Sit Down Reg
-	PlayerProfile.avatarAttribute.wBaseEpSitdownRegen = PlayerProfile.avatarAttribute.wLastMaxEP / 100 * 3;
-	PlayerProfile.avatarAttribute.wLastEpSitdownRegen = PlayerProfile.avatarAttribute.wLastMaxEP / 100 * 3;
+	PlayerProfile.avatarAttribute.wBaseEpSitdownRegen = CalculeEPSitDownRegeneration(PlayerProfile.avatarAttribute.wBaseEpRegen);//PlayerProfile.avatarAttribute.wLastMaxEP / 100 * 3;
+	PlayerProfile.avatarAttribute.wLastEpSitdownRegen = PlayerProfile.avatarAttribute.wBaseEpSitdownRegen;// PlayerProfile.avatarAttribute.wLastMaxEP / 100 * 3;
 	//EP Reg in Batle
-	PlayerProfile.avatarAttribute.wBaseEpBattleRegen = 109;
-	PlayerProfile.avatarAttribute.wLastEpBattleRegen = 108;
+	PlayerProfile.avatarAttribute.wBaseEpBattleRegen = CalculeEPBattleRegeneration(PlayerProfile.avatarAttribute.wBaseEpRegen);
+	PlayerProfile.avatarAttribute.wLastEpBattleRegen = PlayerProfile.avatarAttribute.wBaseEpBattleRegen;
 	//Rp incress rate
 	PlayerProfile.avatarAttribute.wBaseRpRegen = 1;
 	PlayerProfile.avatarAttribute.wLastRpRegen = 1;
