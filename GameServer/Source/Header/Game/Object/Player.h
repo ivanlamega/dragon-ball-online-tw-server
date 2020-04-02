@@ -228,6 +228,8 @@ public:
 	// temporary
 	unsigned int objectHandle;
 	unsigned int objectTblidx;
+
+	unsigned int spinVar;
 private:
 	//	------------------------------------------------------------------------
 	// SERVER

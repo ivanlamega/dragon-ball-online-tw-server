@@ -292,6 +292,17 @@ bool			bRecoveredEP;
 DWORD			wRecoveredEpValue;
 END_PROTOCOL()
 //------------------------------------------------------------------
+BEGIN_PROTOCOL(GU_CHAR_SPECIAL_ATTACK_NFY)
+HOBJECT			hSubject;
+HOBJECT			hTarget;
+BYTE			unknown;
+BYTE			unknown2;
+TBLIDX			skillTblidx;
+BYTE			specialResult; //eBATTLE_SPECIAL_ATTACK_RESULT
+DWORD			damage;
+dVECTOR3		pos;
+END_PROTOCOL()
+//------------------------------------------------------------------
 BEGIN_PROTOCOL(GU_CHAR_IS_BATTLECOMBATING)
 bool		fight;
 BYTE		a;

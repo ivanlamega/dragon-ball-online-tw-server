@@ -223,10 +223,10 @@ struct sAVATAR_ATTRIBUTE
 	WORD wBaseApBattleRegen;
 	WORD wLastApBattleRegen;
 	//
-	WORD unknown_int16_0;//wBaseApDegen
-	WORD unknown_int16_1;//wLastApDegen
-	WORD unknown_int16_2;//wBaseApBattleDegen
-	WORD unknown_int16_3;//wLastApBattleDegen
+	WORD wBaseApDegen;
+	WORD wLastApDegen;
+	WORD wBaseApBattleDegen;
+	WORD wLastApBattleDegen;
 	//
 	WORD wBaseRpRegen;
 	WORD wLastRpRegen;
@@ -263,18 +263,18 @@ struct sAVATAR_ATTRIBUTE
 	WORD wBaseCurseToleranceRate;
 	WORD wLastCurseToleranceRate;
 
-	WORD unknown_rate1;// wBaseBlockDamageRate
-	WORD unknown_rate2;// wLastBlockDamageRate
+	WORD wBaseBlockDamageRate;
+	WORD wLastBlockDamageRate;
 
 	WORD wBasePhysicalCriticalRate;
 	WORD wLastPhysicalCriticalRate;
 	WORD wBaseEnergyCriticalRate;
 	WORD wLastEnergyCriticalRate;
 
-	float unknown_float1_0;//??
-	float unknown_float1_1;//??
-	float unknown_float2_0;//??
-	float unknown_float2_1;//??
+	float fBasePhysicalCriticalRange;//??
+	float fLastPhysicalCriticalRange;//??
+	float fBaseEnergyCriticalRange;//??
+	float fLastEnergyCriticalRange;//??
 
 	float fBaseRunSpeed;
 	float fLastRunSpeed;
@@ -336,18 +336,18 @@ struct sAVATAR_ATTRIBUTE
 	float fSkillDamageBlockModeSuccessRate;
 	float fCurseBlockModeSuccessRate;
 	float fKnockdownBlockModeSuccessRate;
-//DWORD unknown6;
-WORD unknown6;
-WORD baseAbdominalPainDefense;
+	//DWORD unknown6;
+	WORD unknown6;
+	WORD baseAbdominalPainDefense;
 
 	WORD AbdominalPainDefense;//bleeding defese
-WORD basePoisonDefense;
+	WORD basePoisonDefense;
 	WORD PoisonDefense;// posion defese
-WORD baseBleedingDefense;
+	WORD baseBleedingDefense;
 	WORD BleedingDefense;// defesa sangramento
-WORD baseBurnDefense;
+	WORD baseBurnDefense;
 	WORD BurnDefense; //burn defese
-WORD unknown7;
+	WORD unknown7;
 
 	float fEnergyCriticalDamageBonusRate;
 	float fItemUpgradeBonusRate;
@@ -371,8 +371,8 @@ WORD unknown7;
 	float unknown3_13;//??
 	BYTE unknown4_0;//??
 	BYTE unknown4_1;//??
-	WORD unknown4_2;//??
-	WORD unknown4_3;//??
+	WORD physicalCriticalDefenceRate;//??
+	WORD energyCriticalDefenceRate;//??
 	WORD unknown4_4;//??
 	WORD unknown4_5;//??
 	WORD unknown4_6;//??
@@ -386,7 +386,7 @@ WORD unknown7;
 
 union attributes
 {
-sAVATAR_ATTRIBUTE attr1;
+
 sAVATAR_ATTRIBUTE2 attr2;
 }attributes;
 
@@ -399,6 +399,6 @@ DWORD			hHandle;
 unsigned char			byAttributeTotalCount;
 /*BYTE			abyFlexibleField[490];*/
 BYTE bitmask[20];
-attributes attributes;
+sAVATAR_ATTRIBUTE attr1;
 DWORD unknown[3];
 };

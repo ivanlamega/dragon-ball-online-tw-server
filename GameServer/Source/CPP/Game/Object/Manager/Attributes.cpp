@@ -85,7 +85,7 @@ void AttributesManager::UpdateLevelUpAtributes()
 {
 	sPC_TBLDAT *pTblData = (sPC_TBLDAT*)sTBM.GetPcTable()->GetPcTbldat(plr->GetAttributesManager()->PlayerRaceID, plr->GetAttributesManager()->PlayerRaceID, plr->GetAttributesManager()->PlayerGanderID);
 	if (pTblData != NULL)
-	{	
+	{
 
 		int baseStr = CalculeBasicStats(pTblData->byStr, pTblData->fLevel_Up_Str, PlayerProfile.byLevel);
 		int baseCon = CalculeBasicStats(pTblData->byCon, pTblData->fLevel_Up_Con, PlayerProfile.byLevel);
@@ -94,62 +94,61 @@ void AttributesManager::UpdateLevelUpAtributes()
 		int baseSol = CalculeBasicStats(pTblData->bySol, pTblData->fLevel_Up_Sol, PlayerProfile.byLevel);
 		int baseEng = CalculeBasicStats(pTblData->byEng, pTblData->fLevel_Up_Eng, PlayerProfile.byLevel);
 
-		plr->GetAttributesManager()->SetLastStr(baseStr);
+
+		plr->GetAttributesManager()->UpdateStr(baseStr, false);
+		plr->GetAttributesManager()->UpdateCon(baseCon, false);
+		plr->GetAttributesManager()->UpdateFoc(baseFoc, false);
+		plr->GetAttributesManager()->UpdateDex(baseDex, false);
+		plr->GetAttributesManager()->UpdateSol(baseSol, false);
+		plr->GetAttributesManager()->UpdateEng(baseEng, false);
+
+		plr->GetAttributesManager()->PlayerProfile.avatarAttribute.byBaseStr = baseStr;
+		plr->GetAttributesManager()->PlayerProfile.avatarAttribute.byBaseCon = baseCon;
+		plr->GetAttributesManager()->PlayerProfile.avatarAttribute.byBaseFoc = baseFoc;
+		plr->GetAttributesManager()->PlayerProfile.avatarAttribute.byBaseDex = baseDex;
+		plr->GetAttributesManager()->PlayerProfile.avatarAttribute.byBaseSol = baseSol;
+		plr->GetAttributesManager()->PlayerProfile.avatarAttribute.byBaseEng = baseEng;
+
+		plr->GetAttributesManager()->PlayerProfile.avatarAttribute.wBasePhysicalOffence = plr->GetAttributesManager()->PlayerProfile.avatarAttribute.wLastPhysicalOffence;
+		plr->GetAttributesManager()->PlayerProfile.avatarAttribute.wBaseMaxLP = plr->GetAttributesManager()->PlayerProfile.avatarAttribute.wLastMaxLP;
+		plr->GetAttributesManager()->PlayerProfile.avatarAttribute.wBaseBlockRate = plr->GetAttributesManager()->PlayerProfile.avatarAttribute.wLastBlockRate;
+		plr->GetAttributesManager()->PlayerProfile.avatarAttribute.wBaseEnergyOffence = plr->GetAttributesManager()->PlayerProfile.avatarAttribute.wLastEnergyOffence;
+		plr->GetAttributesManager()->PlayerProfile.avatarAttribute.wBaseEnergyCriticalRate = plr->GetAttributesManager()->PlayerProfile.avatarAttribute.wLastEnergyCriticalRate;
+		plr->GetAttributesManager()->PlayerProfile.avatarAttribute.wBaseAttackRate = plr->GetAttributesManager()->PlayerProfile.avatarAttribute.wLastAttackRate;
+		plr->GetAttributesManager()->PlayerProfile.avatarAttribute.fBaseEnergyCriticalRange = plr->GetAttributesManager()->PlayerProfile.avatarAttribute.fLastEnergyCriticalRange;
+		plr->GetAttributesManager()->PlayerProfile.avatarAttribute.wBasePhysicalCriticalRate = plr->GetAttributesManager()->PlayerProfile.avatarAttribute.wLastPhysicalCriticalRate;
+		plr->GetAttributesManager()->PlayerProfile.avatarAttribute.wBaseDodgeRate = plr->GetAttributesManager()->PlayerProfile.avatarAttribute.wLastDodgeRate;
+		plr->GetAttributesManager()->PlayerProfile.avatarAttribute.fBasePhysicalCriticalRange = plr->GetAttributesManager()->PlayerProfile.avatarAttribute.fLastPhysicalCriticalRange;
+		plr->GetAttributesManager()->PlayerProfile.avatarAttribute.wBaseMaxEP = plr->GetAttributesManager()->PlayerProfile.avatarAttribute.wLastMaxEP;
+
+
+		/*plr->GetAttributesManager()->SetLastStr(baseStr);
 		plr->GetAttributesManager()->SetLastCon(baseCon);
 		plr->GetAttributesManager()->SetLastFoc(baseFoc);
 		plr->GetAttributesManager()->SetLastDex(baseDex);
 		plr->GetAttributesManager()->SetLastSol(baseSol);
 		plr->GetAttributesManager()->SetLastEng(baseEng);
-		/*plr->GetAttributesManager()->SetLastStr(static_cast<int>(pTblData->byStr + (pTblData->fLevel_Up_Str * 1)));
-		plr->GetAttributesManager()->SetLastCon(static_cast<int>(pTblData->byCon + (pTblData->fLevel_Up_Con * 1)));
-		plr->GetAttributesManager()->SetLastFoc(static_cast<int>(pTblData->byFoc + (pTblData->fLevel_Up_Foc * 1)));
-		plr->GetAttributesManager()->SetLastDex(static_cast<int>(pTblData->byDex + (pTblData->fLevel_Up_Dex * 1)));
-		plr->GetAttributesManager()->SetLastSol(static_cast<int>(pTblData->bySol + (pTblData->fLevel_Up_Sol * 1)));
-		plr->GetAttributesManager()->SetLastEng(static_cast<int>(pTblData->byEng + (pTblData->fLevel_Up_Eng * 1)));*/
 	
 		// LP Calculation
-		/*DWORD BasicLife = pTblData->wBasic_LP + (pTblData->byLevel_Up_LP * 1);
-		WORD LevelCon = pTblData->byCon + static_cast<WORD>(pTblData->fLevel_Up_Con * 1);
-		float ConByPoint = 85; // 1con = 85 old tw
-		DWORD LP = BasicLife + static_cast<DWORD>(LevelCon * ConByPoint);*/
 		DWORD LP = CalculeLP(plr->GetMyClass(), baseCon);
 
 		//EP Calculation
-		/*WORD BasicEnergy = pTblData->wBasic_EP + (pTblData->byLevel_Up_EP * 1);
-		WORD LevelEng = pTblData->byEng + static_cast<WORD>(pTblData->fLevel_Up_Eng * 1);
-		float EngByPoint = 45; // 1Eng = 45 ep old tw
-		WORD EP = BasicEnergy + static_cast<WORD>(LevelEng * EngByPoint);*/
 		WORD EP = CalculeEP(plr->GetMyClass(), baseEng);
 	
 		plr->GetAttributesManager()->SetLastMaxLP(LP);
 		plr->GetAttributesManager()->SetLastMaxEP(EP);
 
 		//Calculation Physical Atack
-		/*WORD BasicPhysicalOffence = pTblData->wBasic_Physical_Offence + (pTblData->byLevel_Up_Physical_Offence * 1);
-		WORD LevelStr = pTblData->byStr + static_cast<WORD>(pTblData->fLevel_Up_Str * 1);
-		float StrByPoint = 1.66; // 1Str = 1.66 Physical old tw
-		WORD PhysicalOffence = BasicPhysicalOffence + static_cast<WORD>(LevelStr * StrByPoint);*/
 		WORD PhysicalOffence = CalculePhysicalOffence(plr->GetMyClass(), PlayerProfile.byLevel, baseStr, baseDex);
 		//Calculation Physical Critical Atack 
-		/*WORD BasicPhysicalCritical = 0;
-		WORD LevelDex = pTblData->byDex + static_cast<WORD>(pTblData->fLevel_Up_Dex * 1);
-		float DexByPoint = 0.5; // 1Dex = 1 critical old tw
-		WORD PhysicalCriticalRate = BasicPhysicalCritical + static_cast<WORD>(LevelDex * DexByPoint);*/
 		WORD PhysicalCriticalRate = CalculePhysicalCriticalRate(plr->GetMyClass(), baseDex);
 
 		plr->GetAttributesManager()->SetLastPhysicalOffence(PhysicalOffence);
 		plr->GetAttributesManager()->SetLastPhysicalCriticalRate(PhysicalCriticalRate);
 
-		/*WORD BasicEnergyOffence = pTblData->wBasic_Energy_Offence + (pTblData->byLevel_Up_Energy_Offence * 1);
-		WORD LevelSol = pTblData->bySol + static_cast<WORD>(pTblData->fLevel_Up_Sol * 1);
-		float SolByPoint = 1.66; // 1Soul = 1.66 Physical old tw
-		WORD EnergyOffence = BasicEnergyOffence + static_cast<WORD>(LevelSol * SolByPoint);*/
+		//Calculation Energy offence
 		WORD EnergyOffence = CalculeEnergyOffence(plr->GetMyClass(), PlayerProfile.byLevel, baseSol, baseFoc);
 		//Calculation Energy Critical Atack
-		/*WORD BasicEnergyCritical = 0;
-		WORD LevelFoc = pTblData->byFoc + static_cast<WORD>(pTblData->fLevel_Up_Foc * 1);
-		float FocByPoint = 0.5; // 1Focus = 1 pont critical 
-		WORD EnergyCriticalRate = BasicEnergyCritical + static_cast<WORD>(LevelFoc * FocByPoint);*/
 		WORD EnergyCriticalRate = CalculeEnergyCriticalRate(plr->GetMyClass(), baseFoc);
 
 		plr->GetAttributesManager()->AddLastEnergyOffence(EnergyOffence);
@@ -168,7 +167,7 @@ void AttributesManager::UpdateLevelUpAtributes()
 		WORD physicalCriticalDefenceRate = CalculePhysicalCriticalDefenceRate(PlayerProfile.avatarAttribute.byLastCon);
 		WORD energyCriticalDefenceRate = CalculeEnergyCriticalDefenceRate(PlayerProfile.avatarAttribute.byLastEng);
 		plr->GetAttributesManager()->SetPhysicalCriticalDefenceRate(physicalCriticalDefenceRate);
-		plr->GetAttributesManager()->SetEnergyCriticalDefenceRate(energyCriticalDefenceRate);
+		plr->GetAttributesManager()->SetEnergyCriticalDefenceRate(energyCriticalDefenceRate);*/
 
 	}
 	
@@ -326,7 +325,7 @@ bool AttributesManager::LoadAttributeFromDB()
 		delete result;
 		return false;
 	}
-	memset(&PlayerProfile.avatarAttribute, 50, sizeof PlayerProfile.avatarAttribute);
+	memset(&PlayerProfile.avatarAttribute, 0, sizeof PlayerProfile.avatarAttribute);
 	//Load All Attributes One time only - Luiz  IN ORDER --Kalisto
 	//STR 
 	PlayerProfile.avatarAttribute.byBaseStr = static_cast<WORD>(result->getInt("BaseStr"));
@@ -390,10 +389,10 @@ bool AttributesManager::LoadAttributeFromDB()
 	PlayerProfile.avatarAttribute.fLastAttackRange = (float)result->getDouble("LastAttackRange");
 	PlayerProfile.avatarAttribute.fBaseAttackRange = (float)result->getDouble("BaseAttackRange");
 	//nao sei....
-	PlayerProfile.avatarAttribute.unknown_int16_0 = 1;
-	PlayerProfile.avatarAttribute.unknown_int16_1 = 1;
-	PlayerProfile.avatarAttribute.unknown_int16_2 = 1;
-	PlayerProfile.avatarAttribute.unknown_int16_3 = 1;
+	PlayerProfile.avatarAttribute.wBaseApDegen = 1;
+	PlayerProfile.avatarAttribute.wLastApDegen = 1;
+	PlayerProfile.avatarAttribute.wBaseApBattleDegen = 1;
+	PlayerProfile.avatarAttribute.wLastApBattleDegen = 1;
 
 	PlayerProfile.avatarAttribute.unknown2 = 144;
 	PlayerProfile.avatarAttribute.unknown3_0 = 143;
@@ -427,8 +426,8 @@ bool AttributesManager::LoadAttributeFromDB()
 	PlayerProfile.avatarAttribute.fLastPhysicalCriticalRange = PlayerProfile.avatarAttribute.fBasePhysicalCriticalRange;
 	PlayerProfile.avatarAttribute.fBaseEnergyCriticalRange = CalculeEnergyCriticalRange(plr->GetMyClass(), PlayerProfile.avatarAttribute.byLastFoc);
 	PlayerProfile.avatarAttribute.fLastEnergyCriticalRange = PlayerProfile.avatarAttribute.fBaseEnergyCriticalRange;
-	PlayerProfile.avatarAttribute.unknown_rate1 = 113;
-	PlayerProfile.avatarAttribute.unknown_rate2 = 112;
+	PlayerProfile.avatarAttribute.wBaseBlockDamageRate = 113;
+	PlayerProfile.avatarAttribute.wLastBlockDamageRate = 112;
 	// SKILL SPEED
 	PlayerProfile.avatarAttribute.SkillSpeed = 100.0f;
 	//LP Get up Reg
@@ -1612,8 +1611,8 @@ void AttributesManager::FillAttributesLink()
 	
 	attrLink.pwunknown6 = &PlayerProfile.avatarAttribute.unknown6;
 	attrLink.pwunknown7 = &PlayerProfile.avatarAttribute.unknown7;;
-	attrLink.pwunknown_rate1 = &PlayerProfile.avatarAttribute.unknown_rate1;
-	attrLink.pwunknown_rate2 = &PlayerProfile.avatarAttribute.unknown_rate2;
+	attrLink.pwunknown_rate1 = &PlayerProfile.avatarAttribute.wBaseBlockDamageRate;
+	attrLink.pwunknown_rate2 = &PlayerProfile.avatarAttribute.wLastBlockDamageRate;
 	attrLink.pfunknown2 = &unkFLOATField; //&PlayerProfile.avatarAttribute.unknown2;
 	attrLink.pfBasePhysicalCriticalRange = &PlayerProfile.avatarAttribute.fBasePhysicalCriticalRange;
 	attrLink.pfLastPhysicalCriticalRange = &PlayerProfile.avatarAttribute.fLastPhysicalCriticalRange;
@@ -1697,7 +1696,7 @@ int AttributesManager::CalculeBasicStats(WORD basicStat, float basicStatLvUp, BY
 	return static_cast<int>(basicStat + (basicStatLvUp * (playerLevel - 1)));
 }
 
-DWORD AttributesManager::CalculeLP(BYTE pcClass, int baseCon)
+DWORD AttributesManager::CalculeLP(BYTE pcClass, int lastCon)
 {
 	DWORD LP = 0;
 	CLASS_INFO* classInfo = sTBM.GetFormulaTable()->FindClassInfoByClass(pcClass);
@@ -1707,14 +1706,14 @@ DWORD AttributesManager::CalculeLP(BYTE pcClass, int baseCon)
 		sFORMULA_TBLDAT* formula = (sFORMULA_TBLDAT*)sTBM.GetFormulaTable()->FindData(classInfo->LP);
 		if (formula)
 		{
-			LP = formula->afRate[0] + (baseCon * formula->afRate[1]);
-			sLog.outBasic("LP total %d rate1 %f rate2 %f lastCon %d", LP, formula->afRate[0], formula->afRate[1], baseCon);
+			LP = formula->afRate[0] + (lastCon * formula->afRate[1]);
+			sLog.outBasic("LP total %d rate1 %f rate2 %f lastCon %d", LP, formula->afRate[0], formula->afRate[1], lastCon);
 		}
 	}
 	return LP;
 }
 
-WORD AttributesManager::CalculeEP(BYTE pcClass, int baseEng)
+WORD AttributesManager::CalculeEP(BYTE pcClass, int lastEng)
 {
 	WORD EP = 0;
 	CLASS_INFO* classInfo = sTBM.GetFormulaTable()->FindClassInfoByClass(pcClass);
@@ -1724,8 +1723,8 @@ WORD AttributesManager::CalculeEP(BYTE pcClass, int baseEng)
 		sFORMULA_TBLDAT* formula = (sFORMULA_TBLDAT*)sTBM.GetFormulaTable()->FindData(classInfo->EP);
 		if (formula)
 		{
-			EP = formula->afRate[0] + (baseEng * formula->afRate[1]);
-			sLog.outBasic("EP total %d rate1 %f rate2 %f lastEng %d", EP, formula->afRate[0], formula->afRate[1], baseEng);
+			EP = formula->afRate[0] + (lastEng * formula->afRate[1]);
+			sLog.outBasic("EP total %d rate1 %f rate2 %f lastEng %d", EP, formula->afRate[0], formula->afRate[1], lastEng);
 		}
 	}
 	return EP;
@@ -1817,7 +1816,7 @@ WORD AttributesManager::CalculeEnergyCriticalRate(BYTE pcClass, int lastFoc)
 	}
 	return EnergyCriticalRate;
 }
-
+// Attack rate
 WORD AttributesManager::CalculeHitRate(int lastFoc)
 {
 	// = (Last_Foc / fRate1) * fRate2
@@ -1922,4 +1921,287 @@ float AttributesManager::CalculeEnergyCriticalRange(BYTE pcClass, int lastFoc)
 		}
 	}
 	return energyCriticalRange;
+}
+// Update phyicalOffence
+void AttributesManager::UpdateStr(int lastStr, bool addSet)
+{
+	if (addSet)
+	{
+		AddLastStr(lastStr);
+	}
+	else
+	{
+		SetLastStr(lastStr);
+	}
+
+	WORD PhysicalOffence = CalculePhysicalOffence(plr->GetMyClass(), PlayerProfile.byLevel, 
+		PlayerProfile.avatarAttribute.byLastStr, PlayerProfile.avatarAttribute.byLastDex);
+	UpdatePhysicalOffence(PhysicalOffence, false);
+}
+// Update LP, blockRate, physicalCriticalDefenceRate
+void AttributesManager::UpdateCon(int lastCon, bool addSet)
+{
+	if (addSet)
+	{
+		AddLastCon(lastCon);
+	}
+	else
+	{
+		SetLastCon(lastCon);
+	}
+
+	DWORD LP = CalculeLP(plr->GetMyClass(), PlayerProfile.avatarAttribute.byLastCon);
+	WORD BlockRate = CalculeBlockRate(PlayerProfile.avatarAttribute.byLastDex, PlayerProfile.avatarAttribute.byLastCon);
+	WORD PhysicalCriticalDefenceRate = CalculePhysicalCriticalDefenceRate(PlayerProfile.avatarAttribute.byLastCon);
+
+	UpdateLP(LP, false);
+	UpdateBlockRate(BlockRate, false);
+	UpdatePhysicalCriticalDefenceRate(PhysicalCriticalDefenceRate, false);
+}
+// Update energyOffence, energyCriticalRate, hitRate(attackRate), energyCriticalRange
+void AttributesManager::UpdateFoc(int lastFoc, bool addSet)
+{
+	if (addSet)
+	{
+		AddLastFoc(lastFoc);
+	}
+	else
+	{
+		SetLastFoc(lastFoc);
+	}
+
+	WORD energyOffence = CalculeEnergyOffence(plr->GetMyClass(), PlayerProfile.byLevel, 
+		PlayerProfile.avatarAttribute.byLastSol, PlayerProfile.avatarAttribute.byLastFoc);
+	WORD energyCriticalRate = CalculeEnergyCriticalRate(plr->GetMyClass(), PlayerProfile.avatarAttribute.byLastFoc);
+	WORD hitRate = CalculeHitRate(PlayerProfile.avatarAttribute.byLastFoc);
+	float energyCriticalRange = CalculeEnergyCriticalRange(plr->GetMyClass(), PlayerProfile.avatarAttribute.byLastFoc);
+
+	UpdateEnergyOffence(energyOffence, false);
+	UpdateEnergyCriticalRate(energyCriticalRate, false);
+	UpdateHitRate(hitRate, false);
+	UpdateEnergyCriticalRange(energyCriticalRange, false);
+}
+// Update physicalOffence, physicalCriticalRate, dodgeRate, blockRate, physicalCriticalRange
+void AttributesManager::UpdateDex(int lastDex, bool addSet)
+{
+	if (addSet)
+	{
+		AddLastDex(lastDex);
+	}
+	else
+	{
+		SetLastDex(lastDex);
+	}
+
+	WORD physicalOffence = CalculePhysicalOffence(plr->GetMyClass(), PlayerProfile.byLevel,
+		PlayerProfile.avatarAttribute.byLastStr, PlayerProfile.avatarAttribute.byLastDex);
+	WORD physicalCriticalRate = CalculePhysicalCriticalRate(plr->GetMyClass(), PlayerProfile.avatarAttribute.byLastDex);
+	WORD dodgeRate = CalculeDodgeRate(PlayerProfile.avatarAttribute.byLastDex);
+	WORD blockRate = CalculeBlockRate(PlayerProfile.avatarAttribute.byLastDex, PlayerProfile.avatarAttribute.byLastCon);
+	float physicalCriticalRange = CalculePhysicalCriticalRange(plr->GetMyClass(), PlayerProfile.avatarAttribute.byLastDex);
+
+	UpdatePhysicalOffence(physicalOffence, false);
+	UpdatePhysicalCriticalRate(physicalCriticalRate, false);
+	UpdateDodgeRate(dodgeRate, false);
+	UpdateBlockRate(blockRate, false);
+	UpdatePhysicalCriticalRange(physicalCriticalRange, false);
+}
+// Update energyOffence
+void AttributesManager::UpdateSol(int lastSol, bool addSet)
+{
+	if (addSet)
+	{
+		AddLastSol(lastSol);
+	}
+	else
+	{
+		SetLastSol(lastSol);
+	}
+
+	WORD energyOffence = CalculeEnergyOffence(plr->GetMyClass(), PlayerProfile.byLevel, 
+		PlayerProfile.avatarAttribute.byLastSol, PlayerProfile.avatarAttribute.byLastFoc);
+}
+// Update Eng, EP and EnergyCriticalDefenceRate
+void AttributesManager::UpdateEng(int lastEng, bool addSet)
+{
+	if (addSet)
+	{
+		AddLastEng(lastEng);
+	}
+	else
+	{
+		SetLastEng(lastEng);
+	}
+
+	WORD EP = CalculeEP(plr->GetMyClass(), PlayerProfile.avatarAttribute.byLastEng);
+	WORD energyCriticalDefenceRate = CalculeEnergyCriticalDefenceRate(PlayerProfile.avatarAttribute.byLastEng);
+}
+
+void AttributesManager::UpdateLP(DWORD lp, bool addSet)
+{
+	if (addSet)
+	{
+		AddLastMaxLP(lp);
+	}
+	else
+	{
+		SetLastMaxLP(lp);
+	}
+}
+
+void AttributesManager::UpdateEP(WORD ep, bool addSet)
+{
+	if (addSet)
+	{
+
+		AddLastMaxEP(ep);
+	}
+	else
+	{
+		SetLastMaxEP(ep);
+	}
+}
+
+void AttributesManager::UpdateRP(int rp, bool addSet)
+{
+	if (addSet)
+	{
+		AddLastMaxRP(rp);
+	}
+	else
+	{
+		SetLastMaxRP(rp);
+	}
+}
+
+void AttributesManager::UpdatePhysicalOffence(WORD physicalOffence, bool addSet)
+{
+	if (addSet)
+	{
+		AddLastPhysicalOffence(physicalOffence);
+	}
+	else
+	{
+		SetLastPhysicalOffence(physicalOffence);
+	}
+}
+
+void AttributesManager::UpdateEnergyOffence(WORD energyOffence, bool addSet)
+{
+	if (addSet)
+	{
+		AddLastEnergyOffence(energyOffence);
+	}
+	else
+	{
+		SetLastEnergyOffence(energyOffence);
+	}
+}
+
+void AttributesManager::UpdatePhysicalCriticalRate(WORD physicalCriticalRate, bool addSet)
+{
+	if (addSet)
+	{
+		AddLastPhysicalCriticalRate(physicalCriticalRate);
+	}
+	else
+	{
+		SetLastPhysicalCriticalRate(physicalCriticalRate);
+	}
+}
+
+void AttributesManager::UpdateEnergyCriticalRate(WORD energyCriticalRate, bool addSet)
+{
+	if (addSet)
+	{
+		AddLastEnergyCriticalRate(energyCriticalRate);
+	}
+	else
+	{
+		SetLastEnergyCriticalRate(energyCriticalRate);
+	}
+}
+
+void AttributesManager::UpdateHitRate(WORD hitRate, bool addSet)
+{
+	if (addSet)
+	{
+		AddLastAttackRate(hitRate);
+	}
+	else
+	{
+		SetLastAttackRate(hitRate);
+	}
+}
+
+void AttributesManager::UpdateDodgeRate(WORD dodgeRate, bool addSet)
+{
+	if (addSet)
+	{
+		AddLastDodgeRate(dodgeRate);
+	}
+	else
+	{
+		SetLastDodgeRate(dodgeRate);
+	}
+}
+
+void AttributesManager::UpdateBlockRate(WORD blockRate, bool addSet)
+{
+	if (addSet)
+	{
+		AddLastBlockRate(blockRate);
+	}
+	else
+	{
+		SetLastBlockRate(blockRate);
+	}
+}
+
+void AttributesManager::UpdatePhysicalCriticalDefenceRate(WORD physicalCriticalDefenceRate, bool addSet)
+{
+	if (addSet)
+	{
+		AddPhysicalCriticalDefenceRate(physicalCriticalDefenceRate);
+	}
+	else
+	{
+		SetPhysicalCriticalDefenceRate(physicalCriticalDefenceRate);
+	}
+}
+
+void AttributesManager::UpdateEnergyCriticalDefenceRate(WORD energyCriticalDefenceRate, bool addSet)
+{
+	if (addSet)
+	{
+		AddEnergyCriticalDefenceRate(energyCriticalDefenceRate);
+	}
+	else
+	{
+		SetEnergyCriticalDefenceRate(energyCriticalDefenceRate);
+	}
+}
+
+void AttributesManager::UpdatePhysicalCriticalRange(float physicalCriticalRange, bool addSet)
+{
+	if (addSet)
+	{
+		AddLastPhysicalCriticalRange(physicalCriticalRange);
+	}
+	else
+	{
+		SetLastPhysicalCriticalRange(physicalCriticalRange);
+	}
+}
+
+void AttributesManager::UpdateEnergyCriticalRange(float energyCriticalRange, bool addSet)
+{
+	if (addSet)
+	{
+		AddLastEnergyCriticalRange(energyCriticalRange);
+	}
+	else
+	{
+		SetLastEnergyCriticalRange(energyCriticalRange);
+	}
 }

@@ -110,6 +110,38 @@ union sBuffType
 	BuffTypeSkill    sBuffTypeSkill[2];
 }sBuffType;
 
+struct sBUFF_EFFECT_INFO
+{
+	unsigned char			byEffectType;
+
+	float					fEffectValue;
+	unsigned long			lEffectTime;
+	unsigned int			iEffectValue;
+	unsigned char			Unknown4[10];
+}sBUFF_EFFECT_INFO;
+
+
+struct sBUFF_INFO
+{
+	unsigned char			buffSlot;
+	unsigned int			sourceTblidx;
+	unsigned char			bySourceType;			// eDBO_OBJECT_SOURCE
+	unsigned long			dwInitialDuration;
+	unsigned long			dwTimeRemaining;		// in millisecs.
+	bool					available; //is available
+	sBUFF_EFFECT_INFO		effectInfo[2];
+}sBUFF_INFO;
+
+
+struct sGU_BUFF_REGISTERED2
+{
+WORD size;
+WORD opcode;
+	unsigned int			playerHandle;
+	sBUFF_INFO				buffInfo;
+	bool					bNeedToDisplayMessage;
+}sGU_BUFF_REGISTERED2;
+
 struct GU_BUFF_REGISTERED
 {
 WORD size;
@@ -123,4 +155,19 @@ DWORD			dwTimeRemaining;
 bool			isactive;
 sBuffType		BuffType;
 bool            NeedDisplayMensage;
+};
+
+struct BuffTypeSkillStruct
+{
+	WORD size;
+	WORD OpCode;
+	DWORD		hHandle;
+	BYTE        slot;		// eDBO_OBJECT_SOURCE
+	DWORD		tblidx;
+	BYTE        bySourceType;// set 0
+	DWORD       dwInitialDuration;//dwInitialDuration and dwTimeRemaining
+	DWORD		dwTimeRemaining;
+	bool        isactive;
+	BYTE        Type;	 
+	BuffInfoSkill BuffInfo[2];	
 };

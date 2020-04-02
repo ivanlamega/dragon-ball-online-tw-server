@@ -21,4 +21,5 @@ WORD size;
 WORD opcode;
 unsigned int			handle;
 DWORD			dwConditionFlag;
+DWORD			unknown;
 } ;

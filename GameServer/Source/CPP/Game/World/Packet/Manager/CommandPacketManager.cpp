@@ -200,27 +200,85 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 			req.byAvatarType = 0;
 			SendPacket((char*)&req, sizeof(sGU_SKILL_TARGET_LIST_REQ));
 		}
-		else if (strToken == "@testquest")
+		else if (strToken == "@spinvar")
 		{
-			sLog.outDetail("Test quest 854");
 			strToken = str.substr(pos + 1, std::string::npos);
-			unsigned int teid = (unsigned int)atof(strToken.c_str());
-
-			SendQuestSVRevtEndNotify(854, 2, 3);
-			uSTOC_EVT_DATA test;
-			test.sDeliveryItemCnt[0].nCurItemCnt = 1;
-			SendQuestSVRevtUpdateNotify(854, 2, 3, eSTOC_EVT_DATA_TYPE_DELIVERY_ITEM, 0, &test);
+			unsigned int numVar = (unsigned int)atof(strToken.c_str());
+			sLog.outDetail("Test spin var %d", numVar);
+			_player->spinVar = numVar;
 		}
-		else if (strToken == "@attr")
+		else if (strToken == "@spinvalue")
+		{
+			
+			strToken = str.substr(pos + 1, std::string::npos);
+			unsigned int numVal = (unsigned int)atof(strToken.c_str());
+
+			sLog.outDetail("Test spin value %d", numVal);
+
+			sGU_CHAR_SPECIAL_ATTACK_NFY nfy;
+			memset(&nfy, 0, sizeof sGU_CHAR_SPECIAL_ATTACK_NFY);
+			nfy.wOpCode = GU_CHAR_SPECIAL_ATTACK_NFY;
+			nfy.wPacketSize = sizeof(sGU_CHAR_SPECIAL_ATTACK_NFY) - 2;
+			nfy.hTarget = _player->GetHandle();
+			nfy.hSubject = _player->GetHandle();
+			nfy.unknown = 0;
+			nfy.unknown2 = 1;
+			nfy.skillTblidx = 510044;
+			nfy.specialResult = 0;
+			nfy.damage = 3895;
+			nfy.pos.x = dbo_move_float_to_pos(_player->GetVectorPosition().x);
+			nfy.pos.y = dbo_move_float_to_pos(_player->GetVectorPosition().y);
+			nfy.pos.z = dbo_move_float_to_pos(_player->GetVectorPosition().z);
+
+			switch (_player->spinVar)
+			{
+				case 1:
+				{
+					nfy.unknown = numVal;
+					break;
+				}
+				case 2:
+				{
+					nfy.unknown2 = numVal;
+					break;
+				}
+				case 3:
+				{
+					nfy.specialResult = numVal;
+					break;
+				}
+				case 4:
+				{
+					nfy.damage = numVal;
+					break;
+				}
+			}
+
+			SendPacket((char*)&nfy, sizeof(sGU_CHAR_SPECIAL_ATTACK_NFY));
+		}
+		else if (strToken == "@attack")
 		{
 			sLog.outDetail("Respawn object quest");
 			strToken = str.substr(pos + 1, std::string::npos);
 			DWORD value = (unsigned int)atof(strToken.c_str());
-
-			_player->GetAttributesManager()->GetPlayerProfile()->avatarAttribute.AbdominalPainDefense = value;
-			_player->GetAttributesManager()->GetPlayerProfile()->avatarAttribute.PoisonDefense = value;
-			_player->GetAttributesManager()->GetPlayerProfile()->avatarAttribute.BleedingDefense = value;
-			_player->GetAttributesManager()->GetPlayerProfile()->avatarAttribute.BurnDefense = value;
+			sGU_CHAR_ACTION_ATTACK res;
+			res.bChainAttack = true;
+			res.byAttackResult = value;
+			res.byBlockedAction = -1;
+			res.dwLpEpEventId = 700121;
+			res.fReflectedDamage = 0;
+			res.byAttackSequence = 1;
+			res.hSubject = _player->GetHandle();
+			res.hTarget = _player->GetHandle();
+			res.vShift = _player->GetVectorPosition();
+			res.wAttackResultValue = 10;
+			res.bRecoveredLP = false;
+			res.wRecoveredLpValue = 0;
+			res.bRecoveredEP = false;
+			res.wRecoveredEpValue = 0;
+			res.wOpCode = GU_CHAR_ACTION_ATTACK;
+			res.wPacketSize = sizeof(sGU_CHAR_ACTION_ATTACK) - 2;
+			SendPacket((char*)&res, sizeof(sGU_CHAR_ACTION_ATTACK));
 			return;
 		}
 		else if (strToken == "@pickup")

@@ -378,7 +378,35 @@ void AttributesManager::SetEnergyCriticalDefenceRate(WORD val)
 	PlayerProfile.avatarAttribute.energyCriticalDefenceRate = val;
 }
 
+void AttributesManager::SetLastPhysicalCriticalRange(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_PHYSICAL_CRITICAL_RANGE_LAST);
+	PlayerProfile.avatarAttribute.fLastPhysicalCriticalRange = val;
+}
 
+void AttributesManager::SetLastEnergyCriticalRange(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_ENERGY_CRITICAL_RANGE_LAST);
+	PlayerProfile.avatarAttribute.fLastEnergyCriticalRange = val;
+}
+
+void AttributesManager::SetLastApDegeneration(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_AP_DEGENERATION_LAST);
+	PlayerProfile.avatarAttribute.wLastApDegen = val;
+}
+
+void AttributesManager::SetLastApBattleDegeneration(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_AP_BATTLE_DEGENERATION_LAST);
+	PlayerProfile.avatarAttribute.wLastApBattleDegen = val;
+}
+
+void AttributesManager::SetLastBlockDamageRate(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_BLOCK_DAMAGE_RATE_LAST);
+	PlayerProfile.avatarAttribute.wLastBlockDamageRate = val;
+}
 //Add
 
 
@@ -753,4 +781,34 @@ void AttributesManager::AddEnergyCriticalDefenceRate(WORD val)
 {
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_ENERGY_CRITICAL_DEFENCE_RATE);
 	PlayerProfile.avatarAttribute.energyCriticalDefenceRate += val;
+}
+
+void AttributesManager::AddLastPhysicalCriticalRange(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_PHYSICAL_CRITICAL_RANGE_LAST);
+	PlayerProfile.avatarAttribute.fLastPhysicalCriticalRange += val;
+}
+
+void AttributesManager::AddLastEnergyCriticalRange(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_ENERGY_CRITICAL_RANGE_LAST);
+	PlayerProfile.avatarAttribute.fLastEnergyCriticalRange += val;
+}
+
+void AttributesManager::AddLastApDegeneration(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_AP_DEGENERATION_LAST);
+	PlayerProfile.avatarAttribute.wLastApDegen += val;
+}
+
+void AttributesManager::AddLastApBattleDegeneration(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_AP_BATTLE_DEGENERATION_LAST);
+	PlayerProfile.avatarAttribute.wLastApBattleDegen += val;
+}
+
+void AttributesManager::AddLastBlockDamageRate(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_BLOCK_DAMAGE_RATE_LAST);
+	PlayerProfile.avatarAttribute.wLastBlockDamageRate += val;
 }

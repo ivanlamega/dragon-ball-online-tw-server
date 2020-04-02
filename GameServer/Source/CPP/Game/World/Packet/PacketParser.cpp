@@ -151,14 +151,7 @@ void			WorldSession::PacketParser(Packet& packet)
 	case Opcodes::UG_CHAR_MOVE:
 	{
 		sLog.outError("UG_CHAR_MOVE");
-		if (_player->GetState()->sCharStateBase.aspectState.sAspectStateBase.byAspectStateId != eASPECTSTATE::ASPECTSTATE_SPINNING_ATTACK)
-		{
-			SendCharMove(packet);
-		}
-		else
-		{
-			sLog.outBasic("Skip char move");
-		}
+		SendCharMove(packet);
 		break;
 	}
 	case Opcodes::UG_CHAR_AIR_MOVE_SYNC:
