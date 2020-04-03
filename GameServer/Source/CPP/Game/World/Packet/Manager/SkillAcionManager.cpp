@@ -2444,7 +2444,7 @@ void Player::SkillAcion()
 						skillRes.aSkillResult[count].hTarget = GetHandle();
 						skillRes.aSkillResult[count].byAttackResult = 0;
 						skillRes.aSkillResult[count].effectResult[Effect].eResultType = 255;
-						skillRes.aSkillResult[count].effectResult[Effect].Value1 = skillDataOriginal->SkillValue[0];
+						skillRes.aSkillResult[count].effectResult[Effect].Value1 = skillDataOriginal->SkillValue[Effect];
 						skillRes.aSkillResult[count].effectResult[1].eResultType = 255;
 						skillRes.aSkillResult[count].byBlockedAction = -1;
 						skillRes.aSkillResult[count].unk1 = 0;
@@ -2452,9 +2452,13 @@ void Player::SkillAcion()
 
 						GetState()->sCharStateBase.aspectState.sAspectStateBase.byAspectStateId = eASPECTSTATE::ASPECTSTATE_SPINNING_ATTACK;
 						memset(&GetState()->sCharStateBase.aspectState.sAspectStateDetail, 0, sizeof GetState()->sCharStateBase.aspectState.sAspectStateDetail);
+						
 						GetAttributesManager()->spinInfo.spinTime = GetTickCount();
 						GetAttributesManager()->spinInfo.spinEndTime = skillDataOriginal->dwKeepTimeInMilliSecs;
-						GetAttributesManager()->spinInfo.attackValue = skillDataOriginal->SkillValue[Effect];
+						GetAttributesManager()->spinInfo.bySkill_Effect_Type[Effect] = skillDataOriginal->bySkill_Effect_Type[Effect];
+						GetAttributesManager()->spinInfo.SkillValue[Effect] = skillDataOriginal->SkillValue[Effect];
+						GetAttributesManager()->spinInfo.distance = GetPcProfile()->avatarAttribute.fLastAttackRange;
+						GetAttributesManager()->spinInfo.skillId = skillDataOriginal->tblidx;
 						/*GetState()->sCharStateBase.aspectState.sAspectStateDetail.sVehicle.bIsEngineOn = false;
 						GetState()->sCharStateBase.aspectState.sAspectStateDetail.sVehicle.hVehicleItem = INVALID_TBLIDX;
 						GetState()->sCharStateBase.aspectState.sAspectStateDetail.sVehicle.idVehicleTblidx = INVALID_TBLIDX;*/

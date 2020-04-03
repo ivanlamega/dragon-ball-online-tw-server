@@ -8,6 +8,7 @@
 #include <DboTSCoreDefine.h>
 
 class Player;
+class Object;
 
 struct OutWorld
 {
@@ -171,7 +172,12 @@ public:
 	{
 		DWORD		spinTime;
 		DWORD		spinEndTime;
-		DWORD		attackValue;
+		TBLIDX		skillId;
+		float		damage;
+		float		distance;
+		BYTE		bySkill_Effect_Type[2];
+		double		SkillValue[2];
+		std::vector<Object*> enemyList;
 	};
 
 	// Control of spin
@@ -215,6 +221,11 @@ public:
 	void			UpdateAttributes();
 	void			UpdateAttributesFromItem(sITEM_TBLDAT& item, BYTE Grade, bool remove = false);
 	void			UpdateExtraAttributesFromItem(sITEM_EFFECT aitemEffect[6], bool isRemove = false);
+
+	// Spinning attack
+	bool			IsInListSpin(HOBJECT hTarget);
+	void			AddEnemyToSpinList(Object* enemy);
+	void			DeleteEnemy(HOBJECT hTarget);
 
 	// Calcule stats
 	int				CalculeBasicStats(WORD basicStat, float basicStatLvUp, BYTE playerLevel);

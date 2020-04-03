@@ -448,6 +448,26 @@ void Map::CheckObjectInRange()
 							curr_Mob->BuildPacketForSpawn(spawn);
 							plr->SendPacket((char*)&spawn, sizeof(SpawnMOB));
 						}
+						// Spinning attack
+						else if (plr->GetState()->sCharStateBase.aspectState.sAspectStateBase.byAspectStateId == eASPECTSTATE::ASPECTSTATE_SPINNING_ATTACK
+							|| plr->GetState()->sCharStateBase.aspectState.sAspectStateBase.byAspectStateId == eASPECTSTATE::ASPECTSTATE_BALL)
+						{
+							if (!curr_Mob->GetIsDead())
+							{ 
+								float distance = NtlGetDistance(owner.x, owner.z, curr_Mob->GetMobData().curPos.x, curr_Mob->GetMobData().curPos.z);
+								if (distance <= plr->GetAttributesManager()->spinInfo.distance 
+									&& !plr->GetAttributesManager()->IsInListSpin(curr_Mob->GetHandle()))
+								{
+									plr->GetAttributesManager()->AddEnemyToSpinList(curr_Mob);
+								}
+								else if (distance > plr->GetAttributesManager()->spinInfo.distance
+									&& plr->GetAttributesManager()->IsInListSpin(curr_Mob->GetHandle()))
+								{
+									plr->GetAttributesManager()->DeleteEnemy(curr_Mob->GetHandle());
+								}
+							}
+						}
+						// Spinning attack
 					}
 					else
 					{

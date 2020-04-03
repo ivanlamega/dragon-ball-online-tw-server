@@ -23,7 +23,10 @@ public:
 	bool					canTakeDamage(Object& Attacker, Object& Target);
 	bool					HandleDamage(Object& Attacker, Object& Target);
 	void					HandlePlrFight();
+	bool					HandlePlrSpinAttack(Object* target, Player* player);
+	void					SendCharSpecialAttacNfy(HOBJECT target, TBLIDX skillTblidx, DWORD damage);
 
+	float					GetRandomDamagePercent(float damage, int min, int max);
 	float					CalculePhysicalDamage(float attackerOffence, DWORD attackerLevel, float targetDefence);
 	float					CalculeEnergyDamage(float attackerOffence, DWORD attackerLevel, float targetDefence);
 	int						CalculeAttackSuccess(int attAttackRate, int defDodgeRate, BYTE attLevel, BYTE defLevel);

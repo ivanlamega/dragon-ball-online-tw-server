@@ -2,6 +2,7 @@
 #include <TableAll.h>
 #include <Game\Object\Player.h>
 #include <Game\Object\Mob.h>
+#include <World.h>
 
 //----------------------------------------
 //	Constructor
@@ -39,6 +40,17 @@ int FightManager::GetLevelDiff()
 	return levelDiff;
 }
 //----------------------------------------
+//	Get the amount of physical random damage
+//----------------------------------------
+float FightManager::GetRandomDamagePercent(float damage, int min, int max)
+{
+	int resultRand = min + rand() % (max + 1 - min);
+	float damageRand = (static_cast<float>(resultRand) * damage) / 100;
+	float damageTotal = damage + damageRand;
+	sLog.outBasic("damage %f resultRand %d damageRand %f damageTotal %f min %d max %d", damage, resultRand, damageRand, damageTotal, min, max);
+	return damageTotal;
+}
+//----------------------------------------
 //	Get the amount of physical damage
 //----------------------------------------
 float FightManager::CalculePhysicalDamage(float attackerOffence, DWORD attackerLevel, float targetDefence)
@@ -57,6 +69,7 @@ float FightManager::CalculePhysicalDamage(float attackerOffence, DWORD attackerL
 		sLog.outBasic("percent %f last damage %f", percent, lastDamage);
 		//return damage;
 	}
+	damage = GetRandomDamagePercent(damage, -10, 10);
 	return damage;
 }
 //----------------------------------------
@@ -78,6 +91,7 @@ float FightManager::CalculeEnergyDamage(float attackerOffence, DWORD attackerLev
 		sLog.outBasic("percent %f last damage %f", percent, lastDamage);
 		//return damage;
 	}
+	damage = GetRandomDamagePercent(damage, -10, 10);
 	return damage;
 }
 //----------------------------------------
@@ -338,6 +352,45 @@ bool FightManager::HandleDamage(Object& Attacker, Object& Target)
 	return true;
 }
 //----------------------------------------
+//	Handle an spin attack from a player
+//----------------------------------------
+bool FightManager::HandlePlrSpinAttack(Object* target, Player* player)
+{
+	plr = player;
+	switch (target->GetTypeId())
+	{
+		case OBJTYPE_MOB:
+		{
+			Mob* MobInfo = static_cast<Mob*>(target);
+			if (MobInfo != NULL)
+			{
+				plr->GetAttributesManager()->spinInfo.damage = CalculePhysicalDamage(
+					plr->GetPcProfile()->avatarAttribute.wLastPhysicalOffence,
+					plr->GetPcProfile()->byLevel,
+					MobInfo->GetMobData().Basic_physical_defence);
+				plr->GetAttributesManager()->spinInfo.damage = plr->CalculeSkillDamage(plr->GetAttributesManager()->spinInfo.bySkill_Effect_Type,
+					plr->GetAttributesManager()->spinInfo.SkillValue, plr->GetAttributesManager()->spinInfo.damage);
+
+					//printf("Player Attack MOB \n");
+				if (MobInfo->attackers == 0)
+				MobInfo->attackers = plr->GetHandle();
+				MobInfo->TakeDamage(plr->GetAttributesManager()->spinInfo.damage);
+				MobInfo->SetIsFighting(true);
+
+				SendCharSpecialAttacNfy(MobInfo->GetHandle(), plr->GetAttributesManager()->spinInfo.skillId, plr->GetAttributesManager()->spinInfo.damage);
+
+				if (MobInfo->GetIsDead() == true)
+				{
+					return true;
+				}
+				sLog.outDebug("-----OBJTYPE_MOB-----");
+			}
+			break;
+		}
+	}
+	return false;
+}
+//----------------------------------------
 //	Handle an attack from a player
 //----------------------------------------
 void FightManager::HandlePlrFight()
@@ -422,4 +475,24 @@ void FightManager::HandlePlrFight()
 
 	plr->SendPacket((char*)&res, sizeof(sGU_CHAR_ACTION_ATTACK));
 	plr->SendToPlayerList((char*)&res, sizeof(sGU_CHAR_ACTION_ATTACK));
+}
+
+void FightManager::SendCharSpecialAttacNfy(HOBJECT target, TBLIDX skillTblidx, DWORD damage)
+{
+	sGU_CHAR_SPECIAL_ATTACK_NFY nfy;
+	memset(&nfy, 0, sizeof sGU_CHAR_SPECIAL_ATTACK_NFY);
+	nfy.wOpCode = GU_CHAR_SPECIAL_ATTACK_NFY;
+	nfy.wPacketSize = sizeof(sGU_CHAR_SPECIAL_ATTACK_NFY) - 2;
+	nfy.hTarget = target;
+	nfy.hSubject = plr->GetHandle();
+	nfy.unknown = 0;
+	nfy.unknown2 = 1;
+	nfy.skillTblidx = skillTblidx;//510044;
+	nfy.specialResult = 0;
+	nfy.damage = damage;
+	nfy.pos.x = dbo_move_float_to_pos(plr->GetVectorPosition().x);
+	nfy.pos.y = dbo_move_float_to_pos(plr->GetVectorPosition().y);
+	nfy.pos.z = dbo_move_float_to_pos(plr->GetVectorPosition().z);
+
+	plr->SendPacket((char*)&nfy, sizeof(sGU_CHAR_SPECIAL_ATTACK_NFY));
 }

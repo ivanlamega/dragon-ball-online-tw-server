@@ -1,5 +1,6 @@
 ﻿#include <Game\Object\Manager\Attributes.h>
 #include <Game\Object\Player.h>
+#include <Game\Object\Object.h>
 #include <WorldSession.h>
 #include <mysqlconn_wrapper.h>
 #include <Logger.h>
@@ -1686,6 +1687,56 @@ bool AttributesManager::SaveAvatarAttribute(void* pvBuffer, DWORD* pwdDataSize)
 	}
 
 	return true;
+}
+
+//----------------------------------------
+// Mob list for spin attack
+//----------------------------------------
+// Check if object is in list
+bool AttributesManager::IsInListSpin(HOBJECT hTarget)
+{
+	for (int i = 0; i < spinInfo.enemyList.size(); i++)
+	{
+		if (spinInfo.enemyList[i]->GetHandle() == hTarget)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+// Add an enemy in list
+void AttributesManager::AddEnemyToSpinList(Object* enemy)
+{
+	spinInfo.enemyList.push_back(enemy);
+	sLog.outBasic("Enemy spin added");
+}
+
+// Delete enemy from list
+void AttributesManager::DeleteEnemy(HOBJECT hTarget)
+{
+	typedef std::vector<Object*> EnemyList;
+	typedef EnemyList::const_iterator EnemyListIt;
+
+	const Object* enemy = nullptr;
+	for (EnemyListIt iter = spinInfo.enemyList.cbegin(); iter != spinInfo.enemyList.cend(); ++iter)
+	{
+		enemy = (*iter);
+
+		if (enemy == nullptr)
+		{
+			continue;
+		}
+
+		sLog.outDebug("Enemy spin handle %d type %d", enemy->GetHandle(), enemy->GetTypeId());
+
+		if (enemy->GetHandle() == hTarget)
+		{
+			//GetAttributesManager()->questSubCls.objData[index].mobsTblidx.erase(iter);
+			spinInfo.enemyList.erase(iter);
+			sLog.outDebug("Enemy spin Deleted");
+			break;
+		}
+	}
 }
 
 //----------------------------------------

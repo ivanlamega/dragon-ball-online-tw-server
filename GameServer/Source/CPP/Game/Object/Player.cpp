@@ -2361,10 +2361,28 @@ void Player::ExecuteSpinningBallAttack()
 			sLog.outBasic("In Spinning/ball attack spinTimer %d SpininballTimer %d gettickcount %d", spinEndTimer, SpinningBallAttackTimer, GetTickCount());
 			sLog.outBasic("Spintime %de spin endtime %d", GetAttributesManager()->spinInfo.spinTime, GetAttributesManager()->spinInfo.spinEndTime);
 
+			sLog.outBasic("Mobs in list %d", GetAttributesManager()->spinInfo.enemyList.size());
+			for (int i = 0; i < GetAttributesManager()->spinInfo.enemyList.size(); i++)
+			{
+				if (!GetIsFighting())
+				{
+					m_session->SendToggleAutoAttack(true);
+				}
+				//Check if target is dead
+				if (fightManager.HandlePlrSpinAttack(GetAttributesManager()->spinInfo.enemyList[i], this))
+				{
+					GetAttributesManager()->DeleteEnemy(GetAttributesManager()->spinInfo.enemyList[i]->GetHandle());
+					sLog.outBasic("Mob is dead, remove from list");
+				}
+			}
+
 			if (spinEndTimer >= GetAttributesManager()->spinInfo.spinEndTime)
 			{
 				GetState()->sCharStateBase.aspectState.sAspectStateBase.byAspectStateId = eASPECTSTATE::ASPECTSTATE_INVALID;
 				UpdateAspectState(GetState()->sCharStateBase.aspectState.sAspectStateBase.byAspectStateId);
+				GetAttributesManager()->spinInfo.enemyList.empty();
+
+				m_session->SendToggleAutoAttack(false);
 
 				m_session->SendUpdateCharCondition(CHARCOND_AFTEREFFECT_FLAG);
 
