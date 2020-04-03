@@ -2355,7 +2355,7 @@ void Player::ExecuteSpinningBallAttack()
 		|| GetState()->sCharStateBase.aspectState.sAspectStateBase.byAspectStateId == eASPECTSTATE::ASPECTSTATE_BALL)
 	{
 		DWORD spinTimer = GetTickCount() - SpinningBallAttackTimer;
-		if (spinTimer >= GetAttributesManager()->spinInfo.spinSecond)
+		if (spinTimer >= GetAttributesManager()->spinInfo.spinMilisecond)
 		{
 			DWORD spinEndTimer = GetTickCount() - GetAttributesManager()->spinInfo.spinTime;
 			sLog.outBasic("In Spinning/ball attack spinTimer %d SpininballTimer %d gettickcount %d", spinEndTimer, SpinningBallAttackTimer, GetTickCount());
