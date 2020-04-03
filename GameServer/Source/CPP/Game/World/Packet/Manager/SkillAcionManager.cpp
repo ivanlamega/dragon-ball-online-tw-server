@@ -2459,10 +2459,7 @@ void Player::SkillAcion()
 						GetAttributesManager()->spinInfo.SkillValue[Effect] = skillDataOriginal->SkillValue[Effect];
 						GetAttributesManager()->spinInfo.distance = GetPcProfile()->avatarAttribute.fLastAttackRange;
 						GetAttributesManager()->spinInfo.skillId = skillDataOriginal->tblidx;
-						/*GetState()->sCharStateBase.aspectState.sAspectStateDetail.sVehicle.bIsEngineOn = false;
-						GetState()->sCharStateBase.aspectState.sAspectStateDetail.sVehicle.hVehicleItem = INVALID_TBLIDX;
-						GetState()->sCharStateBase.aspectState.sAspectStateDetail.sVehicle.idVehicleTblidx = INVALID_TBLIDX;*/
-						//UpdateAspectState(eASPECTSTATE::ASPECTSTATE_SPINNING_ATTACK);
+						GetAttributesManager()->spinInfo.spinMilisecond = 1000;
 
 						if (pCharSkillReq->hTarget == GetHandle())
 						{
@@ -2551,6 +2548,7 @@ void Player::SkillAcion()
 						GetAttributesManager()->spinInfo.SkillValue[Effect] = skillDataOriginal->SkillValue[Effect];
 						GetAttributesManager()->spinInfo.distance = GetPcProfile()->avatarAttribute.fLastAttackRange;
 						GetAttributesManager()->spinInfo.skillId = skillDataOriginal->tblidx;
+						GetAttributesManager()->spinInfo.spinMilisecond = 1000;
 
 						if (pCharSkillReq->hTarget == GetHandle())
 						{

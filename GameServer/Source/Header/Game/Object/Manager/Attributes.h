@@ -171,6 +171,7 @@ public:
 	struct SpinningInfo
 	{
 		DWORD		spinTime;
+		DWORD		spinMilisecond;
 		DWORD		spinEndTime;
 		TBLIDX		skillId;
 		float		damage;
