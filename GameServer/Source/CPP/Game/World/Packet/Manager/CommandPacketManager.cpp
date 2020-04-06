@@ -378,19 +378,28 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 		}
 		else if (strToken == "@god")
 		{
-			sLog.outDetail("GM LearnTitle Modified");
+			sLog.outDetail("God Mode");
 			strToken = str.substr(pos + 1, std::string::npos);
 			unsigned int TitleID = (unsigned int)atof(strToken.c_str());
-			_player->GetAttributesManager()->SetLastMaxLP(20000);
-			_player->GetAttributesManager()->SetLastMaxEP(20000);
-			_player->GetAttributesManager()->SetLastPhysicalOffence(20000);
-			_player->GetAttributesManager()->SetLastPhysicalCriticalRate(20000);
-			_player->GetAttributesManager()->SetLastPhysicalDefence(20000);
+			_player->GetAttributesManager()->SetLastCon(20000);
+			_player->GetAttributesManager()->SetLastFoc(20000);
+			_player->GetAttributesManager()->SetLastDex(20000);
+			_player->GetAttributesManager()->SetLastEng(20000);
+			_player->GetAttributesManager()->SetLastSol(20000);
+			_player->GetAttributesManager()->SetLastStr(20000);
 			_player->GetAttributesManager()->SetLastEnergyOffence(20000);
 			_player->GetAttributesManager()->SetLastEnergyCriticalRate(20000);
 			_player->GetAttributesManager()->SetLastEnergyDefence(20000);
 			_player->GetAttributesManager()->SetLastAttackRate(20000);
-			_player->GetAttributesManager()->SetLastDodgeRate(20000);			
+			_player->GetAttributesManager()->SetLastDodgeRate(20000);
+			_player->GetAttributesManager()->SetLastPhysicalOffence(20000);
+			_player->GetAttributesManager()->SetLastPhysicalDefence(20000);
+			_player->GetAttributesManager()->SetLastPhysicalCriticalRate(20000);
+			_player->GetAttributesManager()->SetLastMaxLP(20000);
+			_player->GetAttributesManager()->SetLastMaxEP(20000);
+			_player->GetAttributesManager()->SetLastLPRegen(20000);
+			_player->GetAttributesManager()->SetLastEPRegen(20000);
+
 			return;
 		}
 		else if (strToken == "@expbonus")
