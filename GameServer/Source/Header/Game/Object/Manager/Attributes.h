@@ -210,6 +210,10 @@ public:
 	HOBJECT		PartyLeader;
 	//Transformations
 
+	// Update attr
+	void			SetIsUpdated(bool isUpdated) { AttrIsUpdated = isUpdated; };
+	bool			GetIsUpdated() { return AttrIsUpdated; };
+
 	//RP Passive
 	bool		IsPowerUp;
 	bool			LoadAttributes(CHARACTERID _id, Player* _plr);
@@ -304,6 +308,8 @@ private:
 	bool			LoadCharacterAttrFromDB(sPC_TBLDAT* pTblData);
 	bool			LoadAttributeFromDB();
 	void			SetRPBall();
+
+	bool			AttrIsUpdated;
 
 	// CHARACTER
 	sPC_PROFILE		PlayerProfile;

@@ -279,10 +279,10 @@ bool AttributesManager::LoadAttributeFromDB()
 	PlayerProfile.avatarAttribute.fLastAttackRange = (float)result->getDouble("LastAttackRange");
 	PlayerProfile.avatarAttribute.fBaseAttackRange = (float)result->getDouble("BaseAttackRange");
 	//nao sei....
-	PlayerProfile.avatarAttribute.unknown_int16_0 = 1;
-	PlayerProfile.avatarAttribute.unknown_int16_1 = 1;
-	PlayerProfile.avatarAttribute.unknown_int16_2 = 1;
-	PlayerProfile.avatarAttribute.unknown_int16_3 = 1;
+	PlayerProfile.avatarAttribute.wBaseApDegen = 5000;
+	PlayerProfile.avatarAttribute.wLastApDegen = 5000;
+	PlayerProfile.avatarAttribute.wBaseApBattleDegen = 0;
+	PlayerProfile.avatarAttribute.wLastApBattleDegen = 0;
 
 	PlayerProfile.avatarAttribute.unknown2 = 144;
 	PlayerProfile.avatarAttribute.unknown3_0 = 143;
@@ -301,8 +301,8 @@ bool AttributesManager::LoadAttributeFromDB()
 	PlayerProfile.avatarAttribute.fSitDownEpRegenBonusRate = 131;
 	PlayerProfile.avatarAttribute.unknown4_0 = 130;
 	PlayerProfile.avatarAttribute.unknown4_1 = 0;
-	PlayerProfile.avatarAttribute.unknown4_2 = 0;
-	PlayerProfile.avatarAttribute.unknown4_3 = 0;
+	PlayerProfile.avatarAttribute.physicalCriticalDefenceRate = 0;
+	PlayerProfile.avatarAttribute.energyCriticalDefenceRate = 0;
 	PlayerProfile.avatarAttribute.unknown4_4 = 0;
 	PlayerProfile.avatarAttribute.unknown4_5 = 0;
 	PlayerProfile.avatarAttribute.unknown4_6 = 0;
@@ -313,12 +313,12 @@ bool AttributesManager::LoadAttributeFromDB()
 	PlayerProfile.avatarAttribute.unknown5_4 = 0;
 	PlayerProfile.avatarAttribute.unknown5_5 = 0;
 	PlayerProfile.avatarAttribute.unknown6 = 0;
-	PlayerProfile.avatarAttribute.unknown_float1_0 = 0;
-	PlayerProfile.avatarAttribute.unknown_float1_1 = 0;
-	PlayerProfile.avatarAttribute.unknown_float2_0 = 0;
-	PlayerProfile.avatarAttribute.unknown_float2_1 = 0;
-	PlayerProfile.avatarAttribute.unknown_rate1 = 0;
-	PlayerProfile.avatarAttribute.unknown_rate2 = 0;
+	PlayerProfile.avatarAttribute.fBasePhysicalCriticalRange = 0;
+	PlayerProfile.avatarAttribute.fLastPhysicalCriticalRange = PlayerProfile.avatarAttribute.fBasePhysicalCriticalRange;
+	PlayerProfile.avatarAttribute.fBaseEnergyCriticalRange = 0;
+	PlayerProfile.avatarAttribute.fLastEnergyCriticalRange = PlayerProfile.avatarAttribute.fBaseEnergyCriticalRange;
+	PlayerProfile.avatarAttribute.wBaseBlockDamageRate = 0;
+	PlayerProfile.avatarAttribute.wLastBlockDamageRate = 0;
 	// SKILL SPEED
 	PlayerProfile.avatarAttribute.SkillSpeed = 100.0f;
 	//LP Get up Reg
@@ -943,13 +943,13 @@ void AttributesManager::FillAttributesLink()
 	attrLink.pwTerrorToleranceRate = &PlayerProfile.avatarAttribute.wTerrorToleranceRate;
 	
 	attrLink.pwunknown6 = &PlayerProfile.avatarAttribute.unknown6;
-	attrLink.pwunknown_rate1 = &PlayerProfile.avatarAttribute.unknown_rate1;
-	attrLink.pwunknown_rate2 = &PlayerProfile.avatarAttribute.unknown_rate2;
+	attrLink.pwunknown_rate1 = &PlayerProfile.avatarAttribute.wBaseBlockDamageRate;
+	attrLink.pwunknown_rate2 = &PlayerProfile.avatarAttribute.wLastBlockDamageRate;
 	attrLink.pfunknown2 = &unkFLOATField; //&PlayerProfile.avatarAttribute.unknown2;
-	attrLink.unknown_float1_0 = &PlayerProfile.avatarAttribute.unknown_float1_0;
-	attrLink.unknown_float1_1 = &PlayerProfile.avatarAttribute.unknown_float1_1;
-	attrLink.unknown_float2_0 = &PlayerProfile.avatarAttribute.unknown_float2_0;
-	attrLink.unknown_float2_1 = &PlayerProfile.avatarAttribute.unknown_float2_1;
+	attrLink.pfBasePhysicalCriticalRange = &PlayerProfile.avatarAttribute.fBasePhysicalCriticalRange;
+	attrLink.pfLastPhysicalCriticalRange = &PlayerProfile.avatarAttribute.fLastPhysicalCriticalRange;
+	attrLink.pfBaseEnergyCriticalRange = &PlayerProfile.avatarAttribute.fBaseEnergyCriticalRange;
+	attrLink.pfLastEnergyCriticalRange = &PlayerProfile.avatarAttribute.fLastEnergyCriticalRange;
 	attrLink.unknown3_0 = &PlayerProfile.avatarAttribute.unknown3_0;
 	attrLink.unknown3_1 = &PlayerProfile.avatarAttribute.unknown3_1;
 	attrLink.unknown3_2 = &PlayerProfile.avatarAttribute.unknown3_2;
@@ -967,8 +967,8 @@ void AttributesManager::FillAttributesLink()
 	attrLink.unknown3_13 = &PlayerProfile.avatarAttribute.unknown3_13;
 	attrLink.unknown4_0 = &PlayerProfile.avatarAttribute.unknown4_0;
 	attrLink.unknown4_1 = &PlayerProfile.avatarAttribute.unknown4_1;
-	attrLink.unknown4_2 = &PlayerProfile.avatarAttribute.unknown4_2;
-	attrLink.unknown4_3 = &PlayerProfile.avatarAttribute.unknown4_3;
+	attrLink.physicalCriticalDefenceRate = &PlayerProfile.avatarAttribute.physicalCriticalDefenceRate;
+	attrLink.energyCriticalDefenceRate = &PlayerProfile.avatarAttribute.energyCriticalDefenceRate;
 	attrLink.unknown4_4 = &PlayerProfile.avatarAttribute.unknown4_4;
 	attrLink.unknown4_5 = &PlayerProfile.avatarAttribute.unknown4_5;
 	attrLink.unknown4_6 = &PlayerProfile.avatarAttribute.unknown4_6;

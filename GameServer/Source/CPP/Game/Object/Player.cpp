@@ -490,11 +490,17 @@ void Player::Update(uint32 _update_diff, uint32 _time)
 		RegTmmer = GetTickCount();//Set Time				
 	}	
 
-	DWORD AttrTimer = GetTickCount() - AttrTime;
+	/*DWORD AttrTimer = GetTickCount() - AttrTime;
 	if (AttrTimer >= 1200)
 	{
 		characterManager.UpdateAttributes(); // update our attributes all every time thats is good to prevent hack
 		AttrTime = GetTickCount();//Set Time				
+	}*/
+	if (characterManager.GetIsUpdated())
+	{
+		characterManager.UpdateAttributes();
+		characterManager.SetIsUpdated(false);
+		sLog.outBasic("Attributes updated");
 	}
 
 	DWORD Affecttimmer = GetTickCount() - AffectTime;
