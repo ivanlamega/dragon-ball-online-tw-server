@@ -223,7 +223,8 @@ public:
 	BuffTimeInfo*	GetBuff(TBLIDX buffIdx);
 
 	//RP Passive
-	bool		IsPowerUp;
+	bool			IsPowerUp;
+	DWORD			RPTimer;
 	bool			LoadAttributes(CHARACTERID _id, Player* _plr);
 	bool			SaveAvatarAttribute(void* pvBuffer, DWORD* pwdDataSize);
 	void			UpdateLevelUpAtributes();
@@ -283,6 +284,7 @@ public:
 	void			UpdateEng(int lastEng, bool add);
 	void			UpdateLP(DWORD lp, bool add);
 	void			UpdateEP(WORD ep, bool add);
+	// Update RpRegeneration and RPDiminution
 	void			UpdateRP(int rp, bool add);
 	void			UpdatePhysicalOffence(WORD physicalOffence, bool add);
 	void			UpdateEnergyOffence(WORD energyOffence, bool add);
@@ -303,6 +305,8 @@ public:
 	void			UpdateEPRegeneration(WORD EpRegen, bool add);
 	void			UpdateEPSitDownRegeneration(WORD epSitDownRegen, bool add);
 	void			UpdateEPBattleRegeneration(WORD epBattleRegen, bool add);
+	void			UpdateRPRegeneration(WORD RPRegen, bool add);
+	void			UpdateRPDiminution(WORD RPDimin, bool add);
 	//	------------------------------------------------------------------------
 	// GETTER
 	//	------------------------------------------------------------------------
@@ -417,6 +421,8 @@ public:
 	void SetLastLPSitDownRegeneration(WORD val);
 	void SetLastEPSitDownRegeneration(WORD val);
 	void SetLastEPBattleRegeneration(WORD val);
+	void SetLastRpRegen(WORD val);
+	void SetLastRpDimimution(WORD val);
 
 	// Add
 	void AddLastStr(WORD val);
@@ -501,6 +507,8 @@ public:
 	void AddLastLPSitDownRegeneration(WORD val);
 	void AddLastEPSitDownRegeneration(WORD val);
 	void AddLastEPBattleRegeneration(WORD val);
+	void AddLastRpRegen(WORD val);
+	void AddLastRpDimimution(WORD val);
 };
 
 #endif

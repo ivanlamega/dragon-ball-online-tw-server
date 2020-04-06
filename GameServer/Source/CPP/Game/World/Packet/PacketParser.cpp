@@ -1126,6 +1126,7 @@ void			WorldSession::PacketParser(Packet& packet)
 			{
 				_player->SetState(CHARSTATE_CHARGING);
 				_player->GetAttributesManager()->IsPowerUp = true;
+				_player->GetAttributesManager()->RPTimer = GetTickCount();
 			}
 			else
 			{

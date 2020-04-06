@@ -533,8 +533,14 @@ void Player::Update(uint32 _update_diff, uint32 _time)
 		timeonline += 1;
 	}
 	
-	//HandleFreeBattleRange();	
-	PowerUpUpdate();
+	//HandleFreeBattleRange();
+	DWORD rpOnTimer = GetTickCount() - GetAttributesManager()->RPTimer;
+	if (rpOnTimer >= 1000)
+	{
+		PowerUpUpdate();
+		GetAttributesManager()->RPTimer = GetTickCount();
+	}
+	
 	ExecuteBuffTimmer();
 	ExecuteSpinningBallAttack();
 	CheckPVPArea();
@@ -704,6 +710,7 @@ void Player::PowerUpUpdate()
 	{
 		
 			GetPcProfile()->wCurRP += GetPcProfile()->avatarAttribute.wLastRpRegen;
+			sLog.outBasic("RP regen %d", GetPcProfile()->avatarAttribute.wLastRpRegen);
 			sGU_UPDATE_CHAR_RP RP;
 
 			RP.bHitDelay = false;
@@ -718,16 +725,19 @@ void Player::PowerUpUpdate()
 		
 		if (GetPcProfile()->wCurRP >= GetPcProfile()->avatarAttribute.wBaseMaxRP)
 		{
-			GetAttributesManager()->SetNumFilledRpBall(1);
-			sGU_UPDATE_CHAR_RP_BALL newBall;
-			newBall.bDropByTime = false;
-			newBall.byCurRPBall = GetAttributesManager()->GetNumFilledRpBall();
-			newBall.handle = GetHandle();
-			newBall.wOpCode = GU_UPDATE_CHAR_RP_BALL;
-			newBall.wPacketSize = sizeof(sGU_UPDATE_CHAR_RP_BALL) - 2;
-			SendPacket((char*)&newBall, sizeof(sGU_UPDATE_CHAR_RP_BALL));
-			SendToPlayerList((char*)&newBall, sizeof(sGU_UPDATE_CHAR_RP_BALL));
-			GetPcProfile()->wCurRP = 0;
+			if (GetAttributesManager()->GetNumFilledRpBall() < GetAttributesManager()->GetNumRpBall())
+			{
+				GetAttributesManager()->SetNumFilledRpBall(1);
+				sGU_UPDATE_CHAR_RP_BALL newBall;
+				newBall.bDropByTime = false;
+				newBall.byCurRPBall = GetAttributesManager()->GetNumFilledRpBall();
+				newBall.handle = GetHandle();
+				newBall.wOpCode = GU_UPDATE_CHAR_RP_BALL;
+				newBall.wPacketSize = sizeof(sGU_UPDATE_CHAR_RP_BALL) - 2;
+				SendPacket((char*)&newBall, sizeof(sGU_UPDATE_CHAR_RP_BALL));
+				SendToPlayerList((char*)&newBall, sizeof(sGU_UPDATE_CHAR_RP_BALL));
+				GetPcProfile()->wCurRP = 0;
+			}
 		}
 	}
 }

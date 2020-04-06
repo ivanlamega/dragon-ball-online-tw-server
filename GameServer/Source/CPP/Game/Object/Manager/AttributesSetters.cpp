@@ -508,6 +508,20 @@ void AttributesManager::SetLastEPBattleRegeneration(WORD val)
 	AttrIsUpdated = true;
 }
 
+void AttributesManager::SetLastRpRegen(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_RP_CHARGE_SPEED_LAST);
+	PlayerProfile.avatarAttribute.wLastRpRegen = val;
+	AttrIsUpdated = true;
+}
+
+void AttributesManager::SetLastRpDimimution(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_RP_DIMIMUTION);
+	PlayerProfile.avatarAttribute.wLastRpDimimutionRate = val;
+	AttrIsUpdated = true;
+}
+
 //Add
 
 
@@ -1011,5 +1025,19 @@ void AttributesManager::AddLastEPBattleRegeneration(WORD val)
 {
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_EP_BATTLE_REGENERATION_LAST);
 	PlayerProfile.avatarAttribute.wLastEpBattleRegen += val;
+	AttrIsUpdated = true;
+}
+
+void AttributesManager::AddLastRpRegen(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_RP_CHARGE_SPEED_LAST);
+	PlayerProfile.avatarAttribute.wLastRpRegen += val;
+	AttrIsUpdated = true;
+}
+
+void AttributesManager::AddLastRpDimimution(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_RP_DIMIMUTION);
+	PlayerProfile.avatarAttribute.wLastRpDimimutionRate += val;
 	AttrIsUpdated = true;
 }

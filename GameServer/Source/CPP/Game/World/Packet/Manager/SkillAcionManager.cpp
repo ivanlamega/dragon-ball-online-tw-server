@@ -1268,7 +1268,13 @@ void Player::SkillAcion()
 					case ACTIVE_BLOCK_RATE_UP://100% 
 					//case ACTIVE_LP_REGENERATION://need Handle the effect is here to try do effects in order 
 					//case ACTIVE_EP_REGENERATION://need Handle the effect is here to try do effects in order 
-					//case ACTIVE_RP_CHARGE_SPEED://need Handle the effect is here to try do effects in order 
+					case ACTIVE_RP_CHARGE_SPEED://need Handle the effect is here to try do effects in order 
+					{
+						WORD rpRegen = static_cast<WORD>(skillDataOriginal->SkillValue[Effect]);
+						GetAttributesManager()->UpdateRPRegeneration(rpRegen, true);
+						isBuff = true;
+						break;
+					}
 					case ACTIVE_PHYSICAL_CRITICAL:
 					case ACTIVE_ENERGY_CRITICAL:
 					case ACTIVE_SKILL_CASTING_TIME_DOWN:

@@ -2304,6 +2304,36 @@ void AttributesManager::UpdateRP(int rp, bool add)
 	{
 		SetLastMaxRP(rp);
 	}
+
+	WORD RpRegen = CalculeRPRegeneration(PlayerProfile.avatarAttribute.wLastMaxRP);
+	WORD RpDimimutionRate = CalculeRPDiminution(PlayerProfile.avatarAttribute.wLastMaxRP);
+
+	UpdateRPRegeneration(RpRegen, false);
+	UpdateRPDiminution(RpDimimutionRate, false);
+}
+
+void AttributesManager::UpdateRPRegeneration(WORD RPRegen, bool add) 
+{
+	if (add)
+	{
+		AddLastRpRegen(RPRegen);
+	}
+	else
+	{
+		SetLastRpRegen(RPRegen);
+	}
+}
+
+void AttributesManager::UpdateRPDiminution(WORD RPDimin, bool add)
+{
+	if (add)
+	{
+		AddLastRpDimimution(RPDimin);
+	}
+	else
+	{
+		SetLastRpDimimution(RPDimin);
+	}
 }
 
 void AttributesManager::UpdatePhysicalOffence(WORD physicalOffence, bool add)
