@@ -1172,3 +1172,20 @@ void WorldSession::LearnHtb(TBLIDX htbIdx, BYTE slot)
 
 	sDB.addhtb(htbIdx, _player->GetCharacterID(), slot);
 }
+
+void WorldSession::SendDropBuff(HOBJECT handle, TBLIDX buffIdx, BYTE sourceType)
+{
+	sGU_BUFF_DROPPED dropbuff;
+	dropbuff.wOpCode = GU_BUFF_DROPPED;
+	dropbuff.wPacketSize = sizeof(sGU_BUFF_DROPPED) - 2;
+
+	dropbuff.hHandle = handle;
+	dropbuff.bySourceType = sourceType;
+	dropbuff.Slot = 0;
+	dropbuff.tblidx = buffIdx;
+	dropbuff.unk1 = 0;
+	//ExecuteEffectCalculation(dropbuff.tblidx, true);
+	//ExecuteEffectPlayerCalculation(dropbuff.tblidx, dropbuff.hHandle, true);
+	SendPacket((char*)&dropbuff, sizeof(sGU_BUFF_DROPPED));
+	_player->SendToPlayerList((char*)&dropbuff, sizeof(sGU_BUFF_DROPPED));
+}

@@ -1688,7 +1688,53 @@ bool AttributesManager::SaveAvatarAttribute(void* pvBuffer, DWORD* pwdDataSize)
 
 	return true;
 }
+//----------------------------------------
+// Buff list 
+//----------------------------------------
+//Add a new buff
+void AttributesManager::AddBuff(BuffTimeInfo buff)
+{
+	vBuffTimeInfo.push_back(buff);
+}
 
+void AttributesManager::DeleteBuff(TBLIDX buffIdx)
+{
+	typedef std::vector<BuffTimeInfo> BuffList;
+	typedef BuffList::const_iterator BuffListIt;
+
+	const BuffTimeInfo* buff = nullptr;
+	for (BuffListIt iter = vBuffTimeInfo.cbegin(); iter != vBuffTimeInfo.cend(); ++iter)
+	{
+		buff = &(*iter);
+
+		if (buff == nullptr)
+		{
+			continue;
+		}
+
+		sLog.outDebug("Buff id %d", buff->BuffID);
+
+		if (buff->BuffID == buffIdx)
+		{
+			//GetAttributesManager()->questSubCls.objData[index].mobsTblidx.erase(iter);
+			vBuffTimeInfo.erase(iter);
+			sLog.outDebug("Buff deleted");
+			break;
+		}
+	}
+}
+
+BuffTimeInfo* AttributesManager::GetBuff(TBLIDX buffIdx)
+{
+	for (int i = 0; i < vBuffTimeInfo.size(); i++)
+	{
+		if (vBuffTimeInfo[i].BuffID == buffIdx)
+		{
+			return &vBuffTimeInfo[i];
+		}
+	}
+	return NULL;
+}
 //----------------------------------------
 // Mob list for spin attack
 //----------------------------------------
@@ -1744,7 +1790,8 @@ void AttributesManager::DeleteEnemy(HOBJECT hTarget)
 //----------------------------------------
 int AttributesManager::CalculeBasicStats(WORD basicStat, float basicStatLvUp, BYTE playerLevel)
 {
-	return static_cast<int>(basicStat + (basicStatLvUp * (playerLevel - 1)));
+	sLog.outBasic("basicStat %d, statLvUp %f playerLevel %d", basicStat, basicStatLvUp, playerLevel);
+	return static_cast<float>(basicStat) + (basicStatLvUp * (static_cast<float>(playerLevel) - 1.0f));
 }
 
 DWORD AttributesManager::CalculeLP(BYTE pcClass, int lastCon)
@@ -2093,10 +2140,15 @@ WORD AttributesManager::CalculeRPHitChargeRate(BYTE deffLevel, BYTE attLevel)
 	return hitRpChargeRate;
 }
 
-// Update phyicalOffence
-void AttributesManager::UpdateStr(int lastStr, bool addSet)
+float AttributesManager::GetPercent(float percent, float value)
 {
-	if (addSet)
+	return percent * value / 100.0f;
+}
+
+// Update phyicalOffence
+void AttributesManager::UpdateStr(int lastStr, bool add)
+{
+	if (add)
 	{
 		AddLastStr(lastStr);
 	}
@@ -2110,9 +2162,9 @@ void AttributesManager::UpdateStr(int lastStr, bool addSet)
 	UpdatePhysicalOffence(PhysicalOffence, false);
 }
 // Update LP, blockRate, physicalCriticalDefenceRate
-void AttributesManager::UpdateCon(int lastCon, bool addSet)
+void AttributesManager::UpdateCon(int lastCon, bool add)
 {
-	if (addSet)
+	if (add)
 	{
 		AddLastCon(lastCon);
 	}
@@ -2132,9 +2184,9 @@ void AttributesManager::UpdateCon(int lastCon, bool addSet)
 	UpdateLPRegeneration(LpRegen, false);
 }
 // Update energyOffence, energyCriticalRate, hitRate(attackRate), energyCriticalRange
-void AttributesManager::UpdateFoc(int lastFoc, bool addSet)
+void AttributesManager::UpdateFoc(int lastFoc, bool add)
 {
-	if (addSet)
+	if (add)
 	{
 		AddLastFoc(lastFoc);
 	}
@@ -2155,9 +2207,9 @@ void AttributesManager::UpdateFoc(int lastFoc, bool addSet)
 	UpdateEnergyCriticalRange(energyCriticalRange, false);
 }
 // Update physicalOffence, physicalCriticalRate, dodgeRate, blockRate, physicalCriticalRange
-void AttributesManager::UpdateDex(int lastDex, bool addSet)
+void AttributesManager::UpdateDex(int lastDex, bool add)
 {
-	if (addSet)
+	if (add)
 	{
 		AddLastDex(lastDex);
 	}
@@ -2180,9 +2232,9 @@ void AttributesManager::UpdateDex(int lastDex, bool addSet)
 	UpdatePhysicalCriticalRange(physicalCriticalRange, false);
 }
 // Update energyOffence
-void AttributesManager::UpdateSol(int lastSol, bool addSet)
+void AttributesManager::UpdateSol(int lastSol, bool add)
 {
-	if (addSet)
+	if (add)
 	{
 		AddLastSol(lastSol);
 	}
@@ -2197,9 +2249,9 @@ void AttributesManager::UpdateSol(int lastSol, bool addSet)
 	UpdateEnergyOffence(energyOffence, false);
 }
 // Update EP EnergyCriticalDefenceRate, EPRegeneration
-void AttributesManager::UpdateEng(int lastEng, bool addSet)
+void AttributesManager::UpdateEng(int lastEng, bool add)
 {
-	if (addSet)
+	if (add)
 	{
 		AddLastEng(lastEng);
 	}
@@ -2217,9 +2269,9 @@ void AttributesManager::UpdateEng(int lastEng, bool addSet)
 	UpdateEPRegeneration(epRegen, false);
 }
 
-void AttributesManager::UpdateLP(DWORD lp, bool addSet)
+void AttributesManager::UpdateLP(DWORD lp, bool add)
 {
-	if (addSet)
+	if (add)
 	{
 		AddLastMaxLP(lp);
 	}
@@ -2229,9 +2281,9 @@ void AttributesManager::UpdateLP(DWORD lp, bool addSet)
 	}
 }
 
-void AttributesManager::UpdateEP(WORD ep, bool addSet)
+void AttributesManager::UpdateEP(WORD ep, bool add)
 {
-	if (addSet)
+	if (add)
 	{
 
 		AddLastMaxEP(ep);
@@ -2242,9 +2294,9 @@ void AttributesManager::UpdateEP(WORD ep, bool addSet)
 	}
 }
 
-void AttributesManager::UpdateRP(int rp, bool addSet)
+void AttributesManager::UpdateRP(int rp, bool add)
 {
-	if (addSet)
+	if (add)
 	{
 		AddLastMaxRP(rp);
 	}
@@ -2254,9 +2306,9 @@ void AttributesManager::UpdateRP(int rp, bool addSet)
 	}
 }
 
-void AttributesManager::UpdatePhysicalOffence(WORD physicalOffence, bool addSet)
+void AttributesManager::UpdatePhysicalOffence(WORD physicalOffence, bool add)
 {
-	if (addSet)
+	if (add)
 	{
 		AddLastPhysicalOffence(physicalOffence);
 	}
@@ -2266,9 +2318,9 @@ void AttributesManager::UpdatePhysicalOffence(WORD physicalOffence, bool addSet)
 	}
 }
 
-void AttributesManager::UpdateEnergyOffence(WORD energyOffence, bool addSet)
+void AttributesManager::UpdateEnergyOffence(WORD energyOffence, bool add)
 {
-	if (addSet)
+	if (add)
 	{
 		AddLastEnergyOffence(energyOffence);
 	}
@@ -2278,9 +2330,21 @@ void AttributesManager::UpdateEnergyOffence(WORD energyOffence, bool addSet)
 	}
 }
 
-void AttributesManager::UpdatePhysicalCriticalRate(WORD physicalCriticalRate, bool addSet)
+void AttributesManager::UpdateEnergyDefence(WORD energyDefence, bool add)
 {
-	if (addSet)
+	if (add)
+	{
+		AddLastEnergyDefence(energyDefence);
+	}
+	else
+	{
+		SetLastEnergyDefence(energyDefence);
+	}
+}
+
+void AttributesManager::UpdatePhysicalCriticalRate(WORD physicalCriticalRate, bool add)
+{
+	if (add)
 	{
 		AddLastPhysicalCriticalRate(physicalCriticalRate);
 	}
@@ -2290,9 +2354,9 @@ void AttributesManager::UpdatePhysicalCriticalRate(WORD physicalCriticalRate, bo
 	}
 }
 
-void AttributesManager::UpdateEnergyCriticalRate(WORD energyCriticalRate, bool addSet)
+void AttributesManager::UpdateEnergyCriticalRate(WORD energyCriticalRate, bool add)
 {
-	if (addSet)
+	if (add)
 	{
 		AddLastEnergyCriticalRate(energyCriticalRate);
 	}
@@ -2302,9 +2366,9 @@ void AttributesManager::UpdateEnergyCriticalRate(WORD energyCriticalRate, bool a
 	}
 }
 
-void AttributesManager::UpdateHitRate(WORD hitRate, bool addSet)
+void AttributesManager::UpdateHitRate(WORD hitRate, bool add)
 {
-	if (addSet)
+	if (add)
 	{
 		AddLastAttackRate(hitRate);
 	}
@@ -2314,9 +2378,9 @@ void AttributesManager::UpdateHitRate(WORD hitRate, bool addSet)
 	}
 }
 
-void AttributesManager::UpdateDodgeRate(WORD dodgeRate, bool addSet)
+void AttributesManager::UpdateDodgeRate(WORD dodgeRate, bool add)
 {
-	if (addSet)
+	if (add)
 	{
 		AddLastDodgeRate(dodgeRate);
 	}
@@ -2326,9 +2390,9 @@ void AttributesManager::UpdateDodgeRate(WORD dodgeRate, bool addSet)
 	}
 }
 
-void AttributesManager::UpdateBlockRate(WORD blockRate, bool addSet)
+void AttributesManager::UpdateBlockRate(WORD blockRate, bool add)
 {
-	if (addSet)
+	if (add)
 	{
 		AddLastBlockRate(blockRate);
 	}
@@ -2338,9 +2402,9 @@ void AttributesManager::UpdateBlockRate(WORD blockRate, bool addSet)
 	}
 }
 
-void AttributesManager::UpdatePhysicalCriticalDefenceRate(WORD physicalCriticalDefenceRate, bool addSet)
+void AttributesManager::UpdatePhysicalCriticalDefenceRate(WORD physicalCriticalDefenceRate, bool add)
 {
-	if (addSet)
+	if (add)
 	{
 		AddPhysicalCriticalDefenceRate(physicalCriticalDefenceRate);
 	}
@@ -2350,9 +2414,9 @@ void AttributesManager::UpdatePhysicalCriticalDefenceRate(WORD physicalCriticalD
 	}
 }
 
-void AttributesManager::UpdateEnergyCriticalDefenceRate(WORD energyCriticalDefenceRate, bool addSet)
+void AttributesManager::UpdateEnergyCriticalDefenceRate(WORD energyCriticalDefenceRate, bool add)
 {
-	if (addSet)
+	if (add)
 	{
 		AddEnergyCriticalDefenceRate(energyCriticalDefenceRate);
 	}
@@ -2362,9 +2426,9 @@ void AttributesManager::UpdateEnergyCriticalDefenceRate(WORD energyCriticalDefen
 	}
 }
 
-void AttributesManager::UpdatePhysicalCriticalRange(float physicalCriticalRange, bool addSet)
+void AttributesManager::UpdatePhysicalCriticalRange(float physicalCriticalRange, bool add)
 {
-	if (addSet)
+	if (add)
 	{
 		AddLastPhysicalCriticalRange(physicalCriticalRange);
 	}
@@ -2374,9 +2438,9 @@ void AttributesManager::UpdatePhysicalCriticalRange(float physicalCriticalRange,
 	}
 }
 
-void AttributesManager::UpdateEnergyCriticalRange(float energyCriticalRange, bool addSet)
+void AttributesManager::UpdateEnergyCriticalRange(float energyCriticalRange, bool add)
 {
-	if (addSet)
+	if (add)
 	{
 		AddLastEnergyCriticalRange(energyCriticalRange);
 	}
@@ -2386,9 +2450,9 @@ void AttributesManager::UpdateEnergyCriticalRange(float energyCriticalRange, boo
 	}
 }
 // Update LPSitDownRegeneration
-void AttributesManager::UpdateLPRegeneration(WORD LpRegen, bool addSet)
+void AttributesManager::UpdateLPRegeneration(WORD LpRegen, bool add)
 {
-	if (addSet)
+	if (add)
 	{
 		AddLastLPRegen(LpRegen);
 	}
@@ -2402,9 +2466,9 @@ void AttributesManager::UpdateLPRegeneration(WORD LpRegen, bool addSet)
 	UpdateLPSitDownRegeneration(lpSitDownRegen, false);
 }
 
-void AttributesManager::UpdateLPSitDownRegeneration(WORD lpSitDownRegen, bool addSet)
+void AttributesManager::UpdateLPSitDownRegeneration(WORD lpSitDownRegen, bool add)
 {
-	if (addSet)
+	if (add)
 	{
 		AddLastLPSitDownRegeneration(lpSitDownRegen);
 	}
@@ -2414,9 +2478,9 @@ void AttributesManager::UpdateLPSitDownRegeneration(WORD lpSitDownRegen, bool ad
 	}
 }
 
-void AttributesManager::UpdateEPRegeneration(WORD EpRegen, bool addSet)
+void AttributesManager::UpdateEPRegeneration(WORD EpRegen, bool add)
 {
-	if (addSet)
+	if (add)
 	{
 		AddLastEPRegen(EpRegen);
 	}
@@ -2432,9 +2496,9 @@ void AttributesManager::UpdateEPRegeneration(WORD EpRegen, bool addSet)
 	UpdateEPBattleRegeneration(EpBattleRegen, false);
 }
 
-void AttributesManager::UpdateEPSitDownRegeneration(WORD epSitDownRegen, bool addSet)
+void AttributesManager::UpdateEPSitDownRegeneration(WORD epSitDownRegen, bool add)
 {
-	if (addSet)
+	if (add)
 	{
 		AddLastEPSitDownRegeneration(epSitDownRegen);
 	}
@@ -2444,9 +2508,9 @@ void AttributesManager::UpdateEPSitDownRegeneration(WORD epSitDownRegen, bool ad
 	}
 }
 
-void AttributesManager::UpdateEPBattleRegeneration(WORD epBattleRegen, bool addSet)
+void AttributesManager::UpdateEPBattleRegeneration(WORD epBattleRegen, bool add)
 {
-	if (addSet)
+	if (add)
 	{
 		AddLastEPBattleRegeneration(epBattleRegen);
 	}

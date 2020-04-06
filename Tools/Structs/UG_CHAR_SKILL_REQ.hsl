@@ -14,6 +14,34 @@
 
 #include "standard-types.hsl"
 
+struct dVECTOR3
+{
+	DWORD	x;
+	DWORD	y;
+	DWORD	z;
+}dVECTOR3;
+struct wVECTOR3
+{
+	SHORT	x;
+	SHORT	y;
+	SHORT	z;
+}wVECTOR3;
+struct UG_CHAR_SKILL_REQ2
+{
+WORD size;
+WORD opcode;
+BYTE				byAvatarType;		// eDBO_AVATAR_TYPE//0
+BYTE				bySlotIndex;//20
+BYTE				byRpBonusType;		// eDBO_RP_BONUS_TYPE//255
+DWORD				hTarget;
+dVECTOR3			shiftPosition;
+wVECTOR3 			shiftRotation;
+dVECTOR3			unknown; //this maybe is shiftPosition
+// If skill effect should be applied on a target character, too, the target character must be included in both byApplyTargetCount and ahApplyTarget.
+BYTE				byApplyTargetCount;
+DWORD				ahApplyTarget[16];
+};
+
 
 struct UG_CHAR_SKILL_REQ
 {

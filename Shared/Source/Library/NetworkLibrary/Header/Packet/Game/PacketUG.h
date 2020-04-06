@@ -230,12 +230,12 @@ BYTE				byAvatarType;		// eDBO_AVATAR_TYPE//0
 BYTE				bySlotIndex;//20
 BYTE				byRpBonusType;		// eDBO_RP_BONUS_TYPE//255
 HOBJECT				hTarget;
+dVECTOR3			shiftPosition;
+wVECTOR3 			shiftRotation;
+dVECTOR3			unknown; //this maybe is shiftPosition
 // If skill effect should be applied on a target character, too, the target character must be included in both byApplyTargetCount and ahApplyTarget.
 BYTE				byApplyTargetCount;
-BYTE				unk;
-BYTE				unk2;
-HOBJECT				unk3[7];
-HOBJECT				ahApplyTarget[8];
+HOBJECT				ahApplyTarget[16];
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(UG_SKILL_TARGET_LIST)

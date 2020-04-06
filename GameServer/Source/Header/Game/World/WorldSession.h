@@ -154,6 +154,9 @@ public:
 	void			UpgradeSkill(Packet& packet);
 	void			ResetSkill(Packet& packet);
 	void			LearnHtb(TBLIDX htbIdx, BYTE slot);
+
+	//Buff
+	void			SendDropBuff(HOBJECT handle, TBLIDX buffIdx, BYTE sourceType);
 	//Budokay
 
 	//Events

@@ -319,7 +319,14 @@ void			WorldSession::PacketParser(Packet& packet)
 
 		SendPacket((char*)&DropBuff, sizeof(sGU_BUFF_DROP_RES));
 
-		sGU_BUFF_DROPPED DropedBuff;
+		SendDropBuff(_player->GetHandle(), req->tblidx, eDBO_OBJECT_SOURCE::DBO_OBJECT_SOURCE_SKILL);
+
+		BuffTimeInfo* buff = _player->GetAttributesManager()->GetBuff(req->tblidx);
+		if (buff)
+		{
+			_player->GetAttributesManager()->DeleteBuff(req->tblidx);
+		}
+		/*sGU_BUFF_DROPPED DropedBuff;
 
 		DropedBuff.wOpCode = GU_BUFF_DROPPED;
 		DropedBuff.wPacketSize = sizeof(sGU_BUFF_DROPPED) - 2;
@@ -327,7 +334,7 @@ void			WorldSession::PacketParser(Packet& packet)
 		DropedBuff.hHandle = _player->GetHandle();
 		DropedBuff.Slot = 0;
 		DropedBuff.tblidx = req->tblidx;
-		SendPacket((char*)&DropedBuff, sizeof(sGU_BUFF_DROPPED));
+		SendPacket((char*)&DropedBuff, sizeof(sGU_BUFF_DROPPED));*/
 		_player->ExecuteEffectCalculation(req->tblidx, true);
 		for (int i = 0; i <= 32; i++)
 		{

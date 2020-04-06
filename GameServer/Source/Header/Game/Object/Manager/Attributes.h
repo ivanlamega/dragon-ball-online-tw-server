@@ -99,6 +99,22 @@ struct QuestData
 	TLQ3Info				tlq3Info;
 };
 
+struct BuffTimeInfo
+{
+	HOBJECT		PlayerHandle;
+	bool		BuffIsActive;
+	DWORD		BuffTime;
+	DWORD		BuffEndTime;
+	TBLIDX		BuffID;
+	BYTE		BuffSlot;
+	bool        isAffectPlayer;
+	DWORD		EffectType;
+	float		EffectValue[2];
+	bool		isMob;
+	int			StunedType;
+	BuffTypeSkill	buffInfo;
+};
+
 class AttributesManager
 {
 public:
@@ -153,20 +169,6 @@ public:
 	bool LpFoodIsActive = false;
 	bool EpFoodIsActive = false;
 	FoodInfo sFoodInfo[16];
-	struct BuffTimeInfo
-	{
-		HOBJECT		PlayerHandle;
-		bool		BuffIsActive;
-		DWORD		BuffTime;
-		DWORD		BuffEndTime;
-		TBLIDX		BuffID;
-		BYTE		BuffSlot;		
-		bool        isAffectPlayer;
-		DWORD		EffectType;
-		float		EffectValue[2];
-		bool		isMob;
-		int			StunedType;
-	};
 
 	struct SpinningInfo
 	{
@@ -187,6 +189,7 @@ public:
 	//Control Stun Time Need change
 	BuffTimeInfo sBuffTimeInfo[34];
 	int StunedTypes[34];
+	std::vector<BuffTimeInfo> vBuffTimeInfo;
 	//////////
 	//Caontrol FreeBatle Need change
 	int			atackerType;
@@ -213,6 +216,11 @@ public:
 	// Update attr
 	void			SetIsUpdated(bool isUpdated) { AttrIsUpdated = isUpdated; };
 	bool			GetIsUpdated() { return AttrIsUpdated; };
+
+	// Buffs
+	void			AddBuff(BuffTimeInfo buff);
+	void			DeleteBuff(TBLIDX buffIdx);
+	BuffTimeInfo*	GetBuff(TBLIDX buffIdx);
 
 	//RP Passive
 	bool		IsPowerUp;
@@ -258,40 +266,43 @@ public:
 	WORD			CalculeRPHitCharge(BYTE deffLevel, BYTE attLevel);
 	WORD			CalculeRPHitChargeRate(BYTE deffLevel, BYTE attLevel);
 
-	// Update cascading stats bool addSet = 0 add, 1 set
+	float			GetPercent(float percent, float value);
+
+	// Update cascading stats bool add = 0 add, 1 set
 	// Update phyicalOffence
-	void			UpdateStr(int lastStr, bool addSet);
+	void			UpdateStr(int lastStr, bool add);
 	// Update LP, blockRate, physicalCriticalDefenceRate
-	void			UpdateCon(int lastCon, bool addSet);
+	void			UpdateCon(int lastCon, bool add);
 	// Update energyOffence, energyCriticalRate, hitRate(attackRate), energyCriticalRange
-	void			UpdateFoc(int lastFoc, bool addSet);
+	void			UpdateFoc(int lastFoc, bool add);
 	// Update physicalOffence, physicalCriticalRate, dodgeRate, blockRate, physicalCriticalRange
-	void			UpdateDex(int lastDex, bool addSet);
+	void			UpdateDex(int lastDex, bool add);
 	// Update energyOffence
-	void			UpdateSol(int lastSol, bool addSet);
+	void			UpdateSol(int lastSol, bool add);
 	// Update EP and EnergyCriticalDefenceRate
-	void			UpdateEng(int lastEng, bool addSet);
-	void			UpdateLP(DWORD lp, bool addSet);
-	void			UpdateEP(WORD ep, bool addSet);
-	void			UpdateRP(int rp, bool addSet);
-	void			UpdatePhysicalOffence(WORD physicalOffence, bool addSet);
-	void			UpdateEnergyOffence(WORD energyOffence, bool addSet);
-	void			UpdatePhysicalCriticalRate(WORD physicalCriticalRate, bool addSet);
-	void			UpdateEnergyCriticalRate(WORD energyCriticalRate, bool addSet);
-	void			UpdateHitRate(WORD hitRate, bool addSet);
-	void			UpdateDodgeRate(WORD dodgeRate, bool addSet);
-	void			UpdateBlockRate(WORD blockRate, bool addSet);
-	void			UpdatePhysicalCriticalDefenceRate(WORD physicalCriticalDefenceRate, bool addSet);
-	void			UpdateEnergyCriticalDefenceRate(WORD energyCriticalDefenceRate, bool addSet);
-	void			UpdatePhysicalCriticalRange(float physicalCriticalRange, bool addSet);
-	void			UpdateEnergyCriticalRange(float energyCriticalRange, bool addSet);
+	void			UpdateEng(int lastEng, bool add);
+	void			UpdateLP(DWORD lp, bool add);
+	void			UpdateEP(WORD ep, bool add);
+	void			UpdateRP(int rp, bool add);
+	void			UpdatePhysicalOffence(WORD physicalOffence, bool add);
+	void			UpdateEnergyOffence(WORD energyOffence, bool add);
+	void			UpdateEnergyDefence(WORD energyDefence, bool add);
+	void			UpdatePhysicalCriticalRate(WORD physicalCriticalRate, bool add);
+	void			UpdateEnergyCriticalRate(WORD energyCriticalRate, bool add);
+	void			UpdateHitRate(WORD hitRate, bool add);
+	void			UpdateDodgeRate(WORD dodgeRate, bool add);
+	void			UpdateBlockRate(WORD blockRate, bool add);
+	void			UpdatePhysicalCriticalDefenceRate(WORD physicalCriticalDefenceRate, bool add);
+	void			UpdateEnergyCriticalDefenceRate(WORD energyCriticalDefenceRate, bool add);
+	void			UpdatePhysicalCriticalRange(float physicalCriticalRange, bool add);
+	void			UpdateEnergyCriticalRange(float energyCriticalRange, bool add);
 	// Update LPSitDownRegeneration
-	void			UpdateLPRegeneration(WORD LpRegen, bool addSet);
-	void			UpdateLPSitDownRegeneration(WORD lpSitDownRegen, bool addSet);
+	void			UpdateLPRegeneration(WORD LpRegen, bool add);
+	void			UpdateLPSitDownRegeneration(WORD lpSitDownRegen, bool add);
 	// Update EPSitDownRegeneration, EPBattleRegeneration
-	void			UpdateEPRegeneration(WORD EpRegen, bool addSet);
-	void			UpdateEPSitDownRegeneration(WORD epSitDownRegen, bool addSet);
-	void			UpdateEPBattleRegeneration(WORD epBattleRegen, bool addSet);
+	void			UpdateEPRegeneration(WORD EpRegen, bool add);
+	void			UpdateEPSitDownRegeneration(WORD epSitDownRegen, bool add);
+	void			UpdateEPBattleRegeneration(WORD epBattleRegen, bool add);
 	//	------------------------------------------------------------------------
 	// GETTER
 	//	------------------------------------------------------------------------

@@ -536,12 +536,19 @@ void Player::SkillAcion()
 
 	sUG_CHAR_SKILL_REQ* pCharSkillReq = (sUG_CHAR_SKILL_REQ*)packets.GetPacketBuffer();
 
+	sLog.outBasic("My handle %d handle skill %d count %d", GetHandle(), pCharSkillReq->hTarget, pCharSkillReq->byApplyTargetCount);
+	for (int i = 0; i < pCharSkillReq->byApplyTargetCount; i++)
+	{
+		sLog.outBasic("Handle target %d", pCharSkillReq->ahApplyTarget[i]);
+	}
+
 	sGU_CHAR_SKILL_RES sSkil;
 	sSkil.wPacketSize = sizeof(sGU_CHAR_SKILL_RES) - 2;
 	sSkil.wOpCode = GU_CHAR_SKILL_RES;
 	sSkil.wResultCode = GAME_SKILL_CANT_CAST_NOW;
 
 	bool bleed = false;
+	bool isBuff = false;
 	int skillID = skillManager.getIdAtPos(pCharSkillReq->bySlotIndex);
 	SkillTable* skillTable = sTBM.GetSkillTable();
 	sSKILL_TBLDAT* skillDataOriginal = reinterpret_cast<sSKILL_TBLDAT*>(skillTable->FindData(skillID));
@@ -567,7 +574,7 @@ void Player::SkillAcion()
 			pBuffData.size = sizeof(BuffTypeSkill) - 2;
 			pBuffData.tblidx = INVALID_TBLIDX;
 			int damageApply = 1;
-			for (int Effect = 0; Effect <= 2; Effect++)
+			for (int Effect = 0; Effect < 2; Effect++)
 			{
 				////Skill Handle
 				int count = 0;
@@ -1245,7 +1252,6 @@ void Player::SkillAcion()
 					case ACTIVE_MAX_LP_UP://100% 						
 					case ACTIVE_MAX_EP_UP://100% 
 					case ACTIVE_MAX_RP_UP://100% 
-					case ACTIVE_PHYSICAL_OFFENCE_UP://100% 
 					case ACTIVE_ENERGY_OFFENCE_UP://100% 
 					case ACTIVE_PHYSICAL_DEFENCE_UP://100% 
 					case ACTIVE_ENERGY_DEFENCE_UP://100% 
@@ -1268,133 +1274,15 @@ void Player::SkillAcion()
 					case ACTIVE_SKILL_CASTING_TIME_DOWN:
 					case ACTIVE_SKILL_COOL_TIME_DOWN:
 					{
-						sSkil.wResultCode = GAME_SUCCESS;
+						break;
+					}
+					case ACTIVE_PHYSICAL_OFFENCE_UP://100% 
+					{
+						WORD addPhysicalOffence = GetAttributesManager()->GetPercent(skillDataOriginal->SkillValue[Effect], 
+							static_cast<float>(GetPcProfile()->avatarAttribute.wLastPhysicalOffence));
+						GetAttributesManager()->UpdatePhysicalOffence(addPhysicalOffence, true);
 
-						skillRes.skillId = skillDataOriginal->tblidx;
-						skillRes.wResultCode = GAME_SUCCESS;
-						skillRes.byRpBonusType = 0;//Untested
-						skillRes.wOpCode = GU_CHAR_ACTION_SKILL;
-						skillRes.handle = GetHandle();//My Handle
-						skillRes.hAppointedTarget = skillDataOriginal->byAppoint_Target;
-
-						if (pCharSkillReq->hTarget == GetHandle())
-						{
-							pBuffData.hHandle = GetHandle();
-							//pBuffData.slot = 1;
-							pBuffData.tblidx = skillDataOriginal->tblidx;
-							pBuffData.bySourceType = 0;
-							pBuffData.dwInitialDuration = skillDataOriginal->dwKeepTimeInMilliSecs;
-							pBuffData.dwTimeRemaining = skillDataOriginal->dwKeepTimeInMilliSecs;//Time
-
-							pBuffData.isactive = 1;
-							pBuffData.Type = 0;
-							pBuffData.BuffInfo[Effect].SystemEffectValue = skillDataOriginal->SkillValue[Effect];
-							pBuffData.BuffInfo[Effect].SystemEffectTime = skillDataOriginal->dwKeepTimeInMilliSecs;
-							pBuffData.BuffInfo[Effect].dwSystemEffectValue = skillDataOriginal->SkillValue[Effect];
-							//Handle Buff Time List
-							int FreePlace = 0;
-							for (int i = 0; i <= 32; i++)
-							{
-								if (GetAttributesManager()->sBuffTimeInfo[i].BuffID == pBuffData.tblidx)
-								{
-									sGU_BUFF_DROPPED dropbuff;
-									dropbuff.wOpCode = GU_BUFF_DROPPED;
-									dropbuff.wPacketSize = sizeof(sGU_BUFF_DROPPED) - 2;
-									dropbuff.hHandle = GetHandle();
-									dropbuff.bySourceType = eDBO_OBJECT_SOURCE::DBO_OBJECT_SOURCE_SKILL;
-									dropbuff.Slot = 0;
-									dropbuff.tblidx = pBuffData.tblidx;
-									dropbuff.unk1 = 0;
-									SendPacket((char*)&dropbuff, sizeof(sGU_BUFF_DROPPED));
-									SendToPlayerList((char*)&dropbuff, sizeof(sGU_BUFF_DROPPED));
-									GetAttributesManager()->sBuffTimeInfo[i].BuffIsActive = false;
-									GetAttributesManager()->sBuffTimeInfo[i].BuffEndTime = INVALID_TBLIDX;
-									GetAttributesManager()->sBuffTimeInfo[i].BuffTime = INVALID_TBLIDX;
-									GetAttributesManager()->sBuffTimeInfo[i].BuffID = INVALID_TBLIDX;
-									ExecuteEffectCalculation(pBuffData.tblidx, true);
-									//printf("Alardy got that buff \n");
-									FreePlace = i;
-								}
-								//GetFreeSlot
-								else if (GetAttributesManager()->sBuffTimeInfo[i].BuffID == 0 || GetAttributesManager()->sBuffTimeInfo[i].BuffID == INVALID_TBLIDX)
-								{
-									//	printf("Regist new buff \n");
-									FreePlace = i;
-								}
-
-							}
-							ExecuteEffectCalculation(pBuffData.tblidx, false);
-
-							GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffID = pBuffData.tblidx;
-							GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffTime = GetTickCount();
-							GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffEndTime = pBuffData.dwInitialDuration;
-							GetAttributesManager()->sBuffTimeInfo[FreePlace].PlayerHandle = pBuffData.hHandle;
-							GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffIsActive = true;
-							GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffSlot = 0;
-						}
-						//Area Buff
-						for (int i = 0; i < skillDataOriginal->byApply_Target_Max; i++)
-						{
-							if (ObjectType == OBJTYPE_PC)
-							{
-								Player* PlayerInfo = static_cast<Player*>(GetFromList(pCharSkillReq->ahApplyTarget[i]));
-								if (PlayerInfo != NULL)
-								{
-									pBuffData.hHandle = PlayerInfo->GetHandle();
-									//pBuffData.slot = 1;
-									pBuffData.tblidx = skillDataOriginal->tblidx;
-									pBuffData.bySourceType = 0;
-									pBuffData.dwInitialDuration = skillDataOriginal->dwKeepTimeInMilliSecs;
-									pBuffData.dwTimeRemaining = skillDataOriginal->dwKeepTimeInMilliSecs;//Time
-
-									pBuffData.isactive = 1;
-									pBuffData.Type = 0;
-									pBuffData.BuffInfo[Effect].SystemEffectValue = skillDataOriginal->SkillValue[Effect];
-									pBuffData.BuffInfo[Effect].SystemEffectTime = skillDataOriginal->dwKeepTimeInMilliSecs;
-									pBuffData.BuffInfo[Effect].dwSystemEffectValue = skillDataOriginal->SkillValue[Effect];
-									//Handle Buff Time List
-									int FreePlace = 0;
-									for (int i = 0; i <= 32; i++)
-									{
-										if (PlayerInfo->GetAttributesManager()->sBuffTimeInfo[i].BuffID == pBuffData.tblidx)
-										{
-											sGU_BUFF_DROPPED dropbuff;
-											dropbuff.wOpCode = GU_BUFF_DROPPED;
-											dropbuff.wPacketSize = sizeof(sGU_BUFF_DROPPED) - 2;
-											dropbuff.hHandle = PlayerInfo->GetHandle();
-											dropbuff.bySourceType = eDBO_OBJECT_SOURCE::DBO_OBJECT_SOURCE_SKILL;
-											dropbuff.Slot = 0;
-											dropbuff.tblidx = pBuffData.tblidx;
-											dropbuff.unk1 = 0;
-											PlayerInfo->SendPacket((char*)&dropbuff, sizeof(sGU_BUFF_DROPPED));
-											PlayerInfo->SendToPlayerList((char*)&dropbuff, sizeof(sGU_BUFF_DROPPED));
-											PlayerInfo->GetAttributesManager()->sBuffTimeInfo[i].BuffIsActive = false;
-											PlayerInfo->GetAttributesManager()->sBuffTimeInfo[i].BuffEndTime = INVALID_TBLIDX;
-											PlayerInfo->GetAttributesManager()->sBuffTimeInfo[i].BuffTime = INVALID_TBLIDX;
-											PlayerInfo->GetAttributesManager()->sBuffTimeInfo[i].BuffID = INVALID_TBLIDX;
-											PlayerInfo->ExecuteEffectCalculation(pBuffData.tblidx, true);
-											printf("Alardy got that buff \n");
-											FreePlace = i;
-										}
-										//GetFreeSlot
-										else if (PlayerInfo->GetAttributesManager()->sBuffTimeInfo[i].BuffID == 0 || PlayerInfo->GetAttributesManager()->sBuffTimeInfo[i].BuffID == INVALID_TBLIDX)
-										{
-											printf("Regist new buff \n");
-											FreePlace = i;
-										}
-
-									}
-									PlayerInfo->ExecuteEffectCalculation(pBuffData.tblidx, false);
-
-									PlayerInfo->GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffID = pBuffData.tblidx;
-									PlayerInfo->GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffTime = GetTickCount();
-									PlayerInfo->GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffEndTime = pBuffData.dwInitialDuration;
-									PlayerInfo->GetAttributesManager()->sBuffTimeInfo[FreePlace].PlayerHandle = pBuffData.hHandle;
-									PlayerInfo->GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffIsActive = true;
-									PlayerInfo->GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffSlot = 0;
-								}
-							}
-						}
+						isBuff = true;
 
 						break;
 					}
@@ -2280,208 +2168,20 @@ void Player::SkillAcion()
 					case ACTIVE_PHYSICAL_OFFENCE_DOWN:
 					case ACTIVE_ENERGY_OFFENCE_DOWN:
 					case ACTIVE_PHYSICAL_DEFENCE_DOWN:
-					case ACTIVE_ENERGY_DEFENCE_DOWN:
 					case ACTIVE_CON_DOWN:
 					case ACTIVE_MOVE_SPEED_DOWN:
 					{
-						sSkil.wResultCode = GAME_SUCCESS;
+						break;
+					}
+					case ACTIVE_ENERGY_DEFENCE_DOWN:
+					{
+						int subEnergyDefence = GetAttributesManager()->GetPercent(skillDataOriginal->SkillValue[Effect],
+							static_cast<float>(GetPcProfile()->avatarAttribute.wLastEnergyDefence));
+						subEnergyDefence = subEnergyDefence * -1;
+						sLog.outBasic("energy defense substraction %d", subEnergyDefence);
+						GetAttributesManager()->UpdateEnergyDefence(subEnergyDefence, true);
 
-						skillRes.skillId = skillDataOriginal->tblidx;
-						skillRes.wResultCode = GAME_SUCCESS;
-						skillRes.byRpBonusType = 0;//Untested
-						skillRes.wOpCode = GU_CHAR_ACTION_SKILL;
-						skillRes.handle = GetHandle();//My Handle
-						skillRes.hAppointedTarget = GetHandle();
-
-						if (pCharSkillReq->hTarget == GetHandle())
-						{
-							pBuffData.hHandle = GetHandle();
-							//pBuffData.slot = 1;
-							pBuffData.tblidx = skillDataOriginal->tblidx;
-							pBuffData.bySourceType = 0;
-							pBuffData.dwInitialDuration = skillDataOriginal->dwKeepTimeInMilliSecs;
-							pBuffData.dwTimeRemaining = skillDataOriginal->dwKeepTimeInMilliSecs;//Time
-
-							pBuffData.isactive = 1;
-							pBuffData.Type = 0;
-							pBuffData.BuffInfo[Effect].SystemEffectValue = skillDataOriginal->SkillValue[Effect];
-							pBuffData.BuffInfo[Effect].SystemEffectTime = skillDataOriginal->dwKeepTimeInMilliSecs;
-							pBuffData.BuffInfo[Effect].dwSystemEffectValue = skillDataOriginal->SkillValue[Effect];
-							//Handle Buff Time List
-							int FreePlace = 0;
-							for (int i = 0; i <= 32; i++)
-							{
-								if (GetAttributesManager()->sBuffTimeInfo[i].BuffID == pBuffData.tblidx)
-								{
-									sGU_BUFF_DROPPED dropbuff;
-									dropbuff.wOpCode = GU_BUFF_DROPPED;
-									dropbuff.wPacketSize = sizeof(sGU_BUFF_DROPPED) - 2;
-									dropbuff.hHandle = GetHandle();
-									dropbuff.bySourceType = eDBO_OBJECT_SOURCE::DBO_OBJECT_SOURCE_SKILL;
-									dropbuff.Slot = 0;
-									dropbuff.tblidx = pBuffData.tblidx;
-									dropbuff.unk1 = 0;
-									SendPacket((char*)&dropbuff, sizeof(sGU_BUFF_DROPPED));
-									SendToPlayerList((char*)&dropbuff, sizeof(sGU_BUFF_DROPPED));
-									GetAttributesManager()->sBuffTimeInfo[i].BuffIsActive = false;
-									GetAttributesManager()->sBuffTimeInfo[i].BuffEndTime = INVALID_TBLIDX;
-									GetAttributesManager()->sBuffTimeInfo[i].BuffTime = INVALID_TBLIDX;
-									GetAttributesManager()->sBuffTimeInfo[i].BuffID = INVALID_TBLIDX;
-									ExecuteEffectCalculation(pBuffData.tblidx, true);
-									//printf("Alardy got that buff \n");
-									FreePlace = i;
-								}
-								//GetFreeSlot
-								else if (GetAttributesManager()->sBuffTimeInfo[i].BuffID == 0 || GetAttributesManager()->sBuffTimeInfo[i].BuffID == INVALID_TBLIDX)
-								{
-									//	printf("Regist new buff \n");
-									FreePlace = i;
-								}
-
-							}
-							ExecuteEffectCalculation(pBuffData.tblidx, false);
-
-							GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffID = pBuffData.tblidx;
-							GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffTime = GetTickCount();
-							GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffEndTime = pBuffData.dwInitialDuration;
-							GetAttributesManager()->sBuffTimeInfo[FreePlace].PlayerHandle = pBuffData.hHandle;
-							GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffIsActive = true;
-							GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffSlot = 0;
-						}
-
-						for (int i = 0; i < skillDataOriginal->byApply_Target_Max; i++)
-						{
-							//	printf("ahApplyTarget %d \n", pCharSkillReq->ahApplyTarget[i]);
-							if (ObjectType == OBJTYPE_PC)
-							{
-								Player* PlayerInfo = static_cast<Player*>(GetFromList(pCharSkillReq->ahApplyTarget[i]));
-								if (PlayerInfo != NULL && PlayerInfo->GetIsDead() == false)
-								{
-									if (PlayerInfo->GetAttributesManager()->IsinPVP == true || PlayerInfo->GetAttributesManager()->PlayerInFreeBatle == true)
-									{
-										if (AttackType[count] != eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_DODGE)
-										{
-											pBuffData.hHandle = PlayerInfo->GetHandle();
-
-											pBuffData.tblidx = skillDataOriginal->tblidx;
-											pBuffData.bySourceType = 0;
-											pBuffData.dwInitialDuration = skillDataOriginal->dwKeepTimeInMilliSecs;
-											pBuffData.dwTimeRemaining = skillDataOriginal->dwKeepTimeInMilliSecs;//Time
-
-											pBuffData.isactive = 1;
-											pBuffData.Type = 0;
-											pBuffData.BuffInfo[Effect].SystemEffectValue = skillDataOriginal->SkillValue[Effect];
-											pBuffData.BuffInfo[Effect].SystemEffectTime = skillDataOriginal->dwKeepTimeInMilliSecs;
-											pBuffData.BuffInfo[Effect].dwSystemEffectValue = skillDataOriginal->SkillValue[Effect];
-
-											int FreePlace = 0;
-											for (int i = 0; i <= 32; i++)
-											{
-												if (PlayerInfo->GetAttributesManager()->sBuffTimeInfo[i].BuffID == pBuffData.tblidx)
-												{
-													sGU_BUFF_DROPPED dropbuff;
-													dropbuff.wOpCode = GU_BUFF_DROPPED;
-													dropbuff.wPacketSize = sizeof(sGU_BUFF_DROPPED) - 2;
-													dropbuff.hHandle = GetHandle();
-													dropbuff.bySourceType = eDBO_OBJECT_SOURCE::DBO_OBJECT_SOURCE_SKILL;
-													dropbuff.Slot = 0;
-													dropbuff.tblidx = pBuffData.tblidx;
-													dropbuff.unk1 = 0;
-													PlayerInfo->SendPacket((char*)&dropbuff, sizeof(sGU_BUFF_DROPPED));
-													PlayerInfo->SendToPlayerList((char*)&dropbuff, sizeof(sGU_BUFF_DROPPED));
-													PlayerInfo->GetAttributesManager()->sBuffTimeInfo[i].BuffIsActive = false;
-													PlayerInfo->GetAttributesManager()->sBuffTimeInfo[i].BuffEndTime = INVALID_TBLIDX;
-													PlayerInfo->GetAttributesManager()->sBuffTimeInfo[i].BuffTime = INVALID_TBLIDX;
-													PlayerInfo->GetAttributesManager()->sBuffTimeInfo[i].BuffID = INVALID_TBLIDX;
-													//ExecuteEffectCalculation(pBuffData.tblidx, true);
-													//printf("Alardy got that buff \n");
-													FreePlace = i;
-												}
-												if (PlayerInfo->GetAttributesManager()->sBuffTimeInfo[i].BuffID == 0 || PlayerInfo->GetAttributesManager()->sBuffTimeInfo[i].BuffID == INVALID_TBLIDX)
-												{
-													FreePlace = i;
-												}
-											}
-											PlayerInfo->GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffID = pBuffData.tblidx;
-											PlayerInfo->GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffTime = GetTickCount();
-											PlayerInfo->GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffEndTime = pBuffData.dwInitialDuration;
-											PlayerInfo->GetAttributesManager()->sBuffTimeInfo[FreePlace].PlayerHandle = pBuffData.hHandle;
-											PlayerInfo->GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffIsActive = true;
-											PlayerInfo->GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffSlot = 0;
-											PlayerInfo->ExecuteEffectPlayerCalculation(pBuffData.tblidx, pBuffData.hHandle, false);
-
-										}
-										count = 1;
-										//printf("count %d \n", count);
-									}
-								}
-							}
-							if (ObjectType == OBJTYPE_MOB)
-							{
-								Mob* MobInfo = static_cast<Mob*>(GetFromList(pCharSkillReq->ahApplyTarget[i]));
-								if (MobInfo != NULL && MobInfo->GetIsDead() == false && MobInfo->GetInitialSpawn())
-								{
-									if (AttackType[count] != eBATTLE_ATTACK_RESULT::BATTLE_ATTACK_RESULT_DODGE)
-									{
-										pBuffData.hHandle = MobInfo->GetHandle();
-
-										pBuffData.tblidx = skillDataOriginal->tblidx;
-										pBuffData.bySourceType = 0;
-										pBuffData.dwInitialDuration = skillDataOriginal->dwKeepTimeInMilliSecs;
-										pBuffData.dwTimeRemaining = skillDataOriginal->dwKeepTimeInMilliSecs;//Time
-
-										pBuffData.isactive = 1;
-										pBuffData.Type = 0;
-										pBuffData.BuffInfo[Effect].SystemEffectValue = skillDataOriginal->SkillValue[Effect];
-										pBuffData.BuffInfo[Effect].SystemEffectTime = skillDataOriginal->dwKeepTimeInMilliSecs;
-										pBuffData.BuffInfo[Effect].dwSystemEffectValue = skillDataOriginal->SkillValue[Effect];
-
-										int FreePlace = 0;
-										for (int i = 0; i <= 32; i++)
-										{
-											if (GetAttributesManager()->sBuffTimeInfo[i].BuffID == pBuffData.tblidx)
-											{
-												sGU_BUFF_DROPPED dropbuff;
-												dropbuff.wOpCode = GU_BUFF_DROPPED;
-												dropbuff.wPacketSize = sizeof(sGU_BUFF_DROPPED) - 2;
-												dropbuff.hHandle = GetHandle();
-												dropbuff.bySourceType = eDBO_OBJECT_SOURCE::DBO_OBJECT_SOURCE_SKILL;
-												dropbuff.Slot = 0;
-												dropbuff.tblidx = pBuffData.tblidx;
-												dropbuff.unk1 = 0;
-												SendPacket((char*)&dropbuff, sizeof(sGU_BUFF_DROPPED));
-												SendToPlayerList((char*)&dropbuff, sizeof(sGU_BUFF_DROPPED));
-												GetAttributesManager()->sBuffTimeInfo[i].BuffIsActive = false;
-												GetAttributesManager()->sBuffTimeInfo[i].BuffEndTime = INVALID_TBLIDX;
-												GetAttributesManager()->sBuffTimeInfo[i].BuffTime = INVALID_TBLIDX;
-												GetAttributesManager()->sBuffTimeInfo[i].BuffID = INVALID_TBLIDX;
-												ExecuteEffectCalculation(pBuffData.tblidx, true);
-												//printf("Alardy got that buff \n");
-												FreePlace = i;
-											}
-											if (GetAttributesManager()->sBuffTimeInfo[i].BuffID == 0 || GetAttributesManager()->sBuffTimeInfo[i].BuffID == INVALID_TBLIDX)
-											{
-												FreePlace = i;
-											}
-
-										}
-										GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffID = pBuffData.tblidx;
-										GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffTime = GetTickCount();
-										GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffEndTime = pBuffData.dwInitialDuration;
-										GetAttributesManager()->sBuffTimeInfo[FreePlace].PlayerHandle = pBuffData.hHandle;
-										GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffIsActive = true;
-										GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffSlot = 0;
-										//if (MobInfo->attackers == 0)
-										MobInfo->attackers = GetHandle();
-										// moveSpeed = MobInfo->GetMobData().Run_Speed / 100 * skillDataOriginal->SkillValue[Effect];
-										// ExecuteEffectPlayerCalculation(pBuffData.tblidx, pBuffData.hHandle, false);
-
-									}
-									count += 1;
-									//printf("count %d \n", count);
-								}
-							}
-						}
+						isBuff = true;
 						break;
 					}
 					case ACTIVE_SPINNING_ATTACK:
@@ -2690,6 +2390,56 @@ void Player::SkillAcion()
 						break;
 					}
 					//NEXT CASE
+					}
+				}
+
+				if (isBuff)
+				{
+					isBuff = false;
+
+					sSkil.wResultCode = GAME_SUCCESS;
+
+					skillRes.skillId = skillDataOriginal->tblidx;
+					skillRes.wResultCode = GAME_SUCCESS;
+					skillRes.byRpBonusType = pCharSkillReq->byRpBonusType;//Untested
+					skillRes.wOpCode = GU_CHAR_ACTION_SKILL;
+					skillRes.handle = GetHandle();//My Handle
+					skillRes.hAppointedTarget = GetHandle();
+
+
+					if (pCharSkillReq->hTarget == GetHandle())
+					{
+						pBuffData.hHandle = GetHandle();
+						//pBuffData.slot = 1;
+						pBuffData.tblidx = skillDataOriginal->tblidx;
+						pBuffData.bySourceType = 0;
+						pBuffData.dwInitialDuration = skillDataOriginal->dwKeepTimeInMilliSecs;
+						pBuffData.dwTimeRemaining = skillDataOriginal->dwKeepTimeInMilliSecs;//Time
+
+						pBuffData.isactive = 1;
+						pBuffData.Type = 0;
+						pBuffData.BuffInfo[Effect].SystemEffectValue = skillDataOriginal->SkillValue[Effect];
+						pBuffData.BuffInfo[Effect].SystemEffectTime = skillDataOriginal->dwKeepTimeInMilliSecs;
+						pBuffData.BuffInfo[Effect].dwSystemEffectValue = skillDataOriginal->SkillValue[Effect];
+						//Handle Buff Time List
+						BuffTimeInfo* buff = GetAttributesManager()->GetBuff(pBuffData.tblidx);
+						if (buff == NULL)
+						{
+							BuffTimeInfo newBuff;
+
+							newBuff.BuffID = pBuffData.tblidx;
+							newBuff.BuffTime = GetTickCount();
+							newBuff.BuffEndTime = pBuffData.dwInitialDuration;
+							newBuff.PlayerHandle = pBuffData.hHandle;
+							newBuff.BuffIsActive = true;
+							newBuff.BuffSlot = 0;
+							newBuff.buffInfo = pBuffData;
+							GetAttributesManager()->AddBuff(newBuff);
+						}
+						else
+						{
+							buff->buffInfo = pBuffData;
+						}
 					}
 				}
 			}

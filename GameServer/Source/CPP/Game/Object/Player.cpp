@@ -2408,6 +2408,21 @@ void Player::ExecuteSpinningBallAttack()
 
 void Player::ExecuteBuffTimmer()
 {	
+	for (int i = 0; i < GetAttributesManager()->vBuffTimeInfo.size(); i++)
+	{
+		BuffTimeInfo buff = GetAttributesManager()->vBuffTimeInfo[i];
+		if (buff.BuffIsActive)
+		{
+			DWORD deleteBuff = GetTickCount() - buff.BuffTime;
+			if (deleteBuff >= buff.BuffEndTime)
+			{
+				m_session->SendDropBuff(buff.PlayerHandle, buff.BuffID, eDBO_OBJECT_SOURCE::DBO_OBJECT_SOURCE_SKILL);
+
+				GetAttributesManager()->DeleteBuff(buff.BuffID);
+			}
+		}
+	}
+
 	for (int i = 0; i <= 32; i++)
 	{		
 		if (GetAttributesManager()->sBuffTimeInfo[i].BuffIsActive == true && GetAttributesManager()->sBuffTimeInfo[i].BuffID != 0 && GetAttributesManager()->sBuffTimeInfo[i].BuffID != INVALID_TBLIDX)
