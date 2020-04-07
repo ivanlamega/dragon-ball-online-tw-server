@@ -1189,3 +1189,44 @@ void WorldSession::SendDropBuff(HOBJECT handle, TBLIDX buffIdx, BYTE sourceType)
 	SendPacket((char*)&dropbuff, sizeof(sGU_BUFF_DROPPED));
 	_player->SendToPlayerList((char*)&dropbuff, sizeof(sGU_BUFF_DROPPED));
 }
+
+
+void WorldSession::SendAvatarRPIncreaseStartNotify()
+{
+	sGU_AVATAR_RP_INCREASE_START_NFY nfy;
+	nfy.wPacketSize = sizeof(sGU_AVATAR_RP_INCREASE_START_NFY) - 2;
+	nfy.wOpCode = GU_AVATAR_RP_INCREASE_START_NFY;
+	SendPacket((char*)&nfy, sizeof(sGU_AVATAR_RP_INCREASE_START_NFY));
+}
+
+void WorldSession::SendAvatarRPIncreaseStopNotify()
+{
+	sGU_AVATAR_RP_INCREASE_STOP_NFY nfy;
+	nfy.wPacketSize = sizeof(sGU_AVATAR_RP_INCREASE_STOP_NFY) - 2;
+	nfy.wOpCode = GU_AVATAR_RP_INCREASE_STOP_NFY;
+	SendPacket((char*)&nfy, sizeof(sGU_AVATAR_RP_INCREASE_STOP_NFY));
+}
+
+void WorldSession::SendUpdateRpBall(BYTE curRpBall)
+{
+	sGU_UPDATE_CHAR_RP_BALL newBall;
+	newBall.bDropByTime = false;
+	newBall.byCurRPBall = curRpBall;
+	newBall.handle = _player->GetHandle();
+	newBall.wOpCode = GU_UPDATE_CHAR_RP_BALL;
+	newBall.wPacketSize = sizeof(sGU_UPDATE_CHAR_RP_BALL) - 2;
+	SendPacket((char*)&newBall, sizeof(sGU_UPDATE_CHAR_RP_BALL));
+}
+
+void WorldSession::SendUpdateCharRP(WORD curRP, DWORD maxRP)
+{
+	sGU_UPDATE_CHAR_RP RP;
+
+	RP.bHitDelay = false;
+	RP.handle = _player->GetHandle();
+	RP.wCurRP = curRP;
+	RP.wMaxRP = maxRP;
+	RP.wOpCode = GU_UPDATE_CHAR_RP;
+	RP.wPacketSize = sizeof(sGU_UPDATE_CHAR_RP) - 2;
+	SendPacket((char*)&RP, sizeof(sGU_UPDATE_CHAR_RP));
+}

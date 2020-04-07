@@ -157,6 +157,13 @@ public:
 
 	//Buff
 	void			SendDropBuff(HOBJECT handle, TBLIDX buffIdx, BYTE sourceType);
+
+	//RP
+	void			SendAvatarRPIncreaseStartNotify();
+	void			SendAvatarRPIncreaseStopNotify();
+	void			SendUpdateRpBall(BYTE curRpBall);
+	void			SendUpdateCharRP(WORD curRP, DWORD maxRP);
+
 	//Budokay
 
 	//Events

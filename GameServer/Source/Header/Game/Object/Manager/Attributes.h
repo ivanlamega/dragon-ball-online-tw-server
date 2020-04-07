@@ -101,18 +101,19 @@ struct QuestData
 
 struct BuffTimeInfo
 {
-	HOBJECT		PlayerHandle;
-	bool		BuffIsActive;
-	DWORD		BuffTime;
-	DWORD		BuffEndTime;
-	TBLIDX		BuffID;
-	BYTE		BuffSlot;
-	bool        isAffectPlayer;
-	DWORD		EffectType;
-	float		EffectValue[2];
-	bool		isMob;
-	int			StunedType;
+	HOBJECT			PlayerHandle;
+	bool			BuffIsActive;
+	DWORD			BuffTime;
+	DWORD			BuffEndTime;
+	TBLIDX			BuffID;
+	BYTE			BuffSlot;
+	bool			isAffectPlayer;
+	DWORD			EffectType;
+	float			EffectValue[2];
+	bool			isMob;
+	int				StunedType;
 	BuffTypeSkill	buffInfo;
+	sSKILL_TBLDAT* skillInfo;
 };
 
 class AttributesManager
@@ -266,6 +267,9 @@ public:
 	WORD			CalculeRPDiminution(WORD maxRP);
 	WORD			CalculeRPHitCharge(BYTE deffLevel, BYTE attLevel);
 	WORD			CalculeRPHitChargeRate(BYTE deffLevel, BYTE attLevel);
+	WORD			CalculeCurseSuccessRate(int lastFoc);
+	WORD			CalculeCurseToleranceRate(int lastDex);
+
 
 	float			GetPercent(float percent, float value);
 
@@ -274,9 +278,9 @@ public:
 	void			UpdateStr(int lastStr, bool add);
 	// Update LP, blockRate, physicalCriticalDefenceRate
 	void			UpdateCon(int lastCon, bool add);
-	// Update energyOffence, energyCriticalRate, hitRate(attackRate), energyCriticalRange
+	// Update energyOffence, energyCriticalRate, hitRate(attackRate), energyCriticalRange, curseSuccessRate
 	void			UpdateFoc(int lastFoc, bool add);
-	// Update physicalOffence, physicalCriticalRate, dodgeRate, blockRate, physicalCriticalRange
+	// Update physicalOffence, physicalCriticalRate, dodgeRate, blockRate, physicalCriticalRange, curseToleranceRate
 	void			UpdateDex(int lastDex, bool add);
 	// Update energyOffence
 	void			UpdateSol(int lastSol, bool add);
@@ -287,6 +291,7 @@ public:
 	// Update RpRegeneration and RPDiminution
 	void			UpdateRP(int rp, bool add);
 	void			UpdatePhysicalOffence(WORD physicalOffence, bool add);
+	void			UpdatePhysicalDefence(WORD physicalDefence, bool add);
 	void			UpdateEnergyOffence(WORD energyOffence, bool add);
 	void			UpdateEnergyDefence(WORD energyDefence, bool add);
 	void			UpdatePhysicalCriticalRate(WORD physicalCriticalRate, bool add);
@@ -307,6 +312,8 @@ public:
 	void			UpdateEPBattleRegeneration(WORD epBattleRegen, bool add);
 	void			UpdateRPRegeneration(WORD RPRegen, bool add);
 	void			UpdateRPDiminution(WORD RPDimin, bool add);
+	void			UpdateCurseSuccessRate(WORD curseSuccessRate, bool add);
+	void			UpdateCurseToleranceRate(WORD curseToleranceRate, bool add);
 	//	------------------------------------------------------------------------
 	// GETTER
 	//	------------------------------------------------------------------------

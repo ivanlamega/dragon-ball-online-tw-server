@@ -481,12 +481,12 @@ void Player::Update(uint32 _update_diff, uint32 _time)
 	{
 		if (GetIsFighting() == false && GetIsDead() == false)
 		{		
-		Regen();		
-		ExecuteLPFood();
-		ExecuteEPFood();			
+			Regen();		
+			ExecuteLPFood();
+			ExecuteEPFood();			
 		}		
 		//characterManager.UpdateAttributes(); // update our attributes all every time thats is good to prevent hack
-		CalculeRpBall();			
+		//CalculeRpBall();			
 		RegTmmer = GetTickCount();//Set Time				
 	}	
 
@@ -708,38 +708,39 @@ void Player::PowerUpUpdate()
 {
 	if (GetAttributesManager()->IsPowerUp == true)
 	{
-		
 			GetPcProfile()->wCurRP += GetPcProfile()->avatarAttribute.wLastRpRegen;
-			sLog.outBasic("RP regen %d", GetPcProfile()->avatarAttribute.wLastRpRegen);
-			sGU_UPDATE_CHAR_RP RP;
 
-			RP.bHitDelay = false;
-			RP.handle = GetHandle();
-			RP.wCurRP = GetPcProfile()->wCurRP;
-			RP.wMaxRP = GetPcProfile()->avatarAttribute.wBaseMaxRP;
-			RP.wOpCode = GU_UPDATE_CHAR_RP;
-			RP.wPacketSize = sizeof(sGU_UPDATE_CHAR_RP) - 2;
-			SendPacket((char*)&RP, sizeof(sGU_UPDATE_CHAR_RP));
-			SendToPlayerList((char*)&RP, sizeof(sGU_UPDATE_CHAR_RP));
-
-		
 		if (GetPcProfile()->wCurRP >= GetPcProfile()->avatarAttribute.wBaseMaxRP)
 		{
 			if (GetAttributesManager()->GetNumFilledRpBall() < GetAttributesManager()->GetNumRpBall())
 			{
 				GetAttributesManager()->SetNumFilledRpBall(1);
-				sGU_UPDATE_CHAR_RP_BALL newBall;
-				newBall.bDropByTime = false;
-				newBall.byCurRPBall = GetAttributesManager()->GetNumFilledRpBall();
-				newBall.handle = GetHandle();
-				newBall.wOpCode = GU_UPDATE_CHAR_RP_BALL;
-				newBall.wPacketSize = sizeof(sGU_UPDATE_CHAR_RP_BALL) - 2;
-				SendPacket((char*)&newBall, sizeof(sGU_UPDATE_CHAR_RP_BALL));
-				SendToPlayerList((char*)&newBall, sizeof(sGU_UPDATE_CHAR_RP_BALL));
+				m_session->SendUpdateRpBall(GetAttributesManager()->GetNumFilledRpBall());
 				GetPcProfile()->wCurRP = 0;
+				m_session->SendUpdateCharRP(GetPcProfile()->wCurRP, GetPcProfile()->avatarAttribute.wBaseMaxRP);
 			}
 		}
 	}
+	/*else
+	{
+		if (GetPcProfile()->wCurRP > 0)
+		{
+			GetPcProfile()->wCurRP -= GetPcProfile()->avatarAttribute.wLastRpDimimutionRate;
+			sLog.outBasic("RP diminution %d curRp %d maxRp %d", GetPcProfile()->avatarAttribute.wLastRpDimimutionRate, GetPcProfile()->wCurRP,
+				GetPcProfile()->avatarAttribute.wBaseMaxRP);
+
+			if (GetPcProfile()->wCurRP <= 0)
+			{
+				if (GetAttributesManager()->GetNumFilledRpBall() > 0)
+				{
+					GetAttributesManager()->SetNumFilledRpBall(-1);
+					m_session->SendUpdateRpBall(GetAttributesManager()->GetNumFilledRpBall());
+					GetPcProfile()->wCurRP = GetPcProfile()->avatarAttribute.wBaseMaxRP;
+					m_session->SendUpdateCharRP(GetPcProfile()->wCurRP, GetPcProfile()->avatarAttribute.wBaseMaxRP);
+				}
+			}
+		}
+	}*/
 }
 void Player::TranformationRegen()
 {
@@ -2428,6 +2429,9 @@ void Player::ExecuteBuffTimmer()
 			{
 				m_session->SendDropBuff(buff.PlayerHandle, buff.BuffID, eDBO_OBJECT_SOURCE::DBO_OBJECT_SOURCE_SKILL);
 
+				SetUnsetBuffEffect(buff.skillInfo, 0, false);
+				SetUnsetBuffEffect(buff.skillInfo, 1, false);
+
 				GetAttributesManager()->DeleteBuff(buff.BuffID);
 			}
 		}
@@ -2708,7 +2712,7 @@ void Player::CalculeRpBall()
 	}
 	if (sendRpBall == true)
 	{
-		sGU_UPDATE_CHAR_RP RP;
+		/*sGU_UPDATE_CHAR_RP RP;
 
 		RP.bHitDelay = false;
 		RP.handle = GetHandle();
@@ -2717,7 +2721,7 @@ void Player::CalculeRpBall()
 		RP.wOpCode = GU_UPDATE_CHAR_RP;
 		RP.wPacketSize = sizeof(sGU_UPDATE_CHAR_RP) - 2;
 		SendPacket((char*)&RP, sizeof(sGU_UPDATE_CHAR_RP));
-		SendToPlayerList((char*)&RP, sizeof(sGU_UPDATE_CHAR_RP));
+		SendToPlayerList((char*)&RP, sizeof(sGU_UPDATE_CHAR_RP));*/
 	}
 }
 //----------------------------------------

@@ -324,6 +324,8 @@ void			WorldSession::PacketParser(Packet& packet)
 		BuffTimeInfo* buff = _player->GetAttributesManager()->GetBuff(req->tblidx);
 		if (buff)
 		{
+			_player->SetUnsetBuffEffect(buff->skillInfo, 0, false);
+			_player->SetUnsetBuffEffect(buff->skillInfo, 1, false);
 			_player->GetAttributesManager()->DeleteBuff(req->tblidx);
 		}
 		/*sGU_BUFF_DROPPED DropedBuff;
@@ -335,7 +337,8 @@ void			WorldSession::PacketParser(Packet& packet)
 		DropedBuff.Slot = 0;
 		DropedBuff.tblidx = req->tblidx;
 		SendPacket((char*)&DropedBuff, sizeof(sGU_BUFF_DROPPED));*/
-		_player->ExecuteEffectCalculation(req->tblidx, true);
+		//_player->ExecuteEffectCalculation(req->tblidx, true);
+
 		for (int i = 0; i <= 32; i++)
 		{
 			if (_player->GetAttributesManager()->sBuffTimeInfo[i].BuffID == req->tblidx)
@@ -1127,11 +1130,13 @@ void			WorldSession::PacketParser(Packet& packet)
 				_player->SetState(CHARSTATE_CHARGING);
 				_player->GetAttributesManager()->IsPowerUp = true;
 				_player->GetAttributesManager()->RPTimer = GetTickCount();
+				SendAvatarRPIncreaseStartNotify();
 			}
 			else
 			{
 				_player->SetState(CHARSTATE_STANDING);
 				_player->GetAttributesManager()->IsPowerUp = false;
+				SendAvatarRPIncreaseStopNotify();
 			}			
 			break;
 		}
