@@ -455,11 +455,11 @@ bool AttributesManager::LoadAttributeFromDB()
 	//RP diminution
 	PlayerProfile.avatarAttribute.wLastRpDimimutionRate = CalculeRPDiminution(PlayerProfile.avatarAttribute.wLastMaxRP);
 	//Curse Sucess Rate
-	PlayerProfile.avatarAttribute.wBaseCurseSuccessRate = 107;
-	PlayerProfile.avatarAttribute.wLastCurseSuccessRate = 106;
+	PlayerProfile.avatarAttribute.wBaseCurseSuccessRate = CalculeCurseSuccessRate(PlayerProfile.avatarAttribute.byLastFoc);
+	PlayerProfile.avatarAttribute.wLastCurseSuccessRate = PlayerProfile.avatarAttribute.wBaseCurseSuccessRate;
 	//Curse Tolerance Rate
-	PlayerProfile.avatarAttribute.wBaseCurseToleranceRate = 105;
-	PlayerProfile.avatarAttribute.wLastCurseToleranceRate = 104;
+	PlayerProfile.avatarAttribute.wBaseCurseToleranceRate = CalculeCurseToleranceRate(PlayerProfile.avatarAttribute.byLastDex);
+	PlayerProfile.avatarAttribute.wLastCurseToleranceRate = PlayerProfile.avatarAttribute.wBaseCurseToleranceRate;
 	//Nao sei
 	PlayerProfile.avatarAttribute.fCastingTimeChangePercent = 0;
 	PlayerProfile.avatarAttribute.fCoolTimeChangePercent = 0;//
@@ -2140,6 +2140,32 @@ WORD AttributesManager::CalculeRPHitChargeRate(BYTE deffLevel, BYTE attLevel)
 	return hitRpChargeRate;
 }
 
+WORD AttributesManager::CalculeCurseSuccessRate(int lastFoc)
+{
+	//= (Last_Foc / fRate1) * fRate2
+	WORD curseSuccessRate = 0;
+	sFORMULA_TBLDAT* formula = (sFORMULA_TBLDAT*)sTBM.GetFormulaTable()->FindData(700);
+	if (formula)
+	{
+		curseSuccessRate = (lastFoc / formula->afRate[0]) * formula->afRate[1];
+		sLog.outBasic("curseSuccessRate total %d rate1 %f rate2 %f lastFoc %d", curseSuccessRate, formula->afRate[0], formula->afRate[1], lastFoc);
+	}
+	return curseSuccessRate;
+}
+
+WORD AttributesManager::CalculeCurseToleranceRate(int lastDex)
+{
+	//= (Last_Dex / fRate1) * fRate2
+	WORD curseToleranceRate = 0;
+	sFORMULA_TBLDAT* formula = (sFORMULA_TBLDAT*)sTBM.GetFormulaTable()->FindData(1200);
+	if (formula)
+	{
+		curseToleranceRate = (lastDex / formula->afRate[0]) * formula->afRate[1];
+		sLog.outBasic("curseToleranceRate total %d rate1 %f rate2 %f lastDex %d", curseToleranceRate, formula->afRate[0], formula->afRate[1], lastDex);
+	}
+	return curseToleranceRate;
+}
+
 float AttributesManager::GetPercent(float percent, float value)
 {
 	return percent * value / 100.0f;
@@ -2183,7 +2209,7 @@ void AttributesManager::UpdateCon(int lastCon, bool add)
 	UpdatePhysicalCriticalDefenceRate(PhysicalCriticalDefenceRate, false);
 	UpdateLPRegeneration(LpRegen, false);
 }
-// Update energyOffence, energyCriticalRate, hitRate(attackRate), energyCriticalRange
+// Update energyOffence, energyCriticalRate, hitRate(attackRate), energyCriticalRange, curseSuccessRate
 void AttributesManager::UpdateFoc(int lastFoc, bool add)
 {
 	if (add)
@@ -2200,13 +2226,15 @@ void AttributesManager::UpdateFoc(int lastFoc, bool add)
 	WORD energyCriticalRate = CalculeEnergyCriticalRate(plr->GetMyClass(), PlayerProfile.avatarAttribute.byLastFoc);
 	WORD hitRate = CalculeHitRate(PlayerProfile.avatarAttribute.byLastFoc);
 	float energyCriticalRange = CalculeEnergyCriticalRange(plr->GetMyClass(), PlayerProfile.avatarAttribute.byLastFoc);
+	WORD curseSuccessRat = CalculeCurseSuccessRate(PlayerProfile.avatarAttribute.byLastFoc);
 
 	UpdateEnergyOffence(energyOffence, false);
 	UpdateEnergyCriticalRate(energyCriticalRate, false);
 	UpdateHitRate(hitRate, false);
 	UpdateEnergyCriticalRange(energyCriticalRange, false);
+	UpdateCurseSuccessRate(curseSuccessRat, false);
 }
-// Update physicalOffence, physicalCriticalRate, dodgeRate, blockRate, physicalCriticalRange
+// Update physicalOffence, physicalCriticalRate, dodgeRate, blockRate, physicalCriticalRange, curseToleranceRate
 void AttributesManager::UpdateDex(int lastDex, bool add)
 {
 	if (add)
@@ -2224,12 +2252,14 @@ void AttributesManager::UpdateDex(int lastDex, bool add)
 	WORD dodgeRate = CalculeDodgeRate(PlayerProfile.avatarAttribute.byLastDex);
 	WORD blockRate = CalculeBlockRate(PlayerProfile.avatarAttribute.byLastDex, PlayerProfile.avatarAttribute.byLastCon);
 	float physicalCriticalRange = CalculePhysicalCriticalRange(plr->GetMyClass(), PlayerProfile.avatarAttribute.byLastDex);
+	WORD curseToleranceRate = CalculeCurseToleranceRate(PlayerProfile.avatarAttribute.byLastDex);
 
 	UpdatePhysicalOffence(physicalOffence, false);
 	UpdatePhysicalCriticalRate(physicalCriticalRate, false);
 	UpdateDodgeRate(dodgeRate, false);
 	UpdateBlockRate(blockRate, false);
 	UpdatePhysicalCriticalRange(physicalCriticalRange, false);
+	UpdateCurseToleranceRate(curseToleranceRate, false);
 }
 // Update energyOffence
 void AttributesManager::UpdateSol(int lastSol, bool add)
@@ -2345,6 +2375,18 @@ void AttributesManager::UpdatePhysicalOffence(WORD physicalOffence, bool add)
 	else
 	{
 		SetLastPhysicalOffence(physicalOffence);
+	}
+}
+
+void AttributesManager::UpdatePhysicalDefence(WORD physicalDefence, bool add)
+{
+	if (add)
+	{
+		AddLastPhysicalDefence(physicalDefence);
+	}
+	else
+	{
+		SetLastPhysicalDefence(physicalDefence);
 	}
 }
 
@@ -2547,5 +2589,29 @@ void AttributesManager::UpdateEPBattleRegeneration(WORD epBattleRegen, bool add)
 	else
 	{
 		SetLastEPBattleRegeneration(epBattleRegen);
+	}
+}
+
+void AttributesManager::UpdateCurseSuccessRate(WORD curseSuccessRate, bool add)
+{
+	if (add)
+	{
+		AddLastCurseSuccessRate(curseSuccessRate);
+	}
+	else
+	{
+		SetLastCurseSuccessRate(curseSuccessRate);
+	}
+}
+
+void AttributesManager::UpdateCurseToleranceRate(WORD curseToleranceRate, bool add)
+{
+	if (add)
+	{
+		AddLastCurseToleranceRate(curseToleranceRate);
+	}
+	else
+	{
+		SetLastCurseToleranceRate(curseToleranceRate);
 	}
 }
