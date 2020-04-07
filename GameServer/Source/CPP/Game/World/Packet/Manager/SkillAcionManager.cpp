@@ -298,6 +298,26 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 				isBuff = true;
 				break;
 			}
+			case ACTIVE_SOL_UP:
+			{
+				int addSoul = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index], 
+					GetPcProfile()->avatarAttribute.byBaseSol);
+				addSoul *= setUnset;
+
+				sLog.outBasic("Add Soul %d", addSoul);
+				GetAttributesManager()->UpdateSol(addSoul, true);
+				isBuff = true;
+				break;
+			}
+			case ACTIVE_ENERGY_CRITICAL_DAMAGE_UP:
+			{
+				int energyCriticalDamage = skillData->SkillValue[index];
+				energyCriticalDamage *= setUnset;
+				sLog.outBasic("energyCriticalDamage %d", energyCriticalDamage);
+				GetAttributesManager()->UpdateEnergyCriticalRange(energyCriticalDamage, true);
+				isBuff = true;
+				break;
+			}
 		}
 	}
 	sLog.outBasic("isBuff %d", isBuff);
@@ -1469,8 +1489,7 @@ void Player::SkillAcion()
 					case ACTIVE_STR_UP:	//100% 				
 					case ACTIVE_CON_UP:	//100% 				
 					case ACTIVE_FOC_UP:	//100% 				
-					case ACTIVE_DEX_UP:	//100% 				
-					case ACTIVE_SOL_UP:	//100% 				
+					case ACTIVE_DEX_UP:	//100%  				
 					case ACTIVE_ENG_UP:	//100
 					case ACTIVE_ATTACK_SPEED_UP://100% 
 					case ACTIVE_ATTACK_RATE_UP://100% 

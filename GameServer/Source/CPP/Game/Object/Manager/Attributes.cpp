@@ -2209,7 +2209,7 @@ void AttributesManager::UpdateCon(int lastCon, bool add)
 	UpdatePhysicalCriticalDefenceRate(PhysicalCriticalDefenceRate, false);
 	UpdateLPRegeneration(LpRegen, false);
 }
-// Update energyOffence, energyCriticalRate, hitRate(attackRate), energyCriticalRange, curseSuccessRate
+// Update energyOffence, energyCriticalRate, hitRate(attackRateattackRate), energyCriticalRange, curseSuccessRate
 void AttributesManager::UpdateFoc(int lastFoc, bool add)
 {
 	if (add)
