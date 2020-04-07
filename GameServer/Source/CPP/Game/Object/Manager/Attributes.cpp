@@ -2615,3 +2615,15 @@ void AttributesManager::UpdateCurseToleranceRate(WORD curseToleranceRate, bool a
 		SetLastCurseToleranceRate(curseToleranceRate);
 	}
 }
+
+void AttributesManager::UpdateRunSpeed(float runSpeed, bool add)
+{
+	if (add)
+	{
+		AddLastRunSpeed(runSpeed);
+	}
+	else
+	{
+		SetLastRunSpeed(runSpeed);
+	}
+}

@@ -92,7 +92,7 @@ float Player::CalculeSkillDamage(BYTE Skill_Effect_Type[2], double SkillValue[2]
 	return newDamage;
 }
 
-int Player::GetValueByEffectType(BYTE bySkill_Effect_Type, float skillValue, float value)
+float Player::GetValueByEffectType(BYTE bySkill_Effect_Type, float skillValue, float value)
 {
 	float newValue = 0;
 	switch ((eSYSTEM_EFFECT_APPLY_TYPE)bySkill_Effect_Type)
@@ -163,7 +163,7 @@ int Player::GetValueByEffectType(BYTE bySkill_Effect_Type, float skillValue, flo
 			break;
 		}
 	}
-	return static_cast<int>(newValue);
+	return newValue;
 }
 
 bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
@@ -274,6 +274,28 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 				{
 					GetPcProfile()->avatarAttribute.wBaseEnergyDefence = 0;
 				}
+				break;
+			}
+			case ACTIVE_MOVE_SPEED_UP://100%
+			{
+				float moveSpeedUp = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index], 
+					GetPcProfile()->avatarAttribute.fBaseRunSpeed);
+				moveSpeedUp *= setUnset;
+				sLog.outBasic("addSpeed %f", moveSpeedUp);
+				GetAttributesManager()->UpdateRunSpeed(moveSpeedUp, true);
+				isBuff = true;
+				break;
+			}
+			case ACTIVE_ATTACK_RATE_DOWN:
+			{
+				int attackRate = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
+					GetPcProfile()->avatarAttribute.wBaseAttackRate);
+				attackRate *= -1;
+
+				attackRate *= setUnset;
+				sLog.outBasic("attackRate %d", attackRate);
+				GetAttributesManager()->UpdateHitRate(attackRate, true);
+				isBuff = true;
 				break;
 			}
 		}
@@ -1449,8 +1471,7 @@ void Player::SkillAcion()
 					case ACTIVE_FOC_UP:	//100% 				
 					case ACTIVE_DEX_UP:	//100% 				
 					case ACTIVE_SOL_UP:	//100% 				
-					case ACTIVE_ENG_UP:	//100% 				
-					case ACTIVE_MOVE_SPEED_UP://100% 
+					case ACTIVE_ENG_UP:	//100
 					case ACTIVE_ATTACK_SPEED_UP://100% 
 					case ACTIVE_ATTACK_RATE_UP://100% 
 					case ACTIVE_DODGE_RATE_UP://100% 

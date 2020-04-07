@@ -314,6 +314,7 @@ public:
 	void			UpdateRPDiminution(WORD RPDimin, bool add);
 	void			UpdateCurseSuccessRate(WORD curseSuccessRate, bool add);
 	void			UpdateCurseToleranceRate(WORD curseToleranceRate, bool add);
+	void			UpdateRunSpeed(float runSpeed, bool add);
 	//	------------------------------------------------------------------------
 	// GETTER
 	//	------------------------------------------------------------------------
