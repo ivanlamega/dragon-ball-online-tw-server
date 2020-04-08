@@ -427,6 +427,13 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 				isBuff = true;
 				break;
 			}
+			case ACTIVE_RABIES:
+			{
+				DWORD condition = set ? CHARCOND_RABIES_FLAG : 0;
+				m_session->SendUpdateCharCondition(condition);
+				isBuff = true;
+				break;
+			}
 		}
 	}
 	sLog.outBasic("isBuff %d", isBuff);
@@ -2492,6 +2499,86 @@ void Player::SkillAcion()
 					{
 						break;
 					}
+					/*case ACTIVE_RABIES:
+					{
+						sSkil.wResultCode = GAME_SUCCESS;
+						skillRes.wOpCode = GU_CHAR_ACTION_SKILL;
+						skillRes.skillId = skillDataOriginal->tblidx;
+						sLog.outBasic("Skillid %d", skillDataOriginal->tblidx);
+						skillRes.wResultCode = GAME_SUCCESS;
+						skillRes.dwLpEpEventId = 1712247496;
+						skillRes.byRpBonusType = -1;//Untested
+						skillRes.handle = GetHandle();//My Handle
+						skillRes.hAppointedTarget = GetHandle();
+						skillRes.bIsSkillHarmful = 0;
+						skillRes.bySkillResultCount = 1;
+						skillRes.aSkillResult[count].hTarget = GetHandle();
+						skillRes.aSkillResult[count].byAttackResult = 0;
+						skillRes.aSkillResult[count].effectResult[Effect].eResultType = 255;
+						skillRes.aSkillResult[count].effectResult[Effect].Value1 = skillDataOriginal->SkillValue[Effect];
+						skillRes.aSkillResult[count].effectResult[1].eResultType = 255;
+						skillRes.aSkillResult[count].byBlockedAction = -1;
+						skillRes.aSkillResult[count].unk1 = 0;
+						skillRes.aSkillResult[count].vShift1 = m_position;
+
+						m_session->SendUpdateCharCondition(CHARCOND_RABIES_FLAG);
+
+						if (pCharSkillReq->hTarget == GetHandle())
+						{
+							pBuffData.hHandle = GetHandle();
+							//pBuffData.slot = 1;
+							pBuffData.tblidx = skillDataOriginal->tblidx;
+							pBuffData.bySourceType = 0;
+							pBuffData.dwInitialDuration = skillDataOriginal->dwKeepTimeInMilliSecs;
+							pBuffData.dwTimeRemaining = skillDataOriginal->dwKeepTimeInMilliSecs;//Time
+
+							pBuffData.isactive = 1;
+							pBuffData.Type = 0;
+							pBuffData.BuffInfo[Effect].SystemEffectValue = 0x16;//skillDataOriginal->SkillValue[Effect];
+							pBuffData.BuffInfo[Effect].SystemEffectTime = skillDataOriginal->dwKeepTimeInMilliSecs;
+							pBuffData.BuffInfo[Effect].dwSystemEffectValue = skillDataOriginal->SkillValue[Effect];
+							//Handle Buff Time List
+							int FreePlace = 0;
+							for (int i = 0; i <= 32; i++)
+							{
+								if (GetAttributesManager()->sBuffTimeInfo[i].BuffID == pBuffData.tblidx)
+								{
+									sGU_BUFF_DROPPED dropbuff;
+									dropbuff.wOpCode = GU_BUFF_DROPPED;
+									dropbuff.wPacketSize = sizeof(sGU_BUFF_DROPPED) - 2;
+									dropbuff.hHandle = GetHandle();
+									dropbuff.bySourceType = eDBO_OBJECT_SOURCE::DBO_OBJECT_SOURCE_SKILL;
+									dropbuff.Slot = 0;
+									dropbuff.tblidx = pBuffData.tblidx;
+									dropbuff.unk1 = 0;
+									SendPacket((char*)&dropbuff, sizeof(sGU_BUFF_DROPPED));
+									SendToPlayerList((char*)&dropbuff, sizeof(sGU_BUFF_DROPPED));
+									GetAttributesManager()->sBuffTimeInfo[i].BuffIsActive = false;
+									GetAttributesManager()->sBuffTimeInfo[i].BuffEndTime = INVALID_TBLIDX;
+									GetAttributesManager()->sBuffTimeInfo[i].BuffTime = INVALID_TBLIDX;
+									GetAttributesManager()->sBuffTimeInfo[i].BuffID = INVALID_TBLIDX;
+									ExecuteEffectCalculation(pBuffData.tblidx, true);
+									//printf("Alardy got that buff \n");
+									FreePlace = i;
+								}
+								//GetFreeSlot
+								else if (GetAttributesManager()->sBuffTimeInfo[i].BuffID == 0 || GetAttributesManager()->sBuffTimeInfo[i].BuffID == INVALID_TBLIDX)
+								{
+									//	printf("Regist new buff \n");
+									FreePlace = i;
+								}
+
+							}
+
+							GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffID = pBuffData.tblidx;
+							GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffTime = GetTickCount();
+							GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffEndTime = pBuffData.dwInitialDuration;
+							GetAttributesManager()->sBuffTimeInfo[FreePlace].PlayerHandle = pBuffData.hHandle;
+							GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffIsActive = true;
+							GetAttributesManager()->sBuffTimeInfo[FreePlace].BuffSlot = 0;
+						}
+						break;
+					}*/
 					case ACTIVE_SPINNING_ATTACK:
 					{
 						sSkil.wResultCode = GAME_SUCCESS;
@@ -2713,6 +2800,17 @@ void Player::SkillAcion()
 					skillRes.wOpCode = GU_CHAR_ACTION_SKILL;
 					skillRes.handle = GetHandle();//My Handle
 					skillRes.hAppointedTarget = GetHandle();
+					skillRes.dwLpEpEventId = 1712247496;
+					skillRes.byRpBonusType = -1;//Untested
+					skillRes.bIsSkillHarmful = 0;
+					skillRes.bySkillResultCount = 1;
+					skillRes.aSkillResult[count].hTarget = GetHandle();
+					skillRes.aSkillResult[count].byAttackResult = 0;
+					skillRes.aSkillResult[count].effectResult[Effect].eResultType = 255;
+					skillRes.aSkillResult[count].effectResult[Effect].Value1 = skillDataOriginal->SkillValue[Effect];
+					skillRes.aSkillResult[count].effectResult[1].eResultType = 255;
+					skillRes.aSkillResult[count].byBlockedAction = -1;
+					skillRes.aSkillResult[count].unk1 = 0;
 
 
 					if (pCharSkillReq->hTarget == GetHandle())
