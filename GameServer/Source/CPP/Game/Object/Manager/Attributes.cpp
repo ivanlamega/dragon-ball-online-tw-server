@@ -2627,3 +2627,27 @@ void AttributesManager::UpdateRunSpeed(float runSpeed, bool add)
 		SetLastRunSpeed(runSpeed);
 	}
 }
+
+void AttributesManager::UpdateCoolTimeChangePercent(float coolTimeChange, bool add)
+{
+	if (add)
+	{
+		AddCoolTimeChangePercent(coolTimeChange);
+	}
+	else
+	{
+		SetCoolTimeChangePercent(coolTimeChange);
+	}
+}
+
+void AttributesManager::UpdateAttackspeedRate(WORD attackSpeed, bool add)
+{
+	if (add)
+	{
+		AddLastAttackSpeedRate(attackSpeed);
+	}
+	else
+	{
+		SetLastAttackSpeedRate(attackSpeed);
+	}
+}

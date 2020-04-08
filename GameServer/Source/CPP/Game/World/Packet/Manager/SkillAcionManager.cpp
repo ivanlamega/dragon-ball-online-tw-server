@@ -100,7 +100,7 @@ float Player::GetValueByEffectType(BYTE bySkill_Effect_Type, float skillValue, f
 		case SYSTEM_EFFECT_APPLY_TYPE_VALUE:
 		{
 			newValue = skillValue;
-			sLog.outBasic("Add damage %f", newValue);
+			sLog.outBasic("Add value %f", newValue);
 			sLog.outBasic("SYSTEM_EFFECT_APPLY_TYPE_VALUE");
 			break;
 		}
@@ -108,7 +108,7 @@ float Player::GetValueByEffectType(BYTE bySkill_Effect_Type, float skillValue, f
 		{
 			float newPercent = skillValue * 0.01;
 			newValue = value * newPercent;
-			sLog.outBasic("Add percent %f add value %d", skillValue, newValue);
+			sLog.outBasic("Add percent %f add value %f", skillValue, newValue);
 			sLog.outBasic("SYSTEM_EFFECT_APPLY_TYPE_PERCENT");
 			break;
 		}
@@ -190,42 +190,15 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 			SystemEffectData->effectCode, skillData->SkillValue[index], skillData->tblidx);*/
 		switch (SystemEffectData->effectCode)
 		{
-
-			case ACTIVE_RP_CHARGE_SPEED://need Handle the effect is here to try do effects in order 
+			case ACTIVE_SKILL_COOL_TIME_DOWN:
 			{
-				int rpRegen = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
-					GetPcProfile()->avatarAttribute.wBaseRpRegen);
-					//static_cast<WORD>(skillData->SkillValue[index]);
-				rpRegen *= setUnset;
-				GetAttributesManager()->UpdateRPRegeneration(rpRegen, true);
+				float skillCoolTime = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
+					GetPcProfile()->avatarAttribute.fCoolTimeChangePercent);
+				skillCoolTime *= -1;
+				skillCoolTime *= setUnset;
+				sLog.outBasic("skillCoolTime %f", skillCoolTime);
+				GetAttributesManager()->UpdateCoolTimeChangePercent(skillCoolTime, true);
 				isBuff = true;
-				sLog.outBasic("rpRegen %d", rpRegen);
-				break;
-			}
-
-			case ACTIVE_ENERGY_OFFENCE_UP://100% 
-			{
-				/*int addEnergyOffence = GetAttributesManager()->GetPercent(skillData->SkillValue[index],
-					static_cast<float>(GetPcProfile()->avatarAttribute.wLastEnergyOffence));*/
-				int addEnergyOffence = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
-					GetPcProfile()->avatarAttribute.wBaseEnergyOffence);
-				addEnergyOffence *= setUnset;
-				GetAttributesManager()->UpdateEnergyOffence(addEnergyOffence, true);
-				isBuff = true;
-				sLog.outBasic("addEnergyOffence %d", addEnergyOffence);
-				break;
-			}
-			case ACTIVE_PHYSICAL_OFFENCE_UP://100% 
-			{
-				/*WORD addPhysicalOffence = GetAttributesManager()->GetPercent(skillData->SkillValue[index],
-					static_cast<float>(GetPcProfile()->avatarAttribute.wLastPhysicalOffence));*/
-				int addPhysicalOffence = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
-					GetPcProfile()->avatarAttribute.wBasePhysicalOffence);
-
-				addPhysicalOffence *= setUnset;
-				GetAttributesManager()->UpdatePhysicalOffence(addPhysicalOffence, true);
-				isBuff = true;
-				sLog.outBasic("addPhysicalOffence %d", addPhysicalOffence);
 				break;
 			}
 			case ACTIVE_PHYSICAL_DEFENCE_DOWN:
@@ -276,6 +249,29 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 				}
 				break;
 			}
+			case ACTIVE_ATTACK_RATE_DOWN:
+			{
+				int attackRate = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
+					GetPcProfile()->avatarAttribute.wBaseAttackRate);
+				attackRate *= -1;
+
+				attackRate *= setUnset;
+				sLog.outBasic("attackRate %d", attackRate);
+				GetAttributesManager()->UpdateHitRate(attackRate, true);
+				isBuff = true;
+				break;
+			}
+			case ACTIVE_RP_CHARGE_SPEED://need Handle the effect is here to try do effects in order 
+			{
+				int rpRegen = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
+					GetPcProfile()->avatarAttribute.wBaseRpRegen);
+				//static_cast<WORD>(skillData->SkillValue[index]);
+				rpRegen *= setUnset;
+				GetAttributesManager()->UpdateRPRegeneration(rpRegen, true);
+				isBuff = true;
+				sLog.outBasic("rpRegen %d", rpRegen);
+				break;
+			}
 			case ACTIVE_MOVE_SPEED_UP://100%
 			{
 				float moveSpeedUp = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index], 
@@ -286,15 +282,78 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 				isBuff = true;
 				break;
 			}
-			case ACTIVE_ATTACK_RATE_DOWN:
+			case ACTIVE_ENERGY_OFFENCE_UP://100% 
 			{
-				int attackRate = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
-					GetPcProfile()->avatarAttribute.wBaseAttackRate);
-				attackRate *= -1;
+				/*int addEnergyOffence = GetAttributesManager()->GetPercent(skillData->SkillValue[index],
+					static_cast<float>(GetPcProfile()->avatarAttribute.wLastEnergyOffence));*/
+				int addEnergyOffence = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
+					GetPcProfile()->avatarAttribute.wBaseEnergyOffence);
+				addEnergyOffence *= setUnset;
+				GetAttributesManager()->UpdateEnergyOffence(addEnergyOffence, true);
+				isBuff = true;
+				sLog.outBasic("addEnergyOffence %d", addEnergyOffence);
+				break;
+			}
+			case ACTIVE_PHYSICAL_OFFENCE_UP://100% 
+			{
+				/*WORD addPhysicalOffence = GetAttributesManager()->GetPercent(skillData->SkillValue[index],
+					static_cast<float>(GetPcProfile()->avatarAttribute.wLastPhysicalOffence));*/
+				int addPhysicalOffence = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
+					GetPcProfile()->avatarAttribute.wBasePhysicalOffence);
 
-				attackRate *= setUnset;
-				sLog.outBasic("attackRate %d", attackRate);
-				GetAttributesManager()->UpdateHitRate(attackRate, true);
+				addPhysicalOffence *= setUnset;
+				GetAttributesManager()->UpdatePhysicalOffence(addPhysicalOffence, true);
+				isBuff = true;
+				sLog.outBasic("addPhysicalOffence %d", addPhysicalOffence);
+				break;
+			}			
+			case ACTIVE_CON_UP:	//100% 	
+			{
+				int addConstitution = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
+					GetPcProfile()->avatarAttribute.byBaseCon);
+				addConstitution *= setUnset;
+				sLog.outBasic("Add Constitution %d", addConstitution);
+				GetAttributesManager()->UpdateCon(addConstitution, true);
+				isBuff = true;
+				break;
+			}
+			case ACTIVE_FOC_UP:	//100% 
+			{
+				int addFocus = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
+					GetPcProfile()->avatarAttribute.byBaseFoc);
+				addFocus *= setUnset;
+				sLog.outBasic("Add Focus %d", addFocus);
+				GetAttributesManager()->UpdateFoc(addFocus, true);
+				isBuff = true;
+				break;
+			}
+			case ACTIVE_ENG_UP:	//100
+			{
+				int addEnergy = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
+					GetPcProfile()->avatarAttribute.byBaseEng);
+				addEnergy *= setUnset;
+				sLog.outBasic("Add Energy %d", addEnergy);
+				GetAttributesManager()->UpdateEng(addEnergy, true);
+				isBuff = true;
+				break;
+			}
+			case ACTIVE_DEX_UP:	//100% 
+			{
+				int addDextery = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index], 
+					GetPcProfile()->avatarAttribute.byBaseDex);
+				addDextery *= setUnset;
+				sLog.outBasic("Add Dextery %d", addDextery);
+				GetAttributesManager()->UpdateDex(addDextery, true);
+				isBuff = true;
+				break;
+			}
+			case ACTIVE_STR_UP:
+			{
+				int addStrength = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index], 
+					GetPcProfile()->avatarAttribute.byBaseStr);
+				addStrength *= setUnset;
+				sLog.outBasic("Add Strenght %d", addStrength);
+				GetAttributesManager()->UpdateStr(addStrength, true);
 				isBuff = true;
 				break;
 			}
@@ -315,6 +374,56 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 				energyCriticalDamage *= setUnset;
 				sLog.outBasic("energyCriticalDamage %d", energyCriticalDamage);
 				GetAttributesManager()->UpdateEnergyCriticalRange(energyCriticalDamage, true);
+				isBuff = true;
+				break;
+			}
+			case ACTIVE_PHYSICAL_CRITICAL_DAMAGE_UP:
+			{
+				int physicalCriticalDamage = skillData->SkillValue[index];
+				physicalCriticalDamage *= setUnset;
+				sLog.outBasic("energyCriticalDamage %d", physicalCriticalDamage);
+				GetAttributesManager()->UpdatePhysicalCriticalRange(physicalCriticalDamage, true);
+				isBuff = true;
+				break;
+			}
+			case ACTIVE_PHYSICAL_CRITICAL:
+			{
+				int physicalCritical = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
+					GetPcProfile()->avatarAttribute.wBasePhysicalCriticalRate);
+				physicalCritical *= setUnset;
+				sLog.outBasic("physicalCritical %d", physicalCritical);
+				GetAttributesManager()->UpdatePhysicalCriticalRate(physicalCritical, true);
+				isBuff = true;
+				break;
+			}
+			case ACTIVE_ATTACK_RATE_UP:
+			{
+				int attackRate = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
+					GetPcProfile()->avatarAttribute.wBaseAttackRate);
+				attackRate *= setUnset;
+				sLog.outBasic("attackRate %d", attackRate);
+				GetAttributesManager()->UpdateHitRate(attackRate, true);
+				isBuff = true;
+				break;
+			}
+			case ACTIVE_DODGE_RATE_UP:
+			{
+				int dodgeRate = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index], 
+					GetPcProfile()->avatarAttribute.wBaseDodgeRate);
+				dodgeRate *= setUnset;
+				sLog.outBasic("dodgeRate %d", dodgeRate);
+				GetAttributesManager()->UpdateDodgeRate(dodgeRate, true);
+				isBuff = true;
+				break;
+			}
+			case ACTIVE_ATTACK_SPEED_UP:
+			{
+				int attackSpeedRate = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index], 
+					GetPcProfile()->avatarAttribute.wBaseAttackSpeedRate);
+				attackSpeedRate *= -1;
+				attackSpeedRate *= setUnset;
+				sLog.outBasic("attackSpeedRate %d", attackSpeedRate);
+				GetAttributesManager()->UpdateAttackspeedRate(attackSpeedRate, true);
 				isBuff = true;
 				break;
 			}
@@ -1486,24 +1595,14 @@ void Player::SkillAcion()
 					case ACTIVE_MAX_RP_UP://100% 
 					case ACTIVE_PHYSICAL_DEFENCE_UP://100% 
 					case ACTIVE_ENERGY_DEFENCE_UP://100% 
-					case ACTIVE_STR_UP:	//100% 				
-					case ACTIVE_CON_UP:	//100% 				
-					case ACTIVE_FOC_UP:	//100% 				
-					case ACTIVE_DEX_UP:	//100%  				
-					case ACTIVE_ENG_UP:	//100
-					case ACTIVE_ATTACK_SPEED_UP://100% 
-					case ACTIVE_ATTACK_RATE_UP://100% 
-					case ACTIVE_DODGE_RATE_UP://100% 
 					case ACTIVE_BLOCK_RATE_UP://100% 
 					{
 						break;
 					}
 					//case ACTIVE_LP_REGENERATION://need Handle the effect is here to try do effects in order 
 					//case ACTIVE_EP_REGENERATION://need Handle the effect is here to try do effects in order 
-					case ACTIVE_PHYSICAL_CRITICAL:
 					case ACTIVE_ENERGY_CRITICAL:
 					case ACTIVE_SKILL_CASTING_TIME_DOWN:
-					case ACTIVE_SKILL_COOL_TIME_DOWN:
 					{
 						break;
 					}

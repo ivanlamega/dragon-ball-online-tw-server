@@ -315,6 +315,8 @@ public:
 	void			UpdateCurseSuccessRate(WORD curseSuccessRate, bool add);
 	void			UpdateCurseToleranceRate(WORD curseToleranceRate, bool add);
 	void			UpdateRunSpeed(float runSpeed, bool add);
+	void			UpdateCoolTimeChangePercent(float coolTimeChange, bool add);
+	void			UpdateAttackspeedRate(WORD attackSpeed, bool add);
 	//	------------------------------------------------------------------------
 	// GETTER
 	//	------------------------------------------------------------------------

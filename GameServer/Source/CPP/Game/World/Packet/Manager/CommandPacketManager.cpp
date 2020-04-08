@@ -354,11 +354,12 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 		}
 		else if (strToken == "@attackspeed")
 		{
-			sLog.outDetail("GM LearnTitle Modified");
 			strToken = str.substr(pos + 1, std::string::npos);
 			unsigned int speed = (unsigned int)atof(strToken.c_str());
 			_player->GetAttributesManager()->GetPlayerProfile()->avatarAttribute.wBaseAttackSpeedRate = speed;
 			_player->GetAttributesManager()->GetPlayerProfile()->avatarAttribute.wLastAttackSpeedRate = speed;
+			_player->GetAttributesManager()->UpdateAttackspeedRate(speed, false);
+			sLog.outDetail("Update speed %d", speed);
 		}
 		else if (strToken == "@setspeed")
 		{
