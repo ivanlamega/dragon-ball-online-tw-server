@@ -101,6 +101,7 @@ void CommunitySession::SendFriendBlackDelete(Packet packet)
 
 void CommunitySession::SendFriendListInfomation()
 {
+	//test
 	sTU_FRIEND_LIST_INFO res;
 
 	res.wOpCode = TU_FRIEND_LIST_INFO;
