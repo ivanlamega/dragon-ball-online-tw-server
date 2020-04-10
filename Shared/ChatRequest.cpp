@@ -18,6 +18,20 @@ unsigned int MySQLConnWrapper::GetFriendIdByName(std::string charName)
 	return result->getInt("CharacterID");
 }
 
+unsigned int MySQLConnWrapper::GetGSHandlebyID(int ID)
+{
+	sql::ResultSet* result = sDB.executes("SELECT GSHandle FROM characters WHERE CharacterID = '%d'", ID);
+	if (result == NULL)
+		return -1;
+	if (result->rowsCount() == 0)
+	{
+		delete result;
+		return -1;
+	}
+
+	return result->getInt("GSHandle");
+}
+
 std::string MySQLConnWrapper::GetFriendNameById(int id)
 {
 	sql::ResultSet* result = sDB.executes("SELECT Name FROM characters WHERE CharacterID = %d;", id);

@@ -97,6 +97,7 @@ public:
 	//Friend
 	/** Convert from wchar to char */
 	unsigned int GetFriendIdByName(std::string charName);
+	unsigned int GetGSHandlebyID(int ID);
 	std::string GetFriendNameById(int id);
 	bool CheckFriendonFriendList(int ownerid, int friendid);
 	void AddFriendToList(CHARACTERID ownerId, CHARACTERID friendId);

@@ -49,7 +49,8 @@ bool CommunitySocket::HandleAuthSession(Packet& packet)
 		charId = result->getInt("CharacterId");
 		delete result;
 	}
-	if (!(m_session = new CommunitySession(req->accountId, this, (AccountTypes)sDB.GetIsGameMaster(req->accountId))))
+	//changed AccountID to CharID
+	if (!(m_session = new CommunitySession(charId, this, (AccountTypes)sDB.GetIsGameMaster(req->accountId))))
 	{
 		res.wResultCode = COMMUNITY_FAIL;
 		Write((char*)&res, sizeof(sTU_ENTER_CHAT_RES));

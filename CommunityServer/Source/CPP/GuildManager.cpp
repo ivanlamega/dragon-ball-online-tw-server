@@ -134,7 +134,7 @@ void CommunitySession::TU_LoadGuildINFO() {
 //Load Guild Info from Ppl in the World
 void CommunitySession::LoadGuildDataAroundYou() {
 
-	sLog.outDebug("Players in the WORLD COUNT : %d", _player->GetHandle());
+	//sLog.outDebug("Players in the WORLD COUNT : %d", _player->GetHandle());
 	/*
 	for (auto it = _player->objList.begin(); it != _player->objList.end();)
 	{

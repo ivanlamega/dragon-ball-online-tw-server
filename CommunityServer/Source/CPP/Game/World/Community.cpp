@@ -186,8 +186,9 @@ void Community::AddSession_(CommunitySession* s)
 		return;
 	}
 
-	m_sessions[s->GetAccountId()] = s;
-
+	//m_sessions[s->GetAccountId()] = s;
+	m_sessions.insert({ s->GetAccountId(),s});
+	sLog.outDebug("Player Logged in Session with Character ID %d ", s->GetAccountId());
 
 
 	uint32 Sessions = GetActiveSessionCount();
