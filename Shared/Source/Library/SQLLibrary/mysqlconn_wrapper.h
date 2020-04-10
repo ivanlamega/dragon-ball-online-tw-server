@@ -96,9 +96,16 @@ public:
 	void LoadQuestComplete(CHARACTERID charid, sCOMPLETE_QUEST_INFO* completeInfo);
 	//Friend
 	/** Convert from wchar to char */
+	unsigned int GetFriendIdByName(std::string charName);
+	std::string GetFriendNameById(int id);
+	bool CheckFriendonFriendList(int ownerid, int friendid);
+	void AddFriendToList(CHARACTERID ownerId, CHARACTERID friendId);
+	void AddBlackToList(CHARACTERID ownerId, CHARACTERID friendId);
+	BYTE GetFriendList(CHARACTERID charID, sFRIEND_FULL_INFO * friends);
 
 	//GUild
 	int GetGuildID(int charId);
+
 
 	inline void wcharToChar(const wchar_t * src, char *dst, const unsigned int & srcSize) {
 
@@ -109,9 +116,8 @@ public:
 		wcstombs_s(&charsConverted, dst, (float)(srcSize / sizeof(wchar_t)), src, srcSize);
 	}
 
-	unsigned int GetFriendIdByName(std::string charName);
-	void AddFriendToList(CHARACTERID ownerId, CHARACTERID friendId);
-	BYTE GetFriendList(CHARACTERID charID, sFRIEND_FULL_INFO * friends);
+	
+	
 private:
 	string host;
 	string user;

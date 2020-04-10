@@ -62,6 +62,7 @@ public:
 	void SendFriendBlackAdd(Packet packet);
 	void SendFriendBlackDelete(Packet packet);
 	void SendFriendListInfomation();
+	void SendFriendInfomationSingular(Player * plr, int CharID, int ClassID, int Level, int Channel, HOBJECT handle, TBLIDX MapNameTblidx);
 
 	void NotifyOtherPlayersFriendList();
 	void NotifyOtherPlayersFriendList_onLogoff();

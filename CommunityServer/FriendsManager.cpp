@@ -18,27 +18,49 @@
 
 void CommunitySession::SendFriendAdd(Packet packet)
 {
+	//Cast Request Packet
 	sUT_FRIEND_ADD_REQ * req = (sUT_FRIEND_ADD_REQ*)packet.GetPacketBuffer();
 
-	sTU_FRIEND_ADD_RES res;
-
-	res.wPacketSize = (sizeof sTU_FRIEND_ADD_RES) - 2;
-	res.wOpCode = TU_FRIEND_ADD_RES;
-	wcscpy_s(res.wchName, MAX_SIZE_CHAR_NAME_UNICODE + 1, req->wchName);
-	res.wResultCode = CHAT_SUCCESS;
-
+	//Convert WCHAR to CHAR then to string  
 	char charName[17];
 	sDB.wcharToChar(req->wchName, charName, 34);
-
 	std::string charNameStr(charName);
 
+	//Cant invite urself or existing friend in ur friend list
 	unsigned int friendId = sDB.GetFriendIdByName(charNameStr);
+	if (friendId == -1) return;
 
-	res.targetID = friendId;
+	bool ExistingFriend = sDB.CheckFriendonFriendList(_player->GetCharacterID(),friendId);
+	if (ExistingFriend) return;
 
-	sDB.AddFriendToList(_player->GetCharacterID(), friendId);
+	//Success
+	if (friendId != _player->GetCharacterID() && !ExistingFriend)
+	{
+		//Prepare Packet 
+		sTU_FRIEND_ADD_RES res;
+		res.wPacketSize = (sizeof sTU_FRIEND_ADD_RES) - 2;
+		res.wOpCode = TU_FRIEND_ADD_RES;
+		wcscpy_s(res.wchName, MAX_SIZE_CHAR_NAME_UNICODE + 1, req->wchName);
+		res.wResultCode = CHAT_SUCCESS;
+		res.targetID = friendId;
 
-	SendPacket((char*)&res, sizeof sTU_FRIEND_ADD_RES);
+		sDB.AddFriendToList(_player->GetCharacterID(), friendId);
+		SendPacket((char*)&res, sizeof sTU_FRIEND_ADD_RES);
+
+		//Send Informations to friendList
+		sql::ResultSet* result = sDB.executes("SELECT * from characters WHERE CharacterID = %d", friendId);
+		if (!result || result->rowsCount() <= 0) return;
+		if (result->getInt("isOnline") == 1) {
+			int Hhandle = result->getInt("GSHandle");
+			SendFriendInfomationSingular(_player, result->getInt("CharacterID"), result->getInt("ClassID"), result->getInt("CurrentLevel"), 0, Hhandle, result->getInt("MapInfoID"));
+		}
+		
+	}
+	else {
+		//sLog.outDebug("Add Player to Friend list Failed !");
+		return;
+	}
+
 }
 
 void CommunitySession::SendFriendDelete(Packet packet)
@@ -46,14 +68,15 @@ void CommunitySession::SendFriendDelete(Packet packet)
 	sUT_FRIEND_DEL_REQ * req = (sUT_FRIEND_DEL_REQ*)packet.GetPacketBuffer();
 
 	sTU_FRIEND_DEL_RES res;
-
-	res.wPacketSize = (sizeof sTU_FRIEND_DEL_RES) - 2;
-	res.wOpCode = TU_FRIEND_ADD_RES;
-	wcscpy_s(res.wchName, MAX_SIZE_CHAR_NAME_UNICODE + 1, req->wchName);
+	res.wOpCode = TU_FRIEND_DEL_RES;
+	res.wPacketSize = sizeof(sTU_FRIEND_DEL_RES) - 2;
 	res.wResultCode = CHAT_SUCCESS;
-	res.targetID = (int)req->wchName[0] + (int)req->wchName[1];
+	res.targetID = req->targetID;
+	wcscpy_s(res.wchName, MAX_SIZE_CHAR_NAME_UNICODE + 1, req->wchName);
+	SendPacket((char*)&res, sizeof(sTU_FRIEND_DEL_RES));
 
-	SendPacket((char*)&res, sizeof sTU_FRIEND_DEL_RES);
+	sDB.executes("DELETE FROM friendlist WHERE OwnerID = %d AND CharID = %d;", _player->GetCharacterID(), req->targetID);
+	
 }
 
 void CommunitySession::SendFriendMove(Packet packet)
@@ -61,29 +84,56 @@ void CommunitySession::SendFriendMove(Packet packet)
 	sUT_FRIEND_MOVE_REQ * req = (sUT_FRIEND_MOVE_REQ*)packet.GetPacketBuffer();
 
 	sTU_FRIEND_MOVE_RES res;
-
-	res.wPacketSize = (sizeof sTU_FRIEND_MOVE_RES) - 2;
 	res.wOpCode = TU_FRIEND_MOVE_RES;
+	res.wPacketSize = sizeof (sTU_FRIEND_MOVE_RES) - 2;
 	res.wResultCode = CHAT_SUCCESS;
 	wcscpy_s(res.wchName, MAX_SIZE_CHAR_NAME_UNICODE + 1, req->wchName);
-	res.targetID = (int)req->wchName[0] + (int)req->wchName[1];
-
+	res.targetID = req->targetID;
 	SendPacket((char*)&res, sizeof sTU_FRIEND_MOVE_RES);
+
+	sDB.executes("UPDATE `friendlist` SET `IsBlack` = '%d' WHERE `OwnerID` = '%d' AND `CharID` = '%d';", 1, _player->GetCharacterID(), req->targetID);
 }
 
 void CommunitySession::SendFriendBlackAdd(Packet packet)
 {
+
+	//Cast Request Packet
 	sUT_FRIEND_BLACK_ADD_REQ * req = (sUT_FRIEND_BLACK_ADD_REQ*)packet.GetPacketBuffer();
 
-	sTU_FRIEND_BLACK_ADD_RES res;
+	//Convert WCHAR to CHAR then to string  
+	char charName[17];
+	sDB.wcharToChar(req->awchName, charName, 17);
+	std::string charNameStr(charName);
 
-	res.wPacketSize = (sizeof sTU_FRIEND_BLACK_ADD_RES) - 2;
-	res.wOpCode = TU_FRIEND_BLACK_ADD_RES;
-	res.wResultCode = CHAT_SUCCESS;
-	wcscpy_s(res.wchName, MAX_SIZE_CHAR_NAME_UNICODE + 1, req->awchName);
-	res.targetID = (int)req->awchName[0] + (int)req->awchName[1];
+	//Cant invite urself or existing friend in ur friend list
+	unsigned int friendId = sDB.GetFriendIdByName(charNameStr);
+	if (friendId == -1) return;
 
-	SendPacket((char*)&res, sizeof sTU_FRIEND_BLACK_ADD_RES);
+	bool ExistingFriend = sDB.CheckFriendonFriendList(_player->GetCharacterID(), friendId);
+	if (ExistingFriend) return;
+
+	//Success
+	if (friendId != _player->GetCharacterID() && !ExistingFriend)
+	{
+		//Prepare Packet 
+		sTU_FRIEND_BLACK_ADD_RES res;
+		res.wPacketSize = sizeof(sTU_FRIEND_BLACK_ADD_RES) - 2;
+		res.wOpCode = TU_FRIEND_BLACK_ADD_RES;
+		res.wResultCode = CHAT_SUCCESS;
+		wcscpy_s(res.wchName, MAX_SIZE_CHAR_NAME_UNICODE + 1, req->awchName);
+		res.targetID = friendId;
+		sDB.AddBlackToList(_player->GetCharacterID(), friendId);
+		SendPacket((char*)&res, sizeof(sTU_FRIEND_BLACK_ADD_RES));
+	}
+	else {
+		//sLog.outDebug("Add Player to Friend list Failed !");
+		return;
+	}
+
+
+
+	
+	
 }
 
 void CommunitySession::SendFriendBlackDelete(Packet packet)
@@ -91,14 +141,15 @@ void CommunitySession::SendFriendBlackDelete(Packet packet)
 	sUT_FRIEND_BLACK_DEL_REQ * req = (sUT_FRIEND_BLACK_DEL_REQ*)packet.GetPacketBuffer();
 
 	sTU_FRIEND_BLACK_DEL_RES res;
-
-	res.wPacketSize = (sizeof sTU_FRIEND_BLACK_DEL_RES) - 2;
+	res.wPacketSize = sizeof (sTU_FRIEND_BLACK_DEL_RES) - 2;
 	res.wOpCode = TU_FRIEND_BLACK_DEL_RES;
 	res.wResultCode = CHAT_SUCCESS;
 	wcscpy_s(res.wchName, MAX_SIZE_CHAR_NAME_UNICODE + 1, req->awchName);
-	res.targetID = (int)req->awchName[0] + (int)req->awchName[1];
+	res.targetID = req->targetID;
 
-	SendPacket((char*)&res, sizeof sTU_FRIEND_BLACK_DEL_RES);
+	SendPacket((char*)&res, sizeof(sTU_FRIEND_BLACK_DEL_RES));
+
+	sDB.executes("DELETE FROM friendlist WHERE OwnerID = %d AND CharID = %d;", _player->GetCharacterID(), req->targetID);
 }
 
 void CommunitySession::SendFriendListInfomation()
@@ -127,49 +178,22 @@ void CommunitySession::SendFriendListInfomation()
 	}
 
 	List_info.byCount = byCount;
-	List_info.wPacketSize = 3 + ((sizeof sFRIEND_FULL_INFO) * List_info.byCount);
-	SendPacket((char*)&List_info, 5 + ((sizeof sFRIEND_FULL_INFO) * List_info.byCount));
+	List_info.wPacketSize = 3 + ((sizeof (sFRIEND_FULL_INFO)) * List_info.byCount);
+	SendPacket((char*)&List_info, 5 + ((sizeof (sFRIEND_FULL_INFO)) * List_info.byCount));
 
-	//retun pointer to 1st
-
+	//retun pointer to 1st Row
 	result->first();
-
-	sTU_FRIEND_INFO Friend;
-	Friend.wOpCode = TU_FRIEND_INFO;
-	Friend.bIsFirst = false;
-	Friend.wPacketSize = sizeof(sTU_FRIEND_INFO) - 2;
-
-	/*
-	Friend.sInfo.charID = result->getInt("CharacterID");
-	Friend.sInfo.byClass = result->getInt("ClassID");
-	Friend.sInfo.byLevel = result->getInt("CurrentLevel");
-	Friend.sInfo.byChannel = 0;
-	Friend.sInfo.hHandle = _player->friendlist.find(result->getInt("CharacterID"))->second;
-
-	Friend.sInfo.mapNameTblidx = 1;
-
-	//sCommunity.FindSession(playerfriend)->SendPacket((char*)&Friend, sizeof(sTU_FRIEND_INFO));
-	SendPacket((char*)&Friend, sizeof(sTU_FRIEND_INFO));
-	sLog.outDebug("TU_FRIEND_INFO Packet Sent");
-
-	*/
 
 	for (int i = 0; i < byCount; i++)
 	{
 		int playerfriendID = _player->friendlist.find(result->getInt("CharacterID"))->first;
 
 		if (sCommunity.FindSession(playerfriendID)) {
-
-			//set Info
-			Friend.sInfo.charID = result->getInt("CharacterID");
-			Friend.sInfo.byClass = result->getInt("ClassID");
-			Friend.sInfo.byLevel = result->getInt("CurrentLevel");
-			Friend.sInfo.byChannel = 0;
-			Friend.sInfo.hHandle = _player->friendlist.find(result->getInt("CharacterID"))->second;
-			Friend.sInfo.mapNameTblidx = result->getInt("MapInfoID");
-			//send the packet
-			SendPacket((char*)&Friend, sizeof(sTU_FRIEND_INFO));
-			
+			//if blacked dont send
+			if (result->getInt("isBlack") == 0) {
+				int Hhandle = _player->friendlist.find(result->getInt("CharacterID"))->second;
+				SendFriendInfomationSingular(_player, result->getInt("CharacterID"), result->getInt("ClassID"), result->getInt("CurrentLevel"), 0, Hhandle, result->getInt("MapInfoID"));
+			}
 		}
 		//Offline
 		else {
@@ -177,72 +201,79 @@ void CommunitySession::SendFriendListInfomation()
 		result->next();
 	}
 
-
-	/*
-	//Send Online 
-	sTU_FRIEND_INFO_CHANGE res2;
-	res2.wOpCode = TU_FRIEND_INFO_CHANGE;
-	res2.byChangeType = eFRIEND_CHANGE_TYPE::eFRIEND_CHANGE_TYPE_LEVEL;
-	res2.dwChangeValue = 100;
-	res2.wPacketSize = sizeof(sTU_FRIEND_INFO_CHANGE) - 2;
-
-	for (auto itr = _player->friendlist.begin(); itr != _player->friendlist.end(); ++itr) 
-	{
-		if (itr->second > 0) {
-			res2.targetID = itr->second;
-
-			if (sCommunity.FindSession(itr->first)) {
-				sLog.outDebug("Session Found");
-				sCommunity.FindSession(itr->first)->SendPacket((char*)&res2, sizeof(sTU_FRIEND_INFO_CHANGE));
-				sLog.outDebug("Session Found and Packet Sent");
-			}
-				
-				
-		}
-		//sLog.outDebug("KEY : %d VALUE : %d", itr->first, itr->second);
-	}
-	
-
-	*/
-
 }
 
-void CommunitySession::NotifyOtherPlayersFriendList() {
-
-
-	sql::ResultSet* result = sDB.executes("SELECT * from characters WHERE CharacterID = %d", _player->GetCharacterID());
-
+void CommunitySession::SendFriendInfomationSingular(Player *plr,int CharID, int ClassID, int Level, int Channel, HOBJECT handle, TBLIDX MapNameTblidx) {
 
 	sTU_FRIEND_INFO Friend;
 	Friend.wOpCode = TU_FRIEND_INFO;
 	Friend.bIsFirst = false;
 	Friend.wPacketSize = sizeof(sTU_FRIEND_INFO) - 2;
 
-	for (auto itr = _player->friendlist.begin(); itr != _player->friendlist.end(); ++itr)
+	//set Info
+	Friend.sInfo.charID = CharID;
+	Friend.sInfo.byClass = ClassID;
+	Friend.sInfo.byLevel = Level;
+	Friend.sInfo.byChannel = Channel;
+	Friend.sInfo.hHandle = handle;
+	Friend.sInfo.mapNameTblidx = MapNameTblidx;
+	//send the packet
+	plr->SendPacket((char*)&Friend, sizeof(sTU_FRIEND_INFO));
+
+}
+
+void CommunitySession::NotifyOtherPlayersFriendList() {
+
+	sql::ResultSet* result = sDB.executes("SELECT * from friendlist JOIN characters ON characters.CharacterID = friendlist.CharID WHERE CharID = %d", _player->GetCharacterID());
+	if (result == NULL)
+		return;
+	if (result->rowsCount() <= 0)
 	{
+		delete result;	
+		return;
+	}
 
-		if (sCommunity.FindSession(itr->first)) {
+	sTU_FRIEND_INFO Friend;
+	Friend.wOpCode = TU_FRIEND_INFO;
+	Friend.bIsFirst = false;
+	Friend.wPacketSize = sizeof(sTU_FRIEND_INFO) - 2;
 
-			//set Info
-			Friend.sInfo.charID = result->getInt("CharacterID");
-			Friend.sInfo.byClass = result->getInt("ClassID");
-			Friend.sInfo.byLevel = result->getInt("CurrentLevel");
-			Friend.sInfo.byChannel = result->getInt("WorldID");
-			Friend.sInfo.hHandle = _player->GetHandle();
-			Friend.sInfo.mapNameTblidx = result->getInt("MapInfoID");
+	BYTE count = result->rowsCount();
+	   
+	for (int i = 0; i < count; i++) {
+
+		if (sCommunity.FindSession(result->getInt("OwnerID"))) 
+		{
 			//send the packet
-			Player* plr = static_cast<Player*>(sCommunity.FindSession(itr->first)->_player);
-			plr->SendPacket((char*)&Friend, sizeof(sTU_FRIEND_INFO));
-
+			Player* plr = static_cast<Player*>(sCommunity.FindSession(result->getInt("OwnerID"))->_player);
+			SendFriendInfomationSingular(plr, result->getInt("CharacterID"), result->getInt("ClassID"), result->getInt("CurrentLevel"), 0, _player->GetHandle(), result->getInt("MapInfoID"));
 		}
+
+
 		//Offline
 		else {
+			//sLog.outDebug("Session Not Found");
 		}
+
+		result->next();
 	}
 
 }
 
 void CommunitySession::NotifyOtherPlayersFriendList_onLogoff() {
+
+
+
+	sql::ResultSet* result = sDB.executes("SELECT * from friendlist JOIN characters ON characters.CharacterID = friendlist.OwnerID WHERE CharID = %d and IsBlack = 0 and isOnline = 1", _player->GetCharacterID());
+	if (result == NULL)
+		return;
+	if (result->rowsCount() <= 0)
+	{
+		delete result;
+		return;
+	}
+
+	int count = result->rowsCount();
 
 	//Send Offline Packet
 	sTU_FRIEND_INFO_CHANGE res;
@@ -251,23 +282,26 @@ void CommunitySession::NotifyOtherPlayersFriendList_onLogoff() {
 	res.dwChangeValue = 2;
 	res.wPacketSize = sizeof(sTU_FRIEND_INFO_CHANGE) - 2;
 
-	for (auto itr = _player->friendlist.begin(); itr != _player->friendlist.end(); ++itr)
-	{
 
-		if (sCommunity.FindSession(itr->first)) {
+	for (int i = 0; i < count; i++) {
+
+		if (sCommunity.FindSession(result->getInt("OwnerID"))) {
 
 			//set Info
 			res.targetID = _player->GetCharacterID();
 
 			//send the packet
-			Player* plr = static_cast<Player*>(sCommunity.FindSession(itr->first)->_player);
+			Player* plr = static_cast<Player*>(sCommunity.FindSession(result->getInt("OwnerID"))->_player);
 			plr->SendPacket((char*)&res, sizeof(sTU_FRIEND_INFO_CHANGE));
 
+			
 		}
 		//Offline
 		else {
 		}
+
+		result->next();
 	}
 
-
 }
+
