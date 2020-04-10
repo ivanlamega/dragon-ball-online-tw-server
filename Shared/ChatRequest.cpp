@@ -18,10 +18,51 @@ unsigned int MySQLConnWrapper::GetFriendIdByName(std::string charName)
 	return result->getInt("CharacterID");
 }
 
+std::string MySQLConnWrapper::GetFriendNameById(int id)
+{
+	sql::ResultSet* result = sDB.executes("SELECT Name FROM characters WHERE CharacterID = %d;", id);
+	if (result == NULL)
+		return "";
+	if (result->rowsCount() == 0)
+	{
+		delete result;
+		return "";
+	}
+
+	return result->getString("Name");
+}
+
+bool MySQLConnWrapper::CheckFriendonFriendList(int ownerid, int friendid)
+{
+	sql::ResultSet* result = sDB.executes("SELECT * FROM friendlist WHERE OwnerID = %d and CharID = %d;", ownerid, friendid);
+	if (result == NULL)
+		return false;
+	if (result->rowsCount() == 0)
+	{
+		delete result;
+		return false;
+	}
+	if (result->rowsCount() > 0)
+	{
+		delete result;
+		return true;
+	}
+
+	return false;
+}
+
 void MySQLConnWrapper::AddFriendToList(CHARACTERID ownerId, CHARACTERID friendId)
 {
 	sql::ResultSet* result = sDB.executes("insert into friendlist (ownerid, charid) select %d, %d from dual where not exists (select * from friendlist where OwnerID = %d and charid = %d) limit 1",
 		ownerId, friendId, ownerId, friendId);
+	if (result != NULL)
+		delete result;
+}
+
+void MySQLConnWrapper::AddBlackToList(CHARACTERID ownerId, CHARACTERID friendId)
+{
+	sql::ResultSet* result = sDB.executes("insert into friendlist (OwnerID, CharID, IsBlack) select %d, %d, %d from dual where not exists (select * from friendlist where OwnerID = %d and charid = %d) limit 1",
+		ownerId, friendId, 1, ownerId, friendId);
 	if (result != NULL)
 		delete result;
 }
