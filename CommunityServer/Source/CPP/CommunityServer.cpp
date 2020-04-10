@@ -381,7 +381,7 @@ int CommunityServer::Run()
 	std::cout << "\t    | |_| | | | (_| | (_| | (_) | | | | |_) | (_| | | |" << std::endl;
 	std::cout << "\t    |____/|_|  \\__,_|\\__, |\\___/|_| |_|____/ \\__,_|_|_|" << std::endl;
 	std::cout << "\t                     |___/                             " << std::endl;
-	std::cout << yellow << "\t   	          DboEmulator 2019					\n\n" << white << std::endl;
+	std::cout << yellow << "\t   	          DboEmulator 2020					\n\n" << white << std::endl;
 	sLog.outString("Using configuration file 'CommunityServer.xml'.");
 	sLog.outString("Using Boost: %s", BOOST_LIB_VERSION);
 
@@ -399,14 +399,15 @@ int CommunityServer::Run()
 		system("PAUSE");
 		return 1;
 	}
+	//Load Info from CommunityServer.xml
 	_ServerID = sXmlParser.GetInt("Server", "ID");
 	_ChannelID = sXmlParser.GetInt("Server", "ChannelID");
 	AKCore::Thread community_thread(new CommunityRunnable);
 	AKCore::Thread* cliThread = nullptr;
 
 	community_thread.setPriority(AKCore::Priority_Highest);
-	//sDB.SetGameServerState(_ServerID, _ChannelID, eDBO_SERVER_STATUS::DBO_SERVER_STATUS_UP, 0);
-	//{
+	//sDB.SetCommunityServerState(_ServerID, _ChannelID, eDBO_SERVER_STATUS::DBO_SERVER_STATUS_UP, 0);
+	{
 		network = new Listener<CommunitySocket>(sXmlParser.GetInt("Server", "Port"), sXmlParser.GetInt("ServerWorker", "Value"));
 		sLog.outString("CommunityServer: ServerID: %d, ChannelID: %d:", _ServerID, _ChannelID);
 		sLog.outString("Started on port: [%d]", sXmlParser.GetInt("Server", "Port"));
@@ -416,7 +417,7 @@ int CommunityServer::Run()
 		{
 			std::this_thread::sleep_for(std::chrono::seconds(1));
 		}
-	//}
+	}
 	// when the main thread closes the singletons get unloaded
 	// since worldrunnable uses them, it will crash if unloaded after master
 	community_thread.wait();

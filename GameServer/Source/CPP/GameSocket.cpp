@@ -72,6 +72,8 @@ bool GameSocket::HandleAuthSession(Packet& packet)
 	}
 	sWorld.AddSession_(m_session);
 
+	
+
 	m_session->SendAvatarCharInfo();
 	m_session->SendAvatarSkillInfo();	
 	m_session->SendAvatarItemInfo();
@@ -92,10 +94,16 @@ bool GameSocket::HandleAuthSession(Packet& packet)
 	m_session->SendQuestCompleteInfo();
 	m_session->SendQuestProgressInfo();
 	m_session->SendQuestInventoryInfo();
+
+	//Load Guild info
+	//m_session->LoadGuildDataAroundYou();
+
+
 	/* ADD OUR PLAYER TO THE ACCESSOR */
 	//sObjectAccessor.AddObject(pCurrChar);
 	return true;
 }
+
 bool GameSocket::ProcessIncomingData()
 {
 	PACKETHEADER packetHeader;

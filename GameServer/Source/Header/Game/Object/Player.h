@@ -10,6 +10,7 @@
 #include "Manager\Inventory.h"
 #include "Manager\Quests.h"
 #include "Manager\QuestInventory.h"
+#include "Manager\Guild.h"
 #include <WorldSession.h>
 #include <Packet.h>
 #include <Packet\Game\PacketGU.h>
@@ -88,6 +89,7 @@ public:
 	eCHARSTATE			GetCharEState();
 	BYTE				GetMoveDirection();
 	std::string			GetName();
+	GuildManager		*GetGuildManager();
 	HOBJECT				GetTarget() const ;
 	PORTALID			GetPortalIdFromList(HOBJECT handle);
 	ePC_CLASS			GetMyClass() const;
@@ -269,6 +271,9 @@ private:
 	//	------------------------------------------------------------------------
 	InventoryManager	inventoryManager;
 	//	------------------------------------------------------------------------
+	//Guild
+	GuildManager		guildManager;
+	///---------------------------------------------------------------------------
 	// QUEST
 	//	------------------------------------------------------------------------
 	QuestManager		questManager;

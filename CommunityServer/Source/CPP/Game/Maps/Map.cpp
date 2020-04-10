@@ -25,6 +25,7 @@ Map::Map(uint32 id) :
 	}
 	/// <li> Create the data for spawn NPC
 	SpawnTable *pNpcSpawnTbl = sTBM.GetNpcSpawnTable(world->tblidx);
+
 	if (pNpcSpawnTbl == NULL)
 	{
 		return;
@@ -39,7 +40,12 @@ Map::Map(uint32 id) :
 			Npc *created_npc = new Npc;
 			if (created_npc->Create(pNPCSpwnTblData, pNPCTblData) == true)
 			{
-				created_npc->GetMapRef().link(this, created_npc);
+				if (pNPCTblData->byJob == eNPC_JOB::NPC_JOB_SCOUTER_MERCHANT || pNPCTblData->byJob == eNPC_JOB::NPC_JOB_GAMBLE_MERCHANT || pNPCTblData->byJob == eNPC_JOB::NPC_JOB_MIX_MASTER || pNPCTblData->byJob == 47 || pNPCTblData->byJob == 50)
+				{
+					delete created_npc;
+				}
+				else
+					created_npc->GetMapRef().link(this, created_npc);
 			}
 			else
 				delete created_npc;
@@ -124,16 +130,16 @@ void Map::RemoveAllObjectsInRemoveList()
 
 		switch (obj->GetTypeId())
 		{
-			case eOBJTYPE::OBJTYPE_PC:
-			{
-				Remove((Player*)obj, true);
-				break;
-			}
-			default:
-			{
-				sLog.outError("Non-grid object (TypeId: %u) in grid object removing list, ignored.", obj->GetTypeId());
-				break;
-			}
+		case eOBJTYPE::OBJTYPE_PC:
+		{
+			Remove((Player*)obj, true);
+			break;
+		}
+		default:
+		{
+			sLog.outError("Non-grid object (TypeId: %u) in grid object removing list, ignored.", obj->GetTypeId());
+			break;
+		}
 		}
 	}
 	map_mutex.unlock();
@@ -150,10 +156,10 @@ bool Map::Add(Player* player)
 	player->AddToWorld();
 
 	sGU_SYSTEM_DISPLAY_TEXT test;
-	memcpy(test.awchMessage, (L"Welcome on dragon ball reborn !"), 257);
-	memcpy(test.awGMChar, (L"system"), 17);
+	memcpy(test.awchMessage, (L"Welcome To DragonBall Online Emulator Server Test!"), 257);
+	memcpy(test.awGMChar, (L" GM "), 17);
 	test.byDisplayType = eSERVER_TEXT_TYPE::SERVER_TEXT_SYSTEM;
-	test.wMessageLengthInUnicode = strlen("Welcome on dragon ball reborn !");
+	test.wMessageLengthInUnicode = strlen("Welcome To DragonBall Online Emulator Server Test!");
 	test.wOpCode = GU_SYSTEM_DISPLAY_TEXT;
 	test.wPacketSize = sizeof(sGU_SYSTEM_DISPLAY_TEXT) - 2;
 	player->SendPacket((char*)&test, sizeof(sGU_SYSTEM_DISPLAY_TEXT));
@@ -201,7 +207,7 @@ Map::Remove(T* obj, bool remove)
 	if (remove)
 	{
 		// if option set then object already saved at this moment
-		if (!sCommunity.getConfig(CONFIG_BOOL_SAVE_RESPAWN_TIME_IMMEDIATELY))
+		if (!sWorld.getConfig(CONFIG_BOOL_SAVE_RESPAWN_TIME_IMMEDIATELY))
 			obj->SaveRespawnTime();
 
 		// Note: In case resurrectable corpse and pet its removed from global lists in own destructor
@@ -268,7 +274,6 @@ void Map::Update(const uint32& t_diff)
 			plr->Update(t_diff, t_diff);
 		}
 	}
-	map_mutex.unlock();
 	for (auto m_wobjRefIter = m_wobjRefManager.begin(); m_wobjRefIter != m_wobjRefManager.end(); ++m_wobjRefIter)
 	{
 		WorldObject* curr_wObj = static_cast<WorldObject*>(m_wobjRefIter->getSource());
@@ -284,6 +289,15 @@ void Map::Update(const uint32& t_diff)
 			curr_Mob->Update(t_diff, t_diff);
 		}
 	}
+	for (auto m_npcRefIter = m_npcRefManager.begin(); m_npcRefIter != m_npcRefManager.end(); ++m_npcRefIter)
+	{
+		Npc* curr_Npc = static_cast<Npc*>(m_npcRefIter->getSource());
+		if (curr_Npc && curr_Npc->IsInWorld())
+		{
+			curr_Npc->Update(t_diff, t_diff);
+		}
+	}
+	map_mutex.unlock();
 }
 //----------------------------------------
 //	Update the player and also check visibility from other player
@@ -309,7 +323,7 @@ void Map::CheckObjectInRange()
 						if (plr->isInList(plrbis->GetHandle()) == false)
 						{
 							plr->FillList(*plrbis);
-							//plr->BuildPacketForNewPlayer(*plrbis);
+							plr->BuildPacketForNewPlayer(*plrbis);
 						}
 					}
 					else
@@ -347,6 +361,7 @@ void Map::CheckObjectInRange()
 				{
 					if (plr->isInList(curr_Npc->GetHandle()) == false && curr_Npc->GetIsDead() == false && curr_Npc->GetIsBecomeMob() == false)
 					{
+						//curr_Npc->SetTblidx(curr_Npc->GetNpcData().MonsterID);
 						plr->FillList(*curr_Npc);
 						SpawnNPC spawn;
 						curr_Npc->BuildPacketForSpawn(spawn);
@@ -390,6 +405,7 @@ void Map::CheckObjectInRange()
 					{
 						if (plr->isInList(curr_Mob->GetHandle()) == false)
 						{
+							//curr_Mob->SetTblidx(curr_Mob->GetMobData().MonsterID);
 							plr->FillList(*curr_Mob);
 							SpawnMOB spawn;
 							curr_Mob->BuildPacketForSpawn(spawn);

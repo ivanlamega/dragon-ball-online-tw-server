@@ -16,13 +16,14 @@ void CommunityRunnable::run()
 	uint32 realCurrTime = 0;
 	uint32 realPrevTime = CommunityTimer::tick();
 
-	uint32 prevSleepTime = 0;                               // used for balanced full tick time length near WORLD_SLEEP_CONST
+	uint32 prevSleepTime = 0;         // used for balanced full tick time length near WORLD_SLEEP_CONST
 
-															///- While we have not World::m_stopEvent, update the world
-	time_t pingDatabase = 0;								// ping database to keep alive connection
+									 ///- While we have not World::m_stopEvent, update the world
+	time_t pingDatabase = 0;		 // ping database to keep alive connection
 
 	while (!Community::IsStopped())
 	{
+
 		++Community::m_worldLoopCounter;
 		realCurrTime = CommunityTimer::getMSTime();
 

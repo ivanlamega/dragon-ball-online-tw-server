@@ -8,6 +8,7 @@
 #include "Manager\Skills.h"
 #include "Manager\Attributes.h"
 #include "Manager\Inventory.h"
+#include "Manager\Guild.h"
 #include <CommunitySession.h>
 #include <Packet.h>
 #include <Packet\Community\PacketTU.h>
@@ -24,10 +25,17 @@ public:
 	~Player();
 
 
+	////FriendLists/////
+
+	typedef std::unordered_map<CHARACTERID, HOBJECT> Friendlist;
+	Friendlist friendlist;
+
+	bool			LoadFriendList(CHARACTERID ID, Friendlist &friendlist);
+
+	//////////////////////
+
 	bool                isFlying = false;
-
 	void				CleanupsBeforeDelete();
-
 	void				AddToWorld() override;
 	void				RemoveFromWorld() override;
 	bool				Create(CHARACTERID id);
@@ -60,7 +68,7 @@ public:
 	//	------------------------------------------------------------------------
 	// GETTER
 	//	------------------------------------------------------------------------
-	CommunitySession*		GetSession() const;
+	CommunitySession*	GetSession() const;
 	MapReference&		GetMapRef();
 	CHARACTERID			GetCharacterID();
 	sPC_PROFILE			*GetPcProfile();
@@ -74,6 +82,7 @@ public:
 	ePC_CLASS			GetMyClass() const;
 	AttributesManager	*GetAttributesManager();
 	InventoryManager	*GetInventoryManager();
+	GuildManager		*GetGuildManager();
 	sVECTOR3			GetMoveDestinationVector();
 	bool				GetIsEmergency();
 	bool                GetFlying();
@@ -81,6 +90,7 @@ public:
 	//	------------------------------------------------------------------------
 	// SETTER
 	//	------------------------------------------------------------------------
+	void				SetGuildName(std::string GuildName);
 	void				SetMoveDestinationLocation(sVECTOR3 pos);
 	void				SetSession(CommunitySession* s);
 	void				SetIsFighting(bool val);
@@ -149,6 +159,9 @@ private:
 	//	------------------------------------------------------------------------
 	InventoryManager	inventoryManager;
 	//	------------------------------------------------------------------------
+	// GUILD //
+	GuildManager		guildManager;
+	std::string			GuildName;
 	// SKILLS
 	//	------------------------------------------------------------------------
 	FightManager		fightManager;
@@ -158,8 +171,6 @@ private:
 	// TIMER
 	//	------------------------------------------------------------------------
 	time_t				rpBallTimer;
-
-	std::string			GuildName;
 
 	virtual void		TakeDamage(uint32 amount) override;
 

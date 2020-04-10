@@ -23,6 +23,9 @@ void			CommunitySession::PacketParser(Packet& packet)
 
 	PACKETDATA *header = (PACKETDATA*)packet.GetPacketHeader();
 
+	//Log every OpCode
+	sLog.outError("OpCode received :: %d", header->wOpCode);
+
 	switch (header->wOpCode)
 	{
 	case UT_CHAT_MESSAGE_SAY:
@@ -85,6 +88,21 @@ void			CommunitySession::PacketParser(Packet& packet)
 		SendHlsSlotMachineWinnerInfo(packet);
 		break;
 	}
+	/////////////////////////////////////////////
+	// Guild Packets///////
+	case UT_GUILD_LEAVE_REQ:
+	{
+		sLog.outError("UT_GUILD_LEAVE_REQ");
+		LeaveGuild(packet);
+		break;
+	}
+	case UT_GUILD_CHANGE_NOTICE_REQ:
+	{
+		sLog.outError("UT_GUILD_CHANGE_NOTICE_REQ");
+		UpdateGuildNotice(packet);
+		break;
+	}
+	////////////////////////////////////////////
 		default:
 		{
 			try

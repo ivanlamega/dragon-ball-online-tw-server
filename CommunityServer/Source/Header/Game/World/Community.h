@@ -61,6 +61,9 @@ public:
 
 	void	SendToAll(char* data, size_t size);
 
+	//Command GM from CLI
+	void SendAnnounce(std::string message);
+
 	//	GM COMMAND
 //	void			SendAnnounce(std::string message);
 protected:

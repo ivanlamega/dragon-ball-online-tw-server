@@ -37,6 +37,8 @@ public:
 	bool			Update();
 	void			LogoutPlayer(bool save);
 	void			KickPlayer();
+	void            Updatefriendlist();
+	
 	bool			CreatePlayer(CHARACTERID id);
 	// PACKET
 	void			PacketParser(Packet& packet);
@@ -60,6 +62,19 @@ public:
 	void SendFriendBlackAdd(Packet packet);
 	void SendFriendBlackDelete(Packet packet);
 	void SendFriendListInfomation();
+
+	void NotifyOtherPlayersFriendList();
+	void NotifyOtherPlayersFriendList_onLogoff();
+
+	/*    GUILD MANAGER  */
+
+	void			TU_LoadGuildINFO();
+	void			LoadGuildDataAroundYou();
+	void			GU_LoadGuildINFO();
+	void            LeaveGuild(Packet & packet);
+
+	void			UpdateGuildNotice(Packet & packet);
+
 private:
 	CommunitySocket * const m_Socket;                       // socket pointer is owned by the network thread which created 
 	AccountTypes	_security;

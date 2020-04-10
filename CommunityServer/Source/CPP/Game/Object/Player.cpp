@@ -29,6 +29,7 @@ Player::Player(CommunitySession* session) : Object()
 	rpBallTimer = 0;
 	isFlying = GetFlying();
 	handle = 0;
+	GuildName = "";
 }
 
 
@@ -48,6 +49,48 @@ Player::~Player()
 	cur_obj_tagert = nullptr;
 	m_session = nullptr;
 }
+
+
+
+//------------------------------------
+// Load Friend List Into Memory
+//-------------------------------------
+bool Player::LoadFriendList(CHARACTERID ID, Friendlist &PlayerFriendList)
+{
+	//Get Friendlists of the player
+	sql::ResultSet *query = sDB.executes("SELECT * from friendlist where OwnerID= %d;", ID);
+
+	//Error Checking
+	if (query && query->rowsCount() > 0)
+	{
+		//run through the query
+		for (int i = 0; i < query->rowsCount();i++) {
+			
+			//Get Playerfriends Info 
+			int playerfriends = query->getInt("CharID");
+			sql::ResultSet *query2 = sDB.executes("select GSHandle from characters WHERE AccountID = %d;", playerfriends);
+			if (query2 && query2->rowsCount() > 0) {
+
+				int Handle = query2->getInt("GSHandle");
+				PlayerFriendList.insert({ playerfriends, Handle });	
+			}
+			
+			query->next();
+		}
+		
+	}
+	else {
+		return false;
+	}
+	return true;
+}
+
+
+//------------------------------------
+// TEST
+//-------------------------------------
+
+
 //----------------------------------------
 //	Remove from World
 //----------------------------------------
@@ -119,7 +162,10 @@ void Player::SavePlayer()
 //------------------------------------------
 //		SETTER
 //------------------------------------------
-
+void Player::SetGuildName(std::string guildname)
+{
+	GuildName = guildname;
+}
 void Player::SetMoveDirection(BYTE movementDirection)
 {
 	GetState()->sCharStateDetail.sCharStateMoving.byMoveDirection = movementDirection;
@@ -163,6 +209,7 @@ void Player::SetMyClass(ePC_CLASS _class)
 {
 	myClass = _class;
 }
+
 void Player::SetMoveDestinationLocation(sVECTOR3 pos)
 {
 	m_destination_pos = pos;
@@ -292,6 +339,8 @@ bool Player::Create(CHARACTERID id)
 //----------------------------------------
 void Player::Update(uint32 _update_diff, uint32 _time)
 {
+	//GUILD STUFF HERE
+	
 		return;
 }
 //----------------------------------------
@@ -375,7 +424,7 @@ bool Player::isInList(uint32 id)
 //----------------------------------------
 //	Send packet to all player in the list
 //----------------------------------------
-void Player::SendToPlayerList(char* data, size_t size)
+	void Player::SendToPlayerList(char* data, size_t size)
 {
 	mutexPlayer.lock();
 	for (auto it = objList.begin(); it != objList.end();)
@@ -388,6 +437,7 @@ void Player::SendToPlayerList(char* data, size_t size)
 				if (plr->IsInWorld() == true && plr->GetSession() != NULL)
 				{
 					plr->SendPacket(data, size);
+					sLog.outDebug("Sending to Player Char ID : %d",plr->GetCharacterID());
 				}
 			}
 		}
@@ -483,3 +533,85 @@ HOBJECT Player::GetGSHandle()
 }
 
 
+//----------------------------------------
+//	Build spawn packet
+//----------------------------------------
+void Player::BuildPacketForNewPlayer(Player& plr)
+{
+	SpawnPlayer PC;
+
+	plr.BuildPacketForSpawn(PC);
+	SendPacket((char*)&PC, sizeof(SpawnPlayer));
+}
+//----------------------------------------
+//	Create the packet for spawn the player X
+//----------------------------------------
+void Player::BuildPacketForSpawn(SpawnPlayer& PC)
+{
+	memset(&PC, INVALID_TBLIDX, sizeof(SpawnPlayer));
+
+	PC.wOpCode = GU_OBJECT_CREATE;
+	PC.wPacketSize = sizeof(SpawnPlayer) - 2;
+
+	wcscpy_s(PC.Name, MAX_SIZE_CHAR_NAME_UNICODE, charToWChar(GetName().c_str()));
+	wcscpy_s(PC.GuildName, MAX_SIZE_GUILD_NAME_IN_UNICODE, charToWChar(GetGuildName().c_str()));
+
+	for (int i = 0; i < MAX_EQUIP_ITEM_SLOT; i++)
+	{
+		PC.sItemBrief[i].tblidx = GetCharEquippedItems()[i].tblidx;
+		PC.sItemBrief[i].byRank = GetCharEquippedItems()[i].byRank;
+		PC.sItemBrief[i].byGrade = GetCharEquippedItems()[i].byGrade;
+		PC.sItemBrief[i].byBattleAttribute = GetCharEquippedItems()[i].byBattleAttribute;
+	}
+
+	PC.fSkillSpeed = GetPcProfile()->avatarAttribute.SkillSpeed;
+
+	for (int i = 0; i < 3; i++) { PC.test[i] = 0; }
+
+	PC.Handle = GetHandle();
+	PC.Type = OBJTYPE_PC;
+	PC.Tblidx = GetPcProfile()->tblidx;
+	PC.Adult = GetPcProfile()->bIsAdult;
+	PC.appear.Face = GetPcProfile()->sPcShape.byFace;
+	PC.appear.Hair = GetPcProfile()->sPcShape.byHair;
+	PC.appear.HairColor = GetPcProfile()->sPcShape.byHairColor;
+	PC.appear.SkinColor = GetPcProfile()->sPcShape.bySkinColor;
+	PC.curLP = GetPcProfile()->dwCurLP;
+	PC.maxLP = GetPcProfile()->avatarAttribute.wBaseMaxLP;
+	PC.curEP = GetPcProfile()->wCurEP;
+	PC.maxEP = GetPcProfile()->avatarAttribute.wBaseMaxEP;
+	PC.level = GetPcProfile()->byLevel;
+	PC.Size = 10;
+	PC.sMarking.dwCode = GetPcProfile()->sMarking.dwCode;
+	PC.mascotID = 0xffffffff; //6000071 puerh (yamcha) // 6000056 green egg
+	PC.WorkshopAligment = 0;
+	PC.byMarkInColor = 0;
+	PC.byMarkInLine = 0;
+	PC.byMarkMain = 0;
+	PC.byMarkMainColor = 0;
+	PC.byMarkOutColor = 0;
+	PC.byMarkOutLine = 0;
+	PC.guildId = GetPcProfile()->guildId;
+	PC.byType = INVALID_TBLIDX;
+	PC.byGuildColor = 0;
+	PC.byDojoColor = 0;
+	PC.fBaseRunSpeed = GetPcProfile()->avatarAttribute.fBaseRunSpeed;
+	PC.fLastRunSpeed = GetPcProfile()->avatarAttribute.fLastRunSpeed;
+	PC.fBaseAirSpeed = GetPcProfile()->avatarAttribute.fBaseAirSpeed;
+	PC.fLastAirSpeed = GetPcProfile()->avatarAttribute.fLastAirSpeed;
+	PC.fBaseAirDashSpeed = GetPcProfile()->avatarAttribute.fBaseAirDashSpeed;
+	PC.fLastAirDashSpeed = GetPcProfile()->avatarAttribute.fLastAirDashSpeed;
+	PC.fBaseAirDash2Speed = GetPcProfile()->avatarAttribute.fBaseAirDash2Speed;
+	PC.fLastAirDash2Speed = GetPcProfile()->avatarAttribute.fLastAirDash2Speed;
+	PC.wBaseAttackSpeedRate = GetPcProfile()->avatarAttribute.wLastAttackSpeedRate;
+	PC.bEmergency = GetIsEmergency();
+
+	PC.bleeding = 255;
+	PC.burn = 255;
+	PC.poison = 255;
+	PC.stomachace = 255;
+	PC.confuse = 255;
+
+	memcpy(&PC.State.sCharStateBase, &GetState()->sCharStateBase, sizeof(sCHARSTATE_BASE));
+	memcpy(&PC.State.sCharStateDetail, &GetState()->sCharStateDetail, sizeof(sCHARSTATE_DETAIL));
+}

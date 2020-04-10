@@ -75,3 +75,4 @@ Output/
 *.vcxproj.filters
 *.vcxproj *
 *.vcxproj.filters *
+*.user

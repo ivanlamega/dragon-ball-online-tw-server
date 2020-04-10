@@ -84,6 +84,7 @@ void Community::SendToAll(char* data, size_t size)
 		}
 	}
 }
+
 void Community::Update(uint32 diff)
 {
 	/// <li> Handle session updates
@@ -153,8 +154,10 @@ CommunitySession* Community::FindSession(uint32 id) const
 	else
 		return nullptr;
 }
+
 void Community::AddSession_(CommunitySession* s)
 {
+	//close if session is nUll
 	assert(s != NULL);
 
 	if (!RemoveSession(s->GetAccountId()))
@@ -184,6 +187,8 @@ void Community::AddSession_(CommunitySession* s)
 	}
 
 	m_sessions[s->GetAccountId()] = s;
+
+
 
 	uint32 Sessions = GetActiveSessionCount();
 	uint32 pLimit = GetPlayerAmountLimit();

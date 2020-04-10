@@ -81,6 +81,8 @@ void WorldSession::QueuePacket(std::unique_ptr<Packet> new_packet)
 //----------------------------------------
 bool WorldSession::Update()
 {
+
+	
 	try
 	{
 		std::lock_guard<std::mutex> guard(m_recvQueueLock);
@@ -106,6 +108,10 @@ bool WorldSession::Update()
 	{
 			sLog.outError("[exception caught] in update thread\n");
 	}
+
+	
+
+
 }
 //----------------------------------------
 //	Logout the player and save if asked

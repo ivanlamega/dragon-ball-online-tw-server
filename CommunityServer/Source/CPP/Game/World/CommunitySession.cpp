@@ -48,8 +48,13 @@ bool CommunitySession::CreatePlayer(CHARACTERID id)
 		_player = nullptr;
 		return false;
 	}
+
 	_player->accID = GetAccountId();
+
+	//Load Friend List Info On load into memory
+	_player->LoadFriendList(_player->accID, _player->friendlist);
 	
+	// No Need
 	//sDB.UpdateAccountOnline(GetAccountId(), 2); // SET OUR USER ONLINE IN DB
 	return true;
 }
@@ -82,6 +87,7 @@ void CommunitySession::QueuePacket(std::unique_ptr<Packet> new_packet)
 //----------------------------------------
 bool CommunitySession::Update()
 {
+		
 	try {
 		std::lock_guard<std::mutex> guard(m_recvQueueLock);
 		///- Retrieve packets from the receive queue and call the appropriate handlers
@@ -112,6 +118,8 @@ bool CommunitySession::Update()
 //----------------------------------------
 void CommunitySession::LogoutPlayer(bool save)
 {
+
+	
 	// if the player has just logged out, there is no need to do anything here
 	if (_player)
 	{
@@ -151,3 +159,10 @@ void CommunitySession::KickPlayer()
 	if (!m_Socket->IsClosed())
 		m_Socket->Close();
 }
+
+void CommunitySession::Updatefriendlist() {
+
+
+
+}
+

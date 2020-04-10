@@ -26,7 +26,7 @@ void			WorldSession::PacketParser(Packet& packet)
 
 	PACKETDATA *header = (PACKETDATA*)packet.GetPacketHeader();
 
-	switch (header->wOpCode)
+		switch (header->wOpCode)
 	{
 #pragma region (WORKING PACKET)
 	case Opcodes::UG_ENTER_WORLD:
@@ -138,43 +138,43 @@ void			WorldSession::PacketParser(Packet& packet)
 #pragma region MOVEMENT
 	case Opcodes::UG_CHAR_CHANGE_HEADING:
 	{
-		sLog.outError("UG_CHAR_CHANGE_HEADING");
+		//sLog.outError("UG_CHAR_CHANGE_HEADING");
 		SendCharHeadChanging(packet);
 		break;
 	}
 	case Opcodes::UG_CHAR_TOGG_SITDOWN:
 	{
-		sLog.outError("UG_CHAR_TOGG_SITDOWN");
+		//sLog.outError("UG_CHAR_TOGG_SITDOWN");
 		SendCharToggleSitDown(packet);
 		break;
 	}
 	case Opcodes::UG_CHAR_MOVE:
 	{
-		sLog.outError("UG_CHAR_MOVE");
+		//sLog.outError("UG_CHAR_MOVE");
 		SendCharMove(packet);
 		break;
 	}
 	case Opcodes::UG_CHAR_AIR_MOVE_SYNC:
 	{
-		sLog.outError("UG_CHAR_AIR_MOVE_SYNC");
+		//sLog.outError("UG_CHAR_AIR_MOVE_SYNC");
 		SendCharMoveSync(packet);
 		break;
 	}
 	case Opcodes::UG_CHAR_JUMP:
 	{
-		sLog.outError("UG_CHAR_JUMP");
+		//sLog.outError("UG_CHAR_JUMP");
 		SendCharJump(packet);
 		break;
 	}
 	case Opcodes::UG_CHAR_JUMP_END:
 	{
-		sLog.outError("UG_CHAR_JUMP_END");
+		//sLog.outError("UG_CHAR_JUMP_END");
 		SendCharJumpEnd(packet);
 		break;
 	}
 	case Opcodes::UG_CHAR_DEST_MOVE:
 	{
-		sLog.outError("UG_CHAR_DEST_MOVE");
+		//sLog.outError("UG_CHAR_DEST_MOVE");
 		SendCharDestLoc(packet);
 		break;
 	}
@@ -319,16 +319,7 @@ void			WorldSession::PacketParser(Packet& packet)
 
 		SendPacket((char*)&DropBuff, sizeof(sGU_BUFF_DROP_RES));
 
-		SendDropBuff(_player->GetHandle(), req->tblidx, eDBO_OBJECT_SOURCE::DBO_OBJECT_SOURCE_SKILL);
-
-		BuffTimeInfo* buff = _player->GetAttributesManager()->GetBuff(req->tblidx);
-		if (buff)
-		{
-			_player->SetUnsetBuffEffect(buff->skillInfo, 0, false);
-			_player->SetUnsetBuffEffect(buff->skillInfo, 1, false);
-			_player->GetAttributesManager()->DeleteBuff(req->tblidx);
-		}
-		/*sGU_BUFF_DROPPED DropedBuff;
+		sGU_BUFF_DROPPED DropedBuff;
 
 		DropedBuff.wOpCode = GU_BUFF_DROPPED;
 		DropedBuff.wPacketSize = sizeof(sGU_BUFF_DROPPED) - 2;
@@ -336,9 +327,8 @@ void			WorldSession::PacketParser(Packet& packet)
 		DropedBuff.hHandle = _player->GetHandle();
 		DropedBuff.Slot = 0;
 		DropedBuff.tblidx = req->tblidx;
-		SendPacket((char*)&DropedBuff, sizeof(sGU_BUFF_DROPPED));*/
-		//_player->ExecuteEffectCalculation(req->tblidx, true);
-
+		SendPacket((char*)&DropedBuff, sizeof(sGU_BUFF_DROPPED));
+		_player->ExecuteEffectCalculation(req->tblidx, true);
 		for (int i = 0; i <= 32; i++)
 		{
 			if (_player->GetAttributesManager()->sBuffTimeInfo[i].BuffID == req->tblidx)
@@ -2569,13 +2559,21 @@ void			WorldSession::PacketParser(Packet& packet)
 			_player->UpdateAspectState(eASPECTSTATE::ASPECTSTATE_INVALID);
 			break;
 		}
-		//To Work
-		case Opcodes::UG_GUILD_CREATE_REQ:
+		/////GUILD PACKETS---------------------------------------------------////
+		case Opcodes::UG_GUILD_INVITE_REQ:
 		{			
-			//sLog.outError("UG_GUILD_CREATE_REQ");
-			//SendGuildCreateReq(packet);
+			sLog.outError("UG_GUILD_INVITE_REQ");
+			InvitePlayertoGuild(packet);
 			break;
 		}
+		case Opcodes::UG_GUILD_CREATE_REQ:
+		{
+			sLog.outError("UG_GUILD_CREATE_REQ");
+			CreateNewGuild(packet);
+			break;
+		}
+
+		/////----------------------------------------------------------------////
 		case Opcodes::UG_HOIPOIMIX_ITEM_CREATE_EX_REQ:
 		{
 			SendHoiPoiMixCreate(packet);

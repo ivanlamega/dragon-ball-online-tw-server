@@ -170,7 +170,10 @@ public:
 	void			SendDragonBallsCheck(Packet& packet);
 	void			SendShenlongReward(Packet& packet);
 	//Guilds
-	void			SendGuildCreateReq(Packet& packet);
+	void			CreateNewGuild(Packet& packet);
+	void			GU_LoadGuildINFO();
+	void			TU_LoadGuildINFO();
+	void			InvitePlayertoGuild(Packet & packet);
 	// command
 	void			ExecuteServerCommand(Packet& packet);
 	// Spawn

@@ -96,7 +96,7 @@ bool HandleCommande(char* args)
 				std::string message;
 				for (int i = 1; i < tokens.size(); i++)
 					message.append(tokens[i] + " ");
-		//		sCommunity.SendAnnounce(message);
+					sCommunity.SendAnnounce(message);
 			}
 		}
 		else

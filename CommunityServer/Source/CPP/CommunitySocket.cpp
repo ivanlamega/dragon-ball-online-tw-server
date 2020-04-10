@@ -27,6 +27,8 @@ void CommunitySocket::OnConnectionDone()
 }
 void CommunitySocket::OnClosed()
 {
+	//Logging off
+	m_session->NotifyOtherPlayersFriendList_onLogoff();
 	sLog.outDebug("Client disconnected: [%s]", m_address);
 }
 bool CommunitySocket::HandleAuthSession(Packet& packet)
@@ -61,6 +63,8 @@ bool CommunitySocket::HandleAuthSession(Packet& packet)
 		sLog.outError("Session Is NULL!.");
 		return false;
 	}	
+	
+	
 	Write((char*)&res, sizeof(sTU_ENTER_CHAT_RES));
 	
 	if (!m_session->CreatePlayer(charId))
@@ -70,8 +74,16 @@ bool CommunitySocket::HandleAuthSession(Packet& packet)
 		sLog.outError("Player create failed !.");
 		return false;
 	}	
-	m_session->SendFriendListInfomation();
 	sCommunity.AddSession_(m_session);
+
+	//Send FriendList to Player
+	m_session->SendFriendListInfomation();
+	m_session->NotifyOtherPlayersFriendList();
+
+	//Load Guild Info
+	m_session->TU_LoadGuildINFO();
+	m_session->LoadGuildDataAroundYou();
+
 	return true;
 }
 bool CommunitySocket::ProcessIncomingData()
@@ -88,8 +100,10 @@ bool CommunitySocket::ProcessIncomingData()
 	PACKETDATA *header = (PACKETDATA*)packet.GetPacketHeader();
 	Opcodes opcode = *(Opcodes*)&header->wOpCode;
 	opcode = (Opcodes)header->wOpCode;
+
 	ReadSkip(packetHeader.wPacketLen + 2);
 
+	//Error Checking
 	if (packet.IsValidHeader() == false || packet.IsValidPacket() == false)
 	{
 		sLog.outError("Client: %s have send modifider packet data", m_address);
@@ -103,6 +117,8 @@ bool CommunitySocket::ProcessIncomingData()
 		packet.Destroy();
 		return false;
 	}
+
+	//Handle Good Packets
 	switch (opcode)
 	{
 		case Opcodes::SYS_HANDSHAKE_RES:
@@ -157,5 +173,8 @@ bool CommunitySocket::ProcessIncomingData()
 			break;
 		}
 	}
+
+
+	//Ending
 	return true;
 }
