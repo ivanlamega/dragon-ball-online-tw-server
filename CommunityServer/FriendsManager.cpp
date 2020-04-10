@@ -186,18 +186,19 @@ void CommunitySession::SendFriendListInfomation()
 
 	for (int i = 0; i < byCount; i++)
 	{
-		int playerfriendID = _player->friendlist.find(result->getInt("CharacterID"))->first;
+		int playerfriendID = result->getInt("CharacterID");
 
+		//if blacked or offline dont send
 		if (sCommunity.FindSession(playerfriendID)) {
-			//if blacked dont send
 			if (result->getInt("isBlack") == 0) {
-				int Hhandle = _player->friendlist.find(result->getInt("CharacterID"))->second;
+				int Hhandle = result->getInt("GSHandle");
 				SendFriendInfomationSingular(_player, result->getInt("CharacterID"), result->getInt("ClassID"), result->getInt("CurrentLevel"), 0, Hhandle, result->getInt("MapInfoID"));
 			}
 		}
 		//Offline
 		else {
 		}
+
 		result->next();
 	}
 
