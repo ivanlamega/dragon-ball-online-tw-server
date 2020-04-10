@@ -71,8 +71,4 @@ Output/
 *.htm
 *.cache
 /.vs/DboServer/v15
-*.vcxproj
-*.vcxproj.filters
-*.vcxproj *
-*.vcxproj.filters *
 *.user

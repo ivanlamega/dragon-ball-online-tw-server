@@ -60,6 +60,9 @@
     <Filter Include="Header Files\Game\Maps\Map">
       <UniqueIdentifier>{f66dc646-12d6-4e5b-a7ba-4383263bc369}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Game\World\Packet\Manager">
+      <UniqueIdentifier>{4b3dbf85-5d27-4cb2-a3c1-1bcc29edda6e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -136,6 +139,12 @@
     </ClCompile>
     <ClCompile Include="FriendsManager.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\GuildManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\CommandPacketManager.cpp">
+      <Filter>Source Files\Game\World\Packet\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

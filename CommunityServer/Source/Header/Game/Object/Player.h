@@ -82,7 +82,6 @@ public:
 	ePC_CLASS			GetMyClass() const;
 	AttributesManager	*GetAttributesManager();
 	InventoryManager	*GetInventoryManager();
-	GuildManager		*GetGuildManager();
 	sVECTOR3			GetMoveDestinationVector();
 	bool				GetIsEmergency();
 	bool                GetFlying();
@@ -160,7 +159,6 @@ private:
 	InventoryManager	inventoryManager;
 	//	------------------------------------------------------------------------
 	// GUILD //
-	GuildManager		guildManager;
 	std::string			GuildName;
 	// SKILLS
 	//	------------------------------------------------------------------------

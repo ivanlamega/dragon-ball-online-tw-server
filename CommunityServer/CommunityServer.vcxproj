@@ -202,10 +202,12 @@
     <ClCompile Include="Source\CPP\Game\Object\Object.cpp" />
     <ClCompile Include="Source\CPP\Game\Object\Player.cpp" />
     <ClCompile Include="Source\CPP\Game\Object\PlayerRequest.cpp" />
+    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\CommandPacketManager.cpp" />
     <ClCompile Include="Source\CPP\Game\World\Packet\PacketParser.cpp" />
     <ClCompile Include="Source\CPP\Game\World\Community.cpp" />
     <ClCompile Include="Source\CPP\Game\World\CommunityRunnable.cpp" />
     <ClCompile Include="Source\CPP\Game\World\CommunitySession.cpp" />
+    <ClCompile Include="Source\CPP\GuildManager.cpp" />
     <ClCompile Include="Source\CPP\Util\Util.cpp" />
   </ItemGroup>
   <ItemGroup>

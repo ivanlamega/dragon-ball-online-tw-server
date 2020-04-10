@@ -96,8 +96,8 @@ BEGIN_PROTOCOL(TU_GUILD_CREATED_NFY)
 END_PROTOCOL()
 //-----------------------------------------------------------------
 BEGIN_PROTOCOL(TU_GUILD_INFO)
-//sDBO_GUILD_INFO				guildInfo;
-DWORD           guildId;
+//taken from sDBO_GUILD_INFO
+/*DWORD           guildId;
 WCHAR           wszName[16 + 1];
 WORD			wAligniament;
 DWORD           guildMaster;
@@ -110,7 +110,41 @@ sDBO_GUILD_MARK sMark;
 WORD            wAligniament2[2];
 WCHAR           awchName[MAX_SIZE_CHAR_NAME_UNICODE + 1];
 WCHAR           awchNotice[MAX_LENGTH_OF_GUILD_NOTICE_UNICODE + 1];
+sDBO_DOGI_DATA  sDogi;*/
+/*
+DWORD           guildId; // correct
+WCHAR           wszName[16 + 1]; // correct
+WORD			wAligniament; // ???
+DWORD           guildMaster; // Correct
+DWORD           guildSecondMaster[4]; // Correct
+DWORD           dwGuildReputation; // correct
+DWORD           dwMaxGuildPointEver; // correct
+DWORD           unk1; // Something with the flag
+DWORD64			qwGuildFunctionFlag; //
+DWORD           unk3; // Something with the flag
+DBOTIME         timeToDisband; //Correct  <<<-This is a UNIX Timestamp value
+sDBO_GUILD_MARK sMark; // <-- ? Correct
+WCHAR           awchName[16 + 1];
+WCHAR           awchNotice[256 + 1];
 sDBO_DOGI_DATA  sDogi;
+WORD			unk2[2];*/
+
+DWORD           guildId;
+WCHAR           wszName[16 + 1];
+WORD			wAligniament;
+DWORD           guildMaster;
+DWORD           guildSecondMaster[4];
+DWORD           dwGuildReputation;
+DWORD           dwMaxGuildPointEver;
+DWORD64         qwGuildFunctionFlag;
+WORD            unk1;
+WORD            DojiColor;
+DBOTIME         timeToDisband; //Correct  <<<-This is a UNIX Timestamp value	 this has a value not 0, GuildNotice will change and be forced to disband msg
+sDBO_GUILD_MARK sMark;
+WCHAR           awchName[MAX_SIZE_CHAR_NAME_UNICODE + 1];
+WCHAR           awchNotice[MAX_LENGTH_OF_GUILD_NOTICE_UNICODE + 1];
+sDBO_DOGI_DATA  sDogi;
+BYTE            unk[7];
 END_PROTOCOL()
 //------------------------------------------------------------------
 BEGIN_PROTOCOL(TU_GUILD_MEMBER_INFO)

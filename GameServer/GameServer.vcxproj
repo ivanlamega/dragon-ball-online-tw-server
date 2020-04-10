@@ -194,7 +194,7 @@
     <ClCompile Include="Source\CPP\Game\World\Packet\Manager\DojoScramble.cpp" />
     <ClCompile Include="Source\CPP\Game\World\Packet\Manager\DragonBallScramble.cpp" />
     <ClCompile Include="Source\CPP\Game\World\Packet\Manager\FreeBattle.cpp" />
-    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\GuildManager.cpp" />
+    <ClCompile Include="Source\CPP\Game\World\Packet\Manager\GuildSystem.cpp" />
     <ClCompile Include="Source\CPP\Game\World\Packet\Manager\PartySystem.cpp" />
     <ClCompile Include="Source\CPP\Game\World\Packet\Manager\PlayerPacketMail.cpp" />
     <ClCompile Include="Source\CPP\GameServer.cpp" />

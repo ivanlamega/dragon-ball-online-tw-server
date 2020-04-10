@@ -9,6 +9,56 @@ bool has_special_char(std::string const &str) {
 		[](char ch) { return !(isalnum(ch) || ch == '_'); }) != str.end();
 }
 
+
+int MySQLConnWrapper::GetGuildID(int charId)
+{
+	int result = 0;
+	//Get GUILD ID
+	sql::ResultSet* Query = executes("SELECT GuildID, Name from characters WHERE CharacterID = '%d' ", charId);
+
+	//There was no Character found in database. Fail
+	if (Query && Query->rowsCount() == 0)
+	{
+		delete Query;
+		return 0;
+	}
+
+	//Check for that character being in a guild now. If not continue on
+	else if (Query && Query->getInt("GuildID") > 0)
+	{
+		result = Query->getInt("GuildID");
+		delete Query;
+		return result;
+		/*charName = result->getString("Name");
+		sql::ResultSet* checkGuildRes = executes("SELECT * from Guilds WHERE GuildName = '%s' ", guildName);
+		//Guild exists with this username. Throw the code.
+		if (checkGuildRes && checkGuildRes->rowsCount() != 0)
+		{
+			retcode = GAME_GUILD_SAME_GUILD_NAME_EXIST;
+			delete checkGuildRes;
+			return retcode;
+		}
+		else
+		{
+			sLog.outDebug("Guilds with the same name dont exist Continue and insert");
+			sql::ResultSet* createGuildRes = executes("INSERT INTO guilds (GuildName, GuildMasterName, GuildMaster) VALUES('%s', '%s', '%d')", guildName, charName, charId);
+			sLog.outDebug("Guild Created. Get the guild info now");
+			sql::ResultSet* res = executes("Select * from guilds where GuildMasterName = '%s'", charName);
+			int guildId = res->getInt("GuildID");
+			sql::ResultSet* setGuildRes = executes("UPDATE characters SET GuildID = %d WHERE CharacterID = %d", guildId, charId);
+			sql::ResultSet* setMembersRes = executes("INSERT INTO guild_members (GuildID, MemberID, MemberName, is_guildmaster) VALUES ('%d', '%d', '%s', '1')", guildId, charId, charName);
+			retcode = GAME_SUCCESS;
+			return retcode;
+		}
+		*/
+	}
+	else
+	{
+		return result;
+	}
+}
+
+
 void MySQLConnWrapper::UpdateAccountOnline(int AccountID, int isLoggingID)
 {
 	sql::ResultSet* result = executes("UPDATE `account` SET `AccountStatus` = '%d' WHERE `AccountID` = '%d';", isLoggingID, AccountID);

@@ -50,6 +50,7 @@ public:
 	void UpdateMacAddress(char* byMac, int accid);
 	ResultCodes Confirm_IP_MAC(int accid, char*ip);
 	ResultCodes checkUsedName(char* Name);
+	
 	void UpdateAccountOnline(int AccountID, int isLoggingID);
 	ResultCodes DeleteCharacter(int accId, int charId);
 	void VerifyCharacterToDelete(int accid);
@@ -95,6 +96,10 @@ public:
 	void LoadQuestComplete(CHARACTERID charid, sCOMPLETE_QUEST_INFO* completeInfo);
 	//Friend
 	/** Convert from wchar to char */
+
+	//GUild
+	int GetGuildID(int charId);
+
 	inline void wcharToChar(const wchar_t * src, char *dst, const unsigned int & srcSize) {
 
 

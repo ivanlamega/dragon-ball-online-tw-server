@@ -89,7 +89,6 @@ public:
 	eCHARSTATE			GetCharEState();
 	BYTE				GetMoveDirection();
 	std::string			GetName();
-	GuildManager		*GetGuildManager();
 	HOBJECT				GetTarget() const ;
 	PORTALID			GetPortalIdFromList(HOBJECT handle);
 	ePC_CLASS			GetMyClass() const;
@@ -272,7 +271,7 @@ private:
 	InventoryManager	inventoryManager;
 	//	------------------------------------------------------------------------
 	//Guild
-	GuildManager		guildManager;
+
 	///---------------------------------------------------------------------------
 	// QUEST
 	//	------------------------------------------------------------------------
