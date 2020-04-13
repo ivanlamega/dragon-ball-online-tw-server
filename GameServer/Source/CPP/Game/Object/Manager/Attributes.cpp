@@ -2478,11 +2478,11 @@ void AttributesManager::UpdatePhysicalCriticalDefenceRate(WORD physicalCriticalD
 {
 	if (add)
 	{
-		AddPhysicalCriticalDefenceRate(physicalCriticalDefenceRate);
+		AddLastPhysicalCriticalDefenceRate(physicalCriticalDefenceRate);
 	}
 	else
 	{
-		SetPhysicalCriticalDefenceRate(physicalCriticalDefenceRate);
+		SetLastPhysicalCriticalDefenceRate(physicalCriticalDefenceRate);
 	}
 }
 
@@ -2490,11 +2490,11 @@ void AttributesManager::UpdateEnergyCriticalDefenceRate(WORD energyCriticalDefen
 {
 	if (add)
 	{
-		AddEnergyCriticalDefenceRate(energyCriticalDefenceRate);
+		AddLastEnergyCriticalDefenceRate(energyCriticalDefenceRate);
 	}
 	else
 	{
-		SetEnergyCriticalDefenceRate(energyCriticalDefenceRate);
+		SetLastEnergyCriticalDefenceRate(energyCriticalDefenceRate);
 	}
 }
 
