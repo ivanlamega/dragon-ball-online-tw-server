@@ -1736,6 +1736,46 @@ BuffTimeInfo* AttributesManager::GetBuff(TBLIDX buffIdx)
 	return NULL;
 }
 //----------------------------------------
+// Effect list
+//----------------------------------------
+void AttributesManager::AddAttrEffect(WORD effectType, float value)
+{
+	effectsApplied[effectType].push_back(value);
+	sLog.outBasic("Attr effect added type %d value %f size %d", effectType, value, effectsApplied[effectType].size());
+}
+
+void AttributesManager::DeleteAttrEffect(WORD effectType, float value)
+{
+	typedef std::vector<float> EffectList;
+	typedef EffectList::const_iterator EffectListIt;
+
+	float effect = 0xffffffff;
+	for (EffectListIt iter = effectsApplied[effectType].cbegin(); iter != effectsApplied[effectType].cend(); ++iter)
+	{
+		effect = (*iter);
+
+		if (effect == 0xffffffff)
+		{
+			continue;
+		}
+
+		sLog.outDebug("Effect type %d value %f", effectType, value);
+
+		if (effect == value)
+		{
+			//GetAttributesManager()->questSubCls.objData[index].mobsTblidx.erase(iter);
+			effectsApplied[effectType].erase(iter);
+			sLog.outDebug("Effect deleted");
+			break;
+		}
+	}
+}
+
+std::vector<float> AttributesManager::GetAttrEffects(WORD effectType)
+{
+	return effectsApplied[effectType];
+}
+//----------------------------------------
 // Mob list for spin attack
 //----------------------------------------
 // Check if object is in list
@@ -2177,6 +2217,8 @@ void AttributesManager::UpdateStr(int lastStr, bool add)
 	if (add)
 	{
 		AddLastStr(lastStr);
+		AddAttrEffect(ACTIVE_STR_UP, lastStr);
+		DeleteAttrEffect(ACTIVE_STR_UP, lastStr);
 	}
 	else
 	{

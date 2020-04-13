@@ -190,6 +190,8 @@ public:
 	//Control Stun Time Need change
 	BuffTimeInfo sBuffTimeInfo[34];
 	int StunedTypes[34];
+	// list of effects applied in player
+	std::vector<float> effectsApplied[MAX_SYSTEM_EFFECT_CODE];
 	std::vector<BuffTimeInfo> vBuffTimeInfo;
 	//////////
 	//Caontrol FreeBatle Need change
@@ -222,6 +224,10 @@ public:
 	void			AddBuff(BuffTimeInfo buff);
 	void			DeleteBuff(TBLIDX buffIdx);
 	BuffTimeInfo*	GetBuff(TBLIDX buffIdx);
+	// Attributes effect list
+	void			AddAttrEffect(WORD effectType, float value);
+	void			DeleteAttrEffect(WORD effectType, float value);
+	std::vector<float> GetAttrEffects(WORD effectType);
 
 	//RP Passive
 	bool			IsPowerUp;
