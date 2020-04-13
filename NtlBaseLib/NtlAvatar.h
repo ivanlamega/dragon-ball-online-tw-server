@@ -178,10 +178,10 @@ enum eATTRIBUTE_TO_UPDATE
 
 	ATTRIBUTE_TO_UPDATE_UNKNOW4_0,
 	ATTRIBUTE_TO_UPDATE_UNKNOW4_1,
-	ATTRIBUTE_TO_UPDATE_PHYSICAL_CRITICAL_DEFENCE_RATE,
-	ATTRIBUTE_TO_UPDATE_ENERGY_CRITICAL_DEFENCE_RATE,
-	ATTRIBUTE_TO_UPDATE_UNKNOW4_4,
-	ATTRIBUTE_TO_UPDATE_UNKNOW4_5,
+	ATTRIBUTE_TO_UPDATE_PHYSICAL_CRITICAL_DEFENCE_RATE_BASE,
+	ATTRIBUTE_TO_UPDATE_PHYSICAL_CRITICAL_DEFENCE_RATE_LAST,
+	ATTRIBUTE_TO_UPDATE_ENERGY_CRITICAL_DEFENCE_RATE_BASE,
+	ATTRIBUTE_TO_UPDATE_ENERGY_CRITICAL_DEFENCE_RATE_LAST,
 	ATTRIBUTE_TO_UPDATE_UNKNOW4_6,
 
 	ATTRIBUTE_TO_UPDATE_UNKNOW5_0,
@@ -393,10 +393,10 @@ struct sAVATAR_ATTRIBUTE
 	float unknown3_13;//??
 	BYTE unknown4_0;//??
 	BYTE unknown4_1;//??
-	WORD physicalCriticalDefenceRate;//??
-	WORD energyCriticalDefenceRate;//??
-	WORD unknown4_4;//??
-	WORD unknown4_5;//??
+	WORD basePhysicalCriticalDefenceRate;//??
+	WORD lastPhysicalCriticalDefenceRate;//??
+	WORD baseEnergyCriticalDefenceRate;//??
+	WORD lastEnergyCriticalDefenceRate;//??
 	WORD unknown4_6;//??
 	float unknown5_0;//??
 	float unknown5_1;//??
@@ -587,10 +587,10 @@ struct sAVATAR_ATTRIBUTE_LINK
 	float* unknown3_13;//??
 	BYTE* unknown4_0;//??
 	BYTE* unknown4_1;//??
-	WORD* physicalCriticalDefenceRate;//??
-	WORD* energyCriticalDefenceRate;//??
-	WORD* unknown4_4;//??
-	WORD* unknown4_5;//??
+	WORD* basePhysicalCriticalDefenceRate;//??
+	WORD* baseEnergyCriticalDefenceRate;//??
+	WORD* lastPhysicalCriticalDefenceRate;//??
+	WORD* lastEnergyCriticalDefenceRate;//??
 	WORD* unknown4_6;//??
 	float* unknown5_0;//??
 	float* unknown5_1;//??

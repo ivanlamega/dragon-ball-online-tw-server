@@ -273,10 +273,10 @@ CNtlAvatar::sATTRIBUTE_LOGIC CNtlAvatar::m_attributeLogic[ATTRIBUTE_TO_UPDATE_CO
 
 	ATTRIBUTE_LOGIC_DEFINE(unknown4_0, BYTE),
 	ATTRIBUTE_LOGIC_DEFINE(unknown4_1, BYTE),
-	ATTRIBUTE_LOGIC_DEFINE(physicalCriticalDefenceRate, WORD),
-	ATTRIBUTE_LOGIC_DEFINE(energyCriticalDefenceRate, WORD),
-	ATTRIBUTE_LOGIC_DEFINE(unknown4_4, WORD),
-	ATTRIBUTE_LOGIC_DEFINE(unknown4_5, WORD),
+	ATTRIBUTE_LOGIC_DEFINE(basePhysicalCriticalDefenceRate, WORD),
+	ATTRIBUTE_LOGIC_DEFINE(lastPhysicalCriticalDefenceRate, WORD),
+	ATTRIBUTE_LOGIC_DEFINE(baseEnergyCriticalDefenceRate, WORD),
+	ATTRIBUTE_LOGIC_DEFINE(lastEnergyCriticalDefenceRate, WORD),
 	ATTRIBUTE_LOGIC_DEFINE(unknown4_6, WORD),
 
 	ATTRIBUTE_LOGIC_DEFINE(unknown5_0, float),

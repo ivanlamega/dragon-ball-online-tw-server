@@ -421,8 +421,8 @@ public:
 	void SetItemUpgradeBonusRate(float val);
 	void SetItemUpgradeBreakBonusRate(float val);
 	void SetSkillSpeed(float val);
-	void SetPhysicalCriticalDefenceRate(WORD val);
-	void SetEnergyCriticalDefenceRate(WORD val);
+	void SetLastPhysicalCriticalDefenceRate(WORD val);
+	void SetLastEnergyCriticalDefenceRate(WORD val);
 	void SetLastPhysicalCriticalRange(float val);
 	void SetLastEnergyCriticalRange(float val);
 	void SetLastApDegeneration(WORD val);
@@ -507,8 +507,8 @@ public:
 	void AddItemUpgradeBonusRate(float val);
 	void AddItemUpgradeBreakBonusRate(float val);
 	void AddSkillSpeed(float val);
-	void AddPhysicalCriticalDefenceRate(WORD val);
-	void AddEnergyCriticalDefenceRate(WORD val);
+	void AddLastPhysicalCriticalDefenceRate(WORD val);
+	void AddLastEnergyCriticalDefenceRate(WORD val);
 	void AddLastPhysicalCriticalRange(float val);
 	void AddLastEnergyCriticalRange(float val);
 	void AddLastApDegeneration(WORD val);

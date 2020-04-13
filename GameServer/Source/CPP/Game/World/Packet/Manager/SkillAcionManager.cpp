@@ -168,7 +168,7 @@ float Player::GetValueByEffectType(BYTE bySkill_Effect_Type, float skillValue, f
 
 bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 {
-	bool isBuff = false;
+	bool isBuff = true;
 
 	int setUnset = set ? 1 : -1;
 
@@ -198,7 +198,6 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 				skillCoolTime *= setUnset;
 				sLog.outBasic("skillCoolTime %f", skillCoolTime);
 				GetAttributesManager()->UpdateCoolTimeChangePercent(skillCoolTime, true);
-				isBuff = true;
 				break;
 			}
 			case ACTIVE_PHYSICAL_DEFENCE_DOWN:
@@ -217,7 +216,6 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 
 				GetAttributesManager()->UpdatePhysicalDefence(subPhysicalDefence, true);
 				sLog.outBasic("physical defense substraction %d", subPhysicalDefence);
-				isBuff = true;
 
 				if (!set)
 				{
@@ -241,8 +239,6 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 				sLog.outBasic("energy defense substraction %d", subEnergyDefence);
 				GetAttributesManager()->UpdateEnergyDefence(subEnergyDefence, true);
 
-				isBuff = true;
-
 				if (!set)
 				{
 					GetPcProfile()->avatarAttribute.wBaseEnergyDefence = 0;
@@ -258,7 +254,6 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 				attackRate *= setUnset;
 				sLog.outBasic("attackRate %d", attackRate);
 				GetAttributesManager()->UpdateHitRate(attackRate, true);
-				isBuff = true;
 				break;
 			}
 			case ACTIVE_RP_CHARGE_SPEED://need Handle the effect is here to try do effects in order 
@@ -268,7 +263,6 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 				//static_cast<WORD>(skillData->SkillValue[index]);
 				rpRegen *= setUnset;
 				GetAttributesManager()->UpdateRPRegeneration(rpRegen, true);
-				isBuff = true;
 				sLog.outBasic("rpRegen %d", rpRegen);
 				break;
 			}
@@ -279,7 +273,6 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 				moveSpeedUp *= setUnset;
 				sLog.outBasic("addSpeed %f", moveSpeedUp);
 				GetAttributesManager()->UpdateRunSpeed(moveSpeedUp, true);
-				isBuff = true;
 				break;
 			}
 			case ACTIVE_ENERGY_OFFENCE_UP://100% 
@@ -290,7 +283,6 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 					GetPcProfile()->avatarAttribute.wBaseEnergyOffence);
 				addEnergyOffence *= setUnset;
 				GetAttributesManager()->UpdateEnergyOffence(addEnergyOffence, true);
-				isBuff = true;
 				sLog.outBasic("addEnergyOffence %d", addEnergyOffence);
 				break;
 			}
@@ -303,7 +295,6 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 
 				addPhysicalOffence *= setUnset;
 				GetAttributesManager()->UpdatePhysicalOffence(addPhysicalOffence, true);
-				isBuff = true;
 				sLog.outBasic("addPhysicalOffence %d", addPhysicalOffence);
 				break;
 			}			
@@ -314,7 +305,6 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 				addConstitution *= setUnset;
 				sLog.outBasic("Add Constitution %d", addConstitution);
 				GetAttributesManager()->UpdateCon(addConstitution, true);
-				isBuff = true;
 				break;
 			}
 			case ACTIVE_FOC_UP:	//100% 
@@ -324,7 +314,6 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 				addFocus *= setUnset;
 				sLog.outBasic("Add Focus %d", addFocus);
 				GetAttributesManager()->UpdateFoc(addFocus, true);
-				isBuff = true;
 				break;
 			}
 			case ACTIVE_ENG_UP:	//100
@@ -334,7 +323,6 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 				addEnergy *= setUnset;
 				sLog.outBasic("Add Energy %d", addEnergy);
 				GetAttributesManager()->UpdateEng(addEnergy, true);
-				isBuff = true;
 				break;
 			}
 			case ACTIVE_DEX_UP:	//100% 
@@ -344,7 +332,6 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 				addDextery *= setUnset;
 				sLog.outBasic("Add Dextery %d", addDextery);
 				GetAttributesManager()->UpdateDex(addDextery, true);
-				isBuff = true;
 				break;
 			}
 			case ACTIVE_STR_UP:
@@ -354,7 +341,6 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 				addStrength *= setUnset;
 				sLog.outBasic("Add Strenght %d", addStrength);
 				GetAttributesManager()->UpdateStr(addStrength, true);
-				isBuff = true;
 				break;
 			}
 			case ACTIVE_SOL_UP:
@@ -365,7 +351,6 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 
 				sLog.outBasic("Add Soul %d", addSoul);
 				GetAttributesManager()->UpdateSol(addSoul, true);
-				isBuff = true;
 				break;
 			}
 			case ACTIVE_ENERGY_CRITICAL_DAMAGE_UP:
@@ -374,7 +359,6 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 				energyCriticalDamage *= setUnset;
 				sLog.outBasic("energyCriticalDamage %d", energyCriticalDamage);
 				GetAttributesManager()->UpdateEnergyCriticalRange(energyCriticalDamage, true);
-				isBuff = true;
 				break;
 			}
 			case ACTIVE_PHYSICAL_CRITICAL_DAMAGE_UP:
@@ -383,7 +367,6 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 				physicalCriticalDamage *= setUnset;
 				sLog.outBasic("energyCriticalDamage %d", physicalCriticalDamage);
 				GetAttributesManager()->UpdatePhysicalCriticalRange(physicalCriticalDamage, true);
-				isBuff = true;
 				break;
 			}
 			case ACTIVE_PHYSICAL_CRITICAL:
@@ -393,7 +376,6 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 				physicalCritical *= setUnset;
 				sLog.outBasic("physicalCritical %d", physicalCritical);
 				GetAttributesManager()->UpdatePhysicalCriticalRate(physicalCritical, true);
-				isBuff = true;
 				break;
 			}
 			case ACTIVE_ATTACK_RATE_UP:
@@ -403,7 +385,6 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 				attackRate *= setUnset;
 				sLog.outBasic("attackRate %d", attackRate);
 				GetAttributesManager()->UpdateHitRate(attackRate, true);
-				isBuff = true;
 				break;
 			}
 			case ACTIVE_DODGE_RATE_UP:
@@ -413,7 +394,6 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 				dodgeRate *= setUnset;
 				sLog.outBasic("dodgeRate %d", dodgeRate);
 				GetAttributesManager()->UpdateDodgeRate(dodgeRate, true);
-				isBuff = true;
 				break;
 			}
 			case ACTIVE_ATTACK_SPEED_UP:
@@ -424,17 +404,24 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 				attackSpeedRate *= setUnset;
 				sLog.outBasic("attackSpeedRate %d", attackSpeedRate);
 				GetAttributesManager()->UpdateAttackspeedRate(attackSpeedRate, true);
-				isBuff = true;
 				break;
 			}
 			case ACTIVE_RABIES:
 			{
 				DWORD condition = set ? CHARCOND_RABIES_FLAG : 0;
 				m_session->SendUpdateCharCondition(condition);
-				isBuff = true;
+				break;
+			}
+			default:
+			{
+				isBuff = false;
 				break;
 			}
 		}
+	}
+	else
+	{
+		isBuff = false;
 	}
 	sLog.outBasic("isBuff %d", isBuff);
 	return isBuff;
@@ -471,7 +458,7 @@ void Player::GetAtributesCalculation(HOBJECT Target[32], BYTE MaxApplyTarget, BY
 					{
 						sLog.outBasic("SKILL_TYPE_PHYSICAL");
 						CriticalRate = GetPcProfile()->avatarAttribute.wLastPhysicalCriticalRate;
-						CriticalDefence = PlayerInfo->GetPcProfile()->avatarAttribute.physicalCriticalDefenceRate;
+						CriticalDefence = PlayerInfo->GetPcProfile()->avatarAttribute.lastPhysicalCriticalDefenceRate;
 						attack = GetPcProfile()->avatarAttribute.wLastPhysicalOffence;//+skillData.SkillValue[0];
 						Defense = PlayerInfo->GetPcProfile()->avatarAttribute.wLastPhysicalDefence;
 						damage = fightManager.CalculePhysicalDamage(attack, GetPcProfile()->byLevel, Defense);
@@ -483,7 +470,7 @@ void Player::GetAtributesCalculation(HOBJECT Target[32], BYTE MaxApplyTarget, BY
 					{
 						sLog.outBasic("SKILL_TYPE_ENERGY");
 						CriticalRate = GetPcProfile()->avatarAttribute.wLastEnergyCriticalRate;
-						CriticalDefence = PlayerInfo->GetPcProfile()->avatarAttribute.energyCriticalDefenceRate;
+						CriticalDefence = PlayerInfo->GetPcProfile()->avatarAttribute.lastEnergyCriticalDefenceRate;
 						attack = GetPcProfile()->avatarAttribute.wLastEnergyOffence;// +skillData.SkillValue[0];
 						Defense = PlayerInfo->GetPcProfile()->avatarAttribute.wLastEnergyDefence;
 						TotalCriticRatePercent = fightManager.CalculeEnergyCriticalSuccess(CriticalRate, CriticalDefence);
