@@ -318,9 +318,8 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 			{
 				int addEnergy = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
 					GetPcProfile()->avatarAttribute.byBaseEng);
-				addEnergy *= setUnset;
 				sLog.outBasic("Add Energy %d", addEnergy);
-				GetAttributesManager()->UpdateEng(addEnergy, true);
+				GetAttributesManager()->UpdateEng(SystemEffectData->effectCode, addEnergy, true, set);
 				break;
 			}
 			case ACTIVE_DEX_UP:	//100% 
@@ -343,10 +342,9 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 			{
 				int addSoul = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index], 
 					GetPcProfile()->avatarAttribute.byBaseSol);
-				addSoul *= setUnset;
 
 				sLog.outBasic("Add Soul %d", addSoul);
-				GetAttributesManager()->UpdateSol(addSoul, true);
+				GetAttributesManager()->UpdateSol(SystemEffectData->effectCode, addSoul, true, set);
 				break;
 			}
 			case ACTIVE_ENERGY_CRITICAL_DAMAGE_UP:

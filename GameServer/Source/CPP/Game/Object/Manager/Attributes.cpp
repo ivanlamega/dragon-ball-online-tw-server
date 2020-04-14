@@ -100,8 +100,8 @@ void AttributesManager::UpdateLevelUpAtributes()
 		plr->GetAttributesManager()->UpdateCon(INVALID_SYSTEM_EFFECT_CODE, baseCon, false, false);
 		plr->GetAttributesManager()->UpdateFoc(INVALID_SYSTEM_EFFECT_CODE, baseFoc, false, false);
 		plr->GetAttributesManager()->UpdateDex(INVALID_SYSTEM_EFFECT_CODE, baseDex, false, false);
-		plr->GetAttributesManager()->UpdateSol(baseSol, false);
-		plr->GetAttributesManager()->UpdateEng(baseEng, false);
+		plr->GetAttributesManager()->UpdateSol(INVALID_SYSTEM_EFFECT_CODE, baseSol, false, false);
+		plr->GetAttributesManager()->UpdateEng(INVALID_SYSTEM_EFFECT_CODE, baseEng, false, false);
 
 		plr->GetAttributesManager()->PlayerProfile.avatarAttribute.byBaseStr = baseStr;
 		plr->GetAttributesManager()->PlayerProfile.avatarAttribute.byBaseCon = baseCon;
@@ -2357,15 +2357,17 @@ void AttributesManager::UpdateDex(WORD effectType, int lastDex, bool add, bool a
 	UpdateCurseToleranceRate(curseToleranceRate, false);
 }
 // Update energyOffence
-void AttributesManager::UpdateSol(int lastSol, bool add)
+void AttributesManager::UpdateSol(WORD effectType, int lastSol, bool add, bool addRemove)
 {
 	if (add)
 	{
-		AddLastSol(lastSol);
+		int totalSol = GetAttrEffectByType(effectType, lastSol, addRemove);
+		AddLastSol(totalSol);
 	}
 	else
 	{
-		SetLastSol(lastSol);
+		int totalSol = SetAllEffects(ACTIVE_SOL_UP, ACTIVE_SOL_DOWN, PASSIVE_SOL_UP, lastSol);
+		SetLastSol(totalSol);
 	}
 
 	WORD energyOffence = CalculeEnergyOffence(plr->GetMyClass(), PlayerProfile.byLevel, 
@@ -2374,15 +2376,17 @@ void AttributesManager::UpdateSol(int lastSol, bool add)
 	UpdateEnergyOffence(energyOffence, false);
 }
 // Update EP EnergyCriticalDefenceRate, EPRegeneration
-void AttributesManager::UpdateEng(int lastEng, bool add)
+void AttributesManager::UpdateEng(WORD effectType, int lastEng, bool add, bool addRemove)
 {
 	if (add)
 	{
-		AddLastEng(lastEng);
+		int totalEng = GetAttrEffectByType(effectType, lastEng, addRemove);
+		AddLastEng(totalEng);
 	}
 	else
 	{
-		SetLastEng(lastEng);
+		int totalEng = SetAllEffects(ACTIVE_ENG_UP, ACTIVE_ENG_DOWN, PASSIVE_ENG_UP, lastEng);
+		SetLastEng(totalEng);
 	}
 
 	WORD EP = CalculeEP(plr->GetMyClass(), PlayerProfile.avatarAttribute.byLastEng);

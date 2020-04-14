@@ -297,9 +297,9 @@ public:
 	// Update physicalOffence, physicalCriticalRate, dodgeRate, blockRate, physicalCriticalRange, curseToleranceRate
 	void			UpdateDex(WORD effectType, int lastDex, bool add, bool addRemove);
 	// Update energyOffence
-	void			UpdateSol(int lastSol, bool add);
+	void			UpdateSol(WORD effectType, int lastSol, bool add, bool addRemove);
 	// Update EP and EnergyCriticalDefenceRate
-	void			UpdateEng(int lastEng, bool add);
+	void			UpdateEng(WORD effectType, int lastEng, bool add, bool addRemove);
 	void			UpdateLP(DWORD lp, bool add);
 	void			UpdateEP(WORD ep, bool add);
 	// Update RpRegeneration and RPDiminution
