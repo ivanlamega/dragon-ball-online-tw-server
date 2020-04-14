@@ -190,6 +190,8 @@ public:
 	//Control Stun Time Need change
 	BuffTimeInfo sBuffTimeInfo[34];
 	int StunedTypes[34];
+	// list of effects applied in player
+	std::vector<float> effectsApplied[MAX_SYSTEM_EFFECT_CODE];
 	std::vector<BuffTimeInfo> vBuffTimeInfo;
 	//////////
 	//Caontrol FreeBatle Need change
@@ -222,6 +224,10 @@ public:
 	void			AddBuff(BuffTimeInfo buff);
 	void			DeleteBuff(TBLIDX buffIdx);
 	BuffTimeInfo*	GetBuff(TBLIDX buffIdx);
+	// Attributes effect list
+	void			AddAttrEffect(WORD effectType, float value);
+	void			DeleteAttrEffect(WORD effectType, float value);
+	std::vector<float> GetAttrEffects(WORD effectType);
 
 	//RP Passive
 	bool			IsPowerUp;
@@ -421,8 +427,8 @@ public:
 	void SetItemUpgradeBonusRate(float val);
 	void SetItemUpgradeBreakBonusRate(float val);
 	void SetSkillSpeed(float val);
-	void SetPhysicalCriticalDefenceRate(WORD val);
-	void SetEnergyCriticalDefenceRate(WORD val);
+	void SetLastPhysicalCriticalDefenceRate(WORD val);
+	void SetLastEnergyCriticalDefenceRate(WORD val);
 	void SetLastPhysicalCriticalRange(float val);
 	void SetLastEnergyCriticalRange(float val);
 	void SetLastApDegeneration(WORD val);
@@ -507,8 +513,8 @@ public:
 	void AddItemUpgradeBonusRate(float val);
 	void AddItemUpgradeBreakBonusRate(float val);
 	void AddSkillSpeed(float val);
-	void AddPhysicalCriticalDefenceRate(WORD val);
-	void AddEnergyCriticalDefenceRate(WORD val);
+	void AddLastPhysicalCriticalDefenceRate(WORD val);
+	void AddLastEnergyCriticalDefenceRate(WORD val);
 	void AddLastPhysicalCriticalRange(float val);
 	void AddLastEnergyCriticalRange(float val);
 	void AddLastApDegeneration(WORD val);

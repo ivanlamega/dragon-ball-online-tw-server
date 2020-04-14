@@ -438,17 +438,17 @@ void AttributesManager::SetSkillSpeed(float val)
 	AttrIsUpdated = true;
 }
 
-void AttributesManager::SetPhysicalCriticalDefenceRate(WORD val)
+void AttributesManager::SetLastPhysicalCriticalDefenceRate(WORD val)
 {
-	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_PHYSICAL_CRITICAL_DEFENCE_RATE);
-	PlayerProfile.avatarAttribute.physicalCriticalDefenceRate = val;
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_PHYSICAL_CRITICAL_DEFENCE_RATE_LAST);
+	PlayerProfile.avatarAttribute.lastPhysicalCriticalDefenceRate = val;
 	AttrIsUpdated = true;
 }
 
-void AttributesManager::SetEnergyCriticalDefenceRate(WORD val)
+void AttributesManager::SetLastEnergyCriticalDefenceRate(WORD val)
 {
-	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_ENERGY_CRITICAL_DEFENCE_RATE);
-	PlayerProfile.avatarAttribute.energyCriticalDefenceRate = val;
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_ENERGY_CRITICAL_DEFENCE_RATE_LAST);
+	PlayerProfile.avatarAttribute.lastEnergyCriticalDefenceRate = val;
 	AttrIsUpdated = true;
 }
 
@@ -958,17 +958,17 @@ void AttributesManager::AddSkillSpeed(float val)
 	AttrIsUpdated = true;
 }
 
-void AttributesManager::AddPhysicalCriticalDefenceRate(WORD val)
+void AttributesManager::AddLastPhysicalCriticalDefenceRate(WORD val)
 {
-	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_PHYSICAL_CRITICAL_DEFENCE_RATE);
-	PlayerProfile.avatarAttribute.physicalCriticalDefenceRate += val;
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_PHYSICAL_CRITICAL_DEFENCE_RATE_LAST);
+	PlayerProfile.avatarAttribute.lastPhysicalCriticalDefenceRate += val;
 	AttrIsUpdated = true;
 }
 
-void AttributesManager::AddEnergyCriticalDefenceRate(WORD val)
+void AttributesManager::AddLastEnergyCriticalDefenceRate(WORD val)
 {
-	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_ENERGY_CRITICAL_DEFENCE_RATE);
-	PlayerProfile.avatarAttribute.energyCriticalDefenceRate += val;
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_ENERGY_CRITICAL_DEFENCE_RATE_LAST);
+	PlayerProfile.avatarAttribute.lastEnergyCriticalDefenceRate += val;
 	AttrIsUpdated = true;
 }
 

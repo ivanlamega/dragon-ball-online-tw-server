@@ -240,7 +240,7 @@ void FightManager::GetPlayerCriticAttack(bool caster, eOBJTYPE ObjectTypeId)
 		}
 		if (ObjectTypeId == OBJTYPE_PC)
 		{
-			CritChance = CalculePhysicalCriticalSuccess(plr->GetPcProfile()->avatarAttribute.wLastPhysicalCriticalRate, plrTarget->GetPcProfile()->avatarAttribute.physicalCriticalDefenceRate);
+			CritChance = CalculePhysicalCriticalSuccess(plr->GetPcProfile()->avatarAttribute.wLastPhysicalCriticalRate, plrTarget->GetPcProfile()->avatarAttribute.lastPhysicalCriticalDefenceRate);
 				//plr->GetPcProfile()->avatarAttribute.wLastPhysicalCriticalRate - (plrTarget->GetPcProfile()->avatarAttribute.wLastBlockRate / 100);
 		}
 	}
@@ -253,7 +253,7 @@ void FightManager::GetPlayerCriticAttack(bool caster, eOBJTYPE ObjectTypeId)
 		}
 		if (ObjectTypeId == OBJTYPE_PC)
 		{
-			CritChance = CalculeEnergyCriticalSuccess(plr->GetPcProfile()->avatarAttribute.wLastEnergyCriticalRate, plrTarget->GetPcProfile()->avatarAttribute.energyCriticalDefenceRate); 
+			CritChance = CalculeEnergyCriticalSuccess(plr->GetPcProfile()->avatarAttribute.wLastEnergyCriticalRate, plrTarget->GetPcProfile()->avatarAttribute.lastEnergyCriticalDefenceRate); 
 			//plr->GetPcProfile()->avatarAttribute.wLastEnergyCriticalRate - (plrTarget->GetPcProfile()->avatarAttribute.wLastBlockRate / 100);
 		}
 	}

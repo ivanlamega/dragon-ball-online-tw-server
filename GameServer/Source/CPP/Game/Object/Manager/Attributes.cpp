@@ -412,10 +412,10 @@ bool AttributesManager::LoadAttributeFromDB()
 	PlayerProfile.avatarAttribute.fSitDownEpRegenBonusRate = 131;
 	PlayerProfile.avatarAttribute.unknown4_0 = 130;
 	PlayerProfile.avatarAttribute.unknown4_1 = 129;
-	PlayerProfile.avatarAttribute.physicalCriticalDefenceRate = CalculePhysicalCriticalDefenceRate(PlayerProfile.avatarAttribute.byLastCon);
-	PlayerProfile.avatarAttribute.energyCriticalDefenceRate = CalculeEnergyCriticalDefenceRate(PlayerProfile.avatarAttribute.byLastEng);
-	PlayerProfile.avatarAttribute.unknown4_4 = 126;
-	PlayerProfile.avatarAttribute.unknown4_5 = 125;
+	PlayerProfile.avatarAttribute.basePhysicalCriticalDefenceRate = CalculePhysicalCriticalDefenceRate(PlayerProfile.avatarAttribute.byLastCon);
+	PlayerProfile.avatarAttribute.baseEnergyCriticalDefenceRate = CalculeEnergyCriticalDefenceRate(PlayerProfile.avatarAttribute.byLastEng);
+	PlayerProfile.avatarAttribute.lastPhysicalCriticalDefenceRate = PlayerProfile.avatarAttribute.basePhysicalCriticalDefenceRate;
+	PlayerProfile.avatarAttribute.lastEnergyCriticalDefenceRate = PlayerProfile.avatarAttribute.baseEnergyCriticalDefenceRate;
 	PlayerProfile.avatarAttribute.unknown4_6 = 124;
 	PlayerProfile.avatarAttribute.unknown5_1 = 123;
 	PlayerProfile.avatarAttribute.unknown5_0 = 122;
@@ -1636,10 +1636,10 @@ void AttributesManager::FillAttributesLink()
 	attrLink.unknown3_13 = &PlayerProfile.avatarAttribute.unknown3_13;
 	attrLink.unknown4_0 = &PlayerProfile.avatarAttribute.unknown4_0;
 	attrLink.unknown4_1 = &PlayerProfile.avatarAttribute.unknown4_1;
-	attrLink.physicalCriticalDefenceRate = &PlayerProfile.avatarAttribute.physicalCriticalDefenceRate;
-	attrLink.energyCriticalDefenceRate = &PlayerProfile.avatarAttribute.energyCriticalDefenceRate;
-	attrLink.unknown4_4 = &PlayerProfile.avatarAttribute.unknown4_4;
-	attrLink.unknown4_5 = &PlayerProfile.avatarAttribute.unknown4_5;
+	attrLink.basePhysicalCriticalDefenceRate = &PlayerProfile.avatarAttribute.basePhysicalCriticalDefenceRate;
+	attrLink.baseEnergyCriticalDefenceRate = &PlayerProfile.avatarAttribute.baseEnergyCriticalDefenceRate;
+	attrLink.lastPhysicalCriticalDefenceRate = &PlayerProfile.avatarAttribute.lastPhysicalCriticalDefenceRate;
+	attrLink.lastEnergyCriticalDefenceRate = &PlayerProfile.avatarAttribute.lastEnergyCriticalDefenceRate;
 	attrLink.unknown4_6 = &PlayerProfile.avatarAttribute.unknown4_6;
 	attrLink.unknown5_0 = &PlayerProfile.avatarAttribute.unknown5_0;
 	attrLink.unknown5_1 = &PlayerProfile.avatarAttribute.unknown5_1;
@@ -1734,6 +1734,46 @@ BuffTimeInfo* AttributesManager::GetBuff(TBLIDX buffIdx)
 		}
 	}
 	return NULL;
+}
+//----------------------------------------
+// Effect list
+//----------------------------------------
+void AttributesManager::AddAttrEffect(WORD effectType, float value)
+{
+	effectsApplied[effectType].push_back(value);
+	sLog.outBasic("Attr effect added type %d value %f size %d", effectType, value, effectsApplied[effectType].size());
+}
+
+void AttributesManager::DeleteAttrEffect(WORD effectType, float value)
+{
+	typedef std::vector<float> EffectList;
+	typedef EffectList::const_iterator EffectListIt;
+
+	float effect = 0xffffffff;
+	for (EffectListIt iter = effectsApplied[effectType].cbegin(); iter != effectsApplied[effectType].cend(); ++iter)
+	{
+		effect = (*iter);
+
+		if (effect == 0xffffffff)
+		{
+			continue;
+		}
+
+		sLog.outDebug("Effect type %d value %f", effectType, value);
+
+		if (effect == value)
+		{
+			//GetAttributesManager()->questSubCls.objData[index].mobsTblidx.erase(iter);
+			effectsApplied[effectType].erase(iter);
+			sLog.outDebug("Effect deleted");
+			break;
+		}
+	}
+}
+
+std::vector<float> AttributesManager::GetAttrEffects(WORD effectType)
+{
+	return effectsApplied[effectType];
 }
 //----------------------------------------
 // Mob list for spin attack
@@ -2177,6 +2217,8 @@ void AttributesManager::UpdateStr(int lastStr, bool add)
 	if (add)
 	{
 		AddLastStr(lastStr);
+		AddAttrEffect(ACTIVE_STR_UP, lastStr);
+		DeleteAttrEffect(ACTIVE_STR_UP, lastStr);
 	}
 	else
 	{
@@ -2478,11 +2520,11 @@ void AttributesManager::UpdatePhysicalCriticalDefenceRate(WORD physicalCriticalD
 {
 	if (add)
 	{
-		AddPhysicalCriticalDefenceRate(physicalCriticalDefenceRate);
+		AddLastPhysicalCriticalDefenceRate(physicalCriticalDefenceRate);
 	}
 	else
 	{
-		SetPhysicalCriticalDefenceRate(physicalCriticalDefenceRate);
+		SetLastPhysicalCriticalDefenceRate(physicalCriticalDefenceRate);
 	}
 }
 
@@ -2490,11 +2532,11 @@ void AttributesManager::UpdateEnergyCriticalDefenceRate(WORD energyCriticalDefen
 {
 	if (add)
 	{
-		AddEnergyCriticalDefenceRate(energyCriticalDefenceRate);
+		AddLastEnergyCriticalDefenceRate(energyCriticalDefenceRate);
 	}
 	else
 	{
-		SetEnergyCriticalDefenceRate(energyCriticalDefenceRate);
+		SetLastEnergyCriticalDefenceRate(energyCriticalDefenceRate);
 	}
 }
 
