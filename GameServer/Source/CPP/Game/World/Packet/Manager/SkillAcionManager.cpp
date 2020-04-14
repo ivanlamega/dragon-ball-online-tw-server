@@ -310,7 +310,6 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 			{
 				int addFocus = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
 					GetPcProfile()->avatarAttribute.byBaseFoc);
-				addFocus *= setUnset;
 				sLog.outBasic("Add Focus %d", addFocus);
 				GetAttributesManager()->UpdateFoc(SystemEffectData->effectCode, addFocus, true, set);
 				break;
@@ -328,7 +327,6 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 			{
 				int addDextery = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index], 
 					GetPcProfile()->avatarAttribute.byBaseDex);
-				addDextery *= setUnset;
 				sLog.outBasic("Add Dextery %d", addDextery);
 				GetAttributesManager()->UpdateDex(SystemEffectData->effectCode, addDextery, true, set);
 				break;
