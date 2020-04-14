@@ -96,7 +96,7 @@ void AttributesManager::UpdateLevelUpAtributes()
 		int baseEng = CalculeBasicStats(pTblData->byEng, pTblData->fLevel_Up_Eng, PlayerProfile.byLevel);
 
 
-		plr->GetAttributesManager()->UpdateStr(baseStr, false);
+		plr->GetAttributesManager()->UpdateStr(INVALID_SYSTEM_EFFECT_CODE, baseStr, false, false);
 		plr->GetAttributesManager()->UpdateCon(baseCon, false);
 		plr->GetAttributesManager()->UpdateFoc(baseFoc, false);
 		plr->GetAttributesManager()->UpdateDex(baseDex, false);
@@ -1738,13 +1738,24 @@ BuffTimeInfo* AttributesManager::GetBuff(TBLIDX buffIdx)
 //----------------------------------------
 // Effect list
 //----------------------------------------
-void AttributesManager::AddAttrEffect(WORD effectType, float value)
+float AttributesManager::AddAttrEffect(WORD effectType, float value)
 {
-	effectsApplied[effectType].push_back(value);
-	sLog.outBasic("Attr effect added type %d value %f size %d", effectType, value, effectsApplied[effectType].size());
+	ATTR_EFFECTSIT iter2;
+	iter2 = effectsApplied.find(effectType);
+	if (effectsApplied.end() == iter2)
+	{
+		effectsApplied[effectType] = std::vector<float>();
+		effectsApplied[effectType].push_back(value);
+	}
+	else
+	{
+		effectsApplied[effectType].push_back(value);
+	}
+	sLog.outDebug("Attr effect added type %d value %f size %d", effectType, value, effectsApplied[effectType].size());
+	return value;
 }
 
-void AttributesManager::DeleteAttrEffect(WORD effectType, float value)
+float AttributesManager::DeleteAttrEffect(WORD effectType, float value)
 {
 	typedef std::vector<float> EffectList;
 	typedef EffectList::const_iterator EffectListIt;
@@ -1766,14 +1777,50 @@ void AttributesManager::DeleteAttrEffect(WORD effectType, float value)
 			//GetAttributesManager()->questSubCls.objData[index].mobsTblidx.erase(iter);
 			effectsApplied[effectType].erase(iter);
 			sLog.outDebug("Effect deleted");
-			break;
+			return value*-1;
 		}
+	}
+	return 0.0f;
+}
+
+float AttributesManager::GetAttrEffectByType(WORD effectType, float value, bool addRemove)
+{
+	// Add
+	if (addRemove)
+	{
+		return AddAttrEffect(effectType, value);
+	}
+	else
+	{
+		return DeleteAttrEffect(effectType, value);
 	}
 }
 
 std::vector<float> AttributesManager::GetAttrEffects(WORD effectType)
 {
 	return effectsApplied[effectType];
+}
+
+float AttributesManager::SetAllEffects(WORD actEffectUp, WORD actEffectDown, WORD pasEffectType, float originalValue)
+{
+	float newValue = originalValue;
+	for (int i = 0; i < effectsApplied[actEffectUp].size(); i++)
+	{
+		newValue += effectsApplied[actEffectUp][i];
+		sLog.outBasic("active value original %f effectApplied %f effectType %d", originalValue, effectsApplied[actEffectUp][i], actEffectUp);
+	}
+	for (int i = 0; i < effectsApplied[actEffectDown].size(); i++)
+	{
+		newValue += effectsApplied[actEffectDown][i];
+		sLog.outBasic("original value2 original %f effectApplied %f effectType %d", originalValue, effectsApplied[actEffectDown][i], actEffectDown);
+	}
+	for (int i = 0; i < effectsApplied[pasEffectType].size(); i++)
+	{
+		newValue += effectsApplied[pasEffectType][i];
+		sLog.outBasic("original value2 original %f effectApplied %f effectType %d", originalValue, effectsApplied[pasEffectType][i], pasEffectType);
+	}
+	sLog.outBasic("total effect %f", newValue);
+	return newValue;
 }
 //----------------------------------------
 // Mob list for spin attack
@@ -2212,17 +2259,17 @@ float AttributesManager::GetPercent(float percent, float value)
 }
 
 // Update phyicalOffence
-void AttributesManager::UpdateStr(int lastStr, bool add)
+void AttributesManager::UpdateStr(WORD effectType, int lastStr, bool add, bool addRemove)
 {
 	if (add)
 	{
-		AddLastStr(lastStr);
-		AddAttrEffect(ACTIVE_STR_UP, lastStr);
-		DeleteAttrEffect(ACTIVE_STR_UP, lastStr);
+		int totalStr = GetAttrEffectByType(effectType, lastStr, addRemove);
+		AddLastStr(totalStr);
 	}
 	else
 	{
-		SetLastStr(lastStr);
+		int totalStr = SetAllEffects(ACTIVE_STR_UP, ACTIVE_STR_DOWN, PASSIVE_STR_UP, lastStr);
+		SetLastStr(totalStr);
 	}
 
 	WORD PhysicalOffence = CalculePhysicalOffence(plr->GetMyClass(), PlayerProfile.byLevel, 

@@ -191,7 +191,12 @@ public:
 	BuffTimeInfo sBuffTimeInfo[34];
 	int StunedTypes[34];
 	// list of effects applied in player
-	std::vector<float> effectsApplied[MAX_SYSTEM_EFFECT_CODE];
+	typedef std::unordered_map<DWORD, std::vector<float>> ATTR_EFFECTS;
+	typedef ATTR_EFFECTS::iterator ATTR_EFFECTSIT;
+
+	ATTR_EFFECTS			effectsApplied;
+
+	//std::vector<float> effectsApplied[MAX_SYSTEM_EFFECT_CODE];
 	std::vector<BuffTimeInfo> vBuffTimeInfo;
 	//////////
 	//Caontrol FreeBatle Need change
@@ -225,9 +230,11 @@ public:
 	void			DeleteBuff(TBLIDX buffIdx);
 	BuffTimeInfo*	GetBuff(TBLIDX buffIdx);
 	// Attributes effect list
-	void			AddAttrEffect(WORD effectType, float value);
-	void			DeleteAttrEffect(WORD effectType, float value);
+	float			AddAttrEffect(WORD effectType, float value);
+	float			DeleteAttrEffect(WORD effectType, float value);
+	float			GetAttrEffectByType(WORD effectType, float value, bool addRemove);
 	std::vector<float> GetAttrEffects(WORD effectType);
+	float			SetAllEffects(WORD actEffectUp, WORD actEffectDown, WORD pasEffectType, float originalValue);
 
 	//RP Passive
 	bool			IsPowerUp;
@@ -280,8 +287,9 @@ public:
 	float			GetPercent(float percent, float value);
 
 	// Update cascading stats bool add = 0 add, 1 set
+	// Update cascading stats bool addRemove = true add, false remove
 	// Update phyicalOffence
-	void			UpdateStr(int lastStr, bool add);
+	void			UpdateStr(WORD effectType, int lastStr, bool add, bool addRemove);
 	// Update LP, blockRate, physicalCriticalDefenceRate
 	void			UpdateCon(int lastCon, bool add);
 	// Update energyOffence, energyCriticalRate, hitRate(attackRate), energyCriticalRange, curseSuccessRate

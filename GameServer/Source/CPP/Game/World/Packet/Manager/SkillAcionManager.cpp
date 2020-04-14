@@ -340,7 +340,7 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 					GetPcProfile()->avatarAttribute.byBaseStr);
 				addStrength *= setUnset;
 				sLog.outBasic("Add Strenght %d", addStrength);
-				GetAttributesManager()->UpdateStr(addStrength, true);
+				GetAttributesManager()->UpdateStr(ACTIVE_STR_UP, addStrength, true, set);
 				break;
 			}
 			case ACTIVE_SOL_UP:
