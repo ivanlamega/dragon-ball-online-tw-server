@@ -2569,7 +2569,7 @@ void			WorldSession::PacketParser(Packet& packet)
 		case Opcodes::UG_GUILD_CREATE_REQ:
 		{
 			sLog.outError("UG_GUILD_CREATE_REQ");
-			//CreateNewGuild(packet);
+			CreateNewGuild(packet);
 			break;
 		}
 

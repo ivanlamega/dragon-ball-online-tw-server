@@ -504,11 +504,10 @@ ResultCodes MySQLConnWrapper::CreateGuild(char *guildName, int charId)
 			delete checkGuildRes;
 			return retcode;
 		}
-		else
+		else if (checkGuildRes && checkGuildRes->rowsCount() == 0)
 		{
-			sLog.outDebug("Guilds with the same name dont exist Continue and insert");
+	
 			sql::ResultSet* createGuildRes = executes("INSERT INTO guilds (GuildName, GuildMasterName, GuildMaster) VALUES('%s', '%s', '%d')", guildName, charName, charId);
-			sLog.outDebug("Guild Created. Get the guild info now");
 			sql::ResultSet* res = executes("Select * from guilds where GuildMasterName = '%s'", charName);
 			int guildId = res->getInt("GuildID");
 			sql::ResultSet* setGuildRes = executes("UPDATE characters SET GuildID = %d WHERE CharacterID = %d", guildId, charId);

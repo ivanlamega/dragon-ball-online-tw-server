@@ -16,24 +16,25 @@
 //Create GUILD from NPC
 void WorldSession::CreateNewGuild(Packet& packet)
 {
-	//printf("--- create guild request --- \n");
-
+	
 	sUG_GUILD_CREATE_REQ * req = (sUG_GUILD_CREATE_REQ*)packet.GetPacketBuffer();
-
-
+	
 	sGU_GUILD_CREATE_RES res;
 
 	res.wOpCode = GU_GUILD_CREATE_RES;
-	printf("guild manager id: %i ", req->hGuildManagerNpc);
 
 	int result = sDB.CreateGuild(WC2MB(req->wszGuildName), _player->GetCharacterID());
-
-	printf("Create guild result %i \n ", result);
-
+	
 	switch (result) {
 
 	case GAME_SUCCESS:
 	{
+		//Send Result Packet SUCCESS
+		res.wResultCode = GAME_SUCCESS;
+		res.wPacketSize = sizeof(sGU_GUILD_CREATE_RES) - 2;
+		SendPacket((char*)&res, sizeof(sGU_GUILD_CREATE_RES));
+
+
 		// CREATE Guild Creation packet
 		sTU_GUILD_CREATED_NFY res2;
 		res2.wOpCode = TU_GUILD_CREATED_NFY;
@@ -41,17 +42,11 @@ void WorldSession::CreateNewGuild(Packet& packet)
 		memcpy(res2.wszGuildName, req->wszGuildName, sizeof(wchar_t)* MAX_SIZE_GUILD_NAME_IN_UNICODE);
 		SendPacket((char*)&res2, sizeof(sTU_GUILD_CREATED_NFY));
 
-		//Send Result Packet SUCCESS
-		res.wResultCode = GAME_SUCCESS;
-		res.wPacketSize = sizeof(sGU_GUILD_CREATE_RES) - 2;
-		SendPacket((char*)&res, sizeof(sGU_GUILD_CREATE_RES));
-
 		//Show Guild Info After creation using TU PACKETS 
 		TU_LoadGuildINFO();
 
 		break;
-	}
-		
+	}	
 	case GAME_GUILD_SAME_GUILD_NAME_EXIST:
 	{
 		//Send Result Packet SUCCESS
@@ -61,7 +56,6 @@ void WorldSession::CreateNewGuild(Packet& packet)
 
 		break;
 	}
-
 	default:
 	{
 		//Send Result Packet Fail
@@ -89,9 +83,7 @@ void WorldSession::GU_LoadGuildINFO() {
 		GuildID = query->getInt("GuildID");
 		
 		query = sDB.executes("select * from guilds where GuildID = %d;", GuildID);
-
-		sLog.outDebug("Player ID : %d and GUILD ID %d \n", _player->GetCharacterID(), GuildID);
-
+		
 		std::string guildname = query->getString("GuildName");
 		std::wstring wguildname = std::wstring(guildname.begin(), guildname.end());
 		const wchar_t* wsguildname = wguildname.c_str();
@@ -116,7 +108,7 @@ void WorldSession::GU_LoadGuildINFO() {
 
 //SHOW GUILD DATA TO ALL GUILD PLAYERS
 void WorldSession::TU_LoadGuildINFO() {
-	/*
+	
 	//GET GUILD DATA
 	sTU_GUILD_INFO req;
 
@@ -124,33 +116,33 @@ void WorldSession::TU_LoadGuildINFO() {
 
 	if (result > 0) {
 
-		sLog.outDebug("GUILD INFO RETRIEVED : Guild ID %d \n", result);
-
-
 		// GUILD INFORMATIONS
 		sTU_GUILD_INFO res;
 		res.wOpCode = TU_GUILD_INFO;
-		sql::ResultSet* query = sDB.executes("select * from Guilds where GuildMaster = %d;", _player->GetCharacterID());
+		sql::ResultSet* GuildInfo = sDB.executes("select * from Guilds where GuildID = %d;", result);
 
-		res.guildId = query->getInt("GuildID");
-		res.guildMaster = _player->GetCharacterID();
+		if (!GuildInfo) return;
+		if (GuildInfo && GuildInfo->rowsCount() == 0) return;
 
-		res.guildSecondMaster[0] = INVALID_TBLIDX;
+		res.guildId = GuildInfo->getInt("GuildID");
+		res.guildMaster = GuildInfo->getInt("GuildMaster");
+
+		res.guildSecondMaster[0] = GuildInfo->getInt("GuildSecondMaster");
 		res.guildSecondMaster[1] = INVALID_TBLIDX;
 		res.guildSecondMaster[2] = INVALID_TBLIDX;
 		res.guildSecondMaster[3] = INVALID_TBLIDX;
 
-		wcscpy_s(res.wszName, 16 + 1, s2ws(query->getString("GuildName")).c_str());
-		wcscpy_s(res.awchName, 16 + 1, s2ws(_player->GetName()).c_str());
+		wcscpy_s(res.wszName, 16 + 1, s2ws(GuildInfo->getString("GuildName")).c_str());
+		wcscpy_s(res.awchName, 16 + 1, s2ws(GuildInfo->getString("GuildName")).c_str());
 		res.dwGuildReputation = 5000;//1 here is 0 in game i dont know why
 		res.dwMaxGuildPointEver = 5000;
 		res.qwGuildFunctionFlag = 31984135289;//Need discover how set the bitflag
 
-		res.wAligniament2[0] = 4294967295;
-		res.wAligniament2[1] = 0;
+		res.unk[7] = {0};
+		res.unk1 = 0;
 		res.wAligniament = 27760;
 
-		wcscpy_s(res.awchNotice, 256 + 1, s2ws(query->getString("GuildNotice")).c_str());
+		wcscpy_s(res.awchNotice, 256 + 1, s2ws(GuildInfo->getString("GuildNotice")).c_str());
 		//Mark set Guild Logo we not need set When Create Guild
 		res.sMark.byMarkMain = 0;
 		res.sMark.byMarkMainColor = 0;
@@ -159,17 +151,16 @@ void WorldSession::TU_LoadGuildINFO() {
 		res.sMark.byMarkOutColor = 0;
 		res.sMark.byMarkOutLine = 0;
 		//sDogi set GuildLogo on Guild Doji
-		res.sDogi.guildId = 1;
+		res.sDogi.guildId = GuildInfo->getInt("GuildID");
 		res.sDogi.byType = -1;
 		res.sDogi.byGuildColor = -1;
 		res.sDogi.byDojoColor = -1;
 		res.wPacketSize = sizeof(sTU_GUILD_INFO) - 2;
 
-
-
 		SendPacket((char*)&res, sizeof(sTU_GUILD_INFO));
 
-		sLog.outDebug("sTU_GUILD_INFO sent  im HERE");
+
+		sql::ResultSet * GuildMembers = sDB.executes("");
 
 
 		// Need Load Guild Member By GuildID and send 1 packet for player
@@ -198,7 +189,7 @@ void WorldSession::TU_LoadGuildINFO() {
 
 	}
 
-	GU_LoadGuildINFO();*/
+	GU_LoadGuildINFO();
 }
 
 
