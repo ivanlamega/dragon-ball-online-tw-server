@@ -338,7 +338,6 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 			{
 				int addStrength = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index], 
 					GetPcProfile()->avatarAttribute.byBaseStr);
-				addStrength *= setUnset;
 				sLog.outBasic("Add Strenght %d", addStrength);
 				GetAttributesManager()->UpdateStr(ACTIVE_STR_UP, addStrength, true, set);
 				break;
