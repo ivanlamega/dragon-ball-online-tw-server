@@ -97,9 +97,9 @@ void AttributesManager::UpdateLevelUpAtributes()
 
 
 		plr->GetAttributesManager()->UpdateStr(INVALID_SYSTEM_EFFECT_CODE, baseStr, false, false);
-		plr->GetAttributesManager()->UpdateCon(baseCon, false);
-		plr->GetAttributesManager()->UpdateFoc(baseFoc, false);
-		plr->GetAttributesManager()->UpdateDex(baseDex, false);
+		plr->GetAttributesManager()->UpdateCon(INVALID_SYSTEM_EFFECT_CODE, baseCon, false, false);
+		plr->GetAttributesManager()->UpdateFoc(INVALID_SYSTEM_EFFECT_CODE, baseFoc, false, false);
+		plr->GetAttributesManager()->UpdateDex(INVALID_SYSTEM_EFFECT_CODE, baseDex, false, false);
 		plr->GetAttributesManager()->UpdateSol(baseSol, false);
 		plr->GetAttributesManager()->UpdateEng(baseEng, false);
 
@@ -2277,15 +2277,17 @@ void AttributesManager::UpdateStr(WORD effectType, int lastStr, bool add, bool a
 	UpdatePhysicalOffence(PhysicalOffence, false);
 }
 // Update LP, blockRate, physicalCriticalDefenceRate
-void AttributesManager::UpdateCon(int lastCon, bool add)
+void AttributesManager::UpdateCon(WORD effectType, int lastCon, bool add, bool addRemove)
 {
 	if (add)
 	{
-		AddLastCon(lastCon);
+		int totalCon = GetAttrEffectByType(effectType, lastCon, addRemove);
+		AddLastCon(totalCon);
 	}
 	else
 	{
-		SetLastCon(lastCon);
+		int totalCon = SetAllEffects(ACTIVE_CON_UP, ACTIVE_CON_DOWN, PASSIVE_CON_UP, lastCon);
+		SetLastCon(totalCon);
 	}
 
 	DWORD LP = CalculeLP(plr->GetMyClass(), PlayerProfile.avatarAttribute.byLastCon);
@@ -2299,15 +2301,17 @@ void AttributesManager::UpdateCon(int lastCon, bool add)
 	UpdateLPRegeneration(LpRegen, false);
 }
 // Update energyOffence, energyCriticalRate, hitRate(attackRateattackRate), energyCriticalRange, curseSuccessRate
-void AttributesManager::UpdateFoc(int lastFoc, bool add)
+void AttributesManager::UpdateFoc(WORD effectType, int lastFoc, bool add, bool addRemove)
 {
 	if (add)
 	{
-		AddLastFoc(lastFoc);
+		int totalFoc = GetAttrEffectByType(effectType, lastFoc, addRemove);
+		AddLastFoc(totalFoc);
 	}
 	else
 	{
-		SetLastFoc(lastFoc);
+		int totalFoc = SetAllEffects(ACTIVE_FOC_UP, ACTIVE_FOC_DOWN, PASSIVE_FOC_UP, lastFoc);
+		SetLastFoc(totalFoc);
 	}
 
 	WORD energyOffence = CalculeEnergyOffence(plr->GetMyClass(), PlayerProfile.byLevel, 
@@ -2324,15 +2328,17 @@ void AttributesManager::UpdateFoc(int lastFoc, bool add)
 	UpdateCurseSuccessRate(curseSuccessRat, false);
 }
 // Update physicalOffence, physicalCriticalRate, dodgeRate, blockRate, physicalCriticalRange, curseToleranceRate
-void AttributesManager::UpdateDex(int lastDex, bool add)
+void AttributesManager::UpdateDex(WORD effectType, int lastDex, bool add, bool addRemove)
 {
 	if (add)
 	{
-		AddLastDex(lastDex);
+		int totalDex = GetAttrEffectByType(effectType, lastDex, addRemove);
+		AddLastDex(totalDex);
 	}
 	else
 	{
-		SetLastDex(lastDex);
+		int totalDex = SetAllEffects(ACTIVE_DEX_UP, ACTIVE_DEX_DOWN, PASSIVE_DEX_UP, lastDex);
+		SetLastDex(totalDex);
 	}
 
 	WORD physicalOffence = CalculePhysicalOffence(plr->GetMyClass(), PlayerProfile.byLevel,

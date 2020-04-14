@@ -291,11 +291,11 @@ public:
 	// Update phyicalOffence
 	void			UpdateStr(WORD effectType, int lastStr, bool add, bool addRemove);
 	// Update LP, blockRate, physicalCriticalDefenceRate
-	void			UpdateCon(int lastCon, bool add);
+	void			UpdateCon(WORD effectType, int lastCon, bool add, bool addRemove);
 	// Update energyOffence, energyCriticalRate, hitRate(attackRate), energyCriticalRange, curseSuccessRate
-	void			UpdateFoc(int lastFoc, bool add);
+	void			UpdateFoc(WORD effectType, int lastFoc, bool add, bool addRemove);
 	// Update physicalOffence, physicalCriticalRate, dodgeRate, blockRate, physicalCriticalRange, curseToleranceRate
-	void			UpdateDex(int lastDex, bool add);
+	void			UpdateDex(WORD effectType, int lastDex, bool add, bool addRemove);
 	// Update energyOffence
 	void			UpdateSol(int lastSol, bool add);
 	// Update EP and EnergyCriticalDefenceRate

@@ -302,9 +302,8 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 			{
 				int addConstitution = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
 					GetPcProfile()->avatarAttribute.byBaseCon);
-				addConstitution *= setUnset;
 				sLog.outBasic("Add Constitution %d", addConstitution);
-				GetAttributesManager()->UpdateCon(addConstitution, true);
+				GetAttributesManager()->UpdateCon(SystemEffectData->effectCode, addConstitution, true, set);
 				break;
 			}
 			case ACTIVE_FOC_UP:	//100% 
@@ -313,7 +312,7 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 					GetPcProfile()->avatarAttribute.byBaseFoc);
 				addFocus *= setUnset;
 				sLog.outBasic("Add Focus %d", addFocus);
-				GetAttributesManager()->UpdateFoc(addFocus, true);
+				GetAttributesManager()->UpdateFoc(SystemEffectData->effectCode, addFocus, true, set);
 				break;
 			}
 			case ACTIVE_ENG_UP:	//100
@@ -331,7 +330,7 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 					GetPcProfile()->avatarAttribute.byBaseDex);
 				addDextery *= setUnset;
 				sLog.outBasic("Add Dextery %d", addDextery);
-				GetAttributesManager()->UpdateDex(addDextery, true);
+				GetAttributesManager()->UpdateDex(SystemEffectData->effectCode, addDextery, true, set);
 				break;
 			}
 			case ACTIVE_STR_UP:
@@ -339,7 +338,7 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 				int addStrength = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index], 
 					GetPcProfile()->avatarAttribute.byBaseStr);
 				sLog.outBasic("Add Strenght %d", addStrength);
-				GetAttributesManager()->UpdateStr(ACTIVE_STR_UP, addStrength, true, set);
+				GetAttributesManager()->UpdateStr(SystemEffectData->effectCode, addStrength, true, set);
 				break;
 			}
 			case ACTIVE_SOL_UP:
