@@ -247,9 +247,8 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 					GetPcProfile()->avatarAttribute.wBaseAttackRate);
 				attackRate *= -1;
 
-				attackRate *= setUnset;
 				sLog.outBasic("attackRate %d", attackRate);
-				GetAttributesManager()->UpdateHitRate(attackRate, true);
+				GetAttributesManager()->UpdateHitRate(SystemEffectData->effectCode, attackRate, true, set);
 				break;
 			}
 			case ACTIVE_RP_CHARGE_SPEED://need Handle the effect is here to try do effects in order 
@@ -361,18 +360,16 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 			{
 				int physicalCritical = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
 					GetPcProfile()->avatarAttribute.wBasePhysicalCriticalRate);
-				physicalCritical *= setUnset;
 				sLog.outBasic("physicalCritical %d", physicalCritical);
-				GetAttributesManager()->UpdatePhysicalCriticalRate(physicalCritical, true);
+				GetAttributesManager()->UpdatePhysicalCriticalRate(SystemEffectData->effectCode, physicalCritical, true, set);
 				break;
 			}
 			case ACTIVE_ATTACK_RATE_UP:
 			{
 				int attackRate = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
 					GetPcProfile()->avatarAttribute.wBaseAttackRate);
-				attackRate *= setUnset;
 				sLog.outBasic("attackRate %d", attackRate);
-				GetAttributesManager()->UpdateHitRate(attackRate, true);
+				GetAttributesManager()->UpdateHitRate(SystemEffectData->effectCode, attackRate, true, set);
 				break;
 			}
 			case ACTIVE_DODGE_RATE_UP:

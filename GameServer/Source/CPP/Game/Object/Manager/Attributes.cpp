@@ -2322,8 +2322,8 @@ void AttributesManager::UpdateFoc(WORD effectType, int lastFoc, bool add, bool a
 	WORD curseSuccessRat = CalculeCurseSuccessRate(PlayerProfile.avatarAttribute.byLastFoc);
 
 	UpdateEnergyOffence(effectType, energyOffence, false, addRemove);
-	UpdateEnergyCriticalRate(energyCriticalRate, false);
-	UpdateHitRate(hitRate, false);
+	UpdateEnergyCriticalRate(effectType, energyCriticalRate, false, addRemove);
+	UpdateHitRate(effectType, hitRate, false, addRemove);
 	UpdateEnergyCriticalRange(energyCriticalRange, false);
 	UpdateCurseSuccessRate(curseSuccessRat, false);
 }
@@ -2350,7 +2350,7 @@ void AttributesManager::UpdateDex(WORD effectType, int lastDex, bool add, bool a
 	WORD curseToleranceRate = CalculeCurseToleranceRate(PlayerProfile.avatarAttribute.byLastDex);
 
 	UpdatePhysicalOffence(effectType, physicalOffence, false, addRemove);
-	UpdatePhysicalCriticalRate(physicalCriticalRate, false);
+	UpdatePhysicalCriticalRate(effectType, physicalCriticalRate, false, addRemove);
 	UpdateDodgeRate(dodgeRate, false);
 	UpdateBlockRate(blockRate, false);
 	UpdatePhysicalCriticalRange(physicalCriticalRange, false);
@@ -2526,39 +2526,45 @@ void AttributesManager::UpdateEnergyDefence(WORD effectType, WORD energyDefence,
 	}
 }
 
-void AttributesManager::UpdatePhysicalCriticalRate(WORD physicalCriticalRate, bool add)
+void AttributesManager::UpdatePhysicalCriticalRate(WORD effectType, WORD physicalCriticalRate, bool add, bool addRemove)
 {
 	if (add)
 	{
-		AddLastPhysicalCriticalRate(physicalCriticalRate);
+		WORD totalPhysicalCriticalRate = GetAttrEffectByType(effectType, physicalCriticalRate, addRemove);
+		AddLastPhysicalCriticalRate(totalPhysicalCriticalRate);
 	}
 	else
 	{
-		SetLastPhysicalCriticalRate(physicalCriticalRate);
+		WORD totalPhysicalCriticalRate = SetAllEffects(ACTIVE_PHYSICAL_CRITICAL, INVALID_SYSTEM_EFFECT_CODE, PASSIVE_PHYSICAL_CRITICAL_UP, physicalCriticalRate);
+		SetLastPhysicalCriticalRate(totalPhysicalCriticalRate);
 	}
 }
 
-void AttributesManager::UpdateEnergyCriticalRate(WORD energyCriticalRate, bool add)
+void AttributesManager::UpdateEnergyCriticalRate(WORD effectType, WORD energyCriticalRate, bool add, bool addRemove)
 {
 	if (add)
 	{
-		AddLastEnergyCriticalRate(energyCriticalRate);
+		WORD totalEnergyCriticalRate = GetAttrEffectByType(effectType, energyCriticalRate, addRemove);
+		AddLastEnergyCriticalRate(totalEnergyCriticalRate);
 	}
 	else
 	{
-		SetLastEnergyCriticalRate(energyCriticalRate);
+		WORD totalEnergyCriticalRate = SetAllEffects(ACTIVE_ENERGY_CRITICAL, INVALID_SYSTEM_EFFECT_CODE, PASSIVE_ENERGY_CRITICAL_UP, energyCriticalRate);
+		SetLastEnergyCriticalRate(totalEnergyCriticalRate);
 	}
 }
 
-void AttributesManager::UpdateHitRate(WORD hitRate, bool add)
+void AttributesManager::UpdateHitRate(WORD effectType, WORD hitRate, bool add, bool addRemove)
 {
 	if (add)
 	{
-		AddLastAttackRate(hitRate);
+		WORD totalHitRate = GetAttrEffectByType(effectType, hitRate, addRemove);
+		AddLastAttackRate(totalHitRate);
 	}
 	else
 	{
-		SetLastAttackRate(hitRate);
+		WORD totalHitRate = SetAllEffects(ACTIVE_ATTACK_RATE_UP, ACTIVE_ATTACK_RATE_DOWN, PASSIVE_ATTACK_RATE_UP, hitRate);
+		SetLastAttackRate(totalHitRate);
 	}
 }
 

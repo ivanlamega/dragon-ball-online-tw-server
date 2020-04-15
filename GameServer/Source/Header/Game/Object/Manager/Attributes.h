@@ -308,9 +308,9 @@ public:
 	void			UpdatePhysicalDefence(WORD effectType, WORD physicalDefence, bool add, bool addRemove);
 	void			UpdateEnergyOffence(WORD effectType, WORD energyOffence, bool add, bool addRemove);
 	void			UpdateEnergyDefence(WORD effectType, WORD energyDefence, bool add, bool addRemove);
-	void			UpdatePhysicalCriticalRate(WORD physicalCriticalRate, bool add);
-	void			UpdateEnergyCriticalRate(WORD energyCriticalRate, bool add);
-	void			UpdateHitRate(WORD hitRate, bool add);
+	void			UpdatePhysicalCriticalRate(WORD effectType, WORD physicalCriticalRate, bool add, bool addRemove);
+	void			UpdateEnergyCriticalRate(WORD effectType, WORD energyCriticalRate, bool add, bool addRemove);
+	void			UpdateHitRate(WORD effectType, WORD hitRate, bool add, bool addRemove);
 	void			UpdateDodgeRate(WORD dodgeRate, bool add);
 	void			UpdateBlockRate(WORD blockRate, bool add);
 	void			UpdatePhysicalCriticalDefenceRate(WORD physicalCriticalDefenceRate, bool add);
