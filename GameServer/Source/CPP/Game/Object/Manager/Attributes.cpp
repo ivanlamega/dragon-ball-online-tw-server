@@ -2274,7 +2274,7 @@ void AttributesManager::UpdateStr(WORD effectType, int lastStr, bool add, bool a
 
 	WORD PhysicalOffence = CalculePhysicalOffence(plr->GetMyClass(), PlayerProfile.byLevel, 
 		PlayerProfile.avatarAttribute.byLastStr, PlayerProfile.avatarAttribute.byLastDex);
-	UpdatePhysicalOffence(PhysicalOffence, false);
+	UpdatePhysicalOffence(effectType, PhysicalOffence, false, addRemove);
 }
 // Update LP, blockRate, physicalCriticalDefenceRate
 void AttributesManager::UpdateCon(WORD effectType, int lastCon, bool add, bool addRemove)
@@ -2295,7 +2295,7 @@ void AttributesManager::UpdateCon(WORD effectType, int lastCon, bool add, bool a
 	WORD PhysicalCriticalDefenceRate = CalculePhysicalCriticalDefenceRate(PlayerProfile.avatarAttribute.byLastCon);
 	WORD LpRegen = CalculeLPRegeneration(PlayerProfile.avatarAttribute.byLastCon);
 
-	UpdateLP(LP, false);
+	UpdateLP(effectType, LP, false, addRemove);
 	UpdateBlockRate(BlockRate, false);
 	UpdatePhysicalCriticalDefenceRate(PhysicalCriticalDefenceRate, false);
 	UpdateLPRegeneration(LpRegen, false);
@@ -2321,7 +2321,7 @@ void AttributesManager::UpdateFoc(WORD effectType, int lastFoc, bool add, bool a
 	float energyCriticalRange = CalculeEnergyCriticalRange(plr->GetMyClass(), PlayerProfile.avatarAttribute.byLastFoc);
 	WORD curseSuccessRat = CalculeCurseSuccessRate(PlayerProfile.avatarAttribute.byLastFoc);
 
-	UpdateEnergyOffence(energyOffence, false);
+	UpdateEnergyOffence(effectType, energyOffence, false, addRemove);
 	UpdateEnergyCriticalRate(energyCriticalRate, false);
 	UpdateHitRate(hitRate, false);
 	UpdateEnergyCriticalRange(energyCriticalRange, false);
@@ -2349,7 +2349,7 @@ void AttributesManager::UpdateDex(WORD effectType, int lastDex, bool add, bool a
 	float physicalCriticalRange = CalculePhysicalCriticalRange(plr->GetMyClass(), PlayerProfile.avatarAttribute.byLastDex);
 	WORD curseToleranceRate = CalculeCurseToleranceRate(PlayerProfile.avatarAttribute.byLastDex);
 
-	UpdatePhysicalOffence(physicalOffence, false);
+	UpdatePhysicalOffence(effectType, physicalOffence, false, addRemove);
 	UpdatePhysicalCriticalRate(physicalCriticalRate, false);
 	UpdateDodgeRate(dodgeRate, false);
 	UpdateBlockRate(blockRate, false);
@@ -2373,7 +2373,7 @@ void AttributesManager::UpdateSol(WORD effectType, int lastSol, bool add, bool a
 	WORD energyOffence = CalculeEnergyOffence(plr->GetMyClass(), PlayerProfile.byLevel, 
 		PlayerProfile.avatarAttribute.byLastSol, PlayerProfile.avatarAttribute.byLastFoc);
 
-	UpdateEnergyOffence(energyOffence, false);
+	UpdateEnergyOffence(effectType, energyOffence, false, addRemove);
 }
 // Update EP EnergyCriticalDefenceRate, EPRegeneration
 void AttributesManager::UpdateEng(WORD effectType, int lastEng, bool add, bool addRemove)
@@ -2393,44 +2393,49 @@ void AttributesManager::UpdateEng(WORD effectType, int lastEng, bool add, bool a
 	WORD energyCriticalDefenceRate = CalculeEnergyCriticalDefenceRate(PlayerProfile.avatarAttribute.byLastEng);
 	WORD epRegen = CalculeEPRegeneration(PlayerProfile.avatarAttribute.byLastEng);
 
-	UpdateEP(EP, false);
+	UpdateEP(effectType, EP, false, addRemove);
 	UpdateEnergyCriticalDefenceRate(energyCriticalDefenceRate, false);
 	UpdateEPRegeneration(epRegen, false);
 }
 
-void AttributesManager::UpdateLP(DWORD lp, bool add)
+void AttributesManager::UpdateLP(WORD effectType, DWORD lp, bool add, bool addRemove)
 {
 	if (add)
 	{
-		AddLastMaxLP(lp);
+		WORD totalMaxLP = GetAttrEffectByType(effectType, lp, addRemove);
+		AddLastMaxLP(totalMaxLP);
 	}
 	else
 	{
-		SetLastMaxLP(lp);
+		WORD totalMaxLP = SetAllEffects(ACTIVE_MAX_LP_UP, ACTIVE_MAX_LP_DOWN, PASSIVE_MAX_LP_UP, lp);
+		SetLastMaxLP(totalMaxLP);
 	}
 }
 
-void AttributesManager::UpdateEP(WORD ep, bool add)
+void AttributesManager::UpdateEP(WORD effectType, WORD ep, bool add, bool addRemove)
 {
 	if (add)
 	{
-
-		AddLastMaxEP(ep);
+		WORD totalMaxEP = GetAttrEffectByType(effectType, ep, addRemove);
+		AddLastMaxEP(totalMaxEP);
 	}
 	else
 	{
-		SetLastMaxEP(ep);
+		WORD totalMaxEP = SetAllEffects(ACTIVE_MAX_EP_UP, ACTIVE_MAX_EP_DOWN, PASSIVE_MAX_EP_UP, ep);
+		SetLastMaxEP(totalMaxEP);
 	}
 }
 
-void AttributesManager::UpdateRP(int rp, bool add)
+void AttributesManager::UpdateRP(WORD effectType, int rp, bool add, bool addRemove)
 {
 	if (add)
 	{
-		AddLastMaxRP(rp);
+		WORD totalMaxRP = GetAttrEffectByType(effectType, rp, addRemove);
+;		AddLastMaxRP(rp);
 	}
 	else
 	{
+		WORD totalMaxRP = SetAllEffects(ACTIVE_MAX_RP_UP, ACTIVE_MAX_RP_DOWN, PASSIVE_MAX_RP_DOWN, rp);
 		SetLastMaxRP(rp);
 	}
 
@@ -2465,51 +2470,59 @@ void AttributesManager::UpdateRPDiminution(WORD RPDimin, bool add)
 	}
 }
 
-void AttributesManager::UpdatePhysicalOffence(WORD physicalOffence, bool add)
+void AttributesManager::UpdatePhysicalOffence(WORD effectType, WORD physicalOffence, bool add, bool addRemove)
 {
 	if (add)
 	{
-		AddLastPhysicalOffence(physicalOffence);
+		WORD totalPhysicalOffence = GetAttrEffectByType(effectType, physicalOffence, addRemove);
+		AddLastPhysicalOffence(totalPhysicalOffence);
 	}
 	else
 	{
-		SetLastPhysicalOffence(physicalOffence);
+		WORD totalPhysicalOffence = SetAllEffects(ACTIVE_PHYSICAL_OFFENCE_UP, ACTIVE_PHYSICAL_OFFENCE_DOWN, PASSIVE_PHYSICAL_OFFENCE_UP, physicalOffence);
+		SetLastPhysicalOffence(totalPhysicalOffence);
 	}
 }
 
-void AttributesManager::UpdatePhysicalDefence(WORD physicalDefence, bool add)
+void AttributesManager::UpdatePhysicalDefence(WORD effectType, WORD physicalDefence, bool add, bool addRemove)
 {
 	if (add)
 	{
-		AddLastPhysicalDefence(physicalDefence);
+		WORD totalLastPhysicalDefence = GetAttrEffectByType(effectType, physicalDefence, addRemove);
+		AddLastPhysicalDefence(totalLastPhysicalDefence);
 	}
 	else
 	{
+		WORD totalLastPhysicalDefence = SetAllEffects(ACTIVE_PHYSICAL_DEFENCE_UP, ACTIVE_PHYSICAL_DEFENCE_DOWN, PASSIVE_PHYSICAL_DEFENCE_UP, physicalDefence);
 		SetLastPhysicalDefence(physicalDefence);
 	}
 }
 
-void AttributesManager::UpdateEnergyOffence(WORD energyOffence, bool add)
+void AttributesManager::UpdateEnergyOffence(WORD effectType, WORD energyOffence, bool add, bool addRemove)
 {
 	if (add)
 	{
-		AddLastEnergyOffence(energyOffence);
+		WORD totalEnergyOffence = GetAttrEffectByType(effectType, energyOffence, addRemove);
+		AddLastEnergyOffence(totalEnergyOffence);
 	}
 	else
 	{
-		SetLastEnergyOffence(energyOffence);
+		WORD totalEnergyOffence = SetAllEffects(ACTIVE_ENERGY_OFFENCE_UP, ACTIVE_ENERGY_OFFENCE_DOWN, PASSIVE_ENERGY_OFFENCE_UP, energyOffence);
+		SetLastEnergyOffence(totalEnergyOffence);
 	}
 }
 
-void AttributesManager::UpdateEnergyDefence(WORD energyDefence, bool add)
+void AttributesManager::UpdateEnergyDefence(WORD effectType, WORD energyDefence, bool add, bool addRemove)
 {
 	if (add)
 	{
-		AddLastEnergyDefence(energyDefence);
+		WORD totalEnergyDefence = GetAttrEffectByType(effectType, energyDefence, addRemove);
+		AddLastEnergyDefence(totalEnergyDefence);
 	}
 	else
 	{
-		SetLastEnergyDefence(energyDefence);
+		WORD totalEnergyDefence = SetAllEffects(ACTIVE_ENERGY_DEFENCE_UP, ACTIVE_ENERGY_DEFENCE_DOWN, PASSIVE_ENERGY_DEFENCE_UP, energyDefence);
+		SetLastEnergyDefence(totalEnergyDefence);
 	}
 }
 

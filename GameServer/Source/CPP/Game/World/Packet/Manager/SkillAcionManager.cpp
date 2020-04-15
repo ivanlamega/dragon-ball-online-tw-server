@@ -202,47 +202,43 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 			}
 			case ACTIVE_PHYSICAL_DEFENCE_DOWN:
 			{
-				if (set)
+				/*if (set)
 				{
 					GetPcProfile()->avatarAttribute.wBasePhysicalDefence = GetPcProfile()->avatarAttribute.wLastPhysicalDefence;
-				}
+				}*/
 
 				int subPhysicalDefence = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
 					GetPcProfile()->avatarAttribute.wBasePhysicalDefence);
 
 				subPhysicalDefence = subPhysicalDefence * -1;
 
-				subPhysicalDefence *= setUnset;
-
-				GetAttributesManager()->UpdatePhysicalDefence(subPhysicalDefence, true);
+				GetAttributesManager()->UpdatePhysicalDefence(SystemEffectData->effectCode, subPhysicalDefence, true, set);
 				sLog.outBasic("physical defense substraction %d", subPhysicalDefence);
 
-				if (!set)
+				/*if (!set)
 				{
 					GetPcProfile()->avatarAttribute.wBasePhysicalDefence = 0;
-				}
-
+				}*/
+				
 				break;
 			}
 			case ACTIVE_ENERGY_DEFENCE_DOWN:
 			{
-				if (set)
+				/*if (set)
 				{
 					GetPcProfile()->avatarAttribute.wBaseEnergyDefence = GetPcProfile()->avatarAttribute.wLastEnergyDefence;
-				}
+				}*/
 				int subEnergyDefence = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
 					GetPcProfile()->avatarAttribute.wBaseEnergyDefence);
 				subEnergyDefence = subEnergyDefence * -1;
 
-				subEnergyDefence *= setUnset;
-
 				sLog.outBasic("energy defense substraction %d", subEnergyDefence);
-				GetAttributesManager()->UpdateEnergyDefence(subEnergyDefence, true);
+				GetAttributesManager()->UpdateEnergyDefence(SystemEffectData->effectCode, subEnergyDefence, true, set);
 
-				if (!set)
+				/*if (!set)
 				{
 					GetPcProfile()->avatarAttribute.wBaseEnergyDefence = 0;
-				}
+				}*/
 				break;
 			}
 			case ACTIVE_ATTACK_RATE_DOWN:
@@ -281,8 +277,7 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 					static_cast<float>(GetPcProfile()->avatarAttribute.wLastEnergyOffence));*/
 				int addEnergyOffence = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
 					GetPcProfile()->avatarAttribute.wBaseEnergyOffence);
-				addEnergyOffence *= setUnset;
-				GetAttributesManager()->UpdateEnergyOffence(addEnergyOffence, true);
+				GetAttributesManager()->UpdateEnergyOffence(SystemEffectData->effectCode, addEnergyOffence, true, set);
 				sLog.outBasic("addEnergyOffence %d", addEnergyOffence);
 				break;
 			}
@@ -293,8 +288,7 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 				int addPhysicalOffence = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
 					GetPcProfile()->avatarAttribute.wBasePhysicalOffence);
 
-				addPhysicalOffence *= setUnset;
-				GetAttributesManager()->UpdatePhysicalOffence(addPhysicalOffence, true);
+				GetAttributesManager()->UpdatePhysicalOffence(SystemEffectData->effectCode, addPhysicalOffence, true, set);
 				sLog.outBasic("addPhysicalOffence %d", addPhysicalOffence);
 				break;
 			}			

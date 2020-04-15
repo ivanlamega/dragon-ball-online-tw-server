@@ -300,14 +300,14 @@ public:
 	void			UpdateSol(WORD effectType, int lastSol, bool add, bool addRemove);
 	// Update EP and EnergyCriticalDefenceRate
 	void			UpdateEng(WORD effectType, int lastEng, bool add, bool addRemove);
-	void			UpdateLP(DWORD lp, bool add);
-	void			UpdateEP(WORD ep, bool add);
+	void			UpdateLP(WORD effectType, DWORD lp, bool add, bool addRemove);
+	void			UpdateEP(WORD effectType, WORD ep, bool add, bool addRemove);
 	// Update RpRegeneration and RPDiminution
-	void			UpdateRP(int rp, bool add);
-	void			UpdatePhysicalOffence(WORD physicalOffence, bool add);
-	void			UpdatePhysicalDefence(WORD physicalDefence, bool add);
-	void			UpdateEnergyOffence(WORD energyOffence, bool add);
-	void			UpdateEnergyDefence(WORD energyDefence, bool add);
+	void			UpdateRP(WORD effectType, int rp, bool add, bool addRemove);
+	void			UpdatePhysicalOffence(WORD effectType, WORD physicalOffence, bool add, bool addRemove);
+	void			UpdatePhysicalDefence(WORD effectType, WORD physicalDefence, bool add, bool addRemove);
+	void			UpdateEnergyOffence(WORD effectType, WORD energyOffence, bool add, bool addRemove);
+	void			UpdateEnergyDefence(WORD effectType, WORD energyDefence, bool add, bool addRemove);
 	void			UpdatePhysicalCriticalRate(WORD physicalCriticalRate, bool add);
 	void			UpdateEnergyCriticalRate(WORD energyCriticalRate, bool add);
 	void			UpdateHitRate(WORD hitRate, bool add);
