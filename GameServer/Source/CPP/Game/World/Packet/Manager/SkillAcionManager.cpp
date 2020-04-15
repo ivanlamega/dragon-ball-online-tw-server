@@ -202,10 +202,10 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 			}
 			case ACTIVE_PHYSICAL_DEFENCE_DOWN:
 			{
-				/*if (set)
+				if (set)
 				{
 					GetPcProfile()->avatarAttribute.wBasePhysicalDefence = GetPcProfile()->avatarAttribute.wLastPhysicalDefence;
-				}*/
+				}
 
 				int subPhysicalDefence = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
 					GetPcProfile()->avatarAttribute.wBasePhysicalDefence);
@@ -215,19 +215,19 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 				GetAttributesManager()->UpdatePhysicalDefence(SystemEffectData->effectCode, subPhysicalDefence, true, set);
 				sLog.outBasic("physical defense substraction %d", subPhysicalDefence);
 
-				/*if (!set)
+				if (!set)
 				{
 					GetPcProfile()->avatarAttribute.wBasePhysicalDefence = 0;
-				}*/
+				}
 				
 				break;
 			}
 			case ACTIVE_ENERGY_DEFENCE_DOWN:
 			{
-				/*if (set)
+				if (set)
 				{
 					GetPcProfile()->avatarAttribute.wBaseEnergyDefence = GetPcProfile()->avatarAttribute.wLastEnergyDefence;
-				}*/
+				}
 				int subEnergyDefence = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
 					GetPcProfile()->avatarAttribute.wBaseEnergyDefence);
 				subEnergyDefence = subEnergyDefence * -1;
@@ -235,10 +235,10 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 				sLog.outBasic("energy defense substraction %d", subEnergyDefence);
 				GetAttributesManager()->UpdateEnergyDefence(SystemEffectData->effectCode, subEnergyDefence, true, set);
 
-				/*if (!set)
+				if (!set)
 				{
 					GetPcProfile()->avatarAttribute.wBaseEnergyDefence = 0;
-				}*/
+				}
 				break;
 			}
 			case ACTIVE_ATTACK_RATE_DOWN:
