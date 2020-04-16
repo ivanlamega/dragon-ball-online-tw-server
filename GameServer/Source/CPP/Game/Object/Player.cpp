@@ -2393,8 +2393,10 @@ void Player::ExecuteSpinningBallAttack()
 				}
 			}
 
-			if (spinEndTimer >= GetAttributesManager()->spinInfo.spinEndTime)
+			if (spinEndTimer >= GetAttributesManager()->spinInfo.spinEndTime || GetAttributesManager()->spinInfo.forceEndSpin)
 			{
+				GetAttributesManager()->spinInfo.forceEndSpin = false;
+
 				GetState()->sCharStateBase.aspectState.sAspectStateBase.byAspectStateId = eASPECTSTATE::ASPECTSTATE_INVALID;
 				UpdateAspectState(GetState()->sCharStateBase.aspectState.sAspectStateBase.byAspectStateId);
 				GetAttributesManager()->spinInfo.enemyList.empty();

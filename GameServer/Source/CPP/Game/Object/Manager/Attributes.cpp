@@ -2775,7 +2775,7 @@ void AttributesManager::UpdateRunSpeed(WORD effectType, float runSpeed, bool add
 		float totalRunSpeed = SetAllEffects(ACTIVE_MOVE_SPEED_UP, ACTIVE_MOVE_SPEED_DOWN, PASSIVE_MOVE_SPEED, runSpeed);
 		SetLastRunSpeed(totalRunSpeed);
 	}
-	sLog.outString("total move Speed %f", PlayerProfile.avatarAttribute.fBaseRunSpeed);
+	sLog.outString("total move Speed %f", PlayerProfile.avatarAttribute.fLastRunSpeed);
 }
 
 void AttributesManager::UpdateCoolTimeChangePercent(WORD effectType, float coolTimeChange, bool add, bool addRemove)

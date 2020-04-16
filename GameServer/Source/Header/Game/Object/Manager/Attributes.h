@@ -177,6 +177,7 @@ public:
 		DWORD		spinMilisecond;
 		DWORD		spinEndTime;
 		TBLIDX		skillId;
+		bool		forceEndSpin;
 		float		damage;
 		float		distance;
 		BYTE		bySkill_Effect_Type[2];
