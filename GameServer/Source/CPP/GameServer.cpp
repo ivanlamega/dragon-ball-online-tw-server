@@ -131,6 +131,7 @@ bool GameServer::loadDataTable()
 	flagManager.Set(TableContainer::TABLE_MERCHANT2);
 
 	flagManager.Set(TableContainer::TABLE_CHAR_TITLE);
+
 	/*Unloadable Tables*/
 	//flagManager.Set(TableContainer::TABLE_ITEM_OPTION);																								
 	//flagManager.Set(TableContainer::TABLE_QUEST_TEXT_DATA);	
