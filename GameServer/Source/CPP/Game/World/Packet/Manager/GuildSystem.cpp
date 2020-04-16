@@ -16,7 +16,8 @@
 //Create GUILD from NPC
 void WorldSession::CreateNewGuild(Packet& packet)
 {
-	
+
+	//Cast Packet
 	sUG_GUILD_CREATE_REQ * req = (sUG_GUILD_CREATE_REQ*)packet.GetPacketBuffer();
 	
 	sGU_GUILD_CREATE_RES res;
