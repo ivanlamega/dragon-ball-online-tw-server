@@ -388,6 +388,19 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 			{
 				DWORD condition = set ? CHARCOND_RABIES_FLAG : 0;
 				m_session->SendUpdateCharCondition(condition);
+
+				int attackSpeedRate = GetValueByEffectType(SYSTEM_EFFECT_APPLY_TYPE_PERCENT, 50, GetPcProfile()->avatarAttribute.wBaseAttackSpeedRate);
+				attackSpeedRate *= -1;
+				GetAttributesManager()->UpdateAttackspeedRate(SystemEffectData->effectCode, attackSpeedRate, true, set);
+				
+				int addPhysicalOffence = GetValueByEffectType(SYSTEM_EFFECT_APPLY_TYPE_PERCENT, 10, GetPcProfile()->avatarAttribute.wBasePhysicalOffence);
+
+				GetAttributesManager()->UpdatePhysicalOffence(SystemEffectData->effectCode, addPhysicalOffence, true, set);
+
+				float moveSpeedUp = GetValueByEffectType(SYSTEM_EFFECT_APPLY_TYPE_PERCENT, 30, GetPcProfile()->avatarAttribute.fBaseRunSpeed);
+				GetAttributesManager()->UpdateRunSpeed(SystemEffectData->effectCode, moveSpeedUp, true, set);
+
+				sLog.outBasic("Rabies add AttackSpeed %d physicalOffence %d MoveSpeed %f", attackSpeedRate, addPhysicalOffence, moveSpeedUp);
 				break;
 			}
 			case ACTIVE_SPINNING_ATTACK:
