@@ -44,7 +44,7 @@ void Log::outString(const char* str, ...)
 	if (!str)
 		return;
 	outTime();
-	std::cout << green << "[INFO]: " << white;
+	std::cout << white << "[INFO]: " << white;
 	va_list ap;
 
 	va_start(ap, str);

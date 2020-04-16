@@ -311,26 +311,26 @@ public:
 	void			UpdatePhysicalCriticalRate(WORD effectType, WORD physicalCriticalRate, bool add, bool addRemove);
 	void			UpdateEnergyCriticalRate(WORD effectType, WORD energyCriticalRate, bool add, bool addRemove);
 	void			UpdateHitRate(WORD effectType, WORD hitRate, bool add, bool addRemove);
-	void			UpdateDodgeRate(WORD dodgeRate, bool add);
-	void			UpdateBlockRate(WORD blockRate, bool add);
+	void			UpdateDodgeRate(WORD effectType, WORD dodgeRate, bool add, bool addRemove);
+	void			UpdateBlockRate(WORD effectType, WORD blockRate, bool add, bool addRemove);
 	void			UpdatePhysicalCriticalDefenceRate(WORD physicalCriticalDefenceRate, bool add);
 	void			UpdateEnergyCriticalDefenceRate(WORD energyCriticalDefenceRate, bool add);
-	void			UpdatePhysicalCriticalRange(float physicalCriticalRange, bool add);
-	void			UpdateEnergyCriticalRange(float energyCriticalRange, bool add);
+	void			UpdatePhysicalCriticalRange(WORD effectType, float physicalCriticalRange, bool add, bool addRemove);
+	void			UpdateEnergyCriticalRange(WORD effectType, float energyCriticalRange, bool add, bool addRemove);
 	// Update LPSitDownRegeneration
-	void			UpdateLPRegeneration(WORD LpRegen, bool add);
-	void			UpdateLPSitDownRegeneration(WORD lpSitDownRegen, bool add);
+	void			UpdateLPRegeneration(WORD effectType, WORD LpRegen, bool add, bool addRemove);
+	void			UpdateLPSitDownRegeneration(WORD effectType, WORD lpSitDownRegen, bool add, bool addRemove);
 	// Update EPSitDownRegeneration, EPBattleRegeneration
-	void			UpdateEPRegeneration(WORD EpRegen, bool add);
-	void			UpdateEPSitDownRegeneration(WORD epSitDownRegen, bool add);
+	void			UpdateEPRegeneration(WORD effectType, WORD EpRegen, bool add, bool addRemove);
+	void			UpdateEPSitDownRegeneration(WORD effectType, WORD epSitDownRegen, bool add, bool addRemove);
 	void			UpdateEPBattleRegeneration(WORD epBattleRegen, bool add);
-	void			UpdateRPRegeneration(WORD RPRegen, bool add);
+	void			UpdateRPRegeneration(WORD effectType, WORD RPRegen, bool add, bool addRemove);
 	void			UpdateRPDiminution(WORD RPDimin, bool add);
-	void			UpdateCurseSuccessRate(WORD curseSuccessRate, bool add);
-	void			UpdateCurseToleranceRate(WORD curseToleranceRate, bool add);
-	void			UpdateRunSpeed(float runSpeed, bool add);
-	void			UpdateCoolTimeChangePercent(float coolTimeChange, bool add);
-	void			UpdateAttackspeedRate(WORD attackSpeed, bool add);
+	void			UpdateCurseSuccessRate(WORD effectType, WORD curseSuccessRate, bool add, bool addRemove);
+	void			UpdateCurseToleranceRate(WORD effectType, WORD curseToleranceRate, bool add, bool addRemove);
+	void			UpdateRunSpeed(WORD effectType, float runSpeed, bool add, bool addRemove);
+	void			UpdateCoolTimeChangePercent(WORD effectType, float coolTimeChange, bool add, bool addRemove);
+	void			UpdateAttackspeedRate(WORD effectType, WORD attackSpeed, bool add, bool addRemove);
 	//	------------------------------------------------------------------------
 	// GETTER
 	//	------------------------------------------------------------------------

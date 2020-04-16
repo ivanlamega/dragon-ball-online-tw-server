@@ -358,7 +358,7 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 			unsigned int speed = (unsigned int)atof(strToken.c_str());
 			_player->GetAttributesManager()->GetPlayerProfile()->avatarAttribute.wBaseAttackSpeedRate = speed;
 			_player->GetAttributesManager()->GetPlayerProfile()->avatarAttribute.wLastAttackSpeedRate = speed;
-			_player->GetAttributesManager()->UpdateAttackspeedRate(speed, false);
+			_player->GetAttributesManager()->UpdateAttackspeedRate(INVALID_SYSTEM_EFFECT_CODE, speed, false, false);
 			sLog.outDetail("Update speed %d", speed);
 		}
 		else if (strToken == "@setspeed")

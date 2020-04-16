@@ -2296,9 +2296,9 @@ void AttributesManager::UpdateCon(WORD effectType, int lastCon, bool add, bool a
 	WORD LpRegen = CalculeLPRegeneration(PlayerProfile.avatarAttribute.byLastCon);
 
 	UpdateLP(effectType, LP, false, addRemove);
-	UpdateBlockRate(BlockRate, false);
+	UpdateBlockRate(effectType, BlockRate, false, addRemove);
 	UpdatePhysicalCriticalDefenceRate(PhysicalCriticalDefenceRate, false);
-	UpdateLPRegeneration(LpRegen, false);
+	UpdateLPRegeneration(effectType, LpRegen, false, addRemove);
 }
 // Update energyOffence, energyCriticalRate, hitRate(attackRateattackRate), energyCriticalRange, curseSuccessRate
 void AttributesManager::UpdateFoc(WORD effectType, int lastFoc, bool add, bool addRemove)
@@ -2324,8 +2324,8 @@ void AttributesManager::UpdateFoc(WORD effectType, int lastFoc, bool add, bool a
 	UpdateEnergyOffence(effectType, energyOffence, false, addRemove);
 	UpdateEnergyCriticalRate(effectType, energyCriticalRate, false, addRemove);
 	UpdateHitRate(effectType, hitRate, false, addRemove);
-	UpdateEnergyCriticalRange(energyCriticalRange, false);
-	UpdateCurseSuccessRate(curseSuccessRat, false);
+	UpdateEnergyCriticalRange(effectType, energyCriticalRange, false, addRemove);
+	UpdateCurseSuccessRate(effectType, curseSuccessRat, false, addRemove);
 }
 // Update physicalOffence, physicalCriticalRate, dodgeRate, blockRate, physicalCriticalRange, curseToleranceRate
 void AttributesManager::UpdateDex(WORD effectType, int lastDex, bool add, bool addRemove)
@@ -2351,10 +2351,10 @@ void AttributesManager::UpdateDex(WORD effectType, int lastDex, bool add, bool a
 
 	UpdatePhysicalOffence(effectType, physicalOffence, false, addRemove);
 	UpdatePhysicalCriticalRate(effectType, physicalCriticalRate, false, addRemove);
-	UpdateDodgeRate(dodgeRate, false);
-	UpdateBlockRate(blockRate, false);
-	UpdatePhysicalCriticalRange(physicalCriticalRange, false);
-	UpdateCurseToleranceRate(curseToleranceRate, false);
+	UpdateDodgeRate(effectType, dodgeRate, false, addRemove);
+	UpdateBlockRate(effectType, blockRate, false, addRemove);
+	UpdatePhysicalCriticalRange(effectType, physicalCriticalRange, false, addRemove);
+	UpdateCurseToleranceRate(effectType, curseToleranceRate, false, addRemove);
 }
 // Update energyOffence
 void AttributesManager::UpdateSol(WORD effectType, int lastSol, bool add, bool addRemove)
@@ -2395,7 +2395,7 @@ void AttributesManager::UpdateEng(WORD effectType, int lastEng, bool add, bool a
 
 	UpdateEP(effectType, EP, false, addRemove);
 	UpdateEnergyCriticalDefenceRate(energyCriticalDefenceRate, false);
-	UpdateEPRegeneration(epRegen, false);
+	UpdateEPRegeneration(effectType, epRegen, false, addRemove);
 }
 
 void AttributesManager::UpdateLP(WORD effectType, DWORD lp, bool add, bool addRemove)
@@ -2442,20 +2442,23 @@ void AttributesManager::UpdateRP(WORD effectType, int rp, bool add, bool addRemo
 	WORD RpRegen = CalculeRPRegeneration(PlayerProfile.avatarAttribute.wLastMaxRP);
 	WORD RpDimimutionRate = CalculeRPDiminution(PlayerProfile.avatarAttribute.wLastMaxRP);
 
-	UpdateRPRegeneration(RpRegen, false);
+	UpdateRPRegeneration(effectType, RpRegen, false, addRemove);
 	UpdateRPDiminution(RpDimimutionRate, false);
 }
 
-void AttributesManager::UpdateRPRegeneration(WORD RPRegen, bool add) 
+void AttributesManager::UpdateRPRegeneration(WORD effectType, WORD RPRegen, bool add, bool addRemove)
 {
 	if (add)
 	{
-		AddLastRpRegen(RPRegen);
+		WORD totalRPRegen = GetAttrEffectByType(effectType, RPRegen, addRemove);
+		AddLastRpRegen(totalRPRegen);
 	}
 	else
 	{
-		SetLastRpRegen(RPRegen);
+		WORD totalRPRegen = SetAllEffects(ACTIVE_RP_CHARGE_SPEED, INVALID_SYSTEM_EFFECT_CODE, PASSIVE_RP_CHARGE_SPEED, RPRegen);
+		SetLastRpRegen(totalRPRegen);
 	}
+	sLog.outString("total rp regeneration %d", PlayerProfile.avatarAttribute.wLastRpRegen);
 }
 
 void AttributesManager::UpdateRPDiminution(WORD RPDimin, bool add)
@@ -2568,27 +2571,31 @@ void AttributesManager::UpdateHitRate(WORD effectType, WORD hitRate, bool add, b
 	}
 }
 
-void AttributesManager::UpdateDodgeRate(WORD dodgeRate, bool add)
+void AttributesManager::UpdateDodgeRate(WORD effectType, WORD dodgeRate, bool add, bool addRemove)
 {
 	if (add)
 	{
-		AddLastDodgeRate(dodgeRate);
+		WORD totalDodgeRate = GetAttrEffectByType(effectType, dodgeRate, addRemove);
+		AddLastDodgeRate(totalDodgeRate);
 	}
 	else
 	{
-		SetLastDodgeRate(dodgeRate);
+		WORD totalDodgeRate = SetAllEffects(ACTIVE_DODGE_RATE_UP, ACTIVE_DODGE_RATE_DOWN, PASSIVE_DODGE_RATE_UP, dodgeRate);
+		SetLastDodgeRate(totalDodgeRate);
 	}
 }
 
-void AttributesManager::UpdateBlockRate(WORD blockRate, bool add)
+void AttributesManager::UpdateBlockRate(WORD effectType, WORD blockRate, bool add, bool addRemove)
 {
 	if (add)
 	{
-		AddLastBlockRate(blockRate);
+		WORD totalBlockRate = GetAttrEffectByType(effectType, blockRate, addRemove);
+		AddLastBlockRate(totalBlockRate);
 	}
 	else
 	{
-		SetLastBlockRate(blockRate);
+		WORD totalBlockRate = SetAllEffects(ACTIVE_BLOCK_RATE_UP, ACTIVE_BLOCK_RATE_DOWN, PASSIVE_BLOCK_RATE_UP, blockRate);
+		SetLastBlockRate(totalBlockRate);
 	}
 }
 
@@ -2616,85 +2623,103 @@ void AttributesManager::UpdateEnergyCriticalDefenceRate(WORD energyCriticalDefen
 	}
 }
 
-void AttributesManager::UpdatePhysicalCriticalRange(float physicalCriticalRange, bool add)
+void AttributesManager::UpdatePhysicalCriticalRange(WORD effectType, float physicalCriticalRange, bool add, bool addRemove)
 {
 	if (add)
 	{
-		AddLastPhysicalCriticalRange(physicalCriticalRange);
+		float totalPhysicalCriticalRange = GetAttrEffectByType(effectType, physicalCriticalRange, addRemove);
+		AddLastPhysicalCriticalRange(totalPhysicalCriticalRange);
 	}
 	else
 	{
-		SetLastPhysicalCriticalRange(physicalCriticalRange);
+		float totalPhysicalCriticalRange = SetAllEffects(ACTIVE_PHYSICAL_CRITICAL_DAMAGE_UP, INVALID_SYSTEM_EFFECT_CODE, 
+			INVALID_SYSTEM_EFFECT_CODE, physicalCriticalRange);
+		SetLastPhysicalCriticalRange(totalPhysicalCriticalRange);
 	}
+
+	sLog.outString("total physicalCriticalDamage %f", PlayerProfile.avatarAttribute.fLastPhysicalCriticalRange);
 }
 
-void AttributesManager::UpdateEnergyCriticalRange(float energyCriticalRange, bool add)
+void AttributesManager::UpdateEnergyCriticalRange(WORD effectType, float energyCriticalRange, bool add, bool addRemove)
 {
 	if (add)
 	{
-		AddLastEnergyCriticalRange(energyCriticalRange);
+		float totalEnergyCriticalRange = GetAttrEffectByType(effectType, energyCriticalRange, addRemove);
+		AddLastEnergyCriticalRange(totalEnergyCriticalRange);
 	}
 	else
 	{
-		SetLastEnergyCriticalRange(energyCriticalRange);
+		float totalEnergyCriticalRange = SetAllEffects(ACTIVE_ENERGY_CRITICAL_DAMAGE_UP, INVALID_SYSTEM_EFFECT_CODE, 
+			INVALID_SYSTEM_EFFECT_CODE, energyCriticalRange);
+		SetLastEnergyCriticalRange(totalEnergyCriticalRange);
 	}
+
+	sLog.outString("total energyCriticalRange %f", PlayerProfile.avatarAttribute.fLastEnergyCriticalRange);
 }
 // Update LPSitDownRegeneration
-void AttributesManager::UpdateLPRegeneration(WORD LpRegen, bool add)
+void AttributesManager::UpdateLPRegeneration(WORD effectType, WORD LpRegen, bool add, bool addRemove)
 {
 	if (add)
 	{
-		AddLastLPRegen(LpRegen);
+		WORD totalLpRegen = GetAttrEffectByType(effectType, LpRegen, addRemove);
+		AddLastLPRegen(totalLpRegen);
 	}
 	else
 	{
-		SetLastLPRegen(LpRegen);
+		WORD totalLpRegen = SetAllEffects(ACTIVE_LP_REGENERATION, INVALID_SYSTEM_EFFECT_CODE, PASSIVE_LP_REGENERATION, LpRegen);
+		SetLastLPRegen(totalLpRegen);
 	}
 
 	WORD lpSitDownRegen = CalculeLPSitDownRegeneration(PlayerProfile.avatarAttribute.wLastLpRegen);
 
-	UpdateLPSitDownRegeneration(lpSitDownRegen, false);
+	UpdateLPSitDownRegeneration(effectType, lpSitDownRegen, false, addRemove);
 }
 
-void AttributesManager::UpdateLPSitDownRegeneration(WORD lpSitDownRegen, bool add)
+void AttributesManager::UpdateLPSitDownRegeneration(WORD effectType, WORD lpSitDownRegen, bool add, bool addRemove)
 {
 	if (add)
 	{
-		AddLastLPSitDownRegeneration(lpSitDownRegen);
+		WORD totalLPSitDownRegeneration = GetAttrEffectByType(effectType, lpSitDownRegen, addRemove);
+		AddLastLPSitDownRegeneration(totalLPSitDownRegeneration);
 	}
 	else
 	{
-		SetLastLPSitDownRegeneration(lpSitDownRegen);
+		WORD totalLPSitDownRegeneration = SetAllEffects(ACTIVE_SIT_DOWN_LP_REGENERATION_UP, INVALID_SYSTEM_EFFECT_CODE, INVALID_SYSTEM_EFFECT_CODE, lpSitDownRegen);;
+		SetLastLPSitDownRegeneration(totalLPSitDownRegeneration);
 	}
 }
 
-void AttributesManager::UpdateEPRegeneration(WORD EpRegen, bool add)
+void AttributesManager::UpdateEPRegeneration(WORD effectType, WORD EpRegen, bool add, bool addRemove)
 {
 	if (add)
 	{
-		AddLastEPRegen(EpRegen);
+		WORD totalEpRegen = GetAttrEffectByType(effectType, EpRegen, addRemove);
+		AddLastEPRegen(totalEpRegen);
 	}
 	else
 	{
-		SetLastEPRegen(EpRegen);
+		WORD totalEpRegen = SetAllEffects(ACTIVE_EP_REGENERATION, INVALID_SYSTEM_EFFECT_CODE, PASSIVE_EP_REGENERATION, EpRegen);
+		SetLastEPRegen(totalEpRegen);
 	}
 
 	WORD EpSitDownRegen = CalculeEPSitDownRegeneration(PlayerProfile.avatarAttribute.wLastEpRegen);
 	WORD EpBattleRegen = CalculeEPBattleRegeneration(PlayerProfile.avatarAttribute.wLastEpRegen);
-
-	UpdateEPSitDownRegeneration(EpSitDownRegen, false);
+	
+	UpdateEPSitDownRegeneration(effectType, EpSitDownRegen, false, addRemove);
 	UpdateEPBattleRegeneration(EpBattleRegen, false);
 }
 
-void AttributesManager::UpdateEPSitDownRegeneration(WORD epSitDownRegen, bool add)
+void AttributesManager::UpdateEPSitDownRegeneration(WORD effectType, WORD epSitDownRegen, bool add, bool addRemove)
 {
 	if (add)
 	{
-		AddLastEPSitDownRegeneration(epSitDownRegen);
+		WORD totalEPSitDownRegeneration = GetAttrEffectByType(effectType, epSitDownRegen, addRemove);
+		AddLastEPSitDownRegeneration(totalEPSitDownRegeneration);
 	}
 	else
 	{
-		SetLastEPSitDownRegeneration(epSitDownRegen);
+		WORD totalEPSitDownRegeneration = SetAllEffects(ACTIVE_SIT_DOWN_EP_REGENERATION_UP, INVALID_SYSTEM_EFFECT_CODE, INVALID_SYSTEM_EFFECT_CODE, epSitDownRegen);
+		SetLastEPSitDownRegeneration(totalEPSitDownRegeneration);
 	}
 }
 
@@ -2710,62 +2735,75 @@ void AttributesManager::UpdateEPBattleRegeneration(WORD epBattleRegen, bool add)
 	}
 }
 
-void AttributesManager::UpdateCurseSuccessRate(WORD curseSuccessRate, bool add)
+void AttributesManager::UpdateCurseSuccessRate(WORD effectType, WORD curseSuccessRate, bool add, bool addRemove)
 {
 	if (add)
 	{
-		AddLastCurseSuccessRate(curseSuccessRate);
+		WORD totalCurseSuccessRate = GetAttrEffectByType(effectType, curseSuccessRate, addRemove);
+		AddLastCurseSuccessRate(totalCurseSuccessRate);
 	}
 	else
 	{
-		SetLastCurseSuccessRate(curseSuccessRate);
+		WORD totalCurseSuccessRate = SetAllEffects(ACTIVE_CURSE_SUCCESS, INVALID_SYSTEM_EFFECT_CODE, PASSIVE_CURSE_SUCCESS_UP, curseSuccessRate);
+		SetLastCurseSuccessRate(totalCurseSuccessRate);
 	}
 }
 
-void AttributesManager::UpdateCurseToleranceRate(WORD curseToleranceRate, bool add)
+void AttributesManager::UpdateCurseToleranceRate(WORD effectType, WORD curseToleranceRate, bool add, bool addRemove)
 {
 	if (add)
 	{
-		AddLastCurseToleranceRate(curseToleranceRate);
+		WORD totalCurseToleranceRate = GetAttrEffectByType(effectType, curseToleranceRate, addRemove);
+		AddLastCurseToleranceRate(totalCurseToleranceRate);
 	}
 	else
 	{
-		SetLastCurseToleranceRate(curseToleranceRate);
+		WORD totalCurseToleranceRate = SetAllEffects(ACTIVE_CURSE_TOLERANCE, INVALID_SYSTEM_EFFECT_CODE, PASSIVE_CURSE_TOLERANCE_UP, curseToleranceRate);
+		SetLastCurseToleranceRate(totalCurseToleranceRate);
 	}
 }
 
-void AttributesManager::UpdateRunSpeed(float runSpeed, bool add)
+void AttributesManager::UpdateRunSpeed(WORD effectType, float runSpeed, bool add, bool addRemove)
 {
 	if (add)
 	{
-		AddLastRunSpeed(runSpeed);
+		float totalRunSpeed = GetAttrEffectByType(effectType, runSpeed, addRemove);
+		AddLastRunSpeed(totalRunSpeed);
 	}
 	else
 	{
-		SetLastRunSpeed(runSpeed);
+		float totalRunSpeed = SetAllEffects(ACTIVE_MOVE_SPEED_UP, ACTIVE_MOVE_SPEED_DOWN, PASSIVE_MOVE_SPEED, runSpeed);
+		SetLastRunSpeed(totalRunSpeed);
 	}
+	sLog.outString("total move Speed %f", PlayerProfile.avatarAttribute.fBaseRunSpeed);
 }
 
-void AttributesManager::UpdateCoolTimeChangePercent(float coolTimeChange, bool add)
+void AttributesManager::UpdateCoolTimeChangePercent(WORD effectType, float coolTimeChange, bool add, bool addRemove)
 {
 	if (add)
 	{
-		AddCoolTimeChangePercent(coolTimeChange);
+		float totalCoolTimeChange = GetAttrEffectByType(effectType, coolTimeChange, addRemove);
+		AddCoolTimeChangePercent(totalCoolTimeChange);
 	}
 	else
 	{
-		SetCoolTimeChangePercent(coolTimeChange);
+		float totalCoolTimeChange = SetAllEffects(ACTIVE_SKILL_COOL_TIME_UP, ACTIVE_SKILL_COOL_TIME_DOWN, PASSIVE_SKILL_COOL_TIME_DOWN, coolTimeChange);
+		SetCoolTimeChangePercent(totalCoolTimeChange);
 	}
+	sLog.outString("total cool time %f", PlayerProfile.avatarAttribute.fCoolTimeChangePercent);
 }
 
-void AttributesManager::UpdateAttackspeedRate(WORD attackSpeed, bool add)
+void AttributesManager::UpdateAttackspeedRate(WORD effectType, WORD attackSpeed, bool add, bool addRemove)
 {
 	if (add)
 	{
-		AddLastAttackSpeedRate(attackSpeed);
+		WORD totalAttackSpeedRate = GetAttrEffectByType(effectType, attackSpeed, addRemove);
+		AddLastAttackSpeedRate(totalAttackSpeedRate);
 	}
 	else
 	{
-		SetLastAttackSpeedRate(attackSpeed);
+		WORD totalAttackSpeedRate = SetAllEffects(ACTIVE_ATTACK_SPEED_UP, ACTIVE_ATTACK_SPEED_DOWN, PASSIVE_ATTACK_SPEED_UP, attackSpeed);
+		SetLastAttackSpeedRate(totalAttackSpeedRate);
 	}
+	sLog.outString("total attack speed %d", PlayerProfile.avatarAttribute.wLastAttackSpeedRate);
 }

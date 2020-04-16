@@ -195,9 +195,8 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 				float skillCoolTime = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
 					GetPcProfile()->avatarAttribute.fCoolTimeChangePercent);
 				skillCoolTime *= -1;
-				skillCoolTime *= setUnset;
 				sLog.outBasic("skillCoolTime %f", skillCoolTime);
-				GetAttributesManager()->UpdateCoolTimeChangePercent(skillCoolTime, true);
+				GetAttributesManager()->UpdateCoolTimeChangePercent(SystemEffectData->effectCode, skillCoolTime, true, set);
 				break;
 			}
 			case ACTIVE_PHYSICAL_DEFENCE_DOWN:
@@ -256,8 +255,7 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 				int rpRegen = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
 					GetPcProfile()->avatarAttribute.wBaseRpRegen);
 				//static_cast<WORD>(skillData->SkillValue[index]);
-				rpRegen *= setUnset;
-				GetAttributesManager()->UpdateRPRegeneration(rpRegen, true);
+				GetAttributesManager()->UpdateRPRegeneration(SystemEffectData->effectCode, rpRegen, true, set);
 				sLog.outBasic("rpRegen %d", rpRegen);
 				break;
 			}
@@ -265,9 +263,8 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 			{
 				float moveSpeedUp = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index], 
 					GetPcProfile()->avatarAttribute.fBaseRunSpeed);
-				moveSpeedUp *= setUnset;
 				sLog.outBasic("addSpeed %f", moveSpeedUp);
-				GetAttributesManager()->UpdateRunSpeed(moveSpeedUp, true);
+				GetAttributesManager()->UpdateRunSpeed(SystemEffectData->effectCode, moveSpeedUp, true, set);
 				break;
 			}
 			case ACTIVE_ENERGY_OFFENCE_UP://100% 
@@ -343,17 +340,15 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 			case ACTIVE_ENERGY_CRITICAL_DAMAGE_UP:
 			{
 				int energyCriticalDamage = skillData->SkillValue[index];
-				energyCriticalDamage *= setUnset;
 				sLog.outBasic("energyCriticalDamage %d", energyCriticalDamage);
-				GetAttributesManager()->UpdateEnergyCriticalRange(energyCriticalDamage, true);
+				GetAttributesManager()->UpdateEnergyCriticalRange(SystemEffectData->effectCode, energyCriticalDamage, true, set);
 				break;
 			}
 			case ACTIVE_PHYSICAL_CRITICAL_DAMAGE_UP:
 			{
 				int physicalCriticalDamage = skillData->SkillValue[index];
-				physicalCriticalDamage *= setUnset;
-				sLog.outBasic("energyCriticalDamage %d", physicalCriticalDamage);
-				GetAttributesManager()->UpdatePhysicalCriticalRange(physicalCriticalDamage, true);
+				sLog.outBasic("physicalCriticalDamage %d", physicalCriticalDamage);
+				GetAttributesManager()->UpdatePhysicalCriticalRange(SystemEffectData->effectCode, physicalCriticalDamage, true, set);
 				break;
 			}
 			case ACTIVE_PHYSICAL_CRITICAL:
@@ -376,9 +371,8 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 			{
 				int dodgeRate = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index], 
 					GetPcProfile()->avatarAttribute.wBaseDodgeRate);
-				dodgeRate *= setUnset;
 				sLog.outBasic("dodgeRate %d", dodgeRate);
-				GetAttributesManager()->UpdateDodgeRate(dodgeRate, true);
+				GetAttributesManager()->UpdateDodgeRate(SystemEffectData->effectCode, dodgeRate, true, set);
 				break;
 			}
 			case ACTIVE_ATTACK_SPEED_UP:
@@ -386,9 +380,8 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 				int attackSpeedRate = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index], 
 					GetPcProfile()->avatarAttribute.wBaseAttackSpeedRate);
 				attackSpeedRate *= -1;
-				attackSpeedRate *= setUnset;
 				sLog.outBasic("attackSpeedRate %d", attackSpeedRate);
-				GetAttributesManager()->UpdateAttackspeedRate(attackSpeedRate, true);
+				GetAttributesManager()->UpdateAttackspeedRate(SystemEffectData->effectCode, attackSpeedRate, true, set);
 				break;
 			}
 			case ACTIVE_RABIES:
