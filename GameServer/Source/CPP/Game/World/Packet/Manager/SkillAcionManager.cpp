@@ -212,16 +212,14 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 
 				subPhysicalDefence = subPhysicalDefence * -1;
 
-				subPhysicalDefence *= setUnset;
-
-				GetAttributesManager()->UpdatePhysicalDefence(subPhysicalDefence, true);
+				GetAttributesManager()->UpdatePhysicalDefence(SystemEffectData->effectCode, subPhysicalDefence, true, set);
 				sLog.outBasic("physical defense substraction %d", subPhysicalDefence);
 
 				if (!set)
 				{
 					GetPcProfile()->avatarAttribute.wBasePhysicalDefence = 0;
 				}
-
+				
 				break;
 			}
 			case ACTIVE_ENERGY_DEFENCE_DOWN:
@@ -234,10 +232,8 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 					GetPcProfile()->avatarAttribute.wBaseEnergyDefence);
 				subEnergyDefence = subEnergyDefence * -1;
 
-				subEnergyDefence *= setUnset;
-
 				sLog.outBasic("energy defense substraction %d", subEnergyDefence);
-				GetAttributesManager()->UpdateEnergyDefence(subEnergyDefence, true);
+				GetAttributesManager()->UpdateEnergyDefence(SystemEffectData->effectCode, subEnergyDefence, true, set);
 
 				if (!set)
 				{
@@ -251,9 +247,8 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 					GetPcProfile()->avatarAttribute.wBaseAttackRate);
 				attackRate *= -1;
 
-				attackRate *= setUnset;
 				sLog.outBasic("attackRate %d", attackRate);
-				GetAttributesManager()->UpdateHitRate(attackRate, true);
+				GetAttributesManager()->UpdateHitRate(SystemEffectData->effectCode, attackRate, true, set);
 				break;
 			}
 			case ACTIVE_RP_CHARGE_SPEED://need Handle the effect is here to try do effects in order 
@@ -281,8 +276,7 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 					static_cast<float>(GetPcProfile()->avatarAttribute.wLastEnergyOffence));*/
 				int addEnergyOffence = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
 					GetPcProfile()->avatarAttribute.wBaseEnergyOffence);
-				addEnergyOffence *= setUnset;
-				GetAttributesManager()->UpdateEnergyOffence(addEnergyOffence, true);
+				GetAttributesManager()->UpdateEnergyOffence(SystemEffectData->effectCode, addEnergyOffence, true, set);
 				sLog.outBasic("addEnergyOffence %d", addEnergyOffence);
 				break;
 			}
@@ -293,8 +287,7 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 				int addPhysicalOffence = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
 					GetPcProfile()->avatarAttribute.wBasePhysicalOffence);
 
-				addPhysicalOffence *= setUnset;
-				GetAttributesManager()->UpdatePhysicalOffence(addPhysicalOffence, true);
+				GetAttributesManager()->UpdatePhysicalOffence(SystemEffectData->effectCode, addPhysicalOffence, true, set);
 				sLog.outBasic("addPhysicalOffence %d", addPhysicalOffence);
 				break;
 			}			
@@ -302,55 +295,49 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 			{
 				int addConstitution = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
 					GetPcProfile()->avatarAttribute.byBaseCon);
-				addConstitution *= setUnset;
 				sLog.outBasic("Add Constitution %d", addConstitution);
-				GetAttributesManager()->UpdateCon(addConstitution, true);
+				GetAttributesManager()->UpdateCon(SystemEffectData->effectCode, addConstitution, true, set);
 				break;
 			}
 			case ACTIVE_FOC_UP:	//100% 
 			{
 				int addFocus = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
 					GetPcProfile()->avatarAttribute.byBaseFoc);
-				addFocus *= setUnset;
 				sLog.outBasic("Add Focus %d", addFocus);
-				GetAttributesManager()->UpdateFoc(addFocus, true);
+				GetAttributesManager()->UpdateFoc(SystemEffectData->effectCode, addFocus, true, set);
 				break;
 			}
 			case ACTIVE_ENG_UP:	//100
 			{
 				int addEnergy = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
 					GetPcProfile()->avatarAttribute.byBaseEng);
-				addEnergy *= setUnset;
 				sLog.outBasic("Add Energy %d", addEnergy);
-				GetAttributesManager()->UpdateEng(addEnergy, true);
+				GetAttributesManager()->UpdateEng(SystemEffectData->effectCode, addEnergy, true, set);
 				break;
 			}
 			case ACTIVE_DEX_UP:	//100% 
 			{
 				int addDextery = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index], 
 					GetPcProfile()->avatarAttribute.byBaseDex);
-				addDextery *= setUnset;
 				sLog.outBasic("Add Dextery %d", addDextery);
-				GetAttributesManager()->UpdateDex(addDextery, true);
+				GetAttributesManager()->UpdateDex(SystemEffectData->effectCode, addDextery, true, set);
 				break;
 			}
 			case ACTIVE_STR_UP:
 			{
 				int addStrength = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index], 
 					GetPcProfile()->avatarAttribute.byBaseStr);
-				addStrength *= setUnset;
 				sLog.outBasic("Add Strenght %d", addStrength);
-				GetAttributesManager()->UpdateStr(addStrength, true);
+				GetAttributesManager()->UpdateStr(SystemEffectData->effectCode, addStrength, true, set);
 				break;
 			}
 			case ACTIVE_SOL_UP:
 			{
 				int addSoul = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index], 
 					GetPcProfile()->avatarAttribute.byBaseSol);
-				addSoul *= setUnset;
 
 				sLog.outBasic("Add Soul %d", addSoul);
-				GetAttributesManager()->UpdateSol(addSoul, true);
+				GetAttributesManager()->UpdateSol(SystemEffectData->effectCode, addSoul, true, set);
 				break;
 			}
 			case ACTIVE_ENERGY_CRITICAL_DAMAGE_UP:
@@ -373,18 +360,16 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 			{
 				int physicalCritical = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
 					GetPcProfile()->avatarAttribute.wBasePhysicalCriticalRate);
-				physicalCritical *= setUnset;
 				sLog.outBasic("physicalCritical %d", physicalCritical);
-				GetAttributesManager()->UpdatePhysicalCriticalRate(physicalCritical, true);
+				GetAttributesManager()->UpdatePhysicalCriticalRate(SystemEffectData->effectCode, physicalCritical, true, set);
 				break;
 			}
 			case ACTIVE_ATTACK_RATE_UP:
 			{
 				int attackRate = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
 					GetPcProfile()->avatarAttribute.wBaseAttackRate);
-				attackRate *= setUnset;
 				sLog.outBasic("attackRate %d", attackRate);
-				GetAttributesManager()->UpdateHitRate(attackRate, true);
+				GetAttributesManager()->UpdateHitRate(SystemEffectData->effectCode, attackRate, true, set);
 				break;
 			}
 			case ACTIVE_DODGE_RATE_UP:

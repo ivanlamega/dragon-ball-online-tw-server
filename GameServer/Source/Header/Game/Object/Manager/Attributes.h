@@ -191,7 +191,12 @@ public:
 	BuffTimeInfo sBuffTimeInfo[34];
 	int StunedTypes[34];
 	// list of effects applied in player
-	std::vector<float> effectsApplied[MAX_SYSTEM_EFFECT_CODE];
+	typedef std::unordered_map<DWORD, std::vector<float>> ATTR_EFFECTS;
+	typedef ATTR_EFFECTS::iterator ATTR_EFFECTSIT;
+
+	ATTR_EFFECTS			effectsApplied;
+
+	//std::vector<float> effectsApplied[MAX_SYSTEM_EFFECT_CODE];
 	std::vector<BuffTimeInfo> vBuffTimeInfo;
 	//////////
 	//Caontrol FreeBatle Need change
@@ -225,9 +230,11 @@ public:
 	void			DeleteBuff(TBLIDX buffIdx);
 	BuffTimeInfo*	GetBuff(TBLIDX buffIdx);
 	// Attributes effect list
-	void			AddAttrEffect(WORD effectType, float value);
-	void			DeleteAttrEffect(WORD effectType, float value);
+	float			AddAttrEffect(WORD effectType, float value);
+	float			DeleteAttrEffect(WORD effectType, float value);
+	float			GetAttrEffectByType(WORD effectType, float value, bool addRemove);
 	std::vector<float> GetAttrEffects(WORD effectType);
+	float			SetAllEffects(WORD actEffectUp, WORD actEffectDown, WORD pasEffectType, float originalValue);
 
 	//RP Passive
 	bool			IsPowerUp;
@@ -280,29 +287,30 @@ public:
 	float			GetPercent(float percent, float value);
 
 	// Update cascading stats bool add = 0 add, 1 set
+	// Update cascading stats bool addRemove = true add, false remove
 	// Update phyicalOffence
-	void			UpdateStr(int lastStr, bool add);
+	void			UpdateStr(WORD effectType, int lastStr, bool add, bool addRemove);
 	// Update LP, blockRate, physicalCriticalDefenceRate
-	void			UpdateCon(int lastCon, bool add);
+	void			UpdateCon(WORD effectType, int lastCon, bool add, bool addRemove);
 	// Update energyOffence, energyCriticalRate, hitRate(attackRate), energyCriticalRange, curseSuccessRate
-	void			UpdateFoc(int lastFoc, bool add);
+	void			UpdateFoc(WORD effectType, int lastFoc, bool add, bool addRemove);
 	// Update physicalOffence, physicalCriticalRate, dodgeRate, blockRate, physicalCriticalRange, curseToleranceRate
-	void			UpdateDex(int lastDex, bool add);
+	void			UpdateDex(WORD effectType, int lastDex, bool add, bool addRemove);
 	// Update energyOffence
-	void			UpdateSol(int lastSol, bool add);
+	void			UpdateSol(WORD effectType, int lastSol, bool add, bool addRemove);
 	// Update EP and EnergyCriticalDefenceRate
-	void			UpdateEng(int lastEng, bool add);
-	void			UpdateLP(DWORD lp, bool add);
-	void			UpdateEP(WORD ep, bool add);
+	void			UpdateEng(WORD effectType, int lastEng, bool add, bool addRemove);
+	void			UpdateLP(WORD effectType, DWORD lp, bool add, bool addRemove);
+	void			UpdateEP(WORD effectType, WORD ep, bool add, bool addRemove);
 	// Update RpRegeneration and RPDiminution
-	void			UpdateRP(int rp, bool add);
-	void			UpdatePhysicalOffence(WORD physicalOffence, bool add);
-	void			UpdatePhysicalDefence(WORD physicalDefence, bool add);
-	void			UpdateEnergyOffence(WORD energyOffence, bool add);
-	void			UpdateEnergyDefence(WORD energyDefence, bool add);
-	void			UpdatePhysicalCriticalRate(WORD physicalCriticalRate, bool add);
-	void			UpdateEnergyCriticalRate(WORD energyCriticalRate, bool add);
-	void			UpdateHitRate(WORD hitRate, bool add);
+	void			UpdateRP(WORD effectType, int rp, bool add, bool addRemove);
+	void			UpdatePhysicalOffence(WORD effectType, WORD physicalOffence, bool add, bool addRemove);
+	void			UpdatePhysicalDefence(WORD effectType, WORD physicalDefence, bool add, bool addRemove);
+	void			UpdateEnergyOffence(WORD effectType, WORD energyOffence, bool add, bool addRemove);
+	void			UpdateEnergyDefence(WORD effectType, WORD energyDefence, bool add, bool addRemove);
+	void			UpdatePhysicalCriticalRate(WORD effectType, WORD physicalCriticalRate, bool add, bool addRemove);
+	void			UpdateEnergyCriticalRate(WORD effectType, WORD energyCriticalRate, bool add, bool addRemove);
+	void			UpdateHitRate(WORD effectType, WORD hitRate, bool add, bool addRemove);
 	void			UpdateDodgeRate(WORD dodgeRate, bool add);
 	void			UpdateBlockRate(WORD blockRate, bool add);
 	void			UpdatePhysicalCriticalDefenceRate(WORD physicalCriticalDefenceRate, bool add);
