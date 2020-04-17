@@ -4105,6 +4105,7 @@ void Player::TeleportToPopo()
 			SetState(eCHARSTATE::CHARSTATE_SPAWNING);
 			try
 			{
+				sLog.outError("Trying to delete player of map");
 				Map* map = GetMap();
 				map->Remove(this, false);
 			}
@@ -4123,6 +4124,55 @@ void Player::TeleportToPopo()
 		sLog.outDetail("Error, can't find the ObjectID");
 	}	
 }
+
+void Player::TeleportPopo()
+{
+	sql::ResultSet* result = sDB.executes("SELECT * FROM bind WHERE CharacterID = '%d';", GetCharacterID());
+	if (result == NULL)
+	{
+		sLog.outError("Result not found");
+		delete result;
+		return;
+	}
+	if (result->rowsCount() <= 0)
+	{
+		sLog.outError("Result empty");
+		delete result;
+		return;
+	}
+
+	TBLIDX worldTblidx = result->getInt("WorldID");
+	TBLIDX objectTblidx = result->getInt("BindObjectTblIdx");
+
+	sLog.outBasic("objectId %d worldId %d", worldTblidx, objectTblidx);
+
+	sOBJECT_TBLDAT* object = (sOBJECT_TBLDAT*)sTBM.GetObjectTable(worldTblidx)->FindData(objectTblidx);
+	if (object)
+	{
+		GetAttributesManager()->teleportInfo.bIsToMoveAnotherServer = GetWorldTableID() != worldTblidx ? true : false;
+
+		GetAttributesManager()->teleportInfo.worldInfo.tblidx = worldTblidx;
+		GetAttributesManager()->teleportInfo.worldInfo.worldID = worldTblidx;
+
+		GetAttributesManager()->teleportInfo.position.x = object->vLoc.x;
+		GetAttributesManager()->teleportInfo.position.y = object->vLoc.y;
+		GetAttributesManager()->teleportInfo.position.z = object->vLoc.z;
+
+		GetAttributesManager()->teleportInfo.rotation.x = object->vDir.x;
+		GetAttributesManager()->teleportInfo.rotation.y = object->vDir.y;
+		GetAttributesManager()->teleportInfo.rotation.z = object->vDir.z;
+
+		m_session->SendUpdateCharCondition(80);
+
+		GetState()->sCharStateDetail.sCharStateDespawning.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_POPOSTONE;
+		SetState(eCHARSTATE::CHARSTATE_DESPAWNING);
+	}
+	else
+	{
+		sLog.outError("Object Bind NOT FOUND");
+	}
+}
+
 void Player::SetSpeed(int sppeed)
 {
 	sGU_UPDATE_CHAR_SPEED speed;

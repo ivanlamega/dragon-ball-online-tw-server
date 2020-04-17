@@ -21,6 +21,7 @@ struct TeleportInfo
 {
 	sVECTOR3	position;
 	sVECTOR3	rotation;
+	BYTE		byTeleportType;
 	bool		bIsToMoveAnotherServer;
 	sWORLD_INFO worldInfo;
 	OutWorld	outWorld;

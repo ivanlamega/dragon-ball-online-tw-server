@@ -93,6 +93,7 @@ ResultCodes	WorldSession::FindPCTriggerInformation(sUG_TS_CONFIRM_STEP_REQ* req)
 
 								_player->GetAttributesManager()->teleportInfo.worldInfo.tblidx = actPortal->GetWorldIdx();
 								_player->GetAttributesManager()->teleportInfo.worldInfo.worldID = actPortal->GetWorldIdx();
+								_player->GetAttributesManager()->teleportInfo.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_DUNGEON;
 
 								sLog.outDebug("1 Teleport: pos %f %f %f rot %f %f %f worldtblidx %d type %d", _player->GetAttributesManager()->teleportInfo.position.x,
 									_player->GetAttributesManager()->teleportInfo.position.y,
@@ -105,7 +106,7 @@ ResultCodes	WorldSession::FindPCTriggerInformation(sUG_TS_CONFIRM_STEP_REQ* req)
 
 								sWORLD_TBLDAT* worldTbl = (sWORLD_TBLDAT*)sTBM.GetWorldTable()->FindData(_player->GetAttributesManager()->teleportInfo.worldInfo.tblidx);
 								sLog.outDebug("WORLD TBLIDX: %d resourse id: %d", worldTbl->tblidx, worldTbl->dwWorldResourceID);
-								_player->GetState()->sCharStateDetail.sCharStateDespawning.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_DEFAULT;
+								_player->GetState()->sCharStateDetail.sCharStateDespawning.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_DUNGEON;
 								_player->SetState(eCHARSTATE::CHARSTATE_DESPAWNING);
 								break;
 							}
@@ -178,6 +179,7 @@ ResultCodes	WorldSession::FindPCTriggerInformation(sUG_TS_CONFIRM_STEP_REQ* req)
 									_player->GetAttributesManager()->teleportInfo.worldInfo.tblidx = worldData->tblidx;
 									_player->GetAttributesManager()->teleportInfo.worldInfo.hTriggerObjectOffset = HANDLE_TRIGGER_OBJECT_OFFSET;
 									_player->GetAttributesManager()->teleportInfo.worldInfo.sRuleInfo.byRuleType = worldData->byWorldRuleType;
+									_player->GetAttributesManager()->teleportInfo.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_TIMEQUEST;
 
 									sLog.outDebug("2 Teleport: pos %f %f %f rot %f %f %f worldtblidx %d type %d ruleType %d", _player->GetAttributesManager()->teleportInfo.position.x,
 										_player->GetAttributesManager()->teleportInfo.position.y,
@@ -217,6 +219,7 @@ ResultCodes	WorldSession::FindPCTriggerInformation(sUG_TS_CONFIRM_STEP_REQ* req)
 									_player->GetAttributesManager()->teleportInfo.worldInfo.tblidx = _player->GetAttributesManager()->teleportInfo.outWorld.worldTblidx;
 									_player->GetAttributesManager()->teleportInfo.worldInfo.hTriggerObjectOffset = HANDLE_TRIGGER_OBJECT_OFFSET;
 									_player->GetAttributesManager()->teleportInfo.worldInfo.sRuleInfo.byRuleType = 0;
+									_player->GetAttributesManager()->teleportInfo.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_TIMEQUEST;
 
 									memset(&_player->GetAttributesManager()->teleportInfo.outWorld, 0, sizeof _player->GetAttributesManager()->teleportInfo.outWorld);
 
@@ -1318,6 +1321,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 						_player->GetAttributesManager()->teleportInfo.worldInfo.tblidx = pNewbieTbldat->world_Id;
 						_player->GetAttributesManager()->teleportInfo.worldInfo.hTriggerObjectOffset = HANDLE_TRIGGER_OBJECT_OFFSET;
 						_player->GetAttributesManager()->teleportInfo.worldInfo.sRuleInfo.byRuleType = worldData->byWorldRuleType;
+						_player->GetAttributesManager()->teleportInfo.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_DEFAULT;
 
 						sLog.outDebug("8 Teleport: pos %f %f %f rot %f %f %f worldtblidx %d ruleType %d", _player->GetAttributesManager()->teleportInfo.position.x,
 							_player->GetAttributesManager()->teleportInfo.position.y,
@@ -1662,6 +1666,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 						_player->GetAttributesManager()->teleportInfo.rotation.z);
 
 					_player->GetAttributesManager()->teleportInfo.worldInfo.tblidx = sPortal->GetWorldIdx();
+					_player->GetAttributesManager()->teleportInfo.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_DUNGEON;
 
 					sLog.outDebug("5 Teleport: pos %f %f %f rot %f %f %f worldtblidx %d type %d", _player->GetAttributesManager()->teleportInfo.position.x,
 						_player->GetAttributesManager()->teleportInfo.position.y,
@@ -1674,7 +1679,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 
 					sWORLD_TBLDAT* worldTbl = (sWORLD_TBLDAT*)sTBM.GetWorldTable()->FindData(_player->GetAttributesManager()->teleportInfo.worldInfo.tblidx);
 					sLog.outDebug("WORLD TBLIDX: %d resourse id: %d", worldTbl->tblidx, worldTbl->dwWorldResourceID);
-					_player->GetState()->sCharStateDetail.sCharStateDespawning.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_DEFAULT;
+					_player->GetState()->sCharStateDetail.sCharStateDespawning.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_DUNGEON;
 					_player->SetState(eCHARSTATE::CHARSTATE_DESPAWNING);
 				}
 
@@ -2184,6 +2189,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 							_player->GetAttributesManager()->teleportInfo.worldInfo.tblidx = worldData->tblidx;
 							_player->GetAttributesManager()->teleportInfo.worldInfo.hTriggerObjectOffset = HANDLE_TRIGGER_OBJECT_OFFSET;
 							_player->GetAttributesManager()->teleportInfo.worldInfo.sRuleInfo.byRuleType = worldData->byWorldRuleType;
+							_player->GetAttributesManager()->teleportInfo.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_TIMEQUEST;
 
 							sLog.outDebug("6 Teleport: pos %f %f %f rot %f %f %f worldtblidx %d type %d ruleType %d", _player->GetAttributesManager()->teleportInfo.position.x,
 								_player->GetAttributesManager()->teleportInfo.position.y,
@@ -2422,6 +2428,7 @@ ResultCodes WorldSession::ProcessTsContGAct(CDboTSContGAct * contGAct, NTL_TS_T_
 							_player->GetAttributesManager()->teleportInfo.worldInfo.tblidx = _player->GetAttributesManager()->teleportInfo.outWorld.worldTblidx;
 							_player->GetAttributesManager()->teleportInfo.worldInfo.hTriggerObjectOffset = HANDLE_TRIGGER_OBJECT_OFFSET;
 							_player->GetAttributesManager()->teleportInfo.worldInfo.sRuleInfo.byRuleType = 0;
+							_player->GetAttributesManager()->teleportInfo.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_TIMEQUEST;
 
 							memset(&_player->GetAttributesManager()->teleportInfo.outWorld, 0, sizeof _player->GetAttributesManager()->teleportInfo.outWorld);
 

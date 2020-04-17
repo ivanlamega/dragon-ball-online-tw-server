@@ -753,7 +753,7 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 			_player->GetAttributesManager()->teleportInfo.position.x = 5142.0;
 			_player->GetAttributesManager()->teleportInfo.position.y = 0.0;
 			_player->GetAttributesManager()->teleportInfo.position.z = 4240.0;
-
+			_player->GetAttributesManager()->teleportInfo.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_COMMAND;
 			/*sGU_UPDATE_CHAR_CONDITION condition;
 			condition.wOpCode = GU_UPDATE_CHAR_CONDITION;
 			condition.wPacketSize = sizeof(sGU_UPDATE_CHAR_CONDITION) - 2;

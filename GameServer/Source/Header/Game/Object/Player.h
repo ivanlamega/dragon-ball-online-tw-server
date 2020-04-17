@@ -220,6 +220,7 @@ public:
 	//
 	void				TeleportByCommand(TBLIDX WorldID);
 	void				TeleportToPopo();
+	void				TeleportPopo();
 	//	------------------------------------------------------------------------
 	// AucionHouse FUNCTIONS
 	//	------------------------------------------------------------------------

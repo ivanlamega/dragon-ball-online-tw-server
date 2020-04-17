@@ -2542,7 +2542,7 @@ void Player::SkillAcion()
 						skillRes.wOpCode = GU_CHAR_ACTION_SKILL;
 						skillRes.handle = GetHandle();//My Handle
 						skillRes.hAppointedTarget = GetHandle();
-						TeleportToPopo();
+						TeleportPopo();
 						break;
 					}
 					//NEXT CASE

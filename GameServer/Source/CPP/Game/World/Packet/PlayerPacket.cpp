@@ -104,6 +104,7 @@ void WorldSession::SendPortalTeleport(Packet& packet)
 		_player->GetAttributesManager()->teleportInfo.rotation.x = portalTbl->vDir.x;
 		_player->GetAttributesManager()->teleportInfo.rotation.y = portalTbl->vDir.y;
 		_player->GetAttributesManager()->teleportInfo.rotation.z = portalTbl->vDir.z;
+		_player->GetAttributesManager()->teleportInfo.byTeleportType = eTELEPORT_TYPE::TELEPORT_TYPE_NPC_PORTAL;
 
 		/*sGU_UPDATE_CHAR_CONDITION condition;
 		condition.wOpCode = GU_UPDATE_CHAR_CONDITION;
