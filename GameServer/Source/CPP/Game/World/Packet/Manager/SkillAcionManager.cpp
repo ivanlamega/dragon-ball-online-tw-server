@@ -429,6 +429,22 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 				}
 				break;
 			}
+			case ACTIVE_MAX_LP_UP://100% 
+			{
+				int maxLp = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
+					GetPcProfile()->avatarAttribute.wBaseMaxLP);
+				sLog.outBasic("add maxLP %d", maxLp);
+				GetAttributesManager()->UpdateLP(SystemEffectData->effectCode, maxLp, true, set);
+				break;
+			}
+			case ACTIVE_LP_REGENERATION:
+			{
+				int lPRegen = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
+					GetPcProfile()->avatarAttribute.wBaseLpRegen);
+				sLog.outBasic("lp regeneration %d", lPRegen);
+				GetAttributesManager()->UpdateLPRegeneration(SystemEffectData->effectCode, lPRegen, true, set);
+				break;
+			}
 			case ACTIVE_CURSE_TOLERANCE:
 			{
 				int curseToleranceRate = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
@@ -1669,8 +1685,7 @@ void Player::SkillAcion()
 						GetState()->sCharStateBase.aspectState.sAspectStateDetail.sVehicle.idVehicleTblidx = INVALID_TBLIDX;
 						UpdateAspectState(eASPECTSTATE::ASPECTSTATE_GREAT_NAMEK);
 						break;
-					}
-					case ACTIVE_MAX_LP_UP://100% 						
+					}						
 					case ACTIVE_MAX_EP_UP://100% 
 					case ACTIVE_MAX_RP_UP://100%  
 					{

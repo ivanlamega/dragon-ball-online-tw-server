@@ -2402,7 +2402,8 @@ void AttributesManager::UpdateLP(WORD effectType, DWORD lp, bool add, bool addRe
 {
 	if (add)
 	{
-		WORD totalMaxLP = GetAttrEffectByType(effectType, lp, addRemove);
+		DWORD totalMaxLP = GetAttrEffectByType(effectType, lp, addRemove);
+		sLog.outString("add/remove total %d", totalMaxLP);
 		AddLastMaxLP(totalMaxLP);
 	}
 	else
@@ -2410,6 +2411,7 @@ void AttributesManager::UpdateLP(WORD effectType, DWORD lp, bool add, bool addRe
 		WORD totalMaxLP = SetAllEffects(ACTIVE_MAX_LP_UP, ACTIVE_MAX_LP_DOWN, PASSIVE_MAX_LP_UP, lp);
 		SetLastMaxLP(totalMaxLP);
 	}
+	sLog.outString("total maxLp %d", PlayerProfile.avatarAttribute.wLastMaxLP);
 }
 
 void AttributesManager::UpdateEP(WORD effectType, WORD ep, bool add, bool addRemove)
@@ -2671,6 +2673,7 @@ void AttributesManager::UpdateLPRegeneration(WORD effectType, WORD LpRegen, bool
 		WORD totalLpRegen = SetAllEffects(ACTIVE_LP_REGENERATION, INVALID_SYSTEM_EFFECT_CODE, PASSIVE_LP_REGENERATION, LpRegen);
 		SetLastLPRegen(totalLpRegen);
 	}
+	sLog.outString("total lpRegeneration %d", PlayerProfile.avatarAttribute.wLastLpRegen);
 
 	WORD lpSitDownRegen = CalculeLPSitDownRegeneration(PlayerProfile.avatarAttribute.wLastLpRegen);
 
@@ -2682,6 +2685,7 @@ void AttributesManager::UpdateLPSitDownRegeneration(WORD effectType, WORD lpSitD
 	if (add)
 	{
 		WORD totalLPSitDownRegeneration = GetAttrEffectByType(effectType, lpSitDownRegen, addRemove);
+		sLog.outString("add/remove epSitDownRegeneration %d", totalLPSitDownRegeneration);
 		AddLastLPSitDownRegeneration(totalLPSitDownRegeneration);
 	}
 	else
@@ -2689,6 +2693,7 @@ void AttributesManager::UpdateLPSitDownRegeneration(WORD effectType, WORD lpSitD
 		WORD totalLPSitDownRegeneration = SetAllEffects(ACTIVE_SIT_DOWN_LP_REGENERATION_UP, INVALID_SYSTEM_EFFECT_CODE, INVALID_SYSTEM_EFFECT_CODE, lpSitDownRegen);;
 		SetLastLPSitDownRegeneration(totalLPSitDownRegeneration);
 	}
+	sLog.outString("total lp sit down Regeneration %d", PlayerProfile.avatarAttribute.wLastLpSitdownRegen);
 }
 
 void AttributesManager::UpdateEPRegeneration(WORD effectType, WORD EpRegen, bool add, bool addRemove)
