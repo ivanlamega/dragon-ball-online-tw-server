@@ -384,6 +384,23 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 				GetAttributesManager()->UpdateAttackspeedRate(SystemEffectData->effectCode, attackSpeedRate, true, set);
 				break;
 			}
+			case ACTIVE_BLOCK_RATE_UP://100% 
+			{
+				int blockRate = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
+					GetPcProfile()->avatarAttribute.wBaseBlockRate);
+				sLog.outBasic("blockRate %d", blockRate);
+				GetAttributesManager()->UpdateBlockRate(SystemEffectData->effectCode, blockRate, true, set);
+				break;
+			}
+			case ACTIVE_CURSE_TOLERANCE:
+			{
+				int curseToleranceRate = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
+					GetPcProfile()->avatarAttribute.wBaseCurseToleranceRate);
+				sLog.outBasic("curseToleranceRate %d", curseToleranceRate);
+				GetAttributesManager()->UpdateCurseToleranceRate(SystemEffectData->effectCode, curseToleranceRate, true, set);
+				break;
+			}
+			// States
 			case ACTIVE_RABIES:
 			{
 				DWORD condition = set ? CHARCOND_RABIES_FLAG : 0;
@@ -1621,7 +1638,6 @@ void Player::SkillAcion()
 					case ACTIVE_MAX_RP_UP://100% 
 					case ACTIVE_PHYSICAL_DEFENCE_UP://100% 
 					case ACTIVE_ENERGY_DEFENCE_UP://100% 
-					case ACTIVE_BLOCK_RATE_UP://100% 
 					{
 						break;
 					}

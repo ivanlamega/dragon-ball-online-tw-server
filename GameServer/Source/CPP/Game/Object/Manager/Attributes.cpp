@@ -2597,6 +2597,8 @@ void AttributesManager::UpdateBlockRate(WORD effectType, WORD blockRate, bool ad
 		WORD totalBlockRate = SetAllEffects(ACTIVE_BLOCK_RATE_UP, ACTIVE_BLOCK_RATE_DOWN, PASSIVE_BLOCK_RATE_UP, blockRate);
 		SetLastBlockRate(totalBlockRate);
 	}
+
+	sLog.outString("total BlockRate %d", PlayerProfile.avatarAttribute.wLastBlockRate);
 }
 
 void AttributesManager::UpdatePhysicalCriticalDefenceRate(WORD physicalCriticalDefenceRate, bool add)
@@ -2761,6 +2763,8 @@ void AttributesManager::UpdateCurseToleranceRate(WORD effectType, WORD curseTole
 		WORD totalCurseToleranceRate = SetAllEffects(ACTIVE_CURSE_TOLERANCE, INVALID_SYSTEM_EFFECT_CODE, PASSIVE_CURSE_TOLERANCE_UP, curseToleranceRate);
 		SetLastCurseToleranceRate(totalCurseToleranceRate);
 	}
+
+	sLog.outString("total curseToleranceRate %d", PlayerProfile.avatarAttribute.wLastCurseToleranceRate);
 }
 
 void AttributesManager::UpdateRunSpeed(WORD effectType, float runSpeed, bool add, bool addRemove)

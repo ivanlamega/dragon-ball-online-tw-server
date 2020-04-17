@@ -134,7 +134,7 @@ void AttributesManager::SetLastCurseSuccessRate(WORD val)
 void AttributesManager::SetLastCurseToleranceRate(WORD val)
 {
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_CURSE_TOLERANCE_LAST);
-	PlayerProfile.avatarAttribute.wBaseCurseToleranceRate = val;
+	PlayerProfile.avatarAttribute.wLastCurseToleranceRate = val;
 	AttrIsUpdated = true;
 }
 void AttributesManager::SetLastPhysicalCriticalRate(WORD val)
@@ -654,7 +654,7 @@ void AttributesManager::AddLastCurseSuccessRate(WORD val)
 void AttributesManager::AddLastCurseToleranceRate(WORD val)
 {
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_CURSE_TOLERANCE_LAST);
-	PlayerProfile.avatarAttribute.wBaseCurseToleranceRate += val;
+	PlayerProfile.avatarAttribute.wLastCurseToleranceRate += val;
 	AttrIsUpdated = true;
 }
 void AttributesManager::AddLastPhysicalCriticalRate(WORD val)
