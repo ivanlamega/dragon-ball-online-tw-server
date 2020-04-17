@@ -2491,7 +2491,7 @@ void AttributesManager::UpdatePhysicalDefence(WORD effectType, WORD physicalDefe
 {
 	if (add)
 	{
-		WORD totalLastPhysicalDefence = GetAttrEffectByType(effectType, physicalDefence, addRemove);
+		WORD totalLastPhysicalDefence = GetAttrEffectByType(effectType, (short)physicalDefence, addRemove);
 		AddLastPhysicalDefence(totalLastPhysicalDefence);
 	}
 	else
@@ -2519,7 +2519,7 @@ void AttributesManager::UpdateEnergyDefence(WORD effectType, WORD energyDefence,
 {
 	if (add)
 	{
-		WORD totalEnergyDefence = GetAttrEffectByType(effectType, energyDefence, addRemove);
+		WORD totalEnergyDefence = GetAttrEffectByType(effectType, (short)energyDefence, addRemove);
 		AddLastEnergyDefence(totalEnergyDefence);
 	}
 	else

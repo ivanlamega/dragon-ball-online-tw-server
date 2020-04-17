@@ -392,6 +392,43 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 				GetAttributesManager()->UpdateBlockRate(SystemEffectData->effectCode, blockRate, true, set);
 				break;
 			}
+			case ACTIVE_ENERGY_DEFENCE_UP:
+			{
+				if (set)
+				{
+					GetPcProfile()->avatarAttribute.wBaseEnergyDefence = GetPcProfile()->avatarAttribute.wLastEnergyDefence;
+				}
+				int subEnergyDefence = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
+					GetPcProfile()->avatarAttribute.wBaseEnergyDefence);
+
+				sLog.outBasic("energy defense add %d", subEnergyDefence);
+				GetAttributesManager()->UpdateEnergyDefence(SystemEffectData->effectCode, subEnergyDefence, true, set);
+
+				if (!set)
+				{
+					GetPcProfile()->avatarAttribute.wBaseEnergyDefence = 0;
+				}
+				break;
+			}
+			case ACTIVE_PHYSICAL_DEFENCE_UP://100% 
+			{
+				if (set)
+				{
+					GetPcProfile()->avatarAttribute.wBasePhysicalDefence = GetPcProfile()->avatarAttribute.wLastPhysicalDefence;
+				}
+
+				int subPhysicalDefence = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
+					GetPcProfile()->avatarAttribute.wBasePhysicalDefence);
+
+				GetAttributesManager()->UpdatePhysicalDefence(SystemEffectData->effectCode, subPhysicalDefence, true, set);
+				sLog.outBasic("physical defense add %d", subPhysicalDefence);
+
+				if (!set)
+				{
+					GetPcProfile()->avatarAttribute.wBasePhysicalDefence = 0;
+				}
+				break;
+			}
 			case ACTIVE_CURSE_TOLERANCE:
 			{
 				int curseToleranceRate = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
@@ -1635,9 +1672,7 @@ void Player::SkillAcion()
 					}
 					case ACTIVE_MAX_LP_UP://100% 						
 					case ACTIVE_MAX_EP_UP://100% 
-					case ACTIVE_MAX_RP_UP://100% 
-					case ACTIVE_PHYSICAL_DEFENCE_UP://100% 
-					case ACTIVE_ENERGY_DEFENCE_UP://100% 
+					case ACTIVE_MAX_RP_UP://100%  
 					{
 						break;
 					}
