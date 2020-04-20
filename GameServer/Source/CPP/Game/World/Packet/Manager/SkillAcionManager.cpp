@@ -365,6 +365,13 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 				GetAttributesManager()->UpdateGuardKnockdownSuccess(SystemEffectData->effectCode, knockdownBlock, true, set);
 				break;
 			}
+			case ACTIVE_CRITICAL_BLOCK_UP:
+			{
+				float criticalBlock = skillData->SkillValue[index];
+				sLog.outBasic("criticalBlock %f", criticalBlock);
+				GetAttributesManager()->UpdateGuardCriticalSuccess(SystemEffectData->effectCode, criticalBlock, true, set);
+				break;
+			}
 			case ACTIVE_VIABILITY:
 			{
 				int percent = GetAttributesManager()->GetPercent(30.0f, GetPcProfile()->avatarAttribute.wLastMaxLP);
@@ -464,12 +471,28 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 				GetAttributesManager()->UpdateLP(SystemEffectData->effectCode, maxLp, true, set);
 				break;
 			}
+			case ACTIVE_MAX_EP_UP:
+			{
+				int maxEP = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
+					GetPcProfile()->avatarAttribute.wBaseMaxEP);
+				sLog.outBasic("add maxEP %d", maxEP);
+				GetAttributesManager()->UpdateEP(SystemEffectData->effectCode, maxEP, true, set);
+				break;
+			}
 			case ACTIVE_LP_REGENERATION:
 			{
 				int lPRegen = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
 					GetPcProfile()->avatarAttribute.wBaseLpRegen);
 				sLog.outBasic("lp regeneration %d", lPRegen);
 				GetAttributesManager()->UpdateLPRegeneration(SystemEffectData->effectCode, lPRegen, true, set);
+				break;
+			}
+			case ACTIVE_EP_REGENERATION:
+			{
+				int epRegen = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
+					GetPcProfile()->avatarAttribute.wBaseEpRegen);
+				sLog.outBasic("ep regeneration %d", epRegen);
+				GetAttributesManager()->UpdateEPRegeneration(SystemEffectData->effectCode, epRegen, true, set);
 				break;
 			}
 			case ACTIVE_CURSE_TOLERANCE:
@@ -1712,14 +1735,11 @@ void Player::SkillAcion()
 						GetState()->sCharStateBase.aspectState.sAspectStateDetail.sVehicle.idVehicleTblidx = INVALID_TBLIDX;
 						UpdateAspectState(eASPECTSTATE::ASPECTSTATE_GREAT_NAMEK);
 						break;
-					}						
-					case ACTIVE_MAX_EP_UP://100% 
+					} 
 					case ACTIVE_MAX_RP_UP://100%  
 					{
 						break;
 					}
-					//case ACTIVE_LP_REGENERATION://need Handle the effect is here to try do effects in order 
-					//case ACTIVE_EP_REGENERATION://need Handle the effect is here to try do effects in order 
 					case ACTIVE_ENERGY_CRITICAL:
 					case ACTIVE_SKILL_CASTING_TIME_DOWN:
 					{

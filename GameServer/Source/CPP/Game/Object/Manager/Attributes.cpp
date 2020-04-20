@@ -493,7 +493,7 @@ bool AttributesManager::LoadAttributeFromDB()
 	PlayerProfile.avatarAttribute.fBleedingKeepTimeDown = 87;//nao
 	PlayerProfile.avatarAttribute.fPoisonKeepTimeDown = 86;
 	PlayerProfile.avatarAttribute.fStomachacheKeepTimeDown = 85;
-	PlayerProfile.avatarAttribute.fCriticalBlockSuccessRate = 50;
+	PlayerProfile.avatarAttribute.fCriticalBlockSuccessRate = 0;
 	PlayerProfile.avatarAttribute.wGuardRate = CalculeGuardRate(PlayerProfile.avatarAttribute.byLastDex);
 	PlayerProfile.avatarAttribute.unknown6 = 83;
 	PlayerProfile.avatarAttribute.fSkillDamageBlockModeSuccessRate = 0;
@@ -2747,6 +2747,7 @@ void AttributesManager::UpdateEPRegeneration(WORD effectType, WORD EpRegen, bool
 	
 	UpdateEPSitDownRegeneration(effectType, EpSitDownRegen, false, addRemove);
 	UpdateEPBattleRegeneration(EpBattleRegen, false);
+	sLog.outString("total ep Regeneration %d", PlayerProfile.avatarAttribute.wLastEpRegen);
 }
 
 void AttributesManager::UpdateEPSitDownRegeneration(WORD effectType, WORD epSitDownRegen, bool add, bool addRemove)
@@ -2761,6 +2762,7 @@ void AttributesManager::UpdateEPSitDownRegeneration(WORD effectType, WORD epSitD
 		WORD totalEPSitDownRegeneration = SetAllEffects(ACTIVE_SIT_DOWN_EP_REGENERATION_UP, INVALID_SYSTEM_EFFECT_CODE, INVALID_SYSTEM_EFFECT_CODE, epSitDownRegen);
 		SetLastEPSitDownRegeneration(totalEPSitDownRegeneration);
 	}
+	sLog.outString("total ep sit down Regeneration %d", PlayerProfile.avatarAttribute.wLastEpSitdownRegen);
 }
 
 void AttributesManager::UpdateEPBattleRegeneration(WORD epBattleRegen, bool add)
@@ -2773,6 +2775,7 @@ void AttributesManager::UpdateEPBattleRegeneration(WORD epBattleRegen, bool add)
 	{
 		SetLastEPBattleRegeneration(epBattleRegen);
 	}
+	sLog.outString("total ep battle Regeneration %d", PlayerProfile.avatarAttribute.wLastEpBattleRegen);
 }
 
 void AttributesManager::UpdateCurseSuccessRate(WORD effectType, WORD curseSuccessRate, bool add, bool addRemove)
@@ -2940,4 +2943,20 @@ void AttributesManager::UpdateGuardCurseSuccess(WORD effectType, float guardCurs
 		SetCurseBlockModeSuccessRate(totalGuardCurse);
 	}
 	sLog.outString("total guard curse success up %f", PlayerProfile.avatarAttribute.fCurseBlockModeSuccessRate);
+}
+
+
+void AttributesManager::UpdateGuardCriticalSuccess(WORD effectType, float guardCriticalSuccess, bool add, bool addRemove)
+{
+	if (add)
+	{
+		float totalGuardCriticalSuccess = GetAttrEffectByType(effectType, guardCriticalSuccess, addRemove);
+		AddCriticalBlockSuccessRate(totalGuardCriticalSuccess);
+	}
+	else
+	{
+		float totalGuardCriticalSuccess = SetAllEffects(ACTIVE_CRITICAL_BLOCK_UP, INVALID_SYSTEM_EFFECT_CODE, INVALID_SYSTEM_EFFECT_CODE, guardCriticalSuccess);
+		SetCriticalBlockSuccessRate(totalGuardCriticalSuccess);
+	}
+	sLog.outString("total guard critical success up %f", PlayerProfile.avatarAttribute.fCriticalBlockSuccessRate);
 }

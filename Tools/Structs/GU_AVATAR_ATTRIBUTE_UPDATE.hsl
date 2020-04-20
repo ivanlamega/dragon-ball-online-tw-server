@@ -297,7 +297,6 @@ struct sAVATAR_ATTRIBUTE
 	float fKeepTimeChangePercent;
 	float fDotValueChangePercent;
 	float fDotTimeChangeAbsolute;
-	float fRequiredEpChangePercent;
 
 
 
@@ -312,6 +311,8 @@ struct sAVATAR_ATTRIBUTE
 	float fFunnyOffence;
 	float fFunnyDefence;
 
+
+	float fRequiredEpChangePercent;
 	float unknown2;// mob speed maybe
 
 	WORD wParalyzeToleranceRate;
@@ -371,18 +372,19 @@ struct sAVATAR_ATTRIBUTE
 	float unknown3_13;//??
 	BYTE unknown4_0;//??
 	BYTE unknown4_1;//??
-	WORD physicalCriticalDefenceRate;//??
-	WORD energyCriticalDefenceRate;//??
-	WORD unknown4_4;//??
-	WORD unknown4_5;//??
-	WORD unknown4_6;//??
+	WORD basePhysicalCriticalDefenceRate;//??
+	WORD lastPhysicalCriticalDefenceRate;//??
+	WORD baseEnergyCriticalDefenceRate;//??
+	WORD lastEnergyCriticalDefenceRate;//??
 	float unknown5_0;//??
 	float unknown5_1;//??
 	float unknown5_2;//??
 	float unknown5_3;//??
 	float unknown5_4;//??
 	float unknown5_5;//??
+	WORD unknown4_6;//??
 }sAVATAR_ATTRIBUTE;
+
 
 union attributes
 {

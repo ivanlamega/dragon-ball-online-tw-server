@@ -340,6 +340,7 @@ public:
 	void			UpdateGuardHTBSuccess(WORD effecType, float guardHTBSuccess, bool add, bool addRemove);
 	void			UpdateGuardKnockdownSuccess(WORD effectType, float guardKnockdownSuccess, bool add, bool addRemove);
 	void			UpdateGuardCurseSuccess(WORD effectType, float guardCurseSuccess, bool add, bool addRemove);
+	void			UpdateGuardCriticalSuccess(WORD effectType, float guardCriticalSuccess, bool add, bool addRemove);
 	//	------------------------------------------------------------------------
 	// GETTER
 	//	------------------------------------------------------------------------
