@@ -168,7 +168,7 @@ enum eATTRIBUTE_TO_UPDATE
 	ATTRIBUTE_TO_UPDATE_UNKNOW3_4,
 	ATTRIBUTE_TO_UPDATE_UNKNOW3_5,
 	ATTRIBUTE_TO_UPDATE_MAX_WEIGHT,
-	ATTRIBUTE_TO_UPDATE_UNKNOW3_w6,
+
 	ATTRIBUTE_TO_UPDATE_UNKNOW3_7,
 	ATTRIBUTE_TO_UPDATE_UNKNOW3_8,
 	ATTRIBUTE_TO_UPDATE_UNKNOW3_9,
@@ -177,16 +177,17 @@ enum eATTRIBUTE_TO_UPDATE
 	ATTRIBUTE_TO_UPDATE_UNKNOW3_12,
 	ATTRIBUTE_TO_UPDATE_UNKNOW3_13,
 
-	ATTRIBUTE_TO_UPDATE_UNKNOW4_0,
+	ATTRIBUTE_TO_UPDATE_AGRO_POINTS,
 	ATTRIBUTE_TO_UPDATE_UNKNOW4_1,
+	ATTRIBUTE_TO_UPDATE_UNKNOW3_w6,
 	ATTRIBUTE_TO_UPDATE_PHYSICAL_CRITICAL_DEFENCE_RATE_BASE,
 	ATTRIBUTE_TO_UPDATE_PHYSICAL_CRITICAL_DEFENCE_RATE_LAST,
 	ATTRIBUTE_TO_UPDATE_ENERGY_CRITICAL_DEFENCE_RATE_BASE,
 	ATTRIBUTE_TO_UPDATE_ENERGY_CRITICAL_DEFENCE_RATE_LAST,
 	ATTRIBUTE_TO_UPDATE_UNKNOW4_6,
 
-	ATTRIBUTE_TO_UPDATE_UNKNOW5_0,
-	ATTRIBUTE_TO_UPDATE_UNKNOW5_1,
+	ATTRIBUTE_TO_UPDATE_VALUE_RECOVERY_CHANGE_PERCENT,
+	ATTRIBUTE_TO_UPDATE_TIME_RECOVERY_CHANGE_ABSOLUTE,
 	ATTRIBUTE_TO_UPDATE_UNKNOW5_2,
 	ATTRIBUTE_TO_UPDATE_UNKNOW5_3,
 	ATTRIBUTE_TO_UPDATE_UNKNOW5_4,
@@ -383,23 +384,24 @@ struct sAVATAR_ATTRIBUTE
 	float SkillSpeed;//??
 	DWORD baseMaxWeight;//??
 	DWORD MaxWeight;
-	WORD unknown3_w6;
+
 	//float unknown3_6;//??
 	float fHtbBlockModeSuccessRate;//??
-	float fSitDownLpRegenBonusRate;//??
+	float fAgroPoints;//??
 	float fSitDownEpRegenBonusRate;//??
 	float fPhysicalCriticalDamageBonusRate;//??
-	float unknown3_11;//??
+	float fSitDownLpRegenBonusRate;//??
 	float unknown3_12;//??
 	float unknown3_13;//??
 	BYTE unknown4_0;//??
 	BYTE unknown4_1;//??
+	WORD unknown3_w6;
 	WORD basePhysicalCriticalDefenceRate;//??
 	WORD lastPhysicalCriticalDefenceRate;//??
 	WORD baseEnergyCriticalDefenceRate;//??
 	WORD lastEnergyCriticalDefenceRate;//??
-	float unknown5_0;//??
-	float unknown5_1;//??
+	float fValueRecoveryChangePercent;//??
+	float fTimeRecoveryChangeAbsolute;//??
 	float unknown5_2;//??
 	float unknown5_3;//??
 	float unknown5_4;//??
@@ -593,8 +595,8 @@ struct sAVATAR_ATTRIBUTE_LINK
 	WORD* lastPhysicalCriticalDefenceRate;//??
 	WORD* lastEnergyCriticalDefenceRate;//??
 	WORD* unknown4_6;//??
-	float* unknown5_0;//??
-	float* unknown5_1;//??
+	float* pfValueRecoveryChangePercent;//??
+	float* pfTimeRecoveryChangeValue;//??
 	float* unknown5_2;//??
 	float* unknown5_3;//??
 	float* unknown5_4;//??

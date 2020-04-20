@@ -361,7 +361,6 @@ struct sAVATAR_ATTRIBUTE
 	float SkillSpeed;//??
 	DWORD baseMaxWeight;//??
 	DWORD MaxWeight;
-	WORD unknown3_w6;
 	//float unknown3_6;//??
 	float fHtbBlockModeSuccessRate;//??
 	float fSitDownLpRegenBonusRate;//??
@@ -372,6 +371,8 @@ struct sAVATAR_ATTRIBUTE
 	float unknown3_13;//??
 	BYTE unknown4_0;//??
 	BYTE unknown4_1;//??
+
+	WORD unknown3_w6;
 	WORD basePhysicalCriticalDefenceRate;//??
 	WORD lastPhysicalCriticalDefenceRate;//??
 	WORD baseEnergyCriticalDefenceRate;//??

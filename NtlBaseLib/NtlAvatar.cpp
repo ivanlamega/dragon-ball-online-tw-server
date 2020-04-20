@@ -267,7 +267,7 @@ CNtlAvatar::sATTRIBUTE_LOGIC CNtlAvatar::m_attributeLogic[ATTRIBUTE_TO_UPDATE_CO
 	ATTRIBUTE_LOGIC_DEFINE(fSitDownLpRegenBonusRate, float),
 	ATTRIBUTE_LOGIC_DEFINE(fSitDownEpRegenBonusRate, float),
 	ATTRIBUTE_LOGIC_DEFINE(fPhysicalCriticalDamageBonusRate, float),
-	ATTRIBUTE_LOGIC_DEFINE(unknown3_11, float),
+	ATTRIBUTE_LOGIC_DEFINE(fAgroPoints, float),
 	ATTRIBUTE_LOGIC_DEFINE(unknown3_12, float),
 	ATTRIBUTE_LOGIC_DEFINE(unknown3_13, float),
 
@@ -279,8 +279,8 @@ CNtlAvatar::sATTRIBUTE_LOGIC CNtlAvatar::m_attributeLogic[ATTRIBUTE_TO_UPDATE_CO
 	ATTRIBUTE_LOGIC_DEFINE(lastEnergyCriticalDefenceRate, WORD),
 	ATTRIBUTE_LOGIC_DEFINE(unknown4_6, WORD),
 
-	ATTRIBUTE_LOGIC_DEFINE(unknown5_0, float),
-	ATTRIBUTE_LOGIC_DEFINE(unknown5_1, float),
+	ATTRIBUTE_LOGIC_DEFINE(fValueRecoveryChangePercent, float),
+	ATTRIBUTE_LOGIC_DEFINE(fTimeRecoveryChangeAbsolute, float),
 	ATTRIBUTE_LOGIC_DEFINE(unknown5_2, float),
 	ATTRIBUTE_LOGIC_DEFINE(unknown5_3, float),
 	ATTRIBUTE_LOGIC_DEFINE(unknown5_4, float),
