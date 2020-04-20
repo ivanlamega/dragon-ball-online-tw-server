@@ -457,6 +457,9 @@ public:
 	void SetLastEPBattleRegeneration(WORD val);
 	void SetLastRpRegen(WORD val);
 	void SetLastRpDimimution(WORD val);
+	void SetValueRecoveryChangePercent(float val);
+	void SetTimeRecoveryChangePercent(float val);
+	void SetAgroPoints(float val);
 
 	// Add
 	void AddLastStr(WORD val);
@@ -543,6 +546,9 @@ public:
 	void AddLastEPBattleRegeneration(WORD val);
 	void AddLastRpRegen(WORD val);
 	void AddLastRpDimimution(WORD val);
+	void AddValueRecoveryChangePercent(float val);
+	void AddTimeRecoveryChangePercent(float val);
+	void AddAgroPoints(float val);
 };
 
 #endif

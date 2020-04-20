@@ -522,6 +522,26 @@ void AttributesManager::SetLastRpDimimution(WORD val)
 	AttrIsUpdated = true;
 }
 
+void AttributesManager::SetValueRecoveryChangePercent(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_VALUE_RECOVERY_CHANGE_PERCENT);
+	PlayerProfile.avatarAttribute.fValueRecoveryChangePercent = val;
+	AttrIsUpdated = true;
+}
+
+void AttributesManager::SetTimeRecoveryChangePercent(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_TIME_RECOVERY_CHANGE_ABSOLUTE);
+	PlayerProfile.avatarAttribute.fTimeRecoveryChangeValue = val;
+	AttrIsUpdated = true;
+}
+
+void AttributesManager::SetAgroPoints(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_AGRO_POINTS);
+	PlayerProfile.avatarAttribute.fAgroPoints = val;
+	AttrIsUpdated = true;
+}
 //Add
 
 
@@ -1039,5 +1059,26 @@ void AttributesManager::AddLastRpDimimution(WORD val)
 {
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_RP_DIMIMUTION);
 	PlayerProfile.avatarAttribute.wLastRpDimimutionRate += val;
+	AttrIsUpdated = true;
+}
+
+void AttributesManager::AddValueRecoveryChangePercent(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_VALUE_RECOVERY_CHANGE_PERCENT);
+	PlayerProfile.avatarAttribute.fValueRecoveryChangePercent += val;
+	AttrIsUpdated = true;
+}
+
+void AttributesManager::AddTimeRecoveryChangePercent(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_TIME_RECOVERY_CHANGE_ABSOLUTE);
+	PlayerProfile.avatarAttribute.fTimeRecoveryChangeValue += val;
+	AttrIsUpdated = true;
+}
+
+void AttributesManager::AddAgroPoints(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_AGRO_POINTS);
+	PlayerProfile.avatarAttribute.fAgroPoints += val;
 	AttrIsUpdated = true;
 }
