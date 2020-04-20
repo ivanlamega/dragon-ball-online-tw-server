@@ -355,12 +355,13 @@ void Map::CheckObjectInRange()
 					plr->GetPosition(owner.x, owner.y, owner.z);
 					plrbis->GetPosition(other.x, other.y, other.z);
 					float distance = NtlGetDistance(owner.x, owner.z, other.x, other.z);
-					if (distance <= DEFAULT_VISIBILITY_DISTANCE)
+					if (distance <= DEFAULT_PC_VISIBILITY_DISTANCE)
 					{
 						if (plr->isInList(plrbis->GetHandle()) == false)
 						{
 							plr->FillList(*plrbis);
 							plr->BuildPacketForNewPlayer(*plrbis);
+
 						}
 					}
 					else
@@ -394,7 +395,7 @@ void Map::CheckObjectInRange()
 				plr->GetPosition(owner.x, owner.y, owner.z);
 
 				float distance = NtlGetDistance(owner.x, owner.z, curr_Npc->GetNpcData().curPos.x, curr_Npc->GetNpcData().curPos.z);
-				if (distance <= DEFAULT_VISIBILITY_DISTANCE)
+				if (distance <= DEFAULT_NPC_VISIBILITY_DISTANCE)
 				{
 					if (plr->isInList(curr_Npc->GetHandle()) == false && curr_Npc->GetIsDead() == false && curr_Npc->GetIsBecomeMob() == false)
 					{
@@ -438,7 +439,7 @@ void Map::CheckObjectInRange()
 					plr->GetPosition(owner.x, owner.y, owner.z);
 
 					float distance = NtlGetDistance(owner.x, owner.z, curr_Mob->GetMobData().curPos.x, curr_Mob->GetMobData().curPos.z);
-					if (distance <= DEFAULT_VISIBILITY_DISTANCE && curr_Mob->GetIsSpawn() == true && curr_Mob->GetInitialSpawn())
+					if (distance <= DEFAULT_MOB_VISIBILITY_DISTANCE && curr_Mob->GetIsSpawn() == true && curr_Mob->GetInitialSpawn())
 					{
 						if (plr->isInList(curr_Mob->GetHandle()) == false)
 						{

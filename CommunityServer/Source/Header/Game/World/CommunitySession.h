@@ -69,12 +69,27 @@ public:
 
 	/*    GUILD MANAGER  */
 
-	void			TU_LoadGuildINFO();
+	void			LoadGuildInfotoOtherPlayers();
+	void			LoadGuildInfotoPlayer();
 	void			LoadGuildDataAroundYou();
-	void			GU_LoadGuildINFO();
+	void			SendGuildInfotoPlayer(Player * plr);
 	void            LeaveGuild(Packet & packet);
+	void			LoadGuildMembers();
 
 	void			UpdateGuildNotice(Packet & packet);
+
+	void			GuildInviteResponse(Packet & packet);
+
+	void			NotifyguildiesAfterLoginOn(Player * plr);
+
+	void			NotifyguildiesAfterLoginOff();
+
+	void			GUILD_APPOINT_SECOND_MASTER(Packet & packet);
+
+	void			GUILD_CHANGE_GUILD_MASTER(Packet & packet);
+
+	void			GUILD_KICK_OUT(Packet & packet);
+
 
 private:
 	CommunitySocket * const m_Socket;                       // socket pointer is owned by the network thread which created 

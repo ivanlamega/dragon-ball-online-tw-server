@@ -107,6 +107,7 @@ public:
 	//	------------------------------------------------------------------------
 	bool				LoadFromDB(CHARACTERID id);
 	void				BuildPacketForSpawn(SpawnPlayer& PC);
+	
 	void				BuildPacketForNewPlayer(Player& plr);
 	void				SendPacket(char*, size_t size);
 	//	------------------------------------------------------------------------
@@ -117,6 +118,7 @@ public:
 	void				SendToPlayerList(char* data, size_t size);
 	bool				isInList(uint32 id);
 	Object				*GetFromList(uint32 id);
+
 
 	void				AddDropToList(DroppedObject& drop, HOBJECT dropHandle);
 	void				RemoveDropFromList(HOBJECT handle);

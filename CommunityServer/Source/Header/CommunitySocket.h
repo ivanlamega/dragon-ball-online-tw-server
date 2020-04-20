@@ -24,6 +24,7 @@ private:
 
 	CommunitySession *m_session;
 	bool m_sessionFinalized;
+	std::mutex			mutexsession;
 
 	PACKETHEADER m_existingHeader;
 	bool m_useExistingHeader;

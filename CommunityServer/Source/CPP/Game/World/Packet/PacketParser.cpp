@@ -23,8 +23,7 @@ void			CommunitySession::PacketParser(Packet& packet)
 
 	PACKETDATA *header = (PACKETDATA*)packet.GetPacketHeader();
 
-	//Log every OpCode
-	sLog.outError("OpCode received :: %d", header->wOpCode);
+	
 
 	switch (header->wOpCode)
 	{
@@ -102,9 +101,38 @@ void			CommunitySession::PacketParser(Packet& packet)
 		UpdateGuildNotice(packet);
 		break;
 	}
+	case UT_GUILD_RESPONSE_INVITATION:
+	{
+		sLog.outError("UT_GUILD_RESPONSE_INVITATION");
+		GuildInviteResponse(packet);
+		break; 
+	}
+	//In dev
+	case UT_GUILD_APPOINT_SECOND_MASTER_REQ:
+	{
+		sLog.outError("UT_GUILD_APPOINT_SECOND_MASTER_REQ");
+		GUILD_APPOINT_SECOND_MASTER(packet);
+		break;
+	}
+	case UT_GUILD_CHANGE_GUILD_MASTER_REQ:
+	{
+		sLog.outError("UT_GUILD_CHANGE_GUILD_MASTER_REQ");
+		GUILD_CHANGE_GUILD_MASTER(packet);
+		break;
+	}
+	case UT_GUILD_KICK_OUT_REQ:
+	{
+		sLog.outError("UT_GUILD_KICK_OUT_REQ");
+		GUILD_KICK_OUT(packet);
+		break;
+	}
 	////////////////////////////////////////////
 		default:
 		{
+
+			//Log every OpCode
+			sLog.outError("OpCode received :: %d", header->wOpCode);
+
 			try
 			{
 				sLog.outPacketFile(&packet);

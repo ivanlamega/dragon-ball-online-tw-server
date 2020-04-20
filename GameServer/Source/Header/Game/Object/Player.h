@@ -76,6 +76,9 @@ public:
 	void					AddQuickSlot(TBLIDX tblidx, BYTE slotId, BYTE type);
 	void					DeleteQuickSlot(BYTE slotId);
 	int						GetQuickSlotInfo(sGU_QUICK_SLOT_INFO& slotInfo);
+
+	void					SendGuildInfotoPlayer(Player * plr);
+	
 	//	------------------------------------------------------------------------
 	// GETTER
 	//	------------------------------------------------------------------------
@@ -136,6 +139,7 @@ public:
 	bool				isInList(uint32 id);
 	Object				*GetFromList(uint32 id);
 	HOBJECT				GetHandleByTBlidx(TBLIDX objectTblidx);
+
 
 	void				AddDropToList(DroppedObject& drop, HOBJECT dropHandle);
 	void				RemoveDropFromList(HOBJECT handle);
@@ -235,6 +239,7 @@ public:
 	unsigned int objectTblidx;
 
 	unsigned int spinVar;
+	unsigned int PC_Objcounter;
 private:
 	//	------------------------------------------------------------------------
 	// SERVER

@@ -12,6 +12,7 @@
 #include <Packet\Community\PacketUT.h>
 #include <Packet\Community\PacketTU.h>
 
+
 CommunitySocket::CommunitySocket(boost::asio::io_service &service, std::function<void(Socket *)> closeHandler)
 	: Socket(service, closeHandler), m_session(nullptr)
 {
@@ -27,8 +28,6 @@ void CommunitySocket::OnConnectionDone()
 }
 void CommunitySocket::OnClosed()
 {
-	//Logging off
-	m_session->NotifyOtherPlayersFriendList_onLogoff();
 	sLog.outDebug("Client disconnected: [%s]", m_address);
 }
 bool CommunitySocket::HandleAuthSession(Packet& packet)
@@ -82,8 +81,8 @@ bool CommunitySocket::HandleAuthSession(Packet& packet)
 	m_session->NotifyOtherPlayersFriendList();
 
 	//Load Guild Info
-	m_session->TU_LoadGuildINFO();
-	m_session->LoadGuildDataAroundYou();
+	m_session->LoadGuildInfotoPlayer();
+	m_session->LoadGuildInfotoOtherPlayers();
 
 	return true;
 }

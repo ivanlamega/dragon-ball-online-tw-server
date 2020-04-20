@@ -2575,13 +2575,32 @@ void			WorldSession::PacketParser(Packet& packet)
 		case Opcodes::UG_GUILD_INVITE_REQ:
 		{			
 			sLog.outError("UG_GUILD_INVITE_REQ");
-			//InvitePlayertoGuild(packet);
+			InvitePlayertoGuild(packet);
 			break;
 		}
 		case Opcodes::UG_GUILD_CREATE_REQ:
 		{
 			sLog.outError("UG_GUILD_CREATE_REQ");
-			//CreateNewGuild(packet);
+			CreateNewGuild(packet);
+			break;
+		}
+		//In dev
+		case UG_GUILD_GIVE_ZENNY:
+		{
+			sLog.outError("UG_GUILD_GIVE_ZENNY");
+			GUILD_GIVE_ZENNY(packet);
+			break;
+		}
+		case UG_GUILD_FUNCTION_ADD_REQ:
+		{
+			sLog.outError("UG_GUILD_FUNCTION_ADD_REQ");
+			GUILD_FUNCTION_ADD_REQ(packet);
+			break;
+		}
+		case UG_GUILD_CREATE_MARK_REQ:
+		{
+			sLog.outError("UG_GUILD_CREATE_MARK_REQ");
+			GUILD_CREATE_MARK_REQ(packet);
 			break;
 		}
 
@@ -2632,6 +2651,10 @@ void			WorldSession::PacketParser(Packet& packet)
 #pragma endregion END_OF_MARCO_RAFAEL_PACKETS
 		default:
 		{
+
+			//Log every OpCode
+			sLog.outError("OpCode received :: %d", header->wOpCode);
+
 			try
 			{
 				sLog.outPacketFile(&packet);

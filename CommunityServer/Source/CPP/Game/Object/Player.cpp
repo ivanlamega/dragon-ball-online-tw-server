@@ -7,6 +7,8 @@
 #include <Game\Maps\MapManager.h>
 #include <Game\Object\Npc.h>
 
+
+int counter = 0;
 //----------------------------------------
 //	Player Constructor, init all info
 //----------------------------------------
@@ -339,8 +341,9 @@ bool Player::Create(CHARACTERID id)
 //----------------------------------------
 void Player::Update(uint32 _update_diff, uint32 _time)
 {
-	//GUILD STUFF HERE
-	
+
+
+
 		return;
 }
 //----------------------------------------
@@ -615,3 +618,6 @@ void Player::BuildPacketForSpawn(SpawnPlayer& PC)
 	memcpy(&PC.State.sCharStateBase, &GetState()->sCharStateBase, sizeof(sCHARSTATE_BASE));
 	memcpy(&PC.State.sCharStateDetail, &GetState()->sCharStateDetail, sizeof(sCHARSTATE_DETAIL));
 }
+
+
+

@@ -10,6 +10,7 @@
 #include <Game\World\WorldSession.h>
 #include <ctime>
 #include <algorithm>
+
 //----------------------------------------
 //	Player Constructor, init all info
 //----------------------------------------
@@ -30,6 +31,7 @@ Player::Player(WorldSession* session) : Object()
 	cur_obj_tagert = NULL;
 	isMovingToCharServer = false;
 	rpBallTimer = 0;
+	PC_Objcounter = 0;
 }
 
 
@@ -562,6 +564,33 @@ void Player::Update(uint32 _update_diff, uint32 _time)
 			//sLog.outDetail("Skill Annimation can be used now");
 		}		
 	}
+
+	//Object in range test quik
+	/*
+	//GUILD STUFF HERE
+	if (objList.size() > PC_Objcounter) {
+
+		for (auto it = objList.begin(); it != objList.end();)
+		{
+			if (it->second != NULL)
+			{
+				if (it->second->GetTypeId() == OBJTYPE_PC)
+				{
+					Player* plr = static_cast<Player*>(it->second);
+					if (plr->IsInWorld() == true && plr->GetSession() != NULL && plr->GetHandle() > 0 )
+					{
+						SendGuildInfotoPlayer(plr);
+					}
+				}
+			}
+			it++;
+		}
+
+		PC_Objcounter++;
+	}
+	else if (objList.size() < PC_Objcounter) PC_Objcounter--;
+	*/
+
 }
 void Player::SpawnMobByID(TBLIDX MobID, CNtlVector Loc, CNtlVector Dir)
 {
@@ -2821,6 +2850,16 @@ void Player::FillList(Object& object)
 	objList.insert(std::make_pair(object.GetHandle(), &object));
 	tblidxHandle.insert(std::make_pair(object.GetTblidx(), object.GetHandle()));
 	mutexPlayer.unlock();
+
+	//Send Guild Info when u add it
+	if (object.GetTypeId() == OBJTYPE_PC)
+	{
+		Player* plr = static_cast<Player*>(&object);
+		if (plr->IsInWorld() == true && plr->GetSession() != NULL && plr->GetHandle() > 0)
+		{
+			SendGuildInfotoPlayer(plr);
+		}
+	}
 }
 //----------------------------------------
 //	Remove an Object from our list
@@ -4995,3 +5034,40 @@ int Player::GetQuickSlotInfo(sGU_QUICK_SLOT_INFO& slotInfo)
 
 	sLog.outBasic("Load %d quick slot", slotInfo.byQuickSlotCount);
 }
+
+
+//SEND GUILD INFO TO OTHER PLAYERS
+void Player::SendGuildInfotoPlayer(Player* plr) {
+
+
+	sql::ResultSet* query = sDB.executes("select * from characters where CharacterID = %d;", GetCharacterID());
+	int GuildID = 0;
+
+
+	if (query->getInt("GuildID") > GuildID)
+	{
+		GuildID = query->getInt("GuildID");
+
+		query = sDB.executes("select * from guilds where GuildID = %d;", GuildID);
+
+		std::string guildname = query->getString("GuildName");
+		std::wstring wguildname = std::wstring(guildname.begin(), guildname.end());
+		const wchar_t* wsguildname = wguildname.c_str();
+
+		sGU_GUILD_NAME_CHANGED_NFY res2;
+
+		res2.wPacketSize = sizeof(sGU_GUILD_NAME_CHANGED_NFY) - 2;
+		res2.wOpCode = GU_GUILD_NAME_CHANGED_NFY;
+		res2.hSubject = GetHandle();
+		wcscpy_s(res2.wszGuildName, MAX_SIZE_GUILD_NAME_IN_UNICODE + 1, wsguildname);
+
+		plr->SendPacket((char*)&res2, sizeof(sGU_GUILD_NAME_CHANGED_NFY));
+		sLog.outDebug("%s GU_GUILD_NAME_CHANGED_NFY SENT TO %s", GetName(), plr->GetName());
+
+			
+
+		delete query;
+	}
+}
+
+

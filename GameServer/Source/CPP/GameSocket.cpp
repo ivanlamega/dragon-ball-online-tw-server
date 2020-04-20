@@ -47,7 +47,7 @@ bool GameSocket::HandleAuthSession(Packet& packet)
 	res.wCommunityServerPort = sXmlParser.GetInt("CommunityServer", "Port");
 	res.timeDBOEnter = time(NULL);
 
-	if (!(m_session = new WorldSession(req->accountId, this, (AccountTypes)sDB.GetIsGameMaster(req->accountId))))
+	if (!(m_session = new WorldSession(req->charId, this, (AccountTypes)sDB.GetIsGameMaster(req->accountId))))
 	{
 		res.wResultCode = GAME_FAIL;
 		Write((char*)&res, sizeof(sGU_GAME_ENTER_RES));
@@ -94,9 +94,6 @@ bool GameSocket::HandleAuthSession(Packet& packet)
 	m_session->SendQuestCompleteInfo();
 	m_session->SendQuestProgressInfo();
 	m_session->SendQuestInventoryInfo();
-
-	//Load Guild info
-	//m_session->LoadGuildDataAroundYou();
 
 
 	/* ADD OUR PLAYER TO THE ACCESSOR */

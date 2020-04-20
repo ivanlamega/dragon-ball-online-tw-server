@@ -324,6 +324,7 @@ void Map::CheckObjectInRange()
 						{
 							plr->FillList(*plrbis);
 							plr->BuildPacketForNewPlayer(*plrbis);
+
 						}
 					}
 					else

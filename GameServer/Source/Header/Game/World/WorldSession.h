@@ -171,9 +171,14 @@ public:
 	void			SendShenlongReward(Packet& packet);
 	//Guilds
 	void			CreateNewGuild(Packet& packet);
-	void			GU_LoadGuildINFO();
-	void			TU_LoadGuildINFO();
+	void			LoadGuildInfotoOtherPlayers();
+	void			LoadGuildInfotoPlayer();
+	void			LoadGuildMembers();
 	void			InvitePlayertoGuild(Packet & packet);
+	void			NotifyguildiesAfterLoginOn(Player * plr);
+	void			GUILD_GIVE_ZENNY(Packet & packet);
+	void			GUILD_FUNCTION_ADD_REQ(Packet & packet);
+	void			GUILD_CREATE_MARK_REQ(Packet & packet);
 	// command
 	void			ExecuteServerCommand(Packet& packet);
 	// Spawn

@@ -54,8 +54,7 @@ bool CommunitySession::CreatePlayer(CHARACTERID id)
 	//Load Friend List Info On load into memory
 	_player->LoadFriendList(_player->accID, _player->friendlist);
 	
-	// No Need
-	//sDB.UpdateAccountOnline(GetAccountId(), 2); // SET OUR USER ONLINE IN DB
+
 	return true;
 }
 //----------------------------------------
@@ -118,6 +117,10 @@ bool CommunitySession::Update()
 //----------------------------------------
 void CommunitySession::LogoutPlayer(bool save)
 {
+
+	//Logging off
+	NotifyOtherPlayersFriendList_onLogoff();
+	NotifyguildiesAfterLoginOff();
 
 	
 	// if the player has just logged out, there is no need to do anything here
