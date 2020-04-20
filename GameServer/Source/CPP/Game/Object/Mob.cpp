@@ -198,6 +198,8 @@ bool Mob::Create(sMOB_TBLDAT* mobTbl, SpawnMOB spawnInfo)
 	
 	me.physicalCriticalDefenseRate = CalculePhysicalCriticalDefenceRate(me.Con);
 	me.energyCriticalDefenseRate = CalculeEnergyCriticalDefenceRate(me.Eng);
+	me.Block_rate = CalculeBlockRate(me.Dex, me.Con);
+	me.Block_Damage_rate = CalculeBlockDamageRate(me.Dex, me.Con);
 	
 	Relocate(me.curPos.x, me.curPos.y, me.curPos.z, me.Spawn_Dir.x, me.Spawn_Dir.y, me.Spawn_Dir.z);	
 	
@@ -317,6 +319,8 @@ bool Mob::Create(sSPAWN_TBLDAT* spawnTbl, sMOB_TBLDAT* mobTbl)
 
 	me.physicalCriticalDefenseRate = CalculePhysicalCriticalDefenceRate(me.Con);
 	me.energyCriticalDefenseRate = CalculeEnergyCriticalDefenceRate(me.Eng);
+	me.Block_rate = CalculeBlockRate(me.Dex, me.Con);
+	me.Block_Damage_rate = CalculeBlockDamageRate(me.Dex, me.Con);
 
 	int BallRandom = rand() % 100;
 	if (BallRandom >= 0 && BallRandom <= 15)
@@ -1034,6 +1038,34 @@ WORD Mob::CalculeEnergyCriticalDefenceRate(int lastEng)
 		//sLog.outBasic("MonsterEnergyCriticalDefenseRate total %d rate1 %f rate2 %f", criticalDefenseRate, formula->afRate[0], formula->afRate[1]);
 	}
 	return criticalDefenseRate;
+}
+//----------------------------------------
+//	Calcule Block Rate
+//----------------------------------------
+WORD Mob::CalculeBlockRate(int lastDex, int lastCon)
+{
+	// = fRate1 + (Last_Dex * fRate2) + (Last_Con * fRate3)
+	WORD blockRate = 0;
+	sFORMULA_TBLDAT* formula = (sFORMULA_TBLDAT*)sTBM.GetFormulaTable()->FindData(919);
+	if (formula)
+	{
+		blockRate = formula->afRate[0] + (lastDex * formula->afRate[1]) + (lastCon * formula->afRate[2]);
+	}
+	return blockRate;
+}
+//----------------------------------------
+//	Calcule Block Damage Rate
+//----------------------------------------
+WORD Mob::CalculeBlockDamageRate(int lastDex, int lastCon)
+{
+	// = fRate1 + (Last_Dex * fRate2) + (Last_Con * fRate3)
+	WORD blockDamageRate = 0;
+	sFORMULA_TBLDAT* formula = (sFORMULA_TBLDAT*)sTBM.GetFormulaTable()->FindData(4819);
+	if (formula)
+	{
+		blockDamageRate = formula->afRate[0] + (lastDex * formula->afRate[1]) + (lastCon * formula->afRate[2]);
+	}
+	return blockDamageRate;
 }
 //----------------------------------------
 //	Return the mob struct filled

@@ -284,7 +284,8 @@ public:
 	WORD			CalculeRPHitChargeRate(BYTE deffLevel, BYTE attLevel);
 	WORD			CalculeCurseSuccessRate(int lastFoc);
 	WORD			CalculeCurseToleranceRate(int lastDex);
-
+	WORD			CalculeBlockDamageRate(int lastDex, int lastCon);
+	WORD			CalculeGuardRate(int lastDex);
 
 	float			GetPercent(float percent, float value);
 
@@ -292,11 +293,11 @@ public:
 	// Update cascading stats bool addRemove = true add, false remove
 	// Update phyicalOffence
 	void			UpdateStr(WORD effectType, int lastStr, bool add, bool addRemove);
-	// Update LP, blockRate, physicalCriticalDefenceRate
+	// Update LP, blockRate, physicalCriticalDefenceRate, blockDamageRate
 	void			UpdateCon(WORD effectType, int lastCon, bool add, bool addRemove);
 	// Update energyOffence, energyCriticalRate, hitRate(attackRate), energyCriticalRange, curseSuccessRate
 	void			UpdateFoc(WORD effectType, int lastFoc, bool add, bool addRemove);
-	// Update physicalOffence, physicalCriticalRate, dodgeRate, blockRate, physicalCriticalRange, curseToleranceRate
+	// Update physicalOffence, physicalCriticalRate, dodgeRate, blockRate, physicalCriticalRange, curseToleranceRate, blockDamageRate, guardRate
 	void			UpdateDex(WORD effectType, int lastDex, bool add, bool addRemove);
 	// Update energyOffence
 	void			UpdateSol(WORD effectType, int lastSol, bool add, bool addRemove);
@@ -333,6 +334,12 @@ public:
 	void			UpdateRunSpeed(WORD effectType, float runSpeed, bool add, bool addRemove);
 	void			UpdateCoolTimeChangePercent(WORD effectType, float coolTimeChange, bool add, bool addRemove);
 	void			UpdateAttackspeedRate(WORD effectType, WORD attackSpeed, bool add, bool addRemove);
+	void			UpdateBlockDamageRate(WORD effectType, WORD blockDamageRate, bool add, bool addRemove);
+	void			UpdateGuardRate(WORD effectType, WORD guardRate, bool add, bool addRemove);
+	void			UpdateGuardNormalSuccess(WORD effectType, float guardNormalSuccess, bool add, bool addRemove);
+	void			UpdateGuardHTBSuccess(WORD effecType, float guardHTBSuccess, bool add, bool addRemove);
+	void			UpdateGuardKnockdownSuccess(WORD effectType, float guardKnockdownSuccess, bool add, bool addRemove);
+	void			UpdateGuardCurseSuccess(WORD effectType, float guardCurseSuccess, bool add, bool addRemove);
 	//	------------------------------------------------------------------------
 	// GETTER
 	//	------------------------------------------------------------------------

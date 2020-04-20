@@ -111,7 +111,6 @@ enum eATTRIBUTE_TO_UPDATE
 	ATTRIBUTE_TO_UPDATE_KEEP_TIME_CHANGE_PERCENT,
 	ATTRIBUTE_TO_UPDATE_DOT_VALUE_CHANGE_PERCENT,
 	ATTRIBUTE_TO_UPDATE_DOT_TIME_CHANGE_ABSOLUTE,
-	ATTRIBUTE_TO_UPDATE_REQUIRED_EP_CHANGE_PERCENT,
 
 	ATTRIBUTE_TO_UPDATE_HONEST_OFFENCE,
 	ATTRIBUTE_TO_UPDATE_HONEST_DEFENCE,
@@ -124,6 +123,8 @@ enum eATTRIBUTE_TO_UPDATE
 	ATTRIBUTE_TO_UPDATE_FUNNY_OFFENCE,
 	ATTRIBUTE_TO_UPDATE_FUNNY_DEFENCE,
 
+
+	ATTRIBUTE_TO_UPDATE_REQUIRED_EP_CHANGE_PERCENT,
 	ATTRIBUTE_TO_UPDATE_UNKNOW2,
 
 	ATTRIBUTE_TO_UPDATE_PARALYZE_TOLERANCE_RATE,
@@ -319,7 +320,6 @@ struct sAVATAR_ATTRIBUTE
 	float fKeepTimeChangePercent;
 	float fDotValueChangePercent;
 	float fDotTimeChangeAbsolute;
-	float fRequiredEpChangePercent;
 
 
 
@@ -334,6 +334,7 @@ struct sAVATAR_ATTRIBUTE
 	float fFunnyOffence;
 	float fFunnyDefence;
 
+	float fRequiredEpChangePercent;
 	float unknown2;// mob speed maybe
 
 	WORD wParalyzeToleranceRate;
@@ -397,13 +398,13 @@ struct sAVATAR_ATTRIBUTE
 	WORD lastPhysicalCriticalDefenceRate;//??
 	WORD baseEnergyCriticalDefenceRate;//??
 	WORD lastEnergyCriticalDefenceRate;//??
-	WORD unknown4_6;//??
 	float unknown5_0;//??
 	float unknown5_1;//??
 	float unknown5_2;//??
 	float unknown5_3;//??
 	float unknown5_4;//??
 	float unknown5_5;//??
+	WORD unknown4_6;//??
 };
 
 

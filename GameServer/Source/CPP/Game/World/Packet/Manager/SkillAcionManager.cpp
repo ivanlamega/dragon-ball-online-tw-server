@@ -351,6 +351,33 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 				GetAttributesManager()->UpdatePhysicalCriticalRange(SystemEffectData->effectCode, physicalCriticalDamage, true, set);
 				break;
 			}
+			case ACTIVE_CURSE_SKILL_BLOCK_UP:
+			{
+				float curseSkillBlock = skillData->SkillValue[index];
+				sLog.outBasic("curseSkillBlock %f", curseSkillBlock);
+				GetAttributesManager()->UpdateGuardCurseSuccess(SystemEffectData->effectCode, curseSkillBlock, true, set);
+				break;
+			}
+			case ACTIVE_KNOCKDOWN_ATTACK_BLOCK_UP:
+			{
+				float knockdownBlock = skillData->SkillValue[index];
+				sLog.outBasic("knockdownBlock %f", knockdownBlock);
+				GetAttributesManager()->UpdateGuardKnockdownSuccess(SystemEffectData->effectCode, knockdownBlock, true, set);
+				break;
+			}
+			case ACTIVE_VIABILITY:
+			{
+				int percent = GetAttributesManager()->GetPercent(30.0f, GetPcProfile()->avatarAttribute.wLastMaxLP);
+				if (GetPcProfile()->dwCurLP <= percent)
+				{
+					int blockRate = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
+						GetPcProfile()->avatarAttribute.wBaseBlockRate);
+					sLog.outBasic("blockRate %d", blockRate);
+					GetAttributesManager()->UpdateBlockRate(SystemEffectData->effectCode, blockRate, true, set);
+				}
+				sLog.outBasic(" curLp 30 percent lp %d", percent);
+				break;
+			}
 			case ACTIVE_PHYSICAL_CRITICAL:
 			{
 				int physicalCritical = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],

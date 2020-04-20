@@ -407,7 +407,7 @@ bool AttributesManager::LoadAttributeFromDB()
 	PlayerProfile.avatarAttribute.baseMaxWeight = 135;
 	PlayerProfile.avatarAttribute.MaxWeight = 2600;
 	PlayerProfile.avatarAttribute.unknown3_w6 = 134; // if != 0 weight get bugged
-	PlayerProfile.avatarAttribute.fHtbBlockModeSuccessRate = 133;
+	PlayerProfile.avatarAttribute.fHtbBlockModeSuccessRate = 0;
 	PlayerProfile.avatarAttribute.fSitDownLpRegenBonusRate = 132;//
 	PlayerProfile.avatarAttribute.fSitDownEpRegenBonusRate = 131;
 	PlayerProfile.avatarAttribute.unknown4_0 = 130;
@@ -427,8 +427,8 @@ bool AttributesManager::LoadAttributeFromDB()
 	PlayerProfile.avatarAttribute.fLastPhysicalCriticalRange = PlayerProfile.avatarAttribute.fBasePhysicalCriticalRange;
 	PlayerProfile.avatarAttribute.fBaseEnergyCriticalRange = CalculeEnergyCriticalRange(plr->GetMyClass(), PlayerProfile.avatarAttribute.byLastFoc);
 	PlayerProfile.avatarAttribute.fLastEnergyCriticalRange = PlayerProfile.avatarAttribute.fBaseEnergyCriticalRange;
-	PlayerProfile.avatarAttribute.wBaseBlockDamageRate = 113;
-	PlayerProfile.avatarAttribute.wLastBlockDamageRate = 112;
+	PlayerProfile.avatarAttribute.wBaseBlockDamageRate = CalculeBlockDamageRate(PlayerProfile.avatarAttribute.byLastDex, PlayerProfile.avatarAttribute.byLastCon);
+	PlayerProfile.avatarAttribute.wLastBlockDamageRate = PlayerProfile.avatarAttribute.wBaseBlockDamageRate;
 	// SKILL SPEED
 	PlayerProfile.avatarAttribute.SkillSpeed = 100.0f;
 	//LP Get up Reg
@@ -494,11 +494,11 @@ bool AttributesManager::LoadAttributeFromDB()
 	PlayerProfile.avatarAttribute.fPoisonKeepTimeDown = 86;
 	PlayerProfile.avatarAttribute.fStomachacheKeepTimeDown = 85;
 	PlayerProfile.avatarAttribute.fCriticalBlockSuccessRate = 50;
-	PlayerProfile.avatarAttribute.wGuardRate = 84;
+	PlayerProfile.avatarAttribute.wGuardRate = CalculeGuardRate(PlayerProfile.avatarAttribute.byLastDex);
 	PlayerProfile.avatarAttribute.unknown6 = 83;
-	PlayerProfile.avatarAttribute.fSkillDamageBlockModeSuccessRate = 82;
-	PlayerProfile.avatarAttribute.fCurseBlockModeSuccessRate = 81;
-	PlayerProfile.avatarAttribute.fKnockdownBlockModeSuccessRate = 80;
+	PlayerProfile.avatarAttribute.fSkillDamageBlockModeSuccessRate = 0;
+	PlayerProfile.avatarAttribute.fCurseBlockModeSuccessRate = 0;
+	PlayerProfile.avatarAttribute.fKnockdownBlockModeSuccessRate = 0;
 
 	PlayerProfile.avatarAttribute.baseAbdominalPainDefense = 66;
 	PlayerProfile.avatarAttribute.AbdominalPainDefense = 66; // abdominal pain defense
@@ -2253,6 +2253,33 @@ WORD AttributesManager::CalculeCurseToleranceRate(int lastDex)
 	return curseToleranceRate;
 }
 
+WORD AttributesManager::CalculeBlockDamageRate(int lastDex, int lastCon)
+{
+	//Character_Block_Damage_Rate	 = fRate1 + (Last_Dex * fRate2) + (Last_Con * fRate3)				
+	WORD blockDamageRate = 0;
+	sFORMULA_TBLDAT* formula = (sFORMULA_TBLDAT*)sTBM.GetFormulaTable()->FindData(4800);
+	if (formula)
+	{
+		blockDamageRate = formula->afRate[0] + (lastDex * formula->afRate[1]) + (lastCon * formula->afRate[2]);
+		sLog.outBasic("blockDamageRate total %d rate1 %f rate2 %f rate3 %f lastDex %d lastCon %d",
+			blockDamageRate, formula->afRate[0], formula->afRate[1], formula->afRate[2], lastDex, lastCon);
+	}
+	return blockDamageRate;
+}
+
+WORD AttributesManager::CalculeGuardRate(int lastDex)
+{
+	// = fRate1 + (Last_Dex * fRate2)
+	WORD guardRate = 0;
+	sFORMULA_TBLDAT* formula = (sFORMULA_TBLDAT*)sTBM.GetFormulaTable()->FindData(1000);
+	if (formula)
+	{
+		guardRate = formula->afRate[0] + (lastDex * formula->afRate[1]);
+		sLog.outBasic("guardRate total %d rate1 %f rate2 %f lastDex %d", guardRate, formula->afRate[0], formula->afRate[1], lastDex);
+	}
+	return guardRate;
+}
+
 float AttributesManager::GetPercent(float percent, float value)
 {
 	return percent * value / 100.0f;
@@ -2276,7 +2303,7 @@ void AttributesManager::UpdateStr(WORD effectType, int lastStr, bool add, bool a
 		PlayerProfile.avatarAttribute.byLastStr, PlayerProfile.avatarAttribute.byLastDex);
 	UpdatePhysicalOffence(effectType, PhysicalOffence, false, addRemove);
 }
-// Update LP, blockRate, physicalCriticalDefenceRate
+// Update LP, blockRate, physicalCriticalDefenceRate, blockDamageRate
 void AttributesManager::UpdateCon(WORD effectType, int lastCon, bool add, bool addRemove)
 {
 	if (add)
@@ -2294,11 +2321,13 @@ void AttributesManager::UpdateCon(WORD effectType, int lastCon, bool add, bool a
 	WORD BlockRate = CalculeBlockRate(PlayerProfile.avatarAttribute.byLastDex, PlayerProfile.avatarAttribute.byLastCon);
 	WORD PhysicalCriticalDefenceRate = CalculePhysicalCriticalDefenceRate(PlayerProfile.avatarAttribute.byLastCon);
 	WORD LpRegen = CalculeLPRegeneration(PlayerProfile.avatarAttribute.byLastCon);
+	WORD blockDamageRate = CalculeBlockDamageRate(PlayerProfile.avatarAttribute.byLastDex, PlayerProfile.avatarAttribute.byLastCon);
 
 	UpdateLP(effectType, LP, false, addRemove);
 	UpdateBlockRate(effectType, BlockRate, false, addRemove);
 	UpdatePhysicalCriticalDefenceRate(PhysicalCriticalDefenceRate, false);
 	UpdateLPRegeneration(effectType, LpRegen, false, addRemove);
+	UpdateBlockDamageRate(effectType, blockDamageRate, false, addRemove);
 }
 // Update energyOffence, energyCriticalRate, hitRate(attackRateattackRate), energyCriticalRange, curseSuccessRate
 void AttributesManager::UpdateFoc(WORD effectType, int lastFoc, bool add, bool addRemove)
@@ -2327,7 +2356,7 @@ void AttributesManager::UpdateFoc(WORD effectType, int lastFoc, bool add, bool a
 	UpdateEnergyCriticalRange(effectType, energyCriticalRange, false, addRemove);
 	UpdateCurseSuccessRate(effectType, curseSuccessRat, false, addRemove);
 }
-// Update physicalOffence, physicalCriticalRate, dodgeRate, blockRate, physicalCriticalRange, curseToleranceRate
+// Update physicalOffence, physicalCriticalRate, dodgeRate, blockRate, physicalCriticalRange, curseToleranceRate, blockDamageRate, guardRate
 void AttributesManager::UpdateDex(WORD effectType, int lastDex, bool add, bool addRemove)
 {
 	if (add)
@@ -2348,6 +2377,8 @@ void AttributesManager::UpdateDex(WORD effectType, int lastDex, bool add, bool a
 	WORD blockRate = CalculeBlockRate(PlayerProfile.avatarAttribute.byLastDex, PlayerProfile.avatarAttribute.byLastCon);
 	float physicalCriticalRange = CalculePhysicalCriticalRange(plr->GetMyClass(), PlayerProfile.avatarAttribute.byLastDex);
 	WORD curseToleranceRate = CalculeCurseToleranceRate(PlayerProfile.avatarAttribute.byLastDex);
+	WORD blockDamageRate = CalculeBlockDamageRate(PlayerProfile.avatarAttribute.byLastDex, PlayerProfile.avatarAttribute.byLastCon);
+	WORD guardRate = CalculeGuardRate(PlayerProfile.avatarAttribute.byLastDex);
 
 	UpdatePhysicalOffence(effectType, physicalOffence, false, addRemove);
 	UpdatePhysicalCriticalRate(effectType, physicalCriticalRate, false, addRemove);
@@ -2355,6 +2386,8 @@ void AttributesManager::UpdateDex(WORD effectType, int lastDex, bool add, bool a
 	UpdateBlockRate(effectType, blockRate, false, addRemove);
 	UpdatePhysicalCriticalRange(effectType, physicalCriticalRange, false, addRemove);
 	UpdateCurseToleranceRate(effectType, curseToleranceRate, false, addRemove);
+	UpdateBlockDamageRate(effectType, blockDamageRate, false, addRemove);
+	UpdateGuardRate(effectType, guardRate, false, addRemove);
 }
 // Update energyOffence
 void AttributesManager::UpdateSol(WORD effectType, int lastSol, bool add, bool addRemove)
@@ -2815,4 +2848,96 @@ void AttributesManager::UpdateAttackspeedRate(WORD effectType, WORD attackSpeed,
 		SetLastAttackSpeedRate(totalAttackSpeedRate);
 	}
 	sLog.outString("total attack speed %d", PlayerProfile.avatarAttribute.wLastAttackSpeedRate);
+}
+
+void AttributesManager::UpdateBlockDamageRate(WORD effectType, WORD blockDamageRate, bool add, bool addRemove)
+{
+	if (add)
+	{
+		WORD totalBlockDamageRate = GetAttrEffectByType(effectType, blockDamageRate, addRemove);
+		AddLastBlockDamageRate(totalBlockDamageRate);
+	}
+	else
+	{
+		WORD totalBlockDamageRate = SetAllEffects(INVALID_SYSTEM_EFFECT_CODE, INVALID_SYSTEM_EFFECT_CODE, INVALID_SYSTEM_EFFECT_CODE, blockDamageRate);
+		SetLastBlockDamageRate(totalBlockDamageRate);
+	}
+	sLog.outString("total block damage rate %d", PlayerProfile.avatarAttribute.wLastBlockDamageRate);
+}
+
+void AttributesManager::UpdateGuardRate(WORD effectType, WORD guardRate, bool add, bool addRemove)
+{
+	if (add)
+	{
+		WORD totalGuardRate = GetAttrEffectByType(effectType, guardRate, addRemove);
+		AddGuardRate(totalGuardRate);
+	}
+	else
+	{
+		WORD totalGuardRate = SetAllEffects(INVALID_SYSTEM_EFFECT_CODE, INVALID_SYSTEM_EFFECT_CODE, PASSIVE_BLOCK_MODE, guardRate);
+		SetGuardRate(totalGuardRate);
+	}
+	sLog.outString("total guard rate %d", PlayerProfile.avatarAttribute.wGuardRate);
+}
+
+
+void AttributesManager::UpdateGuardNormalSuccess(WORD effectType, float guardNormalSuccess, bool add, bool addRemove)
+{
+	if (add)
+	{
+		float totalGuardNormalSucess = GetAttrEffectByType(effectType, guardNormalSuccess, addRemove);
+		AddSkillDamageBlockModeSuccessRate(totalGuardNormalSucess);
+	}
+	else
+	{
+		float totalGuardNormalSucess = SetAllEffects(ACTIVE_NORMAL_SKILL_BLOCK_UP, INVALID_SYSTEM_EFFECT_CODE, INVALID_SYSTEM_EFFECT_CODE, guardNormalSuccess);
+		SetSkillDamageBlockModeSuccessRate(totalGuardNormalSucess);
+	}
+	sLog.outString("total normal skill block up %f", PlayerProfile.avatarAttribute.fSkillDamageBlockModeSuccessRate);
+}
+
+
+void AttributesManager::UpdateGuardHTBSuccess(WORD effecType, float guardHTBSuccess, bool add, bool addRemove)
+{
+	if (add)
+	{
+		float totalGuardHTBSuccess = GetAttrEffectByType(effecType, guardHTBSuccess, addRemove);
+		AddHtbBlockModeSuccessRate(totalGuardHTBSuccess);
+	}
+	else
+	{
+		float totalGuardHTBSuccess = SetAllEffects(ACTIVE_HTB_SKILL_BLOCK_UP, INVALID_SYSTEM_EFFECT_CODE, INVALID_SYSTEM_EFFECT_CODE, guardHTBSuccess);
+		SetHtbBlockModeSuccessRate(totalGuardHTBSuccess);
+	}
+	sLog.outString("total guard htb success up %f", PlayerProfile.avatarAttribute.fHtbBlockModeSuccessRate);
+}
+
+void AttributesManager::UpdateGuardKnockdownSuccess(WORD effectType, float guardKnockdownSuccess, bool add, bool addRemove)
+{
+	if (add)
+	{
+		float totalGuardKnock = GetAttrEffectByType(effectType, guardKnockdownSuccess, addRemove);
+		AddKnockdownBlockModeSuccessRate(totalGuardKnock);
+	}
+	else
+	{
+		float totalGuardKnock = SetAllEffects(ACTIVE_KNOCKDOWN_ATTACK_BLOCK_UP, INVALID_SYSTEM_EFFECT_CODE, INVALID_SYSTEM_EFFECT_CODE, guardKnockdownSuccess);
+		SetKnockdownBlockModeSuccessRate(totalGuardKnock);
+	}
+	sLog.outString("total guard knockdown success up %f", PlayerProfile.avatarAttribute.fKnockdownBlockModeSuccessRate);
+}
+
+void AttributesManager::UpdateGuardCurseSuccess(WORD effectType, float guardCurseSuccess, bool add, bool addRemove)
+{
+	if (add)
+	{
+		float totalGuardCurse = GetAttrEffectByType(effectType, guardCurseSuccess, addRemove);
+		AddCurseBlockModeSuccessRate(totalGuardCurse);
+	}
+	else
+	{
+		float totalGuardCurse = SetAllEffects(ACTIVE_CURSE_SKILL_BLOCK_UP, INVALID_SYSTEM_EFFECT_CODE, INVALID_SYSTEM_EFFECT_CODE, guardCurseSuccess);
+		SetCurseBlockModeSuccessRate(totalGuardCurse);
+	}
+	sLog.outString("total guard curse success up %f", PlayerProfile.avatarAttribute.fCurseBlockModeSuccessRate);
 }
