@@ -80,22 +80,25 @@ void CommunitySession::LoadGuildInfotoPlayer() {
 		res.guildSecondMaster[0] = INVALID_TBLIDX; 
 		if (GuildInfo->getInt("GuildSecondMaster")> 0) res.guildSecondMaster[0] = GuildInfo->getInt("GuildSecondMaster");
 		res.guildSecondMaster[1] = INVALID_TBLIDX;
+		if (GuildInfo->getInt("GuildThirdMaster") > 0) res.guildSecondMaster[0] = GuildInfo->getInt("GuildThirdMaster");
 		res.guildSecondMaster[2] = INVALID_TBLIDX;
+		if (GuildInfo->getInt("GuildFourthMaster") > 0) res.guildSecondMaster[0] = GuildInfo->getInt("GuildFourthMaster");
 		res.guildSecondMaster[3] = INVALID_TBLIDX;
+		if (GuildInfo->getInt("GuildFifthMaster") > 0) res.guildSecondMaster[0] = GuildInfo->getInt("GuildFifthMaster");
 
-		res.dwGuildReputation = 5000;//1 here is 0 in game i dont know why
-		res.dwMaxGuildPointEver = 5000;
+		res.dwGuildReputation = GuildInfo->getInt("GuildReputation");//1 here is 0 in game i dont know why
+		res.dwMaxGuildPointEver = GuildInfo->getInt("GuildPointEver");
 		res.wAligniament2[0] = 11385;
 		res.wAligniament2[1] = 29287;
 		res.qwGuildFunctionFlag = GuildInfo->getInt("GuildFunctions");
-		res.timeToDisband = 0;
+		res.timeToDisband = GuildInfo->getInt("GuildDisbandTime");
 		//Mark set Guild Logo we not need set When Create Guild
-		res.sMark.byMarkMain = -1;
-		res.sMark.byMarkMainColor = -1;
-		res.sMark.byMarkInColor = -1;
-		res.sMark.byMarkInLine = -1;
-		res.sMark.byMarkOutColor = -1;
-		res.sMark.byMarkOutLine = -1;
+		res.sMark.byMarkMain = GuildInfo->getInt("MarkMain");
+		res.sMark.byMarkMainColor = GuildInfo->getInt("MarkMainColor");
+		res.sMark.byMarkInColor = GuildInfo->getInt("MarkInColor");
+		res.sMark.byMarkInLine = GuildInfo->getInt("MarkInLine");
+		res.sMark.byMarkOutColor = GuildInfo->getInt("MarkOutColor");
+		res.sMark.byMarkOutLine = GuildInfo->getInt("MarkOutLine");
 
 		wcscpy_s(res.awchName, 16 + 1, s2ws(GuildInfo->getString("GuildName")).c_str());
 		wcscpy_s(res.awchNotice, 256 + 1, s2ws(GuildInfo->getString("GuildNotice")).c_str());
@@ -498,21 +501,99 @@ void CommunitySession::NotifyguildiesAfterLoginOff() {
 
 }
 
-//in dev
+//in test
 void CommunitySession::GUILD_APPOINT_SECOND_MASTER(Packet& packet) {
 
-	sGU_SYSTEM_DISPLAY_TEXT sNotice;
+	sUT_GUILD_APPOINT_SECOND_MASTER_REQ * req = (sUT_GUILD_APPOINT_SECOND_MASTER_REQ*)packet.GetPacketBuffer();
 
-	sNotice.wOpCode = GU_SYSTEM_DISPLAY_TEXT;
-	sNotice.wPacketSize = sizeof(sGU_SYSTEM_DISPLAY_TEXT) - 2;
+	int result = sDB.GetGuildID(_player->GetCharacterID());
+	if (!result) return;
 
-	sNotice.byDisplayType = eSERVER_TEXT_TYPE::SERVER_TEXT_SYSNOTICE;
-	wcscpy_s(sNotice.awchMessage, BUDOKAI_MAX_NOTICE_LENGTH + 1, (L"Function In developpement..."));
-	wcscpy_s(sNotice.awGMChar, MAX_SIZE_CHAR_NAME_UNICODE, (L" GM "));
-	sNotice.wMessageLengthInUnicode = (WORD)wcslen(sNotice.awchMessage);
+	sql::ResultSet* GuildInfo = sDB.executes("select * from Guilds where GuildID = %d;", result);
+	if (!GuildInfo) return;
 
-	_player->SendPacket((char*)&sNotice, sizeof(sGU_SYSTEM_DISPLAY_TEXT));
-}
+	//Getting all Guild Members Info
+	sql::ResultSet * GuildMembers = sDB.executes("SELECT * from guilds JOIN characters on characters.GuildID = guilds.GuildID WHERE guilds.GuildID = %d", GuildInfo->getInt("GuildID"));
+
+	if (GuildMembers == NULL)
+		return;
+	if (GuildMembers->rowsCount() <= 0)
+	{
+		delete GuildMembers;
+		return;
+	}
+
+	BYTE GuildMembersCount = GuildMembers->rowsCount();
+
+	//ADD MORE FUNCTIONALITY HERE , Bits Wise
+	if (GuildInfo->getInt("GuildSecondMaster") == 0) {
+
+		//Update Guild Table
+		sql::ResultSet* query = sDB.executes("UPDATE guilds SET GuildSecondMaster = '%d' WHERE GuildID = %d;", req->targetMemberCharId, result);
+
+		//Success Response
+		sTU_GUILD_APPOINT_SECOND_MASTER_RES res;
+		res.secondMasterCharId = req->targetMemberCharId;
+		res.wOpCode = TU_GUILD_APPOINT_SECOND_MASTER_RES;
+		res.wResultCode = CHAT_SUCCESS;
+		res.wPacketSize = sizeof(sTU_GUILD_APPOINT_SECOND_MASTER_RES) - 2;
+		SendPacket((char*)&res, sizeof(sTU_GUILD_APPOINT_SECOND_MASTER_RES));
+
+
+		sTU_GUILD_SECOND_MASTER_APPOINTED_NFY NFY;
+		NFY.memberCharId = req->targetMemberCharId;
+		NFY.wOpCode = TU_GUILD_SECOND_MASTER_APPOINTED_NFY;
+		NFY.wPacketSize = sizeof(sTU_GUILD_SECOND_MASTER_APPOINTED_NFY) - 2;
+
+		for (int i = 0; i < GuildMembersCount; i++)
+		{
+
+			//if blacked or offline dont send
+			if (GuildMembers->getInt("CharacterID") == _player->GetCharacterID()) {}
+			else if (sCommunity.FindSession(GuildMembers->getInt("CharacterID"))) {
+
+				//send the packet to player online
+				Player* plr = static_cast<Player*>(sCommunity.FindSession(GuildMembers->getInt("CharacterID"))->_player);
+				plr->SendPacket((char*)&NFY, sizeof(sTU_GUILD_MEMBER_OFFLINE_NFY));
+
+			}
+			//Offline
+			else {
+
+			}
+
+			GuildMembers->next();
+		}
+
+	}
+	else {
+
+		//Success Response
+		sTU_GUILD_APPOINT_SECOND_MASTER_RES res;
+		res.secondMasterCharId = req->targetMemberCharId;
+		res.wOpCode = TU_GUILD_APPOINT_SECOND_MASTER_RES;
+		res.wResultCode = GAME_FAIL;
+		res.wPacketSize = sizeof(sTU_GUILD_APPOINT_SECOND_MASTER_RES) - 2;
+		SendPacket((char*)&res, sizeof(sTU_GUILD_APPOINT_SECOND_MASTER_RES));
+
+		sGU_SYSTEM_DISPLAY_TEXT sNotice;
+
+		sNotice.wOpCode = GU_SYSTEM_DISPLAY_TEXT;
+		sNotice.wPacketSize = sizeof(sGU_SYSTEM_DISPLAY_TEXT) - 2;
+
+		sNotice.byDisplayType = eSERVER_TEXT_TYPE::SERVER_TEXT_SYSNOTICE;
+		wcscpy_s(sNotice.awchMessage, BUDOKAI_MAX_NOTICE_LENGTH + 1, (L"Already reached maximum Appointed Submasters"));
+		wcscpy_s(sNotice.awGMChar, MAX_SIZE_CHAR_NAME_UNICODE, (L" GM "));
+		sNotice.wMessageLengthInUnicode = (WORD)wcslen(sNotice.awchMessage);
+
+		SendPacket((char*)&sNotice, sizeof(sGU_SYSTEM_DISPLAY_TEXT));
+
+	}
+	
+	
+} 
+
+//in dev
 
 void CommunitySession::GUILD_CHANGE_GUILD_MASTER(Packet& packet) {
 	sGU_SYSTEM_DISPLAY_TEXT sNotice;
