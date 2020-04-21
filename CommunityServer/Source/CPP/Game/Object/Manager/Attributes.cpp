@@ -306,10 +306,10 @@ bool AttributesManager::LoadAttributeFromDB()
 	PlayerProfile.avatarAttribute.baseEnergyCriticalDefenceRate = 0;
 	PlayerProfile.avatarAttribute.lastEnergyCriticalDefenceRate = 0;
 	PlayerProfile.avatarAttribute.unknown4_6 = 0;
-	PlayerProfile.avatarAttribute.fValueRecoveryChangePercent = 0;
-	PlayerProfile.avatarAttribute.fTimeRecoveryChangeAbsolute = 0;
-	PlayerProfile.avatarAttribute.unknown5_2 = 0;
-	PlayerProfile.avatarAttribute.unknown5_3 = 0;
+	PlayerProfile.avatarAttribute.fValueDirectHealChangeAbsolute = 0;
+	PlayerProfile.avatarAttribute.fValueDirectHealChangePercent = 0;
+	PlayerProfile.avatarAttribute.fValueHealOverTimeChangePercent = 0;
+	PlayerProfile.avatarAttribute.fValueHealOverTimeChangeAbsolute = 0;
 	PlayerProfile.avatarAttribute.unknown5_4 = 0;
 	PlayerProfile.avatarAttribute.unknown5_5 = 0;
 	PlayerProfile.avatarAttribute.unknown6 = 0;
@@ -972,10 +972,10 @@ void AttributesManager::FillAttributesLink()
 	attrLink.lastPhysicalCriticalDefenceRate = &PlayerProfile.avatarAttribute.lastPhysicalCriticalDefenceRate;
 	attrLink.lastEnergyCriticalDefenceRate = &PlayerProfile.avatarAttribute.lastEnergyCriticalDefenceRate;
 	attrLink.unknown4_6 = &PlayerProfile.avatarAttribute.unknown4_6;
-	attrLink.pfValueRecoveryChangePercent = &PlayerProfile.avatarAttribute.fValueRecoveryChangePercent;
-	attrLink.pfTimeRecoveryChangeAbsolute = &PlayerProfile.avatarAttribute.fTimeRecoveryChangeAbsolute;
-	attrLink.unknown5_2 = &PlayerProfile.avatarAttribute.unknown5_2;
-	attrLink.unknown5_3 = &PlayerProfile.avatarAttribute.unknown5_3;
+	attrLink.pfValueHealOverTimeChangeAbsolute = &PlayerProfile.avatarAttribute.fValueDirectHealChangeAbsolute;
+	attrLink.pfValueDirectHealChangePercent = &PlayerProfile.avatarAttribute.fValueDirectHealChangePercent;
+	attrLink.pfValueHealOverTimeChangeAbsolute = &PlayerProfile.avatarAttribute.fValueHealOverTimeChangeAbsolute;
+	attrLink.pfValueHealOverTimeChangePercent = &PlayerProfile.avatarAttribute.fValueHealOverTimeChangePercent;
 	attrLink.unknown5_4 = &PlayerProfile.avatarAttribute.unknown5_4;
 	attrLink.unknown5_5 = &PlayerProfile.avatarAttribute.unknown5_5;
 }

@@ -279,10 +279,10 @@ CNtlAvatar::sATTRIBUTE_LOGIC CNtlAvatar::m_attributeLogic[ATTRIBUTE_TO_UPDATE_CO
 	ATTRIBUTE_LOGIC_DEFINE(lastEnergyCriticalDefenceRate, WORD),
 	ATTRIBUTE_LOGIC_DEFINE(unknown4_6, WORD),
 
-	ATTRIBUTE_LOGIC_DEFINE(fValueRecoveryChangePercent, float),
-	ATTRIBUTE_LOGIC_DEFINE(fTimeRecoveryChangeAbsolute, float),
-	ATTRIBUTE_LOGIC_DEFINE(unknown5_2, float),
-	ATTRIBUTE_LOGIC_DEFINE(unknown5_3, float),
+	ATTRIBUTE_LOGIC_DEFINE(fValueDirectHealChangePercent, float),
+	ATTRIBUTE_LOGIC_DEFINE(fValueDirectHealChangeAbsolute, float),
+	ATTRIBUTE_LOGIC_DEFINE(fValueHealOverTimeChangePercent, float),
+	ATTRIBUTE_LOGIC_DEFINE(fValueHealOverTimeChangeAbsolute, float),
 	ATTRIBUTE_LOGIC_DEFINE(unknown5_4, float),
 	ATTRIBUTE_LOGIC_DEFINE(unknown5_5, float),
 };

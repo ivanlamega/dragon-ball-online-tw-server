@@ -522,17 +522,31 @@ void AttributesManager::SetLastRpDimimution(WORD val)
 	AttrIsUpdated = true;
 }
 
-void AttributesManager::SetValueRecoveryChangePercent(float val)
+void AttributesManager::SetValueDirectHealChangePercent(float val)
 {
-	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_VALUE_RECOVERY_CHANGE_PERCENT);
-	PlayerProfile.avatarAttribute.fValueRecoveryChangePercent = val;
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_VALUE_DIRECT_HEAL_CHANGE_PERCENT);
+	PlayerProfile.avatarAttribute.fValueDirectHealChangePercent = val;
 	AttrIsUpdated = true;
 }
 
-void AttributesManager::SetTimeRecoveryChangeAbsolute(float val)
+void AttributesManager::SetValueDirectHealChangeAbsolute(float val)
 {
-	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_TIME_RECOVERY_CHANGE_ABSOLUTE);
-	PlayerProfile.avatarAttribute.fTimeRecoveryChangeAbsolute = val;
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_VALUE_DIRECT_HEAL_CHANGE_ABSOLUTE);
+	PlayerProfile.avatarAttribute.fValueDirectHealChangeAbsolute = val;
+	AttrIsUpdated = true;
+}
+
+void AttributesManager::SetValueHealOverTimeChangePercent(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_VALUE_HEAL_OVER_TIME_CHANGE_PERCENT);
+	PlayerProfile.avatarAttribute.fValueHealOverTimeChangePercent = val;
+	AttrIsUpdated = true;
+}
+
+void AttributesManager::SetValueHealOverTimeChangeAbsolute(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_VALUE_HEAL_OVER_TIME_CHANGE_ABSOLUTE);
+	PlayerProfile.avatarAttribute.fValueHealOverTimeChangeAbsolute = val;
 	AttrIsUpdated = true;
 }
 
@@ -547,6 +561,13 @@ void AttributesManager::SetAgroPointsAbsolute(float val)
 {
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_AGRO_POINTS_ABSOLUTE);
 	PlayerProfile.avatarAttribute.fAgroPointsAbsolute = val;
+	AttrIsUpdated = true;
+}
+
+void AttributesManager::SetLastBleedingDefense(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_BLEEDING_DEFENSE_LAST);
+	PlayerProfile.avatarAttribute.lastBleedingDefense = val;
 	AttrIsUpdated = true;
 }
 //Add
@@ -1069,17 +1090,31 @@ void AttributesManager::AddLastRpDimimution(WORD val)
 	AttrIsUpdated = true;
 }
 
-void AttributesManager::AddValueRecoveryChangePercent(float val)
+void AttributesManager::AddValueDirectHealChangePercent(float val)
 {
-	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_VALUE_RECOVERY_CHANGE_PERCENT);
-	PlayerProfile.avatarAttribute.fValueRecoveryChangePercent += val;
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_VALUE_DIRECT_HEAL_CHANGE_PERCENT);
+	PlayerProfile.avatarAttribute.fValueDirectHealChangePercent += val;
 	AttrIsUpdated = true;
 }
 
-void AttributesManager::AddTimeRecoveryChangeAbsolute(float val)
+void AttributesManager::AddValueDirectHealChangeAbsolute(float val)
 {
-	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_TIME_RECOVERY_CHANGE_ABSOLUTE);
-	PlayerProfile.avatarAttribute.fTimeRecoveryChangeAbsolute += val;
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_VALUE_DIRECT_HEAL_CHANGE_ABSOLUTE);
+	PlayerProfile.avatarAttribute.fValueDirectHealChangeAbsolute += val;
+	AttrIsUpdated = true;
+}
+
+void AttributesManager::AddValueHealOverTimeChangePercent(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_VALUE_HEAL_OVER_TIME_CHANGE_PERCENT);
+	PlayerProfile.avatarAttribute.fValueHealOverTimeChangePercent += val;
+	AttrIsUpdated = true;
+}
+
+void AttributesManager::AddValueHealOverTimeChangeAbsolute(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_VALUE_HEAL_OVER_TIME_CHANGE_ABSOLUTE);
+	PlayerProfile.avatarAttribute.fValueHealOverTimeChangeAbsolute += val;
 	AttrIsUpdated = true;
 }
 
@@ -1094,5 +1129,12 @@ void AttributesManager::AddAgroPointsAbsolute(float val)
 {
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_AGRO_POINTS_ABSOLUTE);
 	PlayerProfile.avatarAttribute.fAgroPointsAbsolute += val;
+	AttrIsUpdated = true;
+}
+
+void AttributesManager::AddLastBleedingDefense(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_BLEEDING_DEFENSE_LAST);
+	PlayerProfile.avatarAttribute.lastBleedingDefense += val;
 	AttrIsUpdated = true;
 }

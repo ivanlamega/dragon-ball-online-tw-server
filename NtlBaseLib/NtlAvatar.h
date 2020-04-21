@@ -161,8 +161,8 @@ enum eATTRIBUTE_TO_UPDATE
 	ATTRIBUTE_TO_UPDATE_ITEM_UPGRADE_RATE_UP,
 	ATTRIBUTE_TO_UPDATE_ITEM_BREAK_RATE_DOWN,
 
-	ATTRIBUTE_TO_UPDATE_UNKNOW3_0,
-	ATTRIBUTE_TO_UPDATE_UNKNOW3_1,
+	ATTRIBUTE_TO_UPDATE_BLEEDING_DEFENSE_BASE,
+	ATTRIBUTE_TO_UPDATE_BLEEDING_DEFENSE_LAST,
 	ATTRIBUTE_TO_UPDATE_UNKNOW3_2,
 	ATTRIBUTE_TO_UPDATE_SKILL_SPEED,
 	ATTRIBUTE_TO_UPDATE_UNKNOW3_4,
@@ -186,10 +186,10 @@ enum eATTRIBUTE_TO_UPDATE
 	ATTRIBUTE_TO_UPDATE_ENERGY_CRITICAL_DEFENCE_RATE_LAST,
 	ATTRIBUTE_TO_UPDATE_UNKNOW4_6,
 
-	ATTRIBUTE_TO_UPDATE_VALUE_RECOVERY_CHANGE_PERCENT,
-	ATTRIBUTE_TO_UPDATE_TIME_RECOVERY_CHANGE_ABSOLUTE,
-	ATTRIBUTE_TO_UPDATE_UNKNOW5_2,
-	ATTRIBUTE_TO_UPDATE_UNKNOW5_3,
+	ATTRIBUTE_TO_UPDATE_VALUE_DIRECT_HEAL_CHANGE_PERCENT,
+	ATTRIBUTE_TO_UPDATE_VALUE_DIRECT_HEAL_CHANGE_ABSOLUTE,
+	ATTRIBUTE_TO_UPDATE_VALUE_HEAL_OVER_TIME_CHANGE_PERCENT,
+	ATTRIBUTE_TO_UPDATE_VALUE_HEAL_OVER_TIME_CHANGE_ABSOLUTE,
 	ATTRIBUTE_TO_UPDATE_UNKNOW5_4,
 	ATTRIBUTE_TO_UPDATE_UNKNOW5_5,
 
@@ -362,15 +362,15 @@ struct sAVATAR_ATTRIBUTE
 	float fKnockdownBlockModeSuccessRate;
 	//DWORD unknown6;
 	WORD unknown6;
-	WORD baseAbdominalPainDefense;
 
-	WORD AbdominalPainDefense;//bleeding defese
+	WORD baseAbdominalPainDefense;
+	WORD lastAbdominalPainDefense;//bleeding defese
 	WORD basePoisonDefense;
-	WORD PoisonDefense;// posion defese
+	WORD lastPoisonDefense;// posion defese
 	WORD baseBleedingDefense;
-	WORD BleedingDefense;// defesa sangramento
+	WORD lastBleedingDefense;// defesa sangramento
 	WORD baseBurnDefense;
-	WORD BurnDefense; //burn defese
+	WORD lastBurnDefense; //burn defese
 	WORD unknown7;
 
 	float fEnergyCriticalDamageBonusRate;
@@ -400,10 +400,10 @@ struct sAVATAR_ATTRIBUTE
 	WORD lastPhysicalCriticalDefenceRate;//??
 	WORD baseEnergyCriticalDefenceRate;//??
 	WORD lastEnergyCriticalDefenceRate;//??
-	float fValueRecoveryChangePercent;//??
-	float fTimeRecoveryChangeAbsolute;//??
-	float unknown5_2;//??
-	float unknown5_3;//??
+	float fValueDirectHealChangePercent;//??
+	float fValueDirectHealChangeAbsolute;//??
+	float fValueHealOverTimeChangePercent;//??
+	float fValueHealOverTimeChangeAbsolute;//??
 	float unknown5_4;//??
 	float unknown5_5;//??
 	WORD unknown4_6;//??
@@ -595,10 +595,10 @@ struct sAVATAR_ATTRIBUTE_LINK
 	WORD* lastPhysicalCriticalDefenceRate;//??
 	WORD* lastEnergyCriticalDefenceRate;//??
 	WORD* unknown4_6;//??
-	float* pfValueRecoveryChangePercent;//??
-	float* pfTimeRecoveryChangeAbsolute;//??
-	float* unknown5_2;//??
-	float* unknown5_3;//??
+	float* pfValueDirectHealChangePercent;//??
+	float* pfValueDirectHealChangeAbsolute;//??
+	float* pfValueHealOverTimeChangePercent;//??
+	float* pfValueHealOverTimeChangeAbsolute;//??
 	float* unknown5_4;//??
 	float* unknown5_5;//??
 };

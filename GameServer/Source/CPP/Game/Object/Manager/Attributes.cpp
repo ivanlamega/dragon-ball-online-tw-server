@@ -417,10 +417,10 @@ bool AttributesManager::LoadAttributeFromDB()
 	PlayerProfile.avatarAttribute.lastPhysicalCriticalDefenceRate = PlayerProfile.avatarAttribute.basePhysicalCriticalDefenceRate;
 	PlayerProfile.avatarAttribute.lastEnergyCriticalDefenceRate = PlayerProfile.avatarAttribute.baseEnergyCriticalDefenceRate;
 	PlayerProfile.avatarAttribute.unknown4_6 = 124;
-	PlayerProfile.avatarAttribute.fValueRecoveryChangePercent = 0;
-	PlayerProfile.avatarAttribute.fTimeRecoveryChangeAbsolute = 0;
-	PlayerProfile.avatarAttribute.unknown5_2 = 121;
-	PlayerProfile.avatarAttribute.unknown5_3 = 120;
+	PlayerProfile.avatarAttribute.fValueDirectHealChangePercent = 0;
+	PlayerProfile.avatarAttribute.fValueDirectHealChangeAbsolute = 0;
+	PlayerProfile.avatarAttribute.fValueHealOverTimeChangeAbsolute = 0;
+	PlayerProfile.avatarAttribute.fValueHealOverTimeChangePercent = 0;
 	PlayerProfile.avatarAttribute.unknown5_4 = 119;
 	PlayerProfile.avatarAttribute.unknown5_5 = 118;
 	PlayerProfile.avatarAttribute.fBasePhysicalCriticalRange = CalculePhysicalCriticalRange(plr->GetMyClass(), PlayerProfile.avatarAttribute.byLastDex);
@@ -500,14 +500,14 @@ bool AttributesManager::LoadAttributeFromDB()
 	PlayerProfile.avatarAttribute.fCurseBlockModeSuccessRate = 0;
 	PlayerProfile.avatarAttribute.fKnockdownBlockModeSuccessRate = 0;
 
-	PlayerProfile.avatarAttribute.baseAbdominalPainDefense = 66;
-	PlayerProfile.avatarAttribute.AbdominalPainDefense = 66; // abdominal pain defense
-	PlayerProfile.avatarAttribute.basePoisonDefense = 67;
-	PlayerProfile.avatarAttribute.PoisonDefense = 67; // posion defense tw
-	PlayerProfile.avatarAttribute.baseBleedingDefense = 68;
-	PlayerProfile.avatarAttribute.BleedingDefense = 68;// Bleeding defense TW 
-	PlayerProfile.avatarAttribute.baseBurnDefense = 69;
-	PlayerProfile.avatarAttribute.BurnDefense = 69;//Burn Defense
+	PlayerProfile.avatarAttribute.baseAbdominalPainDefense = 0;
+	PlayerProfile.avatarAttribute.lastAbdominalPainDefense = 0; // abdominal pain defense
+	PlayerProfile.avatarAttribute.basePoisonDefense = 0;
+	PlayerProfile.avatarAttribute.lastPoisonDefense = 0; // posion defense tw
+	PlayerProfile.avatarAttribute.baseBleedingDefense = 0;
+	PlayerProfile.avatarAttribute.lastBleedingDefense = 0;// Bleeding defense TW 
+	PlayerProfile.avatarAttribute.baseBurnDefense = 0;
+	PlayerProfile.avatarAttribute.lastBurnDefense = 0;//Burn Defense
 
 	PlayerProfile.avatarAttribute.fEnergyCriticalDamageBonusRate = 0;
 	PlayerProfile.avatarAttribute.fItemUpgradeBonusRate = 0;
@@ -1641,10 +1641,10 @@ void AttributesManager::FillAttributesLink()
 	attrLink.lastPhysicalCriticalDefenceRate = &PlayerProfile.avatarAttribute.lastPhysicalCriticalDefenceRate;
 	attrLink.lastEnergyCriticalDefenceRate = &PlayerProfile.avatarAttribute.lastEnergyCriticalDefenceRate;
 	attrLink.unknown4_6 = &PlayerProfile.avatarAttribute.unknown4_6;
-	attrLink.pfValueRecoveryChangePercent = &PlayerProfile.avatarAttribute.fValueRecoveryChangePercent;
-	attrLink.pfTimeRecoveryChangeAbsolute = &PlayerProfile.avatarAttribute.fTimeRecoveryChangeAbsolute;
-	attrLink.unknown5_2 = &PlayerProfile.avatarAttribute.unknown5_2;
-	attrLink.unknown5_3 = &PlayerProfile.avatarAttribute.unknown5_3;
+	attrLink.pfValueDirectHealChangePercent = &PlayerProfile.avatarAttribute.fValueDirectHealChangePercent;
+	attrLink.pfValueDirectHealChangeAbsolute = &PlayerProfile.avatarAttribute.fValueDirectHealChangeAbsolute;
+	attrLink.pfValueHealOverTimeChangePercent = &PlayerProfile.avatarAttribute.fValueHealOverTimeChangePercent;
+	attrLink.pfValueDirectHealChangeAbsolute = &PlayerProfile.avatarAttribute.fValueHealOverTimeChangeAbsolute;
 	attrLink.unknown5_4 = &PlayerProfile.avatarAttribute.unknown5_4;
 	attrLink.unknown5_5 = &PlayerProfile.avatarAttribute.unknown5_5;
 }
@@ -2959,4 +2959,110 @@ void AttributesManager::UpdateGuardCriticalSuccess(WORD effectType, float guardC
 		SetCriticalBlockSuccessRate(totalGuardCriticalSuccess);
 	}
 	sLog.outString("total guard critical success up %f", PlayerProfile.avatarAttribute.fCriticalBlockSuccessRate);
+}
+
+void AttributesManager::UpdateAgroPointsPercent(WORD effectType, float agroPoints, bool add, bool addRemove)
+{
+	if (add)
+	{
+		float totalAgroPoints = GetAttrEffectByType(effectType, agroPoints, addRemove);
+		AddAgroPointsPercent(totalAgroPoints);
+	}
+	else
+	{
+		float totalAgroPoints = SetAllEffects(ACTIVE_SKILL_AGGRO_UP_IN_PERCENT, ACTIVE_SKILL_AGGRO_DOWN_IN_PERCENT, INVALID_SYSTEM_EFFECT_CODE, agroPoints);
+		SetAgroPointsPercent(totalAgroPoints);
+	}
+	sLog.outString("total agro points in percent %f", PlayerProfile.avatarAttribute.fAgroPointsPercent);
+}
+
+void AttributesManager::UpdateAgroPointsAbsolute(WORD effectType, float agroPoints, bool add, bool addRemove)
+{
+	if (add)
+	{
+		float totalAgroPoints = GetAttrEffectByType(effectType, agroPoints, addRemove);
+		AddAgroPointsAbsolute(totalAgroPoints);
+	}
+	else
+	{
+		float totalAgroPoints = SetAllEffects(ACTIVE_SKILL_AGGRO_UP, ACTIVE_SKILL_AGGRO_DOWN, INVALID_SYSTEM_EFFECT_CODE, agroPoints);
+		SetAgroPointsAbsolute(totalAgroPoints);
+	}
+	sLog.outString("total agro points absolute %f", PlayerProfile.avatarAttribute.fAgroPointsAbsolute);
+}
+
+
+void AttributesManager::UpdateDirectHealPerecent(WORD effectType, float directHeal, bool add, bool addRemove)
+{
+	if (add)
+	{
+		float totalDirectHeal = GetAttrEffectByType(effectType, directHeal, addRemove);
+		AddValueDirectHealChangePercent(totalDirectHeal);
+	}
+	else
+	{
+		float totalDirectHeal = SetAllEffects(ACTIVE_DH_POWER_UP_IN_PERCENT, INVALID_SYSTEM_EFFECT_CODE, INVALID_SYSTEM_EFFECT_CODE, directHeal);
+		SetValueDirectHealChangePercent(totalDirectHeal);
+	}
+	sLog.outString("total direct heal percent %f", PlayerProfile.avatarAttribute.fValueDirectHealChangePercent);
+}
+
+void AttributesManager::UpdateDirectHealAbsolute(WORD effectType, float directHeal, bool add, bool addRemove)
+{
+	if (add)
+	{
+		float totalDirectHeal = GetAttrEffectByType(effectType, directHeal, addRemove);
+		AddValueDirectHealChangeAbsolute(totalDirectHeal);
+	}
+	else
+	{
+		float totalDirectHeal = SetAllEffects(ACTIVE_DH_POWER_UP, INVALID_SYSTEM_EFFECT_CODE, INVALID_SYSTEM_EFFECT_CODE, directHeal);
+		SetValueDirectHealChangeAbsolute(totalDirectHeal);
+	}
+	sLog.outString("total direct heal absolute %f", PlayerProfile.avatarAttribute.fValueDirectHealChangeAbsolute);
+}
+
+void AttributesManager::UpdateHealOverTimePercent(WORD effectType, float healOverTime, bool add, bool addRemove)
+{
+	if (add)
+	{
+		float totalHealOverTime = GetAttrEffectByType(effectType, healOverTime, addRemove);
+		AddValueHealOverTimeChangePercent(totalHealOverTime);
+	}
+	else
+	{
+		float totalHealOverTime = SetAllEffects(ACTIVE_HOT_POWER_UP_IN_PERCENT, INVALID_SYSTEM_EFFECT_CODE, INVALID_SYSTEM_EFFECT_CODE, healOverTime);
+		SetValueHealOverTimeChangePercent(totalHealOverTime);
+	}
+	sLog.outString("total heal over time percent %f", PlayerProfile.avatarAttribute.fValueHealOverTimeChangePercent);
+}
+
+void AttributesManager::UpdateHealOverTimeAbsolute(WORD effectType, float healOverTime, bool add, bool addRemove)
+{
+	if (add)
+	{
+		float totalHealOverTime = GetAttrEffectByType(effectType, healOverTime, addRemove);
+		AddValueHealOverTimeChangeAbsolute(totalHealOverTime);
+	}
+	else
+	{
+		float totalHealOverTime = SetAllEffects(ACTIVE_HOT_POWER_UP, INVALID_SYSTEM_EFFECT_CODE, INVALID_SYSTEM_EFFECT_CODE, healOverTime);
+		SetValueHealOverTimeChangeAbsolute(totalHealOverTime);
+	}
+	sLog.outString("total heal over time percent %f", PlayerProfile.avatarAttribute.fValueHealOverTimeChangeAbsolute);
+}
+
+void AttributesManager::UpdateBleedingDefense(WORD effectType, WORD bleedingDefense, bool add, bool addRemove)
+{
+	if (add)
+	{
+		WORD totalBleedingDefense = GetAttrEffectByType(effectType, bleedingDefense, addRemove);
+		AddLastBleedingDefense(totalBleedingDefense);
+	}
+	else
+	{
+		WORD totalBleedingDefense = SetAllEffects(ACTIVE_BLEED_DEFENCE, INVALID_SYSTEM_EFFECT_CODE, INVALID_SYSTEM_EFFECT_CODE, bleedingDefense);
+		SetLastBleedingDefense(totalBleedingDefense);
+
+	}
 }

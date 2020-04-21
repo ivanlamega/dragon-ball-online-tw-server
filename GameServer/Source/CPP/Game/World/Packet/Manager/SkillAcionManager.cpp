@@ -250,6 +250,14 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 				GetAttributesManager()->UpdateHitRate(SystemEffectData->effectCode, attackRate, true, set);
 				break;
 			}
+			case ACTIVE_SKILL_AGGRO_DOWN_IN_PERCENT:
+			{
+				float agroPoints = skillData->SkillValue[index];
+				agroPoints *= -1;
+				sLog.outBasic("agroPoints percent %d", agroPoints);
+				GetAttributesManager()->UpdateAgroPointsPercent(SystemEffectData->effectCode, agroPoints, true, set);
+				break;
+			}
 			case ACTIVE_RP_CHARGE_SPEED://need Handle the effect is here to try do effects in order 
 			{
 				int rpRegen = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
@@ -477,6 +485,35 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 					GetPcProfile()->avatarAttribute.wBaseMaxEP);
 				sLog.outBasic("add maxEP %d", maxEP);
 				GetAttributesManager()->UpdateEP(SystemEffectData->effectCode, maxEP, true, set);
+				break;
+			}
+			case ACTIVE_SKILL_AGGRO_UP:
+			{
+				float agroPoints = skillData->SkillValue[index];
+				sLog.outBasic("add agropoint absolute %f", agroPoints);
+				GetAttributesManager()->UpdateAgroPointsAbsolute(SystemEffectData->effectCode, agroPoints, true, set);
+				break;
+			}
+			case ACTIVE_BLEED_DEFENCE:
+			{
+				int bleedingDefence = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
+					GetPcProfile()->avatarAttribute.baseBleedingDefense);
+				sLog.outBasic("bleeding Defence %d", bleedingDefence);
+				GetAttributesManager()->UpdateBleedingDefense(SystemEffectData->effectCode, bleedingDefence, true, set);
+				break;
+			}
+			case ACTIVE_DH_POWER_UP_IN_PERCENT:
+			{
+				float directHeal = skillData->SkillValue[index];
+				sLog.outBasic("directHeal percent %f", directHeal);
+				GetAttributesManager()->UpdateDirectHealPerecent(SystemEffectData->effectCode, directHeal, true, set);
+				break;
+			}
+			case ACTIVE_HOT_POWER_UP_IN_PERCENT:
+			{
+				float healOverTime = skillData->SkillValue[index];
+				sLog.outBasic("healOverTime percent %f", healOverTime);
+				GetAttributesManager()->UpdateHealOverTimePercent(SystemEffectData->effectCode, healOverTime, true, set);
 				break;
 			}
 			case ACTIVE_LP_REGENERATION:

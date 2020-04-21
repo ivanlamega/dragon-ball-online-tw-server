@@ -341,6 +341,13 @@ public:
 	void			UpdateGuardKnockdownSuccess(WORD effectType, float guardKnockdownSuccess, bool add, bool addRemove);
 	void			UpdateGuardCurseSuccess(WORD effectType, float guardCurseSuccess, bool add, bool addRemove);
 	void			UpdateGuardCriticalSuccess(WORD effectType, float guardCriticalSuccess, bool add, bool addRemove);
+	void			UpdateAgroPointsPercent(WORD effectType, float agroPoints, bool add, bool addRemove);
+	void			UpdateAgroPointsAbsolute(WORD effectType, float agroPoints, bool add, bool addRemove);
+	void			UpdateDirectHealPerecent(WORD effectType, float directHeal, bool add, bool addRemove);
+	void			UpdateDirectHealAbsolute(WORD effectType, float directHeal, bool add, bool addRemove);
+	void			UpdateHealOverTimePercent(WORD effectType, float healOverTime, bool add, bool addRemove);
+	void			UpdateHealOverTimeAbsolute(WORD effectType, float healOverTime, bool add, bool addRemove);
+	void			UpdateBleedingDefense(WORD effectType, WORD bleedingDefense, bool add, bool addRemove);
 	//	------------------------------------------------------------------------
 	// GETTER
 	//	------------------------------------------------------------------------
@@ -457,10 +464,13 @@ public:
 	void SetLastEPBattleRegeneration(WORD val);
 	void SetLastRpRegen(WORD val);
 	void SetLastRpDimimution(WORD val);
-	void SetValueRecoveryChangePercent(float val);
-	void SetTimeRecoveryChangeAbsolute(float val);
+	void SetValueDirectHealChangePercent(float val);
+	void SetValueDirectHealChangeAbsolute(float val);
+	void SetValueHealOverTimeChangePercent(float val);
+	void SetValueHealOverTimeChangeAbsolute(float val);
 	void SetAgroPointsPercent(float val);
 	void SetAgroPointsAbsolute(float val);
+	void SetLastBleedingDefense(WORD val);
 
 	// Add
 	void AddLastStr(WORD val);
@@ -547,10 +557,13 @@ public:
 	void AddLastEPBattleRegeneration(WORD val);
 	void AddLastRpRegen(WORD val);
 	void AddLastRpDimimution(WORD val);
-	void AddValueRecoveryChangePercent(float val);
-	void AddTimeRecoveryChangeAbsolute(float val);
+	void AddValueDirectHealChangePercent(float val);
+	void AddValueDirectHealChangeAbsolute(float val);
+	void AddValueHealOverTimeChangePercent(float val);
+	void AddValueHealOverTimeChangeAbsolute(float val);
 	void AddAgroPointsPercent(float val);
 	void AddAgroPointsAbsolute(float val);
+	void AddLastBleedingDefense(WORD val);
 };
 
 #endif
