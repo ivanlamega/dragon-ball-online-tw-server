@@ -348,6 +348,16 @@ public:
 	void			UpdateHealOverTimePercent(WORD effectType, float healOverTime, bool add, bool addRemove);
 	void			UpdateHealOverTimeAbsolute(WORD effectType, float healOverTime, bool add, bool addRemove);
 	void			UpdateBleedingDefense(WORD effectType, WORD bleedingDefense, bool add, bool addRemove);
+	void			UpdateHonestOffence(WORD effectType, float honestOffence, bool add, bool addRemove);
+	void			UpdateHonestDefence(WORD effectType, float honestDefence, bool add, bool addRemove);
+	void			UpdateStrangeOffence(WORD effectType, float strangeOffence, bool add, bool addRemove);
+	void			UpdateStrandeDefence(WORD effectType, float strangeDefenec, bool add, bool addRemove);
+	void			UpdateWildOffence(WORD effectType, float wildOffence, bool add, bool addRemove);
+	void			UpdateWildDefence(WORD effectType, float wildDefence, bool add, bool addRemove);
+	void			UpdateEleganceOffence(WORD effectType, float eleganceOffence, bool add, bool addRemove);
+	void			UpdateEleganceDefence(WORD effectType, float eleganceDefence, bool add, bool addRemove);
+	void			UpdateFunnyOffence(WORD effectType, float funnyOffence, bool add, bool addRemove);
+	void			UpdateFunnyDefence(WORD effectType, float funnyDefence, bool add, bool addRemove);
 	//	------------------------------------------------------------------------
 	// GETTER
 	//	------------------------------------------------------------------------
