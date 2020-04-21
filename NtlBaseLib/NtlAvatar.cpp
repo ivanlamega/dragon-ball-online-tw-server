@@ -267,8 +267,8 @@ CNtlAvatar::sATTRIBUTE_LOGIC CNtlAvatar::m_attributeLogic[ATTRIBUTE_TO_UPDATE_CO
 	ATTRIBUTE_LOGIC_DEFINE(fSitDownLpRegenBonusRate, float),
 	ATTRIBUTE_LOGIC_DEFINE(fSitDownEpRegenBonusRate, float),
 	ATTRIBUTE_LOGIC_DEFINE(fPhysicalCriticalDamageBonusRate, float),
-	ATTRIBUTE_LOGIC_DEFINE(fAgroPoints, float),
-	ATTRIBUTE_LOGIC_DEFINE(unknown3_12, float),
+	ATTRIBUTE_LOGIC_DEFINE(fAgroPointsPercent, float),
+	ATTRIBUTE_LOGIC_DEFINE(fAgroPointsAbsolute, float),
 	ATTRIBUTE_LOGIC_DEFINE(unknown3_13, float),
 
 	ATTRIBUTE_LOGIC_DEFINE(unknown4_0, BYTE),

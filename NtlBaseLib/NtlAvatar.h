@@ -175,9 +175,9 @@ enum eATTRIBUTE_TO_UPDATE
 	ATTRIBUTE_TO_UPDATE_UNKNOW3_10,
 	ATTRIBUTE_TO_UPDATE_UNKNOW3_11,
 	ATTRIBUTE_TO_UPDATE_UNKNOW3_12,
-	ATTRIBUTE_TO_UPDATE_UNKNOW3_13,
+	ATTRIBUTE_TO_UPDATE_AGRO_POINTS_ABSOLUTE,
 
-	ATTRIBUTE_TO_UPDATE_AGRO_POINTS,
+	ATTRIBUTE_TO_UPDATE_AGRO_POINTS_PERCENT,
 	ATTRIBUTE_TO_UPDATE_UNKNOW4_1,
 	ATTRIBUTE_TO_UPDATE_UNKNOW3_w6,
 	ATTRIBUTE_TO_UPDATE_PHYSICAL_CRITICAL_DEFENCE_RATE_BASE,
@@ -386,12 +386,12 @@ struct sAVATAR_ATTRIBUTE
 	DWORD MaxWeight;
 
 	//float unknown3_6;//??
-	float fHtbBlockModeSuccessRate;//??
-	float fAgroPoints;//??
+	float fAgroPointsAbsolute;//??
+	float fAgroPointsPercent;//??
 	float fSitDownEpRegenBonusRate;//??
 	float fPhysicalCriticalDamageBonusRate;//??
 	float fSitDownLpRegenBonusRate;//??
-	float unknown3_12;//??
+	float fHtbBlockModeSuccessRate;//??
 	float unknown3_13;//??
 	BYTE unknown4_0;//??
 	BYTE unknown4_1;//??
@@ -585,8 +585,8 @@ struct sAVATAR_ATTRIBUTE_LINK
 	float* pfSitDownLpRegenBonusRate;//??
 	float* pfSitDownEpRegenBonusRate;//??
 	float* pfPhysicalCriticalDamageBonusRate;//??
-	float* unknown3_11;//??
-	float* unknown3_12;//??
+	float* pfAgroPointsPercecnt;//??
+	float* pfAgroPointsAbsolute;//??
 	float* unknown3_13;//??
 	BYTE* unknown4_0;//??
 	BYTE* unknown4_1;//??
@@ -596,7 +596,7 @@ struct sAVATAR_ATTRIBUTE_LINK
 	WORD* lastEnergyCriticalDefenceRate;//??
 	WORD* unknown4_6;//??
 	float* pfValueRecoveryChangePercent;//??
-	float* pfTimeRecoveryChangeValue;//??
+	float* pfTimeRecoveryChangeAbsolute;//??
 	float* unknown5_2;//??
 	float* unknown5_3;//??
 	float* unknown5_4;//??

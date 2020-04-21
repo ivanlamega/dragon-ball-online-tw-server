@@ -458,8 +458,9 @@ public:
 	void SetLastRpRegen(WORD val);
 	void SetLastRpDimimution(WORD val);
 	void SetValueRecoveryChangePercent(float val);
-	void SetTimeRecoveryChangePercent(float val);
-	void SetAgroPoints(float val);
+	void SetTimeRecoveryChangeAbsolute(float val);
+	void SetAgroPointsPercent(float val);
+	void SetAgroPointsAbsolute(float val);
 
 	// Add
 	void AddLastStr(WORD val);
@@ -547,8 +548,9 @@ public:
 	void AddLastRpRegen(WORD val);
 	void AddLastRpDimimution(WORD val);
 	void AddValueRecoveryChangePercent(float val);
-	void AddTimeRecoveryChangePercent(float val);
-	void AddAgroPoints(float val);
+	void AddTimeRecoveryChangeAbsolute(float val);
+	void AddAgroPointsPercent(float val);
+	void AddAgroPointsAbsolute(float val);
 };
 
 #endif

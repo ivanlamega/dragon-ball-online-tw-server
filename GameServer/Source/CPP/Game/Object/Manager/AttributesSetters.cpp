@@ -529,17 +529,24 @@ void AttributesManager::SetValueRecoveryChangePercent(float val)
 	AttrIsUpdated = true;
 }
 
-void AttributesManager::SetTimeRecoveryChangePercent(float val)
+void AttributesManager::SetTimeRecoveryChangeAbsolute(float val)
 {
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_TIME_RECOVERY_CHANGE_ABSOLUTE);
-	PlayerProfile.avatarAttribute.fTimeRecoveryChangeValue = val;
+	PlayerProfile.avatarAttribute.fTimeRecoveryChangeAbsolute = val;
 	AttrIsUpdated = true;
 }
 
-void AttributesManager::SetAgroPoints(float val)
+void AttributesManager::SetAgroPointsPercent(float val)
 {
-	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_AGRO_POINTS);
-	PlayerProfile.avatarAttribute.fAgroPoints = val;
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_AGRO_POINTS_PERCENT);
+	PlayerProfile.avatarAttribute.fAgroPointsPercent = val;
+	AttrIsUpdated = true;
+}
+
+void AttributesManager::SetAgroPointsAbsolute(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_AGRO_POINTS_ABSOLUTE);
+	PlayerProfile.avatarAttribute.fAgroPointsAbsolute = val;
 	AttrIsUpdated = true;
 }
 //Add
@@ -1069,16 +1076,23 @@ void AttributesManager::AddValueRecoveryChangePercent(float val)
 	AttrIsUpdated = true;
 }
 
-void AttributesManager::AddTimeRecoveryChangePercent(float val)
+void AttributesManager::AddTimeRecoveryChangeAbsolute(float val)
 {
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_TIME_RECOVERY_CHANGE_ABSOLUTE);
-	PlayerProfile.avatarAttribute.fTimeRecoveryChangeValue += val;
+	PlayerProfile.avatarAttribute.fTimeRecoveryChangeAbsolute += val;
 	AttrIsUpdated = true;
 }
 
-void AttributesManager::AddAgroPoints(float val)
+void AttributesManager::AddAgroPointsPercent(float val)
 {
-	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_AGRO_POINTS);
-	PlayerProfile.avatarAttribute.fAgroPoints += val;
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_AGRO_POINTS_PERCENT);
+	PlayerProfile.avatarAttribute.fAgroPointsPercent += val;
+	AttrIsUpdated = true;
+}
+
+void AttributesManager::AddAgroPointsAbsolute(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_AGRO_POINTS_ABSOLUTE);
+	PlayerProfile.avatarAttribute.fAgroPointsAbsolute += val;
 	AttrIsUpdated = true;
 }
