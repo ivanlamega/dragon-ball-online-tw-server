@@ -494,6 +494,14 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 				GetAttributesManager()->UpdateAgroPointsAbsolute(SystemEffectData->effectCode, agroPoints, true, set);
 				break;
 			}
+			case ACTIVE_ENERGY_CRITICAL:
+			{
+				int energyCriticalRate = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index], 
+					GetPcProfile()->avatarAttribute.wBaseEnergyCriticalRate);
+				sLog.outBasic("energyCriticalRate %d", energyCriticalRate);
+				GetAttributesManager()->UpdateEnergyCriticalRate(SystemEffectData->effectCode, energyCriticalRate, true, set);
+				break;
+			}
 			case ACTIVE_BLEED_DEFENCE:
 			{
 				int bleedingDefence = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
@@ -1773,11 +1781,7 @@ void Player::SkillAcion()
 						UpdateAspectState(eASPECTSTATE::ASPECTSTATE_GREAT_NAMEK);
 						break;
 					} 
-					case ACTIVE_MAX_RP_UP://100%  
-					{
-						break;
-					}
-					case ACTIVE_ENERGY_CRITICAL:
+					case ACTIVE_MAX_RP_UP:
 					case ACTIVE_SKILL_CASTING_TIME_DOWN:
 					{
 						break;
