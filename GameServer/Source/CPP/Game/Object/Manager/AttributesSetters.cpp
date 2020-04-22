@@ -203,6 +203,12 @@ void AttributesManager::SetKeepTimeChangePercent(float val)
 	PlayerProfile.avatarAttribute.fKeepTimeChangePercent = val;
 	AttrIsUpdated = true;
 }
+void AttributesManager::SetKeepTimeChangeSeconds(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_KEEP_TIME_CHANGE_SECONDS);
+	PlayerProfile.avatarAttribute.fKeepTimeChangeSeconds = val;
+	AttrIsUpdated = true;
+}
 void AttributesManager::SetDotValueChangePercent(float val)
 {
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_DOT_VALUE_CHANGE_PERCENT);
@@ -769,6 +775,12 @@ void AttributesManager::AddKeepTimeChangePercent(float val)
 {
 	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_KEEP_TIME_CHANGE_PERCENT);
 	PlayerProfile.avatarAttribute.fKeepTimeChangePercent += val;
+	AttrIsUpdated = true;
+}
+void AttributesManager::AddKeepTimeChangeSeconds(float val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_KEEP_TIME_CHANGE_SECONDS);
+	PlayerProfile.avatarAttribute.fKeepTimeChangeSeconds += val;
 	AttrIsUpdated = true;
 }
 void AttributesManager::AddDotValueChangePercent(float val)

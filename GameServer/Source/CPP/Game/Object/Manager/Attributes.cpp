@@ -395,7 +395,6 @@ bool AttributesManager::LoadAttributeFromDB()
 	PlayerProfile.avatarAttribute.wBaseApBattleDegen = 0;
 	PlayerProfile.avatarAttribute.wLastApBattleDegen = 0;
 
-	PlayerProfile.avatarAttribute.unknown2 = 144;
 	PlayerProfile.avatarAttribute.unknown3_0 = 143;
 	PlayerProfile.avatarAttribute.unknown3_1 = 142;
 	PlayerProfile.avatarAttribute.fPhysicalCriticalDamageBonusRate = 141;
@@ -461,25 +460,27 @@ bool AttributesManager::LoadAttributeFromDB()
 	PlayerProfile.avatarAttribute.wBaseCurseToleranceRate = CalculeCurseToleranceRate(PlayerProfile.avatarAttribute.byLastDex);
 	PlayerProfile.avatarAttribute.wLastCurseToleranceRate = PlayerProfile.avatarAttribute.wBaseCurseToleranceRate;
 	//Nao sei
-	PlayerProfile.avatarAttribute.fCastingTimeChangePercent = 0;
-	PlayerProfile.avatarAttribute.fCoolTimeChangePercent = 0;//
-	PlayerProfile.avatarAttribute.fKeepTimeChangePercent = 0;
+	PlayerProfile.avatarAttribute.fCastingTimeChangePercent = 10;
+	PlayerProfile.avatarAttribute.fCoolTimeChangePercent = 20;//
+	PlayerProfile.avatarAttribute.fKeepTimeChangePercent = 30;
+	PlayerProfile.avatarAttribute.fKeepTimeChangeSeconds = 40;
+	PlayerProfile.avatarAttribute.fRequiredEpChangePercent = 50;
 	PlayerProfile.avatarAttribute.fDotValueChangePercent = 0;
 	PlayerProfile.avatarAttribute.fDotTimeChangeAbsolute = 0;//Ep Skill Required
 
 	//Atribute Ofense/Defese
-	PlayerProfile.avatarAttribute.fHonestOffence = 15;//nao
-	PlayerProfile.avatarAttribute.fHonestDefence = 25;//nao
-	PlayerProfile.avatarAttribute.fStrangeOffence = 35;//nao
-	PlayerProfile.avatarAttribute.fStrangeDefence = 45;//nao
-	PlayerProfile.avatarAttribute.fWildOffence = 55;//nao
-	PlayerProfile.avatarAttribute.fWildDefence = 65;//nao
-	PlayerProfile.avatarAttribute.fEleganceOffence = 75;//nao
-	PlayerProfile.avatarAttribute.fEleganceDefence = 85;//nao
-	PlayerProfile.avatarAttribute.fFunnyOffence = 95;//nao
-	PlayerProfile.avatarAttribute.fFunnyDefence = 105;//nao
+	PlayerProfile.avatarAttribute.fHonestOffence = 0;//nao
+	PlayerProfile.avatarAttribute.fHonestDefence = 0;//nao
+	PlayerProfile.avatarAttribute.fStrangeOffence = 0;//nao
+	PlayerProfile.avatarAttribute.fStrangeDefence = 0;//nao
+	PlayerProfile.avatarAttribute.fWildOffence = 0;//nao
+	PlayerProfile.avatarAttribute.fWildDefence = 0;//nao
+	PlayerProfile.avatarAttribute.fEleganceOffence = 0;//nao
+	PlayerProfile.avatarAttribute.fEleganceDefence = 0;//nao
+	PlayerProfile.avatarAttribute.fFunnyOffence = 0;//nao
+	PlayerProfile.avatarAttribute.fFunnyDefence = 0;//nao
 
-	PlayerProfile.avatarAttribute.fRequiredEpChangePercent = 0;
+
 	PlayerProfile.avatarAttribute.wParalyzeToleranceRate = 97;//nao
 	PlayerProfile.avatarAttribute.wTerrorToleranceRate = 96;//nao
 	PlayerProfile.avatarAttribute.wConfuseToleranceRate = 95;//nao
@@ -3064,5 +3065,145 @@ void AttributesManager::UpdateBleedingDefense(WORD effectType, WORD bleedingDefe
 		WORD totalBleedingDefense = SetAllEffects(ACTIVE_BLEED_DEFENCE, INVALID_SYSTEM_EFFECT_CODE, INVALID_SYSTEM_EFFECT_CODE, bleedingDefense);
 		SetLastBleedingDefense(totalBleedingDefense);
 
+	}
+}
+
+void AttributesManager::UpdateHonestOffence(WORD effectType, float honestOffence, bool add, bool addRemove)
+{
+	if (add)
+	{
+		float totalHonestOffence = GetAttrEffectByType(effectType, honestOffence, addRemove);
+		AddHonestOffence(totalHonestOffence);
+	}
+	else
+	{
+		float totalHonestOffence = SetAllEffects(ACTIVE_HONEST_OFFENCE_UP, INVALID_SYSTEM_EFFECT_CODE, INVALID_SYSTEM_EFFECT_CODE, honestOffence);
+		SetHonestOffence(totalHonestOffence);
+	}
+}
+
+void AttributesManager::UpdateHonestDefence(WORD effectType, float honestDefence, bool add, bool addRemove)
+{
+	if (add)
+	{
+		float totalHonestDefence = GetAttrEffectByType(effectType, honestDefence, addRemove);
+		AddHonestDefence(totalHonestDefence);
+	}
+	else
+	{
+		float totalHonestDefence = SetAllEffects(ACTIVE_HONEST_DEFENCE_UP, ACTIVE_HONEST_DEFENCE_DOWN, INVALID_SYSTEM_EFFECT_CODE, honestDefence);
+		SetHonestDefence(totalHonestDefence);
+	}
+}
+
+void AttributesManager::UpdateStrangeOffence(WORD effectType, float strangeOffence, bool add, bool addRemove)
+{
+	if (add)
+	{
+		float totalStrangeOffence = GetAttrEffectByType(effectType, strangeOffence, addRemove);
+		AddStrangeOffence(totalStrangeOffence);
+	}
+	else
+	{
+		float totalStrangeOffence = SetAllEffects(ACTIVE_STRANGE_OFFENCE_UP, INVALID_SYSTEM_EFFECT_CODE, INVALID_SYSTEM_EFFECT_CODE, strangeOffence);
+		SetStrangeOffence(totalStrangeOffence);
+	}
+}
+
+void AttributesManager::UpdateStrandeDefence(WORD effectType, float strangeDefenece, bool add, bool addRemove)
+{
+	if (add)
+	{
+		float totalStrangeDefence = GetAttrEffectByType(effectType, strangeDefenece, addRemove);
+		AddStrangeDefence(totalStrangeDefence);
+	}
+	else
+	{
+		float totalStrangeDefence = SetAllEffects(ACTIVE_STRANGE_DEFENCE_UP, ACTIVE_STRANGE_DEFENCE_DOWN, INVALID_SYSTEM_EFFECT_CODE, strangeDefenece);
+		AddStrangeDefence(totalStrangeDefence);
+	}
+}
+
+void AttributesManager::UpdateWildOffence(WORD effectType, float wildOffence, bool add, bool addRemove)
+{
+	if (add)
+	{
+		float totalWildOffence = GetAttrEffectByType(effectType, wildOffence, addRemove);
+		AddWildOffence(totalWildOffence);
+	}
+	else
+	{
+		float totalWildOffence = SetAllEffects(ACTIVE_WILD_OFFENCE_UP, INVALID_SYSTEM_EFFECT_CODE, INVALID_SYSTEM_EFFECT_CODE, wildOffence);
+		AddWildOffence(totalWildOffence);
+	}
+}
+
+void AttributesManager::UpdateWildDefence(WORD effectType, float wildDefence, bool add, bool addRemove)
+{
+	if (add)
+	{
+		float totalWildDefence = GetAttrEffectByType(effectType, wildDefence, addRemove);
+		AddWildDefence(totalWildDefence);
+	}
+	else
+	{
+		float totalWildDefence = SetAllEffects(ACTIVE_WILD_DEFENCE_UP, ACTIVE_WILD_DEFENCE_DOWN, INVALID_SYSTEM_EFFECT_CODE, wildDefence);
+		AddWildDefence(totalWildDefence);
+	}
+}
+
+void AttributesManager::UpdateEleganceOffence(WORD effectType, float eleganceOffence, bool add, bool addRemove)
+{
+	if (add)
+	{
+		float totalEleganceOffence = GetAttrEffectByType(effectType, eleganceOffence, addRemove);
+		AddEleganceOffence(totalEleganceOffence);
+	}
+	else
+	{
+		float totalEleganceOffence = SetAllEffects(ACTIVE_ELEGANCE_OFFENCE_UP, INVALID_SYSTEM_EFFECT_CODE, INVALID_SYSTEM_EFFECT_CODE, eleganceOffence);
+		AddEleganceOffence(totalEleganceOffence);
+	}
+}
+
+void AttributesManager::UpdateEleganceDefence(WORD effectType, float eleganceDefence, bool add, bool addRemove)
+{
+	if (add)
+	{
+		float totalEleganceDefence = GetAttrEffectByType(effectType, eleganceDefence, addRemove);
+		AddEleganceDefence(totalEleganceDefence);
+	}
+	else
+	{
+		float totalEleganceDefence = SetAllEffects(ACTIVE_ELEGANCE_DEFENCE_UP, ACTIVE_ELEGANCE_DEFENCE_DOWN, INVALID_SYSTEM_EFFECT_CODE, eleganceDefence);
+		AddEleganceDefence(totalEleganceDefence);
+	}
+}
+
+void AttributesManager::UpdateFunnyOffence(WORD effectType, float funnyOffence, bool add, bool addRemove)
+{
+	if (add)
+	{
+		float totalFunnyOffence = GetAttrEffectByType(effectType, funnyOffence, addRemove);
+		AddFunnyOffence(totalFunnyOffence);
+	}
+	else
+	{
+		float totalFunnyOffence = SetAllEffects(ACTIVE_FUNNY_OFFENCE_UP, INVALID_SYSTEM_EFFECT_CODE, INVALID_SYSTEM_EFFECT_CODE, funnyOffence);
+		AddFunnyOffence(totalFunnyOffence);
+	}
+}
+
+void AttributesManager::UpdateFunnyDefence(WORD effectType, float funnyDefence, bool add, bool addRemove)
+{
+	if (add)
+	{
+		float totalFunnyDefence = GetAttrEffectByType(effectType, funnyDefence, addRemove);
+		AddFunnyDefence(totalFunnyDefence);
+	}
+	else
+	{
+		float totalFunnyDefence = SetAllEffects(ACTIVE_FUNNY_DEFENCE_UP, ACTIVE_FUNNY_DEFENCE_DOWN, INVALID_SYSTEM_EFFECT_CODE, funnyDefence);
+		AddFunnyDefence(totalFunnyDefence);
 	}
 }

@@ -220,7 +220,7 @@ CNtlAvatar::sATTRIBUTE_LOGIC CNtlAvatar::m_attributeLogic[ATTRIBUTE_TO_UPDATE_CO
 	ATTRIBUTE_LOGIC_DEFINE(fFunnyOffence, float),
 	ATTRIBUTE_LOGIC_DEFINE(fFunnyDefence, float),
 
-	ATTRIBUTE_LOGIC_DEFINE(unknown2, float),
+	ATTRIBUTE_LOGIC_DEFINE(fKeepTimeChangeSeconds, float),
 
 	ATTRIBUTE_LOGIC_DEFINE(wParalyzeToleranceRate, WORD),
 	ATTRIBUTE_LOGIC_DEFINE(wTerrorToleranceRate, WORD),

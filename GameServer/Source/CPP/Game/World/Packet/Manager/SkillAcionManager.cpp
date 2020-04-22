@@ -494,6 +494,22 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 				GetAttributesManager()->UpdateAgroPointsAbsolute(SystemEffectData->effectCode, agroPoints, true, set);
 				break;
 			}
+			case ACTIVE_BATTLE_ATTRIBUTE_UP:
+			{
+				float battleAttribute = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index], 0);
+				sLog.outBasic("battle attributes %f", battleAttribute);
+				GetAttributesManager()->UpdateHonestOffence(ACTIVE_HONEST_OFFENCE_UP, battleAttribute, true, set);
+				GetAttributesManager()->UpdateHonestDefence(ACTIVE_HONEST_DEFENCE_UP, battleAttribute, true, set);
+				GetAttributesManager()->UpdateStrangeOffence(ACTIVE_STRANGE_OFFENCE_UP, battleAttribute, true, set);
+				GetAttributesManager()->UpdateStrandeDefence(ACTIVE_STRANGE_DEFENCE_UP, battleAttribute, true, set);
+				GetAttributesManager()->UpdateWildOffence(ACTIVE_WILD_OFFENCE_UP, battleAttribute, true, set);
+				GetAttributesManager()->UpdateWildDefence(ACTIVE_WILD_DEFENCE_UP, battleAttribute, true, set);
+				GetAttributesManager()->UpdateEleganceOffence(ACTIVE_ELEGANCE_OFFENCE_UP, battleAttribute, true, set);
+				GetAttributesManager()->UpdateEleganceDefence(ACTIVE_ELEGANCE_DEFENCE_UP, battleAttribute, true, set);
+				GetAttributesManager()->UpdateFunnyOffence(ACTIVE_FUNNY_OFFENCE_UP, battleAttribute, true, set);
+				GetAttributesManager()->UpdateFunnyDefence(ACTIVE_FUNNY_DEFENCE_UP, battleAttribute, true, set);
+				break;
+			}
 			case ACTIVE_ENERGY_CRITICAL:
 			{
 				int energyCriticalRate = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index], 

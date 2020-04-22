@@ -351,7 +351,7 @@ public:
 	void			UpdateHonestOffence(WORD effectType, float honestOffence, bool add, bool addRemove);
 	void			UpdateHonestDefence(WORD effectType, float honestDefence, bool add, bool addRemove);
 	void			UpdateStrangeOffence(WORD effectType, float strangeOffence, bool add, bool addRemove);
-	void			UpdateStrandeDefence(WORD effectType, float strangeDefenec, bool add, bool addRemove);
+	void			UpdateStrandeDefence(WORD effectType, float strangeDefenece, bool add, bool addRemove);
 	void			UpdateWildOffence(WORD effectType, float wildOffence, bool add, bool addRemove);
 	void			UpdateWildDefence(WORD effectType, float wildDefence, bool add, bool addRemove);
 	void			UpdateEleganceOffence(WORD effectType, float eleganceOffence, bool add, bool addRemove);
@@ -423,6 +423,7 @@ public:
 	void SetCastingTimeChangePercent(float val);
 	void SetCoolTimeChangePercent(float val);
 	void SetKeepTimeChangePercent(float val);
+	void SetKeepTimeChangeSeconds(float val);
 	void SetDotValueChangePercent(float val);
 	void SetDotTimeChangeAbsolute(float val);
 	void SetRequiredEpChangePercent(float val);
@@ -516,6 +517,7 @@ public:
 	void AddCastingTimeChangePercent(float val);
 	void AddCoolTimeChangePercent(float val);
 	void AddKeepTimeChangePercent(float val);
+	void AddKeepTimeChangeSeconds(float val);
 	void AddDotValueChangePercent(float val);
 	void AddDotTimeChangeAbsolute(float val);
 	void AddRequiredEpChangePercent(float val);
