@@ -570,10 +570,17 @@ void AttributesManager::SetAgroPointsAbsolute(float val)
 	AttrIsUpdated = true;
 }
 
-void AttributesManager::SetLastBleedingDefense(WORD val)
+void AttributesManager::SetLastBleedingDefence(WORD val)
 {
-	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_BLEEDING_DEFENSE_LAST);
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_BLEEDING_DEFENCE_LAST);
 	PlayerProfile.avatarAttribute.lastBleedingDefense = val;
+	AttrIsUpdated = true;
+}
+
+void AttributesManager::SetLastBurnDefence(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_BURN_DEFENCE_LAST);
+	PlayerProfile.avatarAttribute.lastBurnDefense = val;
 	AttrIsUpdated = true;
 }
 //Add
@@ -1144,9 +1151,16 @@ void AttributesManager::AddAgroPointsAbsolute(float val)
 	AttrIsUpdated = true;
 }
 
-void AttributesManager::AddLastBleedingDefense(WORD val)
+void AttributesManager::AddLastBleedingDefence(WORD val)
 {
-	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_BLEEDING_DEFENSE_LAST);
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_BLEEDING_DEFENCE_LAST);
 	PlayerProfile.avatarAttribute.lastBleedingDefense += val;
+	AttrIsUpdated = true;
+}
+
+void AttributesManager::AddLastBurnDefence(WORD val)
+{
+	changedFlag.Set(eATTRIBUTE_TO_UPDATE::ATTRIBUTE_TO_UPDATE_BURN_DEFENCE_LAST);
+	PlayerProfile.avatarAttribute.lastBurnDefense += val;
 	AttrIsUpdated = true;
 }

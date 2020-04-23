@@ -3053,18 +3053,32 @@ void AttributesManager::UpdateHealOverTimeAbsolute(WORD effectType, float healOv
 	sLog.outString("total heal over time percent %f", PlayerProfile.avatarAttribute.fValueHealOverTimeChangeAbsolute);
 }
 
-void AttributesManager::UpdateBleedingDefense(WORD effectType, WORD bleedingDefense, bool add, bool addRemove)
+void AttributesManager::UpdateBleedingDefence(WORD effectType, WORD bleedingDefence, bool add, bool addRemove)
 {
 	if (add)
 	{
-		WORD totalBleedingDefense = GetAttrEffectByType(effectType, bleedingDefense, addRemove);
-		AddLastBleedingDefense(totalBleedingDefense);
+		WORD totalBleedingDefense = GetAttrEffectByType(effectType, bleedingDefence, addRemove);
+		AddLastBleedingDefence(totalBleedingDefense);
 	}
 	else
 	{
-		WORD totalBleedingDefense = SetAllEffects(ACTIVE_BLEED_DEFENCE, INVALID_SYSTEM_EFFECT_CODE, INVALID_SYSTEM_EFFECT_CODE, bleedingDefense);
-		SetLastBleedingDefense(totalBleedingDefense);
+		WORD totalBleedingDefense = SetAllEffects(ACTIVE_BLEED_DEFENCE, INVALID_SYSTEM_EFFECT_CODE, INVALID_SYSTEM_EFFECT_CODE, bleedingDefence);
+		SetLastBleedingDefence(totalBleedingDefense);
 
+	}
+}
+
+void AttributesManager::UpdateBurnDefence(WORD effectType, WORD burnDefence, bool add, bool addRemove)
+{
+	if (add)
+	{
+		WORD totalBurnDefence = GetAttrEffectByType(effectType, burnDefence, addRemove);
+		AddLastBurnDefence(totalBurnDefence);
+	}
+	else
+	{
+		WORD totalBurnDefence = SetAllEffects(ACTIVE_BURN_DEFENCE, INVALID_SYSTEM_EFFECT_CODE, INVALID_SYSTEM_EFFECT_CODE, burnDefence);
+		SetLastBurnDefence(totalBurnDefence);
 	}
 }
 
@@ -3120,7 +3134,7 @@ void AttributesManager::UpdateStrandeDefence(WORD effectType, float strangeDefen
 	else
 	{
 		float totalStrangeDefence = SetAllEffects(ACTIVE_STRANGE_DEFENCE_UP, ACTIVE_STRANGE_DEFENCE_DOWN, INVALID_SYSTEM_EFFECT_CODE, strangeDefenece);
-		AddStrangeDefence(totalStrangeDefence);
+		SetStrangeDefence(totalStrangeDefence);
 	}
 }
 
@@ -3134,7 +3148,7 @@ void AttributesManager::UpdateWildOffence(WORD effectType, float wildOffence, bo
 	else
 	{
 		float totalWildOffence = SetAllEffects(ACTIVE_WILD_OFFENCE_UP, INVALID_SYSTEM_EFFECT_CODE, INVALID_SYSTEM_EFFECT_CODE, wildOffence);
-		AddWildOffence(totalWildOffence);
+		SetWildOffence(totalWildOffence);
 	}
 }
 
@@ -3148,7 +3162,7 @@ void AttributesManager::UpdateWildDefence(WORD effectType, float wildDefence, bo
 	else
 	{
 		float totalWildDefence = SetAllEffects(ACTIVE_WILD_DEFENCE_UP, ACTIVE_WILD_DEFENCE_DOWN, INVALID_SYSTEM_EFFECT_CODE, wildDefence);
-		AddWildDefence(totalWildDefence);
+		SetWildDefence(totalWildDefence);
 	}
 }
 
@@ -3162,7 +3176,7 @@ void AttributesManager::UpdateEleganceOffence(WORD effectType, float eleganceOff
 	else
 	{
 		float totalEleganceOffence = SetAllEffects(ACTIVE_ELEGANCE_OFFENCE_UP, INVALID_SYSTEM_EFFECT_CODE, INVALID_SYSTEM_EFFECT_CODE, eleganceOffence);
-		AddEleganceOffence(totalEleganceOffence);
+		SetEleganceOffence(totalEleganceOffence);
 	}
 }
 
@@ -3176,7 +3190,7 @@ void AttributesManager::UpdateEleganceDefence(WORD effectType, float eleganceDef
 	else
 	{
 		float totalEleganceDefence = SetAllEffects(ACTIVE_ELEGANCE_DEFENCE_UP, ACTIVE_ELEGANCE_DEFENCE_DOWN, INVALID_SYSTEM_EFFECT_CODE, eleganceDefence);
-		AddEleganceDefence(totalEleganceDefence);
+		SetEleganceDefence(totalEleganceDefence);
 	}
 }
 
@@ -3190,7 +3204,7 @@ void AttributesManager::UpdateFunnyOffence(WORD effectType, float funnyOffence, 
 	else
 	{
 		float totalFunnyOffence = SetAllEffects(ACTIVE_FUNNY_OFFENCE_UP, INVALID_SYSTEM_EFFECT_CODE, INVALID_SYSTEM_EFFECT_CODE, funnyOffence);
-		AddFunnyOffence(totalFunnyOffence);
+		SetFunnyOffence(totalFunnyOffence);
 	}
 }
 
@@ -3204,6 +3218,21 @@ void AttributesManager::UpdateFunnyDefence(WORD effectType, float funnyDefence, 
 	else
 	{
 		float totalFunnyDefence = SetAllEffects(ACTIVE_FUNNY_DEFENCE_UP, ACTIVE_FUNNY_DEFENCE_DOWN, INVALID_SYSTEM_EFFECT_CODE, funnyDefence);
-		AddFunnyDefence(totalFunnyDefence);
+		SetFunnyDefence(totalFunnyDefence);
 	}
+}
+
+void  AttributesManager::UpdateBleedingKeepTime(WORD effectType, float bleedingKeepTime, bool add, bool addRemove)
+{
+	if (add)
+	{
+		float totalBleedingKeepTime = GetAttrEffectByType(effectType, bleedingKeepTime, addRemove);
+		AddBleedingKeepTimeDown(totalBleedingKeepTime);
+	}
+	else
+	{
+		float totalBleedingKeepTime = SetAllEffects(INVALID_SYSTEM_EFFECT_CODE, ACTIVE_BLEEDING_KEEPTIME_DOWN, INVALID_SYSTEM_EFFECT_CODE, bleedingKeepTime);
+		SetBleedingKeepTimeDown(totalBleedingKeepTime);
+	}
+	sLog.outString("total bleeding keep time %f", PlayerProfile.avatarAttribute.fBleedingKeepTimeDown);
 }

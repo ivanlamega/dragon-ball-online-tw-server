@@ -347,7 +347,9 @@ public:
 	void			UpdateDirectHealAbsolute(WORD effectType, float directHeal, bool add, bool addRemove);
 	void			UpdateHealOverTimePercent(WORD effectType, float healOverTime, bool add, bool addRemove);
 	void			UpdateHealOverTimeAbsolute(WORD effectType, float healOverTime, bool add, bool addRemove);
-	void			UpdateBleedingDefense(WORD effectType, WORD bleedingDefense, bool add, bool addRemove);
+	void			UpdateBleedingDefence(WORD effectType, WORD bleedingDefence, bool add, bool addRemove);
+	void			UpdateBurnDefence(WORD effectType, WORD burnDefence, bool add, bool addRemove);
+
 	void			UpdateHonestOffence(WORD effectType, float honestOffence, bool add, bool addRemove);
 	void			UpdateHonestDefence(WORD effectType, float honestDefence, bool add, bool addRemove);
 	void			UpdateStrangeOffence(WORD effectType, float strangeOffence, bool add, bool addRemove);
@@ -358,6 +360,7 @@ public:
 	void			UpdateEleganceDefence(WORD effectType, float eleganceDefence, bool add, bool addRemove);
 	void			UpdateFunnyOffence(WORD effectType, float funnyOffence, bool add, bool addRemove);
 	void			UpdateFunnyDefence(WORD effectType, float funnyDefence, bool add, bool addRemove);
+	void			UpdateBleedingKeepTime(WORD effectType, float bleedingKeepTime, bool add, bool addRemove);
 	//	------------------------------------------------------------------------
 	// GETTER
 	//	------------------------------------------------------------------------
@@ -481,7 +484,8 @@ public:
 	void SetValueHealOverTimeChangeAbsolute(float val);
 	void SetAgroPointsPercent(float val);
 	void SetAgroPointsAbsolute(float val);
-	void SetLastBleedingDefense(WORD val);
+	void SetLastBleedingDefence(WORD val);
+	void SetLastBurnDefence(WORD val);
 
 	// Add
 	void AddLastStr(WORD val);
@@ -575,7 +579,8 @@ public:
 	void AddValueHealOverTimeChangeAbsolute(float val);
 	void AddAgroPointsPercent(float val);
 	void AddAgroPointsAbsolute(float val);
-	void AddLastBleedingDefense(WORD val);
+	void AddLastBleedingDefence(WORD val);
+	void AddLastBurnDefence(WORD val);
 };
 
 #endif

@@ -250,6 +250,14 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 				GetAttributesManager()->UpdateHitRate(SystemEffectData->effectCode, attackRate, true, set);
 				break;
 			}
+			case ACTIVE_BLEEDING_KEEPTIME_DOWN:
+			{
+				float bleedingKeepTime = skillData->SkillValue[index];
+				bleedingKeepTime *= -1;
+				sLog.outBasic("bleeding keep time %f", bleedingKeepTime);
+				GetAttributesManager()->UpdateBleedingKeepTime(SystemEffectData->effectCode, bleedingKeepTime, true, set);
+				break;
+			}
 			case ACTIVE_SKILL_AGGRO_DOWN_IN_PERCENT:
 			{
 				float agroPoints = skillData->SkillValue[index];
@@ -523,7 +531,15 @@ bool Player::SetUnsetBuffEffect(sSKILL_TBLDAT* skillData, int index, bool set)
 				int bleedingDefence = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
 					GetPcProfile()->avatarAttribute.baseBleedingDefense);
 				sLog.outBasic("bleeding Defence %d", bleedingDefence);
-				GetAttributesManager()->UpdateBleedingDefense(SystemEffectData->effectCode, bleedingDefence, true, set);
+				GetAttributesManager()->UpdateBleedingDefence(SystemEffectData->effectCode, bleedingDefence, true, set);
+				break;
+			}
+			case ACTIVE_BURN_DEFENCE:
+			{
+				int burnDefence = GetValueByEffectType(skillData->bySkill_Effect_Type[index], skillData->SkillValue[index],
+					GetPcProfile()->avatarAttribute.baseBurnDefense);
+				sLog.outBasic("burn Defence %d", burnDefence);
+				GetAttributesManager()->UpdateBurnDefence(SystemEffectData->effectCode, burnDefence, true, set);
 				break;
 			}
 			case ACTIVE_DH_POWER_UP_IN_PERCENT:
@@ -1083,12 +1099,6 @@ void Player::SkillAcion()
 {
 
 	sUG_CHAR_SKILL_REQ* pCharSkillReq = (sUG_CHAR_SKILL_REQ*)packets.GetPacketBuffer();
-
-	sLog.outBasic("My handle %d handle skill %d count %d", GetHandle(), pCharSkillReq->hTarget, pCharSkillReq->byApplyTargetCount);
-	for (int i = 0; i < pCharSkillReq->byApplyTargetCount; i++)
-	{
-		sLog.outBasic("Handle target %d", pCharSkillReq->ahApplyTarget[i]);
-	}
 
 	sGU_CHAR_SKILL_RES sSkil;
 	sSkil.wPacketSize = sizeof(sGU_CHAR_SKILL_RES) - 2;
@@ -2730,7 +2740,7 @@ void Player::SkillAcion()
 					skillRes.byRpBonusType = pCharSkillReq->byRpBonusType;//Untested
 					skillRes.wOpCode = GU_CHAR_ACTION_SKILL;
 					skillRes.handle = GetHandle();//My Handle
-					skillRes.hAppointedTarget = GetHandle();
+					skillRes.hAppointedTarget = pCharSkillReq->hTarget;//GetHandle();
 					skillRes.dwLpEpEventId = 1712247496;
 					skillRes.byRpBonusType = -1;//Untested
 					skillRes.bIsSkillHarmful = 0;
@@ -2744,20 +2754,43 @@ void Player::SkillAcion()
 					skillRes.aSkillResult[count].unk1 = 0;
 
 
-					if (pCharSkillReq->hTarget == GetHandle())
-					{
-						pBuffData.hHandle = GetHandle();
-						//pBuffData.slot = 1;
-						pBuffData.tblidx = skillDataOriginal->tblidx;
-						pBuffData.bySourceType = 0;
-						pBuffData.dwInitialDuration = skillDataOriginal->dwKeepTimeInMilliSecs;
-						pBuffData.dwTimeRemaining = skillDataOriginal->dwKeepTimeInMilliSecs;//Time
+					
+					//pBuffData.slot = 1;
+					pBuffData.tblidx = skillDataOriginal->tblidx;
+					pBuffData.bySourceType = 0;
+					pBuffData.dwInitialDuration = skillDataOriginal->dwKeepTimeInMilliSecs;
+					pBuffData.dwTimeRemaining = skillDataOriginal->dwKeepTimeInMilliSecs;//Time
 
-						pBuffData.isactive = 1;
-						pBuffData.Type = 0;
-						pBuffData.BuffInfo[Effect].SystemEffectValue = skillDataOriginal->SkillValue[Effect];
-						pBuffData.BuffInfo[Effect].SystemEffectTime = skillDataOriginal->dwKeepTimeInMilliSecs;
-						pBuffData.BuffInfo[Effect].dwSystemEffectValue = skillDataOriginal->SkillValue[Effect];
+					pBuffData.isactive = 1;
+					pBuffData.Type = 0;
+					pBuffData.BuffInfo[Effect].SystemEffectValue = skillDataOriginal->SkillValue[Effect];
+					pBuffData.BuffInfo[Effect].SystemEffectTime = skillDataOriginal->dwKeepTimeInMilliSecs;
+					pBuffData.BuffInfo[Effect].dwSystemEffectValue = skillDataOriginal->SkillValue[Effect];
+						
+				}
+			}
+
+			if (sSkil.wResultCode == GAME_SUCCESS)
+			{
+				GetPcProfile()->wCurEP -= skillDataOriginal->wRequire_EP;
+				UpdateEP(GetPcProfile()->wCurEP);
+			}
+
+			SendPacket((char*)&sSkil, sizeof(sGU_CHAR_SKILL_RES));
+			SendPacket((char*)&skillRes, sizeof(sGU_CHAR_ACTION_SKILL));
+			SendToPlayerList((char*)&skillRes, sizeof(sGU_CHAR_ACTION_SKILL));
+			DelayTime = GetTickCount();
+			if (pBuffData.hHandle != 0 && bleed == false || pBuffData.hHandle != INVALID_TBLIDX && bleed == false)
+			{
+				sLog.outBasic("My handle %d handle skill %d count %d", GetHandle(), pCharSkillReq->hTarget, pCharSkillReq->byApplyTargetCount);
+				for (int i = 0; i < pCharSkillReq->byApplyTargetCount; i++)
+				{
+					sLog.outBasic("Handle target %d", pCharSkillReq->ahApplyTarget[i]);
+
+					if (pCharSkillReq->ahApplyTarget[i] == GetHandle())
+					{
+						sLog.outBasic("self player");
+						pBuffData.hHandle = GetHandle();
 						//Handle Buff Time List
 						BuffTimeInfo* buff = GetAttributesManager()->GetBuff(pBuffData.tblidx);
 						if (buff == NULL)
@@ -2778,24 +2811,50 @@ void Player::SkillAcion()
 						{
 							buff->buffInfo = pBuffData;
 						}
+
+						sLog.outBasic("Buff added");
+						SendPacket((char*)&pBuffData, sizeof(BuffTypeSkill));
+						SendToPlayerList((char*)&pBuffData, sizeof(BuffTypeSkill));
+					}
+					else
+					{
+						Object* obj = static_cast<Object*>(GetFromList(pCharSkillReq->ahApplyTarget[i]));
+						if (obj != NULL || obj->GetTypeId() == OBJTYPE_PC)
+						{
+							Player* playerTarget = static_cast<Player*>(obj);
+							sLog.outBasic("other player %d", playerTarget->GetHandle());
+							
+							pBuffData.hHandle = playerTarget->GetHandle();
+							//Handle Buff Time List
+							BuffTimeInfo* buff = playerTarget->GetAttributesManager()->GetBuff(pBuffData.tblidx);
+							if (buff == NULL)
+							{
+								BuffTimeInfo newBuff;
+
+								newBuff.BuffID = pBuffData.tblidx;
+								newBuff.BuffTime = GetTickCount();
+								newBuff.BuffEndTime = pBuffData.dwInitialDuration;
+								newBuff.PlayerHandle = pBuffData.hHandle;
+								newBuff.BuffIsActive = true;
+								newBuff.BuffSlot = 0;
+								newBuff.buffInfo = pBuffData;
+								newBuff.skillInfo = skillDataOriginal;
+								playerTarget->GetAttributesManager()->AddBuff(newBuff);
+							}
+							else
+							{
+								buff->buffInfo = pBuffData;
+							}
+
+							playerTarget->SetUnsetBuffEffect(skillDataOriginal, 0, true);
+							playerTarget->SetUnsetBuffEffect(skillDataOriginal, 1, true);
+							sLog.outBasic("buff added");
+							SendPacket((char*)&pBuffData, sizeof(BuffTypeSkill));
+							SendToPlayerList((char*)&pBuffData, sizeof(BuffTypeSkill));
+
+						}
 					}
 				}
-			}
-
-			if (sSkil.wResultCode == GAME_SUCCESS)
-			{
-				GetPcProfile()->wCurEP -= skillDataOriginal->wRequire_EP;
-				UpdateEP(GetPcProfile()->wCurEP);
-			}
-
-			SendPacket((char*)&sSkil, sizeof(sGU_CHAR_SKILL_RES));
-			SendPacket((char*)&skillRes, sizeof(sGU_CHAR_ACTION_SKILL));
-			SendToPlayerList((char*)&skillRes, sizeof(sGU_CHAR_ACTION_SKILL));
-			DelayTime = GetTickCount();
-			if (pBuffData.hHandle != 0 && bleed == false || pBuffData.hHandle != INVALID_TBLIDX && bleed == false)
-			{
-				SendPacket((char*)&pBuffData, sizeof(BuffTypeSkill));
-				SendToPlayerList((char*)&pBuffData, sizeof(BuffTypeSkill));
 			}
 
 			if (GetState()->sCharStateBase.aspectState.sAspectStateBase.byAspectStateId == eASPECTSTATE::ASPECTSTATE_SPINNING_ATTACK
