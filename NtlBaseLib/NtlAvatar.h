@@ -109,9 +109,9 @@ enum eATTRIBUTE_TO_UPDATE
 	ATTRIBUTE_TO_UPDATE_CASTING_TIME_CHANGE_PERCENT,
 	ATTRIBUTE_TO_UPDATE_COOL_TIME_CHANGE_PERCENT,
 	ATTRIBUTE_TO_UPDATE_KEEP_TIME_CHANGE_PERCENT,
-	ATTRIBUTE_TO_UPDATE_DOT_VALUE_CHANGE_PERCENT,
-	ATTRIBUTE_TO_UPDATE_DOT_TIME_CHANGE_ABSOLUTE,
+	ATTRIBUTE_TO_UPDATE_KEEP_TIME_CHANGE_SECONDS,
 	ATTRIBUTE_TO_UPDATE_REQUIRED_EP_CHANGE_PERCENT,
+
 
 	ATTRIBUTE_TO_UPDATE_HONEST_OFFENCE,
 	ATTRIBUTE_TO_UPDATE_HONEST_DEFENCE,
@@ -124,7 +124,9 @@ enum eATTRIBUTE_TO_UPDATE
 	ATTRIBUTE_TO_UPDATE_FUNNY_OFFENCE,
 	ATTRIBUTE_TO_UPDATE_FUNNY_DEFENCE,
 
-	ATTRIBUTE_TO_UPDATE_UNKNOW2,
+
+	ATTRIBUTE_TO_UPDATE_DOT_VALUE_CHANGE_PERCENT,
+	ATTRIBUTE_TO_UPDATE_DOT_TIME_CHANGE_ABSOLUTE,
 
 	ATTRIBUTE_TO_UPDATE_PARALYZE_TOLERANCE_RATE,
 	ATTRIBUTE_TO_UPDATE_TERROR_TOLERANCE_RATE,
@@ -160,34 +162,35 @@ enum eATTRIBUTE_TO_UPDATE
 	ATTRIBUTE_TO_UPDATE_ITEM_UPGRADE_RATE_UP,
 	ATTRIBUTE_TO_UPDATE_ITEM_BREAK_RATE_DOWN,
 
-	ATTRIBUTE_TO_UPDATE_UNKNOW3_0,
-	ATTRIBUTE_TO_UPDATE_UNKNOW3_1,
+	ATTRIBUTE_TO_UPDATE_BLEEDING_DEFENCE_BASE,
+	ATTRIBUTE_TO_UPDATE_BLEEDING_DEFENCE_LAST,
 	ATTRIBUTE_TO_UPDATE_UNKNOW3_2,
 	ATTRIBUTE_TO_UPDATE_SKILL_SPEED,
-	ATTRIBUTE_TO_UPDATE_UNKNOW3_4,
-	ATTRIBUTE_TO_UPDATE_UNKNOW3_5,
+	ATTRIBUTE_TO_UPDATE_BURN_DEFENCE_BASE,
+	ATTRIBUTE_TO_UPDATE_BURN_DEFENCE_LAST,
 	ATTRIBUTE_TO_UPDATE_MAX_WEIGHT,
-	ATTRIBUTE_TO_UPDATE_UNKNOW3_w6,
+
 	ATTRIBUTE_TO_UPDATE_UNKNOW3_7,
 	ATTRIBUTE_TO_UPDATE_UNKNOW3_8,
 	ATTRIBUTE_TO_UPDATE_UNKNOW3_9,
 	ATTRIBUTE_TO_UPDATE_UNKNOW3_10,
 	ATTRIBUTE_TO_UPDATE_UNKNOW3_11,
 	ATTRIBUTE_TO_UPDATE_UNKNOW3_12,
-	ATTRIBUTE_TO_UPDATE_UNKNOW3_13,
+	ATTRIBUTE_TO_UPDATE_AGRO_POINTS_ABSOLUTE,
 
-	ATTRIBUTE_TO_UPDATE_UNKNOW4_0,
+	ATTRIBUTE_TO_UPDATE_AGRO_POINTS_PERCENT,
 	ATTRIBUTE_TO_UPDATE_UNKNOW4_1,
+	ATTRIBUTE_TO_UPDATE_UNKNOW3_w6,
 	ATTRIBUTE_TO_UPDATE_PHYSICAL_CRITICAL_DEFENCE_RATE_BASE,
 	ATTRIBUTE_TO_UPDATE_PHYSICAL_CRITICAL_DEFENCE_RATE_LAST,
 	ATTRIBUTE_TO_UPDATE_ENERGY_CRITICAL_DEFENCE_RATE_BASE,
 	ATTRIBUTE_TO_UPDATE_ENERGY_CRITICAL_DEFENCE_RATE_LAST,
 	ATTRIBUTE_TO_UPDATE_UNKNOW4_6,
 
-	ATTRIBUTE_TO_UPDATE_UNKNOW5_0,
-	ATTRIBUTE_TO_UPDATE_UNKNOW5_1,
-	ATTRIBUTE_TO_UPDATE_UNKNOW5_2,
-	ATTRIBUTE_TO_UPDATE_UNKNOW5_3,
+	ATTRIBUTE_TO_UPDATE_VALUE_DIRECT_HEAL_CHANGE_PERCENT,
+	ATTRIBUTE_TO_UPDATE_VALUE_DIRECT_HEAL_CHANGE_ABSOLUTE,
+	ATTRIBUTE_TO_UPDATE_VALUE_HEAL_OVER_TIME_CHANGE_PERCENT,
+	ATTRIBUTE_TO_UPDATE_VALUE_HEAL_OVER_TIME_CHANGE_ABSOLUTE,
 	ATTRIBUTE_TO_UPDATE_UNKNOW5_4,
 	ATTRIBUTE_TO_UPDATE_UNKNOW5_5,
 
@@ -317,8 +320,7 @@ struct sAVATAR_ATTRIBUTE
 	float fCastingTimeChangePercent;
 	float fCoolTimeChangePercent;
 	float fKeepTimeChangePercent;
-	float fDotValueChangePercent;
-	float fDotTimeChangeAbsolute;
+	float fKeepTimeChangeSeconds;
 	float fRequiredEpChangePercent;
 
 
@@ -334,7 +336,8 @@ struct sAVATAR_ATTRIBUTE
 	float fFunnyOffence;
 	float fFunnyDefence;
 
-	float unknown2;// mob speed maybe
+	float fDotTimeChangeAbsolute;
+	float fDotValueChangePercent;// mob speed maybe
 
 	WORD wParalyzeToleranceRate;
 	WORD wTerrorToleranceRate;
@@ -360,15 +363,15 @@ struct sAVATAR_ATTRIBUTE
 	float fKnockdownBlockModeSuccessRate;
 	//DWORD unknown6;
 	WORD unknown6;
-	WORD baseAbdominalPainDefense;
 
-	WORD AbdominalPainDefense;//bleeding defese
+	WORD baseAbdominalPainDefense;
+	WORD lastAbdominalPainDefense;//bleeding defese
 	WORD basePoisonDefense;
-	WORD PoisonDefense;// posion defese
+	WORD lastPoisonDefense;// posion defese
 	WORD baseBleedingDefense;
-	WORD BleedingDefense;// defesa sangramento
+	WORD lastBleedingDefense;// defesa sangramento
 	WORD baseBurnDefense;
-	WORD BurnDefense; //burn defese
+	WORD lastBurnDefense; //burn defese
 	WORD unknown7;
 
 	float fEnergyCriticalDamageBonusRate;
@@ -382,28 +385,29 @@ struct sAVATAR_ATTRIBUTE
 	float SkillSpeed;//??
 	DWORD baseMaxWeight;//??
 	DWORD MaxWeight;
-	WORD unknown3_w6;
+
 	//float unknown3_6;//??
-	float fHtbBlockModeSuccessRate;//??
-	float fSitDownLpRegenBonusRate;//??
+	float fAgroPointsAbsolute;//??
+	float fAgroPointsPercent;//??
 	float fSitDownEpRegenBonusRate;//??
 	float fPhysicalCriticalDamageBonusRate;//??
-	float unknown3_11;//??
-	float unknown3_12;//??
+	float fSitDownLpRegenBonusRate;//??
+	float fHtbBlockModeSuccessRate;//??
 	float unknown3_13;//??
 	BYTE unknown4_0;//??
 	BYTE unknown4_1;//??
+	WORD unknown3_w6;
 	WORD basePhysicalCriticalDefenceRate;//??
 	WORD lastPhysicalCriticalDefenceRate;//??
 	WORD baseEnergyCriticalDefenceRate;//??
 	WORD lastEnergyCriticalDefenceRate;//??
-	WORD unknown4_6;//??
-	float unknown5_0;//??
-	float unknown5_1;//??
-	float unknown5_2;//??
-	float unknown5_3;//??
+	float fValueDirectHealChangePercent;//??
+	float fValueDirectHealChangeAbsolute;//??
+	float fValueHealOverTimeChangePercent;//??
+	float fValueHealOverTimeChangeAbsolute;//??
 	float unknown5_4;//??
 	float unknown5_5;//??
+	WORD unknown4_6;//??
 };
 
 
@@ -582,8 +586,8 @@ struct sAVATAR_ATTRIBUTE_LINK
 	float* pfSitDownLpRegenBonusRate;//??
 	float* pfSitDownEpRegenBonusRate;//??
 	float* pfPhysicalCriticalDamageBonusRate;//??
-	float* unknown3_11;//??
-	float* unknown3_12;//??
+	float* pfAgroPointsPercecnt;//??
+	float* pfAgroPointsAbsolute;//??
 	float* unknown3_13;//??
 	BYTE* unknown4_0;//??
 	BYTE* unknown4_1;//??
@@ -592,10 +596,10 @@ struct sAVATAR_ATTRIBUTE_LINK
 	WORD* lastPhysicalCriticalDefenceRate;//??
 	WORD* lastEnergyCriticalDefenceRate;//??
 	WORD* unknown4_6;//??
-	float* unknown5_0;//??
-	float* unknown5_1;//??
-	float* unknown5_2;//??
-	float* unknown5_3;//??
+	float* pfValueDirectHealChangePercent;//??
+	float* pfValueDirectHealChangeAbsolute;//??
+	float* pfValueHealOverTimeChangePercent;//??
+	float* pfValueHealOverTimeChangeAbsolute;//??
 	float* unknown5_4;//??
 	float* unknown5_5;//??
 };

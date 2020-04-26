@@ -284,7 +284,8 @@ public:
 	WORD			CalculeRPHitChargeRate(BYTE deffLevel, BYTE attLevel);
 	WORD			CalculeCurseSuccessRate(int lastFoc);
 	WORD			CalculeCurseToleranceRate(int lastDex);
-
+	WORD			CalculeBlockDamageRate(int lastDex, int lastCon);
+	WORD			CalculeGuardRate(int lastDex);
 
 	float			GetPercent(float percent, float value);
 
@@ -292,11 +293,11 @@ public:
 	// Update cascading stats bool addRemove = true add, false remove
 	// Update phyicalOffence
 	void			UpdateStr(WORD effectType, int lastStr, bool add, bool addRemove);
-	// Update LP, blockRate, physicalCriticalDefenceRate
+	// Update LP, blockRate, physicalCriticalDefenceRate, blockDamageRate
 	void			UpdateCon(WORD effectType, int lastCon, bool add, bool addRemove);
 	// Update energyOffence, energyCriticalRate, hitRate(attackRate), energyCriticalRange, curseSuccessRate
 	void			UpdateFoc(WORD effectType, int lastFoc, bool add, bool addRemove);
-	// Update physicalOffence, physicalCriticalRate, dodgeRate, blockRate, physicalCriticalRange, curseToleranceRate
+	// Update physicalOffence, physicalCriticalRate, dodgeRate, blockRate, physicalCriticalRange, curseToleranceRate, blockDamageRate, guardRate
 	void			UpdateDex(WORD effectType, int lastDex, bool add, bool addRemove);
 	// Update energyOffence
 	void			UpdateSol(WORD effectType, int lastSol, bool add, bool addRemove);
@@ -333,6 +334,33 @@ public:
 	void			UpdateRunSpeed(WORD effectType, float runSpeed, bool add, bool addRemove);
 	void			UpdateCoolTimeChangePercent(WORD effectType, float coolTimeChange, bool add, bool addRemove);
 	void			UpdateAttackspeedRate(WORD effectType, WORD attackSpeed, bool add, bool addRemove);
+	void			UpdateBlockDamageRate(WORD effectType, WORD blockDamageRate, bool add, bool addRemove);
+	void			UpdateGuardRate(WORD effectType, WORD guardRate, bool add, bool addRemove);
+	void			UpdateGuardNormalSuccess(WORD effectType, float guardNormalSuccess, bool add, bool addRemove);
+	void			UpdateGuardHTBSuccess(WORD effecType, float guardHTBSuccess, bool add, bool addRemove);
+	void			UpdateGuardKnockdownSuccess(WORD effectType, float guardKnockdownSuccess, bool add, bool addRemove);
+	void			UpdateGuardCurseSuccess(WORD effectType, float guardCurseSuccess, bool add, bool addRemove);
+	void			UpdateGuardCriticalSuccess(WORD effectType, float guardCriticalSuccess, bool add, bool addRemove);
+	void			UpdateAgroPointsPercent(WORD effectType, float agroPoints, bool add, bool addRemove);
+	void			UpdateAgroPointsAbsolute(WORD effectType, float agroPoints, bool add, bool addRemove);
+	void			UpdateDirectHealPerecent(WORD effectType, float directHeal, bool add, bool addRemove);
+	void			UpdateDirectHealAbsolute(WORD effectType, float directHeal, bool add, bool addRemove);
+	void			UpdateHealOverTimePercent(WORD effectType, float healOverTime, bool add, bool addRemove);
+	void			UpdateHealOverTimeAbsolute(WORD effectType, float healOverTime, bool add, bool addRemove);
+	void			UpdateBleedingDefence(WORD effectType, WORD bleedingDefence, bool add, bool addRemove);
+	void			UpdateBurnDefence(WORD effectType, WORD burnDefence, bool add, bool addRemove);
+
+	void			UpdateHonestOffence(WORD effectType, float honestOffence, bool add, bool addRemove);
+	void			UpdateHonestDefence(WORD effectType, float honestDefence, bool add, bool addRemove);
+	void			UpdateStrangeOffence(WORD effectType, float strangeOffence, bool add, bool addRemove);
+	void			UpdateStrandeDefence(WORD effectType, float strangeDefenece, bool add, bool addRemove);
+	void			UpdateWildOffence(WORD effectType, float wildOffence, bool add, bool addRemove);
+	void			UpdateWildDefence(WORD effectType, float wildDefence, bool add, bool addRemove);
+	void			UpdateEleganceOffence(WORD effectType, float eleganceOffence, bool add, bool addRemove);
+	void			UpdateEleganceDefence(WORD effectType, float eleganceDefence, bool add, bool addRemove);
+	void			UpdateFunnyOffence(WORD effectType, float funnyOffence, bool add, bool addRemove);
+	void			UpdateFunnyDefence(WORD effectType, float funnyDefence, bool add, bool addRemove);
+	void			UpdateBleedingKeepTime(WORD effectType, float bleedingKeepTime, bool add, bool addRemove);
 	//	------------------------------------------------------------------------
 	// GETTER
 	//	------------------------------------------------------------------------
@@ -398,6 +426,7 @@ public:
 	void SetCastingTimeChangePercent(float val);
 	void SetCoolTimeChangePercent(float val);
 	void SetKeepTimeChangePercent(float val);
+	void SetKeepTimeChangeSeconds(float val);
 	void SetDotValueChangePercent(float val);
 	void SetDotTimeChangeAbsolute(float val);
 	void SetRequiredEpChangePercent(float val);
@@ -449,6 +478,14 @@ public:
 	void SetLastEPBattleRegeneration(WORD val);
 	void SetLastRpRegen(WORD val);
 	void SetLastRpDimimution(WORD val);
+	void SetValueDirectHealChangePercent(float val);
+	void SetValueDirectHealChangeAbsolute(float val);
+	void SetValueHealOverTimeChangePercent(float val);
+	void SetValueHealOverTimeChangeAbsolute(float val);
+	void SetAgroPointsPercent(float val);
+	void SetAgroPointsAbsolute(float val);
+	void SetLastBleedingDefence(WORD val);
+	void SetLastBurnDefence(WORD val);
 
 	// Add
 	void AddLastStr(WORD val);
@@ -484,6 +521,7 @@ public:
 	void AddCastingTimeChangePercent(float val);
 	void AddCoolTimeChangePercent(float val);
 	void AddKeepTimeChangePercent(float val);
+	void AddKeepTimeChangeSeconds(float val);
 	void AddDotValueChangePercent(float val);
 	void AddDotTimeChangeAbsolute(float val);
 	void AddRequiredEpChangePercent(float val);
@@ -535,6 +573,14 @@ public:
 	void AddLastEPBattleRegeneration(WORD val);
 	void AddLastRpRegen(WORD val);
 	void AddLastRpDimimution(WORD val);
+	void AddValueDirectHealChangePercent(float val);
+	void AddValueDirectHealChangeAbsolute(float val);
+	void AddValueHealOverTimeChangePercent(float val);
+	void AddValueHealOverTimeChangeAbsolute(float val);
+	void AddAgroPointsPercent(float val);
+	void AddAgroPointsAbsolute(float val);
+	void AddLastBleedingDefence(WORD val);
+	void AddLastBurnDefence(WORD val);
 };
 
 #endif

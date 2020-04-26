@@ -200,101 +200,57 @@ void WorldSession::ExecuteServerCommand(Packet& packet)
 			req.byAvatarType = 0;
 			SendPacket((char*)&req, sizeof(sGU_SKILL_TARGET_LIST_REQ));
 		}
-		else if (strToken == "@spinvar")
+		else if (strToken == "@skillopt")
 		{
+			sLog.outDetail("Respawn object quest");
 			strToken = str.substr(pos + 1, std::string::npos);
-			unsigned int numVar = (unsigned int)atof(strToken.c_str());
-			sLog.outDetail("Test spin var %d", numVar);
-			_player->spinVar = numVar;
-		}
-		else if (strToken == "@spinvalue")
-		{
-			
-			strToken = str.substr(pos + 1, std::string::npos);
-			unsigned int numVal = (unsigned int)atof(strToken.c_str());
-
-			sLog.outDetail("Test spin value %d", numVal);
-
-			sGU_CHAR_SPECIAL_ATTACK_NFY nfy;
-			memset(&nfy, 0, sizeof sGU_CHAR_SPECIAL_ATTACK_NFY);
-			nfy.wOpCode = GU_CHAR_SPECIAL_ATTACK_NFY;
-			nfy.wPacketSize = sizeof(sGU_CHAR_SPECIAL_ATTACK_NFY) - 2;
-			nfy.hTarget = _player->GetHandle();
-			nfy.hSubject = _player->GetHandle();
-			nfy.unknown = 0;
-			nfy.unknown2 = 1;
-			nfy.skillTblidx = 510044;
-			nfy.specialResult = 0;
-			nfy.damage = 3895;
-			nfy.pos.x = dbo_move_float_to_pos(_player->GetVectorPosition().x);
-			nfy.pos.y = dbo_move_float_to_pos(_player->GetVectorPosition().y);
-			nfy.pos.z = dbo_move_float_to_pos(_player->GetVectorPosition().z);
-
-			switch (_player->spinVar)
+			unsigned int value = (unsigned int)atof(strToken.c_str());
+			int valor = 10;
+			_player->GetAttributesManager()->SetCastingTimeChangePercent(0);
+			_player->GetAttributesManager()->SetCoolTimeChangePercent(0);
+			_player->GetAttributesManager()->SetKeepTimeChangePercent(0);
+			_player->GetAttributesManager()->SetKeepTimeChangeSeconds(0);
+			_player->GetAttributesManager()->SetDotValueChangePercent(0);
+			_player->GetAttributesManager()->SetDotTimeChangeAbsolute(0);
+			_player->GetAttributesManager()->SetRequiredEpChangePercent(0);
+			switch (value)
 			{
 				case 1:
 				{
-					nfy.unknown = numVal;
+					_player->GetAttributesManager()->SetCastingTimeChangePercent(valor);
 					break;
 				}
 				case 2:
 				{
-					nfy.unknown2 = numVal;
+					_player->GetAttributesManager()->SetCoolTimeChangePercent(valor);
 					break;
 				}
 				case 3:
 				{
-					nfy.specialResult = numVal;
+					_player->GetAttributesManager()->SetKeepTimeChangePercent(valor);
 					break;
 				}
 				case 4:
 				{
-					nfy.damage = numVal;
+					_player->GetAttributesManager()->SetKeepTimeChangeSeconds(valor);
+					break;
+				}
+				case 5: 
+				{
+					_player->GetAttributesManager()->SetRequiredEpChangePercent(valor);
+					break;
+				}
+				case 6: 
+				{
+					_player->GetAttributesManager()->SetDotValueChangePercent(valor);
+					break;
+				}
+				case 7:
+				{
+					_player->GetAttributesManager()->SetDotTimeChangeAbsolute(value);
 					break;
 				}
 			}
-
-			SendPacket((char*)&nfy, sizeof(sGU_CHAR_SPECIAL_ATTACK_NFY));
-		}
-		else if (strToken == "@attack")
-		{
-			sLog.outDetail("Respawn object quest");
-			strToken = str.substr(pos + 1, std::string::npos);
-			DWORD value = (unsigned int)atof(strToken.c_str());
-			sGU_CHAR_ACTION_ATTACK res;
-			res.bChainAttack = true;
-			res.byAttackResult = value;
-			res.byBlockedAction = -1;
-			res.dwLpEpEventId = 700121;
-			res.fReflectedDamage = 0;
-			res.byAttackSequence = 1;
-			res.hSubject = _player->GetHandle();
-			res.hTarget = _player->GetHandle();
-			res.vShift = _player->GetVectorPosition();
-			res.wAttackResultValue = 10;
-			res.bRecoveredLP = false;
-			res.wRecoveredLpValue = 0;
-			res.bRecoveredEP = false;
-			res.wRecoveredEpValue = 0;
-			res.wOpCode = GU_CHAR_ACTION_ATTACK;
-			res.wPacketSize = sizeof(sGU_CHAR_ACTION_ATTACK) - 2;
-			SendPacket((char*)&res, sizeof(sGU_CHAR_ACTION_ATTACK));
-			return;
-		}
-		else if (strToken == "@pickup")
-		{
-			sLog.outDetail("Respawn object quest");
-			strToken = str.substr(pos + 1, std::string::npos);
-			unsigned int count = (unsigned int)atof(strToken.c_str());
-			sGU_TOBJECT_UPDATE_STATE state;
-			state.wOpCode = GU_TOBJECT_UPDATE_STATE;
-			state.wPacketSize = sizeof(sGU_TOBJECT_UPDATE_STATE) - 2;
-			state.handle = _player->objectHandle;
-			state.tobjectBrief.objectID = _player->objectTblidx;
-			state.tobjectState.byState = 0;
-			state.tobjectState.bySubStateFlag = TOBJECT_SUBSTATE_FLAG_SHOW;
-			state.tobjectState.dwStateTime = 3299123109;
-			SendPacket((char*)&state, sizeof(sGU_TOBJECT_UPDATE_STATE));
 			return;
 		}
 		else if (strToken == "@tp")

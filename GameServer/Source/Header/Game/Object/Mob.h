@@ -53,6 +53,8 @@ public:
 	//	------------------------------------------------------------------------
 	WORD CalculePhysicalCriticalDefenceRate(int lastCon);
 	WORD CalculeEnergyCriticalDefenceRate(int lastEng);
+	WORD CalculeBlockRate(int lastDex, int lastCon);
+	WORD CalculeBlockDamageRate(int lastDex, int lastCon);
 
 	virtual void UpdateState(eCHARSTATE _state) override;
 private:

@@ -220,7 +220,7 @@ CNtlAvatar::sATTRIBUTE_LOGIC CNtlAvatar::m_attributeLogic[ATTRIBUTE_TO_UPDATE_CO
 	ATTRIBUTE_LOGIC_DEFINE(fFunnyOffence, float),
 	ATTRIBUTE_LOGIC_DEFINE(fFunnyDefence, float),
 
-	ATTRIBUTE_LOGIC_DEFINE(unknown2, float),
+	ATTRIBUTE_LOGIC_DEFINE(fKeepTimeChangeSeconds, float),
 
 	ATTRIBUTE_LOGIC_DEFINE(wParalyzeToleranceRate, WORD),
 	ATTRIBUTE_LOGIC_DEFINE(wTerrorToleranceRate, WORD),
@@ -267,8 +267,8 @@ CNtlAvatar::sATTRIBUTE_LOGIC CNtlAvatar::m_attributeLogic[ATTRIBUTE_TO_UPDATE_CO
 	ATTRIBUTE_LOGIC_DEFINE(fSitDownLpRegenBonusRate, float),
 	ATTRIBUTE_LOGIC_DEFINE(fSitDownEpRegenBonusRate, float),
 	ATTRIBUTE_LOGIC_DEFINE(fPhysicalCriticalDamageBonusRate, float),
-	ATTRIBUTE_LOGIC_DEFINE(unknown3_11, float),
-	ATTRIBUTE_LOGIC_DEFINE(unknown3_12, float),
+	ATTRIBUTE_LOGIC_DEFINE(fAgroPointsPercent, float),
+	ATTRIBUTE_LOGIC_DEFINE(fAgroPointsAbsolute, float),
 	ATTRIBUTE_LOGIC_DEFINE(unknown3_13, float),
 
 	ATTRIBUTE_LOGIC_DEFINE(unknown4_0, BYTE),
@@ -279,10 +279,10 @@ CNtlAvatar::sATTRIBUTE_LOGIC CNtlAvatar::m_attributeLogic[ATTRIBUTE_TO_UPDATE_CO
 	ATTRIBUTE_LOGIC_DEFINE(lastEnergyCriticalDefenceRate, WORD),
 	ATTRIBUTE_LOGIC_DEFINE(unknown4_6, WORD),
 
-	ATTRIBUTE_LOGIC_DEFINE(unknown5_0, float),
-	ATTRIBUTE_LOGIC_DEFINE(unknown5_1, float),
-	ATTRIBUTE_LOGIC_DEFINE(unknown5_2, float),
-	ATTRIBUTE_LOGIC_DEFINE(unknown5_3, float),
+	ATTRIBUTE_LOGIC_DEFINE(fValueDirectHealChangePercent, float),
+	ATTRIBUTE_LOGIC_DEFINE(fValueDirectHealChangeAbsolute, float),
+	ATTRIBUTE_LOGIC_DEFINE(fValueHealOverTimeChangePercent, float),
+	ATTRIBUTE_LOGIC_DEFINE(fValueHealOverTimeChangeAbsolute, float),
 	ATTRIBUTE_LOGIC_DEFINE(unknown5_4, float),
 	ATTRIBUTE_LOGIC_DEFINE(unknown5_5, float),
 };

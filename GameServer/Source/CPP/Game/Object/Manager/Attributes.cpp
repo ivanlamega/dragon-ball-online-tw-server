@@ -395,19 +395,18 @@ bool AttributesManager::LoadAttributeFromDB()
 	PlayerProfile.avatarAttribute.wBaseApBattleDegen = 0;
 	PlayerProfile.avatarAttribute.wLastApBattleDegen = 0;
 
-	PlayerProfile.avatarAttribute.unknown2 = 144;
 	PlayerProfile.avatarAttribute.unknown3_0 = 143;
 	PlayerProfile.avatarAttribute.unknown3_1 = 142;
 	PlayerProfile.avatarAttribute.fPhysicalCriticalDamageBonusRate = 141;
-	PlayerProfile.avatarAttribute.unknown3_11 = 140;//
-	PlayerProfile.avatarAttribute.unknown3_12 = 139;
+	PlayerProfile.avatarAttribute.fAgroPointsPercent = 0;//
+	PlayerProfile.avatarAttribute.fAgroPointsAbsolute = 0;
 	PlayerProfile.avatarAttribute.unknown3_13 = 138;//
 	PlayerProfile.avatarAttribute.unknown3_2 = 137;
 	PlayerProfile.avatarAttribute.baseSkillSpeed = 100.0f;//
 	PlayerProfile.avatarAttribute.baseMaxWeight = 135;
 	PlayerProfile.avatarAttribute.MaxWeight = 2600;
 	PlayerProfile.avatarAttribute.unknown3_w6 = 134; // if != 0 weight get bugged
-	PlayerProfile.avatarAttribute.fHtbBlockModeSuccessRate = 133;
+	PlayerProfile.avatarAttribute.fHtbBlockModeSuccessRate = 0;
 	PlayerProfile.avatarAttribute.fSitDownLpRegenBonusRate = 132;//
 	PlayerProfile.avatarAttribute.fSitDownEpRegenBonusRate = 131;
 	PlayerProfile.avatarAttribute.unknown4_0 = 130;
@@ -417,18 +416,18 @@ bool AttributesManager::LoadAttributeFromDB()
 	PlayerProfile.avatarAttribute.lastPhysicalCriticalDefenceRate = PlayerProfile.avatarAttribute.basePhysicalCriticalDefenceRate;
 	PlayerProfile.avatarAttribute.lastEnergyCriticalDefenceRate = PlayerProfile.avatarAttribute.baseEnergyCriticalDefenceRate;
 	PlayerProfile.avatarAttribute.unknown4_6 = 124;
-	PlayerProfile.avatarAttribute.unknown5_1 = 123;
-	PlayerProfile.avatarAttribute.unknown5_0 = 122;
-	PlayerProfile.avatarAttribute.unknown5_2 = 121;
-	PlayerProfile.avatarAttribute.unknown5_3 = 120;
+	PlayerProfile.avatarAttribute.fValueDirectHealChangePercent = 0;
+	PlayerProfile.avatarAttribute.fValueDirectHealChangeAbsolute = 0;
+	PlayerProfile.avatarAttribute.fValueHealOverTimeChangeAbsolute = 0;
+	PlayerProfile.avatarAttribute.fValueHealOverTimeChangePercent = 0;
 	PlayerProfile.avatarAttribute.unknown5_4 = 119;
 	PlayerProfile.avatarAttribute.unknown5_5 = 118;
 	PlayerProfile.avatarAttribute.fBasePhysicalCriticalRange = CalculePhysicalCriticalRange(plr->GetMyClass(), PlayerProfile.avatarAttribute.byLastDex);
 	PlayerProfile.avatarAttribute.fLastPhysicalCriticalRange = PlayerProfile.avatarAttribute.fBasePhysicalCriticalRange;
 	PlayerProfile.avatarAttribute.fBaseEnergyCriticalRange = CalculeEnergyCriticalRange(plr->GetMyClass(), PlayerProfile.avatarAttribute.byLastFoc);
 	PlayerProfile.avatarAttribute.fLastEnergyCriticalRange = PlayerProfile.avatarAttribute.fBaseEnergyCriticalRange;
-	PlayerProfile.avatarAttribute.wBaseBlockDamageRate = 113;
-	PlayerProfile.avatarAttribute.wLastBlockDamageRate = 112;
+	PlayerProfile.avatarAttribute.wBaseBlockDamageRate = CalculeBlockDamageRate(PlayerProfile.avatarAttribute.byLastDex, PlayerProfile.avatarAttribute.byLastCon);
+	PlayerProfile.avatarAttribute.wLastBlockDamageRate = PlayerProfile.avatarAttribute.wBaseBlockDamageRate;
 	// SKILL SPEED
 	PlayerProfile.avatarAttribute.SkillSpeed = 100.0f;
 	//LP Get up Reg
@@ -461,25 +460,27 @@ bool AttributesManager::LoadAttributeFromDB()
 	PlayerProfile.avatarAttribute.wBaseCurseToleranceRate = CalculeCurseToleranceRate(PlayerProfile.avatarAttribute.byLastDex);
 	PlayerProfile.avatarAttribute.wLastCurseToleranceRate = PlayerProfile.avatarAttribute.wBaseCurseToleranceRate;
 	//Nao sei
-	PlayerProfile.avatarAttribute.fCastingTimeChangePercent = 0;
-	PlayerProfile.avatarAttribute.fCoolTimeChangePercent = 0;//
-	PlayerProfile.avatarAttribute.fKeepTimeChangePercent = 0;
+	PlayerProfile.avatarAttribute.fCastingTimeChangePercent = 10;
+	PlayerProfile.avatarAttribute.fCoolTimeChangePercent = 20;//
+	PlayerProfile.avatarAttribute.fKeepTimeChangePercent = 30;
+	PlayerProfile.avatarAttribute.fKeepTimeChangeSeconds = 40;
+	PlayerProfile.avatarAttribute.fRequiredEpChangePercent = 50;
 	PlayerProfile.avatarAttribute.fDotValueChangePercent = 0;
 	PlayerProfile.avatarAttribute.fDotTimeChangeAbsolute = 0;//Ep Skill Required
 
 	//Atribute Ofense/Defese
-	PlayerProfile.avatarAttribute.fHonestOffence = 15;//nao
-	PlayerProfile.avatarAttribute.fHonestDefence = 25;//nao
-	PlayerProfile.avatarAttribute.fStrangeOffence = 35;//nao
-	PlayerProfile.avatarAttribute.fStrangeDefence = 45;//nao
-	PlayerProfile.avatarAttribute.fWildOffence = 55;//nao
-	PlayerProfile.avatarAttribute.fWildDefence = 65;//nao
-	PlayerProfile.avatarAttribute.fEleganceOffence = 75;//nao
-	PlayerProfile.avatarAttribute.fEleganceDefence = 85;//nao
-	PlayerProfile.avatarAttribute.fFunnyOffence = 95;//nao
-	PlayerProfile.avatarAttribute.fFunnyDefence = 105;//nao
+	PlayerProfile.avatarAttribute.fHonestOffence = 0;//nao
+	PlayerProfile.avatarAttribute.fHonestDefence = 0;//nao
+	PlayerProfile.avatarAttribute.fStrangeOffence = 0;//nao
+	PlayerProfile.avatarAttribute.fStrangeDefence = 0;//nao
+	PlayerProfile.avatarAttribute.fWildOffence = 0;//nao
+	PlayerProfile.avatarAttribute.fWildDefence = 0;//nao
+	PlayerProfile.avatarAttribute.fEleganceOffence = 0;//nao
+	PlayerProfile.avatarAttribute.fEleganceDefence = 0;//nao
+	PlayerProfile.avatarAttribute.fFunnyOffence = 0;//nao
+	PlayerProfile.avatarAttribute.fFunnyDefence = 0;//nao
 
-	PlayerProfile.avatarAttribute.fRequiredEpChangePercent = 0;
+
 	PlayerProfile.avatarAttribute.wParalyzeToleranceRate = 97;//nao
 	PlayerProfile.avatarAttribute.wTerrorToleranceRate = 96;//nao
 	PlayerProfile.avatarAttribute.wConfuseToleranceRate = 95;//nao
@@ -493,21 +494,21 @@ bool AttributesManager::LoadAttributeFromDB()
 	PlayerProfile.avatarAttribute.fBleedingKeepTimeDown = 87;//nao
 	PlayerProfile.avatarAttribute.fPoisonKeepTimeDown = 86;
 	PlayerProfile.avatarAttribute.fStomachacheKeepTimeDown = 85;
-	PlayerProfile.avatarAttribute.fCriticalBlockSuccessRate = 50;
-	PlayerProfile.avatarAttribute.wGuardRate = 84;
+	PlayerProfile.avatarAttribute.fCriticalBlockSuccessRate = 0;
+	PlayerProfile.avatarAttribute.wGuardRate = CalculeGuardRate(PlayerProfile.avatarAttribute.byLastDex);
 	PlayerProfile.avatarAttribute.unknown6 = 83;
-	PlayerProfile.avatarAttribute.fSkillDamageBlockModeSuccessRate = 82;
-	PlayerProfile.avatarAttribute.fCurseBlockModeSuccessRate = 81;
-	PlayerProfile.avatarAttribute.fKnockdownBlockModeSuccessRate = 80;
+	PlayerProfile.avatarAttribute.fSkillDamageBlockModeSuccessRate = 0;
+	PlayerProfile.avatarAttribute.fCurseBlockModeSuccessRate = 0;
+	PlayerProfile.avatarAttribute.fKnockdownBlockModeSuccessRate = 0;
 
-	PlayerProfile.avatarAttribute.baseAbdominalPainDefense = 66;
-	PlayerProfile.avatarAttribute.AbdominalPainDefense = 66; // abdominal pain defense
-	PlayerProfile.avatarAttribute.basePoisonDefense = 67;
-	PlayerProfile.avatarAttribute.PoisonDefense = 67; // posion defense tw
-	PlayerProfile.avatarAttribute.baseBleedingDefense = 68;
-	PlayerProfile.avatarAttribute.BleedingDefense = 68;// Bleeding defense TW 
-	PlayerProfile.avatarAttribute.baseBurnDefense = 69;
-	PlayerProfile.avatarAttribute.BurnDefense = 69;//Burn Defense
+	PlayerProfile.avatarAttribute.baseAbdominalPainDefense = 0;
+	PlayerProfile.avatarAttribute.lastAbdominalPainDefense = 0; // abdominal pain defense
+	PlayerProfile.avatarAttribute.basePoisonDefense = 0;
+	PlayerProfile.avatarAttribute.lastPoisonDefense = 0; // posion defense tw
+	PlayerProfile.avatarAttribute.baseBleedingDefense = 0;
+	PlayerProfile.avatarAttribute.lastBleedingDefense = 0;// Bleeding defense TW 
+	PlayerProfile.avatarAttribute.baseBurnDefense = 0;
+	PlayerProfile.avatarAttribute.lastBurnDefense = 0;//Burn Defense
 
 	PlayerProfile.avatarAttribute.fEnergyCriticalDamageBonusRate = 0;
 	PlayerProfile.avatarAttribute.fItemUpgradeBonusRate = 0;
@@ -1631,8 +1632,8 @@ void AttributesManager::FillAttributesLink()
 	attrLink.pfSitDownLpRegenBonusRate = &PlayerProfile.avatarAttribute.fSitDownLpRegenBonusRate;
 	attrLink.pfSitDownEpRegenBonusRate = &PlayerProfile.avatarAttribute.fSitDownEpRegenBonusRate;
 	attrLink.pfPhysicalCriticalDamageBonusRate = &PlayerProfile.avatarAttribute.fPhysicalCriticalDamageBonusRate;
-	attrLink.unknown3_11 = &PlayerProfile.avatarAttribute.unknown3_11;
-	attrLink.unknown3_12 = &PlayerProfile.avatarAttribute.unknown3_12;
+	attrLink.pfAgroPointsPercecnt = &PlayerProfile.avatarAttribute.fAgroPointsPercent;
+	attrLink.pfAgroPointsAbsolute = &PlayerProfile.avatarAttribute.fAgroPointsAbsolute;
 	attrLink.unknown3_13 = &PlayerProfile.avatarAttribute.unknown3_13;
 	attrLink.unknown4_0 = &PlayerProfile.avatarAttribute.unknown4_0;
 	attrLink.unknown4_1 = &PlayerProfile.avatarAttribute.unknown4_1;
@@ -1641,10 +1642,10 @@ void AttributesManager::FillAttributesLink()
 	attrLink.lastPhysicalCriticalDefenceRate = &PlayerProfile.avatarAttribute.lastPhysicalCriticalDefenceRate;
 	attrLink.lastEnergyCriticalDefenceRate = &PlayerProfile.avatarAttribute.lastEnergyCriticalDefenceRate;
 	attrLink.unknown4_6 = &PlayerProfile.avatarAttribute.unknown4_6;
-	attrLink.unknown5_0 = &PlayerProfile.avatarAttribute.unknown5_0;
-	attrLink.unknown5_1 = &PlayerProfile.avatarAttribute.unknown5_1;
-	attrLink.unknown5_2 = &PlayerProfile.avatarAttribute.unknown5_2;
-	attrLink.unknown5_3 = &PlayerProfile.avatarAttribute.unknown5_3;
+	attrLink.pfValueDirectHealChangePercent = &PlayerProfile.avatarAttribute.fValueDirectHealChangePercent;
+	attrLink.pfValueDirectHealChangeAbsolute = &PlayerProfile.avatarAttribute.fValueDirectHealChangeAbsolute;
+	attrLink.pfValueHealOverTimeChangePercent = &PlayerProfile.avatarAttribute.fValueHealOverTimeChangePercent;
+	attrLink.pfValueDirectHealChangeAbsolute = &PlayerProfile.avatarAttribute.fValueHealOverTimeChangeAbsolute;
 	attrLink.unknown5_4 = &PlayerProfile.avatarAttribute.unknown5_4;
 	attrLink.unknown5_5 = &PlayerProfile.avatarAttribute.unknown5_5;
 }
@@ -2253,6 +2254,33 @@ WORD AttributesManager::CalculeCurseToleranceRate(int lastDex)
 	return curseToleranceRate;
 }
 
+WORD AttributesManager::CalculeBlockDamageRate(int lastDex, int lastCon)
+{
+	//Character_Block_Damage_Rate	 = fRate1 + (Last_Dex * fRate2) + (Last_Con * fRate3)				
+	WORD blockDamageRate = 0;
+	sFORMULA_TBLDAT* formula = (sFORMULA_TBLDAT*)sTBM.GetFormulaTable()->FindData(4800);
+	if (formula)
+	{
+		blockDamageRate = formula->afRate[0] + (lastDex * formula->afRate[1]) + (lastCon * formula->afRate[2]);
+		sLog.outBasic("blockDamageRate total %d rate1 %f rate2 %f rate3 %f lastDex %d lastCon %d",
+			blockDamageRate, formula->afRate[0], formula->afRate[1], formula->afRate[2], lastDex, lastCon);
+	}
+	return blockDamageRate;
+}
+
+WORD AttributesManager::CalculeGuardRate(int lastDex)
+{
+	// = fRate1 + (Last_Dex * fRate2)
+	WORD guardRate = 0;
+	sFORMULA_TBLDAT* formula = (sFORMULA_TBLDAT*)sTBM.GetFormulaTable()->FindData(1000);
+	if (formula)
+	{
+		guardRate = formula->afRate[0] + (lastDex * formula->afRate[1]);
+		sLog.outBasic("guardRate total %d rate1 %f rate2 %f lastDex %d", guardRate, formula->afRate[0], formula->afRate[1], lastDex);
+	}
+	return guardRate;
+}
+
 float AttributesManager::GetPercent(float percent, float value)
 {
 	return percent * value / 100.0f;
@@ -2276,7 +2304,7 @@ void AttributesManager::UpdateStr(WORD effectType, int lastStr, bool add, bool a
 		PlayerProfile.avatarAttribute.byLastStr, PlayerProfile.avatarAttribute.byLastDex);
 	UpdatePhysicalOffence(effectType, PhysicalOffence, false, addRemove);
 }
-// Update LP, blockRate, physicalCriticalDefenceRate
+// Update LP, blockRate, physicalCriticalDefenceRate, blockDamageRate
 void AttributesManager::UpdateCon(WORD effectType, int lastCon, bool add, bool addRemove)
 {
 	if (add)
@@ -2294,11 +2322,13 @@ void AttributesManager::UpdateCon(WORD effectType, int lastCon, bool add, bool a
 	WORD BlockRate = CalculeBlockRate(PlayerProfile.avatarAttribute.byLastDex, PlayerProfile.avatarAttribute.byLastCon);
 	WORD PhysicalCriticalDefenceRate = CalculePhysicalCriticalDefenceRate(PlayerProfile.avatarAttribute.byLastCon);
 	WORD LpRegen = CalculeLPRegeneration(PlayerProfile.avatarAttribute.byLastCon);
+	WORD blockDamageRate = CalculeBlockDamageRate(PlayerProfile.avatarAttribute.byLastDex, PlayerProfile.avatarAttribute.byLastCon);
 
 	UpdateLP(effectType, LP, false, addRemove);
 	UpdateBlockRate(effectType, BlockRate, false, addRemove);
 	UpdatePhysicalCriticalDefenceRate(PhysicalCriticalDefenceRate, false);
 	UpdateLPRegeneration(effectType, LpRegen, false, addRemove);
+	UpdateBlockDamageRate(effectType, blockDamageRate, false, addRemove);
 }
 // Update energyOffence, energyCriticalRate, hitRate(attackRateattackRate), energyCriticalRange, curseSuccessRate
 void AttributesManager::UpdateFoc(WORD effectType, int lastFoc, bool add, bool addRemove)
@@ -2327,7 +2357,7 @@ void AttributesManager::UpdateFoc(WORD effectType, int lastFoc, bool add, bool a
 	UpdateEnergyCriticalRange(effectType, energyCriticalRange, false, addRemove);
 	UpdateCurseSuccessRate(effectType, curseSuccessRat, false, addRemove);
 }
-// Update physicalOffence, physicalCriticalRate, dodgeRate, blockRate, physicalCriticalRange, curseToleranceRate
+// Update physicalOffence, physicalCriticalRate, dodgeRate, blockRate, physicalCriticalRange, curseToleranceRate, blockDamageRate, guardRate
 void AttributesManager::UpdateDex(WORD effectType, int lastDex, bool add, bool addRemove)
 {
 	if (add)
@@ -2348,6 +2378,8 @@ void AttributesManager::UpdateDex(WORD effectType, int lastDex, bool add, bool a
 	WORD blockRate = CalculeBlockRate(PlayerProfile.avatarAttribute.byLastDex, PlayerProfile.avatarAttribute.byLastCon);
 	float physicalCriticalRange = CalculePhysicalCriticalRange(plr->GetMyClass(), PlayerProfile.avatarAttribute.byLastDex);
 	WORD curseToleranceRate = CalculeCurseToleranceRate(PlayerProfile.avatarAttribute.byLastDex);
+	WORD blockDamageRate = CalculeBlockDamageRate(PlayerProfile.avatarAttribute.byLastDex, PlayerProfile.avatarAttribute.byLastCon);
+	WORD guardRate = CalculeGuardRate(PlayerProfile.avatarAttribute.byLastDex);
 
 	UpdatePhysicalOffence(effectType, physicalOffence, false, addRemove);
 	UpdatePhysicalCriticalRate(effectType, physicalCriticalRate, false, addRemove);
@@ -2355,6 +2387,8 @@ void AttributesManager::UpdateDex(WORD effectType, int lastDex, bool add, bool a
 	UpdateBlockRate(effectType, blockRate, false, addRemove);
 	UpdatePhysicalCriticalRange(effectType, physicalCriticalRange, false, addRemove);
 	UpdateCurseToleranceRate(effectType, curseToleranceRate, false, addRemove);
+	UpdateBlockDamageRate(effectType, blockDamageRate, false, addRemove);
+	UpdateGuardRate(effectType, guardRate, false, addRemove);
 }
 // Update energyOffence
 void AttributesManager::UpdateSol(WORD effectType, int lastSol, bool add, bool addRemove)
@@ -2714,6 +2748,7 @@ void AttributesManager::UpdateEPRegeneration(WORD effectType, WORD EpRegen, bool
 	
 	UpdateEPSitDownRegeneration(effectType, EpSitDownRegen, false, addRemove);
 	UpdateEPBattleRegeneration(EpBattleRegen, false);
+	sLog.outString("total ep Regeneration %d", PlayerProfile.avatarAttribute.wLastEpRegen);
 }
 
 void AttributesManager::UpdateEPSitDownRegeneration(WORD effectType, WORD epSitDownRegen, bool add, bool addRemove)
@@ -2728,6 +2763,7 @@ void AttributesManager::UpdateEPSitDownRegeneration(WORD effectType, WORD epSitD
 		WORD totalEPSitDownRegeneration = SetAllEffects(ACTIVE_SIT_DOWN_EP_REGENERATION_UP, INVALID_SYSTEM_EFFECT_CODE, INVALID_SYSTEM_EFFECT_CODE, epSitDownRegen);
 		SetLastEPSitDownRegeneration(totalEPSitDownRegeneration);
 	}
+	sLog.outString("total ep sit down Regeneration %d", PlayerProfile.avatarAttribute.wLastEpSitdownRegen);
 }
 
 void AttributesManager::UpdateEPBattleRegeneration(WORD epBattleRegen, bool add)
@@ -2740,6 +2776,7 @@ void AttributesManager::UpdateEPBattleRegeneration(WORD epBattleRegen, bool add)
 	{
 		SetLastEPBattleRegeneration(epBattleRegen);
 	}
+	sLog.outString("total ep battle Regeneration %d", PlayerProfile.avatarAttribute.wLastEpBattleRegen);
 }
 
 void AttributesManager::UpdateCurseSuccessRate(WORD effectType, WORD curseSuccessRate, bool add, bool addRemove)
@@ -2815,4 +2852,387 @@ void AttributesManager::UpdateAttackspeedRate(WORD effectType, WORD attackSpeed,
 		SetLastAttackSpeedRate(totalAttackSpeedRate);
 	}
 	sLog.outString("total attack speed %d", PlayerProfile.avatarAttribute.wLastAttackSpeedRate);
+}
+
+void AttributesManager::UpdateBlockDamageRate(WORD effectType, WORD blockDamageRate, bool add, bool addRemove)
+{
+	if (add)
+	{
+		WORD totalBlockDamageRate = GetAttrEffectByType(effectType, blockDamageRate, addRemove);
+		AddLastBlockDamageRate(totalBlockDamageRate);
+	}
+	else
+	{
+		WORD totalBlockDamageRate = SetAllEffects(INVALID_SYSTEM_EFFECT_CODE, INVALID_SYSTEM_EFFECT_CODE, INVALID_SYSTEM_EFFECT_CODE, blockDamageRate);
+		SetLastBlockDamageRate(totalBlockDamageRate);
+	}
+	sLog.outString("total block damage rate %d", PlayerProfile.avatarAttribute.wLastBlockDamageRate);
+}
+
+void AttributesManager::UpdateGuardRate(WORD effectType, WORD guardRate, bool add, bool addRemove)
+{
+	if (add)
+	{
+		WORD totalGuardRate = GetAttrEffectByType(effectType, guardRate, addRemove);
+		AddGuardRate(totalGuardRate);
+	}
+	else
+	{
+		WORD totalGuardRate = SetAllEffects(INVALID_SYSTEM_EFFECT_CODE, INVALID_SYSTEM_EFFECT_CODE, PASSIVE_BLOCK_MODE, guardRate);
+		SetGuardRate(totalGuardRate);
+	}
+	sLog.outString("total guard rate %d", PlayerProfile.avatarAttribute.wGuardRate);
+}
+
+
+void AttributesManager::UpdateGuardNormalSuccess(WORD effectType, float guardNormalSuccess, bool add, bool addRemove)
+{
+	if (add)
+	{
+		float totalGuardNormalSucess = GetAttrEffectByType(effectType, guardNormalSuccess, addRemove);
+		AddSkillDamageBlockModeSuccessRate(totalGuardNormalSucess);
+	}
+	else
+	{
+		float totalGuardNormalSucess = SetAllEffects(ACTIVE_NORMAL_SKILL_BLOCK_UP, INVALID_SYSTEM_EFFECT_CODE, INVALID_SYSTEM_EFFECT_CODE, guardNormalSuccess);
+		SetSkillDamageBlockModeSuccessRate(totalGuardNormalSucess);
+	}
+	sLog.outString("total normal skill block up %f", PlayerProfile.avatarAttribute.fSkillDamageBlockModeSuccessRate);
+}
+
+
+void AttributesManager::UpdateGuardHTBSuccess(WORD effecType, float guardHTBSuccess, bool add, bool addRemove)
+{
+	if (add)
+	{
+		float totalGuardHTBSuccess = GetAttrEffectByType(effecType, guardHTBSuccess, addRemove);
+		AddHtbBlockModeSuccessRate(totalGuardHTBSuccess);
+	}
+	else
+	{
+		float totalGuardHTBSuccess = SetAllEffects(ACTIVE_HTB_SKILL_BLOCK_UP, INVALID_SYSTEM_EFFECT_CODE, INVALID_SYSTEM_EFFECT_CODE, guardHTBSuccess);
+		SetHtbBlockModeSuccessRate(totalGuardHTBSuccess);
+	}
+	sLog.outString("total guard htb success up %f", PlayerProfile.avatarAttribute.fHtbBlockModeSuccessRate);
+}
+
+void AttributesManager::UpdateGuardKnockdownSuccess(WORD effectType, float guardKnockdownSuccess, bool add, bool addRemove)
+{
+	if (add)
+	{
+		float totalGuardKnock = GetAttrEffectByType(effectType, guardKnockdownSuccess, addRemove);
+		AddKnockdownBlockModeSuccessRate(totalGuardKnock);
+	}
+	else
+	{
+		float totalGuardKnock = SetAllEffects(ACTIVE_KNOCKDOWN_ATTACK_BLOCK_UP, INVALID_SYSTEM_EFFECT_CODE, INVALID_SYSTEM_EFFECT_CODE, guardKnockdownSuccess);
+		SetKnockdownBlockModeSuccessRate(totalGuardKnock);
+	}
+	sLog.outString("total guard knockdown success up %f", PlayerProfile.avatarAttribute.fKnockdownBlockModeSuccessRate);
+}
+
+void AttributesManager::UpdateGuardCurseSuccess(WORD effectType, float guardCurseSuccess, bool add, bool addRemove)
+{
+	if (add)
+	{
+		float totalGuardCurse = GetAttrEffectByType(effectType, guardCurseSuccess, addRemove);
+		AddCurseBlockModeSuccessRate(totalGuardCurse);
+	}
+	else
+	{
+		float totalGuardCurse = SetAllEffects(ACTIVE_CURSE_SKILL_BLOCK_UP, INVALID_SYSTEM_EFFECT_CODE, INVALID_SYSTEM_EFFECT_CODE, guardCurseSuccess);
+		SetCurseBlockModeSuccessRate(totalGuardCurse);
+	}
+	sLog.outString("total guard curse success up %f", PlayerProfile.avatarAttribute.fCurseBlockModeSuccessRate);
+}
+
+
+void AttributesManager::UpdateGuardCriticalSuccess(WORD effectType, float guardCriticalSuccess, bool add, bool addRemove)
+{
+	if (add)
+	{
+		float totalGuardCriticalSuccess = GetAttrEffectByType(effectType, guardCriticalSuccess, addRemove);
+		AddCriticalBlockSuccessRate(totalGuardCriticalSuccess);
+	}
+	else
+	{
+		float totalGuardCriticalSuccess = SetAllEffects(ACTIVE_CRITICAL_BLOCK_UP, INVALID_SYSTEM_EFFECT_CODE, INVALID_SYSTEM_EFFECT_CODE, guardCriticalSuccess);
+		SetCriticalBlockSuccessRate(totalGuardCriticalSuccess);
+	}
+	sLog.outString("total guard critical success up %f", PlayerProfile.avatarAttribute.fCriticalBlockSuccessRate);
+}
+
+void AttributesManager::UpdateAgroPointsPercent(WORD effectType, float agroPoints, bool add, bool addRemove)
+{
+	if (add)
+	{
+		float totalAgroPoints = GetAttrEffectByType(effectType, agroPoints, addRemove);
+		AddAgroPointsPercent(totalAgroPoints);
+	}
+	else
+	{
+		float totalAgroPoints = SetAllEffects(ACTIVE_SKILL_AGGRO_UP_IN_PERCENT, ACTIVE_SKILL_AGGRO_DOWN_IN_PERCENT, INVALID_SYSTEM_EFFECT_CODE, agroPoints);
+		SetAgroPointsPercent(totalAgroPoints);
+	}
+	sLog.outString("total agro points in percent %f", PlayerProfile.avatarAttribute.fAgroPointsPercent);
+}
+
+void AttributesManager::UpdateAgroPointsAbsolute(WORD effectType, float agroPoints, bool add, bool addRemove)
+{
+	if (add)
+	{
+		float totalAgroPoints = GetAttrEffectByType(effectType, agroPoints, addRemove);
+		AddAgroPointsAbsolute(totalAgroPoints);
+	}
+	else
+	{
+		float totalAgroPoints = SetAllEffects(ACTIVE_SKILL_AGGRO_UP, ACTIVE_SKILL_AGGRO_DOWN, INVALID_SYSTEM_EFFECT_CODE, agroPoints);
+		SetAgroPointsAbsolute(totalAgroPoints);
+	}
+	sLog.outString("total agro points absolute %f", PlayerProfile.avatarAttribute.fAgroPointsAbsolute);
+}
+
+
+void AttributesManager::UpdateDirectHealPerecent(WORD effectType, float directHeal, bool add, bool addRemove)
+{
+	if (add)
+	{
+		float totalDirectHeal = GetAttrEffectByType(effectType, directHeal, addRemove);
+		AddValueDirectHealChangePercent(totalDirectHeal);
+	}
+	else
+	{
+		float totalDirectHeal = SetAllEffects(ACTIVE_DH_POWER_UP_IN_PERCENT, INVALID_SYSTEM_EFFECT_CODE, INVALID_SYSTEM_EFFECT_CODE, directHeal);
+		SetValueDirectHealChangePercent(totalDirectHeal);
+	}
+	sLog.outString("total direct heal percent %f", PlayerProfile.avatarAttribute.fValueDirectHealChangePercent);
+}
+
+void AttributesManager::UpdateDirectHealAbsolute(WORD effectType, float directHeal, bool add, bool addRemove)
+{
+	if (add)
+	{
+		float totalDirectHeal = GetAttrEffectByType(effectType, directHeal, addRemove);
+		AddValueDirectHealChangeAbsolute(totalDirectHeal);
+	}
+	else
+	{
+		float totalDirectHeal = SetAllEffects(ACTIVE_DH_POWER_UP, INVALID_SYSTEM_EFFECT_CODE, INVALID_SYSTEM_EFFECT_CODE, directHeal);
+		SetValueDirectHealChangeAbsolute(totalDirectHeal);
+	}
+	sLog.outString("total direct heal absolute %f", PlayerProfile.avatarAttribute.fValueDirectHealChangeAbsolute);
+}
+
+void AttributesManager::UpdateHealOverTimePercent(WORD effectType, float healOverTime, bool add, bool addRemove)
+{
+	if (add)
+	{
+		float totalHealOverTime = GetAttrEffectByType(effectType, healOverTime, addRemove);
+		AddValueHealOverTimeChangePercent(totalHealOverTime);
+	}
+	else
+	{
+		float totalHealOverTime = SetAllEffects(ACTIVE_HOT_POWER_UP_IN_PERCENT, INVALID_SYSTEM_EFFECT_CODE, INVALID_SYSTEM_EFFECT_CODE, healOverTime);
+		SetValueHealOverTimeChangePercent(totalHealOverTime);
+	}
+	sLog.outString("total heal over time percent %f", PlayerProfile.avatarAttribute.fValueHealOverTimeChangePercent);
+}
+
+void AttributesManager::UpdateHealOverTimeAbsolute(WORD effectType, float healOverTime, bool add, bool addRemove)
+{
+	if (add)
+	{
+		float totalHealOverTime = GetAttrEffectByType(effectType, healOverTime, addRemove);
+		AddValueHealOverTimeChangeAbsolute(totalHealOverTime);
+	}
+	else
+	{
+		float totalHealOverTime = SetAllEffects(ACTIVE_HOT_POWER_UP, INVALID_SYSTEM_EFFECT_CODE, INVALID_SYSTEM_EFFECT_CODE, healOverTime);
+		SetValueHealOverTimeChangeAbsolute(totalHealOverTime);
+	}
+	sLog.outString("total heal over time percent %f", PlayerProfile.avatarAttribute.fValueHealOverTimeChangeAbsolute);
+}
+
+void AttributesManager::UpdateBleedingDefence(WORD effectType, WORD bleedingDefence, bool add, bool addRemove)
+{
+	if (add)
+	{
+		WORD totalBleedingDefense = GetAttrEffectByType(effectType, bleedingDefence, addRemove);
+		AddLastBleedingDefence(totalBleedingDefense);
+	}
+	else
+	{
+		WORD totalBleedingDefense = SetAllEffects(ACTIVE_BLEED_DEFENCE, INVALID_SYSTEM_EFFECT_CODE, INVALID_SYSTEM_EFFECT_CODE, bleedingDefence);
+		SetLastBleedingDefence(totalBleedingDefense);
+
+	}
+}
+
+void AttributesManager::UpdateBurnDefence(WORD effectType, WORD burnDefence, bool add, bool addRemove)
+{
+	if (add)
+	{
+		WORD totalBurnDefence = GetAttrEffectByType(effectType, burnDefence, addRemove);
+		AddLastBurnDefence(totalBurnDefence);
+	}
+	else
+	{
+		WORD totalBurnDefence = SetAllEffects(ACTIVE_BURN_DEFENCE, INVALID_SYSTEM_EFFECT_CODE, INVALID_SYSTEM_EFFECT_CODE, burnDefence);
+		SetLastBurnDefence(totalBurnDefence);
+	}
+}
+
+void AttributesManager::UpdateHonestOffence(WORD effectType, float honestOffence, bool add, bool addRemove)
+{
+	if (add)
+	{
+		float totalHonestOffence = GetAttrEffectByType(effectType, honestOffence, addRemove);
+		AddHonestOffence(totalHonestOffence);
+	}
+	else
+	{
+		float totalHonestOffence = SetAllEffects(ACTIVE_HONEST_OFFENCE_UP, INVALID_SYSTEM_EFFECT_CODE, INVALID_SYSTEM_EFFECT_CODE, honestOffence);
+		SetHonestOffence(totalHonestOffence);
+	}
+}
+
+void AttributesManager::UpdateHonestDefence(WORD effectType, float honestDefence, bool add, bool addRemove)
+{
+	if (add)
+	{
+		float totalHonestDefence = GetAttrEffectByType(effectType, honestDefence, addRemove);
+		AddHonestDefence(totalHonestDefence);
+	}
+	else
+	{
+		float totalHonestDefence = SetAllEffects(ACTIVE_HONEST_DEFENCE_UP, ACTIVE_HONEST_DEFENCE_DOWN, INVALID_SYSTEM_EFFECT_CODE, honestDefence);
+		SetHonestDefence(totalHonestDefence);
+	}
+}
+
+void AttributesManager::UpdateStrangeOffence(WORD effectType, float strangeOffence, bool add, bool addRemove)
+{
+	if (add)
+	{
+		float totalStrangeOffence = GetAttrEffectByType(effectType, strangeOffence, addRemove);
+		AddStrangeOffence(totalStrangeOffence);
+	}
+	else
+	{
+		float totalStrangeOffence = SetAllEffects(ACTIVE_STRANGE_OFFENCE_UP, INVALID_SYSTEM_EFFECT_CODE, INVALID_SYSTEM_EFFECT_CODE, strangeOffence);
+		SetStrangeOffence(totalStrangeOffence);
+	}
+}
+
+void AttributesManager::UpdateStrandeDefence(WORD effectType, float strangeDefenece, bool add, bool addRemove)
+{
+	if (add)
+	{
+		float totalStrangeDefence = GetAttrEffectByType(effectType, strangeDefenece, addRemove);
+		AddStrangeDefence(totalStrangeDefence);
+	}
+	else
+	{
+		float totalStrangeDefence = SetAllEffects(ACTIVE_STRANGE_DEFENCE_UP, ACTIVE_STRANGE_DEFENCE_DOWN, INVALID_SYSTEM_EFFECT_CODE, strangeDefenece);
+		SetStrangeDefence(totalStrangeDefence);
+	}
+}
+
+void AttributesManager::UpdateWildOffence(WORD effectType, float wildOffence, bool add, bool addRemove)
+{
+	if (add)
+	{
+		float totalWildOffence = GetAttrEffectByType(effectType, wildOffence, addRemove);
+		AddWildOffence(totalWildOffence);
+	}
+	else
+	{
+		float totalWildOffence = SetAllEffects(ACTIVE_WILD_OFFENCE_UP, INVALID_SYSTEM_EFFECT_CODE, INVALID_SYSTEM_EFFECT_CODE, wildOffence);
+		SetWildOffence(totalWildOffence);
+	}
+}
+
+void AttributesManager::UpdateWildDefence(WORD effectType, float wildDefence, bool add, bool addRemove)
+{
+	if (add)
+	{
+		float totalWildDefence = GetAttrEffectByType(effectType, wildDefence, addRemove);
+		AddWildDefence(totalWildDefence);
+	}
+	else
+	{
+		float totalWildDefence = SetAllEffects(ACTIVE_WILD_DEFENCE_UP, ACTIVE_WILD_DEFENCE_DOWN, INVALID_SYSTEM_EFFECT_CODE, wildDefence);
+		SetWildDefence(totalWildDefence);
+	}
+}
+
+void AttributesManager::UpdateEleganceOffence(WORD effectType, float eleganceOffence, bool add, bool addRemove)
+{
+	if (add)
+	{
+		float totalEleganceOffence = GetAttrEffectByType(effectType, eleganceOffence, addRemove);
+		AddEleganceOffence(totalEleganceOffence);
+	}
+	else
+	{
+		float totalEleganceOffence = SetAllEffects(ACTIVE_ELEGANCE_OFFENCE_UP, INVALID_SYSTEM_EFFECT_CODE, INVALID_SYSTEM_EFFECT_CODE, eleganceOffence);
+		SetEleganceOffence(totalEleganceOffence);
+	}
+}
+
+void AttributesManager::UpdateEleganceDefence(WORD effectType, float eleganceDefence, bool add, bool addRemove)
+{
+	if (add)
+	{
+		float totalEleganceDefence = GetAttrEffectByType(effectType, eleganceDefence, addRemove);
+		AddEleganceDefence(totalEleganceDefence);
+	}
+	else
+	{
+		float totalEleganceDefence = SetAllEffects(ACTIVE_ELEGANCE_DEFENCE_UP, ACTIVE_ELEGANCE_DEFENCE_DOWN, INVALID_SYSTEM_EFFECT_CODE, eleganceDefence);
+		SetEleganceDefence(totalEleganceDefence);
+	}
+}
+
+void AttributesManager::UpdateFunnyOffence(WORD effectType, float funnyOffence, bool add, bool addRemove)
+{
+	if (add)
+	{
+		float totalFunnyOffence = GetAttrEffectByType(effectType, funnyOffence, addRemove);
+		AddFunnyOffence(totalFunnyOffence);
+	}
+	else
+	{
+		float totalFunnyOffence = SetAllEffects(ACTIVE_FUNNY_OFFENCE_UP, INVALID_SYSTEM_EFFECT_CODE, INVALID_SYSTEM_EFFECT_CODE, funnyOffence);
+		SetFunnyOffence(totalFunnyOffence);
+	}
+}
+
+void AttributesManager::UpdateFunnyDefence(WORD effectType, float funnyDefence, bool add, bool addRemove)
+{
+	if (add)
+	{
+		float totalFunnyDefence = GetAttrEffectByType(effectType, funnyDefence, addRemove);
+		AddFunnyDefence(totalFunnyDefence);
+	}
+	else
+	{
+		float totalFunnyDefence = SetAllEffects(ACTIVE_FUNNY_DEFENCE_UP, ACTIVE_FUNNY_DEFENCE_DOWN, INVALID_SYSTEM_EFFECT_CODE, funnyDefence);
+		SetFunnyDefence(totalFunnyDefence);
+	}
+}
+
+void  AttributesManager::UpdateBleedingKeepTime(WORD effectType, float bleedingKeepTime, bool add, bool addRemove)
+{
+	if (add)
+	{
+		float totalBleedingKeepTime = GetAttrEffectByType(effectType, bleedingKeepTime, addRemove);
+		AddBleedingKeepTimeDown(totalBleedingKeepTime);
+	}
+	else
+	{
+		float totalBleedingKeepTime = SetAllEffects(INVALID_SYSTEM_EFFECT_CODE, ACTIVE_BLEEDING_KEEPTIME_DOWN, INVALID_SYSTEM_EFFECT_CODE, bleedingKeepTime);
+		SetBleedingKeepTimeDown(totalBleedingKeepTime);
+	}
+	sLog.outString("total bleeding keep time %f", PlayerProfile.avatarAttribute.fBleedingKeepTimeDown);
 }

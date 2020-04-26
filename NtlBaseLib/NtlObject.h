@@ -271,6 +271,7 @@ struct MonsterData
 	WORD			Basic_energy_defence;	
 	WORD			Basic_physical_defence;
 	WORD			Block_rate;
+	WORD			Block_Damage_rate;
 	WORD			Curse_success_rate;
 	WORD			Curse_tolerance_rate;
 	WORD			Dodge_rate;
