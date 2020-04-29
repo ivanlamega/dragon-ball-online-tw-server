@@ -284,7 +284,7 @@ bool AttributesManager::LoadAttributeFromDB()
 	PlayerProfile.avatarAttribute.wBaseApBattleDegen = 0;
 	PlayerProfile.avatarAttribute.wLastApBattleDegen = 0;
 
-	PlayerProfile.avatarAttribute.unknown2 = 144;
+	//PlayerProfile.avatarAttribute.unknown2 = 144;
 	PlayerProfile.avatarAttribute.unknown3_0 = 143;
 	PlayerProfile.avatarAttribute.unknown3_1 = 142;
 	PlayerProfile.avatarAttribute.fPhysicalCriticalDamageBonusRate = 141;
