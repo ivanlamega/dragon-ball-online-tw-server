@@ -1,0 +1,74 @@
+/*****************************************************************************
+ * filesystems.hsl - Structure definitions for file system related entities.
+ *     This presently includes the MBR, and BOOTSECTORs for FAT16, FAT32, and
+ *     NTFS.
+ *  
+ * Copyright (c) 2003-2008 BreakPoint Software, Inc.  All Rights Reserved
+ *
+ *****************************************************************************
+ * Revision History:
+ *  05/01/03 - RJA - Original
+ *  10/16/07 - RJA - Formatting tweaks, use blob for ByteCode
+ *  12/16/09 - RJA - Added enumsign pragmas
+ */
+
+#include "standard-types.hsl"
+struct sVECTOR3
+{
+float x;
+float y;
+float z;
+}sVECTOR3;
+
+struct sDBO_LP_EP_RECOVERED
+{
+
+	/*void operator= (sDBO_LP_EP_RECOVERED& recover)
+	{
+		bIsLpRecoveredWhenHit = recover.bIsLpRecoveredWhenHit;
+		targetLpRecoveredWhenHit = recover.targetLpRecoveredWhenHit;
+		bIsEpRecoveredWhenHit = recover.bIsEpRecoveredWhenHit;
+		dwTargetEpRecoveredWhenHit = recover.dwTargetEpRecoveredWhenHit;
+	}*/
+
+	bool		bIsLpRecoveredWhenHit;
+	int			targetLpRecoveredWhenHit;
+	bool		bIsEpRecoveredWhenHit;
+	DWORD		dwTargetEpRecoveredWhenHit;
+}sDBO_LP_EP_RECOVERED;
+
+
+struct GU_CHAR_ACTION_ATTACK2
+{
+WORD opcode;
+WORD size;
+	DWORD					hSubject; // Action principal characters handle
+	DWORD					hTarget; // Action target character handles
+	DWORD					dwLpEpEventId;
+	bool					bChainAttack:1; // Whether chain attack
+	BYTE					byAttackResult:7; // Action Result ( eBATTLE_ATTACK_RESULT )
+	int						attackResultValue; // Result of the action (damage) //updated
+	BYTE					byAttackSequence; // Attack sequence number (chain attack)
+	float					fReflectedDamage; // Damage and is reflected from the target.
+	BYTE					byBlockedAction;		// eDBO_GUARD_TYPE
+	sVECTOR3				vShift;
+	sDBO_LP_EP_RECOVERED	lpEpRecovered; //new
+
+};
+
+struct GU_CHAR_ACTION_ATTACK
+{
+WORD opcode;
+WORD size;
+	DWORD			hSubject; // 액션 주체 캐릭터 핸들
+	DWORD			hTarget; // 액션 타겟 캐릭터 핸들
+	DWORD			dwLpEpEventId;
+	BYTE			bChainAttack:1; // 체인어택여부
+	BYTE			byAttackResult:7; // 액션 결과 ( eBATTLE_ATTACK_RESULT )
+	WORD			wAttackResultValue; // 액션의 결과 값 ( 데미지 )
+	BYTE			byAttackSequence; // 어택 시퀀스 번호 (체인어택)
+	float			fReflectedDamage; // 타겟으로부터 반사되어 입은 피해
+	BYTE			byBlockedAction;		// eDBO_GUARD_TYPE
+	sVECTOR3		vShift; // 어택으로 인한 이동 벡터
+
+};
