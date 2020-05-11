@@ -1,0 +1,61 @@
+/*****************************************************************************
+ * filesystems.hsl - Structure definitions for file system related entities.
+ *     This presently includes the MBR, and BOOTSECTORs for FAT16, FAT32, and
+ *     NTFS.
+ *  
+ * Copyright (c) 2003-2008 BreakPoint Software, Inc.  All Rights Reserved
+ *
+ *****************************************************************************
+ * Revision History:
+ *  05/01/03 - RJA - Original
+ *  10/16/07 - RJA - Formatting tweaks, use blob for ByteCode
+ *  12/16/09 - RJA - Added enumsign pragmas
+ */
+
+#include "standard-types.hsl"
+struct sITEM_RANDOM_OPTION
+{
+	WORD		wOptionIndex;
+	int			optionValue;
+}sITEM_RANDOM_OPTION;
+
+struct sITEM_OPTION_SET
+{
+
+	DWORD						aOptionTblidx[2];
+	sITEM_RANDOM_OPTION			aRandomOption[8]; 
+}sITEM_OPTION_SET;
+
+struct sITEM_PROFILE
+{
+
+	DWORD			handle;			// ¾ÆÀÌÅÛ handle
+	DWORD			tblidx;			// item table index
+	BYTE			byPlace;		// eCONTAINER_TYPE
+	BYTE			byPos;
+	BYTE			byStackcount;
+	BYTE			byRank;
+	BYTE			byCurDur;		// ³»±¸µµ
+	bool			bNeedToIdentify;
+	BYTE			byGrade;		// ¾ÆÀÌÅÛ ¾÷±×·¹ÀÌµå µî±Þ
+	BYTE			byBattleAttribute;		// Áø±â¸Í¿©¶ô cf) NtlBattle.h eBATTLE_ATTRIBUTE
+
+	BYTE			byRestrictState;		// eITEM_RESTRICT_STATE_TYPE current active restriction
+	WCHAR			awchMaker[16 + 1]; // Á¦ÀÛÀÚ
+
+	sITEM_OPTION_SET	sOptionSet;
+
+	BYTE			byDurationType; //eDURATIONTYPE
+	__int64			nUseStartTime;// ÀÎº¥Åä¸®¿¡ µé¾î¿Â ³¯Â¥
+	__int64			nUseEndTime;// »ç¿ë¸¸·á ±â°£
+	
+}sITEM_PROFILE;
+
+struct GU_AVATAR_ITEM_INFO
+{
+WORD opcode;
+WORD size;
+BYTE			byBeginCount;
+BYTE			byItemCount;
+sITEM_PROFILE	aItemProfile[26]; //NTL_MAX_COUNT_USER_HAVE_INVEN_ITEM // ONLY SEND MAX 30 ELSE PACKET TOO BIG
+};

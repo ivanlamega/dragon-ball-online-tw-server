@@ -1,0 +1,114 @@
+/*****************************************************************************
+ * filesystems.hsl - Structure definitions for file system related entities.
+ *     This presently includes the MBR, and BOOTSECTORs for FAT16, FAT32, and
+ *     NTFS.
+ *  
+ * Copyright (c) 2003-2008 BreakPoint Software, Inc.  All Rights Reserved
+ *
+ *****************************************************************************
+ * Revision History:
+ *  05/01/03 - RJA - Original
+ *  10/16/07 - RJA - Formatting tweaks, use blob for ByteCode
+ *  12/16/09 - RJA - Added enumsign pragmas
+ */
+
+#include "standard-types.hsl"
+
+struct sVECTOR3
+{
+	float x;
+	float y;
+	float z;
+}sVECTOR3;
+
+struct sTIMEQUEST_STAGE
+{
+	BYTE					byStageNumber; // ½ºÅ×ÀÌÁö ¹øÈ£
+}sTIMEQUEST_STAGE;
+
+
+// Å¸ÀÓ¸Ó½Å Äù½ºÆ® °ÔÀÓ »óÅÂ
+struct sTIMEQUEST_STATE
+{
+	BYTE					byGameState; // eTIMEQUEST_GAME_STATE
+	sTIMEQUEST_STAGE		sTimeQuestStage;
+}sTIMEQUEST_STATE;
+
+
+// 타임퀘스트 게임 정보
+struct sTIMEQUEST_RULE_INFO
+{
+	DWORD					timeQuestTblidx; // ÇØ´ç Å¸ÀÓ Äù½ºÆ® Å×ÀÌºí ÀÎµ¦½º
+	BYTE					byStartHour; // ½ÃÀÛ½Ã°£ (½Ã)
+	BYTE					byStartMin; // ½ÃÀÛ½Ã°£ (ºÐ)
+	BYTE					byTimeQuestMode; // eTIMEQUEST_MODE
+	BYTE					byDifficulty; // eTIMEQUEST_DIFFICULTY
+	bool					bCountDown; // Ä«¿îÆ® ´Ù¿î ¿©ºÎ
+//	DWORD					dwLimitTime; // Á¦ÇÑ ½Ã°£
+//	DWORD					dwBonusTime; // º¸³Ê½º ½Ã°£
+//	DWORD					dwDayRecord; // ÇØ´ç Å¸ÀÓÄù½ºÆ®ÀÇ DayRecord
+	sTIMEQUEST_STATE		sTimeQuestState;
+}sTIMEQUEST_RULE_INFO;
+struct sBATTLEDUNGEON_RULE_INFO
+{
+	bool bLpRegen;
+	bool bEpRegen;
+	bool bItemDrop;
+	bool bItemUse;
+	bool bExpAdd;
+}sBATTLEDUNGEON_RULE_INFO;
+union rule_info
+	{
+		sTIMEQUEST_RULE_INFO	sTimeQuestRuleInfo;
+		//sRANKBATTLE_RULE_INFO		sRankBattleRuleInfo;
+		//sBUDOKAI_RULE_INFO	sBudokaiRuleInfo;
+		//sDOJO_RULE_INFO		sDojoRuleInfo;
+	}rule_info;
+union rules
+	{
+		sTIMEQUEST_RULE_INFO		sTimeQuestRuleInfo;
+		sBATTLEDUNGEON_RULE_INFO	sBattleDungeonRuleInfo;
+	}rules;
+struct sGAME_RULE_INFO
+{
+	BYTE			byRuleType;	// eGAMERULE_TYPE
+	rules rules;
+}sGAME_RULE_INFO;
+
+struct sWORLD_INFO
+{
+	DWORD			worldID;	// Worlds instance handle
+	DWORD			tblidx;		// World Table Index
+	DWORD			hTriggerObjectOffset; // Start trigger object handle value (will create an object in the object table to trigger the start handle when creating a table code + number)
+	sGAME_RULE_INFO	sRuleInfo;
+}sWORLD_INFO;
+
+struct sDBO_GUILD_MARK
+{
+	BYTE					byMarkMain;
+	BYTE					byMarkMainColor;
+	BYTE					byMarkInLine;
+	BYTE					byMarkInColor;
+	BYTE					byMarkOutLine;
+	BYTE					byMarkOutColor;
+	
+}sDBO_GUILD_MARK;
+
+struct sDBO_DOJO_BRIEF
+{
+	unsigned int guildId;
+	unsigned int			dojoTblidx;
+	BYTE			byLevel;
+	sDBO_GUILD_MARK sMark;
+}sDBO_DOJO_BRIEF;
+
+struct GU_AVATAR_WORLD_INFO
+{
+WORD size;
+WORD opcode;
+	sVECTOR3		vCurLoc;
+	sVECTOR3		vCurDir;
+	sWORLD_INFO		worldInfo;
+	BYTE			byDojoCount;
+	sDBO_DOJO_BRIEF sDojoData[7];
+};

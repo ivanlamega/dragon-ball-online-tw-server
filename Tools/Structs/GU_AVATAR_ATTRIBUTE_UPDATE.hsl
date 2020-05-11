@@ -14,6 +14,209 @@
 
 #include "standard-types.hsl"
 
+struct sAVATAR_ATTRIBUTE3
+{
+	WORD byBaseStr;
+	WORD Str; //absolute
+	WORD byBaseCon;
+	WORD Con; //absolute
+	WORD byBaseFoc;
+	WORD Foc; //absolute
+	WORD byBaseDex;
+	WORD Dex; //absolute
+	WORD byBaseSol;
+	WORD Sol; //absolute
+	WORD byBaseEng;
+	WORD Eng; //absolute
+
+	DWORD wBaseMaxLP;
+	int MaxLp; //absolute
+	WORD wBaseMaxEP;
+	WORD wMaxEP; //absolute
+	DWORD wBaseMaxAp;
+	int MaxAp; //absolute
+	WORD wBaseMaxRP;
+	WORD wMaxRP; //absolute
+	WORD wBaseLpRegen;
+	WORD wLpRegen; //absolute
+	WORD wBaseLpSitDownRegen;
+	WORD wLpSitdownRegen; //absolute
+	WORD wBaseLpBattleRegen;
+	WORD wLpBattleRegen; //absolute
+
+	WORD wBaseEpRegen;
+	WORD wEpRegen; //absolute
+	WORD wBaseEpSitdownRegen;
+	WORD wEpSitdownRegen; //absolute
+	WORD wBaseEpBattleRegen;
+	WORD wEpBattleRegen; //absolute
+
+	WORD wBaseApRegen;
+	WORD wApRegen; //absolute
+	WORD wBaseApSitdownRegen;
+	WORD wApSitdownRegen; //absolute
+	WORD wBaseApBattleRegen;
+	WORD wLastApBattleRegen;
+
+	WORD wBaseApDegen;
+	WORD wApDegen; //absolute
+	WORD wBaseApBattleDegen;
+	WORD wLastApBattleDegen;
+
+	WORD wBaseRpRegen;
+	WORD wRpRegen; //absolute		RP rate increase. (/ Second)
+	WORD wRpDimimutionRate;			//RP °¨¼Ò ¼Óµµ.(/second)
+
+	WORD wBasePhysicalOffence;
+	WORD wPhysicalOffence; //absolute
+	WORD wBasePhysicalDefence;
+	WORD wPhysicalDefence; //absolute
+
+	WORD wBaseEnergyOffence;
+	WORD wEnergyOffence; //absolute
+	WORD wBaseEnergyDefence;
+	WORD wEnergyDefence; //absolute
+
+	WORD wBaseAttackRate;
+	WORD wAttackRate; //percent
+	WORD wBaseDodgeRate;
+	WORD wDodgeRate; //percent
+	WORD wBaseBlockRate;
+	WORD wBlockRate; //percent
+
+	WORD wBaseCurseSuccessRate;
+	WORD wCurseSuccessRate; //percent
+	WORD wBaseCurseToleranceRate;
+	WORD wCurseToleranceRate; //percent
+
+	WORD wBaseBlockDamageRate;
+	WORD wBlockDamageRate; //percent //colocar en otro lado
+
+	WORD wBasePhysicalCriticalRate;
+	WORD wPhysicalCriticalRate; //percent
+	WORD wBaseEnergyCriticalRate;
+	WORD wEnergyCriticalRate; //percent
+
+	float fBasePhysicalCriticalRange;
+	float fPhysicalCriticalDamageRate; //percent
+	float fBaseEnergyCriticalDamageRange;
+	float fEnergyCriticalDamageRate; //percent
+
+	float fBaseRunSpeed;
+	float fRunSpeed; //absolute
+
+	float fBaseAirSpeed;
+	float fFlySpeed; //absolute
+	float fBaseAirDashSpeed;
+	float fFlyDashSpeed; //absolute
+	float fBaseAirDashSpeed2;
+	float fFlyAccelSpeed; //absolute
+
+	WORD wBaseAttackSpeedRate;
+	WORD wAttackSpeedRate; //absolute
+	float fBaseAttackRange;
+	float fAttackRange; //absolute
+
+
+	float fCastingTimeChangePercent; //percent
+	float fCoolTimeChangePercent; //percent
+	float fKeepTimeChangePercent; //percent
+	float fKeepTimeChangeSeconds;
+	//float fDotTimeChangeAbsolute; //absolute
+	float fRequiredEpChangePercent; //percent
+
+	float fHonestOffence;
+	float fHonestDefence;
+	float fStrangeOffence;
+	float fStrangeDefence;
+	float fWildOffence;
+	float fWildDefence;
+	float fEleganceOffence;
+	float fEleganceDefence;
+	float fFunnyOffence;
+	float fFunnyDefence;
+
+	float fDotTimeChangeAbsolute; //absolute
+	float fDotValueChangePercent;
+
+	WORD wParalyzeToleranceRate;	//percent
+	WORD wTerrorToleranceRate;	//percent
+	WORD wConfuseToleranceRate;	//percent
+	WORD wStoneToleranceRate;	//percent
+	WORD wCandyToleranceRate;	//percent
+
+	float fParalyzeKeepTimeDown;	//percent
+	float fTerrorKeepTimeDown;	//percent
+	float fConfuseKeepTimeDown;	//percent
+	float fStoneKeepTimeDown;	//percent
+	float fCandyKeepTimeDown;	//percent
+	float fBleedingKeepTimeDown;	//percent
+	float fPoisonKeepTimeDown;	//percent
+	float fStomachacheKeepTimeDown;	//percent
+
+	float fCriticalBlockSuccessRate;	//percent
+
+	WORD wGuardRate;
+	
+	float fSkillDamageBlockModeSuccessRate;
+	float fCurseBlockModeSuccessRate;
+	float fKnockdownBlockModeSuccessRate;
+
+	BYTE byExpBooster;
+	BYTE byQuestDropRate;
+
+	//DWORD dwLpRecoveryWhenHit; //absolute
+	//float fLpRecoveryWhenHitInPercent;	//percent
+
+	WORD baseAbdominalPainDefence;
+	WORD wStomachacheDefence;
+	WORD wBasePoisonDefence;
+	WORD wPoisonDefence;
+	WORD wBaseBleedDefence;
+	WORD wBleedDefence;
+	WORD wBaseBurnDefence;
+	WORD wBurnDefence;
+
+	float fEnergyCriticalDamageBonusRate;
+	float fItemUpgradeBonusRate;
+	float fItemUpgradeBreakBonusRate;
+
+	float fHtbBlockModeSuccessRate;
+
+	float fPhysicalCriticalDefenceRate;// decreases critical dmg bonus
+	float fEnergyCriticalDefenceRate;// decreases critical dmg bonus
+	float fBaseSkillSpeed;
+	float fSkillAnimationSpeedModifier;
+
+	//float fMindCurseImmunity;
+	//float fBodyCurseImmunity; 
+	//float fChangeCurseImmunity;
+	//float fSkillAnimationSpeedModifier;
+
+	DWORD dwBaseMaxWeight;
+	DWORD dwWeightLimit;
+
+	float fSkillAggroBonus;
+	float fSkillAggroBonusInPercent;
+	float fMindCurseImmunity;
+	float fBodyCurseImmunity;
+	float fChangeCurseImmunity;
+
+	float fPhysicalArmorPenRate; //Decreases x% of target physical def. Note: stat should never be below 0
+	float fEnergyArmorPenRate; //Decreases x% of target energy def. Note: stat should never be below 0
+	float fDirectHealPowerBonus;
+	float fDirectHealPowerBonusInPercent;
+	float fHotPowerBonus;
+	float fHotPowerBonusInPercent;
+	//float fDotValueChangePercent;
+	float fPhysicalReflection; //absolute mover a otro lugar
+	float fEnergyReflection; //absolute mover a otro lugar
+	DWORD dwLpRecoveryWhenHit; //absolute
+	float fLpRecoveryWhenHitInPercent; //absolute
+	WORD dwEpRecoveryWhenHit; //absolute move
+	float fEpRecoveryWhenHitInPercent;	//percent move
+}sAVATAR_ATTRIBUTE3;
+
 struct sAVATAR_ATTRIBUTE2
 {
 
@@ -389,8 +592,8 @@ struct sAVATAR_ATTRIBUTE
 
 union attributes
 {
-
-sAVATAR_ATTRIBUTE2 attr2;
+sAVATAR_ATTRIBUTE attr1;
+sAVATAR_ATTRIBUTE3 attr2;
 }attributes;
 
 
@@ -402,6 +605,7 @@ DWORD			hHandle;
 unsigned char			byAttributeTotalCount;
 /*BYTE			abyFlexibleField[490];*/
 BYTE bitmask[20];
-sAVATAR_ATTRIBUTE attr1;
+attributes attr1;
+
 DWORD unknown[3];
 };

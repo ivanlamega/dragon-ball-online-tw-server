@@ -1,18 +1,343 @@
 /*****************************************************************************
- * bookmarks.hsl - Hex Workshop Bookmark structure definitions
- *
- * Copyright (c) 2008 BreakPoint Software, Inc.  All Rights Reserved.
+ * filesystems.hsl - Structure definitions for file system related entities.
+ *     This presently includes the MBR, and BOOTSECTORs for FAT16, FAT32, and
+ *     NTFS.
+ *  
+ * Copyright (c) 2003-2008 BreakPoint Software, Inc.  All Rights Reserved
  *
  *****************************************************************************
- *
- * The Hex Workshop Bookmark format is fairly simple.  It starts with a 
- * fixed-length header (struct tagHEADER) and is followed by fixed length
- * bookmark entries (struct tagENTRY).  Please see the structure definitions
- * below for details.
- *
+ * Revision History:
+ *  05/01/03 - RJA - Original
+ *  10/16/07 - RJA - Formatting tweaks, use blob for ByteCode
+ *  12/16/09 - RJA - Added enumsign pragmas
  */
 
 #include "standard-types.hsl"
+struct sPC_SHAPE
+{
+	BYTE			byFace;
+	BYTE			byHair;
+	BYTE			byHairColor;
+	BYTE			bySkinColor;
+}sPC_SHAPE;
+
+struct sAVATAR_ATTRIBUTE
+{
+WORD byBaseStr;
+	WORD Str; //absolute
+	WORD byBaseCon;
+	WORD Con; //absolute
+	WORD byBaseFoc;
+	WORD Foc; //absolute
+	WORD byBaseDex;
+	WORD Dex; //absolute
+	WORD byBaseSol;
+	WORD Sol; //absolute
+	WORD byBaseEng;
+	WORD Eng; //absolute
+
+	DWORD wBaseMaxLP;
+	int MaxLp; //absolute
+	WORD wBaseMaxEP;
+	WORD wMaxEP; //absolute
+	DWORD wBaseMaxAp;
+	int MaxAp; //absolute
+	WORD wBaseMaxRP;
+	WORD wMaxRP; //absolute
+	WORD wBaseLpRegen;
+	WORD wLpRegen; //absolute
+	WORD wBaseLpSitDownRegen;
+	WORD wLpSitdownRegen; //absolute
+	WORD wBaseLpBattleRegen;
+	WORD wLpBattleRegen; //absolute
+
+	WORD wBaseEpRegen;
+	WORD wEpRegen; //absolute
+	WORD wBaseEpSitdownRegen;
+	WORD wEpSitdownRegen; //absolute
+	WORD wBaseEpBattleRegen;
+	WORD wEpBattleRegen; //absolute
+
+	WORD wBaseApRegen;
+	WORD wApRegen; //absolute
+	WORD wBaseApSitdownRegen;
+	WORD wApSitdownRegen; //absolute
+	WORD wBaseApBattleRegen;
+	WORD wLastApBattleRegen;
+
+	WORD wBaseApDegen;
+	WORD wApDegen; //absolute
+	WORD wBaseApBattleDegen;
+	WORD wLastApBattleDegen;
+
+	WORD wBaseRpRegen;
+	WORD wRpRegen; //absolute		RP rate increase. (/ Second)
+	WORD wRpDimimutionRate;			//RP °¨¼Ò ¼Óµµ.(/second)
+
+	WORD wBasePhysicalOffence;
+	WORD wPhysicalOffence; //absolute
+	WORD wBasePhysicalDefence;
+	WORD wPhysicalDefence; //absolute
+
+	WORD wBaseEnergyOffence;
+	WORD wEnergyOffence; //absolute
+	WORD wBaseEnergyDefence;
+	WORD wEnergyDefence; //absolute
+
+	WORD wBaseAttackRate;
+	WORD wAttackRate; //percent
+	WORD wBaseDodgeRate;
+	WORD wDodgeRate; //percent
+	WORD wBaseBlockRate;
+	WORD wBlockRate; //percent
+
+	WORD wBaseCurseSuccessRate;
+	WORD wCurseSuccessRate; //percent
+	WORD wBaseCurseToleranceRate;
+	WORD wCurseToleranceRate; //percent
+
+	WORD wBaseBlockDamageRate;
+	WORD wBlockDamageRate; //percent //colocar en otro lado
+
+	WORD wBasePhysicalCriticalRate;
+	WORD wPhysicalCriticalRate; //percent
+	WORD wBaseEnergyCriticalRate;
+	WORD wEnergyCriticalRate; //percent
+
+	float fBasePhysicalCriticalRange;
+	float fPhysicalCriticalDamageRate; //percent
+	float fBaseEnergyCriticalDamageRange;
+	float fEnergyCriticalDamageRate; //percent
+
+	float fBaseRunSpeed;
+	float fRunSpeed; //absolute
+
+	float fBaseAirSpeed;
+	float fFlySpeed; //absolute
+	float fBaseAirDashSpeed;
+	float fFlyDashSpeed; //absolute
+	float fBaseAirDashSpeed2;
+	float fFlyAccelSpeed; //absolute
+
+	WORD wBaseAttackSpeedRate;
+	WORD wAttackSpeedRate; //absolute
+	float fBaseAttackRange;
+	float fAttackRange; //absolute
+
+
+	float fCastingTimeChangePercent; //percent
+	float fCoolTimeChangePercent; //percent
+	float fKeepTimeChangePercent; //percent
+	float fKeepTimeChangeSeconds;
+	//float fDotTimeChangeAbsolute; //absolute
+	float fRequiredEpChangePercent; //percent
+
+	float fHonestOffence;
+	float fHonestDefence;
+	float fStrangeOffence;
+	float fStrangeDefence;
+	float fWildOffence;
+	float fWildDefence;
+	float fEleganceOffence;
+	float fEleganceDefence;
+	float fFunnyOffence;
+	float fFunnyDefence;
+
+	float fDotTimeChangeAbsolute; //absolute
+	float fDotValueChangePercent;
+
+	WORD wParalyzeToleranceRate;	//percent
+	WORD wTerrorToleranceRate;	//percent
+	WORD wConfuseToleranceRate;	//percent
+	WORD wStoneToleranceRate;	//percent
+	WORD wCandyToleranceRate;	//percent
+
+	float fParalyzeKeepTimeDown;	//percent
+	float fTerrorKeepTimeDown;	//percent
+	float fConfuseKeepTimeDown;	//percent
+	float fStoneKeepTimeDown;	//percent
+	float fCandyKeepTimeDown;	//percent
+	float fBleedingKeepTimeDown;	//percent
+	float fPoisonKeepTimeDown;	//percent
+	float fStomachacheKeepTimeDown;	//percent
+
+	float fCriticalBlockSuccessRate;	//percent
+
+	WORD wGuardRate;
+	
+	float fSkillDamageBlockModeSuccessRate;
+	float fCurseBlockModeSuccessRate;
+	float fKnockdownBlockModeSuccessRate;
+
+	BYTE byExpBooster;
+	BYTE byQuestDropRate;
+
+	//DWORD dwLpRecoveryWhenHit; //absolute
+	//float fLpRecoveryWhenHitInPercent;	//percent
+
+	WORD baseAbdominalPainDefence;
+	WORD wStomachacheDefence;
+	WORD wBasePoisonDefence;
+	WORD wPoisonDefence;
+	WORD wBaseBleedDefence;
+	WORD wBleedDefence;
+	WORD wBaseBurnDefence;
+	WORD wBurnDefence;
+
+	float fEnergyCriticalDamageBonusRate;
+	float fItemUpgradeBonusRate;
+	float fItemUpgradeBreakBonusRate;
+
+	float fHtbBlockModeSuccessRate;
+
+	float fPhysicalCriticalDefenceRate;// decreases critical dmg bonus
+	float fEnergyCriticalDefenceRate;// decreases critical dmg bonus
+	float fBaseSkillSpeed;
+	float fSkillAnimationSpeedModifier;
+
+	//float fMindCurseImmunity;
+	//float fBodyCurseImmunity; 
+	//float fChangeCurseImmunity;
+	//float fSkillAnimationSpeedModifier;
+
+	DWORD dwBaseMaxWeight;
+	DWORD dwWeightLimit;
+
+	float fSkillAggroBonus;
+	float fSkillAggroBonusInPercent;
+	float fMindCurseImmunity;
+	float fBodyCurseImmunity;
+	float fChangeCurseImmunity;
+
+	float fPhysicalArmorPenRate; //Decreases x% of target physical def. Note: stat should never be below 0
+	float fEnergyArmorPenRate; //Decreases x% of target energy def. Note: stat should never be below 0
+	float fDirectHealPowerBonus;
+	float fDirectHealPowerBonusInPercent;
+	float fHotPowerBonus;
+	float fHotPowerBonusInPercent;
+	//float fDotValueChangePercent;
+	float fPhysicalReflection; //absolute mover a otro lugar
+	float fEnergyReflection; //absolute mover a otro lugar
+	DWORD dwLpRecoveryWhenHit; //absolute
+	float fLpRecoveryWhenHitInPercent; //absolute
+	WORD dwEpRecoveryWhenHit; //absolute move
+	float fEpRecoveryWhenHitInPercent;	//percent move
+}sAVATAR_ATTRIBUTE;
+
+struct sMARKING
+{
+	DWORD dwCode;			// eMARKING_TYPE
+}sMARKING;//end of sMARKING
+
+struct sHOIPOIMIX_DATA
+{
+	//bool			bNormalStart;	// ��ֵ�Ͽ��� // ����Ʈ ���� Ȥ�� ����
+
+	bool			bNormalStart;	// ��ֵ�Ͽ��� // ����Ʈ ���� Ȥ�� ����
+
+	bool			bSpecialStart;	// ���伣 �ͽ� ��Ͽ���
+	BYTE			bySpecialType;	// eRECIPE_TYPE
+	BYTE			byLevel;	// level
+	DWORD			dwExp;		// current exp	dwMixExp;
+
+	//BYTE			byNormalLevel;	 
+	//DWORD			dwNormalExp;
+	//BYTE			bySpecialLevel; 	
+	//DWORD			dwSpecialExp;
+}sHOIPOIMIX_DATA;
+
+struct sPC_PROFILE_LOCALIZE
+{
+	BYTE type;
+	DWORD netp;// Token Point correct value
+	DWORD GiftCash;// Notify if recive cash item from friend "mensage say gift not confirmed"
+	BYTE unknown;// Unknow TW
+	BYTE IsVip;// S icon Maybe Vip_Member
+	BYTE unknown1;// Unknow TW
+	BYTE unknown2;// Unknow TW
+	BYTE unknown3;// Unknow TW
+	DWORD unknown4;// Unknow TW
+	DWORD mascot;// INVALID_TBLIDX TW
+	BYTE unknown6;// INVALID_TBLIDX TW
+	DWORD WP_Point;// WP Poit mensage
+	BYTE unknown7;// Unknow TW
+}sPC_PROFILE_LOCALIZE;
+struct new
+{
+BYTE type;
+DWORD netp;
+DWORD GiftCash;
+		BYTE				byRankBattleRemainCount;
+	bool				bIsInFreePvpZone;
+	bool				bIsScrambleJoinFlag;
+	bool				bIsScrambleRewardedFlag;
+	BYTE				byHasBattleDragonBallBitFlag;
+DWORD unknown;
+	DWORD				mascotTblidx;
+
+	DWORD				dwWaguWaguPoints;
+	bool				bInvisibleCostume;
+BYTE unknown;
+}new;
+union compare
+{
+sPC_PROFILE_LOCALIZE   sLocalize;
+new nuevo;
+
+}compare;
+
+struct sPC_PROFILE
+{
+DWORD				tblidx; // pc Å×ÀÌºí ÀÎµ¦½º
+	bool				bIsAdult;
+	bool				bChangeClass;		// Whether or not have rights to change class
+	DWORD			charId;		// PC Ä³¸¯ÅÍÀÇ °íÀ¯ ID(DB index)
+	WCHAR				awchName[16 + 1];
+	sPC_SHAPE			sPcShape; // pc ¿Ü¾ç ( ¾ó±¼/¸Ó¸®/¸Ó¸®»ö )
+	sAVATAR_ATTRIBUTE	avatarAttribute;
+	int					curLp;
+	WORD				wCurEP;
+	WORD				wCurRP;
+	BYTE				byCurRPBall;
+	int					curAP;
+	BYTE				byLevel;
+	DWORD				dwCurExp;
+	DWORD				dwMaxExpInThisLevel;
+	DWORD				dwZenny;
+	DWORD				dwTutorialHint;
+	BYTE				byBindType;
+	DWORD				bindWorldId;
+	DWORD				bindObjectTblidx;
+	DWORD				dwReputation;
+	DWORD				dwMudosaPoint;
+	DWORD				dwSpPoint;
+
+	DWORD				charTitle;
+	//bool				bInvisibleTitle;
+	
+	sHOIPOIMIX_DATA		sMixData;
+bool				bIsGameMaster;		// true : ¿î¿µÀÚ character
+
+
+	DWORD				guildId;
+	//news
+	BYTE type;
+	DWORD netp;
+	DWORD GiftCash;
+	BYTE				byRankBattleRemainCount;
+	bool				bIsInFreePvpZone;
+	bool				bIsScrambleJoinFlag;
+	bool				bIsScrambleRewardedFlag;
+	BYTE				byHasBattleDragonBallBitFlag;
+	DWORD unknown;
+	//BYTE unknown3;
+	DWORD				mascotTblidx;
+
+	DWORD				dwWaguWaguPoints;
+	bool				bInvisibleCostume;
+	BYTE unknown2;
+}sPC_PROFILE;
+
 struct sVECTOR3
 {
 	float x;
@@ -373,171 +698,15 @@ struct sCHARSTATE
 	sCHARSTATE_DETAIL			sCharStateDetail;
 }sCHARSTATE;
 
-struct SpawnMOB
+
+
+struct GU_AVATAR_CHAR_INFO2
 {
-	WORD				wPacketSize;
-	WORD				wOpCode;
-	//sBOT_Brief
-	DWORD				Handle;
-	BYTE				Type;
-	DWORD				Tblidx;
-	DWORD				curLP;
-	WORD				curEP;
-	DWORD				maxLP;
-	WORD				maxEP;
-	float				fLastWalkingSpeed;
-	float				fLastRunningSpeed;
-	float				fLastAirgSpeed;
-	float				fLastAirgDashSpeed;
-	float				fLastAirgDashAccelSpeed;
-	WORD				AttackSpeedRate;
-	float				SkillAnnimationSpeedModifier;
-	DWORD				TBLIDXMovementAcionPattern;
-	DWORD				Name;
-	BYTE				Size;
-	//sMOB_BRIEF
-	BYTE				Level;
-	BYTE				byBallType;
-	sCHARSTATE charstate;
+WORD size;
+WORD opcode;
+	DWORD			handle;
+	BYTE			byPlayerMaxLevel;
+	sPC_PROFILE		sPcProfile;
+	WORD			wCharStateSize;
+	sCHARSTATE		sCharState;
 };
-
-struct SpawnNPC
-{
-	WORD				wPacketSize;
-	WORD				wOpCode;
-
-	unsigned int			Handle;
-	BYTE				OBJType;
-	unsigned int				Tblidx;
-	unsigned int			CurLP;
-	WORD				CurEP;
-	unsigned int			MaxLP;
-	WORD				MaxEP;
-
-	float				fLastWalkingSpeed;
-	float				fLastRunningSpeed;
-	float				fLastAirSpeed;
-	float				fLastAirDashSpeed;
-	float				fLastAirDashAccelSpeed;
-	WORD				AttackSpeedRate;
-	float				SkillAnimationSpeedModifier;
-	unsigned int				TblidxMovementActionPatern;
-	unsigned int				Name;
-	BYTE				Size;
-	BYTE				Unk;
-	sCHARSTATE			State;
-
-};
-
-struct Appear
-{
-	BYTE			Face;
-	BYTE			Hair;
-	BYTE			HairColor;
-	BYTE			SkinColor;
-}Appear;
-
-struct sITEM_BRIEF
-{
-	DWORD			tblidx; // item table index
-	BYTE			byRank;
-	BYTE            byGrade; // item effect
-	BYTE			byBattleAttribute;
-	//TBLIDX			aOptionTblidx[MAX_OPTION_IN_ITEM];
-}sITEM_BRIEF;
-
-struct sMARKING
-{
-	DWORD dwCode;			// eMARKING_TYPE
-}sMARKING;
-
-struct SpawnPlayer
-{
-	// The handle is the Unique number for reconyze that "thing", it can be, mob, npc, player, zenny, etc.
-	WORD			wPacketSize;
-	WORD			wOpCode;
-	DWORD			Handle;
-	BYTE			Type; // The type tell to the client, which is it, OBJTYPE.	
-
-	DWORD		charID;
-	DWORD			Tblidx;
-	bool			Adult;
-	WCHAR			Name[16 + 1];
-	WCHAR			GuildName[16 + 1];
-	Appear			appear;
-	DWORD			maxLP;
-	DWORD			curLP;
-	WORD			maxEP;
-	WORD			curEP;
-	DWORD			maxAP;
-	DWORD			curAP;
-	BYTE			level;
-	float			fBaseRunSpeed;
-	float			fLastRunSpeed;
-	float			fBaseAirSpeed;
-	float			fLastAirSpeed;
-	float			fBaseAirDashSpeed;
-	float			fLastAirDashSpeed;
-	float			fBaseAirDash2Speed;
-	float			fLastAirDash2Speed;
-	sITEM_BRIEF		sItemBrief[17];
-	WORD			wBaseAttackSpeedRate;
-	float			fSkillSpeed; // NOT SURE AT ALL
-	BYTE			byMarkMain;
-	BYTE			byMarkMainColor;
-	BYTE			byMarkInLine;
-	BYTE			byMarkInColor;
-	BYTE			byMarkOutLine;
-	BYTE			byMarkOutColor;
-	sMARKING		sMarking;//title
-	BYTE			WorkshopAligment;
-	//sDBO_DOGI_DATA sDogi;
-	DWORD         guildId;
-	BYTE			byType;			// µµº¹Á¾·ù
-	BYTE		    byGuildColor;	// ±æµåµµº¹»ö»ó
-	BYTE			byDojoColor;	// µµÀåµµº¹»ö»ó
-	bool			bEmergency;
-	BYTE			test[3];
-	DWORD			mascotID; // This should be UINT32_INVALID or 0xFF.... etc, because if use 1 o 2, the mascot is wrong and client crash. //mascotID is a tblidx for a mascot is why -sangawku
-	BYTE			Size; // This should be 10, is the size of the object, if u use more, it wil be more great, like Giant Namek. Like the object grown up. 10 is the default.
-
-	// WORKING ON AREA
-
-	BYTE			bleeding;
-	BYTE			poison;
-	BYTE			stomachace;
-	BYTE			burn;
-	BYTE			confuse;
-
-	sCHARSTATE		State;
-
-	// END
-};
-
-struct SpawnDrop
-{
-	WORD		wPacketSize;
-	WORD		wOpCode;
-	DWORD		Handle; // The handle is the Unique number for reconyze that "thing", it can be, mob, npc, player, zenny, etc.
-	BYTE		Type; // The type tell to the client, which is it, OBJTYPE van be  Money item Character Mob Npc etc.
-	DWORD		Tblidx; // Table Index of Item locad on Item_Drop_Data
-	BYTE		Rank;
-	BYTE        Grade; // item effect
-	BYTE		BattleAttribute;
-	sVECTOR3	Loc; // X Y Z
-	bool		NeedToIdentify;
-	bool		IsNew;
-	DWORD		OwnerHandle; 
-	DWORD		unknown; 
-}Drop;
-struct SpawnDropzenny
-{
-	WORD		wPacketSize;
-	WORD		wOpCode;
-	DWORD		Handle; // The handle is the Unique number for reconyze that "thing", it can be, mob, npc, player, zenny, etc.
-	BYTE		Type; // The type tell to the client, which is it, OBJTYPE van be  Money item Character Mob Npc etc.
-	DWORD		dwZenny; // Table Index of Item locad on Item_Drop_Data
-	sVECTOR3	Loc; // X Y Z
-	sVECTOR3	Dir; // X Y Z
-	bool		IsNew;
-}Dropzenny;
