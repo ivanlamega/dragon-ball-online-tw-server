@@ -3630,6 +3630,9 @@ BEGIN_PROTOCOL(GU_HOIPOIMIX_ITEM_MAKE_EX_RES)
 WORD     ResultCode;
 END_PROTOCOL()
 
+BEGIN_PROTOCOL(GU_CAN_ACCEL_NFY)
+END_PROTOCOL()
+
 //To check in future those packet are not in game anymore
 //------------------------------------------------------------------
 /*BEGIN_PROTOCOL(GU_CHAR_MARKING_NFY)

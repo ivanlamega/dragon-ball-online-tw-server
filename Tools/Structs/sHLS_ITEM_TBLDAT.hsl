@@ -1,0 +1,95 @@
+/*****************************************************************************
+ * filesystems.hsl - Structure definitions for file system related entities.
+ *     This presently includes the MBR, and BOOTSECTORs for FAT16, FAT32, and
+ *     NTFS.
+ *  
+ * Copyright (c) 2003-2008 BreakPoint Software, Inc.  All Rights Reserved
+ *
+ *****************************************************************************
+ * Revision History:
+ *  05/01/03 - RJA - Original
+ *  10/16/07 - RJA - Formatting tweaks, use blob for ByteCode
+ *  12/16/09 - RJA - Added enumsign pragmas
+ */
+
+#include "standard-types.hsl"
+
+struct hls_ida
+{
+  DWORD tblidx;
+	WCHAR            wszName[32 + 1];
+	WCHAR            wszCJIProductID[128 + 1];
+	WCHAR            wszIcon[32 + 1];
+  WORD wHLSItemType;
+  BYTE bOnSale;
+BYTE fill[3];
+  DWORD bySellType;
+  DWORD dword198;
+  DWORD dword19C;
+  DWORD dword1A0;
+  BYTE byte1A4;
+  BYTE byte1A5;
+  BYTE gap1A6[2];
+  DWORD dword1A8;
+  BYTE byte1AC;
+  BYTE byte1AD;
+  WORD word1AE;
+  BYTE gap1B0[40];
+  BYTE byte1D8;
+  BYTE gap1D9[3];
+  DWORD dword1DC;
+  BYTE byte1E0;
+  BYTE byte1E1;
+};
+
+struct sSUB_ITEM
+{
+	DWORD	itemTblidx;
+	BYTE	byStackCount;
+BYTE fill[3];
+}sSUB_ITEM;
+
+struct sHLS_ITEM_TBLDAT_tw
+{
+DWORD tblidx;
+	WCHAR            wszName[32 + 1];
+	WCHAR            wszCJIProductID[128 + 1];
+	WCHAR            wszIcon[32 + 1];
+	WORD            wHLSItemType;
+	bool            bOnSale;
+BYTE fill[3];
+	BYTE            bySellType;
+	BYTE            byDiscount;
+	BYTE            byStackCount;//it is Worong correct value are at  >> ItemAmount <<
+	bool            bCjVip;
+	DWORD           itemTblidx;//HLS item TBLIDX"
+	DWORD           itemTblidx2;//HLS Item Name TBLIDX"
+	DWORD           itemTblidx3;// Item TBLIDX what we use to get Item on bag
+	WORD            wUnknown1;
+BYTE fill[2];
+	DWORD           dwCost;  //This is 100% correct.
+	BYTE            wUnk2;
+	BYTE            ItemAmount; //This is 100% correct. 
+	WORD            wUnk4;
+	
+	sSUB_ITEM       asSubItem[5]; //These are correct Maybe
+	BYTE            bUnk1;
+BYTE fill[3];
+	DWORD           bUnk2;
+	BYTE            dwUnk1;
+	BYTE            bUnk3;
+};
+
+struct sHLS_ITEM_TBLDAT
+{
+DWORD tblidx;
+
+	DWORD			itemTblidx;
+	BYTE			byCategory;
+	bool			bOnSale;
+BYTE fill[2];
+	DWORD			dwCash;
+	BYTE			byStackCount;
+BYTE fill[1];
+	WORD			wDisplayBitFlag;
+};
