@@ -197,3 +197,92 @@ BYTE fill[2];
 BYTE fill[1];
 	DWORD unknown4;
 };
+
+
+struct sWORLD_TBLDAT_best
+{
+DWORD tblidx;
+
+	char			szName[ 32 + 1];
+BYTE fill[1];
+	WCHAR			wszName[ 32 + 1 ];
+
+	bool			bDynamic;
+BYTE fill[3];
+	int				nCreateCount;
+
+	DWORD			dwDynamicCreateCountShareGroup;
+
+	BYTE			byDoorType;
+BYTE fill[3];
+
+	DWORD			dwDestroyTimeInMilliSec;
+
+	WCHAR			wszMobSpawn_Table_Name[ 64 + 1 ];
+	WCHAR			wszNpcSpawn_Table_Name[ 64 + 1 ];
+	WCHAR			wszObjSpawn_Table_Name[ 64 + 1 ];
+BYTE fill[2];
+
+	CNtlVector		vStart;//3
+	CNtlVector		vEnd;//6
+
+	CNtlVector		vStandardLoc;//9
+
+	CNtlVector		vBattleStartLoc;//12
+	CNtlVector		vBattleEndLoc;//15
+
+	CNtlVector		vBattleStart2Loc;//18
+	CNtlVector		vBattleEnd2Loc;//21
+
+	CNtlVector		vOutSideBattleStartLoc;//24
+	CNtlVector		vOutSideBattleEndLoc;//27
+	CNtlVector		vSpectatorStartLoc;//30
+	CNtlVector		vSpectatorEndLoc;//33
+
+	CNtlVector		vDefaultLoc;//36
+	CNtlVector		vDefaultDir;//39
+
+	CNtlVector		vStart1Loc;//42
+	CNtlVector		vStart1Dir;//45
+	CNtlVector		vStart2Loc;//48
+	CNtlVector		vStart2Dir;//51
+
+	CNtlVector		vWaitingPoint1Loc;//54
+	CNtlVector		vWaitingPoint1Dir;//57
+
+	CNtlVector		vWaitingPoint2Loc;//60
+	CNtlVector		vWaitingPoint2Dir;//63
+
+	float			fSplitSize; //should be "50.0"
+	bool			bNight_Able;
+	BYTE			byStatic_Time;
+	WORD			wFuncFlag;
+
+	BYTE			byWorldRuleType;	// eGAMERULE_TYPE
+BYTE fill[3];
+	DWORD			worldRuleTbldx;		// ÇØ´çÇÏ´Â ·ê Å×ÀÌºí ÀÎµ¦½º ( ·ê¸¶´Ù Å×ÀÌºí Æ²¸² : ·©Å©¹èÆ²/Å¸ÀÓÄù½ºÆ®/ µîµî... )
+
+	DWORD			outWorldTblidx;
+	CNtlVector		outWorldLoc;
+	CNtlVector		outWorldDir;
+
+	WCHAR			wszResourceFolder[ 64 + 1];
+BYTE fill[2];
+	float			fBGMRestTime;
+	DWORD			dwWorldResourceID;
+	float			fFreeCamera_Height;
+
+	WCHAR			wszEnterResourceFlash[ 32 + 1];
+	WCHAR			wszLeaveResourceFlash[ 32 + 1];
+
+	DWORD			wpsLinkIndex;
+
+	//new
+	BYTE			byStartPointRange;
+	BYTE			abyDragonBallHaveRate[5];
+	BYTE			abyDragonBallDropRate[5];
+	//bool			bCanFly;
+BYTE fill[1];
+	DWORD			dwProhibition_Bit_Flag;
+
+};

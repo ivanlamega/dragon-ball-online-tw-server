@@ -1,0 +1,71 @@
+/*****************************************************************************
+ * filesystems.hsl - Structure definitions for file system related entities.
+ *     This presently includes the MBR, and BOOTSECTORs for FAT16, FAT32, and
+ *     NTFS.
+ *  
+ * Copyright (c) 2003-2008 BreakPoint Software, Inc.  All Rights Reserved
+ *
+ *****************************************************************************
+ * Revision History:
+ *  05/01/03 - RJA - Original
+ *  10/16/07 - RJA - Formatting tweaks, use blob for ByteCode
+ *  12/16/09 - RJA - Added enumsign pragmas
+ */
+
+#include "standard-types.hsl"
+
+struct sRANKBATTLE_TBLDAT
+{
+DWORD tblidx;
+
+	BYTE			byRuleType;				// Game rule eGAMERULE_TYPE
+	BYTE			byBattleMode;			// Battle Type 0 = Individual, 1 = party
+
+	BYTE			byMatchType;			//always 0 except at tblidx 2032 its 1
+BYTE fill[1];
+	WCHAR			wszName[ 128 + 1 ];
+BYTE fill[2];
+	DWORD			worldTblidx;			// World_Table Index
+	DWORD			needItemTblidx;			// Items necessary for entry
+	DWORD			dwZenny;				// Zeni needed to enter
+	BYTE			byMinLevel;				// Minimum level
+	BYTE			byMaxLevel;				// Maximum level
+	BYTE			byBattleCount;			// Stages Count
+
+	DWORD			dwWaitTime;				// It enters standby time
+	DWORD			dwDirectionTime;		// Directing time
+	DWORD			dwMatchReadyTime;		// Match preparation time
+	DWORD			dwStageReadyTime;		// Stage preparation time
+	DWORD			dwStageRunTime;			// Stage game time
+	DWORD			dwStageFinishTime;		// Stage end time
+	DWORD			dwMatchFinishTime;		// Played Time
+	DWORD			dwBossDirectionTime;	// I produced particles
+	DWORD			dwBossKillTime;			// I'm particles hunting time
+	DWORD			dwBossEndingTime;		// Cleanup Time
+	DWORD			dwEndTime;				// End
+
+	char			chScoreKO;				// KO½Â½Ã Á¡¼ö
+	char			chScoreOutOfArea;		// Àå¿Ü½Â½Ã Á¡¼ö
+	char			chScorePointWin;		// ÆÇÁ¤½Â½Ã Á¡¼ö
+	char			chScoreDraw;			// ºñ°åÀ»½Ã Á¡¼ö
+	char			chScoreLose;			// ÆÐ¹è½Ã Á¡¼ö
+
+	char			chResultExcellent;		// °æ±â °á°ú Ãâ·Â,  >= chResultExcellent
+	char			chResultGreate;			// °æ±â °á°ú Ãâ·Â,  < chResultExcellent, >= chResultGreate
+	char			chResultGood;			// °æ±â °á°ú Ãâ·Â,  < chResultGreate, >= chResultDraw
+	char			chResultDraw;			// °æ±â °á°ú Ãâ·Â,  == chResultDraw
+	char			chResultLose;			// °æ±â °á°ú Ãâ·Â,  == chResultLost
+
+	char			chBonusPerfectWinner;	// ¿Ï½ÂÀ¸·Î ¿¬½ÂÇßÀ» °æ¿ì Ãß°¡ Á¡¼ö
+	char			chBonusNormalWinner;	// ÀÏ¹ÝÀûÀÎ ¿¬½ÂÀ» ÇßÀ»¶§ÀÇ Ãß°¡ Á¡¼ö
+char unknown;
+	//new
+	WCHAR			wszBGMName[ 40 + 1 ];
+	BYTE			byDayEntryNum;
+	bool			bOutSizeAble;
+	char			szCameraName[ 32 + 1 ];
+BYTE fill[3];
+	DWORD			dwInfoIndex;
+	DWORD			dwStateMinClearTime;
+
+};

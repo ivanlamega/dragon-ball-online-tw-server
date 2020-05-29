@@ -52,26 +52,26 @@ BYTE fill[3];
 struct sHLS_ITEM_TBLDAT_tw
 {
 DWORD tblidx;
-	WCHAR            wszName[32 + 1];
-	WCHAR            wszCJIProductID[128 + 1];
-	WCHAR            wszIcon[32 + 1];
+	WCHAR           wszName[32 + 1];
+	WCHAR           wszCJIProductID[128 + 1];
+	WCHAR           wszIcon[32 + 1];
 	WORD            wHLSItemType;
-	bool            bOnSale;
+	bool            bunk5;
 BYTE fill[3];
-	BYTE            bySellType;
-	BYTE            byDiscount;
-	BYTE            byStackCount;//it is Worong correct value are at  >> ItemAmount <<
+	WORD			wDisplayBitFlag;
+	BYTE            ItemAmount;//it is Worong correct value are at  >> ItemAmount <<
 	bool            bCjVip;
-	DWORD           itemTblidx;//HLS item TBLIDX"
-	DWORD           itemTblidx2;//HLS Item Name TBLIDX"
-	DWORD           itemTblidx3;// Item TBLIDX what we use to get Item on bag
+	DWORD          itemHLSTblidx;//HLS item TBLIDX"
+	DWORD          itemNameHLSTblidx2;//HLS Item Name TBLIDX"
+	DWORD          itemTblidx;// Item TBLIDX what we use to get Item on bag
 	WORD            wUnknown1;
 BYTE fill[2];
-	DWORD           dwCost;  //This is 100% correct.
+	DWORD           dwCash;  //This is 100% correct.
 	BYTE            wUnk2;
-	BYTE            ItemAmount; //This is 100% correct. 
-	WORD            wUnk4;
-	
+	BYTE            byStackCount; //This is 100% correct. 
+	bool			bOnSale;
+	BYTE            byCategory;
+
 	sSUB_ITEM       asSubItem[5]; //These are correct Maybe
 	BYTE            bUnk1;
 BYTE fill[3];
