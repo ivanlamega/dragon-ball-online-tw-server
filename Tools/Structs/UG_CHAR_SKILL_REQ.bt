@@ -1,0 +1,59 @@
+//--------------------------------------
+//--- 010 Editor v6.0.2 Binary Template
+//
+// File:
+// Author:
+// Revision:
+// Purpose:
+//--------------------------------------
+typedef struct dVECTOR3
+{
+	DWORD	x;
+	DWORD	y;
+	DWORD	z;
+}dVECTOR3;
+typedef struct wVECTOR3
+{
+	SHORT	x;
+	SHORT	y;
+	SHORT	z;
+}wVECTOR3;
+struct UG_CHAR_SKILL_REQ2
+{
+WORD size;
+WORD opcode;
+BYTE				byAvatarType;		// eDBO_AVATAR_TYPE//0
+BYTE				bySlotIndex;//20
+BYTE				byRpBonusType;		// eDBO_RP_BONUS_TYPE//255
+DWORD				hTarget;
+dVECTOR3			shiftPosition;
+wVECTOR3 			shiftRotation;
+dVECTOR3			unknown; //this maybe is shiftPosition
+// If skill effect should be applied on a target character, too, the target character must be included in both byApplyTargetCount and ahApplyTarget.
+BYTE				byApplyTargetCount;
+DWORD				ahApplyTarget[16];
+};
+
+
+typedef struct 
+{
+WORD size;
+WORD opcode;
+BYTE				byAvatarType;		// eDBO_AVATAR_TYPE//0
+BYTE				bySlotIndex;//20
+BYTE				byRpBonusType;		// eDBO_RP_BONUS_TYPE//255
+DWORD				hTarget;
+// If skill effect should be applied on a target character, too, the target character must be included in both byApplyTargetCount and ahApplyTarget.
+BYTE				byApplyTargetCount;
+BYTE				unk;
+BYTE				unk2;
+DWORD				unk3[7];
+DWORD				ahApplyTarget[1];
+
+}UG_CHAR_SKILL_REQ;
+
+
+LittleEndian(); 
+ FSeek (GetCursorPos ());
+ SetBackColor (cLtAqua);
+UG_CHAR_SKILL_REQ skills;

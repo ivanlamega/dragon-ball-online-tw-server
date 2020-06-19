@@ -1,0 +1,56 @@
+/*****************************************************************************
+ * filesystems.hsl - Structure definitions for file system related entities.
+ *     This presently includes the MBR, and BOOTSECTORs for FAT16, FAT32, and
+ *     NTFS.
+ *  
+ * Copyright (c) 2003-2008 BreakPoint Software, Inc.  All Rights Reserved
+ *
+ *****************************************************************************
+ * Revision History:
+ *  05/01/03 - RJA - Original
+ *  10/16/07 - RJA - Formatting tweaks, use blob for ByteCode
+ *  12/16/09 - RJA - Added enumsign pragmas
+ */
+
+#include "standard-types.hsl"
+struct sDWCMISSION_REWARD_ENTITY
+{
+	BYTE			byType;
+BYTE fill[3]; 
+	DWORD			tblidx;	
+	BYTE			byValue; 
+BYTE fill[3];
+}sDWCMISSION_REWARD_ENTITY;
+
+
+struct sDWCMISSION_REWARD
+{
+	DWORD								cardNameTblidx;
+	BYTE								byRequireCount;
+BYTE fill[3];
+	float								fAcquireRate;
+	sDWCMISSION_REWARD_ENTITY			asBasicReward[4];
+	sDWCMISSION_REWARD_ENTITY			asRepeatReward[4];
+}sDWCMISSION_REWARD;
+
+struct sDWCMISSION_TBLDAT
+{
+DWORD tblidx;
+
+
+	DWORD		tblNameIndex;
+	WCHAR		szImageName[ 32 + 1 ];
+BYTE fill[2];
+	DWORD		tblContainScenarioIndex;
+BYTE fill[2];
+	BYTE		byCompleteMinNum;
+BYTE fill[1];
+	//BYTE		byCompleteMaxNum;
+	//BYTE		byDifficulty;
+
+
+	sDWCMISSION_REWARD		asReward[5];
+
+	DWORD		clearObjectTextTblidx;
+	DWORD		clearConditionTextTblidx;
+};

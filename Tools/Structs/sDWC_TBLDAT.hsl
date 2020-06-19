@@ -13,27 +13,20 @@
  */
 
 #include "standard-types.hsl"
-
-struct test
+struct sDWC_TBLDAT
 {
-WORD size;
-WORD opcode;
-DWORD dword2;
-BYTE gap6[16];
-char char16;
-BYTE gap17[9];
-int int20;
-BYTE gap24[16];
-char char34;
-};
+DWORD tblidx;
 
-
-struct GU_RANKBATTLE_BATTLE_ORDER_INFO_NFY
-{
-WORD opcode;
-WORD size;
-DWORD				handle[5];
-WORD unknownList[5];
-DWORD				handle[5];
-WORD unknownList[5];
+	DWORD		tblNameIndex;
+	BYTE		byLevel_Min;
+	BYTE		byLevel_Max;
+	WORD		wAdmission_Bit_Flag;
+	BYTE		byAdmission_Num_Min;
+	BYTE		byAdmission_Num_Max;
+BYTE fill[2];
+	DWORD		aConditionTblidx[10];
+	DWORD		aMissionTblidx[5];
+	DWORD		prologueCinematicTblidx;
+	DWORD		prologueTblidx;
+	DWORD		worldTblidx;
 };

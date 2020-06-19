@@ -64,13 +64,13 @@ BYTE fill[3];
 	DWORD          itemHLSTblidx;//HLS item TBLIDX"
 	DWORD          itemNameHLSTblidx2;//HLS Item Name TBLIDX"
 	DWORD          itemTblidx;// Item TBLIDX what we use to get Item on bag
-	WORD            wUnknown1;
+	WORD            bOnSale;
 BYTE fill[2];
 	DWORD           dwCash;  //This is 100% correct.
 	BYTE            wUnk2;
 	BYTE            byStackCount; //This is 100% correct. 
-	bool			bOnSale;
-	BYTE            byCategory;
+	bool			byCategory;
+	BYTE            unk;
 
 	sSUB_ITEM       asSubItem[5]; //These are correct Maybe
 	BYTE            bUnk1;

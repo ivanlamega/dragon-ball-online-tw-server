@@ -13,27 +13,30 @@
  */
 
 #include "standard-types.hsl"
-
-struct test
+struct sVector3
 {
-WORD size;
-WORD opcode;
-DWORD dword2;
-BYTE gap6[16];
-char char16;
-BYTE gap17[9];
-int int20;
-BYTE gap24[16];
-char char34;
-};
+float x;
+float y;
+float z;
+}sVector3;
 
-
-struct GU_RANKBATTLE_BATTLE_ORDER_INFO_NFY
+struct sPATH_POINT
 {
-WORD opcode;
-WORD size;
-DWORD				handle[5];
-WORD unknownList[5];
-DWORD				handle[5];
-WORD unknownList[5];
+	sVector3	_Pos;
+	float		_PrevDist;
+}sPATH_POINT;
+
+struct sPATH_LIST
+{
+DWORD tblidx;
+	float						_fRadius;
+	BYTE						_NumPathPoint;
+	sPATH_POINT	_vecPathPoint[19];
+}sPATH_LIST;
+
+struct sPATH_TABLE
+{
+
+	unsigned int	_NumPathList;
+	sPATH_LIST			_mapPathList;
 };

@@ -13,27 +13,10 @@
  */
 
 #include "standard-types.hsl"
-
-struct test
+struct sSERVERCONFIG_TBLDAT
 {
-WORD size;
-WORD opcode;
-DWORD dword2;
-BYTE gap6[16];
-char char16;
-BYTE gap17[9];
-int int20;
-BYTE gap24[16];
-char char34;
-};
-
-
-struct GU_RANKBATTLE_BATTLE_ORDER_INFO_NFY
-{
-WORD opcode;
-WORD size;
-DWORD				handle[5];
-WORD unknownList[5];
-DWORD				handle[5];
-WORD unknownList[5];
+DWORD TBLIDX;
+WCHAR				wstrName[32];
+WORD count;
+WCHAR				wstrValue[48];
 };
