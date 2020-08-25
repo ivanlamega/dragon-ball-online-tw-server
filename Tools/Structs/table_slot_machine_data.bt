@@ -1,0 +1,49 @@
+//------------------------------------------------
+//--- 010 Editor v10.0.2 Binary Template
+//
+//      File: 
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+
+typedef DWORD TBLIDX;
+typedef wchar_t WCHAR;
+typedef byte bool;
+
+
+typedef struct sTBLDAT
+{
+ DWORD		tblidx;
+}sTBLDAT;
+
+
+typedef struct table_slot_machine_data {   
+	
+	DWORD		tblidx;
+    DWORD       Name;
+	WCHAR		wszNameText[44 + 1];
+	CHAR        wszIcon[41 + 1];
+	WORD		byCoin;
+	byte		bOnOff;
+	BYTE		byType;
+	WORD		wfirstWinCoin;
+byte pad[2];
+	TBLIDX		aItemTblidx[10];
+	BYTE		byStack[10];
+	WORD		wQuantity[10];
+byte pad2[2];
+
+
+
+} table_slot_machine_data;
+
+
+BYTE padding;
+table_slot_machine_data wagu[6];
+

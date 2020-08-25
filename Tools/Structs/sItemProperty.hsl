@@ -1,0 +1,219 @@
+/*****************************************************************************
+ * filesystems.hsl - Structure definitions for file system related entities.
+ *     This presently includes the MBR, and BOOTSECTORs for FAT16, FAT32, and
+ *     NTFS.
+ *  
+ * Copyright (c) 2003-2008 BreakPoint Software, Inc.  All Rights Reserved
+ *
+ *****************************************************************************
+ * Revision History:
+ *  05/01/03 - RJA - Original
+ *  10/16/07 - RJA - Formatting tweaks, use blob for ByteCode
+ *  12/16/09 - RJA - Added enumsign pragmas
+ */
+
+#include "standard-types.hsl"
+
+struct RwRGBA
+{
+    unsigned char red;    /**< red component */
+    unsigned char green;  /**< green component */
+    unsigned char blue;   /**< blue component */
+    unsigned char alpha;  /**< alpha component */
+}RwRGBA;
+
+struct RwV3d
+{
+    float x;   /**< X value */
+    float y;   /**< Y value */
+    float z;   /**< Z value */
+}RwV3d;
+
+enum EItemEquipSlotType
+{	
+	ITEM_EQUIP_NONE  = 0,							// Not Equip(Drop Item)
+	
+	ITEM_EQUIP_HEAD,								// Head
+	ITEM_EQUIP_FACE,								// Face
+	ITEM_EQUIP_JACKET,								// Jacket
+	ITEM_EQUIP_PANTS,								// Pants
+	ITEM_EQUIP_BOOTS,								// Boots
+	ITEM_EQUIP_TWO_HAND,							// Glove
+
+	ITEM_EQUIP_R_EYE = 8,							// Scouter
+	ITEM_EQUIP_R_HAND = 10,							// Weapon
+	ITEM_EQUIP_L_HAND,								// Weapon
+	ITEM_EQUIP_BACK,								// SubWeapon....
+    ITEM_EQUIP_MASK,                                // ¸¶ÀÎ¿ë ¸¶½ºÅ©
+	
+	ITEM_EQUIP_USER_MOVE1 = 20,						// In the Weapon (Gem) Model Tool, decrease by the Offset value.
+	ITEM_EQUIP_SCOUTER	= 100,						// Scouter (Offset value applied, Offset value applied)
+}EItemEquipSlotType;
+
+enum EItemResType
+{
+	ITEM_RES_EQUIP_BODY				= 0,			// Body¿ë Item(Owner¿¡ ÀåÂøÀÌ µÊ)
+	ITEM_RES_EQUIP_MAIN				= 1,			// Main Item
+	ITEM_RES_EQUIP_SUB				= 100,			// Sub Item
+	
+	ITEM_RES_NOT_EQUIP				= 200,			// World¿ë Item
+}EItemResType;
+
+
+enum RwBlendFunction
+{
+    rwBLENDNABLEND = 0,
+    rwBLENDZERO,            /**<(0,    0,    0,    0   ) */
+    rwBLENDONE,             /**<(1,    1,    1,    1   ) */
+    rwBLENDSRCCOLOR,        /**<(Rs,   Gs,   Bs,   As  ) */
+    rwBLENDINVSRCCOLOR,     /**<(1-Rs, 1-Gs, 1-Bs, 1-As) */
+    rwBLENDSRCALPHA,        /**<(As,   As,   As,   As  ) */
+    rwBLENDINVSRCALPHA,     /**<(1-As, 1-As, 1-As, 1-As) */
+    rwBLENDDESTALPHA,       /**<(Ad,   Ad,   Ad,   Ad  ) */
+    rwBLENDINVDESTALPHA,    /**<(1-Ad, 1-Ad, 1-Ad, 1-Ad) */
+    rwBLENDDESTCOLOR,       /**<(Rd,   Gd,   Bd,   Ad  ) */
+    rwBLENDINVDESTCOLOR,    /**<(1-Rd, 1-Gd, 1-Bd, 1-Ad) */
+    rwBLENDSRCALPHASAT,     /**<(f,    f,    f,    1   )  f = min (As, 1-Ad) */
+    rwBLENDFUNCTIONFORCEENUMSIZEINT = 2147483647
+}RwBlendFunction;
+
+enum EAnimEventType
+{
+	EVENT_ANIM_NONE,							///< Default
+	EVENT_ANIM_END,								///< Animation Play°¡ ³¡³µÀ» ¶§
+	EVENT_ANIM_HIT,								///< Hit Event
+    EVENT_ANIM_VISUAL_EFFECT,					///< Visual Effect°¡ ³ª¿Ã ¶§ (Loop EffectÀÇ °æ¿ì AnimationÀÌ ¹Ù²ð °æ¿ì ¼Ò¸êµÈ´Ù.)
+    EVENT_ANIM_VISUAL_SOUND,					///< Sound¸¦ Play¸¦ ÇØ¾ß ÇÒ °æ¿ì
+    EVENT_ANIM_FOOT_STEP,						///< Character°¡ ¹ßÀÌ ¶¥¿¡ ¶¦¾ÒÀ» °æ¿ì
+    EVENT_ANIM_LINK_EFFECT,						///< Character°¡ Create°¡ µÉ ¶§ ºÎÅÍ ºÙ´Â Effect (Loop Effect¸¸ °¡´É)
+    EVENT_ANIM_WEIGHT_TIME,						///< Character°£ÀÇ ÀüÅõ¿¡¼­ Æ¯Á¤ ½Ã°£ µ¿¾È TimeÀ» ºü¸£°Ô ¶Ç´Â ´Ê°Ô Play ÇÒ°æ¿ì(HTB¿¡¼­¸¸ »ç¿ëÀÌ µÈ´Ù.)
+    EVENT_ANIM_TRACE_EFFECT,                    ///< ±ËÀû ÀÌÆåÆ® ÀÌº¥Æ®
+    EVENT_ANIM_SUB_WEAPON,                      ///< SubWeapon È°¼ºÈ­ ÀÌº¥Æ®
+    EVENT_ANIM_POST_EFFECT,						///< PostEffect Event
+	EVENT_ANIM_SUMMON_PET,						///< SummonPet Effect
+    EVENT_ANIM_TMQ,                             ///< TMQ Event
+    EVENT_ANIM_ALPHA,                           ///< Alpha Fade Event
+    EVENT_ANIM_EXPLOSION,                       ///< TMQ Æø¹ß ÀÌº¥Æ®
+    EVENT_ANIM_DIRECT,                          ///< ¿¬Ãâ¿ë ÀÌº¥Æ®
+    EVENT_ANIM_COLOR_CHANGE,                    ///< ÄÃ·¯ Ã¼ÀÎÁö ÀÌº¥Æ®
+    EVENT_ANIM_STRETCH,                         ///< º»À» ´Ã¸®´Â ÀÌº¥Æ®
+    EVENT_ANIM_TRIGGER,                         ///< ½ºÅ³µî¿¡¼­ »ç¿ëµÇ´Â Æ®¸®°Å ÀÌº¥Æ®
+    EVENT_ANIM_SKILL_CANCEL,                    ///< ½ºÅ³ Äµ½½ Å¸ÀÌ¹Ö ÀÌº¥Æ®
+}EAnimEventType;
+
+/// Trace°¡ ¾îµð¿¡ ºÙÀ»ÁöÀÇ Å¸ÀÔ
+	enum EAttachType
+	{
+		CHARACTER_BONE,     ///< Ä³¸¯ÅÍ º»¿¡ ºÙ´Â´Ù.
+		WEAPONE_BONE,       ///< ¹«±â º»¿¡ ºÙ´Â´Ù.
+		SUB_WEAPON_BONE,    ///< º¸Á¶¹«±â º»¿¡ ºÙ´Â´Ù.
+	}EAttachType;
+
+	/// ±ËÀû ¼³Á¤ÀÌ ÀÌº¥Æ® ¼³Á¤°ªÀ» µû¸¦Áö, Weapon ¼³Á¤°ªÀ» µû¸¦Áö °á°Ï
+	enum ETraceKind
+	{
+		EVENT_TRACE,        ///< EventÀÇ ¼³Á¤°ªÀ» µû¸¥´Ù.
+		ITEM_TRACE,         ///< ItemÀÇ ¼³Á¤°ªÀ» µû¸¥´Ù.
+	}ETraceKind;
+
+struct SEventTrace
+{
+	float			fTime;
+	EAnimEventType	eEventID;
+
+
+	float  fLifeTime;           ///< ±ËÀûÀÇ Ç¥½Ã ½Ã°£
+	float  fEdgeLifeTime;       ///< EdgeÀÇ Life Time    
+	EAttachType eAttachType;     ///< ±ËÀûÀÌ ¾îµð¿¡ ºÙÀ»Áö 
+	ETraceKind  eTraceKind;      ///< ±ËÀûÀÌ Item ¼³Á¤À» µû¸¦Áö
+	char  strStartBoneName[32];    ///< Ã¹¹øÂ° BoneÀÇ ÀÌ¸§
+	char  strEndBoneName[32];      ///< µÎ¹øÂ° BoneÀÇ ÀÌ¸§
+	char  strTexture[32];          ///< Texture File Name
+	RwV3d   v3dStartBoneOffset;  ///< Ã¹¹øÂ° BoneÀÇ Offset
+	RwV3d   v3dEndBoneOffset;    ///< µÎ¹øÂ° BoneÀÇ Offset
+	float  fEdgeGap;             ///< ¸îÃÊ¸¶´Ù EdgeÀ» »ý¼ºÇÒÁöÀÇ °ª
+	int nSplinePointCount;   ///< SplineÀ¸·Î »ý¼ºÇÏ´Â ¹öÅØ½ºÀÇ °¹¼ö (µÎ°³ÀÇ Edge»çÀÌ¿¡ »ý¼ºµÇ´Â ¹öÅØ½ºÀÇ °³¼öÀÌ´Ù)
+	int nMaxEdgeCount;       ///< ÃÖ´ë Edge Count
+	float  fMaxLength;          ///< ±ËÀûÀÇ ÃÖ´ë ±æÀÌ
+	RwBlendFunction eSrcBlend;  ///< Src Blend State
+	RwBlendFunction eDestBlend; ///< Dest Blend State
+	RwRGBA  colStartColor;       ///< ½ÃÀÛ Color°ª
+	RwRGBA  colEndColor;         ///< ³¡ Color°ª   
+}SEventTrace;
+
+struct SEventLinkEffect
+{
+	float			fTime;
+	EAnimEventType	eEventID;
+
+char  chEffectName[32];
+	char  chBoneName[32];
+	RwV3d   vOffsetPos;
+	bool  bAttachBone;
+}SEventLinkEffect;
+
+struct SEventAnim
+{
+	float			fTime;
+	EAnimEventType	eEventID;
+}SEventAnim;
+
+struct STypeAnimData
+{
+	zstring			strAnimName;							///< Animation File ÀÌ¸§
+	unsigned int			uiAnimKey;								///< Animation Key
+	float              fPlayTime;                              ///< AnimationÀÇ PlayTime
+    unsigned int            flagAnim;                               ///< ¾Ö´Ï¸ÞÀÌ¼Ç °ü·ÃµÈ ¼³Á¤ ÇÃ·¡±×
+unsigned int nAnimEventSize;
+	SEventAnim vecAnimEvent[nAnimEventSize];						///< Animation Eventµé (fTime¿¡ Á¤·ÄÀÌ µÇ¾î ÀÖ¾î¾ß ÇÑ´Ù.)
+	bool						m_bReLoad;						///< Resource¸¦ »õ·Î ÀÐ¾î¾ß ÇÒ °æ¿ì
+	
+	
+}STypeAnimData;
+
+
+struct sAnimTable
+{
+zstring animPath;
+DWORD nAnimDataCount;
+STypeAnimData animData[nAnimDataCount];
+DWORD nAnimEventSize;
+SEventAnim anim[nAnimEventSize];
+}sAnimTable;
+
+struct SUpgradeEffectProperty
+{
+    char  szBone1[32];
+    RwV3d   vOffset1;
+    char  szBone2[32];
+    RwV3d   vOffset2;
+
+    char	szEffect[16][32];
+
+}SUpgradeEffectProperty;
+
+struct sContent
+{
+zstring Name;
+DWORD flag;
+DWORD uiLinkEffectSize;
+SEventLinkEffect effect[uiLinkEffectSize];
+SEventTrace eventTrace;
+zstring meshPath;
+zstring fileName;
+EItemResType ResType;
+EItemEquipSlotType equipSlotType;
+sAnimTable animTable;
+RwV3d               attachOffset;
+bool enableDefault;
+SUpgradeEffectProperty upgradeEffectProperty;
+}sContent;
+
+struct sItemProperty
+{
+DWORD version;
+zstring ItemDataPath;
+DWORD uiPropertySize;
+sContent content[uiPropertySize];
+
+};

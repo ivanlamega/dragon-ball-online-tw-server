@@ -1,0 +1,74 @@
+/*****************************************************************************
+ * filesystems.hsl - Structure definitions for file system related entities.
+ *     This presently includes the MBR, and BOOTSECTORs for FAT16, FAT32, and
+ *     NTFS.
+ *  
+ * Copyright (c) 2003-2008 BreakPoint Software, Inc.  All Rights Reserved
+ *
+ *****************************************************************************
+ * Revision History:
+ *  05/01/03 - RJA - Original
+ *  10/16/07 - RJA - Formatting tweaks, use blob for ByteCode
+ *  12/16/09 - RJA - Added enumsign pragmas
+ */
+
+#include "standard-types.hsl"
+struct RwV3d
+{
+float x;
+float y;
+float z;
+}RwV3d;
+
+struct INFO
+{
+	int		nAxisType;
+	int		nSplineType;
+	int		nCurveType;
+	int		nControlCount;
+	int		nCurveSubDivision;
+	RwV3d		vForwardFactor;
+	float		fPointSpeed;
+
+	int		nRotateCount;
+	float		fRadius;
+	int		bRotateDirection;
+	float		fTime;
+}INFO;
+
+struct SNTL_SPLINE_CONTROL_POINT
+{
+	RwV3d	pos;
+	RwV3d	rotate;
+	float	fTime;
+}SNTL_SPLINE_CONTROL_POINT;
+
+struct RtQuat
+{
+    RwV3d               imag;   /**< The imaginary part(s) */
+    float              real;   /**< The real part */
+}RtQuat;
+
+struct SNTL_SPLINE_CURVE_POINT
+{
+	RwV3d	pos;
+	RtQuat	quat;
+	float	fTime;
+}SNTL_SPLINE_CURVE_POINT;
+
+struct sSpline
+{
+int length;
+char name[length];
+INFO sInfo;
+SNTL_SPLINE_CONTROL_POINT ControlPoint[sInfo.nControlCount];
+SNTL_SPLINE_CURVE_POINT CurveData[31];
+}sSpline;
+
+struct sVisualEffect
+{
+char strFileHeader[6];
+DWORD version;
+int nSplineCount;
+sSpline spline[nSplineCount];
+};

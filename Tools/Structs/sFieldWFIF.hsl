@@ -1,0 +1,102 @@
+/*****************************************************************************
+ * filesystems.hsl - Structure definitions for file system related entities.
+ *     This presently includes the MBR, and BOOTSECTORs for FAT16, FAT32, and
+ *     NTFS.
+ *  
+ * Copyright (c) 2003-2008 BreakPoint Software, Inc.  All Rights Reserved
+ *
+ *****************************************************************************
+ * Revision History:
+ *  05/01/03 - RJA - Original
+ *  10/16/07 - RJA - Formatting tweaks, use blob for ByteCode
+ *  12/16/09 - RJA - Added enumsign pragmas
+ */
+
+#include "standard-types.hsl"
+
+
+#pragma hide()
+struct sD3DMATIX{
+            float        _11;
+float _12;
+float _13;
+float _14;
+            float        _21;
+float _22;
+float _23;
+float _24;
+            float        _31;
+float _32;
+float _33;
+float _34;
+            float        _41;
+float _42;
+float _43;
+float _44;
+
+        }sD3DMATIX;
+union uD3DMATRIX{
+        sD3DMATIX sMarix;
+        float m[4][4];
+    }uDADMATRIX;
+struct _D3DMATRIX {
+    uDADMATRIX uMatrix;
+} D3DMATRIX;
+
+struct RwV3d
+{
+    float x;   /**< X value */
+    float y;   /**< Y value */
+    float z;   /**< Z value */
+}RwV3d;
+
+struct RwRGBA
+{
+    BYTE red;    /**< red component */
+    BYTE green;  /**< green component */
+    BYTE blue;   /**< blue component */
+    BYTE alpha;  /**< alpha component */
+}RwRGBA;
+
+struct sPSMap{
+
+}sPSMap;
+
+struct sLightObject {
+}sLightObject;
+
+struct sObjectField {
+DWORD uiLength;
+char acName[uiLength];
+RwV3d			avSRT[3];
+DWORD uiObjectType;
+DWORD uiSID;
+DWORD uiObjectID;
+DWORD dwNameIdx;
+float fVisibilityDistance;
+DWORD uiFlags;
+int PSAtomicCnt;
+sPSMap psMap[PSAtomicCnt];
+int bEnableFlag;
+int iLightObjectNum;
+sLightObject lightObject[iLightObjectNum];
+int bUnknown;
+}sObjectField;
+
+#pragma show()
+
+struct sWFIF
+{
+DWORD uiLength;
+char ReadBuff[uiLength];
+D3DMATRIX	m_TextureMatBase[2];
+float m_TextureMatAngBase;
+BYTE m_TextureMatAddBase;
+DWORD rBool[5];	
+RwV3d vBasedPos;
+float pVertexListY[33][33];
+RwRGBA pPrelights[33][33];
+int iNum;
+sObjectField objField[1];
+};
+

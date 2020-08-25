@@ -1,0 +1,192 @@
+/*****************************************************************************
+ * filesystems.hsl - Structure definitions for file system related entities.
+ *     This presently includes the MBR, and BOOTSECTORs for FAT16, FAT32, and
+ *     NTFS.
+ *  
+ * Copyright (c) 2003-2008 BreakPoint Software, Inc.  All Rights Reserved
+ *
+ *****************************************************************************
+ * Revision History:
+ *  05/01/03 - RJA - Original
+ *  10/16/07 - RJA - Formatting tweaks, use blob for ByteCode
+ *  12/16/09 - RJA - Added enumsign pragmas
+ */
+
+#include "standard-types.hsl"
+struct sNtlWorldParam
+{	
+	char		WorldVer[10];
+
+	//	//new in ver 1.4
+
+	int		WorldHeightfieldNum;
+	int		WorldSectorTileSize;
+	int		WorldSectorTileNum;
+	int		WorldSectorVertNum;
+	int		WorldSectorSize;
+	int		WorldSectorNum;
+	int		WorldSectorHalfNum;
+	int		WorldSectorPolyNum;
+	int		WorldFieldSectorNum;
+	int		WorldFieldSize;
+	int		WorldFieldNum;
+	int		WorldFieldHalfNum;
+	int		WorldSize;
+	int		WorldSizeHalf;
+	int		WorldValueMax;
+	int		WorldValueMin;
+	int		WorldTexAddr;
+	int		WorldPolyCnt;
+
+	// ÀÎµµ¾î
+	//
+	// ÀÎµµ¾î
+	//
+
+	float		WorldNearPlane;
+	float		WorldFarPlane;
+	float		WorldCamSpeedPerSec;
+char		WorldRAW[64];
+
+	//
+	DWORD	WorldTriggerSerialID;
+int		IdxSkyType;
+int		WorldType; // 0:HeightWorld // 1:IndoorWorld(RwWorld)
+int		WorldBlockSize;
+int		WorldBlockNum;
+	char		WorldBSP[64];
+DWORD	WorldObjectSerialID;
+DWORD	WorldResourceID;
+
+	
+};
+
+#pragma hide()
+struct RwRGBAReal
+{
+    float red;     /**< red component */
+    float green;   /**< green component */
+    float blue;    /**< blue component */
+    float alpha;   /**< alpha component */
+}RwRGBAReal;
+
+struct RwRGBA
+{
+     unsigned char red;    /**< red component */
+     unsigned char green;  /**< green component */
+     unsigned char blue;   /**< blue component */
+     unsigned char alpha;  /**< alpha component */
+}RwRGBA;
+
+struct RwV3d
+{
+    float x;   /**< X value */
+    float y;   /**< Y value */
+    float z;   /**< Z value */
+}RwV3d;
+
+struct sNTL_PLANET
+{
+	RwV3d	_RelativePos;
+	float	_Scale;
+	char	_TexName[10];
+	int	_LensFlareExistence;
+}sNTL_PLANET;
+
+struct RwV2d
+{
+    float x;   /**< X value*/
+    float y;   /**< Y value */
+}RwV2d;
+
+
+struct sNTL_SPECULAR
+{
+	RwV3d	_Direction;
+	RwV2d	_Scale;
+	unsigned char	_Power;
+	int	_SpecularExistence;
+}sNTL_SPECULAR;
+
+struct sNTL_HEATHAZE
+{
+	float  _MetersPerSec;
+	float	_Extent;
+	float	_Extent_Rand;
+	float	_Scale;
+	int	_HeatHazeExistence;
+}sNTL_HEATHAZE;
+
+struct sDirectional 
+{
+
+	RwRGBAReal	_ClrLightDirectional;
+	RwV3d		_AngLightDirectional;
+}sDirectional;
+#pragma show()
+struct sNTL_FIELD_PROP
+{
+	// Name
+	char	_Name[64];
+
+	// Normal Property
+DWORD _pBitProp[1000];
+DWORD _pBitProp[1000];
+DWORD _pBitProp[1000];
+DWORD _pBitProp[1000];
+	DWORD _pBitProp[96];
+
+	// Fog
+	RwRGBA	_FogColor;
+	float	_FogCamPlane[2];
+
+	// Sky
+	int	_BaseSkyMode;
+	RwRGBA	_RGBSkyColor[3];
+	float	_NewSkyValue; //new in 1.4 to do by daneos
+	char	_BaseSkyTexName[10];
+	float	_BaseSkySpeed;
+	char	_BlendedTexName[2][10];
+	float	_BlendedTexSpeed[2];
+
+	// Real light
+	RwRGBAReal	_ClrLightAmbient;
+sDirectional directional[3];
+
+	// BGM table index(-1 not for playing)
+	int	_IdxBGMTbl;
+
+	// Env BGM table index(-1 not for playing)
+	int	_IdxEnvTbl;
+
+	// Share BGM table index(-1 not for playing)
+	int _IdxShareTbl[5];
+
+	// Mono power
+	float _MonoPower;
+
+	// planet
+	sNTL_PLANET _NtlPlanet[3]; // dNTLPL_PLANET_MAX_CNT
+
+	// specualr
+	sNTL_SPECULAR _NtlSpecular;
+
+	
+
+	// foot effect property
+	BYTE _pMaterialProp[1000];
+BYTE _pMaterialProp[1000];
+BYTE _pMaterialProp[1000];
+BYTE _pMaterialProp[1000];
+BYTE _pMaterialProp[96];
+
+	// field color
+	RwRGBA _FieldColor;
+
+	// weather idx
+	int _IdxWeather[5];
+
+// heathaze
+	sNTL_HEATHAZE _NtlHeatHaze;
+};
+
