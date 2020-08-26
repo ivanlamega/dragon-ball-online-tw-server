@@ -21,25 +21,25 @@ struct hls_ida
 	WCHAR            wszCJIProductID[128 + 1];
 	WCHAR            wszIcon[32 + 1];
   WORD wHLSItemType;
-  BYTE bOnSale;
+  BYTE HLS_Duration_Type;
 BYTE fill[3];
-  DWORD bySellType;
-  DWORD dword198;
-  DWORD dword19C;
-  DWORD dword1A0;
-  BYTE byte1A4;
-  BYTE byte1A5;
+  DWORD HLS_Duration_Time;
+  DWORD itemHLSTblidx;
+  DWORD itemNameHLSTblidx2;
+  DWORD itemTblidx;
+  BYTE bOnSale;;
+  BYTE bySell_Type; //maybe
   BYTE gap1A6[2];
-  DWORD dword1A8;
-  BYTE byte1AC;
-  BYTE byte1AD;
-  WORD word1AE;
+  DWORD dwCash;
+  BYTE byDiscount; //maybe
+  BYTE byStackCount;
+  WORD Display_Bit_Flag;
   BYTE gap1B0[40];
-  BYTE byte1D8;
+  BYTE byQuick_Link;
   BYTE gap1D9[3];
-  DWORD dword1DC;
-  BYTE byte1E0;
-  BYTE byte1E1;
+  DWORD dwPriority;
+  BYTE byDisplay_Consume_Type;
+  BYTE Yardrat_Tab_Type;
 };
 
 struct sSUB_ITEM
@@ -77,7 +77,7 @@ BYTE fill[2];
 BYTE fill[3];
 	DWORD           bUnk2;
 	BYTE            dwUnk1;
-	BYTE            bUnk3;
+	BYTE            Yardrat_Tab_Type;
 };
 
 struct sHLS_ITEM_TBLDAT
