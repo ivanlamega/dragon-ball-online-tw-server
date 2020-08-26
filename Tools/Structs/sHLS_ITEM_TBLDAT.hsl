@@ -93,3 +93,15 @@ BYTE fill[2];
 BYTE fill[1];
 	WORD			wDisplayBitFlag;
 };
+
+struct sHLS_MERCHANT_TBLDAT
+{
+  DWORD Tblidx;
+  DWORD dwTab_Name;
+  WCHAR Name_Text[10 + 1];
+  BYTE Tab_Type;
+  BYTE gap23[1];
+  DWORD Start_Item_Tblidx;
+  DWORD End_Item_Tblidx;
+  BYTE Hls_Merchant_Data_Type;
+};
