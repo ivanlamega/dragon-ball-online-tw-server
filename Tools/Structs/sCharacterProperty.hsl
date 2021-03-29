@@ -1,0 +1,103 @@
+/*****************************************************************************
+ * filesystems.hsl - Structure definitions for file system related entities.
+ *     This presently includes the MBR, and BOOTSECTORs for FAT16, FAT32, and
+ *     NTFS.
+ *  
+ * Copyright (c) 2003-2008 BreakPoint Software, Inc.  All Rights Reserved
+ *
+ *****************************************************************************
+ * Revision History:
+ *  05/01/03 - RJA - Original
+ *  10/16/07 - RJA - Formatting tweaks, use blob for ByteCode
+ *  12/16/09 - RJA - Added enumsign pragmas
+ */
+
+#include "standard-types.hsl"
+#pragma hide()
+enum EAnimEventType
+{
+	EVENT_ANIM_NONE,							///< Default
+	EVENT_ANIM_END,								///< Animation Play°¡ ³¡³µÀ» ¶§
+	EVENT_ANIM_HIT,								///< Hit Event
+    EVENT_ANIM_VISUAL_EFFECT,					///< Visual Effect°¡ ³ª¿Ã ¶§ (Loop EffectÀÇ °æ¿ì AnimationÀÌ ¹Ù²ð °æ¿ì ¼Ò¸êµÈ´Ù.)
+    EVENT_ANIM_VISUAL_SOUND,					///< Sound¸¦ Play¸¦ ÇØ¾ß ÇÒ °æ¿ì
+    EVENT_ANIM_FOOT_STEP,						///< Character°¡ ¹ßÀÌ ¶¥¿¡ ¶¦¾ÒÀ» °æ¿ì
+    EVENT_ANIM_LINK_EFFECT,						///< Character°¡ Create°¡ µÉ ¶§ ºÎÅÍ ºÙ´Â Effect (Loop Effect¸¸ °¡´É)
+    EVENT_ANIM_WEIGHT_TIME,						///< Character°£ÀÇ ÀüÅõ¿¡¼­ Æ¯Á¤ ½Ã°£ µ¿¾È TimeÀ» ºü¸£°Ô ¶Ç´Â ´Ê°Ô Play ÇÒ°æ¿ì(HTB¿¡¼­¸¸ »ç¿ëÀÌ µÈ´Ù.)
+    EVENT_ANIM_TRACE_EFFECT,                    ///< ±ËÀû ÀÌÆåÆ® ÀÌº¥Æ®
+    EVENT_ANIM_SUB_WEAPON,                      ///< SubWeapon È°¼ºÈ­ ÀÌº¥Æ®
+    EVENT_ANIM_POST_EFFECT,						///< PostEffect Event
+	EVENT_ANIM_SUMMON_PET,						///< SummonPet Effect
+    EVENT_ANIM_TMQ,                             ///< TMQ Event
+    EVENT_ANIM_ALPHA,                           ///< Alpha Fade Event
+    EVENT_ANIM_EXPLOSION,                       ///< TMQ Æø¹ß ÀÌº¥Æ®
+    EVENT_ANIM_DIRECT,                          ///< ¿¬Ãâ¿ë ÀÌº¥Æ®
+    EVENT_ANIM_COLOR_CHANGE,                    ///< ÄÃ·¯ Ã¼ÀÎÁö ÀÌº¥Æ®
+    EVENT_ANIM_STRETCH,                         ///< º»À» ´Ã¸®´Â ÀÌº¥Æ®
+    EVENT_ANIM_TRIGGER,                         ///< ½ºÅ³µî¿¡¼­ »ç¿ëµÇ´Â Æ®¸®°Å ÀÌº¥Æ®
+    EVENT_ANIM_SKILL_CANCEL,                    ///< ½ºÅ³ Äµ½½ Å¸ÀÌ¹Ö ÀÌº¥Æ®
+}EAnimEventType;
+
+struct sAnimEvent
+{
+int nEventId;
+
+}sAnimEvent;
+
+struct STypeAnimData 
+{
+char strAnimName[26];
+DWORD uiAnimKey;
+float fPlayTime;
+DWORD flagAnim;
+
+DWORD nAnimEventSize;
+sAnimEvent animEvent[nAnimEventSize];
+}STypeAnimData;
+
+
+
+struct RwV3d
+{
+    float x;   /**< X value */
+    float y;   /**< Y value */
+    float z;   /**< Z value */
+}RwV3d;
+
+struct SEventLinkEffect
+{
+	float			fTime;
+	EAnimEventType	eEventID;
+
+	char  chEffectName[32];
+	char  chBoneName[32];
+	RwV3d   vOffsetPos;
+	int  bAttachBone;
+
+}SEventLinkEffect;
+
+struct sContent
+{
+char strName[11];
+DWORD uiFlag;
+char strTexturePath[1];
+char strSoundPath[1];
+char TypeMeshFileName[15];
+char m_strMeshPath[21];
+float m_fAlphaDistance;
+DWORD uiLinkEffectSize;
+SEventLinkEffect evtLinkEff[uiLinkEffectSize];
+char strAnimPath[35];
+DWORD nAnimDataCount;
+STypeAnimData animData[nAnimDataCount];
+
+}sContent;
+
+#pragma show()
+struct sCharacterProperty
+{
+DWORD version;
+zstring ItemDataPath;
+DWORD uiPropertySize;
+sContent content[1];
+};
