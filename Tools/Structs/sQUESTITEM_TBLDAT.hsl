@@ -16,11 +16,11 @@
 
 struct sQUESTITEM_TBLDAT
 {
-	unsigned int			tblidx;		// °ФАУ»уїЎ ЗҐЅГµЙ ItemАЗ АМё§
-	unsigned int			ItemName;		// °ФАУ»уїЎ ЗҐЅГµЙ ItemАЗ АМё§
+	DWORD			tblidx;		// °ФАУ»уїЎ ЗҐЅГµЙ ItemАЗ АМё§
+	DWORD			ItemName;		// °ФАУ»уїЎ ЗҐЅГµЙ ItemАЗ АМё§
 //	std::string		strIconName;	// IconАЗ File АМё§
 	char			szIconName[ 35 + 1 ];		// IconАЗ File АМё§
-	unsigned int			Note;		// Quest itemАЗ јіён
+	DWORD			Note;		// Quest itemАЗ јіён
 	BYTE			byFunctionBitFlag;
 BYTE fill[3];
 };

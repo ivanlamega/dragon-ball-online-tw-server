@@ -21,99 +21,36 @@ struct CNtlVector
 	float z;
 }CNtlVector;
 
-struct sOBJECT_TBLDAT3
-{
-  //_BYTE gap0[4];
-  DWORD dword4;
-  DWORD dword8;
-  DWORD dwordC;
-  float float10;
-  float float14;
-  float float18;
-  float float1C;
-  float float20;
-  float float24;
-  float float28;
-  float float2C;
-  float float30;
-  float float34;
-  float float38;
-  float float3C;
-  BYTE byte40;
-  BYTE byte41;
-  BYTE byte42;
-  BYTE gap43[781];
-  DWORD dword350;
-  DWORD dword354;
-  BYTE byte358;
-  WORD word35A;
-  WORD word35C;
-  WORD word35E;
-  DWORD dword360;
-  DWORD dword364;
-};
-
-struct sOBJECT_TBLDAT2
-{
-  //BYTE gap0[4];
-  DWORD tblidx;
-  DWORD dwName;
-  DWORD wFunction;
-  CNtlVector		vMin;
-  CNtlVector		vMax;
-  CNtlVector		vLoc;
-  CNtlVector		vDir;
-  BYTE byStateType;
-  BYTE byDefMainState;
-  BYTE byDefSubState;
-  //BYTE gap43[773];
-	BYTE			abyState[10][10];
-	char			achClickSound[10][64];
-	// 로딩 데이타
-	char			szModelName[32 + 1];
-	float			fRadius;
-	DWORD			dwSequence;
-  DWORD contentsTblidx;
-  DWORD objectDirectionIndex;
-  BYTE byBoundaryDistance;
-BYTE fill;
-  WORD minQuestId;
-  WORD maxQuestId;
-  WORD word35E;
-  DWORD dword360;
-  DWORD dword364;
-};
-
-
 struct sOBJECT_TBLDAT
 {
-unsigned int tblidx;
+DWORD tblidx;
 	DWORD			dwName;
-	DWORD			wFunction;
+	DWORD			dwFunction;
 
 	CNtlVector		vMin;
 	CNtlVector		vMax;
 	CNtlVector		vLoc;
 	CNtlVector		vDir;
 
-	// Object state 관련 변수들
 	BYTE			byStateType;
 	BYTE			byDefMainState;
 	BYTE			byDefSubState;
 	BYTE			abyState[10][10];
 	char			achClickSound[10][64];
-	// 로딩 데이타
-	char			szModelName[32 + 1];
 
-	// 로딩시 계산되는 변수들
-	float			fRadius; // 로딩시에 계산하는 변수
-	DWORD			dwSequence; // 로딩시에 계산하는 순서 값 ( 클라이언트와 서버의 핸들값 공유에 사용 )
+	char			szModelName[ 32 + 1 ];
 
-	DWORD			contentsTblidx; // 오브젝트에서 물고 있는 링크 테이블 인덱스
+	float			fRadius;
+	DWORD			dwSequence; // Order to calculate the value at the time of loading (using the handle value of the shared client and server)
+
+	DWORD			contentsTblidx;
 	DWORD			objectDirectionIndex;
 	BYTE			byBoundaryDistance;
-BYTE fill;
+BYTE fill[1];
 	WORD			minQuestId;
 	WORD			maxQuestId;
-	BYTE			Unk[10];
+
+	WORD			wWarfog;
+	DWORD			ZoneId; 
+	DWORD			WorldId; 
 };

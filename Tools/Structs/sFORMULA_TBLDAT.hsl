@@ -16,28 +16,6 @@
 struct sFORMULA_TBLDAT
 {
 DWORD Tblidx;
-	WCHAR awName[40 + 1];
-	DWORD tbxSystemEffect;
-	BYTE	bySetType;
-	BYTE	byRvType;
-	BYTE	ByExclIdex;
-	BYTE	byMinLevel;
-	BYTE	byMaxLevel;
-	BYTE	byFrequency;
-	WORD	wEnchantValue;
-	BYTE	byKind;
-	DWORD	dwEquip;
-	BYTE	byGroupNo;
-	WORD	wMaxValue;
-	BYTE	bIsSuperior;
-	BYTE	bIsExcellent;
-	BYTE	bIsRare;
-	BYTE	bIsLegendary;
-};
-
-struct sFORMULA_TBLDAT2
-{
-DWORD Tblidx;
 	bool			bValidity_Able;
 BYTE fill[3];
 	float			afRate[4];

@@ -14,318 +14,63 @@
 
 #include "standard-types.hsl"
 
-struct sMOB_TBLDAT3
-{
-unsigned int			tblidx;
-
-	unsigned int			basicLP;
-	unsigned short			basicEP;
-
-	unsigned short			basePhysicalDefense;
-	unsigned short			baseEnergyDefense;
-
-	unsigned short			strength;
-	unsigned short			constitution;
-	unsigned short			focus;
-	unsigned short			dextery;
-	unsigned short			soul;
-	unsigned short			energy;
-
-BYTE fill[2];
-
-	float					fScale;
-
-	unsigned short			attackSpeedRate;
-	unsigned char			attackType;
-
-BYTE fill[1];
-
-	float					attackRange;
-
-	unsigned short			attackRate;
-	unsigned short			dodgeRate;
-
-	unsigned short			blockRate;
-	unsigned short			curseSuccessRate;
-
-	unsigned short			curseToleranceRate;
-BYTE fill[2];
-	float					unknown; //unsigned int	basicAggroPoint;
-
-	unsigned short			basicAggroPoint; // No es seguro que esto sea el basicAggroPoint
-BYTE fill[2];
-	bool					validityable;
-BYTE fill[3];
-
-
-	unsigned int			nameTblidx;
-	
-	wchar					nameText[40 + 1];
-	char					modelName[32 + 1];
-
-	unsigned char			level;
-	unsigned char			unknown3;
-BYTE fill[3];
-	unsigned long			aiBitFlag;
-
-	unsigned short			lpRegeneration;
-	unsigned short			epRegeneration;
-
-	unsigned char			attackAnimationQuantity;
-	unsigned char			battleAttribute;
-
-	unsigned short			basicOffence;
-	unsigned short			unknown4;
-
-BYTE fill[2];
-
-	float					walkSpeedOrigin;
-	float					walkSpeed;
-	float					runSpeedOrigin;
-	float					runSpeed;
-	float					radiusX;
-	float					radiusZ;
-
-	unsigned short			sightRange;
-	unsigned short			scanRange;
-
-	unsigned short			useSkillTime[7];
-BYTE fill[2];
-	unsigned int			useSkillTblidx[7];
-	unsigned char			useSkillBasis[7];
-BYTE fill[1];
-	unsigned short			useSkillLP[7];
-
-	unsigned char			visibleSightRange;
-	char					cameraBoneName[32 + 1];
-
-	unsigned short			attackCoolTime;
-BYTE fill[2];
-	float					flyHeight;
-
-	char					nameText2[40 + 1];
-
-	bool					spawnAnimation;
-BYTE fill[2];
-	unsigned long			dialogGroup;
-
-	char					ilLust[32 + 1];
-BYTE fill[3];
-	unsigned long			allianceIDX;
-	unsigned short			aggroMaxCount;
-
-BYTE fill[2];
-
-	unsigned int			unknown5;
-	unsigned short			unknown6[4];
-
-	unsigned long		    mobGroup;
-	unsigned short			mobKind;
-
-BYTE fill[2];
-
-	unsigned int			dropZenny;
-	float					dropZennyRate;
-
-	//Apartir de aqu creo que estan mal los valores, luego tendriamos que analizarlos.
-
-	unsigned int			exp;
-
-	unsigned char			mobType;
-BYTE fill[7];
-	unsigned char			grade;
-BYTE fill[1];
-WORD unknown;
-
-	unsigned int			dropItemTblidx;
-
-	bool					size;
-	unsigned char			tmqPoint;
-
-	unsigned int			dropQustTblidx;
-BYTE fill[2];
-	unsigned int			dropTypeTblidx;
-	unsigned int			dropEachTblidx;
-							
-	unsigned char			dropTypeRateControl;
-	unsigned char			dropEachRateControl;
-							
-	unsigned char			dropNItemRateControl;
-	unsigned char			dropSItemRateControl;
-	unsigned char			dropEItemRateControl;
-	unsigned char			dropLItemRateControl;
-
-BYTE fill[2];
-
-	bool					showName;
-
-	unsigned char			property;
-	unsigned char			hitBlockRate;
-
-	unsigned short			sightAngle;
-	unsigned char			unknown8[75];
-};
-
-struct sNPC_TBLDAT2
-{
-  //_BYTE gap0[4];
-  DWORD tblidx;
-  DWORD wBasic_LP;
-  WORD wBasic_EP;
-  WORD wBasic_Physical_Defence;
-  WORD wBasic_Energy_Defence;
-  WORD byStr;
-  WORD byCon;
-  WORD byFoc;
-  WORD byDex;
-  WORD bySol;
-  WORD byEng;
-BYTE fill[2];
-  float fScale;
-  WORD wAttack_Speed_Rate;
-  BYTE byAttack_Type;
-BYTE fill[1];
-  float fAttack_Range;
-  WORD wAttack_Rate;
-  WORD wDodge_Rate;
-  WORD wBlock_Rate;
-  WORD wCurse_Success_Rate;
-  WORD wCurse_Tolerance_Rate;
-BYTE fill[2];
-  float fRadius;
-  WORD wBasic_Aggro_Point;
-BYTE fill[2];
-  bool bValidity_Able;
-BYTE fill[3];
-  DWORD Name;
-	WCHAR			wszNameText[40 + 1];
-	char			szModel[32 + 1];
-  BYTE byLevel;
-  BYTE byGrade;
-BYTE fill[3];
-  DWORD dwAi_Bit_Flag;
-  WORD wLP_Regeneration;
-  WORD wEP_Regeneration;
-  BYTE byAttack_Animation_Quantity;
-  BYTE byBattle_Attribute;
-  WORD wBasicPhysicalOffence;
-  WORD wBasicEnergyOffence;
-BYTE fill[2];
-  float fWalk_Speed_Origin;
-  float fWalk_Speed;
-  float fRun_Speed_Origin;
-  float fRun_Speed;
-  float fRadius_X;
-  float fRadius_Z;
-  WORD bySight_Range;
-  WORD byScan_Range;
-	WORD			wUse_Skill_Time[7];
-BYTE fill[2];
-	DWORD			use_Skill_Tblidx[7];
-	BYTE			byUse_Skill_Basis[7];
-BYTE fill[1];
-	WORD			wUse_Skill_LP[7];
-  BYTE byVisible_Sight_Range;
-  char szCamera_Bone_Name[33];
-  WORD wAttackCoolTime;
-BYTE fill[2];
-  float fFly_Height;
-  BYTE nameText2[41];
-  BYTE bSpawn_Animation;
-BYTE fill[2];
-  DWORD dwDialogGroup;
-  BYTE dwDialogGroup[33];
-BYTE fill[3];
-  DWORD dwAllianceIdx;
-  WORD wAggroMaxCount;
-BYTE fill[2];
-  DWORD dwAttributeBitFlag;
-  WORD stomachacheDefence;
-  WORD poisonDefense;
-  WORD bleedDefense;
-  WORD burnDefense;
-// NPC table
-  BYTE byNpcType;
-  BYTE byJob;
-BYTE fill[2];
-  DWORD dwFunc_Bit_Flag;
-  DWORD Dialog_Script_Index;
-	DWORD			amerchant_Tblidx[6];
-  DWORD statusTransformTblidx;
-  DWORD contentsTblidx;
-  WORD warFog;
-BYTE fill[2];
-  DWORD zoneID;
-  DWORD worldID;
-};
-
 struct sNPC_TBLDAT
 {
 DWORD tblidx;
-DWORD			wBasic_LP;
-	WORD			wBasic_EP;
 
+int				dwBasic_LP;
+	WORD			wBasic_EP;
 	WORD			wBasic_Physical_Defence;
 	WORD			wBasic_Energy_Defence;
 
-	WORD			byStr;
-	WORD			byCon;
-	WORD			byFoc;
-	WORD			byDex;
-	WORD			bySol;
-	WORD			byEng;
-
+	WORD			wBasicStr;
+	WORD			wBasicCon;
+	WORD			wBasicFoc;
+	WORD			wBasicDex;
+	WORD			wBasicSol;
+	WORD			wBasicEng;
 BYTE fill[2];
-
 	float			fScale;
-	WORD			wAttack_Speed_Rate;
+	WORD			wAttack_Speed_Rate; // ¸Ç¼Õ °ø°Ý½ÃÀÇ ¾Ö´Ï¸ÞÀÌ¼Ç ¼Óµµ¿¡ ´ëÇÑ %
 	BYTE			byAttack_Type;
-
 BYTE fill[1];
-
 	float			fAttack_Range;
 	WORD			wAttack_Rate;
 	WORD			wDodge_Rate;
 	WORD			wBlock_Rate;
 	WORD			wCurse_Success_Rate;
 	WORD			wCurse_Tolerance_Rate;
-
 BYTE fill[2];
-
 	float			fRadius;
 	WORD			wBasic_Aggro_Point;
 BYTE fill[2];
-	bool			bValidity_Able;
+bool			bValidity_Able;
 BYTE fill[3];
 	DWORD			Name;
-
-	WCHAR			wszNameText[40 + 1];
-	char			szModel[32 + 1];
-
+	WCHAR			wszNameText[ 40 + 1 ];
+	char			szModel[ 32 + 1 ];
 	BYTE			byLevel;
-	BYTE			byGrade; //TW
+	BYTE			byGrade;
 BYTE fill[3];
 	DWORD			dwAi_Bit_Flag;
 
 	WORD			wLP_Regeneration;
 	WORD			wEP_Regeneration;
-
 	BYTE			byAttack_Animation_Quantity;
 	BYTE			byBattle_Attribute;
 
-	WORD			wBasicPhysicalOffence;
-	WORD			wBasicEnergyOffence;
-
+	WORD			wBasic_Physical_Offence;
+	WORD			wBasic_Energy_Offence;
 BYTE fill[2];
-
 	float			fWalk_Speed_Origin;
 	float			fWalk_Speed;
 	float			fRun_Speed_Origin;
 	float			fRun_Speed;
 	float			fRadius_X;
 	float			fRadius_Z;
-	WORD			bySight_Range;
-	WORD			byScan_Range;
+
+	WORD			wSight_Range;
+	WORD			wScan_Range;
 
 	WORD			wUse_Skill_Time[7];
 BYTE fill[2];
@@ -335,35 +80,33 @@ BYTE fill[1];
 	WORD			wUse_Skill_LP[7];
 
 	BYTE			byVisible_Sight_Range;
-	CHAR			szCamera_Bone_Name[32 + 1];
+
+	char			szCamera_Bone_Name[ 32 + 1 ];
 
 	WORD			wAttackCoolTime;
-BYTE fill[2];
+BYTE fill[2]; 
 	float			fFly_Height;
-	DWORD 			unk[2];
-	CHAR			szNameText[32 + 1];
-	
+
+	char			szNameText[ 40 + 1 ];
+
 	bool			bSpawn_Animation;
 BYTE fill[2];
 	DWORD			dwDialogGroup;
-
-	CHAR			szILLust[32 + 1];
+	char			szILLust[ 32 + 1 ];
 BYTE fill[3];
-	DWORD			dwAllianceIdx;
+	DWORD			dwAllianceIdx; 
 	WORD			wAggroMaxCount;
-
 BYTE fill[2];
-
-	DWORD			dwAttributeBitFlag;
-	WORD			stomachacheDefence;
-	WORD			poisonDefense;
-	WORD			bleedDefense;
-	WORD			burnDefense;
+	DWORD			dwNpcAttributeFlag;
+	WORD			wStomachacheDefence;
+	WORD			wPoisonDefence;
+	WORD			wBleedDefence;
+	WORD			wBurnDefence;
 
 
 		BYTE			byNpcType;
 	BYTE			byJob;
-	//BYTE padding[2];
+BYTE padding[2];
 	DWORD			dwFunc_Bit_Flag;
 
 	DWORD			Dialog_Script_Index;
@@ -371,7 +114,7 @@ BYTE fill[2];
 	DWORD			statusTransformTblidx;
 	DWORD			contentsTblidx;
 	WORD			warFog;
-	//BYTE Padding[2];
+BYTE Padding[2];
 	DWORD			zoneID;
 	DWORD			worldID;
 

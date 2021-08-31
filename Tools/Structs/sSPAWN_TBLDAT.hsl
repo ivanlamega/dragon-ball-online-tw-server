@@ -14,35 +14,6 @@
 
 #include "standard-types.hsl"
 
-struct sSPAWN_TBLDAT2
-{
-  //_BYTE gap0[4];
-  DWORD dword4;
-  DWORD dword8;
-  float floatC;
-  float float10;
-  float float14;
-  float float18;
-  float float20;
-  BYTE byte24;
-  BYTE byte25;
-  WORD word26;
-  BYTE byte28;
-  BYTE byte29;
-  BYTE byte2A;
-  BYTE byte2B;
-  DWORD dword2C;
-  float float30;
-  float float38;
-  DWORD dword3C;
-  DWORD dword40;
-  DWORD dword44;
-  DWORD dword48;
-  DWORD dword4C;
-  BYTE byte50;
-  DWORD dword54;
-};
-
 struct sVECTOR3
 {
 	float x;

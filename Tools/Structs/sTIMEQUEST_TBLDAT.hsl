@@ -1,0 +1,77 @@
+/*****************************************************************************
+ * filesystems.hsl - Structure definitions for file system related entities.
+ *     This presently includes the MBR, and BOOTSECTORs for FAT16, FAT32, and
+ *     NTFS.
+ *  
+ * Copyright (c) 2003-2008 BreakPoint Software, Inc.  All Rights Reserved
+ *
+ *****************************************************************************
+ * Revision History:
+ *  05/01/03 - RJA - Original
+ *  10/16/07 - RJA - Formatting tweaks, use blob for ByteCode
+ *  12/16/09 - RJA - Added enumsign pragmas
+ */
+
+#include "standard-types.hsl"
+struct sTIMEQUEST_DATASET
+{
+	DWORD			nameTblidx; // Quest title text index
+	DWORD			questStringTblidx; // Quest Description Text Index
+	DWORD			worldTblidx; // World Index
+	DWORD			scriptTblidx; // Script Index
+
+	BYTE			byMinMemberCount; // Minimum number of people
+	BYTE			byMaxMemberCount; // Maximum number of people
+	BYTE			byMinMemberLevel; // Minimum level
+	BYTE			byMaxMemberLevel; // Maximum level
+
+	DWORD			dwLimitTime; // Timeout
+	DWORD			dwNeedZenny; // Admission fee
+	DWORD			needItemTblidx; // Required Item Index
+
+	BYTE			byNeedLimitCount;	// need item count
+	BYTE			byWorldCount;		// world count
+BYTE fill[2];
+	DWORD			dayRecordRewardTblidx;
+	DWORD			bestRecordRewardTblidx;
+	
+	
+}sTIMEQUEST_DATASET;
+
+struct sTIMEQUEST_TBLDAT
+{
+
+DWORD tblidx;
+
+BYTE			byTimeQuestType; // Å¸ÀÓÄù½ºÆ® Å¸ÀÔ ( eTIMEQUEST_TYPE )
+	BYTE			byDifficultyFlag; // ³­ÀÌµµ ÇÃ·¡±×( eTIMEQUEST_DIFFICULTY_FLAG )
+BYTE fill[2];
+	DWORD			dwStartTime; // ½ÃÀÛ½Ã°£ ( ÇÏ·ç 00:00 À» ±âÁØÀ¸·Î ½ÃÀÛµÇ´Â ºÐ´ÜÀ§¸¦ ³Ö´Â´Ù )
+
+	DWORD			startCharacterDirection;
+	DWORD			startObjectIndex;
+	DWORD			startTriggerId;
+
+	BYTE			abyStartTriggerDirectionState[10]; //new
+BYTE fill[2];
+	DWORD			arriveCharacterDirection;
+	DWORD			arriveObjectIndex;
+	DWORD			arriveTriggerId;
+
+	DWORD			leaveCharacterDirection;	
+	DWORD			leaveObjectIndex;	
+	DWORD			leaveTriggerId;
+
+	DWORD			dayRecordMailTblidx;
+	DWORD			bestRecordMailTblidx;
+
+	BYTE			byResetTime;				// ¸®¼Â ½ÃÅ°´Â ½Ã°£ 0~23 »ç¿ë
+BYTE fill[1];
+	WCHAR			wszPrologueDirection[ 32 + 1 ];
+	sTIMEQUEST_DATASET sTimeQuestDataset[ 3 ];
+	DWORD			openCine;
+	DWORD			Note;
+	WCHAR			wszStageBgm1[ 32 + 1 ];
+	WCHAR			wszStageBgm2[ 32 + 1 ];
+	WCHAR			wszLastBgm[ 32 + 1 ];
+};

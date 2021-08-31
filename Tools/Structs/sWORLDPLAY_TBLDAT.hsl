@@ -23,14 +23,3 @@ DWORD tblidx;
 BYTE fill[2];
 	DWORD					dwShareLimitTime;	// Share Limit Time
 };
-
-struct sWORLDPLAY_TBLDAT2
-{
-  //_BYTE gap0[4];
-  DWORD dword4;
-  DWORD dword8;
-  BYTE byteC;
-  BYTE byteD;
-BYTE fill[2];
-  DWORD dword10;
-};

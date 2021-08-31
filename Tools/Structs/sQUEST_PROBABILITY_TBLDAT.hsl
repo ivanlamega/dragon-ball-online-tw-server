@@ -13,38 +13,40 @@
  */
 
 #include "standard-types.hsl"
-
-struct sQUEST_PROBABILITY_TBLDAT2
+enum ePROBABILITY_USE_TYPE
 {
-  //_BYTE gap0[4];
-  DWORD dword4;
-  BYTE gap8[642];
-BYTE fill[2];
-  DWORD dword28C;
-  BYTE byte290;
-  BYTE byte291;
-};
+  PROBABILITY_USE_TYPE_TS = 0,
+  PROBABILITY_USE_TYPE_TS_DROP,
+  PROBABILITY_USE_TYPE_TMQ_DAYRECORD,
+  PROBABILITY_USE_TYPE_GAMBLE_SHOP,
+  PROBABILITY_USE_TYPE_GAMBLE_ITEM,
+  PROBABILITY_USE_TYPE_SUB_REWARD,
+
+  PROBABILITY_USE_TYPE_COUNT,
+  INVALID_PROBABILITY_USE_TYPE = 0xFF,
+}ePROBABILITY_USE_TYPE;
 
 struct sQUEST_PROBABILITY_DATA
 {
-	BYTE byType; //REWARD_TYPE
-	BYTE unknown[3];//FFFFFF
-	DWORD tblidx;
-	DWORD dwMinValue;
-	DWORD dwMaxValue;
-	DWORD    fRate;
+	BYTE	byType;			// eREWARD_TYPE
+BYTE unknown[3];
+	DWORD	tblidx;			// Å×ÀÌºí ÀÎµ¦½º INVALID_
+	DWORD	dwMinValue;		// ÃÖ¼Ò °ª
+	DWORD	dwMaxValue;		// ÃÖ´ë °ª
+	DWORD	dwRate;
 }sQUEST_PROBABILITY_DATA;
 
 struct sQUEST_PROBABILITY_TBLDAT
 {
 DWORD tblidx;
-	WCHAR wszName[64 + 1];
-	WCHAR wszNote[255 + 1];
+	WCHAR					wszName[64 + 1];
+	WCHAR					wszNote[255 + 1];
 BYTE fill[2];
-	//BYTE padding[2];
-	DWORD byProbabilityType;
-	WORD unknown;
-	BYTE unknown2;
+	ePROBABILITY_USE_TYPE	eUseType; //new
+	BYTE					byProbabilityType;	// ePROBABILITY_TYPE
+
+	bool					bAllowBlank; //new
+	BYTE					byCount; //new
 BYTE fill[1];
-	sQUEST_PROBABILITY_DATA    asProbabilityData[50];
+	sQUEST_PROBABILITY_DATA	asProbabilityData[50];
 };

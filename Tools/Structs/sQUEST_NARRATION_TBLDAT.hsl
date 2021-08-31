@@ -13,16 +13,27 @@
  */
 
 #include "standard-types.hsl"
-
-struct sDIRECTION_LINK_TBLDAT 
+struct sQUEST_NARRATION_DATASET
 {
-	DWORD tblidx;
+	BYTE			byUIShowHideDirection;
+	BYTE			byOwnerType;
+BYTE fill[2];
+	DWORD			dwOwner;
+	BYTE			byCondition;
+	BYTE			byDirection;
+BYTE fill[2];
+	DWORD			dwDialog;
+	BYTE			byUiType;
+	BYTE			byUIDirection;
+BYTE fill[2];
+}sQUEST_NARRATION_DATASET;
 
-	char			szFunctionName[ 256 + 1 ];
-	char			szNote[ 32 + 1 ];
-	BYTE			byType;
+struct sQUEST_NARRATION_TBLDAT
+{
+DWORD tblidx;
+	bool			bType;		// false : Narration, true : Mini narration
+	BYTE			byNumber;	
+	BYTE			byTime;
 BYTE fill[1];
-	DWORD			dwAnimationID;
-	BYTE			byFuncFlag;
-BYTE fill[3];
-};
+	sQUEST_NARRATION_DATASET asData[20];
+} ;

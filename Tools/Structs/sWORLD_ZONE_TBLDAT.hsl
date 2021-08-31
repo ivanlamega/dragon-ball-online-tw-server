@@ -14,14 +14,6 @@
 
 #include "standard-types.hsl"
 
-
-struct sVECTOR3
-{
-	float x;
-	float y;
-	float z;
-}sVECTOR3;
-
 struct sWORLD_ZONE_TBLDAT 
 {
 DWORD Tblidx;
@@ -31,4 +23,5 @@ BYTE fill[2];
 	DWORD			nameTblidx;
 	WCHAR			wszName_Text[ 40 + 1 ];
 	bool			bForbidden_Vehicle;
+BYTE fill[1];
 };

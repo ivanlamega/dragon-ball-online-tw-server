@@ -11,33 +11,31 @@
  *  10/16/07 - RJA - Formatting tweaks, use blob for ByteCode
  *  12/16/09 - RJA - Added enumsign pragmas
  */
-
 #include "standard-types.hsl"
 
-
-struct sVECTOR3
+struct sRANKBATTLE_POINT_TBLDAT
 {
-	float x;
-	float y;
-	float z;
-}sVECTOR3;
+	WORD		wStageWin;
+	WORD		wStageDraw;
+	WORD		wStageLose;
+	WORD		wWin;
+	WORD		wPerfectWin;
+}sRANKBATTLE_POINT_TBLDAT;
 
-struct sPORTAL_TBLDAT 
+struct sEXP_TBLDAT
 {
-DWORD Tblidx;
-	DWORD			dwPointName;
-	char			szPointNameText[ 40 + 1];
-BYTE fill[3];
-	DWORD			ZoneMapIdx; // new
+DWORD tblidx;
 
-	DWORD			worldId;
+DWORD		dwExp;
+	DWORD		dwNeed_Exp;
 
-	BYTE			byGrade; //1 = camp, 2 = town
-BYTE fill[3];
-	sVECTOR3		vLoc;
-	sVECTOR3		vDir;
-	sVECTOR3		vMap;
-	BYTE		aPoint[70];
-BYTE fill[2];
-	DWORD			adwPointZenny[70];
+	sRANKBATTLE_POINT_TBLDAT sIndividualRankPoint;
+	sRANKBATTLE_POINT_TBLDAT sTeamRankPoint;
+
+	WORD		wNormal_Race; // Normal_Race
+	WORD		wSuperRace; // Super_Race
+	DWORD		dwMobExp; // Mob_Exp
+	DWORD		dwPhyDefenceRef; // Phy_Defence_Ref
+	DWORD		dwEngDefenceRef; // Eng_Defence_Ref
+	DWORD		dwMobZenny; // Mob_Zenny	
 };

@@ -28,38 +28,6 @@ struct sNEWBIE_QUICKSLOT_DATA
 	BYTE			byQuickSlot;
 }sNEWBIE_QUICKSLOT_DATA;
 
- struct newbietable
-{
-  //BYTE gap0[4];
-  DWORD dword4;
-  BYTE byte8;
-  BYTE byte9;
-  DWORD dwordC;
-  DWORD dword10;
-  float float14;
-  float float18;
-  float float1C;
-  float float20;
-  BYTE gap24[4];
-  float float28;
-  float float2C;
-  float float30;
-  float float34;
-  float float38;
-  BYTE gap3C[4];
-  float float40;
-  BYTE gap44[60];
-  DWORD dword80;
-  BYTE gap84[58];
-  BYTE byteBE;
-  BYTE byteBF;
-  BYTE byteC0;
-  DWORD dwordC4;
-  BYTE byteC8;
-  BYTE byteC9;
-  WORD wordCA;
-} ;
-
 struct sNEWBIE_TBLDAT 
 {
 DWORD Tblidx;
@@ -78,14 +46,11 @@ BYTE fill[2];
 	DWORD			mapNameTblidx;
 	DWORD			aSkillTblidx[7];
 	sNEWBIE_QUICKSLOT_DATA	asQuickData[5];
-	BYTE		defaultPortalTblidx;
-	BYTE		defaultPortalTblidx1;
-	BYTE		defaultPortalTblidx2;
+	BYTE		defaultPortalId[3];
 BYTE fill[3];
 	DWORD			qItemTblidx1;
 	BYTE			byQPosition1;
 	BYTE			byQStackQuantity1;
 
-	BYTE unknown3;	/* 0x01 ? */
-	BYTE unknown4;	/* 0x00 ? */
+	WORD			wMixLevelData;
 };

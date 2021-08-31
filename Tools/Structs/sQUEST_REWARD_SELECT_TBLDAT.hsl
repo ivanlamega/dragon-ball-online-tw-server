@@ -14,21 +14,19 @@
 
 #include "standard-types.hsl"
 
-struct sQUEST_REWARD_SELECT_DATASET
+struct sQUEST_REWARD_DATASET
 {
-  BYTE unknown;
+	BYTE						byRewardType;
 BYTE fill[3];
-unsigned int itemTblidx;
-unsigned int amount;
-
-}sQUEST_REWARD_SELECT_DATASET;
+	DWORD						dwRewardIdx;
+	DWORD						dwRewardVal;
+}sQUEST_REWARD_DATASET;
 
 
 struct sQUEST_REWARD_SELECT_TBLDAT2
 {
-  DWORD dword4;
-  BYTE unknown;
+  DWORD tblidx;
+	BYTE		bySelect_Type;
 BYTE fill[3];
-
-sQUEST_REWARD_SELECT_DATASET unknown1[20];
+	sQUEST_REWARD_DATASET		aRewardSet[20];
 };

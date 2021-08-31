@@ -14,15 +14,18 @@
 
 #include "standard-types.hsl"
 
-struct sDIRECTION_LINK_TBLDAT 
+struct sGUIDE_HINT_TBLDAT
 {
-	DWORD tblidx;
+DWORD tblidx;
 
-	char			szFunctionName[ 256 + 1 ];
-	char			szNote[ 32 + 1 ];
-	BYTE			byType;
+BYTE			byType;
+	BYTE			byWidthPosition;
+	BYTE			byHeightPosition;
 BYTE fill[1];
-	DWORD			dwAnimationID;
-	BYTE			byFuncFlag;
-BYTE fill[3];
+	WORD			wWidthSize;
+	WORD			wHeightSize;
+	char			szResource[ 32 + 1];
+	char			szNote[ 32 + 1];
+	bool			bAutoShow;
+BYTE fill[1];
 };

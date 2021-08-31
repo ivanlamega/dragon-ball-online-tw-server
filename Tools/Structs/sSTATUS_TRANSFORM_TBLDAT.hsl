@@ -1,0 +1,41 @@
+/*****************************************************************************
+ * bookmarks.hsl - Hex Workshop Bookmark structure definitions
+ *
+ * Copyright (c) 2008 BreakPoint Software, Inc.  All Rights Reserved.
+ *
+ *****************************************************************************
+ *
+ * The Hex Workshop Bookmark format is fairly simple.  It starts with a 
+ * fixed-length header (struct tagHEADER) and is followed by fixed length
+ * bookmark entries (struct tagENTRY).  Please see the structure definitions
+ * below for details.
+ *
+ */
+
+#include "standard-types.hsl"
+
+struct sSTATUS_TRANSFORM_TBLDAT
+{
+DWORD tblidx;
+
+float			fLP_Transform;
+	float			fEP_Transform;
+	float			fPhysical_Offence_Transform;
+	float			fEnergy_Offence_Transform;
+	float			fPhysical_Defence_Transform;
+	float			fEnergy_Defence_Transform;
+	float			fRun_Speed_Transform;
+	float			fAttack_Speed_Transform;
+	float			fAttack_Rate_Transform;
+	float			fDodge_Rate_Transform;
+	float			fBlock_Rate_Transform;
+	float			fCurse_Success_Transform;
+	float			fCurse_Tolerance_Transform;
+	float			fAttack_Range_Change;
+
+	float			fLP_Consume_Rate;
+	float			fEP_Consume_Rate;
+	DWORD			dwDuration;
+	DWORD			dwDurationInMilliSecs;
+
+};

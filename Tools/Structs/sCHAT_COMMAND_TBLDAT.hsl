@@ -14,30 +14,11 @@
 
 #include "standard-types.hsl"
 
-
-struct sVECTOR3
+struct sCHAT_COMMAND_TBLDAT
 {
-	float x;
-	float y;
-	float z;
-}sVECTOR3;
-
-struct sPORTAL_TBLDAT 
-{
-DWORD Tblidx;
-	DWORD			dwPointName;
-	char			szPointNameText[ 40 + 1];
-BYTE fill[3];
-	DWORD			ZoneMapIdx; // new
-
-	DWORD			worldId;
-
-	BYTE			byGrade; //1 = camp, 2 = town
-BYTE fill[3];
-	sVECTOR3		vLoc;
-	sVECTOR3		vDir;
-	sVECTOR3		vMap;
-	BYTE		aPoint[70];
-BYTE fill[2];
-	DWORD			adwPointZenny[70];
+DWORD tblidx;
+	bool			bValidity_Able;
+BYTE fill[1];
+	WORD			wAction_Animation_Index;
+	DWORD			aChat_Command[8];
 };

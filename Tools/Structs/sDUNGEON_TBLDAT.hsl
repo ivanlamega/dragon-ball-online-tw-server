@@ -13,25 +13,6 @@
  */
 
 #include "standard-types.hsl"
-
-struct sDUNGEON_TBLDAT2
-{
-  //_BYTE gap0[4];
-  DWORD dword4;
-  BYTE byte8;
-  BYTE byte9;
-BYTE fill[2];
-  DWORD dwordC;
-  BYTE byte10;
-  BYTE byte11;
-BYTE fill[2];
-  DWORD dword14;
-  DWORD dword18;
-  DWORD dword1C;
-  DWORD dword20;
-  DWORD dword24;
-};
-
 struct sDUNGEON_TBLDAT
 {
 DWORD tblidx;
@@ -46,5 +27,6 @@ BYTE fill[2];
 	DWORD			dwHonorPoint;
 	DWORD			wpsTblidx;
 	DWORD			openCine;
-  DWORD dword24;
+
+	DWORD			groupIdx;
 } ;

@@ -21,38 +21,6 @@ BYTE fill[3];
 	DWORD				skillTblidx;
 }sHTB_ACTION;
 
-struct sHTB_SET_TBLDAT2
-{
-  //_BYTE gap0[4];
-  DWORD tblidx;
-	wchar				wszNameText[40 + 1];
-BYTE fill[2];
-  DWORD HTB_Skill_Name;
-  BYTE bValidity_Able;
-  BYTE gap61[3];
-  DWORD dwPC_Class_Bit_Flag;
-  BYTE bySlot_Index;
-  BYTE bySkill_Grade;
-	char				szIcon_Name[32 + 1];
-BYTE fill[1];
-  WORD wNeed_EP;
-  BYTE byRequire_Train_Level;
-BYTE fill[1];
-  DWORD dwRequire_Zenny;
-  WORD wNext_Skill_Train_Exp;
-  WORD wCool_Time;
-  DWORD dwCoolTimeInMilliSecs;
-  DWORD Note;
-  BYTE bySetCount;
-  BYTE byStop_Point;
-BYTE fill[2];
-	sHTB_ACTION			aHTBAction[10];
-  WORD wRequireSP;
-BYTE fill[2];
-};
-
-
-
 struct sHTB_SET_TBLDAT
 {
 

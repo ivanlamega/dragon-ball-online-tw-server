@@ -35,5 +35,5 @@ BYTE fill[3];
 	float			fActiveRate;
 	char			szNote[ 128 + 1 ];
 	BYTE			byScouterInfo[4];   // cf) Defined by eSCOUTER_INFO of NtlItem.h 
-
+BYTE fill[3];
 };

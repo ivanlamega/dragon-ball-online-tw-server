@@ -18,48 +18,17 @@
 
 struct sQUEST_REWARD_DATASET
 {
-unsigned int   unknown; //race???
-	DWORD  Item;
-	DWORD  Amount;
-	//BYTE   unk;
-	//BYTE   Padding[3];
+	BYTE						byRewardType;
+BYTE fill[3];
+	DWORD						dwRewardIdx;
+	DWORD						dwRewardVal;
 }sQUEST_REWARD_DATASET;
 
 struct sQUEST_REWARD_TBLDAT
 {
 unsigned int tblidx;
-	DWORD  EXP;
-	DWORD  Zenny;
-	sQUEST_REWARD_DATASET  unk2[8];//Item Need look When quest Working
-};
-
-struct sQUEST_REWARD_TBLDAT2
-{
-DWORD dword4;
-  DWORD dword8;
-  DWORD dwordC;
-  BYTE byte10;
-  DWORD dword14;
-  DWORD dword18;
-  BYTE byte1C;
-  DWORD dword20;
-  DWORD dword24;
-  BYTE byte28;
-  DWORD dword2C;
-  DWORD dword30;
-  BYTE byte34;
-  DWORD dword38;
-  DWORD dword3C;
-  BYTE byte40;
-  DWORD dword44;
-  DWORD dword48;
-  BYTE byte4C;
-  DWORD dword50;
-  DWORD dword54;
-  BYTE byte58;
-  DWORD dword5C;
-  DWORD dword60;
-  BYTE byte64;
-  DWORD dword68;
-  DWORD dword6C;
+	DWORD  dwDef_Reward_EXP;
+	DWORD  dwDef_Reward_Zeny;
+	sQUEST_REWARD_DATASET  arsDefRwd[4];//Item Need look When quest Working
+sQUEST_REWARD_DATASET  arsSelRwd[4];//Item Need look When quest Working
 };
