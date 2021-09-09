@@ -13,11 +13,14 @@
  */
 
 #include "standard-types.hsl"
-
-struct sMOB_SERVER_TBLDAT
+struct sVEHICLE_TBLDAT
 {
 DWORD tblidx;
-BYTE bValidity_Able;
-BYTE fill[3];
-DWORD dwServerBitFlag;
+	char			szModelName[ 32 + 1 ];
+	BYTE			bySRPType;
+	BYTE			bySpeed;
+	BYTE			byVehicleType;
+	WORD			wRunHeight;
+	BYTE			byPersonnel;
+BYTE fill[1];
 };

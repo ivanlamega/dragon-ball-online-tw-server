@@ -1,0 +1,99 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: 
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+struct RwRGBAReal
+{
+    float red;     /**< red component */
+    float green;   /**< green component */
+    float blue;    /**< blue component */
+    float alpha;   /**< alpha component */
+};
+
+struct RwRGBA
+{
+    uchar red;    /**< red component */
+    uchar green;  /**< green component */
+    uchar blue;   /**< blue component */
+    uchar alpha;  /**< alpha component */
+};
+
+struct RwV3d
+{
+    float x;   /**< X value */
+    float y;   /**< Y value */
+    float z;   /**< Z value */
+};
+
+struct RwV2d
+{
+    float x;   /**< X value*/
+    float y;   /**< Y value */
+};
+
+struct sLIGHTDIRECTIONAL
+{
+    RwRGBAReal	_ClrLightDirectional;
+	RwV3d		_AngLightDirectional;
+};
+
+struct sNTL_PLANET
+{
+	RwV3d	_RelativePos;
+	float	_Scale;
+	char	_TexName[10];
+	int	_LensFlareExistence;
+};
+
+struct sNTL_SPECULAR
+{
+	RwV3d	_Direction;
+	RwV2d	_Scale;
+	uchar	_Power;
+	int	_SpecularExistence;
+};
+
+struct sNTL_HEATHAZE
+{
+	float  _MetersPerSec;
+	float	_Extent;
+	float	_Extent_Rand;
+	float	_Scale;
+	int	_HeatHazeExistence;
+};
+
+struct sNTL_FIELD_PROP
+{
+    char        _Name[64];
+    DWORD       _pBitProp[4096];
+    RwRGBA	    _FogColor;
+    float       _FogCamPlane[2];
+    int         _BaseSkyMode;
+    RwRGBA      _RGBSkyColor[3];
+    char        _BaseSkyTexName[10];
+    float       _BaseSkySpeed;
+    char        _BlendedTexName[10];
+    char        _BlendedTexName2[10];
+    float       _BlendedTexSpeed[2];
+    RwRGBAReal  _ClrLightAmbient;
+    sLIGHTDIRECTIONAL sLightDirectional[3];
+    int         _IdxBGMTbl;
+    int         _IdxEnvTbl;
+    int         _IdxShareTbl[5];
+    float       _MonoPower;
+    sNTL_PLANET _NtlPlanet[3];
+    sNTL_SPECULAR   _NtlSpecular;
+    uchar       _pMaterialProp[4096];
+    RwRGBA      _FieldColor;
+    int         _IdxWeather[5];
+    sNTL_HEATHAZE   _NtlHeatHaze;
+}sFieldProp;

@@ -1,0 +1,122 @@
+//--------------------------------------
+//--- 010 Editor v6.0.2 Binary Template
+//
+// File:
+// Author:
+// Revision:
+// Purpose:
+//--------------------------------------
+struct sITEM_TBLDAT
+{
+    DWORD tblidx;
+    BYTE			bValidity_Able;
+BYTE fill[3];
+	DWORD			Name;
+	wchar_t			wszNameText[33]; // -32 because in table we only store 32 + 1
+	char			szIcon_Name[ 32 + 1 ];
+	BYTE			byModel_Type;
+	char			szModel[ 32 + 1 ];
+	char			szSub_Weapon_Act_Model[ 32 + 1 ];
+	BYTE			byItem_Type;
+	BYTE			byEquip_Type;
+	DWORD			dwEquip_Slot_Type_Bit_Flag;
+	WORD			wFunction_Bit_Flag;	//eITEM_FUNC_BIT_FLAG
+	BYTE			byMax_Stack;
+	BYTE			byRank;
+	DWORD			dwWeight; //new
+	DWORD			dwCost;
+	DWORD			dwSell_Price; //new
+	BYTE			byDurability;
+	BYTE			byDurability_Count;
+	BYTE			byBattle_Attribute;
+BYTE fill2[1];
+
+	WORD			wPhysical_Offence;
+	WORD			wEnergy_Offence;
+	WORD			wPhysical_Defence;
+	WORD			wEnergy_Defence;
+
+	float			fAttack_Range_Bonus;
+	WORD			wAttack_Speed_Rate;
+
+	BYTE			byNeed_Min_Level; //new
+	BYTE			byNeed_Max_Level; //new
+
+	DWORD			dwNeed_Class_Bit_Flag;
+
+	DWORD			dwNeed_Gender_Bit_Flag; //new
+
+	BYTE			byClass_Special;
+	BYTE			byRace_Special;
+	WORD			wNeed_Str;
+	WORD			wNeed_Con;
+	WORD			wNeed_Foc;
+	WORD			wNeed_Dex;
+	WORD			wNeed_Sol;
+	WORD			wNeed_Eng;
+BYTE fill3[2];
+	DWORD			set_Item_Tblidx;
+	DWORD			Note;
+	BYTE			byBag_Size;
+BYTE fill4[1];
+	WORD			wScouter_Watt;	
+	DWORD			dwScouter_MaxPower;
+	BYTE			byScouter_Parts_Type1;
+	BYTE			byScouter_Parts_Type2;
+	BYTE			byScouter_Parts_Type3;
+	BYTE			byScouter_Parts_Type4;
+
+
+	DWORD			Use_Item_Tblidx;
+	BYTE			bIsCanHaveOption; //new
+BYTE fill5[3];
+	DWORD			Item_Option_Tblidx;
+
+	BYTE			byItemGroup;
+BYTE fill6[3];
+	DWORD			Charm_Tblidx;
+	WORD			wCostumeHideBitFlag;
+BYTE fill7[2];
+	DWORD			NeedItemTblidx;
+	DWORD			CommonPoint;
+	BYTE			byCommonPointType;
+	BYTE			byNeedFunction;
+BYTE fill8[2];
+	DWORD			dwUseDurationMax;
+	BYTE			byDurationType;		//eDURATIONTYPE
+BYTE fill9[3];
+	DWORD			contentsTblidx;
+	DWORD			dwDurationGroup;
+	BYTE			byDropLevel;
+	BYTE fill20[3];
+	DWORD			enchantRateTblidx;
+	DWORD			excellentTblidx;
+	DWORD			rareTblidx;
+	DWORD			legendaryTblidx;
+
+	BYTE			bCreateSuperiorAble;
+	BYTE			bCreateExcellentAble;
+	BYTE			bCreateRareAble;
+	BYTE			bCreateLegendaryAble;
+	BYTE			byRestrictType;			//eITEM_RESTRICT_TYPE
+BYTE fill11[3];
+	float			fAttack_Physical_Revision;
+	float			fAttack_Energy_Revision;
+	float			fDefence_Physical_Revision;
+	float			fDefence_Energy_Revision;
+
+	BYTE			byTmpTabType;
+	BYTE			bIsCanRenewal;
+	WORD			wDisassemble_Bit_Flag;
+
+	BYTE			byDisassembleNormalMin;
+	BYTE			byDisassembleNormalMax;
+	BYTE			byDisassembleUpperMin;
+	BYTE			byDisassembleUpperMax;
+	BYTE			byUseDisassemble;
+
+	BYTE			byDropVisual;
+};
+
+BYTE skip;
+sITEM_TBLDAT item;

@@ -1,0 +1,503 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: 
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+local char version[] = "1.4";
+
+struct RwV3d
+{
+    float x;   /**< X value */
+    float y;   /**< Y value */
+    float z;   /**< Z value */
+};
+
+struct RwV2d
+{
+    float x;   /**< X value*/
+    float y;   /**< Y value */
+};
+
+struct RwMatrix
+{
+    /* These are padded to be 16 byte quantities per line */
+    RwV3d               right;
+    DWORD            flags;
+    RwV3d               up;
+    DWORD            pad1;
+    RwV3d               at;
+    DWORD            pad2;
+    RwV3d               pos;
+    DWORD            pad3;
+};
+
+struct sM
+{
+    float m[4];
+};
+
+struct _D3DMATRIX {
+        sM m[4];
+};
+
+struct RwRGBA
+{
+    uchar red;    /**< red component */
+    uchar green;  /**< green component */
+    uchar blue;   /**< blue component */
+    uchar alpha;  /**< alpha component */
+};
+
+struct RwRGB
+{
+    uchar red;    /**< red component */
+    uchar green;  /**< green component */
+    uchar blue;   /**< blue component */
+};
+
+struct RwRGBAReal
+{
+    float red;     /**< red component */
+    float green;   /**< green component */
+    float blue;    /**< blue component */
+    float alpha;   /**< alpha component */
+};
+
+struct RwTexCoords
+{
+    float u;   /**< U value */
+    float v;   /**< V value */
+};
+
+struct RwIm3DVertex
+{
+    RwV3d       objVertex;        /**< position */
+    RwV3d       objNormal;        /**< normal */
+    DWORD    color;            /**< emissive color*/
+    float      u;                /**< u */
+    float      v;                /**< v */
+};
+
+struct sNTL_PLANET
+{
+	RwV3d	_RelativePos;
+	float	_Scale;
+	char	_TexName[10];
+	int	_LensFlareExistence;
+};
+
+struct sNTL_SPECULAR
+{
+	RwV3d	_Direction;
+	RwV2d	_Scale;
+	uchar	_Power;
+	int	_SpecularExistence;
+};
+
+struct sNTL_HEATHAZE
+{
+	float  _MetersPerSec;
+	float	_Extent;
+	float	_Extent_Rand;
+	float	_Scale;
+	int	_HeatHazeExistence;
+};
+
+struct sSPLAT_LAYER
+{
+    int         bBool;
+
+    if (bBool)
+    {
+        DWORD uiLength;
+        if (uiLength > 0)
+        {
+            char ReadBuff[uiLength];
+            int bBool2;
+            if(bBool2)
+			{
+                uchar pAlphaValueArray[1024];
+            }
+            _D3DMATRIX m_TextureMat[2];	
+            float m_TextureMatAng;
+            uchar m_TextureMatAdd;	
+        }
+    }
+};
+
+struct sLIGHTOBJECTATTACH
+{
+    DWORD       uiLength;
+    char        chBoneName[uiLength];
+    int         rpLightType;
+    int         bRealLight;
+    RwV3d       vPos;
+    RwV3d       vRotate;
+    RwRGBA      rgba;
+    float       fRadius;
+    float       fAngle;
+    int         bDecal;
+    int         bWorldLight;
+};
+
+struct sLIGHTDIRECTIONAL
+{
+    RwRGBAReal	_ClrLightDirectional;
+	RwV3d		_AngLightDirectional;
+};
+
+struct sATOMIC
+{
+    int     LitmapExisted;
+    if (LitmapExisted)
+    {
+        DWORD uiLength;
+        char szAtomName[uiLength];
+        DWORD uiLength2;
+        char szTexName[uiLength2];
+        int UVCnt;
+        RwTexCoords texCoords[UVCnt];
+    }
+};
+
+struct sLIGHTMAP
+{
+    DWORD       uiLtMapObjectFlags;
+    DWORD       uiLtMapMaterialFlags;
+    int         TotAtomicCnt;
+    sATOMIC     atomic[TotAtomicCnt]<optimize=false>;
+};
+
+struct sPSMAP
+{
+    DWORD       uiLength;
+    char        ReadBuff[uiLength];
+    float       m_CamViewWindowX;
+    RwMatrix    m_matLight;
+    int         Size;
+    if (Strcmp(version, "1.1") == 0)
+    {
+        DWORD pBitsSrc[Size*Size];
+    }
+    else if (Strcmp(version, "1.4") == 0)
+    {
+        RwRGB rgb[Size*Size];
+    }
+};
+
+struct sOBJECT_FILE
+{
+    DWORD       uiSID;
+    DWORD       uiObjectID;
+    DWORD       dwNameIdx;
+    float       fVisibilityDistance;
+    DWORD       uiFlags;
+    int         PSAtomicCnt;
+    sPSMAP      psMap[PSAtomicCnt] <optimize=false>;
+    int         bEnableFlag;
+    if (bEnableFlag)
+    {
+        DWORD uiMilePostGUID;
+    }
+    int         iLightObjectNum;
+    sLIGHTOBJECTATTACH lightObject[iLightObjectNum];
+    INT         bUnknown;
+    if (bUnknown)
+        sLIGHTMAP   lightMap;
+};
+
+struct sOBJECTPROPERTY
+{
+    char        _Name[64];  
+    RwRGBA      _FogColor;
+    float       _FogCamPlane[2];
+    int         _BaseSkyMode;
+    float       _NewSkyValue;
+    RwRGBA      _RGBSkyColor[3];
+    char        _BaseSkyTexName[10];
+    float       _BaseSkySpeed;
+    char        _BlendedTexName[10];
+    char        _BlendedTexName2[10];
+    float       _BlendedTexSpeed[2];
+    RwRGBAReal  _ClrLightAmbient;
+    sLIGHTDIRECTIONAL lightDirectional[3];
+    int         _IdxBGMTbl;
+    int         _IdxEnvTbl;
+    int         _IdxShareTbl[5];
+    float       _MonoPower;
+    sNTL_PLANET _NtlPlanet[3];
+    sNTL_SPECULAR  _NtlSpecular;
+    RwRGBA      _FieldColor;
+    int         _IdxWeather[5];
+    sNTL_HEATHAZE   _NtlHeatHaze;
+    
+};
+
+struct sOBJECT_DATA
+{
+    int     uiLength;
+    char    acName[uiLength];
+    RwV3d   avSRT[3];
+    DWORD   uiObjectType;
+
+    if (uiObjectType == 1 || uiObjectType == 2)
+    {
+        sOBJECTPROPERTY sObjectProperty;
+    }
+
+    sOBJECT_FILE sObjectFile;
+};
+
+struct sSECTOR_WATER_ATTR
+{
+    float       _Height;
+    RwRGBA		_RGBA;
+    DWORD       _RenderstateSrc;
+    DWORD       _RenderstateDst;
+    float       _RotTrans;
+    float       _SclTrans;
+    int         _DepthMapSize;
+    float       _DepthMapHeightVariation[2];
+    int         _IdxSequence;
+    int         bBooleanFlag;
+    if (bBooleanFlag)
+    {
+        uchar pTmp[_DepthMapSize*_DepthMapSize];
+    }
+};
+
+struct sWATER_DATA
+{
+    sSECTOR_WATER_ATTR waterAttr;
+};
+
+struct sSHADOW_DATA
+{
+    RwRGBA		m_rgbaShadow;
+    float       m_CamViewWindowX;
+    RwMatrix	m_matLight;
+    int         iSize;
+    if (Strcmp(version, "1.1") == 0)
+    {
+        DWORD pBitsSrc[Size*Size];
+    }
+    else if (Strcmp(version, "1.4") == 0)
+    {
+        RwRGB rgb[iSize*iSize];
+    }
+};
+
+struct sEFFECT_DATA
+{
+    DWORD       uiLength;
+    char        acName[uiLength];
+    RwV3d		avSRT[3];
+    float       fVisibilityDistance;
+};
+
+struct sSOUND_FILE
+{
+    DWORD       uiLength;
+    char        acName[uiLength];
+    float       fVolume;
+    float       fRadiusMin;
+    float       fRadiusMax;
+    RwV3d	    vPos;
+};
+
+struct sBGM_FILE
+{
+    DWORD       uiLength;
+    char        acName[uiLength];
+    float       fRadius;
+    RwV3d	    vPos;
+};
+
+struct sSOUND_EFFECT_DATA
+{
+    int         iSounfFileNum;
+    sSOUND_FILE soundFile[iSounfFileNum]<optimize=false>;
+    int         iBgmFileNum;
+    sBGM_FILE   bgmFile[iBgmFileNum];
+};
+
+struct sSHORE_LINE_DATA
+{
+    int     m_VertNum;
+    int     m_ShoreLineType;
+    DWORD    uiLength;
+    char    m_ScriptKeyName[uiLength];
+    RwIm3DVertex    m_pVBNew[m_VertNum];
+};
+
+struct sDECAL_DATA
+{
+    DWORD       uiLength;
+    char        _TexName[uiLength];
+    float       _TexAngle;
+    float       _TexScale;
+    float       _SizeX;
+    float       _SizeZ;
+    float       _VisibilityDist;
+    float       _UVAniSpeed;
+    float       _UVAniOffset;
+    int         _UVAniPatternIdx;
+    int         _UVAniCheck;
+    int         _DecalMode;
+    RwRGBA	    _RGBA;
+    RwV3d	    _Pos;
+};
+
+struct sPLANT_DATA
+{
+    int         iSetIdx;
+    int         iPlantObjNum;
+    int         iTileIdx[iPlantObjNum];
+};
+
+struct sLIGHT_SPHERE
+{
+    RwV3d		vPos;
+    RwRGBA		clr;
+    float       fRadius;
+};
+
+struct sLIGHT_BOX
+{
+    RwV3d		vPos;
+    RwRGBA		clr;
+    RwV3d		vRot;
+    RwV3d		vScale;
+};
+
+struct sWORLD_LIGHT
+{
+    int         iSphereNum;
+    sLIGHT_SPHERE   sphere[iSphereNum] <optimize=false>;
+    int         iBoxNum;
+    sLIGHT_BOX      box[iBoxNum] <optimize=false>;
+    
+};
+
+struct sOCCLUDER_FILE
+{
+    int         iPlaneType;
+    DWORD       iLength;
+    char        acTemp[iLength];
+    RwV3d       vVertex[4];
+};
+
+struct sOCCLUDER_DATA
+{
+    DWORD       eFuncFlag;
+    if (eFuncFlag & 1)
+    {
+        RwV3d seekV3;
+        int seekInt;
+        DWORD uiLength;
+        char seekChar[uiLength];
+        RwV3d listV3Seek[4];
+    }
+    else
+    {
+        RwV3d		vPos;
+        sOCCLUDER_FILE occluderFile;
+    }
+};
+
+struct sHEAT_HAZE_DATA
+{
+    RwV3d       vVertex[4];
+    float       fDistance;
+    sNTL_HEATHAZE   m_HeatHaze;
+};
+
+struct sLIGHT_OBJECT_DATA
+{
+    int         rpLightType;
+    int         bRealLight;
+    RwV3d       vPos;
+    RwV3d       vRotate;
+    RwRGBA      rgba;
+    float       fRadius;
+    float       fAngle;
+    int         bDecal;
+    int         bWorldLight;
+};
+
+struct sDOJO_OBJECT
+{
+    DWORD       uiLength;
+    char        acObjectName[uiLength];
+    DWORD       uiLength2;
+    char        acEffectNameUp[uiLength2];
+    DWORD       uiLength3;
+    char        acEffectNameDown[uiLength3];
+};
+
+struct sDOJO_DATA
+{
+    RwV3d       vScale;
+    RwV3d       vRot;
+	RwV3d       vPos;
+    int         iDojoID;
+    float       fFadeInTime;
+    float       fFadeOutTime;
+    sDOJO_OBJECT dojoObject[8];
+};
+
+struct sNTL_SECTOR_PROP
+{
+    DWORD       uiLength;
+    char        ReadBuff[uiLength];
+    _D3DMATRIX  m_TextureMatBase[2];
+    float       m_TextureMatAngBase;
+    uchar       m_TextureMatAddBase;
+
+    sSPLAT_LAYER sSplatLayer[5] <optimize=false>;
+    RwV3d       vBasedPos;
+    float       pVertexListY[1089];
+    RwRGBA      pPrelights[1089];
+    int         iObjectNum;
+    sOBJECT_DATA objectData[iObjectNum] <optimize=false>;
+    int         bWaterBooleanFlag;
+    if (bWaterBooleanFlag)
+    {
+        sWATER_DATA waterData;
+    }
+    int         bShadowBooleanFlag;
+    if (bShadowBooleanFlag)
+    {
+        sSHADOW_DATA shadowData;
+    }
+    int         iEffectNum;
+    sEFFECT_DATA effectData[iEffectNum] <optimize=false>;
+    sSOUND_EFFECT_DATA soundData;
+    int         m_IsCulled;
+    int         m_IsTileTransparency;
+    int         bIsThereShoreLine;
+    if (bIsThereShoreLine)
+    {
+        sSHORE_LINE_DATA shoreLine;
+    }
+    int         iDecalNum;
+    sDECAL_DATA decalData[iDecalNum] <optimize=false>;
+    int         iPlantNum;
+    sPLANT_DATA plantData[iPlantNum] <optimize=false>;
+    sWORLD_LIGHT worldLightData;
+    int         iOccluderNum;
+    sOCCLUDER_DATA occluderData[iOccluderNum] <optimize=false>;
+    int         iHeatHazeNum;
+    sHEAT_HAZE_DATA heatHazeData[iHeatHazeNum] <optimize=false>;
+    int         iLightObjectNum;
+    sLIGHT_OBJECT_DATA lightObjectData[iLightObjectNum] <optimize=false>;
+    int         iDojoNum;
+    sDOJO_DATA  dojoData[iDojoNum];
+}sSectorProp;

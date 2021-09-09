@@ -14,34 +14,6 @@
 
 #include "standard-types.hsl"
 
-struct hls_ida
-{
-  DWORD tblidx;
-	WCHAR            wszName[32 + 1];
-	WCHAR            wszCJIProductID[128 + 1];
-	WCHAR            wszIcon[32 + 1];
-  WORD wHLSItemType;
-  BYTE HLS_Duration_Type;
-BYTE fill[3];
-  DWORD HLS_Duration_Time;
-  DWORD itemHLSTblidx;
-  DWORD itemNameHLSTblidx2;
-  DWORD itemTblidx;
-  BYTE bOnSale;;
-  BYTE bySell_Type; //maybe
-  BYTE gap1A6[2];
-  DWORD dwCash;
-  BYTE byDiscount; //maybe
-  BYTE byStackCount;
-  WORD Display_Bit_Flag;
-  BYTE gap1B0[40];
-  BYTE byQuick_Link;
-  BYTE gap1D9[3];
-  DWORD dwPriority;
-  BYTE byDisplay_Consume_Type;
-  BYTE Yardrat_Tab_Type;
-};
-
 struct sSUB_ITEM
 {
 	DWORD	itemTblidx;
@@ -49,59 +21,36 @@ struct sSUB_ITEM
 BYTE fill[3];
 }sSUB_ITEM;
 
-struct sHLS_ITEM_TBLDAT_tw
-{
-DWORD tblidx;
-	WCHAR           wszName[32 + 1];
-	WCHAR           wszCJIProductID[128 + 1];
-	WCHAR           wszIcon[32 + 1];
-	WORD            wHLSItemType;
-	bool            bunk5;
-BYTE fill[3];
-	WORD			wDisplayBitFlag;
-	BYTE            ItemAmount;//it is Worong correct value are at  >> ItemAmount <<
-	bool            bCjVip;
-	DWORD          itemHLSTblidx;//HLS item TBLIDX"
-	DWORD          itemNameHLSTblidx2;//HLS Item Name TBLIDX"
-	DWORD          itemTblidx;// Item TBLIDX what we use to get Item on bag
-	WORD            bOnSale;
-BYTE fill[2];
-	DWORD           dwCash;  //This is 100% correct.
-	BYTE            wUnk2;
-	BYTE            byStackCount; //This is 100% correct. 
-	bool			byCategory;
-	BYTE            unk;
-
-	sSUB_ITEM       asSubItem[5]; //These are correct Maybe
-	BYTE            bUnk1;
-BYTE fill[3];
-	DWORD           bUnk2;
-	BYTE            dwUnk1;
-	BYTE            Yardrat_Tab_Type;
-};
-
 struct sHLS_ITEM_TBLDAT
 {
 DWORD tblidx;
+	WCHAR            wszName[32 + 1];
+	WCHAR            wszCJIProductID[128 + 1];
+	WCHAR            wszIcon[32 + 1];
 
+	WORD			wHLSItemType;
+
+	BYTE			HLS_Duration_Type;
+BYTE fill[3];
+	DWORD			HLS_Duration_Time;
+
+	DWORD			itemHLSTblidx;
+	DWORD			itemNameHLSTblidx;
 	DWORD			itemTblidx;
-	BYTE			byCategory;
 	bool			bOnSale;
+	BYTE			bySell_Type;
 BYTE fill[2];
 	DWORD			dwCash;
+	BYTE			byDiscount;
 	BYTE			byStackCount;
-BYTE fill[1];
-	WORD			wDisplayBitFlag;
-};
+	WORD			byDisplay_Bit_Flag;
 
-struct sHLS_MERCHANT_TBLDAT
-{
-  DWORD Tblidx;
-  DWORD dwTab_Name;
-  WCHAR Name_Text[10 + 1];
-  BYTE Tab_Type;
-  BYTE gap23[1];
-  DWORD Start_Item_Tblidx;
-  DWORD End_Item_Tblidx;
-  BYTE Hls_Merchant_Data_Type;
+	sSUB_ITEM       asSubItem[5];
+
+	BYTE			byQuick_Link;
+BYTE fill[3];
+	DWORD			dwPriority;
+	BYTE			byDisplay_Consume_Type;
+	BYTE			byYardrat_Tab_Type;
+BYTE fill[2];
 };

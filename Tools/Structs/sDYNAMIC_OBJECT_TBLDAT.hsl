@@ -13,23 +13,22 @@
  */
 
 #include "standard-types.hsl"
-struct sHLS_SLOT_MACHINE_TBLDAT
+
+struct sDYNAMIC_OBJECT_TBLDAT
 {
 
 DWORD tblidx;
+	bool			bValidityAble;
+	BYTE			byType;
+	char			szModelName[ 32 + 1 ];
 
-	DWORD		dwName;
-	WCHAR		wszNameText[44 + 1];
-	char		szFile_Name[41 + 1];
-	WORD		byCoin;
-	bool		bOnOff;
-	BYTE		byType;
-
-	WORD		wfirstWinCoin;
-BYTE fill[2];
-	DWORD		aItemTblidx[10];
-	BYTE		byStack[10];
-	WORD		wQuantity[10];
-
+	BYTE			byStateType;
+	DWORD			spawnAnimation;
+	DWORD			idleAnimation;
+	DWORD			despawnAnimation;
+	DWORD			state1Animation;
+	DWORD			state2Animation;	
+	BYTE			byBoundaryDistance;
+	BYTE			byDespawnDistance;
 BYTE fill[2];
 };

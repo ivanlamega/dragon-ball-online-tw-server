@@ -1,0 +1,23 @@
+//--------------------------------------
+//--- 010 Editor v6.0.2 Binary Template
+//
+// File:
+// Author:
+// Revision:
+// Purpose:
+//--------------------------------------
+
+struct sTEXT_VALUE
+{
+    WORD        textValueSize;
+    wchar_t     wstrValue[textValueSize];
+};
+
+struct sCOMMONCONFIG_TBLDAT
+{
+    DWORD tblidx;
+    WORD        textSize;
+    wchar_t     wstrName[textSize];
+    sTEXT_VALUE     wstrValue[10] <optimize=false>;
+
+}commonConfig;

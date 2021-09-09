@@ -13,23 +13,11 @@
  */
 
 #include "standard-types.hsl"
-struct sHLS_SLOT_MACHINE_TBLDAT
+struct sITEM_MIX_EXP_TBLDAT
 {
 
 DWORD tblidx;
-
-	DWORD		dwName;
-	WCHAR		wszNameText[44 + 1];
-	char		szFile_Name[41 + 1];
-	WORD		byCoin;
-	bool		bOnOff;
-	BYTE		byType;
-
-	WORD		wfirstWinCoin;
-BYTE fill[2];
-	DWORD		aItemTblidx[10];
-	BYTE		byStack[10];
-	WORD		wQuantity[10];
-
-BYTE fill[2];
+	DWORD		dwNeedEXP; //maybe needed exp (51-3651)
+	BYTE		byUnknown;//start 99 and goes down by 1 (99-50)
+BYTE fill[3];
 };

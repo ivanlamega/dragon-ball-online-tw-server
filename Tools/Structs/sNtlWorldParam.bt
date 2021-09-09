@@ -1,0 +1,57 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: 
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+struct sNtlWorldParam
+{
+    char    WorldVer[10];
+    int     WorldHeightfieldNum;
+    int     WorldSectorTileSize;
+    int     WorldSectorTileNum;
+    int     WorldSectorVertNum;
+    int     WorldSectorSize;
+    int     WorldSectorNum;
+    int     WorldSectorHalfNum;
+    int     WorldSectorPolyNum;
+    int     WorldFieldSectorNum;
+    int     WorldFieldSize;
+    int     WorldFieldNum;
+    int     WorldFieldHalfNum;
+    int     WorldSize;
+    int     WorldSizeHalf;
+    int     WorldValueMax;
+    int     WorldValueMin;
+    int     WorldTexAddr;
+    int     WorldPolyCnt;
+    float   WorldNearPlane;
+    float   WorldFarPlane;
+    float   WorldCamSpeedPerSec;
+    char    WorldRAW[64];
+    uint    WorldTriggerSerialID;
+    int     IdxSkyType;
+    int     WorldType;
+    int     WorldBlockSize;
+    int     WorldBlockNum;
+    char    WorldBSP[64];
+
+    if (Strcmp(WorldVer, "1.1") == 0)
+    {
+        if (WorldType == 1) // example dbo_battle_001
+		{
+			uint WorldObjectSerialID;
+		}
+    }
+    else
+    {
+        uint WorldObjectSerialID;
+		uint WorldResourceID;
+    }
+}sWorldParam <optimize=false>;

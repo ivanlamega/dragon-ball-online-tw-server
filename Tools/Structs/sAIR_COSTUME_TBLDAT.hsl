@@ -13,20 +13,25 @@
  */
 
 #include "standard-types.hsl"
-struct sDWC_TBLDAT
+struct sAIR_COSTUME_TBLDAT
 {
-DWORD tblidx;
 
-	DWORD		tblNameIndex;
-	BYTE		byLevel_Min;
-	BYTE		byLevel_Max;
-	WORD		wAdmission_Bit_Flag;
-	BYTE		byAdmission_Num_Min;
-	BYTE		byAdmission_Num_Max;
-BYTE fill[2];
-	DWORD		aConditionTblidx[10];
-	DWORD		aMissionTblidx[5];
-	DWORD		prologueCinematicTblidx;
-	DWORD		prologueTblidx;
-	DWORD		worldTblidx;
+DWORD tblidx;
+BYTE byUnknown1;
+	WORD		wUnknown;//always 91
+
+	BYTE		byUnknown2;//always 57
+	BYTE		byUnknown3;//always 101
+	BYTE		byUnknown4;//always 93
+
+	WORD		wUnknown5;
+	WORD		wUnknown6;
+	WORD		wUnknown7;
+
+	WCHAR		wszUnknown8[ 24 + 1 ];
+
+	BYTE		byUnknown9;
+BYTE fill[1];
+	WCHAR		wszUnknown10[ 30 + 1 ];
+	WCHAR		wszUnknown11[ 30 + 1 ];
 };

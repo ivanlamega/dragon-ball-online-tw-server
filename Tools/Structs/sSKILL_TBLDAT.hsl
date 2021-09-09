@@ -13,6 +13,106 @@
  */
 
 #include "standard-types.hsl"
+struct sSKILL_TBLDAT_kr
+{
+DWORD Tblidx;
+	DWORD			Skill_Name;
+	WCHAR			wszNameText[ 40 + 1 ];
+	bool			bValidity_Able;
+BYTE fill[1];
+	DWORD			dwPC_Class_Bit_Flag;		// ePC_CLASS_FLAG
+
+	BYTE			byClass_Type;
+
+	BYTE			bySkill_Class;				// eSKILL_CLASS
+	BYTE			bySkill_Type;				// eSKILL_TYPE
+BYTE unknown[5];
+	BYTE			bySkill_Active_Type;		// eSKILL_ACTIVE_TYPE
+	BYTE			byBuff_Group;
+	BYTE			bySlot_Index;
+	BYTE			bySkill_Grade;
+
+	DWORD			dwFunction_Bit_Flag;
+
+	BYTE			byAppoint_Target;
+	BYTE			byApply_Target;
+	BYTE			byApply_Target_Max;
+	BYTE			byApply_Range;
+	BYTE			byApply_Area_Size_1;
+	BYTE			byApply_Area_Size_2;
+BYTE fill[2];
+	DWORD			skill_Effect[2];
+	BYTE			bySkill_Effect_Type[2];
+BYTE fill[2];
+	double			aSkill_Effect_Value[2];
+float unknown;
+	DWORD			dwAdditional_Aggro_Point;
+
+	BYTE			abyRpEffect[6];		// eDBO_RP_BONUS_SLOT
+BYTE fill[2];
+	float			afRpEffectValue[6];
+
+	BYTE			byRequire_Train_Level;
+BYTE fill[3];
+	DWORD			dwRequire_Zenny;
+	WORD			wNext_Skill_Train_Exp;
+	WORD			wRequireSP;
+	bool			bSelfTrain;
+BYTE fill[3];
+	DWORD			uiRequire_Skill_Tblidx_Min_1;
+	DWORD			uiRequire_Skill_Tblidx_Max_1;
+	DWORD			uiRequire_Skill_Tblidx_Min_2;
+	DWORD			uiRequire_Skill_Tblidx_Max_2;
+	DWORD			Root_Skill;
+
+	BYTE			byRequire_Epuip_Slot_Type;
+	BYTE			byRequire_Item_Type;
+	char			szIcon_Name[ 32 + 1 ];
+BYTE fill[1];
+	DWORD			dwRequire_LP;
+	WORD			wRequire_EP;
+	BYTE			byRequire_RP_Ball;
+BYTE fill[1];
+	float			fCasting_Time;
+	DWORD			dwCastingTimeInMilliSecs;
+	WORD			wCool_Time;
+BYTE fill[2];
+	DWORD			dwCoolTimeInMilliSecs;
+	WORD			wKeep_Time;
+BYTE fill[2];
+	DWORD			dwKeepTimeInMilliSecs;
+	bool			bKeep_Effect;
+	BYTE			byUse_Range_Min;
+BYTE fill[2];
+	float			fUse_Range_Min;
+	BYTE			byUse_Range_Max;
+BYTE fill[3];
+	float			fUse_Range_Max;
+	DWORD			Note;
+
+	DWORD			dwNextSkillTblidx;
+	bool			bDefaultDisplayOff;
+BYTE fill[3];
+	DWORD			dwAnimation_Time;
+
+	WORD		wCasting_Animation_Start;
+	WORD		wCasting_Animation_Loop;
+	WORD		wAction_Animation_Index;
+	WORD		wAction_Loop_Animation_Index;
+	WORD		wAction_End_Animation_Index;
+	bool			bDash_Able;
+BYTE fill[1];
+	DWORD			dwTransform_Use_Info_Bit_Flag;
+	float			fSuccess_Rate;
+	BYTE			byPC_Class_Change;
+	BYTE			byUse_Type; 
+
+	BYTE			bySkill_Group;
+BYTE fill[1];
+	DWORD			dwRequire_VP;
+	DWORD			dwUse_Restriction_Rule_Bit_Flag;
+};
+
 struct sSKILL_TBLDAT
 {
 DWORD Tblidx;

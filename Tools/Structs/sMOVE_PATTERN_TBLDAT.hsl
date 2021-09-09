@@ -13,23 +13,10 @@
  */
 
 #include "standard-types.hsl"
-struct sHLS_SLOT_MACHINE_TBLDAT
+
+struct sMOVE_PATTERN_TBLDAT
 {
 
 DWORD tblidx;
-
-	DWORD		dwName;
-	WCHAR		wszNameText[44 + 1];
-	char		szFile_Name[41 + 1];
-	WORD		byCoin;
-	bool		bOnOff;
-	BYTE		byType;
-
-	WORD		wfirstWinCoin;
-BYTE fill[2];
-	DWORD		aItemTblidx[10];
-	BYTE		byStack[10];
-	WORD		wQuantity[10];
-
-BYTE fill[2];
+BYTE		abyPattern[64];	
 };
