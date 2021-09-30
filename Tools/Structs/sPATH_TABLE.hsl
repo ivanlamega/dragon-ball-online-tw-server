@@ -31,7 +31,7 @@ struct sPATH_LIST
 DWORD tblidx;
 	float						_fRadius;
 	BYTE						_NumPathPoint;
-	sPATH_POINT	_vecPathPoint[19];
+	sPATH_POINT	_vecPathPoint[_NumPathPoint];
 }sPATH_LIST;
 
 struct sPATH_TABLE
