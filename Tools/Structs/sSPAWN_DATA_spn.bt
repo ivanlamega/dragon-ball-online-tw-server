@@ -1,0 +1,78 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: 
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+struct RwV3d
+{
+    float x;   /**< X value */
+    float y;   /**< Y value */
+    float z;   /**< Z value */
+};
+
+struct sSPAWN_ENTITY
+{
+    DWORD MdlGUID;
+    int NestRange;
+    int NestSpawnCnt;
+    int NestPathIndex;
+    int ActionPatternIndex;
+    int PartyIdx;
+    int IsLeader;
+    RwV3d FollowDist;
+    int CoolTime;
+    int MoveType;
+    float WanderRange;
+    float MoveRange;
+    float DelayTime;
+    int lenModel;
+    char modelName[lenModel];
+    int lenName;
+    char displayName[lenName];
+    float S;
+    RwV3d R;
+    RwV3d T;
+    DWORD GroupIdx;
+    DWORD PlayScriptIdx;
+    DWORD PlayScriptSceneIdx;
+    DWORD AIScriptIdx;
+    DWORD AIScriptSceneIdx;
+};
+
+struct sSPAWN_NPC
+{
+    
+};
+
+struct RwRGBA
+{
+    BYTE red;    /**< red component */
+    BYTE green;  /**< green component */
+    BYTE blue;   /**< blue component */
+};
+
+struct sPARTY_DATA
+{
+    DWORD PartyIndex;
+    RwRGBA RGBA;
+    int Follow;
+    DWORD CurPartyIdx;
+};
+
+struct sSPAWN_DATA
+{
+    int CurSpawnType;
+    DWORD PartyIdx;
+    int PartyColorIdx;
+    int PartyNum;
+    sPARTY_DATA sParty[PartyNum]<optimize=false>;
+    int TotSpawnCnt;
+    sSPAWN_ENTITY sEntity[TotSpawnCnt]<optimize=false>;
+}test;

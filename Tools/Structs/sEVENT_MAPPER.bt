@@ -1,0 +1,55 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: 
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+struct sTS_LIST
+{
+    int nStrLen;
+    char pStr[nStrLen];
+    int nTrigCnt;
+    WORD triggerList[nTrigCnt]<optimize=false>;
+};
+
+//mob, npc
+struct sEVENT_GENERIC_INFO
+{
+    DWORD uiID;
+    int nTSListCnt;
+    sTS_LIST sTSList[nTSListCnt]<optimize=false>;
+};
+
+struct sEVENT_FLINK
+{
+    WORD questId;
+    int	nPrevQuestCount;
+    WORD wPrevQuestId[nPrevQuestCount];
+    int	nNexteQuestCount;
+    WORD wNextQuestId[nNexteQuestCount];;
+};
+
+// slot machine, bind stone, budokain, colrgn, dialog open(maybe), free battle
+// hoipoimix, item identity, item upgrade, level check
+struct sEVENT_INFO_1
+{
+    int nStrLen;
+    char pStr[nStrLen];
+    int nTrigCnt;
+    WORD triggerList[nTrigCnt]<optimize=false>;
+};
+
+struct sEVENT_MAPPER
+{
+    int nMapperCnt;
+    //sEVENT_GENERIC_INFO sInfo[nMapperCnt]<optimize=false>;
+    //sEVENT_INFO_1 sInfo[nMapperCnt]<optimize=false>;
+    sEVENT_FLINK sInfo[nMapperCnt]<optimize=false>;
+    
+}test;

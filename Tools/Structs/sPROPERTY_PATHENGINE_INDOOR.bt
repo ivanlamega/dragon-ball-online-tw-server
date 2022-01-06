@@ -1,0 +1,21 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: 
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+struct sPROPERTY_PATHENGINE_INDOOR
+{
+    char szIndentity[4];
+    DWORD uiVersion;
+    DWORD uiFieldID;
+    DWORD uiFieldProp;
+    DWORD uiTileCntOfField;
+    DWORD pTileProp[uiTileCntOfField];
+}info;

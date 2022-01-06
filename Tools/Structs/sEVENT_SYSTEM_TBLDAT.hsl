@@ -34,5 +34,5 @@ BYTE fill[3];
 	BYTE				byGroup;
 BYTE fill[3];
 	DWORD				dwVolume;
-	DWORD				dwUnknown;
+	float				fUnknown;
 };

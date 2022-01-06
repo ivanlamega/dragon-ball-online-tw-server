@@ -1,0 +1,28 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: 
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+struct sPATHENGINE_INFO_INDOOR
+{
+    char szIndentity[4];
+    DWORD uiVersion;
+    BYTE byType;
+    DWORD uiWorldID;
+    DWORD uiNameLen;
+    char pszName[uiNameLen];
+    float fWorldMinPosX;
+    float fWorldMinPosZ;
+    float fWorldMaxPosX;
+    float fWorldMaxPosZ;
+    DWORD uiAgencyListSize;
+    float fAgencyRadius[uiAgencyListSize];
+    float fBlockSize;
+}info;

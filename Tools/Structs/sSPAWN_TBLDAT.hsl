@@ -24,7 +24,7 @@ struct sVECTOR3
 struct sSPAWN_TBLDAT
 {
 DWORD tblidx;
-	DWORD			mob_Tblidx;
+		DWORD			mob_Tblidx;
 
 	sVECTOR3		vSpawn_Loc;
 	sVECTOR3		vSpawn_Dir;
@@ -36,14 +36,15 @@ DWORD tblidx;
 
 	BYTE			byWander_Range;
 	BYTE			byMove_Range;
-	BYTE			byMove_DelayTime;
+
+	BYTE			actionPatternTblidx;
 
 	DWORD			path_Table_Index;
 	sVECTOR3		vFollowDistance;
 
 	DWORD			playScript;
 	DWORD			playScriptScene;
-
+	
 	DWORD			aiScript;
 	DWORD			aiScriptScene;
 

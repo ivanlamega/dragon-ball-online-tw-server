@@ -1,0 +1,79 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: 
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+struct RwV3d
+{
+    float x;   /**< X value */
+    float y;   /**< Y value */
+    float z;   /**< Z value */
+};
+
+struct sDIRECTION_PROPERTY_DATA
+{
+        uchar byType;
+        switch(byType)
+		{
+		    case 0:
+			    {
+				    int iSize;
+				    if(iSize > 0)
+				    {
+					    char chBuffer[iSize];
+				    }
+			    }
+			    break;
+		    case 1:
+			    {
+				    float m_fPitch;
+				    float m_fYaw;
+				    float m_fRoll;
+				    RwV3d m_vScale;
+				    RwV3d m_vPos;
+			    }
+			    break;
+		    case 255:
+			    return TRUE;
+			    break;
+		}
+};
+
+struct sDIRECTION_PROPERTY
+{
+    sDIRECTION_PROPERTY_DATA sData[3] <optimize=false>;
+};
+
+struct sDIRECTION_DATA
+{
+    uchar byType;
+    switch(byType)
+	{
+	    case 0:
+		    float fVer;
+		    break;
+	    case 1:
+		    DWORD g_uiDTPropKey;
+		    break;
+	    case 2:
+		    {
+			    sDIRECTION_PROPERTY sDirProp;
+		    }
+		    break;
+	    case 255:
+		    return TRUE;
+		    break;
+	}
+};
+
+struct sDIRECTION
+{
+    sDIRECTION_DATA sDTData[3] <optimize=false>;
+}sSectorProp;

@@ -1,0 +1,65 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: 
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+struct RwV3d
+{
+    float x;   /**< X value */
+    float y;   /**< Y value */
+    float z;   /**< Z value */
+};
+
+struct _rwStreamFrame
+{
+    RwV3d               right, up, at, pos;
+    int             parentIndex;
+    DWORD            data;
+};
+
+struct _rwStreamFrameList
+{
+    int             numFrames;
+};
+
+struct RpClumpChunkInfo
+{
+    int             numAtomics;
+    int             numLights;
+    int             numCameras;
+};
+
+struct __rwMark
+{
+        DWORD            type;
+        DWORD            length;
+        DWORD            libraryID;
+};
+
+struct sFRAME_LIST
+{
+    __rwMark frameList;
+    __rwMark structure;
+    _rwStreamFrameList frameNum;
+    _rwStreamFrame frame[frameNum.numFrames];
+    __rwMark extension;
+    __rwMark extension;
+
+    _rwStreamFrame frame2[2];
+};
+
+
+struct sDFF_STRUCT
+{
+    __rwMark header;
+    __rwMark structure;
+    RpClumpChunkInfo clump;
+    sFRAME_LIST frameList;
+}test; 
